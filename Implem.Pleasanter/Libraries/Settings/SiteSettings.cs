@@ -216,6 +216,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
         public bool? UseRelatingColumnsOnFilter;
+        public bool? UseIncompleteFilter;
+        public bool? UseOwnFilter;
+        public bool? UseNearCompletionTimeFilter;
+        public bool? UseOverdueFilter;
+        public bool? UseSearchFilter;
         public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
@@ -364,6 +369,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
+            UseIncompleteFilter = UseIncompleteFilter ?? true;
+            UseOwnFilter = UseOwnFilter ?? true;
+            UseNearCompletionTimeFilter = UseNearCompletionTimeFilter ?? true;
+            UseOverdueFilter = UseOverdueFilter ?? true;
+            UseSearchFilter = UseSearchFilter ?? true;
             OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
             FullTextIncludeBreadcrumb = FullTextIncludeBreadcrumb ?? Parameters.Search.FullTextIncludeBreadcrumb;
@@ -833,6 +843,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseRelatingColumnsOnFilter == true)
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
+            }
+            if (UseIncompleteFilter == false)
+            {
+                ss.UseIncompleteFilter = UseIncompleteFilter;
+            }
+            if (UseOwnFilter == false)
+            {
+                ss.UseOwnFilter = UseOwnFilter;
+            }
+            if (UseNearCompletionTimeFilter == false)
+            {
+                ss.UseNearCompletionTimeFilter = UseNearCompletionTimeFilter;
+            }
+            if (UseOverdueFilter == false)
+            {
+                ss.UseOverdueFilter = UseOverdueFilter;
+            }
+            if (UseSearchFilter == false)
+            {
+                ss.UseSearchFilter = UseSearchFilter;
             }
             if (OutputFormulaLogs == true)
             {
@@ -3336,10 +3366,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
-                case "UseFilterButton":UseFilterButton = value.ToBool(); break;
+                case "UseFilterButton": UseFilterButton = value.ToBool(); break;
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
+                case "UseIncompleteFilter": UseIncompleteFilter = value.ToBool(); break;
+                case "UseOwnFilter": UseOwnFilter = value.ToBool(); break;
+                case "UseNearCompletionTimeFilter": UseNearCompletionTimeFilter = value.ToBool(); break;
+                case "UseOverdueFilter": UseOverdueFilter = value.ToBool(); break;
+                case "UseSearchFilter": UseSearchFilter = value.ToBool(); break;
                 case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;

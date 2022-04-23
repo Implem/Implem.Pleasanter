@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     method: "post");
                                 break;
                         }
+                        extensions?.Invoke();
                     }
                     else if (verType == Versions.VerTypes.Latest)
                     {

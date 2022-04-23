@@ -99,6 +99,9 @@
 
     function upload(fileIndex, file, uuid, fileHash) {
         sendData.formData.FileHash = fileHash;
+        if ($("#IsNew").length) {
+            sendData.formData.IsNew = $("#IsNew").val();
+        }
         input.fileupload({
             dropZone: $(".control-attachments-upload")
         })

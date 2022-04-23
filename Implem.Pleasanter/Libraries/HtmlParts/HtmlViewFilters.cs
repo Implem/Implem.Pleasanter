@@ -121,52 +121,61 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_Incomplete",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.Incomplete(context: context),
-                _checked: view.Incomplete == true,
-                method: "post",
-                labelPositionIsRight: true,
-                _using: view.HasIncompleteColumns(context: context, ss: ss)
-                    && Visible(ss, "Status"));
+            return ss.UseIncompleteFilter == true
+                ? hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Incomplete",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.Incomplete(context: context),
+                        _checked: view.Incomplete == true,
+                        method: "post",
+                        labelPositionIsRight: true,
+                        _using: view.HasIncompleteColumns(context: context, ss: ss)
+                            && Visible(ss, "Status"))
+                : hb;
         }
 
         private static HtmlBuilder Own(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_Own",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.Own(context: context),
-                _checked: view.Own == true,
-                method: "post",
-                labelPositionIsRight: true,
-                _using: view.HasOwnColumns(context: context, ss: ss)
-                    && (Visible(ss, "Manager") || Visible(ss, "Owner")));
+            return ss.UseOwnFilter == true
+                ? hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Own",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.Own(context: context),
+                        _checked: view.Own == true,
+                        method: "post",
+                        labelPositionIsRight: true,
+                        _using: view.HasOwnColumns(context: context, ss: ss)
+                            && (Visible(ss, "Manager") || Visible(ss, "Owner")))
+                : hb;
         }
 
         private static HtmlBuilder NearCompletionTime(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_NearCompletionTime",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.NearCompletionTime(context: context),
-                _checked: view.NearCompletionTime == true,
-                method: "post",
-                labelPositionIsRight: true,
-                _using: view.HasNearCompletionTimeColumns(context: context, ss: ss)
-                    && Visible(ss, "CompletionTime"));
+            return ss.UseNearCompletionTimeFilter == true
+                ? hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_NearCompletionTime",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.NearCompletionTime(context: context),
+                        _checked: view.NearCompletionTime == true,
+                        method: "post",
+                        labelPositionIsRight: true,
+                        _using: view.HasNearCompletionTimeColumns(context: context, ss: ss)
+                            && Visible(ss, "CompletionTime"))
+                : hb;
         }
 
         private static HtmlBuilder Delay(
@@ -189,18 +198,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Limit(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_Overdue",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.Overdue(context: context),
-                _checked: view.Overdue == true,
-                method: "post",
-                labelPositionIsRight: true,
-                _using: view.HasOverdueColumns(context: context, ss: ss)
-                    && Visible(ss, "CompletionTime"));
+            return ss.UseOverdueFilter == true
+                ? hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Overdue",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.Overdue(context: context),
+                        _checked: view.Overdue == true,
+                        method: "post",
+                        labelPositionIsRight: true,
+                        _using: view.HasOverdueColumns(context: context, ss: ss)
+                            && Visible(ss, "CompletionTime"))
+                : hb;
         }
 
         private static bool Visible(SiteSettings ss, string columnName)
@@ -300,16 +312,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case Types.CsNumeric:
                     if (column.Id_Ver)
                     {
-                        hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName,
-                            fieldCss: "field-auto-thin",
-                            controlCss: ss.UseFilterButton != true
-                                ? " auto-postback"
-                                : string.Empty,
-                            labelText: column.GridLabelText,
-                            labelTitle: ss.LabelTitle(column),
-                            controlOnly: controlOnly,
-                            method: "post");
+                        if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
+                        {
+                            hb.FieldTextBox(
+                                controlId: idPrefix + column.ColumnName,
+                                fieldCss: "field-auto-thin",
+                                controlCss: ss.UseFilterButton != true
+                                    ? " auto-postback"
+                                    : string.Empty,
+                                labelText: column.GridLabelText,
+                                labelTitle: ss.LabelTitle(column),
+                                controlOnly: controlOnly,
+                                method: "post");
+                        }
+                        else
+                        {
+                            SetNumericRangeDialog(
+                                hb: hb,
+                                ss: ss,
+                                view: view,
+                                column: column,
+                                idPrefix: idPrefix,
+                                action: action,
+                                controlOnly: controlOnly);
+                        }
                     }
                     else if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                     {
@@ -329,26 +355,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     }
                     else
                     {
-                        hb.FieldTextBox(
-                            controlId: idPrefix + column.ColumnName + "_NumericRange",
-                            fieldCss: "field-auto-thin",
-                            controlCss: (column.UseSearch == true ? " search" : string.Empty),
-                            labelText: column.GridLabelText,
-                            labelTitle: ss.LabelTitle(column),
-                            controlOnly: controlOnly,
-                            action: "openSetNumericRangeDialog",
-                            text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
-                            method: "post",
-                            attributes: new Dictionary<string, string>
-                            {
-                                ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
-                            })
-                        .Hidden(attributes: new HtmlAttributes()
-                            .Id(idPrefix + column.ColumnName)
-                            .Class(column.UseSearch == true ? " search" : string.Empty)
-                            .DataMethod("post")
-                            .DataAction(action)
-                            .Value(view.ColumnFilter(column.ColumnName)));
+                        SetNumericRangeDialog(
+                            hb: hb,
+                            ss: ss,
+                            view: view,
+                            column: column,
+                            idPrefix: idPrefix,
+                            action: action,
+                            controlOnly: controlOnly);
                     }
                     break;
                 case Types.CsDateTime:
@@ -438,6 +452,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     break;
             }
+        }
+
+        private static void SetNumericRangeDialog(
+            HtmlBuilder hb,
+            SiteSettings ss,
+            View view,
+            Column column,
+            string idPrefix,
+            string action,
+            bool controlOnly)
+        {
+            hb
+                .FieldTextBox(
+                    controlId: idPrefix + column.ColumnName + "_NumericRange",
+                    fieldCss: "field-auto-thin",
+                    controlCss: (column.UseSearch == true ? " search" : string.Empty),
+                    labelText: column.GridLabelText,
+                    labelTitle: ss.LabelTitle(column),
+                    controlOnly: controlOnly,
+                    action: "openSetNumericRangeDialog",
+                    text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
+                    method: "post",
+                    attributes: new Dictionary<string, string>
+                    {
+                        ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
+                    })
+                .Hidden(attributes: new HtmlAttributes()
+                    .Id(idPrefix + column.ColumnName)
+                    .Class(column.UseSearch == true ? " search" : string.Empty)
+                    .DataMethod("post")
+                    .DataAction(action)
+                    .Value(view.ColumnFilter(column.ColumnName)));
         }
 
         private static HtmlBuilder CheckBox(
@@ -557,17 +603,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            return hb.FieldTextBox(
-                controlId: "ViewFilters_Search",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.Search(context: context),
-                text: view.Search,
-                method: "post",
-                _using: context.Controller == "items"
-                    || context.Controller == "publishes");
+            return ss.UseSearchFilter == true
+                ? hb
+                    .FieldTextBox(
+                        controlId: "ViewFilters_Search",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.Search(context: context),
+                        text: view.Search,
+                        method: "post",
+                        _using: context.Controller == "items"
+                            || context.Controller == "publishes")
+                : hb;
         }
 
         private static HtmlBuilder FilterButton(

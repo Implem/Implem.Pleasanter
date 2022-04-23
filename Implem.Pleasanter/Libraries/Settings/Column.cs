@@ -1328,29 +1328,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool skipCanReadCheck = false,
             bool noCache = true)
         {
-            switch (context.Action)
+            if (context.IsNew)
             {
-                case "new":
-                    return CanCreate(
+                return CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: mine,
+                    noCache: noCache);
+            }
+            else
+            {
+                if (!skipCanReadCheck)
+                {
+                    var canRead = CanRead(
                         context: context,
                         ss: ss,
                         mine: mine,
                         noCache: noCache);
-                default:
-                    if (!skipCanReadCheck)
-                    {
-                        var canRead = CanRead(
-                            context: context,
-                            ss: ss,
-                            mine: mine,
-                            noCache: noCache);
-                        if (!canRead) return false;
-                    }
-                    return CanUpdate(
-                        context: context,
-                        ss: ss,
-                        mine: mine,
-                        noCache: noCache);
+                    if (!canRead) return false;
+                }
+                return CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: mine,
+                    noCache: noCache);
             }
         }
 

@@ -1408,6 +1408,29 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
+        private static Message CreatedMessage(
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            Process process)
+        {
+            if (process == null)
+            {
+                return Messages.Created(
+                    context: context,
+                    data: wikiModel.Title.DisplayValue);
+            }
+            else
+            {
+                var message = process.GetSuccessMessage(context: context);
+                message.Text = wikiModel.ReplacedDisplayValues(
+                    context: context,
+                    ss: ss,
+                    value: message.Text);
+                return message;
+            }
+        }
+
         public static string Update(Context context, SiteSettings ss, long wikiId, string previousTitle)
         {
             var wikiModel = new WikiModel(
