@@ -5,29 +5,29 @@ using System.Dynamic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
-    public class ServerScriptModelNorificationModel : DynamicObject
+    public class ServerScriptModelNotificationModel : DynamicObject
     {
         private readonly Context Context;
         private readonly SiteSettings SiteSettings;
-        private readonly Notification notification;
+        private readonly Notification Notification;
         private string Title;
         private string Body;
 
-        public ServerScriptModelNorificationModel(Context context, SiteSettings ss)
+        public ServerScriptModelNotificationModel(Context context, SiteSettings ss)
         {
             Context = context;
             SiteSettings = ss;
-            notification = new Notification()
+            Notification = new Notification()
             {
                 Type = Notification.Types.Mail
             };
         }
 
-        public ServerScriptModelNorificationModel(Context context, SiteSettings ss, int Id)
+        public ServerScriptModelNotificationModel(Context context, SiteSettings ss, int Id)
         {
             Context = context;
             SiteSettings = ss;
-            notification = NotificationUtilities.Get(context: Context, ss: SiteSettings)
+            Notification = NotificationUtilities.Get(context: Context, ss: SiteSettings)
                 ?.Where(o => o.Id == Id)
                 .FirstOrDefault();
         }
@@ -42,29 +42,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string name = binder.Name;
             switch (name)
             {
-                case nameof(Notification.Id):
-                    notification.Id = value.ToInt();
+                case nameof(Settings.Notification.Id):
+                    Notification.Id = value.ToInt();
                     return true;
-                case nameof(Notification.Type):
-                    notification.Type = (Notification.Types)value.ToInt();
+                case nameof(Settings.Notification.Type):
+                    Notification.Type = (Notification.Types)value.ToInt();
                     return true;
-                case nameof(Notification.Prefix):
-                    notification.Prefix = value.ToStr();
+                case nameof(Settings.Notification.Prefix):
+                    Notification.Prefix = value.ToStr();
                     return true;
-                case nameof(Notification.Address):
-                    notification.Address = value.ToStr();
+                case nameof(Settings.Notification.Address):
+                    Notification.Address = value.ToStr();
                     return true;
-                case nameof(Notification.Token):
-                    notification.Token = value.ToStr();
+                case nameof(Settings.Notification.Token):
+                    Notification.Token = value.ToStr();
                     return true;
-                case nameof(Notification.UseCustomFormat):
-                    notification.UseCustomFormat = value.ToBool();
+                case nameof(Settings.Notification.UseCustomFormat):
+                    Notification.UseCustomFormat = value.ToBool();
                     return true;
-                case nameof(Notification.Format):
-                    notification.Format = value.ToStr();
+                case nameof(Settings.Notification.Format):
+                    Notification.Format = value.ToStr();
                     return true;
-                case nameof(Notification.Disabled):
-                    notification.Disabled = value.ToBool();
+                case nameof(Settings.Notification.Disabled):
+                    Notification.Disabled = value.ToBool();
                     return true;
                 case "Title":
                     Title = value.ToStr();
@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public bool Send()
         {
-            notification?.Send(
+            Notification?.Send(
                 context: Context,
                 ss: SiteSettings,
                 title: Title,
