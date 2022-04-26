@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
@@ -215,6 +216,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
         public bool? UseRelatingColumnsOnFilter;
+        public bool? UseIncompleteFilter;
+        public bool? UseOwnFilter;
+        public bool? UseNearCompletionTimeFilter;
+        public bool? UseOverdueFilter;
+        public bool? UseSearchFilter;
         public bool? OutputFormulaLogs;
         public string TitleSeparator;
         public SearchTypes? SearchType;
@@ -287,6 +293,11 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void Init(Context context)
         {
+            if (!ReferenceType.IsNullOrEmpty()
+                && !Def.ColumnDefinitionCollection.Any(o => o.TableName == ReferenceType))
+            {
+                throw new IllegalSiteSettingsException($"ReferenceType: {ReferenceType}");
+            }
             Version = SiteSettingsUtilities.Version;
             NearCompletionTimeBeforeDays = NearCompletionTimeBeforeDays ??
                 Parameters.General.NearCompletionTimeBeforeDays;
@@ -358,6 +369,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
+            UseIncompleteFilter = UseIncompleteFilter ?? true;
+            UseOwnFilter = UseOwnFilter ?? true;
+            UseNearCompletionTimeFilter = UseNearCompletionTimeFilter ?? true;
+            UseOverdueFilter = UseOverdueFilter ?? true;
+            UseSearchFilter = UseSearchFilter ?? true;
             OutputFormulaLogs = OutputFormulaLogs ?? false;
             SearchType = SearchType ?? SearchTypes.PartialMatch;
             FullTextIncludeBreadcrumb = FullTextIncludeBreadcrumb ?? Parameters.Search.FullTextIncludeBreadcrumb;
@@ -827,6 +843,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseRelatingColumnsOnFilter == true)
             {
                 ss.UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter;
+            }
+            if (UseIncompleteFilter == false)
+            {
+                ss.UseIncompleteFilter = UseIncompleteFilter;
+            }
+            if (UseOwnFilter == false)
+            {
+                ss.UseOwnFilter = UseOwnFilter;
+            }
+            if (UseNearCompletionTimeFilter == false)
+            {
+                ss.UseNearCompletionTimeFilter = UseNearCompletionTimeFilter;
+            }
+            if (UseOverdueFilter == false)
+            {
+                ss.UseOverdueFilter = UseOverdueFilter;
+            }
+            if (UseSearchFilter == false)
+            {
+                ss.UseSearchFilter = UseSearchFilter;
             }
             if (OutputFormulaLogs == true)
             {
@@ -1656,7 +1692,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return columnDefinition?.LinkColumn > 0;
         }
 
-        private void UpdateColumns(Context context, bool onSerializing = false)
+        private void UpdateColumns(Context context)
         {
             if (Columns == null) Columns = new List<Column>();
             var columnHash = Columns.ToDictionary(
@@ -1664,21 +1700,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column => column);
             ColumnDefinitionHash?.Values.ForEach(columnDefinition =>
             {
-                if (!onSerializing)
+                var column = columnHash.Get(columnDefinition.ColumnName);
+                if (column == null)
                 {
-                    var column = columnHash.Get(columnDefinition.ColumnName);
-                    if (column == null)
-                    {
-                        column = new Column(columnDefinition.ColumnName);
-                        Columns.Add(column);
-                        columnHash.Add(column.ColumnName, column);
-                    }
-                    UpdateColumn(
-                        context: context,
-                        ss: this,
-                        columnDefinition: columnDefinition,
-                        column: column);
+                    column = new Column(columnDefinition.ColumnName);
+                    Columns.Add(column);
+                    columnHash.Add(column.ColumnName, column);
                 }
+                UpdateColumn(
+                    context: context,
+                    ss: this,
+                    columnDefinition: columnDefinition,
+                    column: column);
             });
         }
 
@@ -3333,10 +3366,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
-                case "UseFilterButton":UseFilterButton = value.ToBool(); break;
+                case "UseFilterButton": UseFilterButton = value.ToBool(); break;
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
+                case "UseIncompleteFilter": UseIncompleteFilter = value.ToBool(); break;
+                case "UseOwnFilter": UseOwnFilter = value.ToBool(); break;
+                case "UseNearCompletionTimeFilter": UseNearCompletionTimeFilter = value.ToBool(); break;
+                case "UseOverdueFilter": UseOverdueFilter = value.ToBool(); break;
+                case "UseSearchFilter": UseSearchFilter = value.ToBool(); break;
                 case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
                 case "ImageLibPageSize": ImageLibPageSize = value.ToInt(); break;
                 case "SearchType": SearchType = (SearchTypes)value.ToInt(); break;

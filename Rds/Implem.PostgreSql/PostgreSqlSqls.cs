@@ -206,49 +206,48 @@ namespace Implem.PostgreSql
             (
                 exists
                 (
-                    select * from ""Depts""
+                    select ""Depts"".""DeptId"" as ""Id""
+                    from ""Depts""
                     where ""Depts"".""TenantId""=@ipT
                         and ""Depts"".""DeptId""=@ipD
                         and ""Depts"".""Disabled""='false'
                         and ""Permissions"".""DeptId""=""Depts"".""DeptId""
                         and @ipD<>0
-                )
-                or
-                (
-                    exists
-                    (
-                        select *
-                        from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
-                        where ""Groups"".""TenantId""=@ipT
-                            and ""Groups"".""Disabled""='false'
-                            and ""Permissions"".""GroupId""=""Groups"".""GroupId""
-                            and
-                            (
-                                exists
-                                (
-                                    select * from ""Depts""
-                                    where ""Depts"".""TenantId""=@ipT
-                                        and ""Depts"".""DeptId""=@ipD
-                                        and ""Depts"".""Disabled""='false'
-                                        and ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
-                                        and @ipD<>0
-                                )
-                                or
-                                (
-                                    ""GroupMembers"".""UserId""=@ipU
-                                    and @ipU<>0
-                                )
-                            )
-                    )
-                )
-                or
-                (
-                    ""Permissions"".""UserId""=@ipU
-                    and @ipU<>0
-                )
-                or
-                (
-                    ""Permissions"".""UserId""=-1
+                    union all
+                    select ""Groups"".""GroupId"" as ""Id""
+                    from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                    where ""Groups"".""TenantId""=@ipT
+                        and ""Groups"".""Disabled""='false'
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and exists
+                        (
+                            select ""DeptId""
+                            from ""Depts""
+                            where ""Depts"".""TenantId""=@ipT
+                                and ""Depts"".""DeptId""=@ipD
+                                and ""Depts"".""Disabled""='false'
+                                and ""GroupMembers"".""DeptId""=""Depts"".""DeptId""
+                                and @ipD<>0
+                        )
+                    union all
+                    select ""Groups"".""GroupId"" as ""Id""
+                    from ""Groups"" inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
+                    where ""Groups"".""TenantId""=@ipT
+                        and ""Groups"".""Disabled""='false'
+                        and ""Permissions"".""GroupId""=""Groups"".""GroupId""
+                        and ""GroupMembers"".""UserId""=@ipU
+                        and @ipU<>0
+                    union all
+                    select ""P"".""UserId"" as ""Id""
+                    from ""Permissions"" as ""P""
+                    where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""UserId""=@ipU
+                        and @ipU<>0
+                    union all
+                    select ""P"".""UserId"" as ""Id""
+                    from ""Permissions"" as ""P""
+                    where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""UserId""=-1
                 )
             )";
 

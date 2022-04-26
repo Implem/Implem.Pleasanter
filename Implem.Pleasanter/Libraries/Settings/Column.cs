@@ -707,27 +707,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : selectedValues?.ToLong().ToSingleList())
                     ?.Where(o => o > 0)
                     .ToList();
-            if (ids?.Any() == true)
+            if (ids?.Any() == true && Linked(withoutWiki: true))
             {
-                if (Linked())
+                if (LinkedTitleHash.ContainsKey(selectedValues))
                 {
-                    if (LinkedTitleHash.ContainsKey(selectedValues))
-                    {
-                        return LinkedTitleHash[selectedValues];
-                    }
-                    var choice = new Choice(
-                        choice: LinkedTitle(
-                            context: context,
-                            ids: ids),
-                        raw: true,
-                        value: selectedValues);
-                    LinkedTitleHash.AddIfNotConainsKey(selectedValues, choice);
                     return LinkedTitleHash[selectedValues];
                 }
-                else if (ChoiceHash?.ContainsKey(selectedValues) == true)
-                {
-                    return ChoiceHash[selectedValues];
-                }
+                var choice = new Choice(
+                    choice: LinkedTitle(
+                        context: context,
+                        ids: ids),
+                    raw: true,
+                    value: selectedValues);
+                LinkedTitleHash.AddIfNotConainsKey(selectedValues, choice);
+                return LinkedTitleHash[selectedValues];
+            }
+            else if (ChoiceHash?.ContainsKey(selectedValues) == true)
+            {
+                return ChoiceHash[selectedValues];
             }
             return new Choice(nullCase, raw: true);
         }
@@ -1072,6 +1069,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public bool AutoNumberingColumn()
+        {
+            return TypeName.CsTypeSummary() == Implem.Libraries.Utilities.Types.CsString
+                && ColumnName != "Comments";
+        }
+
         public SqlColumnCollection SqlColumnCollection()
         {
             var sql = new SqlColumnCollection();
@@ -1325,29 +1328,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool skipCanReadCheck = false,
             bool noCache = true)
         {
-            switch (context.Action)
+            if (context.IsNew)
             {
-                case "new":
-                    return CanCreate(
+                return CanCreate(
+                    context: context,
+                    ss: ss,
+                    mine: mine,
+                    noCache: noCache);
+            }
+            else
+            {
+                if (!skipCanReadCheck)
+                {
+                    var canRead = CanRead(
                         context: context,
                         ss: ss,
                         mine: mine,
                         noCache: noCache);
-                default:
-                    if (!skipCanReadCheck)
-                    {
-                        var canRead = CanRead(
-                            context: context,
-                            ss: ss,
-                            mine: mine,
-                            noCache: noCache);
-                        if (!canRead) return false;
-                    }
-                    return CanUpdate(
-                        context: context,
-                        ss: ss,
-                        mine: mine,
-                        noCache: noCache);
+                    if (!canRead) return false;
+                }
+                return CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: mine,
+                    noCache: noCache);
             }
         }
 

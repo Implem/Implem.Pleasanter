@@ -123,15 +123,18 @@ $p.selectImage = function (controlId) {
 }
 
 $p.uploadImage = function (controlId, file) {
+    var $tr = $('[id="' + controlId + '"]').closest('tr');
     var $editorInDialogRecordId = $('#EditorInDialogRecordId');
     var url;
-    if (!$editorInDialogRecordId.length) {
+    if ($tr.length) {
+        url = $('#BaseUrl').val() + $tr.data('id') + '/binaries/uploadimage'
+    } else if ($editorInDialogRecordId.length) {
+        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage'
+    }
+    else {
         url = $('.main-form')
             .attr('action')
             .replace('_action_', 'binaries/uploadimage');
-    }
-    else {
-        url = $('#BaseUrl').val() + $editorInDialogRecordId.val() + '/binaries/uploadimage'
     }
     var data = new FormData();
     data.append('ControlId', controlId);

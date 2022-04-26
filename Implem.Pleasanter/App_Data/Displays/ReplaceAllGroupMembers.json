@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ReplaceAllGroupMembers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete members before importing"
+        },
+        {
+            "Language": "zh",
+            "Body": "导入前删除成员"
+        },
+        {
+            "Language": "ja",
+            "Body": "メンバーを削除してからインポートする"
+        },
+        {
+            "Language": "de",
+            "Body": "Löschen Sie Mitglieder vor dem Importieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "회원을 삭제한 후 가져오기"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminar miembros antes de importar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa thành viên trước khi nhập"
+        }
+    ]
+}

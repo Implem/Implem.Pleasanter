@@ -1,9 +1,9 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.DefinitionAccessor.Exceptions;
 using Implem.Factory;
 using Implem.IRds;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Exceptions;
 using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
@@ -211,20 +211,6 @@ namespace Implem.CodeDefiner
                 "Incorrect argument. {0}".Params(args.Join(" ")),
                 Consoles.Types.Error,
                 abort: true);
-        }
-
-        [Conditional("DEBUG")]
-        private static void TestPerformance(int loopCount, params Action[] actionCollection)
-        {
-            actionCollection
-                .Select((o, i) => new { Count = i + 1, Action = o })
-                .ForEach(data =>
-                {
-                    for (int count = 1; count <= loopCount; count++)
-                    {
-                        data.Action();
-                    }
-                });
         }
     }
 }

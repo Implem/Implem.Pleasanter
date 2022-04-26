@@ -1472,6 +1472,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
+            Process process = null,
             long copyFrom = 0,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
@@ -1540,6 +1541,24 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         notice: notice),
                     type: noticeType);
+                process?.Notifications?.ForEach(notification =>
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Subject),
+                        body: ReplacedDisplayValues(
+                            context: context,
+                            ss: ss,
+                            value: notification.Body),
+                        values: ss.IncludedColumns(notification.Address)
+                            .ToDictionary(
+                                column => column,
+                                column => PropertyValue(
+                                    context: context,
+                                    column: column))));
             }
             if (get) Get(context: context, ss: ss);
             if (ss.PermissionForCreating != null)
@@ -1594,6 +1613,9 @@ namespace Implem.Pleasanter.Models
                     });
             }
             SetByAfterCreateServerScript(
+                context: context,
+                ss: ss);
+            SetProcessMatchConditions(
                 context: context,
                 ss: ss);
             return new ErrorData(type: Error.Types.None);

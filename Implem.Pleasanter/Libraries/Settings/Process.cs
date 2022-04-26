@@ -11,9 +11,15 @@ namespace Implem.Pleasanter.Libraries.Settings
     [Serializable()]
     public class Process : ISettingListItem
     {
+        public enum ScreenTypes
+        {
+            New = 10,
+            Edit = 20
+        }
         public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
+        public ScreenTypes? ScreenType { get; set; }
         public int CurrentStatus { get; set; }
         public int ChangedStatus { get; set; }
         public string Description { get; set; }
@@ -39,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int id,
             string name,
             string displayName,
+            ScreenTypes? screenType,
             int currentStatus,
             int changedStatus,
             string description,
@@ -55,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Id = id;
             Name = name;
             DisplayName = displayName;
+            ScreenType = screenType;
             CurrentStatus = currentStatus;
             ChangedStatus = changedStatus;
             Description = description;
@@ -72,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
             string name,
             string displayName,
+            ScreenTypes? screenType,
             int currentStatus,
             int changedStatus,
             string description,
@@ -87,6 +96,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Name = name;
             DisplayName = displayName;
+            ScreenType = screenType;
             CurrentStatus = currentStatus;
             ChangedStatus = changedStatus;
             Description = description;
@@ -172,6 +182,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!DisplayName.IsNullOrEmpty())
             {
                 process.DisplayName = DisplayName;
+            }
+            if (ScreenType != ScreenTypes.Edit)
+            {
+                process.ScreenType = ScreenType;
             }
             process.CurrentStatus = CurrentStatus;
             process.ChangedStatus = ChangedStatus;
