@@ -1786,7 +1786,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public bool UpdateByServerScript(Context context, Context apiContext, dynamic model)
+        public bool UpdateByServerScript(Context context, Context apiContext, object model)
         {
             SetSite(context: context);
             if (!Site.WithinApiLimits(context: context))
