@@ -2935,7 +2935,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static bool CreateByServerScript(Context context, SiteSettings ss)
+        public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
@@ -2966,6 +2966,14 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is ResultModel data)
+                        {
+                            data.ResultId = resultModel.ResultId;
+                            data.SetByModel(resultModel: resultModel);
+                        }
+                    }
                     return true;
                 case Error.Types.Duplicated:
                     return false;
@@ -3804,7 +3812,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long resultId,
-            string previousTitle)
+            string previousTitle,
+            object model)
         {
             var resultModel = new ResultModel(
                 context: context,
@@ -3842,6 +3851,13 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is ResultModel data)
+                        {
+                            data.SetByModel(resultModel: resultModel);
+                        }
+                    }
                     return true;
                 case Error.Types.Duplicated:
                     return false;

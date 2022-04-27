@@ -20,7 +20,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         };
 
         private readonly Context Context;
-        private readonly BaseItemModel Model;
+        public BaseItemModel Model;
         private readonly bool OnTesting;
 
         public ServerScriptModelApiModel(Context context, BaseItemModel model, bool onTesting)
