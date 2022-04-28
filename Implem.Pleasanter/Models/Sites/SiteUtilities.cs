@@ -8034,11 +8034,12 @@ namespace Implem.Pleasanter.Models
                 columnName: "Status");
             var optionCollection = $"-1,*\n{status.ChoicesText}".SplitReturn()
                 .Select(o => new Choice(o))
+                .GroupBy(o => o.Value)
                 .ToDictionary(
-                    o => o.Value,
+                    o => o.Key,
                     o => new ControlData(
-                        text: o.Text,
-                        css: o.CssClass));
+                        text: o.First().Text,
+                        css: o.First().CssClass));
             return hb.FieldSet(id: "ProcessGeneralTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldDropDown(
