@@ -198,7 +198,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return true;
                     case nameof(IssueModel.CompletionTime):
                         issueModel.CompletionTime.Value = Date(value);
-                        issueModel.CompletionTime.DisplayValue = Date(value);
+                        issueModel.CompletionTime.DisplayValue = Date(value).ToLocal(context: Context);
                         return true;
                     case nameof(IssueModel.WorkValue):
                         issueModel.WorkValue.Value = value.ToDecimal();
