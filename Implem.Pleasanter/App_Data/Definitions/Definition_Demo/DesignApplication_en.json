@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignApplication_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Design business applications",
+    "WorkValue": "30",
+    "ProgressRate": "48",
+    "Status": "200",
+    "ClassA": "Design",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Business task",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "StartTime": "36652",
+    "CompletionTime": "36667",
+    "CreatedTime": "36640.59097222222",
+    "UpdatedTime": "36656.547222222223"
+}

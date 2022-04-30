@@ -1,0 +1,1 @@
+﻿case "#ColumnName#": #modelName#Model.#ColumnName##RecordingData# = value; break;

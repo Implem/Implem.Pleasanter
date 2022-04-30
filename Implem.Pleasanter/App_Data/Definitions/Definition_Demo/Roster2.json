@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "サイトウ　ミキ",
+    "ClassB": "斎藤 美樹",
+    "ClassC": "111-3331",
+    "ClassD": "山口市",
+    "ClassE": "611-164-343",
+    "ClassF": "saitou@example.com",
+    "ClassG": "山口県",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

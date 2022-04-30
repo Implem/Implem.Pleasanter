@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "D社データ分析パッケージの購入",
+    "ClassA": "#Opportunity3#",
+    "NumA": "157000",
+    "Manager": "User11",
+    "Owner": "User11",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36643.752083333333",
+    "UpdatedTime": "36656.918749999997"
+}

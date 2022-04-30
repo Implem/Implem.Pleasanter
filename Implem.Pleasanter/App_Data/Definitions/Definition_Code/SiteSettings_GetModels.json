@@ -1,0 +1,8 @@
+﻿{
+    "Id": "SiteSettings_GetModels",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "NotItem": "1",
+    "Exclude": "Permissions"
+}

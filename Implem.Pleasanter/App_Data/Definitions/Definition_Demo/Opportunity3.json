@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity3",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "食品工場内の環境モニタリングシステムの開発",
+    "Status": "200",
+    "ClassA": "#Customer2#",
+    "ClassB": "システム開発",
+    "ClassC": "50%",
+    "NumA": "4500000",
+    "NumB": "3207000",
+    "NumC": "1293000",
+    "NumD": "28.7",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "StartTime": "36647",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

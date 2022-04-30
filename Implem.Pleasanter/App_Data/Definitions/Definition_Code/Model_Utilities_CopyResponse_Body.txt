@@ -1,0 +1,9 @@
+﻿return EditorResponse(
+    ss,
+    #modelName#Model,
+    Messages.Copied(context: context),
+    GetSwitchTargets(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Model.#ModelName#Id).Join())
+            .ToJson();

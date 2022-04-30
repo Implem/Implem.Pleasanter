@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Initializer",
+    "OutputPath": "Implem.DefinitionAccessor\\Initializer.cs",
+    "MergeToExisting": "1",
+    "Source": "Def",
+    "Indent": "3"
+}

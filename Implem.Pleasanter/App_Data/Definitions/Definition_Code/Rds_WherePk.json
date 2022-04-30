@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Rds_WherePk",
+    "RepeatType": "Join",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Order": "Pk",
+    "Pk": "1",
+    "NotDefault": "1",
+    "NotCalc": "1",
+    "Select": "1",
+    "NotItem": "1",
+    "NotWhereSpecial": "1"
+}

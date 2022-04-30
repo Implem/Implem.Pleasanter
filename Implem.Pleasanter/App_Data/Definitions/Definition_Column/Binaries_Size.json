@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Binaries_Size",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "Size",
+    "LabelText": "サイズ",
+    "No": "109",
+    "History": "109",
+    "LinkColumn": "109",
+    "HistoryColumn": "109",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Size",
+    "LabelText_zh": "大小",
+    "LabelText_de": "Größe",
+    "LabelText_ko": "크기",
+    "LabelText_es": "Tamaño",
+    "LabelText_vn": "Kích thước"
+}

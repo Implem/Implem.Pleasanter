@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_UserHostName",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "UserHostName",
+    "LabelText": "ユーザホスト名",
+    "No": "127",
+    "History": "127",
+    "EditorColumn": "127",
+    "EditorEnabled": "1",
+    "LinkColumn": "127",
+    "HistoryColumn": "127",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "LabelText_en": "User host name",
+    "LabelText_zh": "用户主机名称",
+    "LabelText_de": "Benutzer-Hostname",
+    "LabelText_ko": "사용자 호스트 이름",
+    "LabelText_es": "Nombre de host del usuario",
+    "LabelText_vn": "Tên người dùng máy chủ"
+}

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_ToApiValueColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Exclude": "FirstAndLastNameOrder,UserSettings,MailAddresses,PasswordHistries,"
+}

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "HtmlLinks_DataRowsTableCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "ItemOnly": "1",
+    "Exclude": "Sites,Wikis"
+}

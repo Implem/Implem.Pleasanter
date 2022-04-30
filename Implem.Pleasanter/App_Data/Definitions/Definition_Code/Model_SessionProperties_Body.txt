@@ -1,0 +1,15 @@
+﻿public #Type# Session_#ColumnName#(Context context)
+{
+    return context.SessionData.Get("#ColumnName#") != null
+        ? #BySession#(context.SessionData.Get("#ColumnName#"))
+        : #ColumnName#;
+}
+
+public void Session_#ColumnName#(Context context, string value)
+{
+    SessionUtilities.Set(
+        context: context,
+        key: "#ColumnName#",
+        value: value,
+        page: true);
+}

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "ResponseCollection_ValueModels",
+    "RepeatType": "Table",
+    "Exclude": "Items,SysLogs"
+}

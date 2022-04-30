@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestSystems",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "システムテスト",
+    "WorkValue": "80",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "テスト",
+    "ClassB": "作業[非定型]",
+    "ClassC": "業務",
+    "Manager": "User11",
+    "Owner": "User11",
+    "Creator": "User11",
+    "Updator": "User11",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

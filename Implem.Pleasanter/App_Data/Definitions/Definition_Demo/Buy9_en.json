@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy9_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "Clear file",
+    "ClassA": "#Expendable3_en#",
+    "ClassB": "Online shop",
+    "NumA": "27",
+    "NumB": "2065",
+    "DateA": "42816.705555555556",
+    "Manager": "User10_en",
+    "Owner": "User10_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

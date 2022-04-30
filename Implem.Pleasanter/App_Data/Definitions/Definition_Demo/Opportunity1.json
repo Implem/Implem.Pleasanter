@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity1",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "AI技術の検証",
+    "Status": "100",
+    "ClassA": "#Customer7#",
+    "ClassB": "コンサルティング",
+    "ClassC": "90%",
+    "NumA": "1500000",
+    "NumB": "1100000",
+    "NumC": "400000",
+    "NumD": "26.7",
+    "Manager": "User16",
+    "Owner": "User16",
+    "Creator": "User16",
+    "Updator": "User16",
+    "StartTime": "36642",
+    "CompletionTime": "36665",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

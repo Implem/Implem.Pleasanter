@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar1",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site25",
+    "Title": "プリザンター体験型勉強会 第2回",
+    "Status": "900",
+    "ClassA": "東京都中央区",
+    "NumA": "10",
+    "NumB": "7",
+    "NumC": "0",
+    "DateA": "42812.541666666664",
+    "DateB": "42812.729166666664",
+    "DateC": "42805.541666666664",
+    "DateD": "42811.729166666664",
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

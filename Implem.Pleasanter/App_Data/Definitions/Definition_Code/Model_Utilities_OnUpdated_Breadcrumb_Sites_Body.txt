@@ -1,0 +1,8 @@
+﻿ss.Publish = siteModel.Publish;
+res
+    .ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(
+        context: context,
+        ss: ss))
+    .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
+        context: context,
+        ss: ss));

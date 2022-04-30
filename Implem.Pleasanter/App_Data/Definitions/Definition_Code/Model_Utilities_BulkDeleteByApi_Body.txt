@@ -1,0 +1,156 @@
+﻿public static ContentResultInheritance BulkDeleteByApi(
+    Context context,
+    SiteSettings ss)
+{
+    if (!Mime.ValidateOnApi(contentType: context.ContentType))
+    {
+        return ApiResults.BadRequest(context: context);
+    }
+    if (context.CanDelete(ss: ss))
+    {
+        var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+        if (recordSelector == null)
+        {
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+        var selectedWhere = SelectedWhereByApi(
+            ss: ss,
+            recordSelector: recordSelector);
+        if (selectedWhere == null && recordSelector.View == null)
+        {
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+        var view = recordSelector.View ?? Views.GetBySession(
+            context: context,
+            ss: ss);
+        var where = view.Where(
+            context: context,
+            ss: ss,
+            where: selectedWhere,
+            itemJoin: false);
+        var param = view.Param(
+            context: context,
+            ss: ss);
+        var invalid = ExistsLockedRecord(
+            context: context,
+            ss: ss,
+            where: where,
+            param: param,
+            orderBy: view.OrderBy(
+                context: context,
+                ss: ss));
+        switch (invalid.Type)
+        {
+            case Error.Types.None:
+                break;
+            default:
+                return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+        }
+        var count = BulkDelete(
+            context: context,
+            ss: ss,
+            where: where,
+            param: param);
+        Summaries.Synchronize(
+            context: context,
+            ss: ss);
+        var data = new string[]
+        {
+            ss.Title,
+            count.ToString()
+        };
+        ss.Notifications.ForEach(notification =>
+            {
+                var body = new System.Text.StringBuilder();
+                body.Append(Locations.ItemIndexAbsoluteUri(
+                    context: context,
+                    ss.SiteId) + "\n");
+                body.Append(
+                    $"{Displays.Issues_Updator(context: context)}: ",
+                    $"{context.User.Name}\n");
+                if (notification.AfterBulkDelete != false)
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.BulkDeleted(
+                            context: context,
+                            data: data),
+                        body: body.ToString());
+                }
+            });
+        return ApiResults.Success(
+            id: context.SiteId,
+            limitPerDate: context.ContractSettings.ApiLimit(),
+            limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+            message: Displays.BulkDeleted(
+                context: context,
+                data: data));
+    }
+    else
+    {
+        return ApiResults.Get(ApiResponses.Forbidden(context: context));
+    }
+}
+
+public static long BulkDeleteByServerScript(
+    Context context,
+    SiteSettings ss)
+{
+    if (context.CanDelete(ss: ss))
+    {
+        var recordSelector = context.RequestDataString.Deserialize<RecordSelector>();
+        if (recordSelector == null)
+        {
+            return 0;
+        }
+        var selectedWhere = SelectedWhereByApi(
+            ss: ss,
+            recordSelector: recordSelector);
+        if (selectedWhere == null && recordSelector.View == null)
+        {
+            return 0;
+        }
+        var view = recordSelector.View ?? Views.GetBySession(
+            context: context,
+            ss: ss);
+        var where = view.Where(
+            context: context,
+            ss: ss,
+            where: selectedWhere,
+            itemJoin: false);
+        var param = view.Param(
+            context: context,
+            ss: ss);
+        var invalid = ExistsLockedRecord(
+            context: context,
+            ss: ss,
+            where: where,
+            param: param,
+            orderBy: view.OrderBy(
+                context: context,
+                ss: ss));
+        switch (invalid.Type)
+        {
+            case Error.Types.None:
+                break;
+            default:
+                return 0;
+        }
+        var count = BulkDelete(
+            context: context,
+            ss: ss,
+            where: where,
+            param: param);
+        Summaries.Synchronize(
+            context: context,
+            ss: ss);
+        return count;
+    }
+    else
+    {
+        return 0;
+    }
+}

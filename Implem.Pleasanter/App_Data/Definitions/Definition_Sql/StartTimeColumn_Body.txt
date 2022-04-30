@@ -1,0 +1,1 @@
+﻿case "Issues"."StartTime" when null then "Issues"."CreatedTime" else "Issues"."StartTime" end

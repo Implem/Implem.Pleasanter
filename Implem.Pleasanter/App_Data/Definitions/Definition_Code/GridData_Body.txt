@@ -1,0 +1,111 @@
+﻿/// NotMerge:
+namespace Implem.Pleasanter.Libraries.Models
+{
+    /// NotMerge:
+    public class GridData
+    {
+        public List<Dictionary<string, object>> KeyValues(
+            Context context,
+            SiteSettings ss,
+            View view)
+        {
+            var data = new List<Dictionary<string, object>>();
+            var columns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                checkPermission: true);
+            foreach (var dataRow in DataRows)
+            {
+                var rowData = new Dictionary<string, object>();
+
+<!--GridData_ModelHash ( Indent = 4 ) -->
+
+                foreach (var column in columns)
+                {
+                    var key = column.TableName();
+                    var apiColumn = view.ApiColumnHash.Get(column.ColumnName);
+                    var keyDisplayType = apiColumn?.KeyDisplayType ?? view.ApiColumnKeyDisplayType;
+                    var valueDisplayType = apiColumn?.ValueDisplayType ?? view.ApiColumnValueDisplayType;
+                    string columnKey = string.Empty;
+                    switch (keyDisplayType)
+                    {
+                        case ApiColumn.KeyDisplayTypes.LabelText:
+                            columnKey = column.LabelText;
+                            break;
+                        case ApiColumn.KeyDisplayTypes.ColumnName:
+                            columnKey = column.ColumnName;
+                            break;
+                    }
+                    switch (column.SiteSettings?.ReferenceType)
+                    {
+
+<!--GridData_KeyValues-->
+<!--GridData_KeyValues_Items-->
+
+                    }
+                }
+                data.Add(rowData);
+            }
+            return data;
+        }
+
+        public System.Text.StringBuilder Csv(
+            Context context,
+            SiteSettings ss,
+            System.Text.StringBuilder csv,
+            IEnumerable<ExportColumn> exportColumns,
+            string delimiter,
+            bool? encloseDoubleQuotes)
+        {
+            var idColumn = Rds.IdColumn(ss.ReferenceType);
+            DataRows.ForEach(dataRow =>
+            {
+                var dataId = dataRow.Long(idColumn).ToString();
+                var data = new List<string>();
+
+<!--GridData_ModelHash ( Indent = 4 ) -->
+
+                exportColumns.ForEach(exportColumn =>
+                {
+                    var column = exportColumn.Column;
+                    var key = column.TableName();
+                    switch (column.SiteSettings?.ReferenceType)
+                    {
+
+<!--GridData_Csv ( Indent = 6 ) -->
+
+                    }
+                });
+                csv.Append(data.Join(delimiter), "\n");
+            });
+            return csv;
+        }
+
+        private IExportModel JsonStacks(
+            Context context,
+            SiteSettings ss,
+            string idColumn,
+            List<DataRow> dataRows,
+            string tableAlias = null)
+        {
+            IExportModel exportModel = null;
+            switch (ss.ReferenceType)
+            {
+
+<!--GridData_Json-->
+
+            }
+            SetDestinations(
+                context: context,
+                ss: ss,
+                exportModel: exportModel,
+                dataRows: dataRows);
+            SetSources(
+                context: context,
+                ss: ss,
+                exportModel: exportModel,
+                dataRows: dataRows);
+            return exportModel;
+        }
+    }
+}

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "ClientDisplays",
+    "OutputPath": "wwwroot\\scripts\\display.js",
+    "Source": "Mvc"
+}

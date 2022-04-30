@@ -1,0 +1,16 @@
+﻿using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+namespace Implem.Pleasanter.Libraries.Responses
+{
+
+<!--ResponseCollection_Models-->
+
+    public static class ResponseCollectionSpecials
+    {
+
+<!--ResponseCollection_ValueModels-->
+
+    }
+}

@@ -1,0 +1,11 @@
+﻿if (ss.LockedRecord())
+{
+    return new ErrorData(
+        type: Error.Types.LockedRecord,
+        data: new string[]
+        {
+            #modelName#Model.#ModelName#Id.ToString(),
+            ss.LockedRecordUser.Name,
+            ss.LockedRecordTime.DisplayValue.ToString(context.CultureInfo())
+        });
+}

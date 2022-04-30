@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster1_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Yoichi Suzuki",
+    "ClassB": "Yoichi Suzuki",
+    "ClassC": "222-1111",
+    "ClassD": "Sakata-city",
+    "ClassE": "422-982-627",
+    "ClassF": "suzuki@example.com",
+    "ClassG": "Yamagata",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

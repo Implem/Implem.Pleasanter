@@ -1,0 +1,33 @@
+﻿/// NotMerge:
+namespace Implem.Pleasanter.Libraries.Search
+{
+    /// NotMerge:
+    public static class Indexes
+    {
+        public static void Create(Context context, SiteSettings ss, long id, bool force = false)
+        {
+            if (force)
+            {
+                var itemModel = new ItemModel(
+                    context: context,
+                    referenceId: id);
+                switch (itemModel.ReferenceType)
+                {
+                    case "Sites":
+                        var siteModel = new SiteModel(context: context, siteId: id);
+                        CreateFullText(
+                            context: context,
+                            id: id,
+                            fullText: siteModel.FullText(
+                                context: context,
+                                ss: ss,
+                                backgroundTask: true));
+                        break;
+
+<!--Indexes_CreateTableByIdCases-->
+
+                }
+            }
+        }
+    }
+}

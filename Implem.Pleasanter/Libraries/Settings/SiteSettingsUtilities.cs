@@ -116,26 +116,26 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             switch (reference.ToLower())
             {
-                case "tenants": return TenantsSiteSettings(context: context);
+                case "autonumberings": return AutoNumberingsSiteSettings(context: context);
+                case "binaries": return BinariesSiteSettings(context: context);
                 case "demos": return DemosSiteSettings(context: context);
-                case "extensions": return ExtensionsSiteSettings(context: context);
-                case "sessions": return SessionsSiteSettings(context: context);
-                case "syslogs": return SysLogsSiteSettings(context: context);
-                case "statuses": return StatusesSiteSettings(context: context);
-                case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
                 case "depts": return DeptsSiteSettings(context: context);
-                case "groups": return GroupsSiteSettings(context: context);
+                case "exportsettings": return ExportSettingsSiteSettings(context: context);
+                case "extensions": return ExtensionsSiteSettings(context: context);
                 case "groupmembers": return GroupMembersSiteSettings(context: context);
-                case "registrations": return RegistrationsSiteSettings(context: context);
-                case "users": return UsersSiteSettings(context: context);
+                case "groups": return GroupsSiteSettings(context: context);
+                case "links": return LinksSiteSettings(context: context);
                 case "loginkeys": return LoginKeysSiteSettings(context: context);
                 case "mailaddresses": return MailAddressesSiteSettings(context: context);
-                case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
-                case "autonumberings": return AutoNumberingsSiteSettings(context: context);
                 case "orders": return OrdersSiteSettings(context: context);
-                case "exportsettings": return ExportSettingsSiteSettings(context: context);
-                case "links": return LinksSiteSettings(context: context);
-                case "binaries": return BinariesSiteSettings(context: context);
+                case "outgoingmails": return OutgoingMailsSiteSettings(context: context);
+                case "registrations": return RegistrationsSiteSettings(context: context);
+                case "reminderschedules": return ReminderSchedulesSiteSettings(context: context);
+                case "sessions": return SessionsSiteSettings(context: context);
+                case "statuses": return StatusesSiteSettings(context: context);
+                case "syslogs": return SysLogsSiteSettings(context: context);
+                case "tenants": return TenantsSiteSettings(context: context);
+                case "users": return UsersSiteSettings(context: context);
                 case "items": return Get(
                     context: context,
                     siteModel: new ItemModel(
@@ -147,16 +147,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public static SiteSettings TenantsSiteSettings(Context context)
+        public static SiteSettings AutoNumberingsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "Tenants"
+                ReferenceType = "AutoNumberings"
             };
             ss.Init(context: context);
-            ss.SetLinks(context: context);
-            ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            return ss;
+        }
+
+        public static SiteSettings BinariesSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Binaries"
+            };
+            ss.Init(context: context);
             return ss;
         }
 
@@ -165,56 +172,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             var ss = new SiteSettings()
             {
                 ReferenceType = "Demos"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings ExtensionsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "Extensions"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings SessionsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "Sessions"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings SysLogsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "SysLogs"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings StatusesSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "Statuses"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings ReminderSchedulesSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "ReminderSchedules"
             };
             ss.Init(context: context);
             return ss;
@@ -233,16 +190,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings GroupsSiteSettings(Context context)
+        public static SiteSettings ExportSettingsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "Groups"
+                ReferenceType = "ExportSettings"
             };
             ss.Init(context: context);
-            ss.SetLinks(context: context);
-            ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            return ss;
+        }
+
+        public static SiteSettings ExtensionsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Extensions"
+            };
+            ss.Init(context: context);
             return ss;
         }
 
@@ -256,11 +220,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings RegistrationsSiteSettings(Context context)
+        public static SiteSettings GroupsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "Registrations"
+                ReferenceType = "Groups"
             };
             ss.Init(context: context);
             ss.SetLinks(context: context);
@@ -269,16 +233,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings UsersSiteSettings(Context context)
+        public static SiteSettings ItemsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "Users"
+                ReferenceType = "Items"
             };
             ss.Init(context: context);
-            ss.SetLinks(context: context);
-            ss.SetChoiceHash(context: context, withLink: false);
-            ss.PermissionType = Permissions.Admins(context: context);
+            return ss;
+        }
+
+        public static SiteSettings LinksSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Links"
+            };
+            ss.Init(context: context);
             return ss;
         }
 
@@ -302,36 +273,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings OutgoingMailsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "OutgoingMails"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings AutoNumberingsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "AutoNumberings"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
-        public static SiteSettings ItemsSiteSettings(Context context)
-        {
-            var ss = new SiteSettings()
-            {
-                ReferenceType = "Items"
-            };
-            ss.Init(context: context);
-            return ss;
-        }
-
         public static SiteSettings OrdersSiteSettings(Context context)
         {
             var ss = new SiteSettings()
@@ -342,33 +283,92 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings ExportSettingsSiteSettings(Context context)
+        public static SiteSettings OutgoingMailsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "ExportSettings"
+                ReferenceType = "OutgoingMails"
             };
             ss.Init(context: context);
             return ss;
         }
 
-        public static SiteSettings LinksSiteSettings(Context context)
+        public static SiteSettings RegistrationsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "Links"
+                ReferenceType = "Registrations"
+            };
+            ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
+            return ss;
+        }
+
+        public static SiteSettings ReminderSchedulesSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "ReminderSchedules"
             };
             ss.Init(context: context);
             return ss;
         }
 
-        public static SiteSettings BinariesSiteSettings(Context context)
+        public static SiteSettings SessionsSiteSettings(Context context)
         {
             var ss = new SiteSettings()
             {
-                ReferenceType = "Binaries"
+                ReferenceType = "Sessions"
             };
             ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings StatusesSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Statuses"
+            };
+            ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings SysLogsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "SysLogs"
+            };
+            ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings TenantsSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Tenants"
+            };
+            ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
+            return ss;
+        }
+
+        public static SiteSettings UsersSiteSettings(Context context)
+        {
+            var ss = new SiteSettings()
+            {
+                ReferenceType = "Users"
+            };
+            ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
             return ss;
         }
 

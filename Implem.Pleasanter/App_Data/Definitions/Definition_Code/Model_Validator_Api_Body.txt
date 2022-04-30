@@ -1,0 +1,13 @@
+﻿if (api)
+{
+    if ((!Parameters.Api.Enabled
+        || context.ContractSettings.Api == false
+        || context.UserSettings?.AllowApi(context: context) == false))
+    {
+        return new ErrorData(type: Error.Types.InvalidRequest);
+    }
+    if (context.InvalidJsonData)
+    {
+        return new ErrorData(type: Error.Types.InvalidJsonData);
+    }
+}

@@ -1,0 +1,65 @@
+﻿public static HtmlBuilder NewOnGrid(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    List<Column> columns,
+    #ModelName#Model #modelName#Model,
+    long newRowId)
+{
+    return hb.Tr(
+        attributes: new HtmlAttributes()
+            .Class("grid-row new")
+            .DataId(newRowId.ToString())
+            .DataLatest(1),
+        action: () =>
+        {
+            hb.Td(action: () => hb
+                .Button(
+                    title: Displays.Cancel(context: context),
+                    controlCss: "button-icon",
+                    onClick: $"$p.cancelNewRow($(this));",
+                    icon: "ui-icon-close",
+                    action: "CancelNewRow",
+                    method: "post"));
+            columns.ForEach(column =>
+            {
+                if (!column.Joined
+                    && column.CanCreate(
+                        context: context,
+                        ss: ss,
+                        mine: null)
+                    && !column.Id_Ver
+                    && column.EditorColumn
+                    && column.TypeCs != "Attachments"
+                    && column.GridDesign.IsNullOrEmpty())
+                {
+                    hb.Td(action: () => hb
+                        .Field(
+                            context: context,
+                            ss: ss,
+                            #modelName#Model: #modelName#Model,
+                            column: column,
+                            controlOnly: true,
+                            alwaysSend: true,
+                            idSuffix: $"_{ss.SiteId}_{newRowId}"));
+                }
+                else if (!column.Joined
+                    && column.CanRead(
+                        context: context,
+                        ss: ss,
+                        mine: null)
+                    && !column.Id_Ver)
+                {
+                    hb.TdValue(
+                        context: context,
+                        ss: column.SiteSettings,
+                        column: column,
+                        #modelName#Model: #modelName#Model);
+                }
+                else
+                {
+                    hb.Td();
+                }
+            });
+        });
+}

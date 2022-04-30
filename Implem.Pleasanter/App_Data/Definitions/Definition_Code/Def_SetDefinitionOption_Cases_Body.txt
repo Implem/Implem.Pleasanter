@@ -1,0 +1,1 @@
+﻿case "#DefColumnNameOriginal#": #file#Definition.#DefColumnName# = optionValue#CastType#; break;

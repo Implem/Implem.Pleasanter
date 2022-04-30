@@ -1,0 +1,45 @@
+﻿private static ErrorData OnAttaching(
+    Context context, SiteSettings ss, #ModelName#Model #modelName#Model)
+{
+    foreach (var column in ss.Columns.Where(o => o.TypeCs == "Attachments"))
+    {
+        if (#modelName#Model.Attachments_Updated(
+            columnName: column.Name,
+            context: context,
+            column: column))
+        {
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                ss: ss,
+                attachmentsHash: #modelName#Model.AttachmentsHash);
+            switch (invalid)
+            {
+                case Error.Types.OverLimitQuantity:
+                    return new ErrorData(
+                        type: Error.Types.OverLimitQuantity,
+                        data: column.LimitQuantity.ToInt().ToString());
+                case Error.Types.OverLimitSize:
+                    return new ErrorData(
+                        type: Error.Types.OverLimitSize,
+                        data: column.LimitSize.ToInt().ToString());
+                case Error.Types.OverTotalLimitSize:
+                    return new ErrorData(
+                        type: Error.Types.OverTotalLimitSize,
+                        data: column.TotalLimitSize.ToInt().ToString());
+                case Error.Types.OverLocalFolderLimitSize:
+                    return new ErrorData(
+                        type: Error.Types.OverLocalFolderLimitSize,
+                        data: column.LocalFolderLimitSize.ToInt().ToString());
+                case Error.Types.OverLocalFolderTotalLimitSize:
+                    return new ErrorData(
+                        type: Error.Types.OverLocalFolderTotalLimitSize,
+                        data: column.LocalFolderTotalLimitSize.ToInt().ToString());
+                case Error.Types.OverTenantStorageSize:
+                    return new ErrorData(
+                        type: Error.Types.OverTenantStorageSize,
+                        data: context.ContractSettings.StorageSize.ToInt().ToString());
+            }
+        }
+    }
+    return new ErrorData(type: Error.Types.None);
+}

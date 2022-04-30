@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Model_ExportSet",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Select": "1",
+    "Exclude": "UpdatedTime",
+    "ExcludeTypeCs": "Attachments"
+}

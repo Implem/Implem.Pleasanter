@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Binaries_BinaryType",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "BinaryType",
+    "LabelText": "バイナリ種別",
+    "No": "101",
+    "History": "101",
+    "LinkColumn": "101",
+    "HistoryColumn": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Binary type",
+    "LabelText_zh": "二进制类型",
+    "LabelText_de": "Binärtyp",
+    "LabelText_ko": "바이너리 유형",
+    "LabelText_es": "Tipo binario",
+    "LabelText_vn": "Kiểu nhị phân"
+}

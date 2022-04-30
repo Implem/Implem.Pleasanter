@@ -1,0 +1,1 @@
+﻿public #RecordingType#<!--Model_ApiPropertyNullType--> #ColumnName# { get; set; }

@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Site2_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site1_en",
+    "Title": "WBS",
+    "ClassA": "Issues",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

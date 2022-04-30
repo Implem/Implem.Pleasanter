@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_CsvDataCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Select": "1",
+    "Exclude": "PasswordHistries"
+}

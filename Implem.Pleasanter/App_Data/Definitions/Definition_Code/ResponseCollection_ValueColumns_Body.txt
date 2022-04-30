@@ -1,0 +1,43 @@
+﻿public static #TableName#ResponseCollection #ColumnName#(
+    this #TableName#ResponseCollection res,
+    Context context,
+    SiteSettings ss,
+    Column column = null)
+{
+    return res.Val(
+        "##TableName#_#ColumnName#",
+        res.#ModelName#Model.#ColumnName#.ToResponse(
+            context: context,
+            ss: ss,
+            column: column ?? ss.GetColumn(
+                context: context,
+                columnName: "#ColumnName#")));
+}
+
+public static #TableName#ResponseCollection #ColumnName#(
+    this #TableName#ResponseCollection res, Context context, string value)
+{
+    return res.Val("##TableName#_#ColumnName#", value);
+}
+
+public static #TableName#ResponseCollection #ColumnName#_FormData(
+    this #TableName#ResponseCollection res,
+    Context context,
+    SiteSettings ss,
+    Column column = null)
+{
+    return res.ValAndFormData(
+        "##TableName#_#ColumnName#",
+        res.#ModelName#Model.#ColumnName#.ToResponse(
+            context: context,
+            ss: ss,
+            column: column ?? ss.GetColumn(
+                context: context,
+                columnName: "#ColumnName#")));
+}
+
+public static #TableName#ResponseCollection #ColumnName#_FormData(
+    this #TableName#ResponseCollection res, Context context, string value)
+{
+    return res.ValAndFormData("##TableName#_#ColumnName#", value);
+}

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_Columns_SqlGroupByCases",
+    "RepeatType": "Join",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "Select": "1"
+}

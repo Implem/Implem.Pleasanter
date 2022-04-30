@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "隠れてお酒を飲んでいるところを発見する",
+    "Status": "900",
+    "ClassA": "加藤 誠",
+    "ClassB": "誤嚥・誤飲",
+    "ClassD": "個人部屋",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "家族の方から訪問時に差し入れがあった為。今後、家族の方が訪問された際には、差し入れの有無を確認して、お断りさせていただく。",
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

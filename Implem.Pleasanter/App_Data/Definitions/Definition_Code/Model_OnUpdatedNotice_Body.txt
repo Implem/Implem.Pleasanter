@@ -1,0 +1,32 @@
+﻿if (context.ContractSettings.Notice != false && notice)
+{
+    Notice(
+        context: context,
+        ss: ss,
+        notifications: NotificationUtilities.MeetConditions(
+            ss: ss,
+            before: notifications,
+            after: GetNotifications(
+                context: context,
+                ss: ss,
+                notice: notice)),
+        type: "Updated");
+    process?.Notifications?.ForEach(notification =>
+        notification.Send(
+            context: context,
+            ss: ss,
+            title: ReplacedDisplayValues(
+                context: context,
+                ss: ss,
+                value: notification.Subject),
+            body: ReplacedDisplayValues(
+                context: context,
+                ss: ss,
+                value: notification.Body),
+            values: ss.IncludedColumns(notification.Address)
+                .ToDictionary(
+                    column => column,
+                    column => PropertyValue(
+                        context: context,
+                        column: column))));
+}

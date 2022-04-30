@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_MineColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Include": "Manager,Owner,Creator,Updator"
+}

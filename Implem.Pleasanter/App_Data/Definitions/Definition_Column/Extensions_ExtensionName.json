@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Extensions_ExtensionName",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "ExtensionName",
+    "LabelText": "拡張機能名",
+    "No": "102",
+    "History": "102",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Ix1": "1",
+    "LabelText_en": "Extension name",
+    "LabelText_zh": "扩展名",
+    "LabelText_de": "Name der Erweiterung",
+    "LabelText_ko": "확장명",
+    "LabelText_es": "Nombre de extensión",
+    "LabelText_vn": "Tên tiện ích"
+}

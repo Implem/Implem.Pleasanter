@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Binaries_Icon",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "Icon",
+    "LabelText": "アイコン",
+    "No": "106",
+    "History": "106",
+    "LinkColumn": "106",
+    "HistoryColumn": "106",
+    "TypeName": "image",
+    "Nullable": "1",
+    "NotForm": "1",
+    "ByDataRow": "dataRow.Bytes(\"Bin\")",
+    "LabelText_en": "Icon",
+    "LabelText_zh": "图标",
+    "LabelText_de": "Symbol",
+    "LabelText_ko": "아이콘",
+    "LabelText_es": "Icono",
+    "LabelText_vn": "Biểu tượng"
+}

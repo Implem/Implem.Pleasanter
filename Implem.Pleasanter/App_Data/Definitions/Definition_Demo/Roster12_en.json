@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster12_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Haruka Sasaki",
+    "ClassB": "Haruka Sasaki",
+    "ClassC": "699-1322",
+    "ClassD": "Kitsugi-town, Ohara-gun",
+    "ClassE": "225-149-250",
+    "ClassF": "sasaki@example.com",
+    "ClassG": "Shimane",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

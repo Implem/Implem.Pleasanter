@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Registrations_Invitee",
+    "ModelName": "Registration",
+    "TableName": "Registrations",
+    "Label": "ユーザ招待",
+    "ColumnName": "Invitee",
+    "LabelText": "招待者ID",
+    "No": "102",
+    "History": "102",
+    "LinkColumn": "102",
+    "HistoryColumn": "102",
+    "TypeName": "int",
+    "LabelText_en": "Invitee ID",
+    "LabelText_zh": "受邀者编号",
+    "LabelText_de": "ID des eingeladenen Teilnehmers",
+    "LabelText_ko": "초대받은 사람 ID",
+    "LabelText_es": "ID del invitado",
+    "LabelText_vn": "ID Người được mời"
+}

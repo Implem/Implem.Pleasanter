@@ -1,0 +1,14 @@
+﻿10,A4
+20,Letter
+30,Legal
+40,A5
+50,A5(Landscape)
+60,A6
+70,B5
+80,B5
+90,Postcard
+100,Side-opening envelope(No.4)
+110,Side-opening maximum typical envelope
+120,A3
+130,B4
+140,Other

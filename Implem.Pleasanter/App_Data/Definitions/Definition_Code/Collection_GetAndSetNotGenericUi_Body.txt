@@ -1,0 +1,18 @@
+﻿Set(
+    context: context,
+
+    <!--Model_SiteSettingsWithParameterNameLower-->
+
+    dataRows: Get(
+
+        context: context,
+        column: column,
+        join: join,
+        where: where,
+        orderBy: orderBy,
+        param: param,
+        tableType: tableType,
+        distinct: distinct,
+        top: top,
+        offset: offset,
+        pageSize: pageSize));

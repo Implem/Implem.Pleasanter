@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Tenants_LogoType",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "LogoType",
+    "LabelText": "ロゴ画像タイプ",
+    "No": "108",
+    "History": "108",
+    "TypeName": "int",
+    "TypeCs": "LogoTypes",
+    "RecordingData": ".ToInt()",
+    "Default": "0",
+    "EnumColumn": "1",
+    "LabelText_en": "Logo image type",
+    "LabelText_zh": "标志图像类型",
+    "LabelText_de": "Logo-Bildtyp",
+    "LabelText_ko": "로고 이미지 유형",
+    "LabelText_es": "Tipo de imagen de logotipo",
+    "LabelText_vn": "Loại ảnh biểu tượng"
+}

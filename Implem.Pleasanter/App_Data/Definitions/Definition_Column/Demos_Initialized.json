@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Demos_Initialized",
+    "ModelName": "Demo",
+    "TableName": "Demos",
+    "Label": "デモ",
+    "ColumnName": "Initialized",
+    "LabelText": "初期化済",
+    "No": "106",
+    "History": "106",
+    "LinkColumn": "106",
+    "HistoryColumn": "106",
+    "TypeName": "bit",
+    "Required": "1",
+    "LabelText_en": "Initialized",
+    "LabelText_zh": "已初始化",
+    "LabelText_de": "Initialisiert",
+    "LabelText_ko": "초기화됨",
+    "LabelText_es": "Inicializado",
+    "LabelText_vn": "Khởi tạo"
+}

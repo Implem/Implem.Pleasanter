@@ -1,0 +1,3 @@
+﻿Data migration method was scheduled as a simple migration, but a task transferred a part of master data is not included the plan, therefore it is added the task as a new WBS.
+・Transform the user master
+・Transform the category master

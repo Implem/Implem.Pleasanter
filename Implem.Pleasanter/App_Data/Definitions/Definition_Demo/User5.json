@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User5",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept6",
+    "Title": "Wilson Daniel",
+    "ClassA": "1",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

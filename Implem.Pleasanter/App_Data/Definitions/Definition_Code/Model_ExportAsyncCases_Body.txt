@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.ExportAsync(
+        context: context,
+        ss: Site.SiteSettings,
+        siteModel: Site);

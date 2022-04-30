@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_BurnDownGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "BurnDownGuide",
+    "LabelText": "バーンダウンチャートのガイド",
+    "No": "108",
+    "History": "108",
+    "EditorColumn": "108",
+    "LinkColumn": "108",
+    "HistoryColumn": "108",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Burndown guide",
+    "LabelText_zh": "燃尽指南",
+    "LabelText_de": "Burndown-Anleitung",
+    "LabelText_ko": "번다운 가이드",
+    "LabelText_es": "Guía de quema",
+    "LabelText_vn": "Hướng dẫn về Burndown"
+}

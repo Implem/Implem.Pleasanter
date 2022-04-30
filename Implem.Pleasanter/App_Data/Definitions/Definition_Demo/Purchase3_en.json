@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase3_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Purchase a data analysis package software for D company",
+    "ClassA": "#Opportunity3_en#",
+    "NumA": "157000",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36643.752083333333",
+    "UpdatedTime": "36656.918749999997"
+}

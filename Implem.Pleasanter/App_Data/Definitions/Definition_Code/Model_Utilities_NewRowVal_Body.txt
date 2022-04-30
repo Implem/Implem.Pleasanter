@@ -1,0 +1,9 @@
+﻿.Val("#NewRowId", newRowId, _using: newOnGrid)
+.CopyRowFormData(
+    context: context,
+    ss: ss,
+    #modelName#Model: #modelName#Model,
+    columns: columns,
+    newOnGrid: newOnGrid,
+    newRowId: newRowId,
+    originalId: originalId)

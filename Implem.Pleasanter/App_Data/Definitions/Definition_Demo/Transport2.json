@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "300",
+    "ClassA": "自宅",
+    "ClassB": "株式会社オープンソース屋",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "新橋営業所",
+    "NumA": "1191",
+    "DateA": "36654.705555555556",
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

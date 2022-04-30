@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_Set",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "NotPk": "1",
+    "NotCalc": "1",
+    "Select": "1"
+}

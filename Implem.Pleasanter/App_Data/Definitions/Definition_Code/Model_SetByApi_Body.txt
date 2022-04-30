@@ -1,0 +1,102 @@
+﻿public void SetByApi(Context context, SiteSettings ss)
+{
+    var data = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (data == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+        return;
+    }
+
+<!--Model_SetByApi_ColumnCases-->
+<!--Model_SetByApi_ColumnCasesSite-->
+<!--Model_SetByApi_ColumnCasesGroupMembers-->
+
+    if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+    if (data.VerUp != null) VerUp = data.VerUp.ToBool();
+    data.ClassHash?.ForEach(o => GetClass(
+        columnName: o.Key,
+        value: o.Value));
+    data.NumHash?.ForEach(o => GetNum(
+        columnName: o.Key,
+        value: new Num(
+            context: context,
+            column: ss.GetColumn(
+                context: context,
+                columnName: o.Key),
+            value: o.Value.ToString())));
+    data.DateHash?.ForEach(o => GetDate(
+        columnName: o.Key,
+        value: o.Value.ToDateTime().ToUniversal(context: context)));
+    data.DescriptionHash?.ForEach(o => GetDescription(
+        columnName: o.Key,
+        value: o.Value));
+    data.CheckHash?.ForEach(o => GetCheck(
+        columnName: o.Key,
+        value: o.Value));
+    data.AttachmentsHash?.ForEach(o =>
+    {
+        string columnName = o.Key;
+        Attachments newAttachments = o.Value;
+        Attachments oldAttachments;
+        if (columnName == "Attachments#Uploading")
+        {
+            var kvp = AttachmentsHash
+                .FirstOrDefault(x => x.Value
+                    .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st()));
+            columnName = kvp.Key;
+            oldAttachments = kvp.Value;
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column.OverwriteSameFileName == true)
+            {
+                var oldAtt = oldAttachments
+                    .FirstOrDefault(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st());
+                if (oldAtt != null)
+                {
+                    oldAtt.Deleted = true;
+                    oldAtt.Overwritten = true;
+                }
+            }
+            newAttachments.ForEach(att => att.Guid = att.Guid.Split_2nd());
+        }
+        else
+        {
+            oldAttachments = AttachmentsHash.Get(columnName);
+        }
+        if (oldAttachments != null)
+        {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
+            var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+            newAttachments.ForEach(newAttachment =>
+            {
+                newAttachment.AttachmentAction(
+                    context: context,
+                    column: column,
+                    oldAttachments: oldAttachments);
+            });
+            if (column.OverwriteSameFileName == true)
+            {
+                newAttachments.AddRange(oldAttachments.
+                    Where((oldvalue) =>
+                        !newGuidSet.Contains(oldvalue.Guid) &&
+                        !newNameSet.Contains(oldvalue.Name)));
+            }
+            else
+            {
+                newAttachments.AddRange(oldAttachments.
+                    Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+            }
+        }
+        GetAttachments(columnName: columnName, value: newAttachments);
+    });
+
+<!--Model_SetByApi_RecordPermissions-->
+<!--Model_SetByForm_SetByFormula-->
+<!--Model_SetByForm_Site-->
+<!--Model_SetChoiceHash-->
+
+}

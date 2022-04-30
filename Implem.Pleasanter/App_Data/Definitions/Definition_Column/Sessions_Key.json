@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Sessions_Key",
+    "ModelName": "Session",
+    "TableName": "Sessions",
+    "Label": "セッション",
+    "ColumnName": "Key",
+    "LabelText": "キー",
+    "No": "2",
+    "History": "2",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Pk": "2",
+    "LabelText_en": "Key",
+    "LabelText_zh": "密钥",
+    "LabelText_de": "Schlüssel",
+    "LabelText_ko": "키",
+    "LabelText_es": "Clave",
+    "LabelText_vn": "Khóa"
+}

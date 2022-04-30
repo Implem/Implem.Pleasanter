@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care6",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "夕食後の薬と朝食後の薬を間違えた",
+    "Status": "900",
+    "ClassA": "佐々木 春香",
+    "ClassB": "誤嚥・誤飲",
+    "ClassD": "個人部屋",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "薬袋の確認を怠ってしまったため。配膳の際に確認を徹底する。",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport5",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "300",
+    "ClassA": "川崎営業所",
+    "ClassB": "情報共有イノベーション研究所",
+    "ClassE": "商談のため",
+    "ClassH": "自宅",
+    "NumA": "576",
+    "DateA": "36653.705555555556",
+    "Manager": "User1",
+    "Owner": "User1",
+    "Creator": "User1",
+    "Updator": "User1",
+    "CreatedTime": "36653.705555555556",
+    "UpdatedTime": "36653.705555555556"
+}

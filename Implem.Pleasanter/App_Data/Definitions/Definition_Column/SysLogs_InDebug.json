@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_InDebug",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "InDebug",
+    "LabelText": "デバッグフラグ",
+    "No": "137",
+    "History": "137",
+    "EditorColumn": "137",
+    "EditorEnabled": "1",
+    "LinkColumn": "137",
+    "HistoryColumn": "137",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "Identity": "0",
+    "LabelText_en": "Debug flag",
+    "LabelText_zh": "调试标记",
+    "LabelText_de": "Debug-Flag",
+    "LabelText_ko": "디버그 플래그",
+    "LabelText_es": "Indicador de depuración",
+    "LabelText_vn": "Cờ gỡ lỗi"
+}

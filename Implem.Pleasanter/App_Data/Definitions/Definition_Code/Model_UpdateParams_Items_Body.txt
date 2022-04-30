@@ -1,0 +1,6 @@
+﻿Process process = null,
+bool extendedSqls = true,
+bool synchronizeSummary = true,
+bool forceSynchronizeSourceSummary = false,
+bool notice = false,
+string previousTitle = null,

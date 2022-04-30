@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport19",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "100",
+    "ClassA": "品川支店",
+    "ClassB": "情報共有イノベーション研究所",
+    "ClassE": "顧客定例会参加のため",
+    "ClassH": "品川支店",
+    "NumA": "1552",
+    "DateA": "36642.705555555556",
+    "Manager": "User1",
+    "Owner": "User1",
+    "Creator": "User1",
+    "Updator": "User1",
+    "CreatedTime": "36642.705555555556",
+    "UpdatedTime": "36642.705555555556"
+}

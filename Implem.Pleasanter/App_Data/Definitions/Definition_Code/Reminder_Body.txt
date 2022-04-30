@@ -1,0 +1,18 @@
+﻿/// NotMerge:
+namespace Implem.Pleasanter.Libraries.Settings
+{
+    /// NotMerge:
+    public class Reminder : ISettingListItem
+    {
+        private string ReplacedLine(Context context, SiteSettings ss, DataRow dataRow, string line)
+        {
+            switch (ss.ReferenceType)
+            {
+
+<!--Reminder_TableCases-->
+
+            }
+            return line;
+        }
+    }
+}

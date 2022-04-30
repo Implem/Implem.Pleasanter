@@ -1,0 +1,6 @@
+﻿Add(new #ModelName#Model(
+    context: context,
+
+    <!--Model_SiteSettingsWithParameterNameLower-->
+    
+    dataRow: dataRow));

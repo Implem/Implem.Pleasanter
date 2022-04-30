@@ -1,0 +1,4 @@
+﻿formData: editRow
+    ? formDataSet?.FirstOrDefault(o =>
+        o.Id == dataRow.Long("#ModelName#Id"))?.Data
+    : null,

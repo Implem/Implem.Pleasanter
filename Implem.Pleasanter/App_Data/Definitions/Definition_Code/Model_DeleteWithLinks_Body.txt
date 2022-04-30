@@ -1,0 +1,8 @@
+﻿ss.LinkActions(
+    context: context,
+    type: "DeleteWithLinks",
+    sub: Rds.Select#TableName#(
+        column: Rds.#TableName#Column().#ModelName#Id(),
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id(#ModelName#Id)));

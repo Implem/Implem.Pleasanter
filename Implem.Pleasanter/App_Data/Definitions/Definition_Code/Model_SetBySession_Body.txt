@@ -1,0 +1,1 @@
+﻿if (!context.Forms.Exists("#TableName#_#ColumnName#")) #ColumnName# = Session_#ColumnName#(context: context);

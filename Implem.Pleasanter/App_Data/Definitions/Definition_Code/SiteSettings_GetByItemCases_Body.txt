@@ -1,0 +1,7 @@
+﻿case "#TableName#": return #TableName#SiteSettings(
+    context: context,
+    siteModel: siteModel,
+    referenceId: referenceId,
+    setSiteIntegration: setSiteIntegration,
+    setAllChoices: setAllChoices,
+    tableType: tableType);

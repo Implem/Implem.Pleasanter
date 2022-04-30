@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_Delete",
+    "Indent": "2",
+    "Exclude": "Items,SysLogs,Sites"
+}

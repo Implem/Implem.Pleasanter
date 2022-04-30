@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_SetProcessMatchConditions",
+    "Indent": "2",
+    "ItemOnly": "1",
+    "Exclude": "Sites,Wikis"
+}

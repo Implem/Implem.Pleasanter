@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Rds_Columns_SqlParam",
+    "RepeatType": "Join",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Update": "1"
+}

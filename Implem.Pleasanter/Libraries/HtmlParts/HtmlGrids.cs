@@ -227,8 +227,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var depts = new Dictionary<string, DeptModel>();
             var groups = new Dictionary<string, GroupModel>();
             var registrations = new Dictionary<string, RegistrationModel>();
-            var users = new Dictionary<string, UserModel>();
             var sites = new Dictionary<string, SiteModel>();
+            var users = new Dictionary<string, UserModel>();
             var issues = new Dictionary<string, IssueModel>();
             var results = new Dictionary<string, ResultModel>();
             switch (ss.ReferenceType)
@@ -374,24 +374,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     column: column,
                                     registrationModel: registrationModel);
                                 break;
-                            case "Users":
-                                var userModel = users.Get(key);
-                                if (userModel == null)
-                                {
-                                    userModel = new UserModel(
-                                        context: context,
-                                        ss: column.SiteSettings,
-                                        dataRow: dataRow,
-                                        tableAlias: column.TableAlias);
-                                    users.Add(key, userModel);
-                                    ss.ClearColumnAccessControlCaches(baseModel: userModel);
-                                }
-                                hb.TdValue(
-                                    context: context,
-                                    ss: column.SiteSettings,
-                                    column: column,
-                                    userModel: userModel);
-                                break;
                             case "Sites":
                                 var siteModel = sites.Get(key);
                                 if (siteModel == null)
@@ -412,6 +394,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: column.SiteSettings,
                                     column: column,
                                     siteModel: siteModel);
+                                break;
+                            case "Users":
+                                var userModel = users.Get(key);
+                                if (userModel == null)
+                                {
+                                    userModel = new UserModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias);
+                                    users.Add(key, userModel);
+                                    ss.ClearColumnAccessControlCaches(baseModel: userModel);
+                                }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    userModel: userModel);
                                 break;
                             case "Issues":
                                 var issueModel = issues.Get(key);

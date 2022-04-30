@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Extensions_Description",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "Description",
+    "LabelText": "説明",
+    "No": "105",
+    "History": "105",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Description",
+    "LabelText_zh": "说明",
+    "LabelText_de": "Beschreibung",
+    "LabelText_ko": "설명",
+    "LabelText_es": "Descripción",
+    "LabelText_vn": "Mô tả"
+}

@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Items_FullText",
+    "ModelName": "Item",
+    "TableName": "Items",
+    "Label": "アイテム",
+    "ColumnName": "FullText",
+    "LabelText": "フルテキスト",
+    "No": "105",
+    "History": "105",
+    "LinkColumn": "105",
+    "HistoryColumn": "105",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "Like": "1",
+    "LabelText_en": "Full text",
+    "LabelText_zh": "全文",
+    "LabelText_de": "Volltext",
+    "LabelText_ko": "전체 텍스트",
+    "LabelText_es": "Texto completo",
+    "LabelText_vn": "Toàn bộ văn bản"
+}

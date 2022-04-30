@@ -1,0 +1,33 @@
+﻿public static #TableName#ParamCollection #ColumnName#(
+    this #TableName#ParamCollection self,
+    object value = null,
+    SqlStatement sub = null,
+    string raw = null,
+    bool _using = true)
+{
+    return _using
+        ? self.Add(
+            columnBracket: "#ColumnBracket#",
+            name: "#ColumnName#",
+            value: value<!--Rds_Columns_SqlParam_Enum-->,
+            sub: sub,
+            raw: raw)
+        : self;
+}
+
+public static SqlParamCollection #TableName#_#ColumnName#(
+    this SqlParamCollection self,
+    object value = null,
+    SqlStatement sub = null,
+    string raw = null,
+    bool _using = true)
+{
+    return _using
+        ? self.Add(
+            columnBracket: "#ColumnBracket#",
+            name: "#ColumnName#",
+            value: value<!--Rds_Columns_SqlParam_Enum-->,
+            sub: sub,
+            raw: raw)
+        : self;
+}

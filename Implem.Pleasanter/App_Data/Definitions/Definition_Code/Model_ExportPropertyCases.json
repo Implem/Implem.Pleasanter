@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Model_ExportPropertyCases",
+    "RepeatType": "Column",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Select": "1",
+    "ExcludeTypeCs": "Attachments",
+    "NotClass": "1"
+}

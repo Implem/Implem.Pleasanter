@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_Validator",
+    "OutputPath": "Models\\#TableName#\\#ModelName#Validators.cs",
+    "Source": "Mvc",
+    "RepeatType": "Table",
+    "Exclude": "Sites"
+}

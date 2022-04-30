@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Transition",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "本番切り替え",
+    "WorkValue": "48",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "リリース・展開",
+    "ClassB": "作業[非定型]",
+    "ClassC": "業務",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36643.689583333333",
+    "UpdatedTime": "36655.686805555553"
+}

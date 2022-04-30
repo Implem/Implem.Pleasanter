@@ -1,0 +1,11 @@
+﻿{
+    "Id": "User1",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept3",
+    "Title": "テナント管理者",
+    "ClassA": "2",
+    "ClassD": "1",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

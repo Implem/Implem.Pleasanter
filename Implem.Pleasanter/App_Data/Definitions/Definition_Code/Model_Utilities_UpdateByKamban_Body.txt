@@ -1,0 +1,30 @@
+﻿public static string UpdateByKamban(Context context, SiteSettings ss)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: context.Forms.Long("KambanId"),
+        formData: context.Forms);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return Messages.ResponseDeleteConflicts(context: context).ToJson();
+    }
+    #modelName#Model.VerUp = Versions.MustVerUp(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+    #modelName#Model.Update(
+        context: context,
+        ss: ss,
+        notice: true);
+    return KambanJson(context: context, ss: ss);
+}

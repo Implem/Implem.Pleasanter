@@ -1,0 +1,8 @@
+﻿{
+    "Id": "HtmlGrid_Td",
+    "RepeatType": "Table",
+    "Indent": "7",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Exclude": "Tenants,Wikis"
+}

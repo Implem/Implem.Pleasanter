@@ -1,9 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
-using Implem.Libraries.Utilities;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 namespace Implem.CodeDefiner.Utilities
 {
     internal static class DefinitionFiles
@@ -12,12 +9,16 @@ namespace Implem.CodeDefiner.Utilities
 
         internal static Dictionary<string, XlsIo> Collection()
         {
-            return Directory
-                .EnumerateFiles(Directories.Definitions(), "definition_*.xlsm")
-                .Select(o => Path.GetFileName(o))
-                .ToDictionary(
-                    o => o.Replace("definition_", string.Empty).FileNameOnly(),
-                    o => Initializer.DefinitionFile(o));
+            var ret = new Dictionary<string, XlsIo>()
+            {
+                { "Code", Def.CodeXls },
+                { "Column", Def.ColumnXls },
+                { "Demo", Def.DemoXls },
+                { "Template", Def.TemplateXls },
+                { "ViewMode", Def.ViewModeXls },
+                { "Sql", Def.SqlXls }
+            };
+            return ret;
         }
     }
 }

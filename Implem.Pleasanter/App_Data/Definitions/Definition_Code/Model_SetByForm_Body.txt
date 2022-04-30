@@ -1,0 +1,101 @@
+﻿public void SetByForm(
+    Context context,
+
+<!--Model_SiteSettingsParameter ( Indent = 3 ) -->
+
+    Dictionary<string, string> formData)
+{
+
+<!--Model_SetByForm_Sites-->
+
+    formData.ForEach(data =>
+    {
+        var key = data.Key;
+        var value = data.Value ?? string.Empty;
+        switch (key)
+        {
+
+<!--Model_SetByForm_ColumnCases-->
+
+            case "Comments": Comments.Prepend(
+                context: context,
+                ss: ss,
+                body: value); break;
+            case "VerUp": VerUp = value.ToBool(); break;
+
+<!--Model_SetByForm_RecordPermissions-->
+<!--Model_SetByForm_RecordPermissions_Sites-->
+
+            default:
+                if (key.RegexExists("Comment[0-9]+"))
+                {
+                    Comments.Update(
+                        context: context,
+                        ss: ss,
+                        commentId: key.Substring("Comment".Length).ToInt(),
+                        body: value);
+                }
+                else
+                {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: key.Split_2nd('_'));
+                    switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
+                    {
+                        case "Class":
+                            GetClass(
+                                columnName: column.ColumnName,
+                                value: value);
+                            break;
+                        case "Num":
+                            GetNum(
+                                columnName: column.ColumnName,
+                                value: new Num(
+                                    context: context,
+                                    column: column,
+                                    value: value));
+                            break;
+                        case "Date":
+                            GetDate(
+                                columnName: column.ColumnName,
+                                value: value.ToDateTime().ToUniversal(context: context));
+                            break;
+                        case "Description":
+                            GetDescription(
+                                columnName: column.ColumnName,
+                                value: value);
+                            break;
+                        case "Check":
+                            GetCheck(
+                                columnName: column.ColumnName,
+                                value: value.ToBool());
+                            break;
+                        case "Attachments":
+                            GetAttachments(
+                                columnName: column.ColumnName,
+                                value: value.Deserialize<Attachments>());
+                            break;
+                    }
+                }
+                break;
+        }
+    });
+    if (context.QueryStrings.ContainsKey("ver"))
+    {
+        Ver = context.QueryStrings.Int("ver");
+    }
+
+<!--Model_SetLinking-->
+<!--Model_SetByForm_Site-->
+<!--Model_SetByForm_SetByFormula-->
+<!--Model_SetChoiceHash-->
+
+    if (context.Action == "deletecomment")
+    {
+        DeleteCommentId = formData.Get("ControlId")?
+            .Split(',')
+            ._2nd()
+            .ToInt() ?? 0;
+        Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+    }
+}

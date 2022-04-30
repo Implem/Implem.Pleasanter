@@ -1,0 +1,88 @@
+﻿@charset "utf-8";
+
+*{
+    box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video{
+    margin:0;
+    padding:0;
+    border:0;
+    font-style:normal;
+    font-weight:normal;
+    vertical-align:baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section{
+    display:block;
+}
+
+input, textarea{
+    margin:0;
+    padding:0;
+}
+ 
+ol, ul{
+    list-style:none;
+}
+ 
+table{
+    border-collapse:collapse; 
+    border-spacing:0;
+}
+ 
+caption, th{
+    text-align:left;
+}
+
+a:focus{
+    outline:none;
+}
+
+.cf:before,
+.cf:after{
+    content:" ";
+    display:table;
+}
+
+.cf:after{
+    clear:both;
+}
+
+.cf{
+    *zoom:1;
+}
+
+.both{
+    clear:both;
+}
+
+img{
+    max-width: 100%;
+    height: auto;
+    width /***/: auto;
+}
+
+::-webkit-input-placeholder {
+    color: silver; }
+
+:-moz-placeholder {
+    color: silver; opacity: 1; }
+
+::-moz-placeholder {
+    color: silver; opacity: 1; }
+
+:-ms-input-placeholder {
+    color: silver; 
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance:textfield;
+}
+

@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.Calendar(
+        context: context,
+        ss: Site.SiteSettings);

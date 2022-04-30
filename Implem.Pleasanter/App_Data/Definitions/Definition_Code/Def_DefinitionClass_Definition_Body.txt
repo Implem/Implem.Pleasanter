@@ -1,0 +1,1 @@
+﻿public #Type# #DefColumnName#; public #Type# Saved#DefColumnName#;

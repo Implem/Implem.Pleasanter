@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Sites_ApiCountDate",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "ApiCountDate",
+    "LabelText": "APIカウント日時",
+    "No": "125",
+    "History": "125",
+    "LinkColumn": "125",
+    "HistoryColumn": "125",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Api count date",
+    "LabelText_zh": "api计数日期",
+    "LabelText_de": "API-Zähldatum",
+    "LabelText_ko": "API 카운트 날짜",
+    "LabelText_es": "Fecha de recuento de API",
+    "LabelText_vn": "Thời gian đếm API"
+}

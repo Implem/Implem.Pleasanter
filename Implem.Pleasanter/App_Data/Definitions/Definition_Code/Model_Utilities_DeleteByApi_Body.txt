@@ -1,0 +1,90 @@
+﻿public static ContentResultInheritance DeleteByApi(
+    Context context, SiteSettings ss, long #modelName#Id)
+{
+    if (!Mime.ValidateOnApi(contentType: context.ContentType))
+    {
+        return ApiResults.BadRequest(context: context);
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        methodType: BaseModel.MethodTypes.Edit);
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+    var invalid = #ModelName#Validators.OnDeleting(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return ApiResults.Error(
+            context: context,
+            errorData: invalid);
+    }
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(context: context, ss: ss);
+    var errorData = #modelName#Model.Delete(
+        context: context,
+        ss: ss,
+        notice: true);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            return ApiResults.Success(
+                id: #modelName#Model.#ModelName#Id,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                message: Displays.Deleted(
+                    context: context,
+                    data: #modelName#Model.Title.MessageDisplay(context: context)));
+        default:
+            return ApiResults.Error(
+                context: context,
+                errorData: errorData);
+    }
+}
+
+public static bool DeleteByServerScript(
+    Context context,
+    SiteSettings ss,
+    long #modelName#Id)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        methodType: BaseModel.MethodTypes.Edit);
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return false;
+    }
+    var invalid = #ModelName#Validators.OnDeleting(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return false;
+    }
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(context: context, ss: ss);
+    var errorData = #modelName#Model.Delete(
+        context: context,
+        ss: ss,
+        notice: true);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            return true;
+        default:
+            return false;
+    }
+}

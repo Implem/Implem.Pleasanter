@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_Columns_SqlColumn_ComputeColumn",
+    "RepeatType": "Join",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "ComputeColumn": "1"
+}

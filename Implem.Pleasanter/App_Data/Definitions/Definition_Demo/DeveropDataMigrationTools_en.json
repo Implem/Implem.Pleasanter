@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DeveropDataMigrationTools_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Develop data migration program",
+    "WorkValue": "60",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Configuration",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Business task",
+    "Manager": "User17_en",
+    "Owner": "User17_en",
+    "Creator": "User17_en",
+    "Updator": "User17_en",
+    "StartTime": "36656",
+    "CompletionTime": "36665",
+    "CreatedTime": "36656.473611111112",
+    "UpdatedTime": "36656.473611111112"
+}

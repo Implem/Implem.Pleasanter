@@ -1,0 +1,6 @@
+﻿case "#ColumnName#":
+    #ColumnName#.FullText(
+        context: context,
+        column: column,
+        fullText: fullText);
+    break;

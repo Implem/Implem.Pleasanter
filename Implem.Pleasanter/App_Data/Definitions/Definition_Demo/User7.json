@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User7",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept7",
+    "Title": "鈴木 洋一",
+    "ClassA": "2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

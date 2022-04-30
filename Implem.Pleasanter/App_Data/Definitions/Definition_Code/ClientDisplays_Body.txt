@@ -1,0 +1,13 @@
+﻿$p.display = function (defaultId) {
+    var displays = {
+<!--ClientDisplays_Parts-->
+    };
+    var localId = defaultId + '_' + $('#Language').val();
+    if (displays[localId]) {
+        return displays[localId];
+    } else if (displays[defaultId]) {
+        return displays[defaultId];
+    } else {
+        return defaultId;
+    }
+}

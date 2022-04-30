@@ -1,0 +1,19 @@
+﻿{
+    "Id": "AutoNumberings_Number",
+    "ModelName": "AutoNumbering",
+    "TableName": "AutoNumberings",
+    "Label": "自動採番",
+    "ColumnName": "Number",
+    "LabelText": "番号",
+    "No": "5",
+    "History": "5",
+    "TypeName": "decimal",
+    "Size": "19,4",
+    "Pk": "5",
+    "LabelText_en": "Number",
+    "LabelText_zh": "数字",
+    "LabelText_de": "Anzahl",
+    "LabelText_ko": "숫자",
+    "LabelText_es": "Número",
+    "LabelText_vn": "Con số"
+}

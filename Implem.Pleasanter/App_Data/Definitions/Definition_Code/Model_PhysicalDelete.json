@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_PhysicalDelete",
+    "Indent": "2",
+    "Exclude": "Items,SysLogs"
+}

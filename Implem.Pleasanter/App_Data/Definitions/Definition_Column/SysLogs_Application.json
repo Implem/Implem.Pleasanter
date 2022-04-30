@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_Application",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "Application",
+    "LabelText": "アプリケーション",
+    "No": "108",
+    "History": "108",
+    "EditorColumn": "108",
+    "EditorEnabled": "1",
+    "LinkColumn": "108",
+    "HistoryColumn": "108",
+    "TypeName": "nvarchar",
+    "MaxLength": "64",
+    "Nullable": "1",
+    "LabelText_en": "Application",
+    "LabelText_zh": "应用",
+    "LabelText_de": "Anwendung",
+    "LabelText_ko": "애플리케이션",
+    "LabelText_es": "Aplicación",
+    "LabelText_vn": "Ứng dụng"
+}

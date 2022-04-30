@@ -1,0 +1,5 @@
+﻿case "Dept":
+    return Dept.ToDisplay(
+        context: context,
+        ss: ss,
+        column: column);

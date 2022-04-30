@@ -1,0 +1,241 @@
+﻿public static string OpenBulkUpdateSelectorDialog(Context context, SiteSettings ss)
+{
+    if (!context.CanUpdate(ss: ss))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var where = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (where == null)
+    {
+        return Messages.ResponseSelectTargets(context: context).ToJson();
+    }
+    var optionCollection = ss.GetAllowBulkUpdateOptions(context: context);
+    var target = optionCollection.FirstOrDefault().Key;
+    var hb = new HtmlBuilder();
+    return new ResponseCollection()
+        .Html(
+            "#BulkUpdateSelectorDialog",
+            hb.BulkUpdateSelectorDialog(
+                context: context,
+                ss: ss,
+                optionCollection: optionCollection,
+                action: () => hb
+                    .BulkUpdateEditor(
+                        context: context,
+                        ss: ss,
+                        target: target)))
+        .ToJson();
+}
+
+public static string BulkUpdateSelectChanged(Context context, SiteSettings ss)
+{
+    if (!context.CanUpdate(ss: ss))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    return new ResponseCollection()
+        .Html(
+            "#BulkUpdateSelectedField",
+            new HtmlBuilder().BulkUpdateEditor(
+                context: context,
+                ss: ss,
+                target: context.Forms.Data("BulkUpdateColumnName")))
+        .ClearFormData()
+        .ToJson();
+}
+
+private static HtmlBuilder BulkUpdateEditor(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    string target)
+{
+    var columns = ss.GetBulkUpdateColumns(
+        context: context,
+        target: target);
+    ss.SetBulkUpdateColumnDetail(
+        columns: columns,
+        target: target);
+    var #modelName#Model = new #ModelName#Model();
+    hb.FieldSet(id: "BulkUpdateEditor", css: "both", action: () => hb
+        .FieldSet(
+            css: " enclosed",
+            legendText: Displays.Editor(context: context),
+            action: () => columns.ForEach(column =>
+            {
+                #modelName#Model.SetDefault(
+                    context: context,
+                    ss: ss,
+                    column: column);
+                hb.Field(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    column: column,
+                    disableAutoPostBack: true,
+                    disableSection: true);
+            })));
+    return hb;
+}
+
+public static string BulkUpdate(Context context, SiteSettings ss)
+{
+    if (!context.CanUpdate(ss: ss))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var param = new Rds.#TableName#ParamCollection();
+    var target = context.Forms.Data("BulkUpdateColumnName");
+    var columns = ss.GetBulkUpdateColumns(
+        context: context,
+        target: target);
+    if (!columns.All(column => column.CanUpdate(
+        context: context,
+        ss: ss,
+        mine: null)))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        formData: context.Forms);
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return Messages.ResponseSelectTargets(context: context).ToJson();
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    param = (Rds.#TableName#ParamCollection)view.Param(
+        context: context,
+        ss: ss,
+        param: param);
+    var invalid = ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: where,
+        param: param,
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss),
+        lockedColumn: columns.Any(o => o.ColumnName == "Locked"));
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    var count = BulkUpdate(
+        context: context,
+        ss: ss,
+        columns: columns,
+        where: where);
+    var data = new string[]
+    {
+        ss.Title,
+        count.ToString()
+    };
+    ss.Notifications
+        .Where(o => o.MonitorChangesColumns.Any(columnName => columns.Any(q => q.ColumnName == columnName)))
+        .ForEach(notification =>
+        {
+            var body = new System.Text.StringBuilder();
+            body.Append(Locations.ItemIndexAbsoluteUri(
+                context: context,
+                ss.SiteId) + "\n");
+            body.Append(
+                $"{Displays.#TableName#_Updator(context: context)}: ",
+                $"{context.User.Name}\n");
+            columns.ForEach(column =>
+                body.Append(
+                    $"{column.LabelText} : ",
+                    $"{#modelName#Model.ToDisplay(context: context, ss: ss, column: column, mine: null)}\n"));
+            if (notification.AfterBulkUpdate != false)
+            {
+                notification.Send(
+                    context: context,
+                    ss: ss,
+                    title: Displays.BulkUpdated(
+                        context: context,
+                        data: data),
+                    body: body.ToString());
+            }
+        });
+    var res = GridRows(
+        context: context,
+        ss: ss,
+        clearCheck: true,
+        message: Messages.BulkUpdated(
+            context: context,
+            data: data));
+    return res;
+}
+
+private static int BulkUpdate(
+    Context context,
+    SiteSettings ss,
+    List<Column> columns,
+    SqlWhereCollection where)
+{
+    var onBulkUpdatingExtendedStatements = new List<SqlStatement>().OnBulkUpdatingExtendedSqls(
+        context: context,
+        siteId: ss.SiteId);
+    if (onBulkUpdatingExtendedStatements.Count > 0)
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: onBulkUpdatingExtendedStatements.ToArray());
+    }
+    var count = 0;
+    new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        join: ss.Join(
+            context: context,
+            join: new IJoin[]
+            {
+                where
+            }),
+        where: where).ForEach(#modelName#Model =>
+        {
+            #modelName#Model.SetByForm(
+                context: context,
+                ss: ss,
+                formData: context.Forms);
+            #modelName#Model.SetByLookups(
+                context: context,
+                ss: ss);
+            #modelName#Model.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: #modelName#Model);
+            #modelName#Model.Update(
+                context: context,
+                ss: ss,
+                extendedSqls: false);
+            count++;
+        });
+    var onBulkUpdatedExtendedStatements = new List<SqlStatement>().OnBulkUpdatedExtendedSqls(
+        context: context,
+        siteId: ss.SiteId);
+    if (onBulkUpdatedExtendedStatements.Count > 0)
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: onBulkUpdatedExtendedStatements.ToArray());
+    }
+    return count;
+}

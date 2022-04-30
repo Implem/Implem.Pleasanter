@@ -1,0 +1,8 @@
+﻿var inputErrorData = OnInputValidating(
+    context: context,
+    ss: ss,
+    #modelName#Model: #modelName#Model).FirstOrDefault();
+if (inputErrorData.Type != Error.Types.None)
+{
+    return inputErrorData;
+}

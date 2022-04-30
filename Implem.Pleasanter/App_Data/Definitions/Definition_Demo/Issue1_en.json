@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Issue1_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site3_en",
+    "Title": "Not fixing network construction",
+    "Status": "900",
+    "ClassA": "#DesignServers_en#",
+    "Manager": "User15_en",
+    "Owner": "User15_en",
+    "Creator": "User15_en",
+    "Updator": "User15_en",
+    "StartTime": "36696",
+    "CompletionTime": "36707",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

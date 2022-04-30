@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignOperationSystems",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "運用管理ソフトウェアのデザインシート作成",
+    "WorkValue": "11",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "設計",
+    "ClassB": "ドキュメント作成",
+    "ClassC": "運用",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "StartTime": "36652",
+    "CompletionTime": "36653",
+    "CreatedTime": "36640.398611111108",
+    "UpdatedTime": "36653.511111111111"
+}

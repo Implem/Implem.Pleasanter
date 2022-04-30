@@ -1,0 +1,1 @@
+﻿if (definitionRow.ContainsKey("#DefColumnNameOriginal#")) { definition.#DefColumnName# = definitionRow["#DefColumnNameOriginal#"]#CastType#; definition.Saved#DefColumnName# = definition.#DefColumnName#; }

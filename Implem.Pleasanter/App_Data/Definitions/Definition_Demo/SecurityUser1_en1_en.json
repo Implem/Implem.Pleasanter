@@ -1,0 +1,18 @@
+﻿{
+    "Id": "SecurityUser1_en1_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site42_en",
+    "ClassA": "#Security1_en#",
+    "DateA": "42818.5",
+    "CheckA": "1",
+    "CheckB": "1",
+    "CheckC": "1",
+    "CheckD": "1",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User11_en",
+    "Updator": "User11_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

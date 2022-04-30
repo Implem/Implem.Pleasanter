@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar1_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site25_en",
+    "Title": "2nd Pleasanter Hands-on seminar",
+    "Status": "900",
+    "ClassA": "Chuo-ku, Tokyo",
+    "NumA": "10",
+    "NumB": "7",
+    "NumC": "0",
+    "DateA": "42812.541666666664",
+    "DateB": "42812.729166666664",
+    "DateC": "42805.541666666664",
+    "DateD": "42811.729166666664",
+    "Manager": "User2_en",
+    "Owner": "User2_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

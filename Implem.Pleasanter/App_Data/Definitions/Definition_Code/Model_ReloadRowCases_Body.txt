@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.ReloadRow(
+        context: context,
+        ss: Site.SiteSettings,
+        #modelName#Id: id);

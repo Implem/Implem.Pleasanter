@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_SetId",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "IdentityOrPk": "1",
+    "Exclude": "TenantId",
+    "IncludeTypeName": "int,bigint"
+}

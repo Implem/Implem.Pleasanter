@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Links_Title",
+    "ModelName": "Link",
+    "TableName": "Links",
+    "Label": "リンク",
+    "ColumnName": "Title",
+    "LabelText": "タイトル",
+    "No": "103",
+    "History": "103",
+    "LinkColumn": "103",
+    "HistoryColumn": "103",
+    "TypeName": "nvarchar",
+    "JoinTableName": "Items",
+    "Required": "1",
+    "NotUpdate": "1",
+    "LabelText_en": "Title",
+    "LabelText_zh": "标题",
+    "LabelText_de": "Titel",
+    "LabelText_ko": "제목",
+    "LabelText_es": "Título",
+    "LabelText_vn": "Tiêu đề"
+}

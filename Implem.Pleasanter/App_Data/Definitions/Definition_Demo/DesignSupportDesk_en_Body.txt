@@ -1,0 +1,4 @@
+﻿Define a support framework for users.
+・Introduce a support desk
+・Making an incident list
+・Making a call roster

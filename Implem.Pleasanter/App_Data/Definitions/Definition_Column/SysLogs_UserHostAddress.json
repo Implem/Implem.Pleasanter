@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_UserHostAddress",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "UserHostAddress",
+    "LabelText": "ユーザアドレス",
+    "No": "128",
+    "History": "128",
+    "EditorColumn": "128",
+    "EditorEnabled": "1",
+    "LinkColumn": "128",
+    "HistoryColumn": "128",
+    "TypeName": "nvarchar",
+    "MaxLength": "16",
+    "Nullable": "1",
+    "LabelText_en": "User address",
+    "LabelText_zh": "用户地址",
+    "LabelText_de": "Benutzeradresse",
+    "LabelText_ko": "사용자 주소",
+    "LabelText_es": "Dirección del usuario",
+    "LabelText_vn": "Địa chỉ người dùng"
+}

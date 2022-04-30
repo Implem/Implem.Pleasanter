@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "300",
+    "ClassA": "自宅",
+    "ClassB": "生産性向上委員会",
+    "ClassE": "商談のため",
+    "ClassH": "品川支店",
+    "NumA": "699",
+    "DateA": "36641.705555555556",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36641.705555555556"
+}

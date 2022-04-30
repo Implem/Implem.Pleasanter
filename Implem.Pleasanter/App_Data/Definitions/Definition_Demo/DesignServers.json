@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignServers",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "サーバのデザインシート作成",
+    "WorkValue": "10",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "設計",
+    "ClassB": "ドキュメント作成",
+    "ClassC": "サーバ",
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "StartTime": "36650",
+    "CompletionTime": "36651",
+    "CreatedTime": "36640.460416666669",
+    "UpdatedTime": "36653.67291666667"
+}

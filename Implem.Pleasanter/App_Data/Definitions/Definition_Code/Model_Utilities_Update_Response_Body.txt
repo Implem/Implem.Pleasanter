@@ -1,0 +1,33 @@
+﻿var verUp = Versions.VerUp(
+    context: context,
+    ss: ss,
+    verUp: false);
+return res
+    .Ver(context: context, ss: ss)
+    .Timestamp(context: context, ss: ss)
+
+<!--Model_Utilities_ResponseByUpdate_FieldResponse-->
+
+    .Val("#VerUp", verUp)
+    .Val("#Ver", #modelName#Model.Ver)
+    .Disabled("#VerUp", verUp)
+    .Html("#HeaderTitle", HttpUtility.HtmlEncode(#modelName#Model.Title.<!--Model_Utilities_TitleDisplay-->Value))
+    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+        context: context,
+        baseModel: #modelName#Model,
+        tableName: "#TableName#"))
+
+<!--Model_Utilities_ResponseLinks-->
+
+    .SetMemory("formChanged", false)
+    .Message(Messages.Updated(
+        context: context,
+        data: #modelName#Model.Title.<!--Model_Utilities_TitleDisplay-->Value))
+    .Messages(context.Messages)
+    .Comment(
+        context: context,
+        ss: ss,
+        column: ss.GetColumn(context: context, columnName: "Comments"),
+        comments: #modelName#Model.Comments,
+        deleteCommentId: #modelName#Model.DeleteCommentId)
+    .ClearFormData();

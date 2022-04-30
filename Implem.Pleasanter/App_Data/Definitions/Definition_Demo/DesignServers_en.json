@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignServers_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Design servers",
+    "WorkValue": "10",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Design",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Server",
+    "Manager": "User2_en",
+    "Owner": "User2_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "StartTime": "36650",
+    "CompletionTime": "36651",
+    "CreatedTime": "36640.460416666669",
+    "UpdatedTime": "36653.67291666667"
+}

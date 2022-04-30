@@ -1,0 +1,8 @@
+﻿Red
+Yellow
+Green
+Blue
+Purple
+White
+Ash
+Black

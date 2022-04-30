@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance7",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "パソコンの電源が入らない",
+    "Status": "200",
+    "ClassA": "100",
+    "ClassB": "トラブル",
+    "ClassC": "ハードウェア",
+    "Manager": "User11",
+    "Owner": "User3",
+    "Creator": "User11",
+    "Updator": "User3",
+    "StartTime": "36641",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

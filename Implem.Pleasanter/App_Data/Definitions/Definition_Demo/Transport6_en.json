@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport6_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site18_en",
+    "Status": "100",
+    "ClassA": "Shinagawa Branch",
+    "ClassB": "Non-Programming Corp.",
+    "ClassE": "Sales activity",
+    "ClassH": "Shinagawa Branch",
+    "NumA": "932",
+    "DateA": "36642.705555555556",
+    "Manager": "User1_en",
+    "Owner": "User1_en",
+    "Creator": "User1_en",
+    "Updator": "User1_en",
+    "CreatedTime": "36642.705555555556",
+    "UpdatedTime": "36642.705555555556"
+}

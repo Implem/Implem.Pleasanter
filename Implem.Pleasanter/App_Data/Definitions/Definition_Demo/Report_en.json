@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Report_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Creating an operation report",
+    "WorkValue": "40",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Initial support",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Business task",
+    "Manager": "User14_en",
+    "Owner": "User14_en",
+    "Creator": "User14_en",
+    "Updator": "User14_en",
+    "StartTime": "36682",
+    "CompletionTime": "36696",
+    "CreatedTime": "36643.752083333333",
+    "UpdatedTime": "36656.918749999997"
+}

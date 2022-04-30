@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport20",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "200",
+    "ClassA": "本社",
+    "ClassB": "有限会社ノンプログラミング",
+    "ClassE": "顧客定例会参加のため",
+    "ClassH": "本社",
+    "NumA": "1480",
+    "DateA": "36641.705555555556",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36641.705555555556"
+}

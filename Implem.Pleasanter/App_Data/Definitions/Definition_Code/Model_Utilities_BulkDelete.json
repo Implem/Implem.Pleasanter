@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_Utilities_BulkDelete",
+    "Indent": "2",
+    "Include": "Issues,Results"
+}

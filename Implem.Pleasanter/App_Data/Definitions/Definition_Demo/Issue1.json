@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Issue1",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site3",
+    "Title": "ネットワーク構成が決まっていない",
+    "Status": "900",
+    "ClassA": "#DesignServers#",
+    "Manager": "User15",
+    "Owner": "User15",
+    "Creator": "User15",
+    "Updator": "User15",
+    "StartTime": "36696",
+    "CompletionTime": "36707",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

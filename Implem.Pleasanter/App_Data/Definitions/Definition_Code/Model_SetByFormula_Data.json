@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_SetByFormula_Data",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "Separator": ",\\r\\n",
+    "IncludeTypeName": "decimal"
+}

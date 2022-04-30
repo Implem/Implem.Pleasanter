@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy15",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "キングファイル",
+    "ClassA": "#Expendable9#",
+    "ClassB": "ファミリーストア",
+    "NumA": "12",
+    "NumB": "3608",
+    "DateA": "42818.705555555556",
+    "Manager": "User11",
+    "Owner": "User11",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

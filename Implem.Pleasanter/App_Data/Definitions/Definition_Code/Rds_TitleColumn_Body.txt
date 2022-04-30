@@ -1,0 +1,9 @@
+﻿public static #TableName#ColumnCollection #TableName#TitleColumn(Context context, SiteSettings ss)
+{
+    var column = #TableName#Column();
+    ss.GetTitleColumns(context: context)
+        .Select(o => o.ColumnName)
+        .ForEach(columnName =>
+            column.#TableName#Column(columnName: columnName));
+    return column;
+}

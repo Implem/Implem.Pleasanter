@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Extensions_ExtensionType",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "ExtensionType",
+    "LabelText": "拡張機能種別",
+    "No": "101",
+    "History": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "128",
+    "LabelText_en": "Extension type",
+    "LabelText_zh": "扩展类型",
+    "LabelText_de": "Erweiterungstyp",
+    "LabelText_ko": "확장 타입",
+    "LabelText_es": "Tipo de extensión",
+    "LabelText_vn": "Loại tiện ích"
+}

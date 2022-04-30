@@ -1,0 +1,19 @@
+﻿{
+    "Id": "AutoNumberings_Key",
+    "ModelName": "AutoNumbering",
+    "TableName": "AutoNumberings",
+    "Label": "自動採番",
+    "ColumnName": "Key",
+    "LabelText": "キー",
+    "No": "4",
+    "History": "4",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Pk": "4",
+    "LabelText_en": "Key",
+    "LabelText_zh": "密钥",
+    "LabelText_de": "Schlüssel",
+    "LabelText_ko": "키",
+    "LabelText_es": "Llave",
+    "LabelText_vn": "Khóa"
+}

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport17",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "100",
+    "ClassA": "本社",
+    "ClassB": "株式会社プリザンター",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "品川支店",
+    "NumA": "1351",
+    "DateA": "36654.705555555556",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

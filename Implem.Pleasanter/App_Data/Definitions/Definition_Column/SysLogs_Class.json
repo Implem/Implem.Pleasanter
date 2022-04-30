@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_Class",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "Class",
+    "LabelText": "クラス",
+    "No": "109",
+    "History": "109",
+    "EditorColumn": "109",
+    "EditorEnabled": "1",
+    "LinkColumn": "109",
+    "HistoryColumn": "109",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Nullable": "1",
+    "LabelText_en": "Class",
+    "LabelText_zh": "类别",
+    "LabelText_de": "Klasse",
+    "LabelText_ko": "클래스",
+    "LabelText_es": "Clase",
+    "LabelText_vn": "Lớp"
+}

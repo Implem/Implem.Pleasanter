@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance5_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Reset a password for a bookkeeping system",
+    "Status": "900",
+    "ClassA": "200",
+    "ClassB": "Request of a work",
+    "ClassC": "Business system",
+    "Manager": "User9_en",
+    "Owner": "User17_en",
+    "Creator": "User9_en",
+    "Updator": "User17_en",
+    "StartTime": "36644",
+    "CompletionTime": "36672",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

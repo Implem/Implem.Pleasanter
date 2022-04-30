@@ -1,0 +1,5 @@
+﻿case "#ColumnName#":
+    if (#ColumnName##RecordingData# != #RecordingDefaultData#)
+        statements.Add(column.IfDuplicatedStatement(
+            param.#ColumnName#(#ColumnName##RecordingData##MaxLength#), SiteId, #ModelName#Id));
+    break;

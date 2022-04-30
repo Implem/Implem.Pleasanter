@@ -1,0 +1,15 @@
+﻿public void SetTitle(Context context, SiteSettings ss)
+{
+    if (Title?.ItemTitle != true)
+    {
+        Title = new Title(
+            context: context,
+            ss: ss,
+            id: #ModelName#Id,
+            ver: Ver,
+            isHistory: VerType == Versions.VerTypes.History,
+            data: PropertyValues(
+                context: context,
+                columns: ss.GetTitleColumns(context: context)));
+    }
+}

@@ -1,0 +1,2 @@
+﻿{factory.SqlCommandText.CreateIdentityInsert(
+    template: "set identity_insert \"#TableName#\" on;")}

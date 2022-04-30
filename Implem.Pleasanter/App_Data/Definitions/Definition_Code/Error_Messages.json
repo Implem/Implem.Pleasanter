@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Error_Messages",
+    "RepeatType": "Display",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "DisplayType": "Error"
+}

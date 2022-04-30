@@ -1,0 +1,12 @@
+﻿{
+    "Id": "User4_en",
+    "Language": "en",
+    "Type": "Users",
+    "ParentId": "Dept6_en",
+    "Title": "Miki Saito",
+    "ClassA": "2",
+    "ClassB": "2",
+    "ClassC": "36526",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

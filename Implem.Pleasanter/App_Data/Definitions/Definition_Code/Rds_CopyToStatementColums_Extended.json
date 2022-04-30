@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_CopyToStatementColums_Extended",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Include": "Issues,Results"
+}

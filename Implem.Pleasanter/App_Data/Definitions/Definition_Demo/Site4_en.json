@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site4_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site1_en",
+    "Title": "Record of Reviews",
+    "ClassA": "Results",
+    "ClassB": "Site2_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

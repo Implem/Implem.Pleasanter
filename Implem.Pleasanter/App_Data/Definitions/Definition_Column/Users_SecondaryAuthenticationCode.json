@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Users_SecondaryAuthenticationCode",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "SecondaryAuthenticationCode",
+    "LabelText": "確認コード",
+    "No": "151",
+    "History": "151",
+    "TypeName": "nvarchar",
+    "MaxLength": "128",
+    "Nullable": "1",
+    "NotLookup": "1",
+    "Hash": "1",
+    "LabelText_en": "Authentication code",
+    "LabelText_zh": "验证码",
+    "LabelText_de": "Authentication Code",
+    "LabelText_ko": "인증 코드",
+    "LabelText_es": "Código de autenticación",
+    "LabelText_vn": "Mã xác thực"
+}

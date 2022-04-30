@@ -1,0 +1,9 @@
+﻿public static string #DisplayId#(
+    Context context,
+    params string[] data)
+{
+    return Get(
+        context: context,
+        id: "#DisplayId#",
+        data: data);
+}

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_GetItemsDefaultColumns",
+    "ItemOnly": "1",
+    "Exclude": "Sites"
+}

@@ -14,9 +14,9 @@ namespace Implem.Libraries.Classes
         public XlsSheet XlsSheet = new XlsSheet();
         public Files.AccessStatuses AccessStatus = Files.AccessStatuses.Initialized;
 
-        public XlsIo(string xlsPath)
+        public XlsIo(string path)
         {
-            Path = xlsPath;
+            Path = path;
             ReadXls();
         }
 
@@ -31,6 +31,47 @@ namespace Implem.Libraries.Classes
         }
 
         private void ReadXls()
+        {
+            if (Files.Exists(System.IO.Path.Combine(Path, "Definition.json")))
+            {
+                XlsSheet = Files.Read(System.IO.Path.Combine(Path, "Definition.json")).Deserialize<XlsSheet>();
+                XlsSheet.Columns = XlsSheet[0].Keys.ToList();
+            }
+            else
+            {
+                var hash = new Dictionary<string, XlsRow>();
+                var dir = new DirectoryInfo(Path);
+                var cs = Files.Read(System.IO.Path.Combine(Path, "__ColumnSettings.json")).Deserialize<Dictionary<string, string>>();
+                XlsSheet.Columns = cs.Keys.ToList();
+                XlsSheet.Add(new XlsRow(cs));
+                foreach (var file in dir.GetFiles())
+                {
+                    if (file.Name.EndsWith("_Body.txt"))
+                    {
+                        var data = Files.Read(file.FullName);
+                        hash[file.Name.Replace("_Body.txt", ".json")]["Body"] = data;
+                    }
+                    else if (file.Name.EndsWith("_SiteSettingsTemplate.json"))
+                    {
+                        var data = Files.Read(file.FullName);
+                        hash[file.Name.Replace("_SiteSettingsTemplate.json", ".json")]["SiteSettingsTemplate"] = data;
+                    }
+                    else if (file.Name != "__ColumnSettings.json")
+                    {
+                        var data = XlsSheet.Columns.ToDictionary(o => o, o => string.Empty);
+                        var row = Files.Read(file.FullName).Deserialize<Dictionary<string, string>>();
+                        Files.Read(file.FullName).Deserialize<Dictionary<string, string>>()
+                            .ForEach(part => data[part.Key] = part.Value.Replace("\n", "\r\n"));
+                        var xlsRow = new XlsRow(data);
+                        hash.Add(file.Name, xlsRow);
+                        XlsSheet.Add(xlsRow);
+                    }
+                }
+            }
+            AccessStatus = Files.AccessStatuses.Read;
+        }
+
+        private void ReadXlsTemp()
         {
             FileInfo xls = null;
             if (new FileInfo(Path).Exists)

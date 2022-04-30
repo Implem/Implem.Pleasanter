@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_Utilities_FieldResponse_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "7",
+    "Separator": "\\r\\n",
+    "Form": "1",
+    "Update": "1",
+    "ExcludeTypeCs": "Attachments"
+}
