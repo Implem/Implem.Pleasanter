@@ -31,7 +31,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public ServerScriptModelApiModel New()
         {
-            var itemModel = new IssueModel();
+            return NewIssue();
+        }
+
+        public ServerScriptModelApiModel NewIssue()
+        {
+            var issueModel = new IssueModel();
             var apiContext = ServerScriptUtilities.CreateContext(
                 context: Context,
                 action: "New",
@@ -40,12 +45,33 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var ss = new SiteSettings(
                 context: apiContext,
                 referenceType: "Issues");
-            itemModel.SetDefault(
+            issueModel.SetDefault(
                 context: apiContext,
                 ss: ss);
             var apiModel = new ServerScriptModelApiModel(
                 context: Context,
-                model: itemModel,
+                model: issueModel,
+                onTesting: OnTesting);
+            return apiModel;
+        }
+
+        public ServerScriptModelApiModel NewResult()
+        {
+            var resultModel = new ResultModel();
+            var apiContext = ServerScriptUtilities.CreateContext(
+                context: Context,
+                action: "New",
+                id: 0,
+                apiRequestBody: string.Empty);
+            var ss = new SiteSettings(
+                context: apiContext,
+                referenceType: "Results");
+            resultModel.SetDefault(
+                context: apiContext,
+                ss: ss);
+            var apiModel = new ServerScriptModelApiModel(
+                context: Context,
+                model: resultModel,
                 onTesting: OnTesting);
             return apiModel;
         }

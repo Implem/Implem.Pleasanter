@@ -1547,9 +1547,9 @@ namespace Implem.Pleasanter.Models
                     {
                         apiContext.ApiRequestBody = issueRequestString;
                     }
-                    else if (model is ServerScriptModelApiModel issueApiModel)
+                    else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
                     {
-                        apiContext.ApiRequestBody = issueApiModel.ToJsonString(
+                        apiContext.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
                             context: apiContext,
                             ss: issueSs);
                     }
@@ -1559,7 +1559,8 @@ namespace Implem.Pleasanter.Models
                     }
                     return IssueUtilities.CreateByServerScript(
                         context: apiContext,
-                        ss: issueSs);
+                        ss: issueSs,
+                        model: model);
                 case "Results":
                     var resultSs = Site.ResultsSiteSettings(
                         context: apiContext,
@@ -1568,9 +1569,9 @@ namespace Implem.Pleasanter.Models
                     {
                         apiContext.ApiRequestBody = resultRequestString;
                     }
-                    else if (model is ServerScriptModelApiModel resultApiModel)
+                    else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
                     {
-                        apiContext.ApiRequestBody = resultApiModel.ToJsonString(
+                        apiContext.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
                             context: apiContext,
                             ss: resultSs);
                     }
@@ -1580,7 +1581,8 @@ namespace Implem.Pleasanter.Models
                     }
                     return ResultUtilities.CreateByServerScript(
                         context: apiContext,
-                        ss: resultSs);
+                        ss: resultSs,
+                        model: model);
                 default:
                     return false;
             }
@@ -1815,7 +1817,8 @@ namespace Implem.Pleasanter.Models
                         context: apiContext,
                         ss: issueSs,
                         issueId: ReferenceId,
-                        previousTitle: Title);
+                        previousTitle: Title,
+                        model: model);
                 case "Results":
                     var resultSs = Site.ResultsSiteSettings(
                         context: apiContext,
@@ -1838,7 +1841,8 @@ namespace Implem.Pleasanter.Models
                         context: apiContext,
                         ss: resultSs,
                         resultId: ReferenceId,
-                        previousTitle: Title);
+                        previousTitle: Title,
+                        model: model);
                 default:
                     return false;
             }

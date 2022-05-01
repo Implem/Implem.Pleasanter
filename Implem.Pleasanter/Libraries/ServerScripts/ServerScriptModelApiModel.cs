@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using System;
 using System.Dynamic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.ServerScripts
@@ -20,7 +21,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         };
 
         private readonly Context Context;
-        private readonly BaseItemModel Model;
+        public BaseItemModel Model;
         private readonly bool OnTesting;
 
         public ServerScriptModelApiModel(Context context, BaseItemModel model, bool onTesting)
@@ -193,10 +194,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 switch (name)
                 {
                     case nameof(IssueModel.StartTime):
-                        issueModel.StartTime = value.ToDateTime();
+                        issueModel.StartTime = Date(value);
                         return true;
                     case nameof(IssueModel.CompletionTime):
-                        issueModel.CompletionTime.Value = value.ToDateTime();
+                        issueModel.CompletionTime.Value = Date(value);
+                        issueModel.CompletionTime.DisplayValue = Date(value).ToLocal(context: Context);
                         return true;
                     case nameof(IssueModel.WorkValue):
                         issueModel.WorkValue.Value = value.ToDecimal();
@@ -251,6 +253,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
             }
             return true;
+        }
+
+        private static DateTime Date(object value)
+        {
+            return value is DateTime dateTime
+                ? TimeZoneInfo.ConvertTimeFromUtc(dateTime, TimeZoneInfo.Local)
+                : Types.ToDateTime(0);
         }
 
         public string ToJsonString(Context context, SiteSettings ss)
