@@ -181,18 +181,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Delay(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_Delay",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.Delay(context: context),
-                _checked: view.Delay == true,
-                method: "post",
-                labelPositionIsRight: true,
-                _using: view.HasDelayColumns(context: context, ss: ss)
-                    && Visible(ss, "ProgressRate"));
+            return ss.UseDelayFilter == true
+                ? hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Delay",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.Delay(context: context),
+                        _checked: view.Delay == true,
+                        method: "post",
+                        labelPositionIsRight: true,
+                        _using: view.HasDelayColumns(context: context, ss: ss)
+                            && Visible(ss, "ProgressRate"))
+                : hb;
         }
 
         private static HtmlBuilder Limit(
