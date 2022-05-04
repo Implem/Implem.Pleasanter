@@ -619,64 +619,8 @@ namespace Implem.DefinitionAccessor
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
             Def.SetSqlDefinition();
-            //WriteToText(Def.CodeXls.XlsSheet, "Code");
-            //WriteToText(Def.ColumnXls.XlsSheet, "Column");
-            //WriteToText(Def.TemplateXls.XlsSheet, "Template");
-            //WriteToText(Def.ViewModeXls.XlsSheet, "ViewMode", disassemble: false);
-            //WriteToText(Def.DemoXls.XlsSheet, "Demo");
-            //WriteToText(Def.SqlXls.XlsSheet, "Sql");
             SetDisplayAccessor();
             SetColumnDefinitionAccessControl();
-        }
-
-        private static void WriteToText(XlsSheet xlsSheet, string name, bool disassemble = true)
-        {
-            if (disassemble)
-            {
-                xlsSheet.Select((o, i) => new { Index = i, Data = o }).ForEach(data =>
-                {
-                    if (data.Index == 0)
-                    {
-                        var json = data.Data.ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
-                        json = json.Replace("  \"", "    \"");
-                        var path = Path.Combine(Directories.Definitions(), $"Definition_{name}", "__ColumnSettings.json");
-                        Files.Write(json, path);
-                    }
-                    else if (data.Data[0] != "")
-                    {
-                        var json = data.Data
-                            .Where(o => o.Key != "Body")
-                            .Where(o => o.Key != "SiteSettingsTemplate")
-                            .Where(o => o.Value != string.Empty)
-                            .ToDictionary(o => o.Key, o => o.Value)
-                            .ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
-                        json = json.Replace("  \"", "    \"");
-                        var path = Path.Combine(Directories.Definitions(), $"Definition_{name}", ReservedWords.ValidName(data.Data[0].ToString()));
-                        Files.Write(json, path + ".json");
-                        if (data.Data.ContainsKey("Body") && !data.Data["Body"].IsNullOrEmpty())
-                        {
-                            Files.Write(data.Data["Body"], path + "_Body.txt");
-                        }
-                        if (data.Data.ContainsKey("SiteSettingsTemplate") && !data.Data["SiteSettingsTemplate"].IsNullOrEmpty())
-                        {
-                            Files.Write(data.Data["SiteSettingsTemplate"], path + "_SiteSettingsTemplate.json");
-                        }
-                    }
-                });
-            }
-            else
-            {
-                var json = xlsSheet
-                    .Select(o => o
-                        .Where(p => !p.Value.IsNullOrEmpty())
-                        .ToDictionary(p => p.Key, p => p.Value))
-                    .ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
-                json = json.Replace("  {", "    {");
-                json = json.Replace("  }", "    }");
-                json = json.Replace("    \"", "        \"");
-                var path = Path.Combine(Directories.Definitions(), $"Definition_{name}", "Definition.json");
-                Files.Write(json, path);
-            }
         }
 
         public static XlsIo DefinitionFile(string name)
@@ -686,19 +630,6 @@ namespace Implem.DefinitionAccessor
             if (name == "Column")
             {
                 SetColumnDefinitionAdditional(xlsIo);
-            }
-            return xlsIo;
-        }
-
-        public static XlsIo DefinitionFileOld(string name)
-        {
-            var tempFile = new FileInfo(Files.CopyToTemp(
-                Directories.Definitions($"definition_{name}.xlsm"), Directories.Temp()));
-            var xlsIo = new XlsIo(tempFile.FullName);
-            tempFile.Delete();
-            if (name == "Column")
-            {
-                //SetColumnDefinitionAdditional(xlsIo);
             }
             return xlsIo;
         }
