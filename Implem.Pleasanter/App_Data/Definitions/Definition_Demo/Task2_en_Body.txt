@@ -1,0 +1,3 @@
+﻿Target monitoring server is added. Please confirm the information about the detalils.
+
+\\fileserver_example\01_demoProject

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy20_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "Ink(Black)",
+    "ClassA": "#Expendable15_en#",
+    "ClassB": "Smile Market",
+    "NumA": "10",
+    "NumB": "2627",
+    "DateA": "42818.705555555556",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

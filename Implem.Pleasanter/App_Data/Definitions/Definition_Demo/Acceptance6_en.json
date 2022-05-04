@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance6_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Cannot use a sorting system",
+    "Status": "150",
+    "ClassA": "300",
+    "ClassB": "Trouble",
+    "ClassC": "Business system",
+    "Manager": "User10_en",
+    "Owner": "User2_en",
+    "Creator": "User10_en",
+    "Updator": "User2_en",
+    "StartTime": "36647",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

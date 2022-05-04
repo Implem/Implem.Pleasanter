@@ -1,0 +1,11 @@
+﻿Write a design sheet for configured servers.
+　・Basic OS configuration
+　・Network settings
+　・User settings
+　・Service settings
+　・Security settings
+　・Backup settings
+
+Store files to below folder.
+
+\\fileserver_example\01_demoProject\02_ConfigurationManagement

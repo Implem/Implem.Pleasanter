@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_ClearSessions",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "Session": "1"
+}

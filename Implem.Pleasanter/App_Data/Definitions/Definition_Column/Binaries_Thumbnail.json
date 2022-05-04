@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Binaries_Thumbnail",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "Thumbnail",
+    "LabelText": "サムネイル",
+    "No": "105",
+    "History": "105",
+    "LinkColumn": "105",
+    "HistoryColumn": "105",
+    "TypeName": "image",
+    "Nullable": "1",
+    "NotForm": "1",
+    "ByDataRow": "dataRow.Bytes(\"Bin\")",
+    "LabelText_en": "Thumbnail",
+    "LabelText_zh": "缩图",
+    "LabelText_de": "Miniaturansicht",
+    "LabelText_ko": "썸네일",
+    "LabelText_es": "Miniatura",
+    "LabelText_vn": "Ảnh thu nhỏ"
+}

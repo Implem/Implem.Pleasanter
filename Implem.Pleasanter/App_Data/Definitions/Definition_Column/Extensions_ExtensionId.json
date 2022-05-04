@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Extensions_ExtensionId",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "ExtensionId",
+    "LabelText": "拡張機能ID",
+    "No": "1",
+    "History": "1",
+    "TypeName": "int",
+    "Pk": "1",
+    "Ix1": "2",
+    "Identity": "1",
+    "Seed": "1",
+    "Required": "1",
+    "LabelText_en": "Extension ID",
+    "LabelText_zh": "分机号",
+    "LabelText_de": "Nebenstellen-ID",
+    "LabelText_ko": "내선 ID",
+    "LabelText_es": "ID de extensión",
+    "LabelText_vn": "ID Tiện ích"
+}

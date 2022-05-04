@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster7_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Takashi Nakamura",
+    "ClassB": "Takashi Nakamura",
+    "ClassC": "629-2423",
+    "ClassD": "Kaya-town, Yosa-gun",
+    "ClassE": "886-947-239",
+    "ClassF": "nakamura@example.com",
+    "ClassG": "Kyoto",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

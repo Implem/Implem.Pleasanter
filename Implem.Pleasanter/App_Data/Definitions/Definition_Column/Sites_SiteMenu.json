@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_SiteMenu",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "SiteMenu",
+    "LabelText": "順序",
+    "No": "121",
+    "History": "121",
+    "LinkColumn": "121",
+    "HistoryColumn": "121",
+    "TypeName": "int",
+    "Required": "1",
+    "NotForm": "1",
+    "NotSelect": "1",
+    "NotUpdate": "1",
+    "LabelText_en": "Order",
+    "LabelText_zh": "顺序",
+    "LabelText_de": "Reihenfolge",
+    "LabelText_ko": "순서",
+    "LabelText_es": "Orden",
+    "LabelText_vn": "Thứ tự"
+}

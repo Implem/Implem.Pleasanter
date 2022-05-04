@@ -1,0 +1,7 @@
+﻿SetByBeforeCreateServerScript(
+    context: context,
+    ss: ss);
+if (context.ErrorData.Type != Error.Types.None)
+{
+    return context.ErrorData;
+}

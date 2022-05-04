@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance1_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Cannot install a printer driver",
+    "Status": "300",
+    "ClassA": "200",
+    "ClassB": "Trouble",
+    "ClassC": "OS",
+    "Manager": "User16_en",
+    "Owner": "User13_en",
+    "Creator": "User16_en",
+    "Updator": "User13_en",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36643.689583333333",
+    "UpdatedTime": "36655.686805555553"
+}

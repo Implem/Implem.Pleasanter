@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_SetBySession",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Session": "1"
+}

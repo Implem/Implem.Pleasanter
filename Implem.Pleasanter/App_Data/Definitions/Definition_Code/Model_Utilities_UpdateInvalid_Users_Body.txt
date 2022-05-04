@@ -1,0 +1,5 @@
+﻿case Error.Types.PermissionNotSelfChange:
+    return Messages.ResponsePermissionNotSelfChange(context: context)
+        .Val("#Users_TenantManager", userModel.SavedTenantManager)
+        .ClearFormData("Users_TenantManager")
+        .ToJson();

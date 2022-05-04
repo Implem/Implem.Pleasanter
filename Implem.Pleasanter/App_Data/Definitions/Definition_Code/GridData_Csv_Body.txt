@@ -1,0 +1,17 @@
+﻿case "#TableName#":
+    if (!#tableName#.ContainsKey(key))
+    {
+        #tableName#.Add(key, new #ModelName#Model(
+            context: context,
+            <!--GridData_SiteSettings-->
+            dataRow: dataRow,
+            tableAlias: column.TableAlias));
+    }
+    data.Add(#tableName#.Get(key).CsvData(
+        context: context,
+        ss: column.SiteSettings,
+        column: column,
+        exportColumn: exportColumn,
+        mine: #tableName#.Get(key).Mine(context: context),
+        encloseDoubleQuotes: encloseDoubleQuotes));
+    break;

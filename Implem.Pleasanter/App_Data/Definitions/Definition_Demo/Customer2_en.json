@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Customer2_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site6_en",
+    "Title": "OpenSource Technology Corp.",
+    "ClassA": "Toshima-ku, Tokyo",
+    "ClassB": "555-555-555",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "CreatedTime": "36640.59097222222",
+    "UpdatedTime": "36656.547222222223"
+}

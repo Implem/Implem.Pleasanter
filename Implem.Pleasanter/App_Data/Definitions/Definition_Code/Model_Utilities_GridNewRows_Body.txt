@@ -1,0 +1,41 @@
+﻿private static HtmlBuilder GridNewRows(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    List<Column> columns,
+    FormDataSet formDataSet,
+    bool editRow,
+    long newRowId,
+    int offset)
+{
+    if (editRow && offset == 0)
+    {
+        if (newRowId != 0)
+        {
+            hb.NewOnGrid(
+                context: context,
+                ss: ss,
+                columns: columns,
+                #modelName#Model: #modelName#Model,
+                newRowId: newRowId);
+        }
+        formDataSet
+            .Where(formData => formData.Id < 0)
+            .OrderBy(formData => formData.Id)
+            .ForEach(formData =>
+            {
+                #modelName#Model = new #ModelName#Model(
+                    context: context,
+                    ss: ss,
+                    formData: formData.Data);
+                hb.NewOnGrid(
+                    context: context,
+                    ss: ss,
+                    columns: columns,
+                    #modelName#Model: #modelName#Model,
+                    newRowId: formData.Id);
+            });
+    }
+    return hb;
+}

@@ -1,0 +1,4 @@
+﻿case Types.#DisplayId#:
+    return Messages.#DisplayId#(
+        context: context,
+        data: data);

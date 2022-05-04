@@ -1,0 +1,14 @@
+﻿case "TitleBody":
+    sql.#TableName#_Body(tableName: path, _as: Joined
+        ? path + ",Body"
+        : "Body");
+    goto case "Title";
+case "Title":
+    sql
+        .#TableName#_Title(tableName: path, _as: _as)
+        .ItemTitle(
+            tableName: path,
+            _as: Joined
+                ? path + ",ItemTitle"
+                : "ItemTitle");
+    break;

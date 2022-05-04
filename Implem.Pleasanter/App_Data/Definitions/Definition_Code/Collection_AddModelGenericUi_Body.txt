@@ -1,0 +1,8 @@
+﻿Add(new #ModelName#Model(
+    context: context,
+
+    <!--Model_SiteSettingsWithParameterNameLower-->
+    
+    dataRow: dataRow,
+    formData: formDataSet?.FirstOrDefault(o =>
+        o.Id == dataRow.Long("#ModelName#Id"))?.Data));

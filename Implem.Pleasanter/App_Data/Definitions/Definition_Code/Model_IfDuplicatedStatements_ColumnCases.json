@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Model_IfDuplicatedStatements_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "NotPk": "1",
+    "Form": "1",
+    "Update": "1",
+    "Exclude": "Comments",
+    "ExcludeTypeName": "bit",
+    "ExcludeTypeCs": "Attachments"
+}

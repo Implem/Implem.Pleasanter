@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Demos_DemoId",
+    "ModelName": "Demo",
+    "TableName": "Demos",
+    "Label": "デモ",
+    "ColumnName": "DemoId",
+    "LabelText": "デモID",
+    "No": "1",
+    "History": "1",
+    "LinkColumn": "1",
+    "HistoryColumn": "1",
+    "TypeName": "int",
+    "Pk": "1",
+    "Ix1": "2",
+    "Identity": "1",
+    "Required": "1",
+    "LabelText_en": "Demo ID",
+    "LabelText_zh": "演示ID",
+    "LabelText_de": "Demo-ID",
+    "LabelText_ko": "데모 ID",
+    "LabelText_es": "ID de demostración",
+    "LabelText_vn": "ID Demo"
+}

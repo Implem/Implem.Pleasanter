@@ -1,0 +1,24 @@
+﻿public void SetChoiceHash(Context context, SiteSettings ss)
+{
+    if (!ss.SetAllChoices)
+    {
+        ss.GetUseSearchLinks(context: context).ForEach(link =>
+        {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: link.ColumnName);
+            var value = PropertyValue(
+                context: context,
+                column: column);
+            if (!value.IsNullOrEmpty() 
+                && column?.ChoiceHash?.Any(o => o.Value.Value == value) != true)
+            {
+                ss.SetChoiceHash(
+                    context: context,
+                    columnName: column.ColumnName,
+                    selectedValues: value.ToSingleList());
+            }
+        });
+    }
+    SetTitle(context: context, ss: ss);
+}

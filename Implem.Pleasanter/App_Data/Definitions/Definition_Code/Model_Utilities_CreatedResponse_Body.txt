@@ -1,0 +1,22 @@
+﻿SessionUtilities.Set(
+    context: context,
+    message: CreatedMessage(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        process: process));
+return new ResponseCollection()
+    .Response("id", #modelName#Model.#ModelName#Id.ToString())
+    .SetMemory("formChanged", false)
+    .Href(Locations.Edit(
+        context: context,
+        controller: context.Controller,
+        id: ss.Columns.Any(o => o.Linking)
+            ? context.Forms.Long("LinkId")
+            : #modelName#Model.#ModelName#Id)
+                + "?new=1"
+                + (ss.Columns.Any(o => o.Linking)
+                    && context.Forms.Long("FromTabIndex") > 0
+                        ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
+                        : string.Empty))
+    .ToJson();

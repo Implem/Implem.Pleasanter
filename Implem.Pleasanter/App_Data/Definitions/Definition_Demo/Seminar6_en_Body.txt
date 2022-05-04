@@ -1,0 +1,1 @@
+﻿This is a community of Ruby/Rails. This community sponsers seminar, workshop, meeting about Ruby/Rails.

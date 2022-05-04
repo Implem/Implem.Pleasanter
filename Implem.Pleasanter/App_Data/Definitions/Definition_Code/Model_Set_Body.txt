@@ -1,0 +1,4 @@
+﻿case "#ColumnName#":
+    #ColumnName# = #ByDataRow#(dataRow[column.ColumnName]);
+    Saved#ColumnName# = #ColumnName##RecordingData#;
+    break;

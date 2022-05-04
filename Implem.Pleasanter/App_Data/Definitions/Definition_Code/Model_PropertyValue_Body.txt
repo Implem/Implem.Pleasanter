@@ -1,0 +1,56 @@
+﻿public string PropertyValue(Context context, Column column)
+{
+    switch (column?.ColumnName)
+    {
+
+<!--Model_PropertyValue_ColumnCases-->
+
+        default: return GetValue(
+            context: context,
+            column: column);
+    }
+}
+
+public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
+{
+    var hash = new Dictionary<string, string>();
+    columns?
+        .Where(column => column != null)
+        .ForEach(column =>
+        {
+            switch (column.ColumnName)
+            {
+
+<!--Model_PropertyValues_ColumnCases-->
+
+                default:
+                    hash.Add(column.ColumnName, GetValue(
+                        context: context,
+                        column: column));
+                    break;
+            }
+        });
+    return hash;
+}
+
+public bool PropertyUpdated(Context context, string name)
+{
+    switch (name)
+    {
+
+<!--Model_PropertyUpdated_ColumnCases-->
+
+        default: 
+            switch (Def.ExtendedColumnTypes.Get(name ?? string.Empty))
+            {
+                case "Class": return Class_Updated(name);
+                case "Num": return Num_Updated(name);
+                case "Date": return Date_Updated(name);
+                case "Description": return Description_Updated(name);
+                case "Check": return Check_Updated(name);
+                case "Attachments": return Attachments_Updated(name);
+            }
+            break;
+    }
+    return false;
+}

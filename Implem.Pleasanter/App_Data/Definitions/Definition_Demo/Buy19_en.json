@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy19_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "Copy paper(A3)",
+    "ClassA": "#Expendable14_en#",
+    "ClassB": "Smile Market",
+    "NumA": "21",
+    "NumB": "2852",
+    "DateA": "42816.705555555556",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

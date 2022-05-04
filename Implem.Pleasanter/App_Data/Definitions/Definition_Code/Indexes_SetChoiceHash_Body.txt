@@ -1,0 +1,16 @@
+﻿ss.Links
+    ?.Where(o => o.SiteId > 0)
+    .Select(o => ss.GetColumn(
+        context: context,
+        columnName: o.ColumnName))
+    .Where(column => column?.UseSearch == true)
+    .ForEach(column =>
+        ss.SetChoiceHash(
+            context: context,
+            columnName: column.ColumnName,
+            selectedValues: new List<string>
+            {
+                #modelName#Model.PropertyValue(
+                    context: context,
+                    column: column)
+            }));

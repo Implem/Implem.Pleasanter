@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_AssemblyVersion",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "AssemblyVersion",
+    "LabelText": "アセンブリバージョン",
+    "No": "138",
+    "History": "138",
+    "EditorColumn": "138",
+    "EditorEnabled": "1",
+    "LinkColumn": "138",
+    "HistoryColumn": "138",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "LabelText_en": "Assembly version",
+    "LabelText_zh": "组件版本",
+    "LabelText_de": "Assembly-Version",
+    "LabelText_ko": "어셈블리 버전",
+    "LabelText_es": "Versión del conjunto",
+    "LabelText_vn": "Phiên bản lắp ráp"
+}

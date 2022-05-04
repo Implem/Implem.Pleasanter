@@ -1,0 +1,7 @@
+﻿if (SavedLocked)
+{
+    ss.SetLockedRecord(
+        context: context,
+        time: UpdatedTime,
+        user: Updator);
+}

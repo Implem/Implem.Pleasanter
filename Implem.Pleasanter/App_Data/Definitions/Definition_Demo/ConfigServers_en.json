@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigServers_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Server configuration",
+    "WorkValue": "8",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Configuration",
+    "ClassB": "Work[Routine]",
+    "ClassC": "Server",
+    "Manager": "User4_en",
+    "Owner": "User4_en",
+    "Creator": "User4_en",
+    "Updator": "User4_en",
+    "StartTime": "36654",
+    "CompletionTime": "36656",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

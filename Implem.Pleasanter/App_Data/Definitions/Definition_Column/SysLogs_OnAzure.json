@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_OnAzure",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "OnAzure",
+    "LabelText": "Azureフラグ",
+    "No": "104",
+    "History": "104",
+    "EditorColumn": "104",
+    "EditorEnabled": "1",
+    "LinkColumn": "104",
+    "HistoryColumn": "104",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Azure flag",
+    "LabelText_zh": "Azure标记",
+    "LabelText_de": "Azure-Flag",
+    "LabelText_ko": "Azure 플래그",
+    "LabelText_es": "Indicador Azure",
+    "LabelText_vn": "Cờ Azure"
+}

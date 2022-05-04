@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Participant22",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site26",
+    "ClassA": "#Seminar6#",
+    "ClassB": "スズキ　ハジメ",
+    "ClassC": "鈴木　匡",
+    "ClassD": "000-1234-1234",
+    "ClassE": "test@example.com",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

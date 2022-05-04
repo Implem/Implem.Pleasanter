@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Sessions_Page",
+    "ModelName": "Session",
+    "TableName": "Sessions",
+    "Label": "セッション",
+    "ColumnName": "Page",
+    "LabelText": "ページ",
+    "No": "3",
+    "History": "3",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Pk": "3",
+    "LabelText_en": "Page",
+    "LabelText_zh": "页面",
+    "LabelText_de": "Seite",
+    "LabelText_ko": "페이지",
+    "LabelText_es": "Página",
+    "LabelText_vn": "Trang"
+}

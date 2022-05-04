@@ -1,0 +1,29 @@
+﻿private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+{
+    var statements = new List<SqlStatement>();
+    ColumnNames()
+        .Where(columnName => columnName.StartsWith("Attachments"))
+        .Where(columnName => Attachments_Updated(columnName: columnName))
+        .ForEach(columnName =>
+            GetAttachments(columnName: columnName).Statements(
+                context: context,
+                statements: statements,
+                referenceId: #ModelName#Id,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: columnName)));
+    return statements;
+}
+
+private void WriteAttachments(Context context, SiteSettings ss)
+{
+    ColumnNames()
+        .Where(columnName => columnName.StartsWith("Attachments"))
+        .Where(columnName => Attachments_Updated(columnName: columnName))
+        .ForEach(columnName =>
+            GetAttachments(columnName: columnName).Write(
+                context: context,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: columnName)));
+}

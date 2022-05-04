@@ -148,12 +148,12 @@ namespace Implem.Pleasanter.Libraries.Models
             foreach (var dataRow in DataRows)
             {
                 var rowData = new Dictionary<string, object>();
-                var tenants = new Dictionary<string, TenantModel>();
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
-                var users = new Dictionary<string, UserModel>();
                 var sites = new Dictionary<string, SiteModel>();
+                var tenants = new Dictionary<string, TenantModel>();
+                var users = new Dictionary<string, UserModel>();
                 var issues = new Dictionary<string, IssueModel>();
                 var results = new Dictionary<string, ResultModel>();
                 var wikis = new Dictionary<string, WikiModel>();
@@ -402,12 +402,12 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 var dataId = dataRow.Long(idColumn).ToString();
                 var data = new List<string>();
-                var tenants = new Dictionary<string, TenantModel>();
                 var depts = new Dictionary<string, DeptModel>();
                 var groups = new Dictionary<string, GroupModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
-                var users = new Dictionary<string, UserModel>();
                 var sites = new Dictionary<string, SiteModel>();
+                var tenants = new Dictionary<string, TenantModel>();
+                var users = new Dictionary<string, UserModel>();
                 var issues = new Dictionary<string, IssueModel>();
                 var results = new Dictionary<string, ResultModel>();
                 var wikis = new Dictionary<string, WikiModel>();

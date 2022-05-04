@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_Utilities_SetItemTitle",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "ItemOnly": "1",
+    "Exclude": "Sites"
+}

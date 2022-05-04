@@ -1,0 +1,5 @@
+﻿{
+    "Id": "SiteSettings",
+    "OutputPath": "Libraries\\Settings\\SiteSettingsUtilities.cs",
+    "Source": "Mvc"
+}

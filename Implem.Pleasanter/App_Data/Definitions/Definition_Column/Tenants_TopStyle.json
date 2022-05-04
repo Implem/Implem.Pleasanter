@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Tenants_TopStyle",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "TopStyle",
+    "LabelText": "トップのスタイル",
+    "No": "112",
+    "History": "112",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "FieldCss": "field-textarea",
+    "LabelText_en": "Top style",
+    "LabelText_zh": "顶级风格",
+    "LabelText_de": "Top Stil",
+    "LabelText_ko": "최고 스타일",
+    "LabelText_es": "Estilo máximo",
+    "LabelText_vn": "Phong cách hàng đầu"
+}

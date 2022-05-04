@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar5",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site25",
+    "Title": "運用SEの集い 第6回",
+    "Status": "100",
+    "ClassA": "東京都墨田区",
+    "NumA": "5",
+    "NumB": "3",
+    "NumC": "0",
+    "DateA": "42819.541666666664",
+    "DateB": "42819.729166666664",
+    "DateC": "42811.729166666664",
+    "DateD": "42818.729166666664",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

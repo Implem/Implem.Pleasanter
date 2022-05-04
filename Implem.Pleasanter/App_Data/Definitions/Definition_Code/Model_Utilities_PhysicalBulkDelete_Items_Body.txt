@@ -1,0 +1,137 @@
+﻿public static string PhysicalBulkDelete(Context context, SiteSettings ss)
+{
+    if (!Parameters.Deleted.PhysicalDelete)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    if (context.CanManageSite(ss: ss))
+    {
+        var selector = new RecordSelector(context: context);
+        var count = 0;
+        if (selector.All)
+        {
+            count = PhysicalBulkDelete(
+                context: context,
+                ss: ss,
+                selected: selector.Selected,
+                negative: true);
+        }
+        else
+        {
+            if (selector.Selected.Any())
+            {
+                count = PhysicalBulkDelete(
+                    context: context,
+                    ss: ss,
+                    selected: selector.Selected);
+            }
+            else
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+        }
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.PhysicalBulkDeletedFromRecycleBin(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+private static int PhysicalBulkDelete(
+    Context context,
+    SiteSettings ss,
+    List<long> selected = null,
+    SqlWhereCollection where = null,
+    SqlParamCollection param = null,
+    bool negative = false,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
+{
+    var tableName = string.Empty;
+    switch (tableType)
+    {
+        case Sqls.TableTypes.History:
+            tableName = "_History";
+            break;
+        case Sqls.TableTypes.Deleted:
+            tableName = "_Deleted";
+            break;
+        default:
+            break;
+    }
+    where = where ?? Rds.#TableName#Where()
+        .SiteId(
+            value: ss.SiteId,
+            tableName: "#TableName#" + tableName)
+        .#ModelName#Id_In(
+            value: selected,
+            tableName: "#TableName#" + tableName,
+            negative: negative,
+            _using: selected.Any())
+        .#ModelName#Id_In(
+            tableName: "#TableName#" + tableName,
+            sub: Rds.Select#TableName#(
+                tableType: tableType,
+                column: Rds.#TableName#Column().#ModelName#Id(),
+                where: Views.GetBySession(
+                    context: context,
+                    ss: ss)
+                        .Where(
+                            context: context,
+                            ss: ss,
+                            itemJoin: false)));
+    var sub = Rds.Select#TableName#(
+        tableType: tableType,
+        _as: "#TableName#" + tableName,
+        column: Rds.#TableName#Column()
+            .#ModelName#Id(tableName: "#TableName#" + tableName),
+        where: where,
+        param: param);
+    var attachments = Rds.ExecuteTable(
+        context: context,
+        statements: Rds.SelectBinaries(
+            tableType: tableType,
+            column: Rds.BinariesColumn().Guid(),
+            where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                .AsEnumerable()
+                .Select(o => new Attachment() { Guid = o.String("Guid") })
+                .ToList();
+    var guid = Strings.NewGuid();
+    var count = Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        statements: new SqlStatement[]
+        {
+            Rds.UpdateItems(
+                tableType: tableType,
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceId_In(sub: sub),
+                param: Rds.ItemsParam()
+                    .ReferenceType(guid)),
+            Rds.PhysicalDeleteBinaries(
+                tableType: tableType,
+                where: Rds.BinariesWhere().ReferenceId_In(sub: sub)),
+            Rds.PhysicalDelete#TableName#(
+                tableType: tableType,
+                where: where),
+            Rds.RowCount(),
+            Rds.PhysicalDeleteItems(
+                tableType: tableType,
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceType(guid)),
+        }).Count.ToInt();
+    if (tableType == Sqls.TableTypes.Deleted)
+    {
+        attachments.ForEach(attachment =>
+            attachment.DeleteFromLocal(context: context));
+    }
+    return count;
+}

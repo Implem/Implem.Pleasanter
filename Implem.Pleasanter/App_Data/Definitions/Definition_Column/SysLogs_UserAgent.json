@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_UserAgent",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "UserAgent",
+    "LabelText": "ユーザエージェント",
+    "No": "130",
+    "History": "130",
+    "EditorColumn": "130",
+    "EditorEnabled": "1",
+    "LinkColumn": "130",
+    "HistoryColumn": "130",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "User agent",
+    "LabelText_zh": "用户代理",
+    "LabelText_de": "Benutzer-Agent",
+    "LabelText_ko": "사용자 에이전트",
+    "LabelText_es": "Agente del usuario",
+    "LabelText_vn": "Trình duyệt người dùng"
+}

@@ -1,0 +1,48 @@
+﻿case "#TableName#":
+    var #modelName#Model = #tableName#.Get(key);
+    if (#modelName#Model == null)
+    {
+        #modelName#Model = new #ModelName#Model(
+            context: context,
+            ss: column.SiteSettings,
+            dataRow: dataRow,
+            tableAlias: column.TableAlias);
+        #tableName#.Add(key, #modelName#Model);
+        ss.ClearColumnAccessControlCaches(baseModel: #modelName#Model);
+    }
+    if (column.ColumnName.Contains("~")
+        && !Permissions.CanRead(
+            context: context,
+            siteId: #modelName#Model.SiteId,
+            id: #modelName#Model.#ModelName#Id))
+    {
+        continue;
+    }
+    else
+    {
+        switch (valueDisplayType)
+        {
+            case ApiColumn.ValueDisplayTypes.Value:
+                rowData.AddIfNotConainsKey(columnKey, #modelName#Model.ToApiValue(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: #modelName#Model.Mine(context: context)));
+                break;
+            case ApiColumn.ValueDisplayTypes.Text:
+                rowData.AddIfNotConainsKey(columnKey, #modelName#Model.ToDisplay(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: #modelName#Model.Mine(context: context)));
+                break;
+            default:
+                rowData.AddIfNotConainsKey(columnKey, #modelName#Model.ToApiDisplayValue(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    mine: #modelName#Model.Mine(context: context)));
+                break;
+        }
+    }
+    break;

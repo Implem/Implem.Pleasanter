@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Links_SourceId",
+    "ModelName": "Link",
+    "TableName": "Links",
+    "Label": "リンク",
+    "ColumnName": "SourceId",
+    "LabelText": "リンク元ID",
+    "No": "2",
+    "History": "2",
+    "LinkColumn": "2",
+    "HistoryColumn": "2",
+    "TypeName": "bigint",
+    "Pk": "2",
+    "Ix1": "1",
+    "Required": "1",
+    "LabelText_en": "Link source ID",
+    "LabelText_zh": "链接源ID",
+    "LabelText_de": "Verknüpfungsquellen-ID",
+    "LabelText_ko": "링크 소스 ID",
+    "LabelText_es": "ID de origen de enlace",
+    "LabelText_vn": "ID Liên kết nguồn"
+}

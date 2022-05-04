@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Model_SetByForm_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "NotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Form": "1",
+    "Exclude": "SiteSettings,ImageSettings,ExportColumns,Comments",
+    "ExcludeTypeName": "image"
+}

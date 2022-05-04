@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Hiroshi Watanabe",
+    "ClassB": "Hiroshi Watanabe",
+    "ClassC": "949-0112",
+    "ClassD": "Itoigawa-city",
+    "ClassE": "123-432-239",
+    "ClassF": "watanabe@example.com",
+    "ClassG": "Niigata",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

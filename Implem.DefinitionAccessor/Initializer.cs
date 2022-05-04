@@ -615,7 +615,6 @@ namespace Implem.DefinitionAccessor
             Displays.DisplayHash = DisplayHash();
             Def.SetCodeDefinition();
             Def.SetColumnDefinition();
-            Def.SetCssDefinition();
             Def.SetTemplateDefinition();
             Def.SetViewModeDefinition();
             Def.SetDemoDefinition();
@@ -624,13 +623,11 @@ namespace Implem.DefinitionAccessor
             SetColumnDefinitionAccessControl();
         }
 
-        public static XlsIo DefinitionFile(string fileName)
+        public static XlsIo DefinitionFile(string name)
         {
-            var tempFile = new FileInfo(Files.CopyToTemp(
-                Directories.Definitions(fileName), Directories.Temp()));
-            var xlsIo = new XlsIo(tempFile.FullName);
-            tempFile.Delete();
-            if (fileName == "definition_Column.xlsm")
+            var path = Path.Combine(Directories.Definitions(), $"Definition_{name}");
+            var xlsIo = new XlsIo(path);
+            if (name == "Column")
             {
                 SetColumnDefinitionAdditional(xlsIo);
             }
@@ -670,7 +667,7 @@ namespace Implem.DefinitionAccessor
 
         private static void SetColumnDefinitionAdditional(XlsIo definitionFile)
         {
-            var tableCopy = definitionFile.XlsSheet.ToList<XlsRow>();
+            var tableCopy = definitionFile.XlsSheet.ToList();
             var sheet = definitionFile.XlsSheet;
             definitionFile.XlsSheet.Select(o => new
             {

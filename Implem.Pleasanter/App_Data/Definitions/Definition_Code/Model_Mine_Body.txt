@@ -1,0 +1,13 @@
+﻿public override List<string> Mine(Context context)
+{
+    if (MineCache == null)
+    {
+        var mine = new List<string>();
+        var userId = context.UserId;
+
+<!--Model_MineColumnCases-->
+
+        MineCache = mine;
+    }
+    return MineCache;
+}

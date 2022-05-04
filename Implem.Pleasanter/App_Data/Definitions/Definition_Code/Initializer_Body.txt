@@ -1,0 +1,8 @@
+﻿public static void SetDefinition()
+{
+
+<!--Def_SetDefinitions-->
+
+    SetDbDefinitionAdditional();
+    SetDisplayDefinitionAdditional();
+}

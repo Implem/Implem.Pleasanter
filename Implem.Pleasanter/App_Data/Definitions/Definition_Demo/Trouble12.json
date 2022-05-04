@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble12",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site21",
+    "ClassA": "#Facility6#",
+    "ClassB": "1階：エリア2",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "紙と一緒にゼムクリップをシュレッダーにかけたため。",
+    "DescriptionB": "ゼムクリップを取り除いたところ解決しました。",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

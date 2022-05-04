@@ -1,0 +1,1 @@
+﻿The network constructure is fixed? IP address, subnet mask, etc.

@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Tenants_TenantName",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "TenantName",
+    "LabelText": "テナント識別名",
+    "No": "101",
+    "History": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "1024",
+    "Ix1": "1",
+    "Like": "1",
+    "Required": "1",
+    "ValidateRequired": "1",
+    "SettingEnable": "1",
+    "LabelText_en": "Tenant ID name",
+    "LabelText_zh": "租户ID名称",
+    "LabelText_de": "Bezeichnung der Mandanten-ID",
+    "LabelText_ko": "테넌트 ID 이름",
+    "LabelText_es": "Nombre de ID de arrendatario",
+    "LabelText_vn": "Tên định dạng người thuê"
+}

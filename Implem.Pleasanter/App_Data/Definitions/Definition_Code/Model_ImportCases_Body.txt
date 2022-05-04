@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.Import(
+        context: context,
+        siteModel: Site);

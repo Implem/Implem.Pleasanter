@@ -1,0 +1,6 @@
+﻿Walk
+Bicycle
+Train
+Bus
+Taxi
+Airplane

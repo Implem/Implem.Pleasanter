@@ -1,0 +1,8 @@
+﻿{
+    "Id": "SiteSettings_GetByReferenceCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "NotItem": "1",
+    "Exclude": "Permissions,Items"
+}

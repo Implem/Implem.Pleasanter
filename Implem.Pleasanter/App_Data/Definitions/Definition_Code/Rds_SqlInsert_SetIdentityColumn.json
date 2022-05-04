@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_SqlInsert_SetIdentityColumn",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Identity": "1"
+}

@@ -1,0 +1,802 @@
+﻿public static string EditorNew(Context context, SiteSettings ss)
+{
+
+<!--Model_Utilities_LimitTemplate_Items-->
+
+    #ModelName#Model #modelName#Model = null;
+    var copyFrom = context.QueryStrings.Long("CopyFrom");
+    if (ss.AllowReferenceCopy == true && copyFrom > 0)
+    {
+        #modelName#Model = new #ModelName#Model(
+            context: context,
+            ss: ss,
+            #modelName#Id: copyFrom,
+            methodType: BaseModel.MethodTypes.New);
+        if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected
+            && Permissions.CanRead(
+                context: context,
+                siteId: ss.SiteId,
+                id: #modelName#Model.#ModelName#Id))
+        {
+            #modelName#Model.SetCopyDefault(
+                context: context,
+                ss: ss);
+            #modelName#Model.#ModelName#Id = 0;
+            #modelName#Model.Ver = 1;
+            #modelName#Model.Comments = new Comments();
+            #modelName#Model.AccessStatus = Databases.AccessStatuses.Initialized;
+        }
+        else
+        {
+            return HtmlTemplates.Error(
+               context: context,
+               errorData: new ErrorData(type: Error.Types.NotFound));
+        }
+    }
+    return Editor(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model ?? new #ModelName#Model(
+            context: context,
+            ss: ss,
+            methodType: BaseModel.MethodTypes.New,
+            formData: context.Forms));
+}
+
+public static string Editor(
+    Context context, SiteSettings ss, #IdType# #modelName#Id, bool clearSessions)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        clearSessions: clearSessions,
+        methodType: BaseModel.MethodTypes.Edit);
+
+<!--Model_Utilities_SetSwitchTargets-->
+
+    return Editor(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+}
+
+public static string Editor(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool editInDialog = false)
+{
+    var invalid = #ModelName#Validators.OnEditing(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return HtmlTemplates.Error(
+            context: context,
+            errorData: invalid);
+    }
+    var hb = new HtmlBuilder();
+    var serverScriptModelRow = ss.GetServerScriptModelRow(
+        context: context,
+        itemModel: #modelName#Model);
+    return editInDialog
+        ? hb.DialogEditorForm(
+            context: context,
+            ss: ss,
+            siteId: #modelName#Model.SiteId,
+            referenceId: #modelName#Model.#ModelName#Id,
+            isHistory: #modelName#Model.VerType == Versions.VerTypes.History,
+            action: () => hb.EditorInDialog(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                editInDialog: editInDialog))
+                    .ToString()
+        : hb.Template(
+            context: context,
+            ss: ss,
+            view: null,
+            verType: #modelName#Model.VerType,
+            methodType: #modelName#Model.MethodType,
+            siteId: #modelName#Model.SiteId,
+            parentId: ss.ParentId,
+            referenceType: "#TableName#",
+            title: #modelName#Model.MethodType == BaseModel.MethodTypes.New
+                ? Displays.New(context: context)
+                : #modelName#Model.Title.MessageDisplay(context: context),
+            body: #modelName#Model.Body,
+            useTitle: ss.TitleColumns?.Any(o => ss
+                .GetEditorColumnNames()
+                .Contains(o)) == true,
+            userScript: ss.EditorScripts(
+                context: context, methodType: #modelName#Model.MethodType),
+            userStyle: ss.EditorStyles(
+                context: context, methodType: #modelName#Model.MethodType),
+            serverScriptModelRow: serverScriptModelRow,
+            action: () => hb
+                .Editor(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    serverScriptModelRow: serverScriptModelRow)
+                .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
+                    .ToString();
+}
+
+private static HtmlBuilder EditorInDialog(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool editInDialog)
+{
+    if (ss.Tabs?.Any() != true)
+    {
+        hb.FieldSetGeneral(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            editInDialog: editInDialog);
+    }
+    else
+    {
+        hb.Div(
+            id: "EditorTabsContainer",
+            css: "max",
+            attributes: new HtmlAttributes().TabActive(context: context),
+            action: () => hb
+                .EditorTabs(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    editInDialog: editInDialog)
+                .FieldSetGeneral(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    editInDialog: editInDialog)
+                .FieldSetTabs(
+                    context: context,
+                    ss: ss,
+                    id: #modelName#Model.#ModelName#Id,
+                    #modelName#Model: #modelName#Model,
+                    editInDialog: editInDialog));
+    }
+    return hb.Hidden(
+        controlId: "EditorInDialogRecordId",
+        value: context.Id.ToString());
+}
+
+private static HtmlBuilder Editor(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    ServerScriptModelRow serverScriptModelRow)
+{
+    var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
+    var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
+        context: context,
+        ss: ss,
+        column: commentsColumn,
+        baseModel: #modelName#Model);
+    var showComments = ss.ShowComments(commentsColumnPermissionType);
+    var tabsCss = showComments ? null : "max";
+    var linksDataSet = HtmlLinks.DataSet(
+        context: context,
+        ss: ss,
+        id: #modelName#Model.#ModelName#Id);
+    var links = HtmlLinkCreations.Links(
+        context: context,
+        ss: ss);
+    return hb.Div(id: "Editor", action: () => hb
+        .Form(
+            attributes: new HtmlAttributes()
+                .Id("MainForm")
+                .Class("main-form confirm-unload")
+                .Action(Locations.ItemAction(
+                    context: context,
+                    id: #modelName#Model.#ModelName#Id != 0 
+                        ? #modelName#Model.#ModelName#Id
+                        : #modelName#Model.SiteId)),
+            action: () => hb
+                .RecordHeader(
+                    context: context,
+                    ss: ss,
+                    baseModel: #modelName#Model,
+                    tableName: "#TableName#")
+                .Div(
+                    id: "EditorComments", action: () => hb
+                        .Comments(
+                            context: context,
+                            ss: ss,
+                            comments: #modelName#Model.Comments,
+                            column: commentsColumn,
+                            verType: #modelName#Model.VerType,
+                            columnPermissionType: commentsColumnPermissionType),
+                    _using: showComments)
+                .Div(
+                    id: "EditorTabsContainer",
+                    css: tabsCss,
+                    attributes: new HtmlAttributes().TabActive(context: context),
+                    action: () => hb
+                        .EditorTabs(
+                            context: context,
+                            ss: ss,
+                            #modelName#Model: #modelName#Model)
+                        .FieldSetGeneral(
+                            context: context,
+                            ss: ss,
+                            #modelName#Model: #modelName#Model,
+                            dataSet: linksDataSet,
+                            links: links)
+                        .FieldSetTabs(
+                            context: context,
+                            ss: ss,
+                            id: #modelName#Model.#ModelName#Id,
+                            #modelName#Model: #modelName#Model,
+                            dataSet: linksDataSet,
+                            links: links)
+                        .FieldSet(
+                            attributes: new HtmlAttributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("post"),
+                            _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                                && !context.Publish)
+                        .FieldSet(
+                            attributes: new HtmlAttributes()
+                                .Id("FieldSetRecordAccessControl")
+                                .DataAction("Permissions")
+                                .DataMethod("post"),
+                            _using: context.CanManagePermission(ss: ss)
+                                && !ss.Locked()
+                                && #modelName#Model.MethodType != BaseModel.MethodTypes.New)
+                        .EditorMainCommands(
+                            context: context,
+                            ss: ss,
+                            #modelName#Model: #modelName#Model,
+                            serverScriptModelRow: serverScriptModelRow))
+                .Hidden(
+                    controlId: "BaseUrl",
+                    value: Locations.BaseUrl(context: context))
+                .Hidden(
+                    controlId: "Ver",
+                    value: #modelName#Model.Ver.ToString())
+                .Hidden(
+                    controlId: "LockedTable",
+                    value: ss.LockedTable()
+                        ? "1"
+                        : "0")
+                .Hidden(
+                    controlId: "LockedRecord",
+                    value: ss.LockedRecord()
+                        ? "1"
+                        : "0")
+                .Hidden(
+                    controlId: "FromSiteId",
+                    css: "control-hidden always-send",
+                    value: context.QueryStrings.Data("FromSiteId"),
+                    _using: context.QueryStrings.Long("FromSiteId") > 0)
+                .Hidden(
+                    controlId: "CopyFrom",
+                    css: "control-hidden always-send",
+                    value: context.QueryStrings.Long("CopyFrom").ToString(),
+                    _using: context.QueryStrings.Long("CopyFrom") > 0)
+                .Hidden(
+                    controlId: "LinkId",
+                    css: "control-hidden always-send",
+                    value: context.QueryStrings.Data("LinkId"),
+                    _using: context.QueryStrings.Long("LinkId") > 0)
+                .Hidden(
+                    controlId: "FromTabIndex",
+                    css: "control-hidden always-send",
+                    value: context.QueryStrings.Data("FromTabIndex"),
+                    _using: context.QueryStrings.Long("FromTabIndex") > 0)
+                .Hidden(
+                    controlId: "MethodType",
+                    value: #modelName#Model.MethodType.ToString().ToLower())
+                .Hidden(
+                    controlId: "#TableName#_Timestamp",
+                    css: "always-send",
+                    value: #modelName#Model.Timestamp)
+                .Hidden(
+                    controlId: "IsNew",
+                    css: "always-send",
+                    value: (context.Action == "new") ? "1" : "0")
+                .Hidden(
+                    controlId: "SwitchTargets",
+                    css: "always-send",
+                    value: #modelName#Model.SwitchTargets?.Join(),
+                    _using: !context.Ajax)
+                .Hidden(
+                    controlId: "TriggerRelatingColumns_Editor", 
+                    value: Jsons.ToJson(ss.RelatingColumns)))
+        .OutgoingMailsForm(
+            context: context,
+            ss: ss,
+            referenceType: "#TableName#",
+            referenceId: #modelName#Model.#ModelName#Id,
+            referenceVer: #modelName#Model.Ver)
+        .DropDownSearchDialog(
+            context: context,
+            id: ss.SiteId)
+        .CopyDialog(
+            context: context,
+            ss: ss)
+        .MoveDialog(context: context)
+        .OutgoingMailDialog()
+        .PermissionsDialog(context: context)
+        .EditorExtensions(
+            context: context,
+            #modelName#Model: #modelName#Model,
+            ss: ss));
+}
+
+private static HtmlBuilder EditorTabs(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool editInDialog = false)
+{
+    return hb.Ul(id: "EditorTabs", action: () => hb
+        .Li(action: () => hb
+            .A(
+                href: "#FieldSetGeneral",
+                text: ss.GeneralTabLabelText))
+        .Tabs(
+            context: context,
+            ss: ss)
+        .Li(
+            _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                && !context.Publish
+                && !editInDialog,
+            action: () => hb
+                .A(
+                    href: "#FieldSetHistories",
+                    text: Displays.ChangeHistoryList(context: context)))
+        .Li(
+            _using: context.CanManagePermission(ss: ss)
+                && !ss.Locked()
+                && #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                && !editInDialog
+                && ss.ReferenceType != "Wikis",
+            action: () => hb
+                .A(
+                    href: "#FieldSetRecordAccessControl",
+                    text: Displays.RecordAccessControl(context: context))));
+}
+
+<!--Model_Utilities_PreviewTemplate-->
+
+private static HtmlBuilder FieldSetGeneral(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    DataSet dataSet = null,
+    List<Link> links = null,
+    bool editInDialog = false)
+{
+    var mine = #modelName#Model.Mine(context: context);
+    return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+        .FieldSetGeneralColumns(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            dataSet: dataSet,
+            links: links,
+            editInDialog: editInDialog));
+}
+
+public static HtmlBuilder FieldSetGeneralColumns(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    DataSet dataSet = null,
+    List<Link> links = null,
+    bool preview = false,
+    bool editInDialog = false)
+{
+    hb.Fields(
+        context: context,
+        ss: ss,
+        id: #modelName#Model.#ModelName#Id,
+        #modelName#Model: #modelName#Model,
+        dataSet: dataSet,
+        links: links,
+        preview: preview,
+        editInDialog: editInDialog);
+    if (!preview)
+    {
+        hb.VerUpCheckBox(
+            context: context,
+            ss: ss,
+            baseModel: #modelName#Model);
+
+<!--Model_Utilities_Links-->
+
+    }
+    return hb;
+}
+
+public static HtmlBuilder Field(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    Column column,
+    bool controlOnly = false,
+    bool alwaysSend = false,
+    bool disableAutoPostBack = false,
+    string idSuffix = null,
+    bool preview = false,
+    bool disableSection = false)
+{
+    var value = #modelName#Model.ControlValue(
+        context: context,
+        ss: ss,
+        column: column);
+    if (value != null)
+    {
+        hb.Field(
+            context: context,
+            ss: ss,
+            column: column,
+            serverScriptModelColumn: #modelName#Model
+                ?.ServerScriptModelRow
+                ?.Columns.Get(column.ColumnName),
+            methodType: #modelName#Model.MethodType,
+            value: value,
+            columnPermissionType: Permissions.ColumnPermissionType(
+                context: context,
+                ss: ss,
+                column: column,
+                baseModel: #modelName#Model),
+            controlOnly: controlOnly,
+            alwaysSend: alwaysSend,
+            disableAutoPostBack: disableAutoPostBack,
+            idSuffix: idSuffix,
+            preview: preview,
+            disableSection: disableSection);
+    }
+    return hb;
+}
+
+private static HtmlBuilder Tabs(this HtmlBuilder hb, Context context, SiteSettings ss)
+{
+    ss.Tabs?.ForEach(tab => hb.Li(action: () => hb.A(
+        href: $"#FieldSetTab{tab.Id}",
+        action: () => hb.Label(action: () => hb.Text(tab.LabelText)))));
+    return hb;
+}
+
+private static HtmlBuilder FieldSetTabs(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    long id,
+    #ModelName#Model #modelName#Model,
+    DataSet dataSet = null,
+    List<Link> links = null,
+    bool preview = false,
+    bool editInDialog = false)
+{
+    dataSet = dataSet ?? HtmlLinks.DataSet(
+        context: context,
+        ss: ss,
+        id: id);
+    links = links ?? HtmlLinkCreations.Links(
+        context: context,
+        ss: ss);
+    ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
+    {
+        hb.FieldSet(
+            id: $"FieldSetTab{data.tab.Id}",
+            css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
+            action: () => hb.Fields(
+                context: context,
+                ss: ss,
+                id: id,
+                tab: data.tab,
+                dataSet: dataSet,
+                links: links,
+                preview: preview,
+                editInDialog: editInDialog,
+                #modelName#Model: #modelName#Model,
+                tabIndex: data.index));
+    });
+    return hb;
+}
+
+private static HtmlBuilder Fields(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    long id,
+    #ModelName#Model #modelName#Model,
+    DataSet dataSet = null,
+    List<Link> links = null,
+    bool preview = false,
+    bool editInDialog = false)
+{
+    return hb.Fields(
+        context: context,
+        ss: ss,
+        id: id,
+        tab: new Tab { Id = 0 },
+        dataSet: !preview
+            ? dataSet ?? HtmlLinks.DataSet(
+                context: context,
+                ss: ss,
+                id: id)
+            : null,
+        links: links ?? HtmlLinkCreations.Links(
+            context: context,
+            ss: ss),
+        #modelName#Model: #modelName#Model,
+        preview: preview,
+        editInDialog: editInDialog);
+}
+
+private static HtmlBuilder Fields(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    long id,
+    Tab tab,
+    DataSet dataSet,
+    List<Link> links,
+    #ModelName#Model #modelName#Model,
+    bool preview = false,
+    bool editInDialog = false,
+    int tabIndex = 0)
+{
+    ss
+        .GetEditorColumns(
+            context: context,
+            tab: tab,
+            columnOnly: false)
+        ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
+        {
+            var sectionId = ss.SectionId(column.ColumnName);
+            var section = ss
+                .Sections
+                ?.FirstOrDefault(o => o.Id == sectionId);
+            if (section != null)
+            {
+                columns.Add(new KeyValuePair<Section, List<string>>(
+                    new Section
+                    {
+                        Id = section.Id,
+                        LabelText = section.LabelText,
+                        AllowExpand = section.AllowExpand,
+                        Expand = section.Expand,
+                        Hide = section.Hide
+                    },
+                    new List<string>()));
+            }
+            else
+            {
+                if (!columns.Any())
+                {
+                    columns.Add(new KeyValuePair<Section, List<string>>(
+                        null,
+                        new List<string>()));
+                }
+                columns.Last().Value.Add(column.ColumnName);
+            }
+            return columns;
+        }).ForEach(section =>
+        {
+            if (section.Key == null)
+            {
+                hb.Fields(
+                    context: context,
+                    ss: ss,
+                    id: id,
+                    columnNames: section.Value,
+                    dataSet: dataSet,
+                    links: links,
+                    #modelName#Model: #modelName#Model,
+                    preview: preview,
+                    editInDialog: editInDialog,
+                    tabIndex: tabIndex);
+            }
+            else if (section.Key.Hide != true)
+            {
+                hb
+                    .Div(
+                        id: $"SectionFields{section.Key.Id}Container",
+                        css: "section-fields-container",
+                        action: () => hb
+                            .Div(action: () => hb.Label(
+                                css: "field-section" + (section.Key.AllowExpand == true
+                                    ? " expand"
+                                    : string.Empty),
+                                attributes: new HtmlAttributes()
+                                    .For($"SectionFields{section.Key.Id}"),
+                                action: () => hb
+                                    .Span(css: section.Key.AllowExpand == true
+                                        ? section.Key.Expand == true
+                                            ? "ui-icon ui-icon-triangle-1-s"
+                                            : "ui-icon ui-icon-triangle-1-e"
+                                        : string.Empty)
+                                    .Text(text: section.Key.LabelText)))
+                            .Div(
+                                id: $"SectionFields{section.Key.Id}",
+                                css: section.Key.AllowExpand == true && section.Key.Expand != true
+                                    ? "section-fields hidden"
+                                    : "section-fields",
+                                action: () => hb.Fields(
+                                    context: context,
+                                    ss: ss,
+                                    id: id,
+                                    columnNames: section.Value,
+                                    dataSet: dataSet,
+                                    links: links,
+                                    #modelName#Model: #modelName#Model,
+                                    preview: preview,
+                                    editInDialog: editInDialog,
+                                    tabIndex: tabIndex)));
+            }
+        });
+    return hb;
+}
+
+private static HtmlBuilder Fields(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    long id,
+    List<string> columnNames,
+    DataSet dataSet,
+    List<Link> links,
+    #ModelName#Model #modelName#Model,
+    bool preview = false,
+    bool editInDialog = false,
+    int tabIndex = 0)
+{
+    columnNames.ForEach(columnName => hb.Field(
+        context: context,
+        ss: ss,
+        id: id,
+        columnName: columnName,
+        dataSet: dataSet,
+        links: links,
+        #modelName#Model: #modelName#Model,
+        preview: preview,
+        editInDialog: editInDialog,
+        tabIndex: tabIndex));
+    return hb;
+}
+
+private static HtmlBuilder Field(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    long id,
+    string columnName,
+    DataSet dataSet,
+    List<Link> links,
+    #ModelName#Model #modelName#Model,
+    bool preview = false,
+    bool editInDialog = false,
+    int tabIndex = 0)
+{
+    var column = ss.GetColumn(
+        context: context,
+        columnName: columnName);
+    var linkId = !preview && !editInDialog ? ss.LinkId(columnName) : 0;
+    if (column != null)
+    {
+        hb.Field(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            column: column,
+            preview: preview);
+    }
+    else if (!editInDialog && linkId != 0)
+    {
+        hb.LinkField(
+            context: context,
+            ss: ss,
+            id: #modelName#Model.#ModelName#Id,
+            linkId: linkId,
+            links: links,
+            dataSet: dataSet,
+            methodType: #modelName#Model?.MethodType,
+            tabIndex: tabIndex);
+    }
+    return hb;
+}
+
+private static HtmlAttributes TabActive(
+    this HtmlAttributes attributes,
+    Context context)
+{
+    var tabIndex = context.QueryStrings.Get("TabIndex").ToInt();
+    return attributes.Add(
+        name: "tab-active",
+        value: tabIndex.ToString(),
+        _using: tabIndex > 0);
+}
+
+public static string ControlValue(
+    this #ModelName#Model #modelName#Model,
+    Context context,
+    SiteSettings ss,
+    Column column)
+{
+    switch (column.Name)
+    {
+
+<!--Model_Utilities_FieldCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+            {
+                case "Class":
+                    return #modelName#Model.GetClass(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Num":
+                    return #modelName#Model.GetNum(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Date":
+                    return #modelName#Model.GetDate(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Description":
+                    return #modelName#Model.GetDescription(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Check":
+                    return #modelName#Model.GetCheck(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Attachments":
+                    return #modelName#Model.GetAttachments(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default: return null;
+            }
+    }
+}
+
+private static HtmlBuilder MainCommandExtensions(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    return hb;
+}
+
+private static HtmlBuilder EditorExtensions(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    return hb;
+}

@@ -1,0 +1,7 @@
+﻿case "#ColumnName#":
+    if (dataRow[column.ColumnName] != DBNull.Value)
+    {
+        #ColumnName# = #ByDataRow#(dataRow[column.ColumnName]);
+        Saved#ColumnName# = #ColumnName##RecordingData#;
+    }
+    break;

@@ -1,0 +1,8 @@
+﻿case "#TableName#": return Rds.Select#TableName#(
+    column: #TableName#TotalColumn(linkColumn, sourceColumn),
+    where: Where(
+        context: context,
+        ss: ss,
+        view: sourceCondition,
+        where: #TableName#Where(destinations, sourceSiteId, linkColumn)),
+    groupBy: Rds.#TableName#GroupBy().#TableName#GroupBy(linkColumn));

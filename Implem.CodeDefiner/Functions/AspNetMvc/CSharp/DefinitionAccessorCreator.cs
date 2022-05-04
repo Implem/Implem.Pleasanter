@@ -12,7 +12,9 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp
 
         private static void CreateCode()
         {
-            Def.CodeDefinitionCollection.Where(o => o.Source == "Def").ForEach(codeDefinition =>
+            Def.CodeDefinitionCollection
+                .OrderBy(o => o.Id)
+                .Where(o => o.Source == "Def").ForEach(codeDefinition =>
             {
                 var code = Creators.Create(codeDefinition, new DataContainer("DefinitionFile"));
                 if (!code.IsNullOrEmpty())

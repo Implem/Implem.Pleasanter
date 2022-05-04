@@ -1,0 +1,4 @@
+﻿statements.OnDeletedExtendedSqls(
+    context: context,
+    siteId: SiteId,
+    id: #ModelName#Id);

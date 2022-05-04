@@ -1,0 +1,7 @@
+﻿{
+    "Id": "ResponseCollection_Models",
+    "RepeatType": "Table",
+    "Indent": "1",
+    "Separator": "\\r\\n",
+    "Exclude": "Items,SysLogs"
+}

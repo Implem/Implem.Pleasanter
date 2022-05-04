@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Column",
+    "OutputPath": "Libraries\\Settings\\Column.cs",
+    "MergeToExisting": "1",
+    "Source": "Mvc"
+}

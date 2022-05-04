@@ -1,0 +1,32 @@
+﻿statements.AddRange(ss.Sources
+    .Values
+    .Where(o => !targets.Any() || targets.Contains(o.SiteId))
+    .Where(currentSs => currentSs.ReferenceType == "#TableName#")
+    .Select(currentSs => Select#TableName#(
+        context: context,
+        ss: currentSs,
+        view: Views.GetBySession(
+            context: context,
+            ss: currentSs,
+            dataTableName: DataTableName(
+                ss: currentSs,
+                direction: "Source")),
+        id: id,
+        direction: "Source",
+        cache: cache)));
+statements.AddRange(ss.Destinations
+    .Values
+    .Where(o => !targets.Any() || targets.Contains(o.SiteId))
+    .Where(currentSs => currentSs.ReferenceType == "#TableName#")
+    .Select(currentSs => Select#TableName#(
+        context: context,
+        ss: currentSs,
+        view: Views.GetBySession(
+            context: context,
+            ss: currentSs,
+            dataTableName: DataTableName(
+                ss: currentSs,
+                direction: "Destination")),
+        id: id,
+        direction: "Destination",
+        cache: cache)));

@@ -1,0 +1,5 @@
+﻿if (context.Forms.Exists("Users_TenantManager")
+    && userModel.Self(context: context))
+{
+    return new ErrorData(type: Error.Types.PermissionNotSelfChange);
+}

@@ -1,0 +1,21 @@
+﻿public class #TableName#ResponseCollection : ResponseCollection
+{
+    public #ModelName#Model #ModelName#Model;
+
+    public #TableName#ResponseCollection(#ModelName#Model #modelName#Model)
+    {
+        #ModelName#Model = #modelName#Model;
+    }
+
+    public #TableName#ResponseCollection Val(string selector, string value)
+    {
+        base.Val(selector, value);
+        return this;
+    }
+
+    public #TableName#ResponseCollection ValAndFormData(string selector, string value)
+    {
+        base.ValAndFormData(selector, value);
+        return this;
+    }
+}

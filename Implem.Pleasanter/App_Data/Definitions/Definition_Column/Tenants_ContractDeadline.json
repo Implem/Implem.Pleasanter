@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Tenants_ContractDeadline",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "ContractDeadline",
+    "LabelText": "契約期限",
+    "No": "105",
+    "History": "105",
+    "TypeName": "datetime",
+    "Nullable": "1",
+    "LabelText_en": "End of contract",
+    "LabelText_zh": "合同终止",
+    "LabelText_de": "Vertragsende",
+    "LabelText_ko": "계약 종료",
+    "LabelText_es": "Fin del contrato",
+    "LabelText_vn": "Thời hạn hợp đồng"
+}

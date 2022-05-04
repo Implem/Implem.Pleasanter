@@ -1,0 +1,1 @@
+﻿if (#ModelName#Id == 0) SetDefault(context: context, ss: ss);

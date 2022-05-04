@@ -1,0 +1,48 @@
+﻿case "#TableName#":
+    dataRows.ForEach(dataRow =>
+    {
+        var #modelName#Id = dataRow.Long("#ModelName#Id");
+        var data = GetData(
+            dataRow: dataRow,
+            column: column,
+            from: from,
+            to: to);
+        var formData = new Dictionary<string, string>()
+        {
+            { $"#TableName#_{columnName}", data }
+        };
+        if (!context.ContractSettings.ItemsLimit(
+            context: context,
+            siteId: ss.SiteId))
+        {
+            var #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                #modelName#Id: #modelName#Id,
+                formData: formData);
+            var invalid = #ModelName#Validators.OnCreating(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model);
+            switch (invalid.Type)
+            {
+                case Error.Types.None:
+                    #modelName#Model.#ModelName#Id = 0;
+                    #modelName#Model.Ver = 1;
+                    #modelName#Model.Title.Value += CharToAddWhenCopying ?? ss.CharToAddWhenCopying;
+                    if (CopyWithComments != true) #modelName#Model.Comments.Clear();
+                    #modelName#Model.SetCopyDefault(
+                        context: context,
+                        ss: ss);
+                    var errorData = #modelName#Model.Create(
+                        context: context,
+                        ss: ss,
+                        copyFrom: #modelName#Model.Saved#ModelName#Id,
+                        forceSynchronizeSourceSummary: true,
+                        notice: false,
+                        otherInitValue: true);
+                    break;
+            }
+        }
+    });
+    break;

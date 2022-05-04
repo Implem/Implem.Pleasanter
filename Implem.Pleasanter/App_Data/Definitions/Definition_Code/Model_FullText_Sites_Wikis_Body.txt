@@ -1,0 +1,1 @@
+﻿if (ReferenceType == "Wikis") return null;

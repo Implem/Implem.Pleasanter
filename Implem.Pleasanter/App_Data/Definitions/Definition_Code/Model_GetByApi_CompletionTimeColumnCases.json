@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_GetByApi_CompletionTimeColumnCases",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Select": "1",
+    "Include": "CompletionTime"
+}

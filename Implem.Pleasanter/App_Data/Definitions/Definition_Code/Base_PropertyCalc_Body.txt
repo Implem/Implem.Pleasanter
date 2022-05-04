@@ -1,0 +1,7 @@
+﻿public #Type# #ColumnName#
+{
+    get
+    {
+        return #Calc#;
+    }
+}

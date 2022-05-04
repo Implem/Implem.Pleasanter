@@ -1,0 +1,1 @@
+﻿title: Displays.#TableName#(context: context) + " - " + Displays.List(context: context),

@@ -1,0 +1,12 @@
+﻿public static SiteSettings #TableName#SiteSettings(Context context)
+{
+    var ss = new SiteSettings()
+    {
+        ReferenceType = "#TableName#"
+    };
+    ss.Init(context: context);
+
+<!--SiteSettings_GetModels_GeneralUi-->
+
+    return ss;
+}

@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_ApplicationRequestInterval",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ApplicationRequestInterval",
+    "LabelText": "アプリケーション要求インターバル",
+    "No": "117",
+    "History": "117",
+    "EditorColumn": "117",
+    "EditorEnabled": "1",
+    "LinkColumn": "117",
+    "HistoryColumn": "117",
+    "TypeName": "float",
+    "Nullable": "1",
+    "LabelText_en": "Application request interval",
+    "LabelText_zh": "应用请求间隔",
+    "LabelText_de": "Anwendungsabrufintervall",
+    "LabelText_ko": "애플리케이션 요청 간격",
+    "LabelText_es": "Intervalo de solicitud de la aplicación",
+    "LabelText_vn": "Khoảng thời gian yêu cầu ứng dụng"
+}

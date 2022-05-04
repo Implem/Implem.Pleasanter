@@ -1,0 +1,12 @@
+﻿{
+    "Id": "User17_en",
+    "Language": "en",
+    "Type": "Users",
+    "ParentId": "Dept8_en",
+    "Title": "Taro Yamaguchi",
+    "ClassA": "2",
+    "ClassB": "1",
+    "ClassC": "36526",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

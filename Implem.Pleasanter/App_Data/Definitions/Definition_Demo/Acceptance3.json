@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance3",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "グループウエアの内線番号の変更方法を教えてください",
+    "Status": "200",
+    "ClassA": "100",
+    "ClassB": "問い合わせ",
+    "ClassC": "アプリケーション",
+    "Manager": "User7",
+    "Owner": "User15",
+    "Creator": "User7",
+    "Updator": "User15",
+    "StartTime": "36696",
+    "CompletionTime": "36707",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

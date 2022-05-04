@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity5",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "業務改善コンサルティング",
+    "Status": "150",
+    "ClassA": "#Customer1#",
+    "ClassB": "コンサルティング",
+    "ClassC": "30%",
+    "NumA": "1350000",
+    "NumB": "638000",
+    "NumC": "712000",
+    "NumD": "52.7",
+    "Manager": "User9",
+    "Owner": "User9",
+    "Creator": "User9",
+    "Updator": "User9",
+    "StartTime": "36650",
+    "CompletionTime": "36667",
+    "CreatedTime": "36642.752083333333",
+    "UpdatedTime": "36640.752083333333"
+}

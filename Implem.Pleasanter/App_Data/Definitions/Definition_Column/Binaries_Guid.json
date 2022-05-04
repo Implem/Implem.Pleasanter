@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Binaries_Guid",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "Guid",
+    "LabelText": "GUID",
+    "No": "4",
+    "History": "4",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Ix2": "1",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "GUID",
+    "LabelText_zh": "GUID",
+    "LabelText_de": "GUID",
+    "LabelText_ko": "GUID",
+    "LabelText_es": "GUID",
+    "LabelText_vn": "GUID"
+}

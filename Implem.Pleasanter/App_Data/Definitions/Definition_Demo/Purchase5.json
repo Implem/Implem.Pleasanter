@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase5",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "海外製品パッケージPの購入",
+    "ClassA": "#Opportunity4#",
+    "NumA": "280000",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

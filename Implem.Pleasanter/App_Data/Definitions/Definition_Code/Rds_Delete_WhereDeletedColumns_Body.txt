@@ -1,0 +1,1 @@
+﻿[#TableName#_deleted].[#ColumnName#]=@#ColumnName#

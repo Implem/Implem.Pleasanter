@@ -1,0 +1,2 @@
+﻿Test after configured network
+・Communication acknowledgement test

@@ -1,0 +1,16 @@
+﻿public static void Set#File#DefinitionOption(
+    string placeholder, #File#Definition #file#Definition)
+{
+    placeholder.RegexFirst("(?<=\\().+(?=\\))").Split(',')
+        .Where(o => !o.IsNullOrEmpty()).ForEach(option =>
+        {
+            var optionName = option.Split_1st('=').Trim();
+            var optionValue = option.Split_2nd('=').Trim();
+            switch (optionName)
+            {
+
+<!--Def_SetDefinitionOption_Cases-->
+
+            }
+        });
+}

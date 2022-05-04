@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Demos_Passphrase",
+    "ModelName": "Demo",
+    "TableName": "Demos",
+    "Label": "デモ",
+    "ColumnName": "Passphrase",
+    "LabelText": "パスフレーズ",
+    "No": "104",
+    "History": "104",
+    "LinkColumn": "104",
+    "HistoryColumn": "104",
+    "TypeName": "nchar",
+    "MaxLength": "34",
+    "Ix1": "1",
+    "Required": "1",
+    "LabelText_en": "Pass phrase",
+    "LabelText_zh": "通行短语",
+    "LabelText_de": "Passphrase",
+    "LabelText_ko": "패스프레이즈",
+    "LabelText_es": "Frase de la contraseña",
+    "LabelText_vn": "Cụm mật khẩu"
+}

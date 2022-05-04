@@ -1,0 +1,1 @@
+﻿var siteModel = new SiteModel(#modelName#Model.SiteId);

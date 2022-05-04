@@ -1,0 +1,3 @@
+﻿Rds.PhysicalDeleteGroupMembers(
+    where: Rds.GroupMembersWhere()
+        .GroupId(GroupId)),

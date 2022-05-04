@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Binaries_ContentType",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "ContentType",
+    "LabelText": "コンテンツ種別",
+    "No": "110",
+    "History": "110",
+    "LinkColumn": "110",
+    "HistoryColumn": "110",
+    "TypeName": "nvarchar",
+    "MaxLength": "1024",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Content type",
+    "LabelText_zh": "内容类型",
+    "LabelText_de": "Inhaltstyp",
+    "LabelText_ko": "콘텐츠 유형",
+    "LabelText_es": "Tipo de contenido",
+    "LabelText_vn": "Kiểu nội dung"
+}

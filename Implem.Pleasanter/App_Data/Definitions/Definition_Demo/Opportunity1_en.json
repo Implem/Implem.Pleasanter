@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity1_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site7_en",
+    "Title": "Validation for AI technique",
+    "Status": "100",
+    "ClassA": "#Customer7_en#",
+    "ClassB": "Consulting",
+    "ClassC": "90%",
+    "NumA": "1500000",
+    "NumB": "1100000",
+    "NumC": "400000",
+    "NumD": "26.7",
+    "Manager": "User16_en",
+    "Owner": "User16_en",
+    "Creator": "User16_en",
+    "Updator": "User16_en",
+    "StartTime": "36642",
+    "CompletionTime": "36665",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

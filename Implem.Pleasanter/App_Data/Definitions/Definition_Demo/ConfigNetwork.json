@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigNetwork",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "ネットワークの構築",
+    "WorkValue": "12",
+    "ProgressRate": "85",
+    "Status": "100",
+    "ClassA": "構築",
+    "ClassB": "作業[定型]",
+    "ClassC": "ネットワーク・セキュリティ",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "StartTime": "36654",
+    "CompletionTime": "36656",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

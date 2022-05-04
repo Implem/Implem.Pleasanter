@@ -1,0 +1,112 @@
+﻿public static string PhysicalBulkDelete(Context context, SiteSettings ss)
+{
+    if (!Parameters.Deleted.PhysicalDelete)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    if (context.CanManageSite(ss: ss))
+    {
+        var selector = new RecordSelector(context: context);
+        var count = 0;
+        if (selector.All)
+        {
+            count = PhysicalBulkDelete(
+                context: context,
+                ss: ss,
+                selected: selector.Selected,
+                negative: true);
+        }
+        else
+        {
+            if (selector.Selected.Any())
+            {
+                count = PhysicalBulkDelete(
+                    context: context,
+                    ss: ss,
+                    selected: selector.Selected);
+            }
+            else
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+        }
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.PhysicalBulkDeletedFromRecycleBin(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+private static int PhysicalBulkDelete(
+    Context context, 
+    SiteSettings ss, 
+    List<long> selected, 
+    bool negative = false,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
+{
+    var tableName = string.Empty;
+    switch (tableType)
+    {
+        case Sqls.TableTypes.History:
+            tableName = "_History";
+            break;
+        case Sqls.TableTypes.Deleted:
+            tableName = "_Deleted";
+            break;
+        default:
+            break;
+    }
+    var where = Rds.SitesWhere()
+        .TenantId(
+            value: context.TenantId,
+            tableName: "Sites" + tableName)
+        .ParentId(
+            value: ss.SiteId,
+            tableName: "Sites" + tableName)
+        .SiteId_In(
+            value: selected,
+            tableName: "Sites" + tableName,
+            negative: negative,
+            _using: selected.Any());
+    var sub = Rds.SelectSites(
+        tableType: tableType,
+        _as: "Sites" + tableName,
+        column: Rds.SitesColumn()
+            .SiteId(tableName: "Sites" + tableName),
+        where: where);
+    return Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        statements: new SqlStatement[]
+        {
+            Rds.PhysicalDeleteItems(
+                tableType: tableType,
+                where: Rds.ItemsWhere()
+                    .ReferenceId_In(sub:
+                        Rds.SelectWikis(
+                            tableType: tableType,
+                            column: Rds.WikisColumn().WikiId(),
+                            where: Rds.WikisWhere().SiteId_In(sub: sub)))
+                    .ReferenceType("Wikis")),
+            Rds.PhysicalDeleteWikis(
+                tableType: tableType,
+                where: Rds.WikisWhere().SiteId_In(sub: sub)),
+            Rds.PhysicalDeleteItems(
+                tableType: tableType,
+                where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+            Rds.PhysicalDeleteBinaries(
+                tableType: tableType,
+                where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+            Rds.PhysicalDeleteSites(
+                tableType: tableType,
+                where: where),
+            Rds.RowCount()
+        }).Count.ToInt();
+}

@@ -1,0 +1,5 @@
+﻿Test after configured business application
+・Check start
+・Authentication
+・Mail test
+・Host relation

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site18_en",
+    "Status": "300",
+    "ClassA": "Kawasaki Business office",
+    "ClassB": "Information sharing innovation Lab.",
+    "ClassE": "Business meeting",
+    "ClassH": "Home",
+    "NumA": "576",
+    "DateA": "36653.705555555556",
+    "Manager": "User1_en",
+    "Owner": "User1_en",
+    "Creator": "User1_en",
+    "Updator": "User1_en",
+    "CreatedTime": "36653.705555555556",
+    "UpdatedTime": "36653.705555555556"
+}

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Lookup",
+    "OutputPath": "Libraries\\Settings\\Lookup.cs",
+    "Source": "Mvc"
+}

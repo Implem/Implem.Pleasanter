@@ -1,0 +1,7 @@
+﻿if (synchronizeSummary)
+{
+    SynchronizeSummary(
+        context: context,
+        ss: ss,
+        force: forceSynchronizeSourceSummary);
+}

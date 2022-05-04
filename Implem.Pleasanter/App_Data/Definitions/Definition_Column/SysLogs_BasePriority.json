@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_BasePriority",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "BasePriority",
+    "LabelText": "Base priority",
+    "No": "124",
+    "History": "124",
+    "EditorColumn": "124",
+    "EditorEnabled": "1",
+    "LinkColumn": "124",
+    "HistoryColumn": "124",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "Base priority",
+    "LabelText_zh": "基础优先级",
+    "LabelText_de": "Basispriorität",
+    "LabelText_ko": "기본 우선순위",
+    "LabelText_es": "Prioridad base",
+    "LabelText_vn": "Ưu tiên cơ bản"
+}

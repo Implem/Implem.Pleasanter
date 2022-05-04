@@ -1,0 +1,5 @@
+﻿#modelName#Model.SwitchTargets = GetSwitchTargets(
+    context: context,
+    ss: ss,
+    #modelName#Id: #modelName#Model.#ModelName#Id,
+    siteId: #modelName#Model.SiteId);

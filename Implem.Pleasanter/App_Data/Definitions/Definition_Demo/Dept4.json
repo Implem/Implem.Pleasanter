@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Dept4",
+    "Language": "ja",
+    "Type": "Depts",
+    "ParentId": "Dept1",
+    "Title": "経理部",
+    "ClassA": "000210",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

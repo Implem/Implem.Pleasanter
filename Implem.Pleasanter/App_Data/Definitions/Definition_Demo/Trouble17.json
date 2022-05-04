@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble17",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site21",
+    "ClassA": "#Facility1#",
+    "ClassB": "2階：エリア1",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "インク(黒)切れのため。",
+    "DescriptionB": "インク(黒)を交換しました。",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

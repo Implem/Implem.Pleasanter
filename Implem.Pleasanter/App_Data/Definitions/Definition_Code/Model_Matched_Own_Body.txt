@@ -1,0 +1,5 @@
+﻿var userId = context.UserId;
+if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
+{
+    return false;
+}

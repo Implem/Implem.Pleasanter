@@ -1,0 +1,35 @@
+﻿private static ResponseCollection CopyRowFormData(
+    this ResponseCollection res,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    List<Column> columns,
+    bool newOnGrid,
+    int newRowId,
+    long originalId)
+{
+    if (newOnGrid && originalId > 0)
+    {
+        ss.GetEditorColumnNames(
+            context: context,
+            columnOnly: true)
+                .Select(columnName => ss.GetColumn(
+                    context: context,
+                    columnName: columnName))
+                .Where(column => column.CanUpdate(
+                    context: context,
+                    ss: ss,
+                    mine: #modelName#Model.Mine(context: context)))
+                .Where(column => !column.Id_Ver)
+                .Where(column => !columns.Any(p =>
+                    p.ColumnName == column.ColumnName))
+                .ForEach(column =>
+                    res.SetFormData(
+                        $"{ss.ReferenceType}_{column.ColumnName}_{ss.SiteId}_{newRowId}",
+                        #modelName#Model.ControlValue(
+                            context: context,
+                            ss: ss,
+                            column: column)));
+    }
+    return res;
+}

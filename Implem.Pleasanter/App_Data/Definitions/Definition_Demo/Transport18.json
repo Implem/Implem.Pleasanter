@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport18",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "200",
+    "ClassA": "自宅",
+    "ClassB": "Webデータベース開発株式会社",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "本社",
+    "NumA": "1656",
+    "DateA": "36641.705555555556",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36641.705555555556"
+}

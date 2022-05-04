@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport14",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "200",
+    "ClassA": "本社",
+    "ClassB": "有限会社ノンプログラミング",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "本社",
+    "NumA": "975",
+    "DateA": "36642.705555555556",
+    "Manager": "User4",
+    "Owner": "User4",
+    "Creator": "User4",
+    "Updator": "User4",
+    "CreatedTime": "36642.705555555556",
+    "UpdatedTime": "36642.705555555556"
+}

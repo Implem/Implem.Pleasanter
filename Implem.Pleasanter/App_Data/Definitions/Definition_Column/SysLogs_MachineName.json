@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_MachineName",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "MachineName",
+    "LabelText": "マシン名",
+    "No": "105",
+    "History": "105",
+    "EditorColumn": "105",
+    "EditorEnabled": "1",
+    "LinkColumn": "105",
+    "HistoryColumn": "105",
+    "TypeName": "nvarchar",
+    "MaxLength": "64",
+    "Nullable": "1",
+    "LabelText_en": "Machine name",
+    "LabelText_zh": "机器名称",
+    "LabelText_de": "Maschinenname",
+    "LabelText_ko": "기기 이름",
+    "LabelText_es": "Nombre de la máquina",
+    "LabelText_vn": "Tên máy"
+}

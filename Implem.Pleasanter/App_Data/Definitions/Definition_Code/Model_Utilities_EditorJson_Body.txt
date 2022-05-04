@@ -1,0 +1,6 @@
+﻿public static string EditorJson(Context context, <!--Model_SiteSettingsParameterAndBlank-->#IdType# #modelName#Id)
+{
+    return EditorResponse(context, <!--Model_SiteSettings-->new #ModelName#Model(
+        context, <!--Model_SiteSettings-->#modelName#Id<!--Model_Utilities_InitSiteSettings-->,
+        formData: context.Forms)).ToJson();
+}

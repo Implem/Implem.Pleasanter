@@ -1,0 +1,53 @@
+﻿public object ToApiDisplayValue(Context context, SiteSettings ss, Column column, List<string> mine)
+{
+    if (!ss.ReadColumnAccessControls.Allowed(
+        context: context,
+        ss: ss,
+        column: column,
+        mine: mine))
+    {
+        return string.Empty;
+    }
+    switch (column.Name)
+    {
+
+<!--Model_ToApiDisplayValueColumnCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+            {
+                case "Class":
+                    return GetClass(columnName: column.Name).ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Num":
+                    return GetNum(columnName: column.Name).ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Date":
+                    return GetDate(columnName: column.Name).ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Description":
+                    return GetDescription(columnName: column.Name).ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Check":
+                    return GetCheck(columnName: column.Name).ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Attachments":
+                    return GetAttachments(columnName: column.Name).ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    return string.Empty;
+            }
+    }
+}

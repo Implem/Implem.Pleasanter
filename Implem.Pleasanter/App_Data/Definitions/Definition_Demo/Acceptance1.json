@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance1",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "プリンタドライバーがインストールできない",
+    "Status": "300",
+    "ClassA": "200",
+    "ClassB": "トラブル",
+    "ClassC": "OS",
+    "Manager": "User16",
+    "Owner": "User13",
+    "Creator": "User16",
+    "Updator": "User13",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36643.689583333333",
+    "UpdatedTime": "36655.686805555553"
+}

@@ -1,0 +1,3 @@
+﻿res
+    .SetMemory("formChanged", false)
+    .Invoke("back");

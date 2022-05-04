@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase8",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "X社初期セットアップサービス",
+    "ClassA": "#Opportunity7#",
+    "NumA": "160000",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User7",
+    "Updator": "User7",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

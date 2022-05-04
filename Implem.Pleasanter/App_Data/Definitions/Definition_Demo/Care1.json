@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care1",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "移乗介助時に手に擦り傷を負わせてしまった",
+    "Status": "100",
+    "ClassA": "中村 隆",
+    "ClassB": "介護ミス",
+    "ClassD": "その他",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "移乗介助時には周りの確認を徹底する。",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

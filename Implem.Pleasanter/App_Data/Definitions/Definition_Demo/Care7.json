@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care7",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "いつの間にかティッシュを口に含んでいた",
+    "Status": "900",
+    "ClassA": "吉田 結",
+    "ClassB": "誤嚥・誤飲",
+    "ClassD": "個人部屋",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "利用者の手の届く範囲にティッシュを置いていたため。ほかに、口に含むかの可能性があるものを近くに置かないように徹底する。",
+    "Manager": "User17",
+    "Owner": "User17",
+    "Creator": "User17",
+    "Updator": "User17",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

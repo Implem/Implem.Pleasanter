@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    param.#ColumnName#(#modelName#Model.#ColumnName##RecordingData##MaxLength#);
+    break;

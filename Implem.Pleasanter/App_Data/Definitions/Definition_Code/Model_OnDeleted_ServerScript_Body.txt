@@ -1,0 +1,3 @@
+﻿SetByAfterDeleteServerScript(
+    context: context,
+    ss: ss);

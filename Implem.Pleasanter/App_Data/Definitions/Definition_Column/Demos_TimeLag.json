@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Demos_TimeLag",
+    "ModelName": "Demo",
+    "TableName": "Demos",
+    "Label": "デモ",
+    "ColumnName": "TimeLag",
+    "LabelText": "タイムラグ",
+    "No": "107",
+    "History": "107",
+    "LinkColumn": "107",
+    "HistoryColumn": "107",
+    "TypeName": "int",
+    "Required": "1",
+    "NotSelect": "1",
+    "NotUpdate": "1",
+    "LabelText_en": "Time lag",
+    "LabelText_zh": "延时",
+    "LabelText_de": "Verzögerung",
+    "LabelText_ko": "시차",
+    "LabelText_es": "Desfase temporal",
+    "LabelText_vn": "Độ trễ thời gian"
+}

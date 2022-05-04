@@ -1,0 +1,37 @@
+﻿public static #TableName#WhereCollection #ColumnName#_In(
+    this #TableName#WhereCollection self,
+    IEnumerable<#Type#> value = null,
+    string tableName = "#JoinTableName#",
+    SqlStatement sub = null,
+    bool negative = false,
+    bool _using = true)
+{
+    if (!_using)
+    {
+        return self;
+    }
+    if (sub != null)
+    {
+        return self.Add(
+            columnBrackets: new string[] { "#ColumnBracket#" },
+            tableName: tableName,
+            name: "#ColumnName#",
+            _operator: !negative ? " in " : " not in ",
+            sub: sub);
+    }
+    else if (value != null && value.Any())
+    {
+        return self.Add(
+            columnBrackets: new string[] { "#ColumnBracket#" },
+            tableName: tableName,
+            name: "#ColumnName#",
+            _operator: !negative ? " in " : " not in ",
+            raw: "({0})".Params(value.Join()));
+    }
+    else
+    {
+        return !negative
+            ? self.Add(raw: "1=0")
+            : self;
+    }
+}

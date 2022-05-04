@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site8_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site5_en",
+    "Title": "Purchases",
+    "ClassA": "Results",
+    "ClassB": "Site7_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

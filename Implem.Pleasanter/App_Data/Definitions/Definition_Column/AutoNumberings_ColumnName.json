@@ -1,0 +1,19 @@
+﻿{
+    "Id": "AutoNumberings_ColumnName",
+    "ModelName": "AutoNumbering",
+    "TableName": "AutoNumberings",
+    "Label": "自動採番",
+    "ColumnName": "ColumnName",
+    "LabelText": "項目名",
+    "No": "3",
+    "History": "3",
+    "TypeName": "nvarchar",
+    "MaxLength": "16",
+    "Pk": "3",
+    "LabelText_en": "Column name",
+    "LabelText_zh": "列名",
+    "LabelText_de": "Spaltenname",
+    "LabelText_ko": "열 이름",
+    "LabelText_es": "Nombre de la columna",
+    "LabelText_vn": "Tên cột dọc"
+}

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble19_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site21_en",
+    "ClassA": "#Facility1_en#",
+    "ClassB": "2nd floor:Area1",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "Out of ink(Black)",
+    "DescriptionB": "Replace ink(Black)",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

@@ -1,0 +1,16 @@
+﻿case "#TableName#":
+    switch (column.Name)
+    {
+
+<!--Rds_OrderByColumnCases-->
+
+        default:
+            return Def.ExtendedColumnTypes.ContainsKey(column?.Name ?? string.Empty)
+                ? self.Add(
+                    columnBracket: $"\"{column.Name}\"",
+                    orderType: orderType,
+                    tableName: column.TableName(),
+                    isNullValue: isNullValue,
+                    function: function)
+                : self;
+    }

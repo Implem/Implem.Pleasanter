@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Messages",
+    "OutputPath": "Libraries\\Responses\\Messages.cs",
+    "Source": "Mvc"
+}

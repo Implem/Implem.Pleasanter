@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Binaries_FileName",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "FileName",
+    "LabelText": "ファイル名",
+    "No": "107",
+    "History": "107",
+    "LinkColumn": "107",
+    "HistoryColumn": "107",
+    "TypeName": "nvarchar",
+    "MaxLength": "1024",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "File name",
+    "LabelText_zh": "文件名称",
+    "LabelText_de": "Dateiname",
+    "LabelText_ko": "파일명",
+    "LabelText_es": "Nombre de archivo",
+    "LabelText_vn": "Tên tệp"
+}

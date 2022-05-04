@@ -1,0 +1,87 @@
+﻿public static ErrorData ExistsLockedRecord(
+    Context context,
+    SiteSettings ss,
+    SqlWhereCollection where,
+    SqlParamCollection param,
+    SqlOrderByCollection orderBy,
+    bool lockedColumn = false)
+{
+    var lockedRecordWhere = new Rds.#TableName#WhereCollection()
+        .#TableName#_Locked(true);
+    lockedRecordWhere.AddRange(where);
+    if (lockedColumn)
+    {
+        if (context.HasPrivilege)
+        {
+            return new ErrorData(type: Error.Types.None);
+        }
+        else
+        {    
+            lockedRecordWhere.#TableName#_Updator(
+                value: context.UserId,
+                _operator: "<>");
+        }
+    }
+    var #modelName#Id = Repository.ExecuteScalar_long(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#ModelName#Id(),
+            join: ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where,
+                    orderBy
+                }),
+            where: lockedRecordWhere,
+            param: param,
+            orderBy: orderBy,
+            top: 1));
+    return #modelName#Id > 0
+        ? ExistsLockedRecord(
+            context: context,
+            ss: ss,
+            #modelName#Id: #modelName#Id)
+        : new ErrorData(type: Error.Types.None);
+}
+
+private static ErrorData ExistsLockedRecord(
+    Context context,
+    SiteSettings ss,
+    List<long> targets)
+{
+    var data = Repository.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#ModelName#Id(),
+            where: Rds.#TableName#Where()
+                .SiteId(ss.SiteId)
+                .Locked(true)))
+                    .AsEnumerable()
+                    .Select(dataRow => dataRow.Long("#ModelName#Id"))
+                    .ToList();
+    var #modelName#Id = data.FirstOrDefault(id => targets.Contains(id));
+    return #modelName#Id > 0
+        ? ExistsLockedRecord(
+            context: context,
+            ss: ss,
+            #modelName#Id: #modelName#Id)
+        : new ErrorData(type: Error.Types.None);
+}
+
+private static ErrorData ExistsLockedRecord(
+    Context context, SiteSettings ss, long #modelName#Id)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id);
+    return new ErrorData(
+        type: Error.Types.LockedRecord,
+        data: new string[]
+        {
+            #modelName#Model.#ModelName#Id.ToString(),
+            #modelName#Model.Updator.Name,
+            #modelName#Model.UpdatedTime.DisplayValue.ToString(context.CultureInfo())
+        });
+}

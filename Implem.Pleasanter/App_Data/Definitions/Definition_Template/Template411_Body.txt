@@ -1,0 +1,15 @@
+﻿10, Clear weather
+20, Sunny
+30, Slightly cloudy
+40, Cloudy
+50, Haze
+60, Sandstorm
+70, Ground fence
+80, Fog
+90, Drizzle
+100, Rain
+110, Sleet
+120, Snow
+130, Hailstop
+140, Hail
+150, Thunder

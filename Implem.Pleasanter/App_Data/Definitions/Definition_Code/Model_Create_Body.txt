@@ -1,0 +1,98 @@
+﻿public ErrorData Create(
+    Context context,
+    SiteSettings ss,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    SqlParamCollection param = null,
+
+<!--Model_CreateParams-->
+<!--Model_CreateParams_Wikis-->
+<!--Model_CreateParams_SetByApi-->
+
+    string noticeType = "Created",
+    bool otherInitValue = false,
+    bool get = true)
+{
+<!--Model_OnCreating_ServerScript-->
+<!--Model_SetTenantIdByContext-->
+<!--Model_OnCreating_Binaries-->
+<!--Model_OnCreating_Users-->
+
+    var statements = new List<SqlStatement>();
+
+<!--Model_OnCreatingExtendedSqls-->
+<!--Model_OnCreatingGroupMembers-->
+
+    statements.AddRange(CreateStatements(
+        context: context,
+        ss: ss,
+        tableType: tableType,
+        param: param,
+<!--Model_CreateStatementsParams_GroupMembers-->
+        otherInitValue: otherInitValue));
+
+<!--Model_Insert-->
+<!--Model_InsertIdentity-->
+<!--Model_InsertIdentity ( HasIdentity = false, ItemOnly = true ) -->
+<!--Model_IfDuplicatedReturn-->
+<!--Model_WriteAttachmentsExecute-->
+<!--Model_InsertIdentitySet-->
+<!--Model_ForceSynchronizeSummaryExecute-->
+<!--Model_Insert_ExecuteAutomaticNumberingExec-->
+<!--Model_CreatedNotice-->
+<!--Model_Insert_User-->
+<!--Model_Insert_GroupMembers-->
+
+    if (get) Get(context: context<!--Model_SiteSettingsBeforeComma-->);
+
+<!--Model_ReloadPermissions-->
+<!--Model_InsertItemsAfter-->
+<!--Model_OnCreated_ServerScript-->
+<!--Model_SetProcessMatchConditionsExec-->
+
+    return new ErrorData(type: Error.Types.None);
+}
+
+public List<SqlStatement> CreateStatements(
+    Context context,
+    SiteSettings ss,
+    string dataTableName = null,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    SqlParamCollection param = null,
+<!--Model_CreateStatementsParams_GroupMembesUsing-->
+    bool otherInitValue = false)
+{
+    var statements = new List<SqlStatement>();
+
+<!--Model_IfDuplicated-->
+
+    statements.AddRange(new List<SqlStatement>
+    {
+
+<!--Model_InsertItems-->
+
+        Rds.Insert#TableName#(
+            dataTableName: dataTableName,
+            tableType: tableType,
+
+<!--Model_SelectIdentity-->
+
+            param: param ?? Rds.#TableName#ParamDefault(
+                context: context,
+                ss: ss,
+                #modelName#Model: this,
+                setDefault: true,
+                otherInitValue: otherInitValue))<!--Comma ( ItemOnly = 1 ) --><!--Comma ( UpdateMonitor = 1 ) -->
+
+<!--Model_InsertGroupMember-->
+<!--Model_InsertLinksByCreate-->
+<!--Model_UpdateStatus-->
+
+    });
+<!--Model_UpdateAttachmentsStatements--->
+
+<!--Model_CreatePermissions-->
+
+    return statements;
+}
+
+<!--Model_Insert_ExecuteAutomaticNumbering-->

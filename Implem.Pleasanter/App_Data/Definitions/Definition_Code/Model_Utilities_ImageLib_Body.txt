@@ -1,0 +1,115 @@
+﻿public static string ImageLib(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "ImageLib"))
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.HasNotPermission));
+    }
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(context: context, ss: ss);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var serverScriptModelRow = ss.GetServerScriptModelRow(
+        context: context,
+        view: view);
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        serverScriptModelRow: serverScriptModelRow,
+        viewModeBody: () => hb
+            .ImageLib(
+                context: context,
+                ss: ss,
+                view: view,
+                bodyOnly: false));
+}
+
+public static string ImageLibJson(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "ImageLib"))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var view = Views.GetBySession(context: context, ss: ss);
+    var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
+    return new ResponseCollection()
+        .ViewMode(
+            context: context,
+            ss: ss,
+            view: view,
+            invoke: "setImageLib",
+            bodyOnly: bodyOnly,
+            bodySelector: "#ImageLibBody",
+            body: new HtmlBuilder()
+                .ImageLib(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: bodyOnly))
+        .ToJson();
+}
+
+private static HtmlBuilder ImageLib(
+    this HtmlBuilder hb,
+    Context context, 
+    SiteSettings ss,
+    View view,
+    bool bodyOnly,
+    int offset = 0)
+{
+    return !bodyOnly
+        ? hb.ImageLib(
+            ss: ss,
+            context: context,
+            imageLibData: new ImageLibData(
+                context: context,
+                ss: ss,
+                view: view,
+                offset: offset,
+                pageSize: ss.ImageLibPageSize.ToInt()))
+        : hb.ImageLibBody(
+            ss: ss,
+            context: context,
+            imageLibData: new ImageLibData(
+                context: context,
+                ss: ss,
+                view: view,
+                offset: offset,
+                pageSize: ss.ImageLibPageSize.ToInt()));
+}
+
+public static string ImageLibNext(Context context, SiteSettings ss, int offset)
+{
+    var view = Views.GetBySession(context: context, ss: ss);
+    var imageLibData = new ImageLibData(
+        context: context,
+        ss: ss,
+        view: view,
+        offset: offset,
+        pageSize: ss.ImageLibPageSize.ToInt());
+    var hb = new HtmlBuilder();
+    new ImageLibData(
+        context: context,
+        ss: ss,
+        view: view,
+        offset: offset,
+        pageSize: Parameters.General.ImageLibPageSize)
+            .DataRows
+            .ForEach(dataRow => hb
+                .ImageLibItem(
+                    context: context,
+                    ss: ss,
+                    dataRow: dataRow));
+    return (new ResponseCollection())
+        .Append("#ImageLib", hb)
+        .Val("#ImageLibOffset", ss.ImageLibNextOffset(
+            offset,
+            imageLibData.DataRows.Count(),
+            imageLibData.TotalCount))
+        .Paging("#ImageLib")
+        .ToJson();
+}

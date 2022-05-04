@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Model_PropertyUpdated_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "HasNotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Update": "1",
+    "NotJoin": "1",
+    "Exclude": "CreatedTime,UpdatedTime",
+    "ExcludeTypeName": "image"
+}

@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Rds_Restore_DeletedColumns",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "Separator": ",\\r\\n",
+    "Select": "1",
+    "Update": "1",
+    "NotJoin": "1"
+}

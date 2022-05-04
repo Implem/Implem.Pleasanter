@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    #ColumnName##RecordingData# = value;
+    break;

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineNetworks_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Define network requirement",
+    "WorkValue": "18",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Definite requirement",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Network/Security",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "StartTime": "36642",
+    "CompletionTime": "36647",
+    "CreatedTime": "36640.39166666667",
+    "UpdatedTime": "36649.697916666664"
+}

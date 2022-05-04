@@ -1,0 +1,18 @@
+﻿case "#ColumnName#":
+    return ss.ReadColumnAccessControls.Allowed(
+        context: context,
+        ss: ss,
+        column: column,
+        mine: mine)
+            ? hb.Td(
+                context: context,
+                column: column,
+                value: #modelName#Model.#ColumnName#,
+                tabIndex: tabIndex,
+                serverScriptModelColumn: serverScriptModelColumn)
+            : hb.Td(
+                context: context,
+                column: column,
+                value: string.Empty,
+                tabIndex: tabIndex,
+                serverScriptModelColumn: serverScriptModelColumn);

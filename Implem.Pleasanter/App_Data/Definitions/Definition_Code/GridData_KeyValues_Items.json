@@ -1,0 +1,8 @@
+﻿{
+    "Id": "GridData_KeyValues_Items",
+    "RepeatType": "Table",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1",
+    "Exclude": "Sites,Wikis"
+}

@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_ProcessId",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ProcessId",
+    "LabelText": "プロセスID",
+    "No": "122",
+    "History": "122",
+    "EditorColumn": "122",
+    "EditorEnabled": "1",
+    "LinkColumn": "122",
+    "HistoryColumn": "122",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "Process ID",
+    "LabelText_zh": "进程ID",
+    "LabelText_de": "Prozess-ID",
+    "LabelText_ko": "프로세스 ID",
+    "LabelText_es": "ID de proceso",
+    "LabelText_vn": "ID Xử lí"
+}

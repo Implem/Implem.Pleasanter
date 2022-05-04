@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Links_Subset",
+    "ModelName": "Link",
+    "TableName": "Links",
+    "Label": "リンク",
+    "ColumnName": "Subset",
+    "LabelText": "サブセット",
+    "No": "104",
+    "History": "104",
+    "LinkColumn": "104",
+    "HistoryColumn": "104",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "JoinTableName": "Items",
+    "Required": "1",
+    "NotUpdate": "1",
+    "LabelText_en": "Subset",
+    "LabelText_zh": "子集",
+    "LabelText_de": "Teilmenge",
+    "LabelText_ko": "서브세트",
+    "LabelText_es": "Subgrupo",
+    "LabelText_vn": "Tập con"
+}

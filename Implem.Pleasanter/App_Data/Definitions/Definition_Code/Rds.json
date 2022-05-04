@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Rds",
+    "OutputPath": "Libraries\\DataSources\\Rds.cs",
+    "Source": "Mvc"
+}

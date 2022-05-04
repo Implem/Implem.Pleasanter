@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigOperationSystems_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Operation management system configuraton",
+    "WorkValue": "50",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Configuration",
+    "ClassB": "Work[Routine]",
+    "ClassC": "Operation",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "StartTime": "36661",
+    "CompletionTime": "36665",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}
