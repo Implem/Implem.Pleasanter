@@ -8419,6 +8419,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UseDelayFilter(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseDelayFilter",
+                data: data);
+        }
+
         public static string UsedRateStorageCapacity(
             Context context,
             params string[] data)

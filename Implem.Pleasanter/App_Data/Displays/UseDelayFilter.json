@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UseDelayFilter",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use delay filter"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用延迟过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "遅延フィルタを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Verzögerungsfilter verwenden"
+        },
+        {
+            "Language": "ko",
+            "Body": "지연 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usar filtro de retraso"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng bộ lọc độ trễ"
+        }
+    ]
+}

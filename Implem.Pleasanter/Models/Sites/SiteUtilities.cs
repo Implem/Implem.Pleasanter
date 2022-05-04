@@ -4923,6 +4923,11 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.UseNearCompletionTimeFilter(context: context),
                     _checked: ss.UseNearCompletionTimeFilter == true)
                 .FieldCheckBox(
+                    controlId: "UseDelayFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseDelayFilter(context: context),
+                    _checked: ss.UseDelayFilter == true)
+                .FieldCheckBox(
                     controlId: "UseOverdueFilter",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseOverdueFilter(context: context),
