@@ -1310,7 +1310,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <param name="context"></param>
         private void OnConstructing(Context context)
         {
             InitializeTimeZone();

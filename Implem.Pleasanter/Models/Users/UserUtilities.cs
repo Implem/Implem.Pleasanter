@@ -4327,7 +4327,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <returns></returns>
         public static string SwitchUser(Context context)
         {
             var userModel = new UserModel(

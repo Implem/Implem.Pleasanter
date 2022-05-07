@@ -381,7 +381,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <param name="dataRow"></param>
         public PermissionModel(
             Context context,
             long referenceId,
