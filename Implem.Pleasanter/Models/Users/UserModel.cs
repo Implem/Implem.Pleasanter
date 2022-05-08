@@ -3634,7 +3634,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool AllowedIpAddress(Context context)
         {
-            var createdContext = new Context(TenantId);
+            var createdContext = new Context(
+                tenantId: TenantId,
+                context: context);
             return context.ContractSettings.AllowedIpAddress(createdContext.UserHostAddress);
         }
 
@@ -4218,13 +4220,17 @@ namespace Implem.Pleasanter.Models
         public void SetFormsAuthentication(Context context, bool createPersistentCookie)
         {
             LoginSuccessLog(context: context);
-            context.FormsAuthenticationSignIn(
-                userName: LoginId,
-                createPersistentCookie: createPersistentCookie);
+            if (context.Request)
+            {
+                context.FormsAuthenticationSignIn(
+                    userName: LoginId,
+                    createPersistentCookie: createPersistentCookie);
+            }
             Libraries.Initializers.StatusesInitializer.Initialize(new Context(
                 tenantId: TenantId,
                 deptId: DeptId,
-                userId: UserId));
+                userId: UserId,
+                context: context));
         }
 
         /// <summary>

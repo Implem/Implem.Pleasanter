@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Register(Context context)
+        public static string Register(Context context, bool async = true)
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
@@ -45,7 +45,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             context = new Context(
                 tenantId: tenantModel.TenantId,
-                language: context.Language);
+                language: context.Language,
+                context: context);
             var demoModel = new DemoModel()
             {
                 Passphrase = passphrase,
@@ -78,7 +79,8 @@ namespace Implem.Pleasanter.Models
                     To = mailAddress,
                     Bcc = Parameters.Mail.SupportFrom
                 },
-                userHash: userHash);
+                userHash: userHash,
+                async: async);
             return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
@@ -161,27 +163,55 @@ namespace Implem.Pleasanter.Models
             this DemoModel demoModel,
             Context context,
             OutgoingMailModel outgoingMailModel,
-            Dictionary<string, string> userHash)
+            Dictionary<string, string> userHash,
+            bool async)
         {
             System.Diagnostics.Debug.WriteLine(outgoingMailModel.Body);
             var idHash = new Dictionary<string, long>();
-            System.Threading.Tasks.Task.Run(() =>
+            if (async)
             {
-                try
+                System.Threading.Tasks.Task.Run(() =>
                 {
-                    demoModel.Initialize(
+                    Initialize(
+                        demoModel: demoModel,
                         context: context,
+                        outgoingMailModel: outgoingMailModel,
                         userHash: userHash,
                         idHash: idHash);
-                    outgoingMailModel.Send(
-                        context: context,
-                        ss: new SiteSettings());
-                }
-                catch (Exception e)
-                {
-                    new SysLogModel(context: context, e: e);
-                }
-            });
+                });
+            }
+            else
+            {
+                Initialize(
+                    demoModel: demoModel,
+                    context: context,
+                    outgoingMailModel: outgoingMailModel,
+                    userHash: userHash,
+                    idHash: idHash);
+            }
+        }
+
+        private static void Initialize(
+            this DemoModel demoModel,
+            Context context,
+            OutgoingMailModel outgoingMailModel,
+            Dictionary<string, string> userHash,
+            Dictionary<string, long> idHash)
+        {
+            try
+            {
+                demoModel.Initialize(
+                    context: context,
+                    userHash: userHash,
+                    idHash: idHash);
+                outgoingMailModel.Send(
+                    context: context,
+                    ss: new SiteSettings());
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(context: context, e: e);
+            }
         }
 
         /// <summary>
