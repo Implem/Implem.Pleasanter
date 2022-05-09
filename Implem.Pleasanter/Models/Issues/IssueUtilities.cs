@@ -5455,15 +5455,13 @@ namespace Implem.Pleasanter.Models
                     .IssueId(tableName: "Issues" + tableName),
                 where: where,
                 param: param);
-            var attachments = Rds.ExecuteTable(
+            var binaries = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     tableType: tableType,
-                    column: Rds.BinariesColumn().Guid(),
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
                     where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
-                        .AsEnumerable()
-                        .Select(o => new Attachment() { Guid = o.String("Guid") })
-                        .ToList();
+                        .AsEnumerable();
             var guid = Strings.NewGuid();
             var count = Repository.ExecuteScalar_response(
                 context: context,
@@ -5490,11 +5488,28 @@ namespace Implem.Pleasanter.Models
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
-            if (tableType == Sqls.TableTypes.Deleted)
-            {
-                attachments.ForEach(attachment =>
-                    attachment.DeleteFromLocal(context: context));
-            }
+                if (tableType == Sqls.TableTypes.Deleted)
+                {
+                    binaries.ForEach(binary =>
+                    {
+                        var binaryType = binary.String("BinaryType");
+                        if (binaryType == "Attachments")
+                        {
+                            new Attachment() { Guid = binary.String("Guid") }.DeleteFromLocal(context: context);
+                        }
+                        else if (binaryType == "Images")
+                        {
+                            var path = System.IO.Path.Combine(
+                                Directories.BinaryStorage(),
+                                "Images",
+                                binary.String("Guid"));
+                            if (System.IO.File.Exists(path))
+                            {
+                                Files.DeleteFile(path);
+                            }
+                        }
+                    });
+                }
             return count;
         }
 

@@ -509,6 +509,14 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             binaryModel.Delete(context: context);
+            var path = System.IO.Path.Combine(
+                Directories.BinaryStorage(),
+                "Images",
+                binaryModel.Guid);
+            if (System.IO.File.Exists(path))
+            {
+                Files.DeleteFile(path);
+            }
             return new ResponseCollection()
                 .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
