@@ -508,15 +508,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            binaryModel.Delete(context: context);
-            var path = System.IO.Path.Combine(
-                Directories.BinaryStorage(),
-                "Images",
-                binaryModel.Guid);
-            if (System.IO.File.Exists(path))
-            {
-                Files.DeleteFile(path);
-            }
+            DeleteImageFromLocal(guid: binaryModel.Guid);
             return new ResponseCollection()
                 .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
@@ -1019,6 +1011,21 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultId: context.Id));
                 default: return new ErrorData(Error.Types.HasNotPermission);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void DeleteImageFromLocal(string guid)
+        {
+            var path = System.IO.Path.Combine(
+                Directories.BinaryStorage(),
+                "Images",
+                guid);
+            if (System.IO.File.Exists(path))
+            {
+                Files.DeleteFile(path);
             }
         }
     }
