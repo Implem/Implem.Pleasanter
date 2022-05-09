@@ -5,10 +5,6 @@
       dockerfile: ./Implem.Pleasanter/Dockerfile
     image: implem.pleasanter
     container_name: pleasanter
-    environment:
-      - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString
-      - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString
-      - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString
     depends_on:
       - db
     networks:
@@ -19,10 +15,6 @@
       dockerfile: ./Implem.CodeDefiner/Dockerfile
     image: implem.codedefiner
     container_name: codedefiner
-    environment:
-      - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString
-      - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString
-      - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString
     depends_on:
       - db
     networks:
@@ -40,6 +32,14 @@
       - "5432:5432"
     volumes:
       - ./docker-build/postgresql/init:/docker-entrypoint-initdb.d
+    networks:
+      - default
+  implem.testautomation:
+    container_name: testautomation
+    image: implem.testautomation
+    build:
+      context: .
+      dockerfile: Implem.TestAutomation/Dockerfile
     networks:
       - default
 networks:
