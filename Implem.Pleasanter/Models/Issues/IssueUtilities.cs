@@ -5455,7 +5455,7 @@ namespace Implem.Pleasanter.Models
                     .IssueId(tableName: "Issues" + tableName),
                 where: where,
                 param: param);
-            var binaries = Rds.ExecuteTable(
+            var dataRows = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     tableType: tableType,
@@ -5490,18 +5490,9 @@ namespace Implem.Pleasanter.Models
                 }).Count.ToInt();
                 if (tableType == Sqls.TableTypes.Deleted)
                 {
-                    binaries.ForEach(binary =>
-                    {
-                        var binaryType = binary.String("BinaryType");
-                        if (binaryType == "Attachments")
-                        {
-                            new Attachment() { Guid = binary.String("Guid") }.DeleteFromLocal(context: context);
-                        }
-                        else if (binaryType == "Images")
-                        {
-                            BinaryUtilities.DeleteImageFromLocal(guid: binary.String("Guid"));
-                        }
-                    });
+                    BinaryUtilities.DeleteFromLocal(
+                        context: context,
+                        dataRows: dataRows);
                 }
             return count;
         }
