@@ -107,9 +107,12 @@ namespace Implem.TestAutomation
             var executeType = argHash.Get("s");
             if (path.IsNullOrEmpty())
             {
-                var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split('\\');
-                path = new DirectoryInfo(Path.Combine(parts.Take(Array.IndexOf
-                    (parts, "Implem.TestAutomation")).Join("\\"), "Implem.Pleasanter")).FullName;
+                var parts = new DirectoryInfo(Assembly.GetEntryAssembly().Location).FullName.Split(Path.DirectorySeparatorChar);
+                path = new DirectoryInfo(
+                    Path.Combine(
+                        Path.Join(parts.Take(Array.IndexOf(parts, "Implem.TestAutomation")).ToArray()),
+                        "Implem.Pleasanter")
+                    ).FullName;
             }
             return (path, executeType);
         }
@@ -209,14 +212,17 @@ namespace Implem.TestAutomation
                         .ForEach(testCase =>
                         {
                             var testPartsList = new List<string>();
+                            testCase.TestPartsPath = testCase.TestPartsPath.Replace('\\', Path.DirectorySeparatorChar);
                             Parameters.ExtendedAutoTestOperations
                                 .ForEach(testParts =>
                                 {
-                                    testPartsList.Add(testParts.TestPartsPath);
+                                    var s = testParts.TestPartsPath.Replace('\\', Path.DirectorySeparatorChar);
+                                    s = s.Replace("/TestParts", "");
+                                    testPartsList.Add(s);
                                 });
                             string partCheck = null;
                             if ((!testCase.TestPartsName.IsNullOrEmpty()) &&
-                                (!testPartsList.Contains($"{testCase.TestPartsPath}\\{testCase.TestPartsName}")))
+                                (!testPartsList.Contains($"{testCase.TestPartsPath}{Path.DirectorySeparatorChar}{testCase.TestPartsName}")))
                             {
                                 if (result)
                                 {
@@ -224,8 +230,13 @@ namespace Implem.TestAutomation
                                 }
                                 partCheck = Displays.AutoTestResultNg(context: context);
                             }
-                            string partMessage = !testCase.TestPartsName.IsNullOrEmpty() ?
-                                $"\\{testCase.TestPartsName}" : "\\*";
+                            string partMessage = !testCase.TestPartsName.IsNullOrEmpty()
+                                ? $"{Path.DirectorySeparatorChar}{testCase.TestPartsName}"
+                                : $"{Path.DirectorySeparatorChar}*";
+
+//                            Console.WriteLine(testPartsList.ToJson(Newtonsoft.Json.Formatting.Indented));
+//                            Console.WriteLine($"{testCase.TestPartsPath}{Path.DirectorySeparatorChar}{testCase.TestPartsName}_XX");
+
                             Console.WriteLine(Displays.AutoTestPartsList(
                                     context: context,
                                     data: new string[]

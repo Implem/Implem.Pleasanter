@@ -46,7 +46,7 @@ namespace Implem.DefinitionAccessor
             DateTimes.FirstMonth = Parameters.General.FirstMonth;
             DateTimes.MinTime = Parameters.General.MinTime;
             DateTimes.MaxTime = Parameters.General.MaxTime;
-            SetBundleVersions();
+            // SetBundleVersions();
             DeleteTemporaryFiles();
         }
 
@@ -277,13 +277,13 @@ namespace Implem.DefinitionAccessor
                     if (testPartsPath.Equals("TestParts"))
                     {
                         hash[subDir.index].TestPartsPath
-                            = $"\\{Path.GetFileName(subDir.item.FullName)}";
+                            = $"{Path.DirectorySeparatorChar}{Path.GetFileName(subDir.item.FullName)}";
                     }
                     else
                     {
                         hash[subDir.index].TestPartsPath
-                            = $"\\{testPartsPath}" +
-                            $"\\{Path.GetFileName(subDir.item.FullName)}";
+                            = $"{Path.DirectorySeparatorChar}{testPartsPath}" +
+                            $"{Path.DirectorySeparatorChar}{Path.GetFileName(subDir.item.FullName)}";
                     }
                 }
             }
