@@ -508,7 +508,14 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            binaryModel.Delete(context: context);
+            var path = System.IO.Path.Combine(
+                Directories.BinaryStorage(),
+                "Images",
+                binaryModel.Guid);
+            if (System.IO.File.Exists(path))
+            {
+                Files.DeleteFile(path);
+            }
             return new ResponseCollection()
                 .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
@@ -1012,6 +1019,32 @@ namespace Implem.Pleasanter.Models
                             resultId: context.Id));
                 default: return new ErrorData(Error.Types.HasNotPermission);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void DeleteFromLocal(Context context, EnumerableRowCollection<DataRow> dataRows)
+        {
+            dataRows.ForEach(binary =>
+            {
+                var binaryType = binary.String("BinaryType");
+                if (binaryType == "Attachments")
+                {
+                    new Attachment() { Guid = binary.String("Guid") }.DeleteFromLocal(context: context);
+                }
+                else if (binaryType == "Images")
+                {
+                    var path = System.IO.Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Images",
+                        binary.String("Guid"));
+                    if (System.IO.File.Exists(path))
+                    {
+                        Files.DeleteFile(path);
+                    }
+                }
+            });
         }
     }
 }
