@@ -509,9 +509,9 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var path = System.IO.Path.Combine(
-                    Directories.BinaryStorage(),
-                    "Images",
-                    binaryModel.Guid);
+                Directories.BinaryStorage(),
+                "Images",
+                binaryModel.Guid);
             if (System.IO.File.Exists(path))
             {
                 Files.DeleteFile(path);
@@ -1036,9 +1036,9 @@ namespace Implem.Pleasanter.Models
                 else if (binaryType == "Images")
                 {
                     var path = System.IO.Path.Combine(
-                            Directories.BinaryStorage(),
-                            "Images",
-                            binary.String("Guid"));
+                        Directories.BinaryStorage(),
+                        "Images",
+                        binary.String("Guid"));
                     if (System.IO.File.Exists(path))
                     {
                         Files.DeleteFile(path);
