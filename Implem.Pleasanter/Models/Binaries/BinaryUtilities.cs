@@ -508,6 +508,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            binaryModel.Delete(context: context);
             var path = System.IO.Path.Combine(
                 Directories.BinaryStorage(),
                 "Images",
