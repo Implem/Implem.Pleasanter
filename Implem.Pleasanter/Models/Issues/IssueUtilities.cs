@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .ClearFormData("OriginalId", _using: newOnGrid)
-                .CloseDialog()
+                .CloseDialog(_using: offset == 0)
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,

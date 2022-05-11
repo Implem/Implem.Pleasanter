@@ -268,7 +268,7 @@ public static string GridRows(
 
 <!--Model_Utilities_ClearOriginalId-->
 
-        .CloseDialog()
+        .CloseDialog(_using: offset == 0)
         .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
             .CopyDirectUrlToClipboard(
                 context: context,
