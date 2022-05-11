@@ -701,7 +701,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string BinaryStorageProvider(Column column)
+        public static string BinaryStorageProvider(Column column = null)
         {
             if (Parameters.BinaryStorage.UseStorageSelect)
             {
@@ -835,7 +835,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
+        public static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
         {
             var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
             if (!tempDirectoryInfo.Exists)
@@ -947,7 +947,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Error.Types ValidateFileHash(
+        public static Error.Types ValidateFileHash(
             System.IO.FileInfo fileInfo,
             System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
             string hash)
@@ -1046,6 +1046,20 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             });
+        }
+        
+		/// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(string contentRangeHeader)
+        {
+            var matches = System.Text.RegularExpressions.Regex.Matches(contentRangeHeader ?? string.Empty, "\\d+");
+            return matches.Count > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    long.Parse(matches[0].Value),
+                    long.Parse(matches[1].Value),
+                    long.Parse(matches[2].Value))
+                : null;
         }
     }
 }

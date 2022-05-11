@@ -81,7 +81,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 joinExpression: "[Items].[SiteId]=[Sites].[SiteId]")),
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .Guid(guid))
+                            .Guid(guid)
+                            .CanRead(
+                                context: context,
+                                idColumnBracket: "\"Binaries\".\"ReferenceId\"",
+                                _using: !context.Publish))
                 });
             return referenceId;
         }
