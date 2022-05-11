@@ -41,4 +41,10 @@
     <ProjectReference Include="..\Implem.Pleasanter\Implem.Pleasanter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
