@@ -191,6 +191,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static void Initialize(
             this DemoModel demoModel,
             Context context,
