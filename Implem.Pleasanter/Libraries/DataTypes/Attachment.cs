@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -147,6 +148,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 return null;
             }
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                attachments: new Attachments() { this });
+            if (invalid != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: invalid));
+            }
+            var bin = IsStoreLocalFolder(null) ? default : GetBin();
             var statements = new List<SqlStatement>();
             statements.Add(Rds.InsertBinaries(
                 selectIdentity: true,
@@ -156,7 +167,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Guid(Guid)
                     .Title(Name ?? FileName)
                     .BinaryType("Attachments")
-                    .Bin(GetBin())
+                    .Bin(bin, _using: !IsStoreLocalFolder(null))
+                    .Bin(raw: "NULL", _using: IsStoreLocalFolder(null))
                     .FileName(Name ?? FileName)
                     .Extension(Extention)
                     .Size(Size)
