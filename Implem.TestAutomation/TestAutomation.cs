@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Reflection;
@@ -179,7 +179,9 @@ namespace Implem.TestAutomation
             switch (browserType)
             {
                 case BrowserTypes.Chrome:
-                    return new ChromeDriver();
+                    var opt = new ChromeOptions();
+                    opt.AddArgument("--headless");
+                    return new ChromeDriver(options: opt);
                 case BrowserTypes.IE:
                     return new InternetExplorerDriver();
                 default:
