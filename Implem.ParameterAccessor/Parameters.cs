@@ -79,5 +79,11 @@ namespace Implem.DefinitionAccessor
             return (string)(prop?.GetValue(License))
                 ?? $"Copyright &copy; Implem Inc. 2014 - {DateTime.Now.Year}";
         }
+
+        public static bool DisableAds()
+        {
+            var prop = License.GetType().GetProperty("DisableAds");
+            return (bool?)(prop?.GetValue(License)) ?? false;
+        }
     }
 }
