@@ -1327,6 +1327,12 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: issueModel.IssueId))
                 {
+                    var newIssue = new IssueModel(
+                        context: context,
+                        ss: ss,
+                        methodType: BaseModel.MethodTypes.New);
+                    newIssue.SetByModel(issueModel);
+                    issueModel = newIssue;
                     issueModel.SetCopyDefault(
                         context: context,
                         ss: ss);
@@ -1334,6 +1340,10 @@ namespace Implem.Pleasanter.Models
                     issueModel.Ver = 1;
                     issueModel.Comments = new Comments();
                     issueModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                    issueModel.SetByLookups(
+                        context: context,
+                        ss: ss,
+                        copyByDefaultOnly: true);
                 }
                 else
                 {

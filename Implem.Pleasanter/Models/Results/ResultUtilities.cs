@@ -1222,6 +1222,12 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
+                    var newResult = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        methodType: BaseModel.MethodTypes.New);
+                    newResult.SetByModel(resultModel);
+                    resultModel = newResult;
                     resultModel.SetCopyDefault(
                         context: context,
                         ss: ss);
@@ -1229,6 +1235,10 @@ namespace Implem.Pleasanter.Models
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();
                     resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                    resultModel.SetByLookups(
+                        context: context,
+                        ss: ss,
+                        copyByDefaultOnly: true);
                 }
                 else
                 {
