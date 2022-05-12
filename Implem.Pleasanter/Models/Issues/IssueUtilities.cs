@@ -6622,8 +6622,14 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
-            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
-                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            if (groupByX?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == false
+                        || groupByY?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null) == false)
             {
                 return HtmlTemplates.Error(
                     context: context,
@@ -6716,8 +6722,14 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
-            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
-                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            if (groupByX?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == false
+                        || groupByY?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null) == false)
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
