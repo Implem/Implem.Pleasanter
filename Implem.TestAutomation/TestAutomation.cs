@@ -58,7 +58,7 @@ namespace Implem.TestAutomation
                             autoTestScenario.TestCases
                                 .SelectMany(testCase => Parameters.ExtendedAutoTestOperations
                                     .Where(testOperateion => testOperateion.TestPartsPath
-                                        .StartsWith($"{testCase.TestPartsPath}\\{testCase.TestPartsName}")))
+                                    .EndsWith($"{testCase.TestPartsPath}{Path.DirectorySeparatorChar}{testCase.TestPartsName}")))
                                 .ForEach(testOperation =>
                                     TestAutomationExecute.ExecuteAutoTest(
                                         testOperation: testOperation,
@@ -179,7 +179,9 @@ namespace Implem.TestAutomation
             switch (browserType)
             {
                 case BrowserTypes.Chrome:
-                    return new ChromeDriver();
+                    var opt = new ChromeOptions();
+                    opt.AddArgument("--headless");
+                    return new ChromeDriver(options: opt);
                 case BrowserTypes.IE:
                     return new InternetExplorerDriver();
                 default:
