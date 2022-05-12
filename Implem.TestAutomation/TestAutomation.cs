@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading;
 using System.Reflection;
@@ -58,7 +58,7 @@ namespace Implem.TestAutomation
                             autoTestScenario.TestCases
                                 .SelectMany(testCase => Parameters.ExtendedAutoTestOperations
                                     .Where(testOperateion => testOperateion.TestPartsPath
-                                        .StartsWith($"{testCase.TestPartsPath}\\{testCase.TestPartsName}")))
+                                    .EndsWith($"{testCase.TestPartsPath}{Path.DirectorySeparatorChar}{testCase.TestPartsName}")))
                                 .ForEach(testOperation =>
                                     TestAutomationExecute.ExecuteAutoTest(
                                         testOperation: testOperation,
