@@ -157,7 +157,12 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     context: context,
                     errorData: new ErrorData(type: invalid));
             }
-            var bin = IsStoreLocalFolder(null) ? default : GetBin();
+            var isLocal = IsStoreLocalFolder(null);
+            if (isLocal)
+            {
+                WriteToLocal(context: context);
+            }
+            var bin = isLocal ? default : GetBin();
             var statements = new List<SqlStatement>();
             statements.Add(Rds.InsertBinaries(
                 selectIdentity: true,
@@ -167,8 +172,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Guid(Guid)
                     .Title(Name ?? FileName)
                     .BinaryType("Attachments")
-                    .Bin(bin, _using: !IsStoreLocalFolder(null))
-                    .Bin(raw: "NULL", _using: IsStoreLocalFolder(null))
+                    .Bin(bin, _using: !isLocal)
+                    .Bin(raw: "NULL", _using: isLocal)
                     .FileName(Name ?? FileName)
                     .Extension(Extention)
                     .Size(Size)
@@ -187,7 +192,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (IsStoreLocalFolder(column))
             {
-                var filename = Path.Combine(Directories.Temp(), Guid, Name ?? FileName);
+                var filename = Path.Combine(
+                    Directories.Temp(),
+                    Guid,
+                    Name ?? FileName);
+                var filename = System.IO.File.Exists(tempFile)
+                    ? tempFile
+                    : Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Attachments",
+                        Guid);
                 using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     var sha = System.Security.Cryptography.SHA256.Create();

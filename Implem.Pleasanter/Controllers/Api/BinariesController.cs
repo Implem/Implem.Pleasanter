@@ -139,6 +139,7 @@ namespace Implem.Pleasanter.Controllers.Api
                             range: contentRange);
                         if (saveError != Error.Types.None)
                         {
+                            uploaded = true;
                             return ApiResults.Error(
                                 context: context,
                                 errorData: new ErrorData(type: saveError));
@@ -206,6 +207,7 @@ namespace Implem.Pleasanter.Controllers.Api
                             range: contentRange);
                         if (saveError != Error.Types.None)
                         {
+                            uploaded = true;
                             return ApiResults.Error(
                                 context: context,
                                 errorData: new ErrorData(type: saveError));
