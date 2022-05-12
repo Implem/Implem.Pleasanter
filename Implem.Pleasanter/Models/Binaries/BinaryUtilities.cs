@@ -1047,8 +1047,8 @@ namespace Implem.Pleasanter.Models
                 }
             });
         }
-        
-		/// <summary>
+
+        /// <summary>
         /// Fixed:
         /// </summary>
         public static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(string contentRangeHeader)
