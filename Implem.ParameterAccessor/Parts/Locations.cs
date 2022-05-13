@@ -4,5 +4,6 @@
     {
         public string TopUrl;
         public string LoginAfterUrl;
+        public bool LoginAfterUrlExcludePrivilegedUsers;
     }
 }
