@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
         }
 
         private static void Create(
-            Context context, 
+            Context context,
             int tenantId,
             string loginId,
             string name,
