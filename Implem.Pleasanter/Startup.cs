@@ -126,6 +126,12 @@ namespace Implem.Pleasanter.NetCore
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
+            // BackgroundServiceで例外発生してもWebアプリケーション自体は終了させない設定
+            services.Configure<HostOptions>(options =>
+            {
+                options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+            });
+            services.AddHostedService<ReminderBackgroundService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
