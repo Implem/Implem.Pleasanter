@@ -4532,12 +4532,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetReturnUrl(string returnUrl)
         {
-            if (Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers && Permissions.PrivilegedUsers(LoginId)) return returnUrl;
-            return !returnUrl.IsNullOrEmpty()
-                ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
+            return (Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers && Permissions.PrivilegedUsers(LoginId))
+                ? returnUrl
+                : (string.IsNullOrEmpty(returnUrl) || returnUrl == "/")
                     ? Parameters.Locations.LoginAfterUrl
-                    : returnUrl
-                : Parameters.Locations.LoginAfterUrl;
+                    : returnUrl;
         }
     }
 }
