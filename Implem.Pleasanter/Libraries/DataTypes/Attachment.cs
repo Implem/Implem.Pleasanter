@@ -192,7 +192,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (IsStoreLocalFolder(column))
             {
-                var filename = Path.Combine(
+                var tempFile = Path.Combine(
                     Directories.Temp(),
                     Guid,
                     Name ?? FileName);
