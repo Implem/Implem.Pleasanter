@@ -4532,9 +4532,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetReturnUrl(string returnUrl)
         {
-            return (Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers && Permissions.PrivilegedUsers(LoginId))
+            return Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers
                 ? returnUrl
-                : (string.IsNullOrEmpty(returnUrl) || returnUrl == "/")
+                : returnUrl.IsNullOrEmpty() || returnUrl == "/"
                     ? Parameters.Locations.LoginAfterUrl
                     : returnUrl;
         }
