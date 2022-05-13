@@ -12,6 +12,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool TokenCheck;
         public bool SecureCookies;
         public bool DisableMvcResponseHeader;
+        public bool DisableSiteDeletingLogin;
         public List<string> AccessControlAllowOrigin;
         public int EnforcePasswordHistories;
         public List<PasswordPolicy> PasswordPolicies;

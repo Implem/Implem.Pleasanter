@@ -12573,12 +12573,12 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "Users_LoginId",
                         labelText: Displays.Users_LoginId(context: context),
-                        _using: !Authentications.SSO(context: context))
+                        _using: !Authentications.DisableSiteDeletingLogin(context: context))
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
                         controlId: "Users_Password",
                         labelText: Displays.Users_Password(context: context),
-                        _using: !Authentications.SSO(context: context))
+                        _using: !Authentications.DisableSiteDeletingLogin(context: context))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
