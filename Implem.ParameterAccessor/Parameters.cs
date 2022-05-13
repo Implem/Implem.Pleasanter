@@ -80,6 +80,13 @@ namespace Implem.DefinitionAccessor
                 ?? $"Copyright &copy; Implem Inc. 2014 - {DateTime.Now.Year}";
         }
 
+        public static string CopyrightUrl()
+        {
+            var prop = License.GetType().GetProperty("CopyrightUrl");
+            return (string)(prop?.GetValue(License))
+                ?? "https://implem.co.jp";
+        }
+
         public static bool DisableAds()
         {
             var prop = License.GetType().GetProperty("DisableAds");

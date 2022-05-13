@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb.Footer(id: "Footer", action: () => hb
                 .P(action: () => hb
                     .A(
-                        attributes: new HtmlAttributes().Href("https://implem.co.jp"),
+                        attributes: new HtmlAttributes().Href(Parameters.CopyrightUrl()),
                         action: () => hb
                             .Raw(text: Parameters.Copyright()))));
         }
