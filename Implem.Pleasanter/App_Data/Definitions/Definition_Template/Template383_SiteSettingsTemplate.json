@@ -1,1 +1,150 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassA","ClassB","ClassC","NumA","DateA","DateB","Status","NumB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","ClassB","ClassC","NumA","DateA","DateB","Status","NumB","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","ClassC","NumA","DateA","DateB","Status","NumB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","DateB","Status","NumB","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Control number"},{"ColumnName":"Status","LabelText":"Maintenance situation","ChoicesText":"100,Under maintenance,During,status-new\n900,Serviced,Already,status-closed"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"Manufacturer","ChoicesText":"Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"},{"ColumnName":"ClassB","LabelText":"Car model","ChoicesText":"Passenger car\nHybrid car\nFreight car\nLarge special car\nOther"},{"ColumnName":"ClassC","LabelText":"Car name"},{"ColumnName":"NumA","LabelText":"Mileage","Unit":"km"},{"ColumnName":"NumB","LabelText":"Price","Format":"C"},{"ColumnName":"DateA","LabelText":"Year of manufacture"},{"ColumnName":"DateB","LabelText":"Next vehicle inspection date"},{"ColumnName":"Body","LabelText":"Remarks"}],"Aggregations":[{"Id":3,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":1,"GroupBy":"Status","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateB","KambanGroupByX":"ClassA","KambanGroupByY":"ClassB","KambanAggregateType":"Average","KambanValue":"NumB","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "DateB",
+        "Status",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Control number"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "Maintenance situation",
+            "ChoicesText": "100,Under maintenance,During,status-new\n900,Serviced,Already,status-closed"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Manufacturer",
+            "ChoicesText": "Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Car model",
+            "ChoicesText": "Passenger car\nHybrid car\nFreight car\nLarge special car\nOther"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Car name"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Mileage",
+            "Unit": "km"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Year of manufacture"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Next vehicle inspection date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateB",
+            "KambanGroupByX": "ClassA",
+            "KambanGroupByY": "ClassB",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumB",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,127 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","ClassA","NumA","NumB","ClassB","DateA","ClassC","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","NumA","NumB","ClassB","DateA","ClassC","Owner","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ResultId","Title","ClassA","NumA","NumB","ClassB","DateA","ClassC","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassA","NumA","NumB","ClassB","DateA","ClassC","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"ごみ分類","ChoicesText":"可燃ごみ\n資源ごみ\n産業廃棄物"},{"ColumnName":"NumA","LabelText":"処分量","Unit":"kg"},{"ColumnName":"ClassB","LabelText":"処分先","ChoicesText":"処分先1\n処分先2\n処分先3\n処分先4\n処分先5"},{"ColumnName":"DateA","LabelText":"処分日"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"ClassC","LabelText":"店舗","ChoicesText":"店舗1\n店舗2\n店舗3\n店舗4\n店舗5"},{"ColumnName":"NumB","LabelText":"費用","Format":"C"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassA","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "ごみ分類",
+            "ChoicesText": "可燃ごみ\n資源ごみ\n産業廃棄物"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "処分量",
+            "Unit": "kg"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "処分先",
+            "ChoicesText": "処分先1\n処分先2\n処分先3\n処分先4\n処分先5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "処分日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "店舗",
+            "ChoicesText": "店舗1\n店舗2\n店舗3\n店舗4\n店舗5"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "費用",
+            "Format": "C"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

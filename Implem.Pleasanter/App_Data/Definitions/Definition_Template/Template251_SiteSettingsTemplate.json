@@ -1,1 +1,143 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","DescriptionA","Comments","ClassA","ClassB","ClassC","ClassD","DateA","Status","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","DescriptionA","ClassA","ClassB","ClassC","ClassD","DateA","Status","Owner","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","ClassB","ClassC","ClassD","DateA","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Customer Name"},{"ColumnName":"DateA","LabelText":"Date and time of occurrence","DefaultInput":"0","EditorFormat":"Ymdhm"},{"ColumnName":"DescriptionA","LabelText":"Correspondence ・ treatment contents"},{"ColumnName":"Body","LabelText":"Claim content"},{"ColumnName":"ClassB","LabelText":"Product / service name","ChoicesText":"Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"},{"ColumnName":"Status","ChoicesText":"100,Not started yet,N,status-new\n200,During correspondence,D,status-inprogress\n300,Waiting for customer contact,W,status-review\n900,Done,D,status-closed\n910,On hold,O,status-rejected","ValidateRequired":true},{"ColumnName":"Owner","LabelText":"Corresponding person","ValidateRequired":true},{"ColumnName":"ClassC","LabelText":"Phase","ChoicesText":"Before ordering \nAfter order received \nAfter delivery"},{"ColumnName":"ClassD","LabelText":"Major cause","ChoicesText":"Window correspondence \nItem \nShipping \nFee \nAdvertisement"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"Owner","Type":0,"Target":""},{"Id":4,"GroupBy":"ClassC","Type":0,"Target":""},{"Id":5,"GroupBy":"ClassD","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"DateA":1},"TimeSeriesGroupBy":"ClassB","KambanGroupByY":"Owner"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "Status",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Customer Name"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date and time of occurrence",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Correspondence ・ treatment contents"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Claim content"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Product / service name",
+            "ChoicesText": "Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Not started yet,N,status-new\n200,During correspondence,D,status-inprogress\n300,Waiting for customer contact,W,status-review\n900,Done,D,status-closed\n910,On hold,O,status-rejected",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Corresponding person",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Phase",
+            "ChoicesText": "Before ordering \nAfter order received \nAfter delivery"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Major cause",
+            "ChoicesText": "Window correspondence \nItem \nShipping \nFee \nAdvertisement"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 5,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1
+            },
+            "TimeSeriesGroupBy": "ClassB",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "TitleSeparator": ")"
+}

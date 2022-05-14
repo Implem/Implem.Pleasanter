@@ -1,1 +1,240 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassB","NumA","NumB","ClassA","CheckA","CheckB","CheckC","CheckD","CheckE","CheckF","CheckG","CheckH","NumC","DateA","Updator","UpdatedTime"],"FilterColumns":["ClassA","ClassB","ClassC","ClassD","ClassE","ClassF","ClassG","ClassH","ClassI","ClassJ","ClassK","ClassL","ClassM","ClassN","ClassO","ClassP","ClassQ","ClassR","ClassS","ClassT","ClassU","ClassV","ClassW","ClassX","ClassY","ClassZ","CheckA","CheckB","CheckC","CheckD","CheckE","CheckF","CheckG","CheckH","CheckI","CheckJ","CheckK","CheckL","CheckM","CheckN","CheckO","CheckP","CheckQ","CheckR","CheckS","CheckT","CheckU","CheckV","CheckW","CheckX","CheckY","CheckZ","SiteTitle"],"EditorColumns":["ResultId","Ver","Title","ClassB","DateA","NumA","NumB","ClassA","CheckA","CheckB","CheckC","CheckD","CheckE","CheckF","CheckG","CheckH","NumC","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassB","NumA","NumB","ClassA","CheckA","CheckB","CheckC","CheckD","CheckE","CheckF","CheckG","CheckH","NumC","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","NumC","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"製品名"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"対応OS"},{"ColumnName":"NumA","LabelText":"更新期限","Unit":"年"},{"ColumnName":"NumB","LabelText":"インストール可能台数","Unit":"台"},{"ColumnName":"DateA","LabelText":"発売日"},{"ColumnName":"CheckA","LabelText":"ウイルス・スパイウェア対策"},{"ColumnName":"CheckB","LabelText":"ファイアウォール"},{"ColumnName":"CheckC","LabelText":"バックアップ"},{"ColumnName":"CheckD","LabelText":"PCチューンナップ"},{"ColumnName":"CheckE","LabelText":"迷惑メール対策(スパム対策)"},{"ColumnName":"CheckF","LabelText":"有害サイト規制"},{"ColumnName":"CheckG","LabelText":"フィッシング詐欺対策"},{"ColumnName":"CheckH","LabelText":"個人情報保護"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"ClassB","LabelText":"メーカ","ChoicesText":"メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"},{"ColumnName":"NumC","LabelText":"価格","Format":"C"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":2,"Target":"NumC"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateA","KambanAggregateType":"Average","KambanValue":"NumC","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "NumC",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ",
+        "SiteTitle"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassB",
+        "DateA",
+        "NumA",
+        "NumB",
+        "ClassA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "NumC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "NumC",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "対応OS"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "更新期限",
+            "Unit": "年"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "インストール可能台数",
+            "Unit": "台"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "CheckA",
+            "LabelText": "ウイルス・スパイウェア対策"
+        },
+        {
+            "ColumnName": "CheckB",
+            "LabelText": "ファイアウォール"
+        },
+        {
+            "ColumnName": "CheckC",
+            "LabelText": "バックアップ"
+        },
+        {
+            "ColumnName": "CheckD",
+            "LabelText": "PCチューンナップ"
+        },
+        {
+            "ColumnName": "CheckE",
+            "LabelText": "迷惑メール対策(スパム対策)"
+        },
+        {
+            "ColumnName": "CheckF",
+            "LabelText": "有害サイト規制"
+        },
+        {
+            "ColumnName": "CheckG",
+            "LabelText": "フィッシング詐欺対策"
+        },
+        {
+            "ColumnName": "CheckH",
+            "LabelText": "個人情報保護"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メーカ",
+            "ChoicesText": "メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "価格",
+            "Format": "C"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumC"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumC",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,116 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","ClassA","ClassB","ClassC","ClassD","ClassE","NumA","NumB","DateA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","DateA","ClassB","ClassC","ClassD","ClassE","NumA","NumB","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","ClassC","ClassD","ClassE","NumA","NumB","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"製品名"},{"ColumnName":"ClassA","LabelText":"製品番号"},{"ColumnName":"DateA","LabelText":"発売日"},{"ColumnName":"ClassB","LabelText":"メーカー","ChoicesText":"メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"},{"ColumnName":"ClassC","LabelText":"タイプ","ChoicesText":"ストレート\nブレンド"},{"ColumnName":"ClassD","LabelText":"焙煎","ChoicesText":"ライトロースト\nシナモンロースト\nミディアムロースト\nハイロースト\nシティロースト\nフルシティロースト\nフレンチロースト\nイタリアンロースト"},{"ColumnName":"ClassE","LabelText":"生産国"},{"ColumnName":"NumA","LabelText":"内容量","Unit":"g"},{"ColumnName":"NumB","LabelText":"価格","Format":"C"},{"ColumnName":"Body","LabelText":"説明"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabValue":"NumB","TimeSeriesGroupBy":"ClassB"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "NumB",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "NumB",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "製品番号"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メーカー",
+            "ChoicesText": "メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "タイプ",
+            "ChoicesText": "ストレート\nブレンド"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "焙煎",
+            "ChoicesText": "ライトロースト\nシナモンロースト\nミディアムロースト\nハイロースト\nシティロースト\nフルシティロースト\nフレンチロースト\nイタリアンロースト"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "生産国"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "内容量",
+            "Unit": "g"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "説明"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabValue": "NumB",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

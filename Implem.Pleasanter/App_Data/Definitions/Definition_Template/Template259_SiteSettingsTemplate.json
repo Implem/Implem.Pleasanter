@@ -1,1 +1,116 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","DescriptionA","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Owner","DateA","ClassA","ClassB","Title","Body","DescriptionA","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","LabelText":"Rgister"},{"ColumnName":"ClassA","LabelText":"Merchandise/Service","ChoicesText":"Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"},{"ColumnName":"ClassB","LabelText":"Work_category","ChoicesText":"Work_category1\nWork_category2\nWork_category3\nWork_category4\nWork_category5"},{"ColumnName":"DateA","LabelText":"Registered_date"},{"ColumnName":"DescriptionA","LabelText":"Answer"},{"ColumnName":"Body","LabelText":"Question"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"DateA","TimeSeriesGroupBy":"ClassA","KambanGroupByX":"ClassA","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Owner",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Rgister"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Merchandise/Service",
+            "ChoicesText": "Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Work_category",
+            "ChoicesText": "Work_category1\nWork_category2\nWork_category3\nWork_category4\nWork_category5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registered_date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Answer"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Question"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "ClassA",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,142 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["Title","ClassA","ClassB","Manager","StartTime","CompletionTime","DateA","Status","NumA","NumB","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","ClassA","Title","ClassB","Manager","Status","StartTime","CompletionTime","DateA","NumA","NumB","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","Manager","StartTime","CompletionTime","DateA","Status","NumA","NumB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","ClassA","ClassB","Manager","StartTime","CompletionTime","DateA","Status","NumA","NumB","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"StartTime","LabelText":"配布日"},{"ColumnName":"CompletionTime","LabelText":"有効期限","DefaultInput":"365"},{"ColumnName":"Status","ChoicesText":"100,配備中,中,status-new\n900,廃棄,廃,status-closed\n"},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"分類","ChoicesText":"保存水\n食料\n救急箱\n毛布\n衛生用品\nその他"},{"ColumnName":"ClassB","LabelText":"拠点","ChoicesText":"拠点1\n拠点2\n拠点3\n拠点4\n拠点5"},{"ColumnName":"NumA","LabelText":"配備数"},{"ColumnName":"NumB","LabelText":"費用","Format":"C"},{"ColumnName":"Title","LabelText":"品目"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"DateA","LabelText":"廃棄日"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumB","KambanGroupByY":"ClassB","KambanValue":"NumB"}],"EnableGantt":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "Status",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "Manager",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "NumA",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "Status",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "Status",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "配布日"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "有効期限",
+            "DefaultInput": "365"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,配備中,中,status-new\n900,廃棄,廃,status-closed\n"
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "分類",
+            "ChoicesText": "保存水\n食料\n救急箱\n毛布\n衛生用品\nその他"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "拠点",
+            "ChoicesText": "拠点1\n拠点2\n拠点3\n拠点4\n拠点5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "配備数"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "費用",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "品目"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "廃棄日"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumB",
+            "KambanGroupByY": "ClassB",
+            "KambanValue": "NumB"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

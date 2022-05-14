@@ -1,1 +1,118 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["DateA","ClassA","NumA","NumB","NumC","NumD","NumE","NumF","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","NumA","NumB","NumC","NumD","NumE","NumF","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["DateA","ClassA","NumA","NumB","NumC","NumD","NumE","NumF","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"DateA","LabelText":"Date"},{"ColumnName":"ClassA","LabelText":"Site_name","ChoicesText":"Site1\nSite2\nSite3\nSite4\nSite5"},{"ColumnName":"NumA","LabelText":"Page_view"},{"ColumnName":"NumB","LabelText":"Unique_user"},{"ColumnName":"NumC","LabelText":"Organic"},{"ColumnName":"NumD","LabelText":"Direct"},{"ColumnName":"NumE","LabelText":"Referral"},{"ColumnName":"NumF","LabelText":"SNS"},{"ColumnName":"Body","LabelText":"Notes"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"DateA","CrosstabGroupByY":"Columns","CrosstabColumns":"[\"NumA\",\"NumB\",\"NumC\",\"NumD\",\"NumE\",\"NumF\"]","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Site_name",
+            "ChoicesText": "Site1\nSite2\nSite3\nSite4\nSite5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Page_view"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Unique_user"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Organic"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Direct"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Referral"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "SNS"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\",\"NumD\",\"NumE\",\"NumF\"]",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

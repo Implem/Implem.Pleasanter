@@ -1,1 +1,123 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassA","ClassB","ClassC","ClassD","Body","DescriptionA","Comments","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","ClassB","Manager","Owner","ClassC","Body","ClassD","DescriptionA","AttachmentsA","Comments"],"TitleColumns":["ClassA","ClassB"],"LinkColumns":["ClassA","ClassB","Manager","Owner","ClassC","ClassD","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassC","ClassD","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassB","LabelText":"業務プロセス","ChoicesText":"プロセス1\nプロセス2\nプロセス3\nプロセス4\nプロセス5"},{"ColumnName":"ClassC","LabelText":"現状レベル","ChoicesText":"10,レベル1(初期)\n20,レベル2(管理された)\n30,レベル3(定義された)\n40,レベル4(定量的に管理された)\n50,レベル5(最適化している)"},{"ColumnName":"ClassD","LabelText":"目標レベル","ChoicesText":"10,レベル1(初期)\n20,レベル2(管理された)\n30,レベル3(定義された)\n40,レベル4(定量的に管理された)\n50,レベル5(最適化している)"},{"ColumnName":"DescriptionA","LabelText":"施策"},{"ColumnName":"Body","LabelText":"現状分析"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","ColumnSorterHash":{"ClassA":0,"ClassB":0}}],"EnableCalendar":false,"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "Body",
+        "DescriptionA",
+        "Comments",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "ClassC",
+        "Body",
+        "ClassD",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "ClassC",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassC",
+        "ClassD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "業務プロセス",
+            "ChoicesText": "プロセス1\nプロセス2\nプロセス3\nプロセス4\nプロセス5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "現状レベル",
+            "ChoicesText": "10,レベル1(初期)\n20,レベル2(管理された)\n30,レベル3(定義された)\n40,レベル4(定量的に管理された)\n50,レベル5(最適化している)"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "目標レベル",
+            "ChoicesText": "10,レベル1(初期)\n20,レベル2(管理された)\n30,レベル3(定義された)\n40,レベル4(定量的に管理された)\n50,レベル5(最適化している)"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "施策"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "現状分析"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassA": 0,
+                "ClassB": 0
+            }
+        }
+    ],
+    "EnableCalendar": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

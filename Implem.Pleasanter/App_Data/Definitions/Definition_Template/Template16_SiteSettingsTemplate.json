@@ -1,1 +1,217 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","Comments","ClassA","ClassC","ClassB","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","ClassA","ClassC","ClassB","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Manager","Owner","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","ClassA","ClassC","ClassB","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","ClassC","ClassB","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"CompletionTime","LabelText":"受注予定日"},{"ColumnName":"Status","ChoicesText":"100,引き合い,引,status-new\n150,提案,提,status-preparation\n200,交渉,交,status-inprogress\n300,契約,契,status-review\n900,受注,受,status-closed\n910,失注,失,status-rejected"},{"ColumnName":"ClassA","LabelText":"顧客名","FieldCss":"field-normal"},{"ColumnName":"ClassB","LabelText":"確度","ChoicesText":"90%\n50%\n30%"},{"ColumnName":"NumA","LabelText":"売上","Format":"C"},{"ColumnName":"NumB","LabelText":"仕入合計","Format":"C"},{"ColumnName":"NumC","LabelText":"粗利","Format":"C","EditorReadOnly":true},{"ColumnName":"NumD","LabelText":"粗利率","DecimalPlaces":1,"EditorReadOnly":true,"Unit":"%"},{"ColumnName":"Title","LabelText":"件名"},{"ColumnName":"ClassC","LabelText":"商品区分","ChoicesText":"商品区分1\n商品区分2\n商品区分3\n商品区分4\n商品区分5"},{"ColumnName":"StartTime","LabelText":"商談開始日"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":1,"Target":"NumA"},{"Id":2,"GroupBy":"Owner","Type":1,"Target":"NumA"},{"Id":3,"GroupBy":"ClassC","Type":1,"Target":"NumA"}],"Formulas":[{"Target":"NumC","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumB","OperatorType":2}]},"Id":1},{"Target":"NumD","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumC","OperatorType":0},{"ColumnName":"NumA","OperatorType":4},{"RawValue":100.0,"OperatorType":3}]},"Id":2}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"CompletionTime","CrosstabGroupByY":"Columns","CrosstabColumns":"[\"NumA\",\"NumB\",\"NumC\"]","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumA","KambanGroupByX":"Status","KambanGroupByY":"ClassB","KambanAggregateType":"Total","KambanValue":"NumA"}],"ShowGanttProgressRate":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "受注予定日"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,引き合い,引,status-new\n150,提案,提,status-preparation\n200,交渉,交,status-inprogress\n300,契約,契,status-review\n900,受注,受,status-closed\n910,失注,失,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "顧客名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "確度",
+            "ChoicesText": "90%\n50%\n30%"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "売上",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "仕入合計",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "粗利",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "粗利率",
+            "DecimalPlaces": 1,
+            "EditorReadOnly": true,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "件名"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "商品区分",
+            "ChoicesText": "商品区分1\n商品区分2\n商品区分3\n商品区分4\n商品区分5"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "商談開始日"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 4
+                    },
+                    {
+                        "RawValue": 100.0,
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 2
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "CompletionTime",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\"]",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumA",
+            "KambanGroupByX": "Status",
+            "KambanGroupByY": "ClassB",
+            "KambanAggregateType": "Total",
+            "KambanValue": "NumA"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

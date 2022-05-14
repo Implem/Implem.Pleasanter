@@ -1,1 +1,176 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassB","TitleBody","Comments","DescriptionA","DescriptionB","DescriptionC","DescriptionD","DescriptionE","ClassH","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","ClassB","Manager","Owner","ClassH","Body","ClassC","DescriptionA","ClassD","DescriptionB","ClassE","DescriptionC","ClassF","DescriptionD","ClassG","DescriptionE","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ClassB","ClassA","ClassH","ClassC","ClassD","ClassE","ClassF","ClassG","Manager","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassH","ClassC","ClassD","ClassE","ClassF","ClassG","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Business name","ChoicesText":"Business1\nBusiness12\nBusiness13\nBusiness14\nBusiness15","FieldCss":"field-wide"},{"ColumnName":"ClassB","LabelText":"Department","ChoicesText":"Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"},{"ColumnName":"ClassC","LabelText":"Threat of new entry (pressure)","ChoicesText":"Weak\nMedium\nstrong"},{"ColumnName":"ClassD","LabelText":"Alternative product threat (pressure)","ChoicesText":"Weak\nMedium\nStrong"},{"ColumnName":"ClassE","LabelText":"Negotiation power (pressure) with suppliers","ChoicesText":"Weak\nMedium\nStrong"},{"ColumnName":"ClassF","LabelText":"Negotiation power (pressure) with buyers","ChoicesText":"Weak\nMedium\nStrong"},{"ColumnName":"ClassG","LabelText":"Competition with other companies in the same industry (pressure)","ChoicesText":"Weak\nMedium\nStrong"},{"ColumnName":"DescriptionA","LabelText":"Threat of new entry (contents)"},{"ColumnName":"DescriptionB","LabelText":"Threat of new entry (contents)"},{"ColumnName":"DescriptionC","LabelText":"Negotiation power (content) with suppliers"},{"ColumnName":"DescriptionD","LabelText":"Bargaining power with buyers (content)"},{"ColumnName":"DescriptionE","LabelText":"Competition with other companies in the same industry (content)"},{"ColumnName":"Body","LabelText":"Summary"},{"ColumnName":"ClassH","LabelText":"Judgment result","ChoicesText":"Entry\nReject\nReview\nHold"},{"ColumnName":"Status","ChoicesText":""}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassH","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"ClassB":0,"ClassA":0},"KambanGroupByX":"ClassH"}],"EnableCalendar":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "DescriptionE",
+        "ClassH",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "ClassH",
+        "Body",
+        "ClassC",
+        "DescriptionA",
+        "ClassD",
+        "DescriptionB",
+        "ClassE",
+        "DescriptionC",
+        "ClassF",
+        "DescriptionD",
+        "ClassG",
+        "DescriptionE",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassH",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassH",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Business name",
+            "ChoicesText": "Business1\nBusiness12\nBusiness13\nBusiness14\nBusiness15",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Threat of new entry (pressure)",
+            "ChoicesText": "Weak\nMedium\nstrong"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Alternative product threat (pressure)",
+            "ChoicesText": "Weak\nMedium\nStrong"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Negotiation power (pressure) with suppliers",
+            "ChoicesText": "Weak\nMedium\nStrong"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Negotiation power (pressure) with buyers",
+            "ChoicesText": "Weak\nMedium\nStrong"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Competition with other companies in the same industry (pressure)",
+            "ChoicesText": "Weak\nMedium\nStrong"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Threat of new entry (contents)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Threat of new entry (contents)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Negotiation power (content) with suppliers"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Bargaining power with buyers (content)"
+        },
+        {
+            "ColumnName": "DescriptionE",
+            "LabelText": "Competition with other companies in the same industry (content)"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "Judgment result",
+            "ChoicesText": "Entry\nReject\nReview\nHold"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassB": 0,
+                "ClassA": 0
+            },
+            "KambanGroupByX": "ClassH"
+        }
+    ],
+    "EnableCalendar": false,
+    "TitleSeparator": ")"
+}

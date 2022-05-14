@@ -1,1 +1,88 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateA","ClassA","TitleBody","ClassB","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","Title","Body","ClassB","Manager","Owner","AttachmentsA","Comments"],"LinkColumns":["DateA","ClassA","Title","ClassB","Owner","Manager","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","DateA","ClassA","Title","ClassB","Owner","Manager","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Manager","LabelText":"Responsible person"},{"ColumnName":"ClassA","LabelText":"Classification","ChoicesText":"Classification1\nClassification2\nClassification3\nClassification4\nClassification5"},{"ColumnName":"ClassB","LabelText":"Outgoing department","ChoicesText":"Outgoing department1\nOutgoing department2\nOutgoing department3\nOutgoing department4\nOutgoing department5"},{"ColumnName":"DateA","LabelText":"Calling date","DefaultInput":"0"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"DateA":1}}],"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "TitleBody",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "Title",
+        "Body",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "DateA",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Responsible person"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Classification",
+            "ChoicesText": "Classification1\nClassification2\nClassification3\nClassification4\nClassification5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Outgoing department",
+            "ChoicesText": "Outgoing department1\nOutgoing department2\nOutgoing department3\nOutgoing department4\nOutgoing department5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Calling date",
+            "DefaultInput": "0"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

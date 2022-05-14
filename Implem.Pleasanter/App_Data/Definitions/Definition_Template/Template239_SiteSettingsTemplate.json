@@ -1,1 +1,102 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","DescriptionA","Comments","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","Owner","ClassA","ClassB","Title","Body","DescriptionA","DescriptionB","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"DateA","LabelText":"Issued_date"},{"ColumnName":"Owner","LabelText":"Issued_by"},{"ColumnName":"ClassA","LabelText":"Merchandise/Service","ChoicesText":"Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"},{"ColumnName":"ClassB","LabelText":"Category","ChoicesText":"Merchandise/Service\nPrice\nDelivery_date\nQuality\nOther"},{"ColumnName":"DescriptionA","LabelText":"Issued_reason"},{"ColumnName":"DescriptionB","LabelText":"Feedback"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","TimeSeriesGroupBy":"ClassA"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Issued_date"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Issued_by"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Merchandise/Service",
+            "ChoicesText": "Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Category",
+            "ChoicesText": "Merchandise/Service\nPrice\nDelivery_date\nQuality\nOther"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Issued_reason"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Feedback"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

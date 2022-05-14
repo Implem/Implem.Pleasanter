@@ -1,1 +1,137 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["ClassC","Title","Status","StartTime","CompletionTime","ClassB","ClassA","Manager","ClassD","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","ClassC","Title","ClassB","ClassA","StartTime","CompletionTime","Body","Status","Manager","ClassD","DescriptionA","AttachmentsA","Comments"],"LinkColumns":["ClassC","Title","Status","StartTime","CompletionTime","ClassB","ClassA","Manager","ClassD","Updator","UpdatedTime"],"HistoryColumns":["Ver","ClassC","TitleBody","Status","StartTime","CompletionTime","ClassB","ClassA","Manager","ClassD","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"StartTime","LabelText":"貸出日"},{"ColumnName":"CompletionTime","LabelText":"返却予定日"},{"ColumnName":"Status","ChoicesText":"200,利用中,利,status-inprogress\n900,空き,空,status-rejected"},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"利用者","ChoicesText":"利用者1\n利用者2\n利用者3\n利用者4\n利用者5"},{"ColumnName":"ClassB","LabelText":"利用者所属","ChoicesText":"利用者所属1\n利用者所属2\n利用者所属3\n利用者所属4\n利用者所属5"},{"ColumnName":"DescriptionA","LabelText":"備考"},{"ColumnName":"Title","LabelText":"備品名"},{"ColumnName":"Body","LabelText":"理由"},{"ColumnName":"ClassC","LabelText":"管理番号"},{"ColumnName":"ClassD","LabelText":"保管場所","ChoicesText":"保管場所1\n保管場所2\n保管場所3\n保管場所4\n保管場所5"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","ColumnSorterHash":{"ClassC":0}}],"EnableBurnDown":false,"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassC",
+        "Title",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "StartTime",
+        "CompletionTime",
+        "Body",
+        "Status",
+        "Manager",
+        "ClassD",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassC",
+        "Title",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassC",
+        "TitleBody",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "貸出日"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "返却予定日"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,利用中,利,status-inprogress\n900,空き,空,status-rejected"
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "利用者",
+            "ChoicesText": "利用者1\n利用者2\n利用者3\n利用者4\n利用者5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "利用者所属",
+            "ChoicesText": "利用者所属1\n利用者所属2\n利用者所属3\n利用者所属4\n利用者所属5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "備品名"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "理由"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "管理番号"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "保管場所",
+            "ChoicesText": "保管場所1\n保管場所2\n保管場所3\n保管場所4\n保管場所5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassC": 0
+            }
+        }
+    ],
+    "EnableBurnDown": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

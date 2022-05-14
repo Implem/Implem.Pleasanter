@@ -1,1 +1,138 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassD","ClassA","DateA","NumA","ClassB","ClassC","DateB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassD","ClassA","DateA","NumA","ClassB","ClassC","DateB","Body","AttachmentsA","Comments"],"TitleColumns":["ClassB","ClassA"],"LinkColumns":["ClassD","ClassA","DateA","NumA","ClassB","ClassC","DateB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassD","ClassB","ClassC","NumA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"氏名","ChoicesText":"氏名1\n氏名2\n氏名3\n氏名4\n氏名5","FieldCss":"field-wide"},{"ColumnName":"ClassB","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassC","LabelText":"役職","ChoicesText":"一般\n課長\n部長\n取締役\n代表取締役"},{"ColumnName":"NumA","LabelText":"年齢","Unit":"歳"},{"ColumnName":"DateA","LabelText":"生年月日"},{"ColumnName":"DateB","LabelText":"入社日"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"ClassD","LabelText":"従業員番号"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","ColumnSorterHash":{"ClassD":0},"CalendarColumn":"DateB","TimeSeriesGroupBy":"ClassB"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassD",
+        "ClassA",
+        "DateA",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassD",
+        "ClassA",
+        "DateA",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassB",
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassD",
+        "ClassA",
+        "DateA",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassD",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "氏名",
+            "ChoicesText": "氏名1\n氏名2\n氏名3\n氏名4\n氏名5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "役職",
+            "ChoicesText": "一般\n課長\n部長\n取締役\n代表取締役"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "年齢",
+            "Unit": "歳"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "生年月日"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "入社日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "従業員番号"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassD": 0
+            },
+            "CalendarColumn": "DateB",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

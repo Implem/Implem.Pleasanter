@@ -1,1 +1,216 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassB","TitleBody","Comments","DescriptionA","DescriptionB","DescriptionC","DescriptionD","NumE","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","ClassB","Manager","Owner","NumE","Body","NumA","DescriptionA","NumB","DescriptionB","NumC","DescriptionC","NumD","DescriptionD","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ClassB","ClassA","NumE","NumA","NumB","NumC","NumD","Manager","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","NumE","NumA","NumB","NumC","NumD","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"Business name","ChoicesText":"business1\nbusiness2\nbusiness3\nbusiness4\nbusiness5","FieldCss":"field-wide"},{"ColumnName":"ClassB","LabelText":"Department","ChoicesText":"Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"},{"ColumnName":"DescriptionA","LabelText":"Product (Contents)"},{"ColumnName":"DescriptionB","LabelText":"Price (Contents)"},{"ColumnName":"DescriptionC","LabelText":"Distribution (content)"},{"ColumnName":"Body","LabelText":"Summary"},{"ColumnName":"NumA","LabelText":"Product evaluation)","ControlType":"Spinner","Max":10.0},{"ColumnName":"NumB","LabelText":"Price (evaluation)","ControlType":"Spinner","Max":10.0},{"ColumnName":"NumC","LabelText":"Distribution (evaluation)","ControlType":"Spinner","Max":10.0},{"ColumnName":"NumD","LabelText":"Promotion (evaluation)","ControlType":"Spinner","Max":10.0},{"ColumnName":"DescriptionD","LabelText":"Promotion (content)"},{"ColumnName":"NumE","LabelText":"Evaluation total","EditorReadOnly":true}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""}],"Formulas":[{"Target":"NumE","Formula":{"OperatorType":0,"Children":[{"OperatorType":0},{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0}]},{"OperatorType":1,"Children":[{"ColumnName":"NumB","OperatorType":0}]},{"OperatorType":1,"Children":[{"ColumnName":"NumC","OperatorType":0}]},{"OperatorType":1,"Children":[{"ColumnName":"NumD","OperatorType":0}]}]},"Id":1}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"ClassB":0,"ClassA":0},"TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumE","KambanGroupByX":"ClassB","KambanGroupByY":"ClassA","KambanValue":"NumE","KambanAggregationView":true}],"EnableCalendar":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumE",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "NumE",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Business name",
+            "ChoicesText": "business1\nbusiness2\nbusiness3\nbusiness4\nbusiness5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Product (Contents)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Price (Contents)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Distribution (content)"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Product evaluation)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Price (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Distribution (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Promotion (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Promotion (content)"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Evaluation total",
+            "EditorReadOnly": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumA",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumD",
+                                "OperatorType": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassB": 0,
+                "ClassA": 0
+            },
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumE",
+            "KambanGroupByX": "ClassB",
+            "KambanGroupByY": "ClassA",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "EnableCalendar": false,
+    "TitleSeparator": ")"
+}

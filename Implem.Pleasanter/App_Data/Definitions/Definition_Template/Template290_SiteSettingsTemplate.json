@@ -1,1 +1,237 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","Comments","ClassA","NumA","NumB","NumC","NumF","Status","StartTime","CompletionTime","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","ClassA","NumA","StartTime","CompletionTime","Status","Manager","Owner","NumB","NumD","NumC","NumE","NumF","NumG","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","NumA","NumB","NumC","NumF","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","NumB","NumC","NumF","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"StartTime","ExportFormat":"Ymda"},{"ColumnName":"CompletionTime","LabelText":"End","DefaultInput":"90","ExportFormat":"Ymda"},{"ColumnName":"Status","ChoicesText":"100,not started yet,Notyet,status-new\n150,Preparation,Preparation,status-preparation\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,On hold,Hold,status-rejected"},{"ColumnName":"Manager","LabelText":"Responsible person"},{"ColumnName":"NumA","LabelText":"Advertising expense","Format":"C"},{"ColumnName":"NumB","LabelText":"Inquiry","Section":"Implementation result","Unit":"Case"},{"ColumnName":"NumC","LabelText":"Business negotiation","NoWrap":true,"Unit":"Case"},{"ColumnName":"Title","LabelText":"Measure name"},{"ColumnName":"Body","LabelText":"Measures"},{"ColumnName":"ClassA","LabelText":"Type","ChoicesText":"Internet advertisement\nMass advertisement\nSPAd"},{"ColumnName":"NumD","LabelText":"Advertisement Advertising Expenses ÷ Inquiries","Format":"C","EditorReadOnly":true},{"ColumnName":"NumE","LabelText":"Advertisement advertising expenditure ÷ Advocate","Format":"C","EditorReadOnly":true},{"ColumnName":"NumF","LabelText":"Orders received","NoWrap":true,"Unit":"Case"},{"ColumnName":"NumG","LabelText":"Advertisement cost ÷ orders","Format":"C","EditorReadOnly":true}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":0,"Target":""}],"Formulas":[{"Target":"NumD","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumB","OperatorType":4}]},"Id":1},{"Target":"NumE","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumC","OperatorType":4}]},"Id":2},{"Target":"NumG","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumF","OperatorType":4}]},"Id":3}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"StartTime","CrosstabGroupByX":"StartTime","CrosstabGroupByY":"Columns","CrosstabColumns":"[\"NumA\",\"NumB\",\"NumC\",\"NumF\"]","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Count","TimeSeriesValue":"WorkValue","KambanGroupByY":"ClassA","KambanAggregateType":"Total","KambanValue":"NumA","KambanAggregationView":true}],"EnableGantt":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumF",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "NumA",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "NumB",
+        "NumD",
+        "NumC",
+        "NumE",
+        "NumF",
+        "NumG",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumF",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "NumB",
+        "NumC",
+        "NumF",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "StartTime",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "End",
+            "DefaultInput": "90",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,not started yet,Notyet,status-new\n150,Preparation,Preparation,status-preparation\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,On hold,Hold,status-rejected"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Responsible person"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Advertising expense",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Inquiry",
+            "Section": "Implementation result",
+            "Unit": "Case"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Business negotiation",
+            "NoWrap": true,
+            "Unit": "Case"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Measure name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Measures"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Type",
+            "ChoicesText": "Internet advertisement\nMass advertisement\nSPAd"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Advertisement Advertising Expenses ÷ Inquiries",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Advertisement advertising expenditure ÷ Advocate",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Orders received",
+            "NoWrap": true,
+            "Unit": "Case"
+        },
+        {
+            "ColumnName": "NumG",
+            "LabelText": "Advertisement cost ÷ orders",
+            "Format": "C",
+            "EditorReadOnly": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 2
+        },
+        {
+            "Target": "NumG",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumF",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 3
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "StartTime",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\",\"NumF\"]",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Count",
+            "TimeSeriesValue": "WorkValue",
+            "KambanGroupByY": "ClassA",
+            "KambanAggregateType": "Total",
+            "KambanValue": "NumA",
+            "KambanAggregationView": true
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

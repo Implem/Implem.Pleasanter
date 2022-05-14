@@ -1,1 +1,154 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","DescriptionA","ClassA","NumA","NumB","DateA","DateB","DateC","DateD","Status","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","DescriptionA","ClassA","NumA","NumB","DateA","DateB","DateC","DateD","Status","Owner","DescriptionB","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","NumA","NumB","DateA","DateB","DateC","DateD","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassA","NumA","NumB","DateA","DateB","DateC","DateD","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Event name"},{"ColumnName":"Body","LabelText":"Event content"},{"ColumnName":"DescriptionA","LabelText":"Hall"},{"ColumnName":"ClassA","LabelText":"Event classification","ChoicesText":"study group\nExhibition\nThe platform"},{"ColumnName":"NumA","LabelText":"Number of applications","Unit":"People"},{"ColumnName":"NumB","LabelText":"Capacity","Unit":"People"},{"ColumnName":"DateA","LabelText":"Recruitment start"},{"ColumnName":"DateB","LabelText":"Recruitment end"},{"ColumnName":"DateC","LabelText":"Event start"},{"ColumnName":"DateD","LabelText":"Event end"},{"ColumnName":"Status","ChoicesText":"100,Before the event,Before,status-new\n200,In progress,In progress,status-inprogress\n900,End,End,status-closed\n910,On hold,Hold,status-rejected"},{"ColumnName":"DescriptionB","LabelText":"Remarks"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"DateC","CrosstabGroupByY":"ClassA","TimeSeriesGroupBy":"ClassA","KambanGroupByY":"ClassA"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Event name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Event content"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Hall"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Event classification",
+            "ChoicesText": "study group\nExhibition\nThe platform"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Number of applications",
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Capacity",
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Recruitment start"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Recruitment end"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Event start"
+        },
+        {
+            "ColumnName": "DateD",
+            "LabelText": "Event end"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Before the event,Before,status-new\n200,In progress,In progress,status-inprogress\n900,End,End,status-closed\n910,On hold,Hold,status-rejected"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Remarks"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateC",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

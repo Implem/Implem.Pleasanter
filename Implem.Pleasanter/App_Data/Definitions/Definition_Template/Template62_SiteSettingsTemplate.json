@@ -1,1 +1,137 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","ClassA","ClassB","ClassC","NumA","NumB","ClassD","DateA","ClassE","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","ClassB","ClassC","NumA","NumB","ClassD","DateA","ClassE","Body","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","ClassB","ClassC","NumA","NumB","ClassD","DateA","ClassE","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","NumB","ClassD","ClassE","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"車両ナンバー"},{"ColumnName":"ClassA","LabelText":"メーカー","ChoicesText":"メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"},{"ColumnName":"ClassB","LabelText":"車種","ChoicesText":"自動車\nバイク\nその他"},{"ColumnName":"ClassC","LabelText":"車名"},{"ColumnName":"NumA","LabelText":"購入時価格","Format":"C"},{"ColumnName":"NumB","LabelText":"走行距離","Unit":"km"},{"ColumnName":"ClassD","LabelText":"修理歴","ChoicesText":"あり\nなし"},{"ColumnName":"DateA","LabelText":"購入日"},{"ColumnName":"ClassE","LabelText":"配備店舗","ChoicesText":"店舗1\n店舗2\n店舗3\n店舗4\n店舗5"},{"ColumnName":"Body","LabelText":"備考"}],"Aggregations":[{"Id":1,"GroupBy":"ClassE","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"ClassE","TimeSeriesGroupBy":"ClassE","KambanGroupByX":"ClassE","KambanGroupByY":"ClassB"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "ClassD",
+        "DateA",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "ClassD",
+        "DateA",
+        "ClassE",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "ClassD",
+        "DateA",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumB",
+        "ClassD",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "車両ナンバー"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "メーカー",
+            "ChoicesText": "メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "車種",
+            "ChoicesText": "自動車\nバイク\nその他"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "車名"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "購入時価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "走行距離",
+            "Unit": "km"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "修理歴",
+            "ChoicesText": "あり\nなし"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "購入日"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "配備店舗",
+            "ChoicesText": "店舗1\n店舗2\n店舗3\n店舗4\n店舗5"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassE",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "ClassE",
+            "TimeSeriesGroupBy": "ClassE",
+            "KambanGroupByX": "ClassE",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "TitleSeparator": ")"
+}

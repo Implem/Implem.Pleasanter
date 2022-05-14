@@ -1,1 +1,150 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassA","ClassB","ClassC","NumA","DateA","DateB","Status","NumB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","ClassB","ClassC","NumA","DateA","DateB","Status","NumB","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","ClassC","NumA","DateA","DateB","Status","NumB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","DateB","Status","NumB","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"管理番号"},{"ColumnName":"Status","LabelText":"整備状況","ChoicesText":"100,整備中,中,status-new\n900,整備済み,済,status-closed"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"メーカー","ChoicesText":"メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"},{"ColumnName":"ClassB","LabelText":"車種","ChoicesText":"乗用自動車\n乗合自動車\n貨物自動車\n大型特殊自動車\nその他"},{"ColumnName":"ClassC","LabelText":"車名"},{"ColumnName":"NumA","LabelText":"走行距離","Unit":"km"},{"ColumnName":"NumB","LabelText":"価格","Format":"C"},{"ColumnName":"DateA","LabelText":"製造年式"},{"ColumnName":"DateB","LabelText":"次回車検日"},{"ColumnName":"Body","LabelText":"備考"}],"Aggregations":[{"Id":3,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":1,"GroupBy":"Status","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateB","KambanGroupByX":"ClassA","KambanGroupByY":"ClassB","KambanAggregateType":"Average","KambanValue":"NumB","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "DateB",
+        "Status",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "管理番号"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "整備状況",
+            "ChoicesText": "100,整備中,中,status-new\n900,整備済み,済,status-closed"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "メーカー",
+            "ChoicesText": "メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "車種",
+            "ChoicesText": "乗用自動車\n乗合自動車\n貨物自動車\n大型特殊自動車\nその他"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "車名"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "走行距離",
+            "Unit": "km"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "製造年式"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "次回車検日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateB",
+            "KambanGroupByX": "ClassA",
+            "KambanGroupByY": "ClassB",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumB",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

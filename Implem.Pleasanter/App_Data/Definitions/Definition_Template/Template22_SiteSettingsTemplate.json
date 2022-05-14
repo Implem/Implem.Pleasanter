@@ -1,1 +1,146 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","DescriptionA","Comments","ClassA","DateA","DateB","NumA","ClassB","ClassC","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","ClassA","Owner","DateA","DateB","NumA","ClassB","ClassC","DescriptionA","DescriptionB","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","DateA","DateB","NumA","ClassB","ClassC","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassA","DateA","DateB","NumA","ClassB","ClassC","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"商談名"},{"ColumnName":"Body","LabelText":"商談内容"},{"ColumnName":"ClassA","LabelText":"顧客名","ChoicesText":"顧客1\n顧客2\n顧客3\n顧客4\n顧客5"},{"ColumnName":"DateA","LabelText":"開始"},{"ColumnName":"DateB","LabelText":"終了"},{"ColumnName":"NumA","LabelText":"商談金額","Format":"C"},{"ColumnName":"ClassB","LabelText":"敗退フェーズ","ChoicesText":"100,引き合い,引,status-new\n150,提案,提,status-preparation\n200,交渉,交,status-inprogress\n300,契約,契,status-review"},{"ColumnName":"ClassC","LabelText":"敗退原因","ChoicesText":"商品・サービス\n価格\n納期\n品質\n提案内容\n実績\n人間関係\nその他"},{"ColumnName":"DescriptionA","LabelText":"敗退原因詳細"},{"ColumnName":"DescriptionB","LabelText":"フィードバック"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassB","TimeSeriesGroupBy":"ClassC"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "Owner",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "DescriptionA",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "商談名"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "商談内容"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "顧客名",
+            "ChoicesText": "顧客1\n顧客2\n顧客3\n顧客4\n顧客5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "商談金額",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "敗退フェーズ",
+            "ChoicesText": "100,引き合い,引,status-new\n150,提案,提,status-preparation\n200,交渉,交,status-inprogress\n300,契約,契,status-review"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "敗退原因",
+            "ChoicesText": "商品・サービス\n価格\n納期\n品質\n提案内容\n実績\n人間関係\nその他"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "敗退原因詳細"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "フィードバック"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassB",
+            "TimeSeriesGroupBy": "ClassC"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

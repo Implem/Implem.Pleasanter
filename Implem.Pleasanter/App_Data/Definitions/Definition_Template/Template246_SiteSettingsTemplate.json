@@ -1,1 +1,202 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","DescriptionA","Comments","ClassB","ClassA","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","DescriptionA","ClassB","ClassA","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Manager","Owner","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","ClassB","ClassA","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Manager","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","NumA","NumB","NumC","NumD","StartTime","CompletionTime","Status","Owner","Manager","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Campaign type","ChoicesText":"Discount \nPremium \nOther"},{"ColumnName":"CompletionTime","LabelText":"End","DefaultInput":"30"},{"ColumnName":"NumA","LabelText":"Sales target","Format":"C"},{"ColumnName":"NumB","LabelText":"Sales performance","Format":"C"},{"ColumnName":"NumC","LabelText":"Prediction difference","Format":"C","EditorReadOnly":true},{"ColumnName":"NumD","LabelText":"Level of achievement","DecimalPlaces":1,"EditorReadOnly":true,"Unit":"%"},{"ColumnName":"ClassB","LabelText":"Products / Services","ChoicesText":"Products / Services1\nProducts / Services2\nProducts / Services3\nProducts / Services4\nProducts / Services5"},{"ColumnName":"Status","ChoicesText":"100,Not started,Nt,status-new\n150,Preparation,P,status-preparation\n200,In progress,I,status-inprogress\n900,Done,D,status-closed\n910,On hold,O,status-rejected"},{"ColumnName":"DescriptionA","LabelText":"Purpose"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassB","Type":0,"Target":""}],"Formulas":[{"Target":"NumC","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumB","OperatorType":0},{"ColumnName":"NumA","OperatorType":2}]},"Id":1},{"Target":"NumD","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumB","OperatorType":0},{"ColumnName":"NumA","OperatorType":4},{"RawValue":100.0,"OperatorType":3}]},"Id":2}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"StartTime","CrosstabValue":"NumB","KambanGroupByY":"ClassB"}],"ShowGanttProgressRate":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Campaign type",
+            "ChoicesText": "Discount \nPremium \nOther"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "End",
+            "DefaultInput": "30"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Sales target",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Sales performance",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Prediction difference",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Level of achievement",
+            "DecimalPlaces": 1,
+            "EditorReadOnly": true,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Products / Services",
+            "ChoicesText": "Products / Services1\nProducts / Services2\nProducts / Services3\nProducts / Services4\nProducts / Services5"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Not started,Nt,status-new\n150,Preparation,P,status-preparation\n200,In progress,I,status-inprogress\n900,Done,D,status-closed\n910,On hold,O,status-rejected"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Purpose"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 4
+                    },
+                    {
+                        "RawValue": 100.0,
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 2
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabValue": "NumB",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

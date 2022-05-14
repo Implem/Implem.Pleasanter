@@ -1,1 +1,154 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateC","Status","ClassB","TitleBody","ClassC","ClassD","DateA","DateB","NumA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateC","ClassB","ClassA","ClassC","Status","ClassD","DateA","DateB","NumA","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ResultId","DateC","Status","ClassB","ClassA","ClassC","ClassD","DateA","DateB","NumA","Updator","UpdatedTime"],"HistoryColumns":["Ver","DateC","Status","ClassA","ClassB","ClassC","ClassD","DateA","DateB","NumA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":"100,Statement,Statement,status-new\n900,Approval,Approval,status-closed\n910,Dismissal,Dismissal,status-review\n910,On hold,Hold,status-rejected"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"Name","ChoicesText":"Name1\nName2\nName3\nName4\nName5"},{"ColumnName":"ClassB","LabelText":"Belongs","ChoicesText":"Belongs1\nBelongs2\nBelongs3\nBelongs4\nBelongs5"},{"ColumnName":"ClassC","LabelText":"Authorizer","ChoicesText":"Authorizer1\nAuthorizer2\nAuthorizer3\nAuthorizer4\nAuthorizer5"},{"ColumnName":"ClassD","LabelText":"Vacation division","ChoicesText":"Paid holidays\nSpecial holiday\nCongratulations on vacation\nSubstitute holiday\nOther"},{"ColumnName":"NumA","LabelText":"Days","DecimalPlaces":1,"Unit":"Days"},{"ColumnName":"DateA","LabelText":"Period (self)","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"},{"ColumnName":"DateB","LabelText":"Period (last)","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"},{"ColumnName":"DateC","LabelText":"Ticket Date"},{"ColumnName":"Body","LabelText":"Reason"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":1,"Target":"NumA"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total","KambanGroupByY":"ClassA"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateC",
+        "Status",
+        "ClassB",
+        "TitleBody",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateC",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "Status",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "DateC",
+        "Status",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "DateC",
+        "Status",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Statement,Statement,status-new\n900,Approval,Approval,status-closed\n910,Dismissal,Dismissal,status-review\n910,On hold,Hold,status-rejected"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Name",
+            "ChoicesText": "Name1\nName2\nName3\nName4\nName5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Belongs",
+            "ChoicesText": "Belongs1\nBelongs2\nBelongs3\nBelongs4\nBelongs5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Authorizer",
+            "ChoicesText": "Authorizer1\nAuthorizer2\nAuthorizer3\nAuthorizer4\nAuthorizer5"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Vacation division",
+            "ChoicesText": "Paid holidays\nSpecial holiday\nCongratulations on vacation\nSubstitute holiday\nOther"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Days",
+            "DecimalPlaces": 1,
+            "Unit": "Days"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Period (self)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Period (last)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Ticket Date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Reason"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

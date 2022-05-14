@@ -1,1 +1,137 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","DateA","ClassA","ClassB","ClassC","NumA","NumB","NumC","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","DateA","ClassA","ClassB","ClassC","NumA","NumB","NumC","Body","AttachmentsA","Comments"],"LinkColumns":["Title","DateA","ClassA","ClassB","ClassC","NumA","NumB","NumC","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"名前"},{"ColumnName":"DateA","LabelText":"発売日"},{"ColumnName":"ClassA","LabelText":"メーカ","ChoicesText":"メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"},{"ColumnName":"ClassB","LabelText":"種類","ChoicesText":"芋焼酎\n麦焼酎\n黒糖焼酎\n米焼酎\nそば焼酎"},{"ColumnName":"ClassC","LabelText":"産地"},{"ColumnName":"NumA","LabelText":"アルコール","ControlType":"Spinner","DecimalPlaces":1,"Max":100.0,"Unit":"%"},{"ColumnName":"NumB","LabelText":"内容量","Unit":"ml"},{"ColumnName":"NumC","LabelText":"価格","Format":"C"},{"ColumnName":"NumD","ControlType":"Normal","Max":100.0},{"ColumnName":"NumF","Format":"C"},{"ColumnName":"Body","LabelText":"説明"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"ClassB","CrosstabGroupByY":"ClassA","CrosstabAggregateType":"Average","CrosstabValue":"NumF","TimeSeriesGroupBy":"ClassB"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "名前"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "メーカ",
+            "ChoicesText": "メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "種類",
+            "ChoicesText": "芋焼酎\n麦焼酎\n黒糖焼酎\n米焼酎\nそば焼酎"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "産地"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "アルコール",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 100.0,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "内容量",
+            "Unit": "ml"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumD",
+            "ControlType": "Normal",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumF",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "説明"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "ClassB",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Average",
+            "CrosstabValue": "NumF",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

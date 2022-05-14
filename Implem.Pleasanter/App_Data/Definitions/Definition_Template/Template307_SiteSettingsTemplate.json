@@ -1,1 +1,161 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","ClassA","ClassB","ClassC","ClassD","ClassE","Body","StartTime","CompletionTime","Status","ClassF","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","ClassA","Title","ClassB","ClassC","ClassD","ClassE","Body","StartTime","CompletionTime","Status","ClassF","Owner","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","ClassA","ClassB","ClassC","ClassD","ClassE","Body","StartTime","CompletionTime","Status","ClassF","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","ClassA","ClassB","ClassC","ClassD","ClassE","Body","StartTime","CompletionTime","Status","ClassF","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Segment"},{"ColumnName":"Title","LabelText":"IP_address","FieldCss":"field-normal"},{"ColumnName":"ClassB","LabelText":"Host_name"},{"ColumnName":"ClassC","LabelText":"Category","ChoicesText":"DesktopPC\nLaptopPC"},{"ColumnName":"ClassD","LabelText":"Model","ChoicesText":"Manufacture1\nManufacture2\nManufacture3\nManufacture4\nManufacture5"},{"ColumnName":"ClassE","LabelText":"OS","ChoicesText":"Windows7\nWindows8\nWindows10"},{"ColumnName":"Body","LabelText":"Purpose"},{"ColumnName":"StartTime","LabelText":"Start_date"},{"ColumnName":"CompletionTime","LabelText":"Returned_date"},{"ColumnName":"Status","ChoicesText":"200,In_using,Using,status-inprogress\n900,Returned,Returned,status-closed"},{"ColumnName":"ClassF","LabelText":"Department","ChoicesText":"Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"},{"ColumnName":"Owner","LabelText":"User"}],"Aggregations":[{"Id":2,"GroupBy":"Status","Type":0,"Target":""},{"Id":1,"GroupBy":"ClassF","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"ClassF","KambanGroupByY":"ClassF"}],"EnableGantt":false,"ShowGanttProgressRate":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassF",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassF",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassF",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassF",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Segment"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "IP_address",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Host_name"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Category",
+            "ChoicesText": "DesktopPC\nLaptopPC"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Model",
+            "ChoicesText": "Manufacture1\nManufacture2\nManufacture3\nManufacture4\nManufacture5"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "OS",
+            "ChoicesText": "Windows7\nWindows8\nWindows10"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Purpose"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Start_date"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Returned_date"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,In_using,Using,status-inprogress\n900,Returned,Returned,status-closed"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "User"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "ClassF",
+            "KambanGroupByY": "ClassF"
+        }
+    ],
+    "EnableGantt": false,
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,143 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","DescriptionA","Comments","ClassA","ClassB","NumA","NumB","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","DescriptionA","ClassA","ClassB","NumA","NumB","StartTime","CompletionTime","Status","Owner","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","ClassA","ClassB","NumA","NumB","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"CompletionTime","LabelText":"Coming soon"},{"ColumnName":"ClassA","LabelText":"Classification","ChoicesText":"Classification1\nClassification2\nClassification3\nClassification4\nClassification5"},{"ColumnName":"DescriptionA","LabelText":"SEOKeyword"},{"ColumnName":"ClassB","LabelText":"Public method","ChoicesText":"Blog\nMail magazine\nYouTube"},{"ColumnName":"StartTime","LabelText":"Start creating"},{"ColumnName":"Status","ChoicesText":"100,Not started yet,Notyet,status-new\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,On hold,Hold,status-rejected"},{"ColumnName":"NumA","LabelText":"Cost","Format":"C"},{"ColumnName":"NumB","LabelText":"GoalPV"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":4,"GroupBy":"Owner","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"CompletionTime","CrosstabGroupByX":"CompletionTime","TimeSeriesGroupBy":"ClassB","KambanGroupByY":"Owner"}],"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Coming soon"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Classification",
+            "ChoicesText": "Classification1\nClassification2\nClassification3\nClassification4\nClassification5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "SEOKeyword"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Public method",
+            "ChoicesText": "Blog\nMail magazine\nYouTube"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Start creating"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Not started yet,Notyet,status-new\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,On hold,Hold,status-rejected"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Cost",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "GoalPV"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "CompletionTime",
+            "CrosstabGroupByX": "CompletionTime",
+            "TimeSeriesGroupBy": "ClassB",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

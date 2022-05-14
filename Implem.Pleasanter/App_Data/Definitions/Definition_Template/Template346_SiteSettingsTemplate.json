@@ -1,1 +1,114 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateA","ClassA","ClassB","NumA","NumB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","ClassB","NumA","NumB","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA","ClassB"],"LinkColumns":["DateA","ClassA","ClassB","NumA","NumB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"Department","ChoicesText":"Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"},{"ColumnName":"ClassB","LabelText":"User","ChoicesText":"User1\nUser2\nUser3\nUser4\nUser5"},{"ColumnName":"NumA","LabelText":"Number of counters","Unit":"Sheet"},{"ColumnName":"NumB","LabelText":"Usage quantity","Unit":"Sheet"},{"ColumnName":"DateA","LabelText":"Date"},{"ColumnName":"Body","LabelText":"Remarks"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":1,"Target":"NumB"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"DateA","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumB","KambanGroupByY":"ClassB","KambanAggregateType":"Total","KambanValue":"NumB","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "User",
+            "ChoicesText": "User1\nUser2\nUser3\nUser4\nUser5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Number of counters",
+            "Unit": "Sheet"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Usage quantity",
+            "Unit": "Sheet"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumB"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumB",
+            "KambanGroupByY": "ClassB",
+            "KambanAggregateType": "Total",
+            "KambanValue": "NumB",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

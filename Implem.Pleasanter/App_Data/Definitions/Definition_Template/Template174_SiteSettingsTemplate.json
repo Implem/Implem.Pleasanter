@@ -1,1 +1,156 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassA","ClassB","ClassC","ClassD","ClassE","NumA","NumB","NumE","DateA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","DateA","ClassB","ClassC","ClassD","ClassE","NumA","NumB","NumE","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","ClassC","ClassD","ClassE","NumA","NumB","NumE","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","NumE","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"製品名"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"型番"},{"ColumnName":"ClassB","LabelText":"メーカ","ChoicesText":"メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"},{"ColumnName":"ClassC","LabelText":"装着タイプ","ChoicesText":"オーバーヘッド\nカナル\nインナーイヤー\n耳かけ\nネックバンド"},{"ColumnName":"NumA","LabelText":"ケーブル長","Unit":"cm"},{"ColumnName":"NumB","LabelText":"重量","Unit":"g"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"NumE","LabelText":"価格","Format":"C"},{"ColumnName":"DateA","LabelText":"発売日"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"ClassD","LabelText":"駆動方式","ChoicesText":"ダイナミック型\nバランスド・アーマチュア型\nコンデンサ型"},{"ColumnName":"ClassE","LabelText":"カラー","ChoicesText":"カラー1\nカラー2\nカラー3\nカラー4\nカラー5"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":2,"Target":"NumE"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateA","CrosstabValue":"NumE","KambanGroupByY":"ClassD","KambanAggregateType":"Average","KambanValue":"NumE","KambanAggregationView":true}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "NumB",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "NumB",
+        "NumE",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "NumB",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "型番"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メーカ",
+            "ChoicesText": "メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "装着タイプ",
+            "ChoicesText": "オーバーヘッド\nカナル\nインナーイヤー\n耳かけ\nネックバンド"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "ケーブル長",
+            "Unit": "cm"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "重量",
+            "Unit": "g"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "駆動方式",
+            "ChoicesText": "ダイナミック型\nバランスド・アーマチュア型\nコンデンサ型"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "カラー",
+            "ChoicesText": "カラー1\nカラー2\nカラー3\nカラー4\nカラー5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "CrosstabValue": "NumE",
+            "KambanGroupByY": "ClassD",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,173 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","ClassA","TitleBody","Comments","ClassB","ClassC","StartTime","CompletionTime","Status","Manager","ClassD","NumA","NumB","NumC","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","StartTime","CompletionTime","Status","Manager","ClassA","ClassB","ClassC","ClassD","NumA","NumB","NumC","Body","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","StartTime","CompletionTime","Status","Manager","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","StartTime","CompletionTime","Status","Manager","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"StartTime","LabelText":"購入日","ExportFormat":"Ymda"},{"ColumnName":"CompletionTime","LabelText":"有効期限","DefaultInput":"365","ExportFormat":"Ymda"},{"ColumnName":"Status","ChoicesText":"150,購入前,前,status-preparation\n200,利用中,利,status-inprogress\n900,解約,解,status-rejected"},{"ColumnName":"ClassA","LabelText":"メーカー"},{"ColumnName":"ClassB","LabelText":"バージョン"},{"ColumnName":"ClassC","LabelText":"シリアルNo"},{"ColumnName":"NumA","LabelText":"単価","Format":"C"},{"ColumnName":"NumB","LabelText":"ライセンス数","DefaultInput":"1"},{"ColumnName":"NumC","LabelText":"合計金額","Format":"C","EditorReadOnly":true},{"ColumnName":"Title","LabelText":"製品名"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"ClassD","LabelText":"インストール先","ChoicesText":"PC\nサーバ\nモバイル\nその他"}],"Aggregations":[{"Id":1,"GroupBy":"ClassD","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassD","Type":1,"Target":"NumC"}],"Formulas":[{"Target":"NumC","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumB","OperatorType":3}]},"Id":1}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","TimeSeriesGroupBy":"ClassD","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumC"}],"EnableGantt":false,"EnableBurnDown":false,"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "TitleBody",
+        "Comments",
+        "ClassB",
+        "ClassC",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "購入日",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "有効期限",
+            "DefaultInput": "365",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "150,購入前,前,status-preparation\n200,利用中,利,status-inprogress\n900,解約,解,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "メーカー"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "バージョン"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "シリアルNo"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "単価",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "ライセンス数",
+            "DefaultInput": "1"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "合計金額",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "インストール先",
+            "ChoicesText": "PC\nサーバ\nモバイル\nその他"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassD",
+            "Type": 1,
+            "Target": "NumC"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassD",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumC"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

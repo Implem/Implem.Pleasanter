@@ -1,1 +1,125 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","ClassE","TitleBody","ClassA","ClassB","ClassC","ClassD","DateA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassE","Title","ClassA","ClassB","ClassC","ClassD","Body","DescriptionB","DescriptionA","DateA","AttachmentsA","Comments"],"LinkColumns":["ResultId","ClassE","Title","ClassA","ClassB","ClassC","ClassD","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassE","Title","ClassA","ClassB","ClassC","ClassD","DateA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"会社名","FieldCss":"field-normal"},{"ColumnName":"ClassA","LabelText":"部署名"},{"ColumnName":"ClassB","LabelText":"担当者"},{"ColumnName":"ClassC","LabelText":"メール"},{"ColumnName":"ClassD","LabelText":"電話"},{"ColumnName":"ClassE","LabelText":"業務種別","ChoicesText":"業務種別1\n業務種別2\n業務種別3\n業務種別4\n業務種別5"},{"ColumnName":"Body","LabelText":"依頼方法"},{"ColumnName":"DescriptionA","LabelText":"備考"},{"ColumnName":"DateA","LabelText":"登録日"},{"ColumnName":"DescriptionB","LabelText":"契約内容"}],"Aggregations":[{"Id":1,"GroupBy":"ClassE","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","TimeSeriesGroupBy":"ClassE"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassE",
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassE",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "Body",
+        "DescriptionB",
+        "DescriptionA",
+        "DateA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "ClassE",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassE",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "会社名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部署名"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "担当者"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "業務種別",
+            "ChoicesText": "業務種別1\n業務種別2\n業務種別3\n業務種別4\n業務種別5"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "依頼方法"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "契約内容"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassE",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "TimeSeriesGroupBy": "ClassE"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

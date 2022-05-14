@@ -1,1 +1,134 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateA","ClassA","ClassB","ClassC","Status","DateB","Body","NumA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","ClassB","ClassC","Status","DateB","Body","NumA","AttachmentsA","Comments"],"TitleColumns":["ClassB"],"LinkColumns":["DateA","ClassA","ClassB","ClassC","Status","DateB","NumA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Status","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassB","LabelText":"申請者","ChoicesText":"申請者1\n申請者2\n申請者3\n申請者4\n申請者5"},{"ColumnName":"ClassC","LabelText":"承認者","ChoicesText":"承認者1\n承認者2\n承認者3\n承認者4\n承認者5"},{"ColumnName":"NumA","LabelText":"金額","Format":"C"},{"ColumnName":"DateA","LabelText":"申請日"},{"ColumnName":"DateB","LabelText":"購入日"},{"ColumnName":"Body","LabelText":"内容/理由"},{"ColumnName":"Status","ChoicesText":"100,起票,起票\n200,承認済,承認済\n300,清算済,清算済\n900,保留,保留"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassA","Type":1,"Target":"NumA"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateA","TimeSeriesAggregateType":"Total","KambanGroupByY":"ClassB"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "DateB",
+        "Body",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "DateB",
+        "Body",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "申請者",
+            "ChoicesText": "申請者1\n申請者2\n申請者3\n申請者4\n申請者5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "承認者",
+            "ChoicesText": "承認者1\n承認者2\n承認者3\n承認者4\n承認者5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "金額",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "申請日"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "購入日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "内容/理由"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起票\n200,承認済,承認済\n300,清算済,清算済\n900,保留,保留"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "TitleSeparator": ")"
+}

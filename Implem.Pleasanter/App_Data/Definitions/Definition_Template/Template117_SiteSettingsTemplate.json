@@ -1,1 +1,124 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassB","TitleBody","Comments","ClassC","NumA","NumB","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","ClassB","Manager","Owner","NumA","NumB","ClassC","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ClassB","ClassA","ClassC","NumA","NumB","Manager","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","ClassB","ClassA","Comments","ClassC","NumA","NumB","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"事業名","ChoicesText":"事業1\n事業2\n事業3\n事業4\n事業5","FieldCss":"field-wide"},{"ColumnName":"ClassB","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassC","LabelText":"事業区分","ChoicesText":"花形事業\n金のなる木\n問題児\n負け犬\n"},{"ColumnName":"NumA","LabelText":"市場成長率","Unit":"%/年"},{"ColumnName":"NumB","LabelText":"相対マーケットシェア","DefaultInput":"1","ControlType":"Spinner","Max":5.0,"Step":0.1,"Unit":"倍:対数"},{"ColumnName":"Body","LabelText":"総括"}],"Aggregations":[{"Id":1,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","ColumnSorterHash":{"ClassB":0},"TimeSeriesGroupBy":"ClassC"}],"EnableCalendar":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "NumA",
+        "NumB",
+        "ClassC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "Comments",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "事業名",
+            "ChoicesText": "事業1\n事業2\n事業3\n事業4\n事業5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "事業区分",
+            "ChoicesText": "花形事業\n金のなる木\n問題児\n負け犬\n"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "市場成長率",
+            "Unit": "%/年"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "相対マーケットシェア",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Max": 5.0,
+            "Step": 0.1,
+            "Unit": "倍:対数"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "総括"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassB": 0
+            },
+            "TimeSeriesGroupBy": "ClassC"
+        }
+    ],
+    "EnableCalendar": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

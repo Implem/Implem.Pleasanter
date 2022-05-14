@@ -1,1 +1,117 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","DescriptionA","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","DescriptionA","ClassA","ClassB","DateA","Owner","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassA","ClassB","DateA","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","LabelText":"Register"},{"ColumnName":"ClassA","LabelText":"Large_classification","ChoicesText":"Large_classification1\nLarge_classification2\nLarge_classification3\nLarge_classification4\nLarge_classification5"},{"ColumnName":"ClassB","LabelText":"Small_classification","ChoicesText":"Small_classification1\nSmall_classification2\nSmall_classification3\nSmall_classification4\nSmall_classification5"},{"ColumnName":"DateA","LabelText":"Registerd_date"},{"ColumnName":"DescriptionA","LabelText":"Answer"},{"ColumnName":"Body","LabelText":"Qestion"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"DateA","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassA","TimeSeriesGroupBy":"ClassA","KambanGroupByX":"ClassA"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Register"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Large_classification",
+            "ChoicesText": "Large_classification1\nLarge_classification2\nLarge_classification3\nLarge_classification4\nLarge_classification5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Small_classification",
+            "ChoicesText": "Small_classification1\nSmall_classification2\nSmall_classification3\nSmall_classification4\nSmall_classification5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registerd_date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Answer"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Qestion"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

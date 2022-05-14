@@ -1,1 +1,114 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateA","ClassA","ClassB","NumA","NumB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","ClassB","NumA","NumB","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA","ClassB"],"LinkColumns":["DateA","ClassA","ClassB","NumA","NumB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassB","LabelText":"利用者","ChoicesText":"利用者1\n利用者2\n利用者3\n利用者4\n利用者5"},{"ColumnName":"NumA","LabelText":"カウンター数","Unit":"枚"},{"ColumnName":"NumB","LabelText":"利用枚数","Unit":"枚"},{"ColumnName":"DateA","LabelText":"日付"},{"ColumnName":"Body","LabelText":"備考"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":1,"Target":"NumB"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateA","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumB","KambanGroupByY":"ClassB","KambanAggregateType":"Total","KambanValue":"NumB","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "利用者",
+            "ChoicesText": "利用者1\n利用者2\n利用者3\n利用者4\n利用者5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "カウンター数",
+            "Unit": "枚"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "利用枚数",
+            "Unit": "枚"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "日付"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumB"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumB",
+            "KambanGroupByY": "ClassB",
+            "KambanAggregateType": "Total",
+            "KambanValue": "NumB",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}
