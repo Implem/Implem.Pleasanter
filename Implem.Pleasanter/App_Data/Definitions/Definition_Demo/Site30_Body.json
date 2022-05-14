@@ -1,0 +1,128 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "DateB",
+        "Owner",
+        "Manager",
+        "Status",
+        "ClassA",
+        "DateA",
+        "ClassD",
+        "ClassB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "DateB",
+            "Owner",
+            "Manager",
+            "Status",
+            "ClassA",
+            "DateA",
+            "ClassD",
+            "ClassB",
+            "Body",
+            "DescriptionA",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "件名"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "承認者",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "作成者",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "利用者名"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発生日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "作成日",
+            "DefaultInput": "0",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "種別",
+            "ChoicesText": "転倒\n転落\n誤嚥・誤飲\n介護ミス\n食中毒・感染症"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起,status-new\n900,承認済,済,status-closed\n910,保留,留,status-rejected",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "発生場所",
+            "ChoicesText": "ユニット\n個人部屋\n廊下\nトイレ\n浴室\nキッチン\nその他",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "発生原因・解決方法"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "DateA": "desc"
+            },
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "TimeSeriesGroupBy": "ClassD",
+            "ApiDataType": 0
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

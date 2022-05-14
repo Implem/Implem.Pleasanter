@@ -1,0 +1,117 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "Manager",
+        "Status",
+        "DateA",
+        "DateB",
+        "NumB",
+        "NumA",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "Manager",
+            "Status",
+            "DateA",
+            "DateB",
+            "NumB",
+            "NumA",
+            "NumC",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Target_month",
+            "ChoicesText": "2016/03\n2017/04\n2017/05\n2017/06\n2017/07",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Start_date",
+            "DefaultInput": "0",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Finish_date",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Completed_person",
+            "Unit": "人",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Number_of_Dept",
+            "ValidateRequired": true,
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Not_Completed_person",
+            "Unit": "person",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,In_action,Action,status-inprogress\n300,Security_incident,Incident,status-review\n900,Completion,Comp,status-closed\n"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

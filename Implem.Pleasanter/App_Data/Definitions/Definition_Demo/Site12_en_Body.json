@@ -1,0 +1,192 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "Status",
+        "Manager",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "ClassA",
+            "Body",
+            "Manager",
+            "NumA",
+            "NumB",
+            "NumC",
+            "NumD",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Owner",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Sum_of_stocks",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Sum_of_purchases",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Sum_of_use",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Category",
+            "ChoicesText": "Office_supply/Stationery\nFile\nPeripheral/Media\nToner/Ink/OA_Supply\nOA_Equipment/Home_Electronics/Battery",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Sum_of_money",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumD"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassA": "desc"
+            },
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "ApiDataType": 0
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

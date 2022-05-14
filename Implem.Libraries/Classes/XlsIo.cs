@@ -49,6 +49,11 @@ namespace Implem.Libraries.Classes
                         var data = Files.Read(file.FullName);
                         hash[file.Name.Replace("_Body.txt", ".json")]["Body"] = data;
                     }
+                    else if (file.FullName.Contains("\\Definition_Demo\\") && file.Name.EndsWith("_Body.json"))
+                    {
+                        var data = Files.Read(file.FullName);
+                        hash[file.Name.Replace("_Body.json", ".json")]["Body"] = data;
+                    }
                     else if (file.Name.EndsWith("_SiteSettingsTemplate.json"))
                     {
                         var data = Files.Read(file.FullName);
