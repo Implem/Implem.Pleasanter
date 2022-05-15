@@ -1,0 +1,2 @@
+﻿if (data.Permissions != null) RecordPermissions = data.Permissions;
+if (data.SiteSettings != null) SiteSettings = data.SiteSettings;

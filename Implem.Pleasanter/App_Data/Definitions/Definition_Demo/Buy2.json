@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "消しゴム",
+    "ClassA": "#Expendable1#",
+    "ClassB": "スマイルマーケット",
+    "NumA": "10",
+    "NumB": "1513",
+    "DateA": "42757.705555555556",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User11",
+    "Updator": "User11",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

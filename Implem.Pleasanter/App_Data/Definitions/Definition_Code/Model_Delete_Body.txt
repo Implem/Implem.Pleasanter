@@ -1,0 +1,39 @@
+﻿public ErrorData Delete(Context context<!--Model_DeleteParams-->)
+{
+<!--Model_OnDeleting_ServerScript-->
+<!--Model_OnDeletedNotifications-->
+<!--Model_DeleteWithLinks-->
+
+    var statements = new List<SqlStatement>();
+    var where = Rds.#TableName#Where()<!--Model_AddSqlParamIdentity--><!--Model_AddSqlParamPk-->;
+
+<!--Model_OnDeletingExtendedSqls-->
+
+    statements.AddRange(new List<SqlStatement>
+    {
+
+<!--Model_Delete_Item-->
+
+        Rds.Delete#TableName#(
+            factory: context,
+            where: where)<!--Comma ( UpdateMonitor = 1 ) -->
+
+<!--Model_Delete_GroupMembers-->
+<!--Model_UpdateStatus-->
+
+    });
+<!--Model_DeleteAttachments-->   
+<!--Model_OnDeletedExtendedSqls-->
+
+    Repository.ExecuteNonQuery(
+        context: context,
+        transactional: true,
+        statements: statements.ToArray());
+
+<!--Model_WriteAttachmentsExecute-->
+<!--Model_SynchronizeSummaryExecute-->
+<!--Model_OnDeleted_SetSiteInfo-->
+<!--Model_OnDeletedNotice-->
+<!--Model_OnDeleted_ServerScript-->
+    return new ErrorData(type: Error.Types.None);
+}

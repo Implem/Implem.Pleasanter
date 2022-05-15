@@ -2751,7 +2751,11 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
-        public void SetByLookups(Context context, SiteSettings ss, Dictionary<string,string> requestFormData = null)
+        public void SetByLookups(
+            Context context,
+            SiteSettings ss,
+            Dictionary<string,string> requestFormData = null,
+            bool copyByDefaultOnly = false)
         {
             var formData = new Dictionary<string, string>();
             ss.Links
@@ -2759,15 +2763,17 @@ namespace Implem.Pleasanter.Models
                 .Where(link => PropertyUpdated(
                     context: context,
                     name: link.ColumnName))
-                .ForEach(link => link.Lookups.LookupData(
-                    context: context,
-                    ss: ss,
-                    link: link,
-                    id: GetClass(link.ColumnName).ToLong())
-                        .Where(data => requestFormData == null
-                            || !requestFormData.ContainsKey(data.Key))
-                        .ForEach(data =>
-                            formData.AddOrUpdate(data.Key, data.Value)));
+                .ForEach(link => link.Lookups
+                    .LookupData(
+                        context: context,
+                        ss: ss,
+                        link: link,
+                        id: GetClass(link.ColumnName).ToLong(),
+                        copyByDefaultOnly: copyByDefaultOnly)
+                            .Where(data => requestFormData == null
+                                || !requestFormData.ContainsKey(data.Key))
+                            .ForEach(data =>
+                                formData.AddOrUpdate(data.Key, data.Value)));
             if (formData.Any())
             {
                 SetByForm(

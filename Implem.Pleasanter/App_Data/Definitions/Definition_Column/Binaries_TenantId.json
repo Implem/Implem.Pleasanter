@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Binaries_TenantId",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "TenantId",
+    "LabelText": "テナントID",
+    "No": "2",
+    "History": "2",
+    "TypeName": "int",
+    "PkHistory": "1",
+    "NotForm": "1",
+    "LabelText_en": "Tenant ID",
+    "LabelText_zh": "租户ID",
+    "LabelText_de": "Mandanten-ID",
+    "LabelText_ko": "테넌트 ID",
+    "LabelText_es": "ID de arrendatario",
+    "LabelText_vn": "ID Người thuê"
+}

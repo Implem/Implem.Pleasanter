@@ -1,0 +1,11 @@
+﻿if (ss?.TableType == Sqls.TableTypes.Normal)
+{
+    join = ss.Join(
+        context: context,
+        join: new Implem.Libraries.DataSources.Interfaces.IJoin[]
+        {
+            column,
+            where,
+            orderBy
+        });
+}

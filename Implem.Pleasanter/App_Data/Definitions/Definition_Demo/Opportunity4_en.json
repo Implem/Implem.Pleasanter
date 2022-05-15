@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity4_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site7_en",
+    "Title": "Sell a graphical tool",
+    "Status": "100",
+    "ClassA": "#Customer6_en#",
+    "ClassB": "Software sales",
+    "ClassC": "50%",
+    "NumA": "320000",
+    "NumB": "280000",
+    "NumC": "40000",
+    "NumD": "12.5",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "StartTime": "36641",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

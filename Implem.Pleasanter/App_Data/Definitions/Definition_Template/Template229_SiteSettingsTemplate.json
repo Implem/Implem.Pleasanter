@@ -1,0 +1,357 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "DateA",
+        "Owner",
+        "Manager",
+        "Status",
+        "Body",
+        "DescriptionA",
+        "Comments",
+        "NumA",
+        "NumG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "DateA",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Status",
+        "Body",
+        "DescriptionA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "NumG",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "DateA",
+        "ClassB",
+        "Owner",
+        "Status",
+        "Manager",
+        "NumA",
+        "NumG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "DateA",
+        "ClassB",
+        "Owner",
+        "Status",
+        "Manager",
+        "Body",
+        "Comments",
+        "DescriptionA",
+        "NumA",
+        "NumG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Owner",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassA",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Affiliation",
+            "ChoicesText": "[[Depts]]",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Created_date",
+            "DefaultInput": "0",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Result"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Work_contents"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Sum_of_working_time",
+            "GridLabelText": "Working_time",
+            "GridDesign": "Sum_of_working_time：[NumA]\n\nCisit_a_customer：[NumB]\nCreate_documents：[NumC]\nTraveling：[NumD]\nInternal_work：[NumE]\nOther：[NumF]",
+            "DecimalPlaces": 1,
+            "EditorReadOnly": true,
+            "FieldCss": "field-normal",
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Main_task",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 20.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Create_documents",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 20.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Traveling",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 20.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Internal_work",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 20.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Other",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 20.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "NumG",
+            "LabelText": "Main_task_rate",
+            "DecimalPlaces": 1,
+            "EditorReadOnly": true,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Issue,Issue,status-new\n900,Reviewed,Reviewed,status-closed\n910,Pending,Pending,status-rejected",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Approver",
+            "ValidateRequired": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 7,
+            "GroupBy": "Owner",
+            "Type": 2,
+            "Target": "NumG"
+        },
+        {
+            "Id": 6,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 1,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumB"
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumC"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumD"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumE"
+        },
+        {
+            "Id": 5,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumF"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumE",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumF",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumG",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            },
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 1
+                            }
+                        ]
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 4
+                    },
+                    {
+                        "RawValue": 100.0,
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 2
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1,
+                "Owner": 0
+            },
+            "TimeSeriesGroupBy": "Owner",
+            "TimeSeriesAggregateType": "Average",
+            "TimeSeriesValue": "NumG",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "TitleSeparator": ")"
+}

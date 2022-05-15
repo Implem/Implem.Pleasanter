@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster8",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "コバヤシ　ケイコ",
+    "ClassB": "小林 佳子",
+    "ClassC": "400-0604",
+    "ClassD": "南巨摩郡鰍沢町箱原",
+    "ClassE": "198-320-310",
+    "ClassF": "kobayashi@example.com",
+    "ClassG": "山梨県",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

@@ -1,0 +1,39 @@
+﻿public static string PreviewTemplate(Context context, SiteSettings ss)
+{
+    var hb = new HtmlBuilder();
+    var name = Strings.NewGuid();
+    return hb
+        .Div(css: "samples-displayed", action: () => hb
+            .Text(text: Displays.SamplesDisplayed(context: context)))
+        .Div(css: "template-tab-container", action: () => hb
+            .Ul(action: () => hb
+                .Li(action: () => hb
+                    .A(
+                        href: "#" + name + "Editor",
+                        text: Displays.Editor(context: context)))
+                .Li(action: () => hb
+                    .A(
+                        href: "#" + name + "Grid",
+                        text: Displays.Grid(context: context))))
+            .FieldSet(
+                id: name + "Editor",
+                action: () => hb
+                    .FieldSetGeneralColumns(
+                        context: context,
+                        ss: ss,
+                        #modelName#Model: new #ModelName#Model(),
+                        preview: true))
+            .FieldSet(
+                id: name + "Grid",
+                action: () => hb
+                    .Table(css: "grid", action: () => hb
+                        .THead(action: () => hb
+                            .GridHeader(
+                                context: context,
+                                ss: ss,
+                                columns: ss.GetGridColumns(context: context),
+                                view: new View(context: context, ss: ss),
+                                sort: false,
+                                checkRow: false)))))
+                                    .ToString();
+}

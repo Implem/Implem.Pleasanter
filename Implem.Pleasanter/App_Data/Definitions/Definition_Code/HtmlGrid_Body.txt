@@ -1,0 +1,94 @@
+﻿namespace Implem.Pleasanter.Libraries.HtmlParts
+{
+    public static class HtmlGrids
+    {
+        public static HtmlBuilder Tr(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            List<Column> columns,
+            DataRow dataRow,
+            bool editRow,
+            bool checkRow,
+            string idColumn,
+            RecordSelector recordSelector = null,
+            FormDataSet formDataSet = null)
+        {
+            var dataId = dataRow.Long(idColumn);
+            var dataVersion = dataRow.Int("Ver");
+            var isHistory = dataRow.Bool("IsHistory");
+            ServerScriptModelRow serverScriptModelRow = null;
+
+<!--HtmlGrid_ModelHash-->
+
+            switch (ss.ReferenceType)
+            {
+
+<!--HtmlGrid_Model-->
+
+            };
+            var extendedRowCss = serverScriptModelRow?.ExtendedRowCss;
+            extendedRowCss = extendedRowCss.IsNullOrEmpty() ? string.Empty : " " + extendedRowCss;
+            return hb.Tr(
+                attributes: new HtmlAttributes()
+                    .Class("grid-row" + extendedRowCss)
+                    .DataId(dataId.ToString())
+                    .DataVer(dataVersion)
+                    .DataLatest(1, _using: !isHistory)
+                    .Add(name: "data-history", value: "1", _using: isHistory)
+                    .Add(name: "data-locked", value: "1", _using: dataRow.Bool("Locked"))
+                    .Add(name: "data-extension", value: serverScriptModelRow?.ExtendedRowData),
+                action: () =>
+                {
+                    if (editRow)
+                    {
+                        hb.Td(action: () => hb
+                            .Button(
+                                title: Displays.Reload(context: context),
+                                controlCss: "button-icon",
+                                onClick: $"$p.getData($(this)).Id={dataId};$p.send($(this));",
+                                icon: "ui-icon-refresh",
+                                action: "ReloadRow",
+                                method: "post",
+                                _using: !isHistory)
+                            .Button(
+                                title: Displays.Copy(context: context),
+                                controlCss: "button-icon",
+                                onClick: $"$p.getData($(this)).OriginalId={dataId};$p.send($(this));",
+                                icon: "ui-icon-copy",
+                                action: "CopyRow",
+                                method: "post",
+                                _using: !isHistory && context.CanCreate(ss: ss))
+                            .Hidden(
+                                controlId: $"{ss.ReferenceType}_Timestamp_{ss.SiteId}_{dataId}",
+                                css: "timestamp",
+                                value: dataRow
+                                    .Field<DateTime>("UpdatedTime")
+                                    .ToString("yyyy/M/d H:m:s.fff")));
+                    }
+                    else if (checkRow)
+                    {
+                        hb.Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "grid-check",
+                                _checked: recordSelector.Checked(dataId),
+                                dataId: dataId.ToString(),
+                                _using: !isHistory));
+                    }
+                    columns.ForEach(column =>
+                    {
+                        var key = column.TableName();
+                        var serverScriptModelColumn = serverScriptModelRow
+                            ?.Columns
+                            ?.Get(column?.ColumnName);
+                        switch (column.SiteSettings?.ReferenceType)
+                        {
+
+<!--HtmlGrid_Td-->
+
+                        }
+                    });
+                });
+        }
+    }
+}

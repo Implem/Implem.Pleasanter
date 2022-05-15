@@ -1,0 +1,11 @@
+﻿var titleUpdated = Title_Updated(context: context);
+if (get && Rds.ExtendedSqls(
+    context: context,
+    siteId: SiteId,
+    id: #ModelName#Id)
+        ?.Any(o => o.OnUpdated) == true)
+{
+    Get(
+        context: context,
+        ss: ss);
+}

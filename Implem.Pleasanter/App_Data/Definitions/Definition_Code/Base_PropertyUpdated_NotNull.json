@@ -1,0 +1,4 @@
+﻿{
+    "Id": "Base_PropertyUpdated_NotNull",
+    "ExcludeTypeName": "int,bigint,bit,decimal,float,datetime"
+}

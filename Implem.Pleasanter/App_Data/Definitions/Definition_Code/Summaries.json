@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Summaries",
+    "OutputPath": "Libraries\\Models\\Summaries.cs",
+    "Source": "Mvc"
+}

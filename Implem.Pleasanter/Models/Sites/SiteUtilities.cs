@@ -281,7 +281,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
-                .CloseDialog()
+                .CloseDialog(_using: offset == 0)
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
@@ -4923,6 +4923,11 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.UseNearCompletionTimeFilter(context: context),
                     _checked: ss.UseNearCompletionTimeFilter == true)
                 .FieldCheckBox(
+                    controlId: "UseDelayFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseDelayFilter(context: context),
+                    _checked: ss.UseDelayFilter == true)
+                .FieldCheckBox(
                     controlId: "UseOverdueFilter",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseOverdueFilter(context: context),
@@ -8034,11 +8039,12 @@ namespace Implem.Pleasanter.Models
                 columnName: "Status");
             var optionCollection = $"-1,*\n{status.ChoicesText}".SplitReturn()
                 .Select(o => new Choice(o))
+                .GroupBy(o => o.Value)
                 .ToDictionary(
-                    o => o.Value,
+                    o => o.Key,
                     o => new ControlData(
-                        text: o.Text,
-                        css: o.CssClass));
+                        text: o.First().Text,
+                        css: o.First().CssClass));
             return hb.FieldSet(id: "ProcessGeneralTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldDropDown(

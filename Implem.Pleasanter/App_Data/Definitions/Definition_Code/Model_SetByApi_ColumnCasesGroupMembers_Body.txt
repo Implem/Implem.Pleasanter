@@ -1,0 +1,1 @@
+﻿if (data.GroupMembers != null) GroupMembers = data.GroupMembers;

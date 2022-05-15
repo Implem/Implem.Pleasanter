@@ -1,0 +1,9 @@
+﻿if (formData != null)
+{
+    SetByForm(
+        context: context,
+
+        <!--Model_SiteSettingsWithParameterNameLower-->
+
+        formData: formData);
+}

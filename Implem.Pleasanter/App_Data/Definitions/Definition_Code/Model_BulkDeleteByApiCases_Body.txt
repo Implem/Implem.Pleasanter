@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.BulkDeleteByApi(
+        context: context,
+        ss: Site.SiteSettings);

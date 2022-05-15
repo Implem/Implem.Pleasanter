@@ -1,0 +1,33 @@
+﻿public void ExecuteAutomaticNumbering(
+    Context context,
+    SiteSettings ss)
+{
+    ss.Columns
+        .Where(column => !column.AutoNumberingFormat.IsNullOrEmpty())
+        .Where(column => !column.Joined)
+        .ForEach(column => SetByForm(
+            context: context,
+            ss: ss,
+            formData: new Dictionary<string, string>()
+            {
+                {
+                    $"#TableName#_{column.ColumnName}",
+                    AutoNumberingUtilities.ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        data: ss.IncludedColumns(value: column.AutoNumberingFormat)
+                            .ToDictionary(
+                                o => o.ColumnName,
+                                o => ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: o,
+                                    mine: Mine(context: context))),
+                        updateModel: Rds.Update#TableName#(
+                            where: Rds.#TableName#Where()
+                                .SiteId(SiteId)
+                                .#ModelName#Id(#ModelName#Id)))
+                }
+            }));
+}

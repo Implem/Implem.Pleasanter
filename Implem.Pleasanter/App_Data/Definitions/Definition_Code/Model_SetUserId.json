@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_SetUserId",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "UserColumn": "1",
+    "Exclude": "Creator,Updator"
+}

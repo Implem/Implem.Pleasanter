@@ -1,0 +1,2 @@
+﻿I am trying to access a sorting system of intranet, but an application error message is displayed and I cannot use it.
+I am not hurry, but please check about it.

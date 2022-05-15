@@ -1,0 +1,4 @@
+﻿else if (!Parameters.Service.ShowProfiles)
+{
+    return new ErrorData(type: Error.Types.InvalidRequest);
+}

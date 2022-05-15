@@ -1,0 +1,22 @@
+﻿case "#TableName#":
+    var #modelName#Model = #tableName#.Get(key);
+    if (#modelName#Model == null)
+    {
+        #modelName#Model = new #ModelName#Model(
+            context: context,
+
+            <!--HtmlGrid_SiteSettings-->
+
+            dataRow: dataRow,
+
+<!--HtmlGrid_FormData-->
+
+            tableAlias: column.TableAlias);
+        #tableName#.Add(key, #modelName#Model);
+        ss.ClearColumnAccessControlCaches(baseModel: #modelName#Model);
+    }
+
+<!--HtmlGrid_Td_Only-->
+<!--HtmlGrid_Td_Or_Editor-->
+
+    break;

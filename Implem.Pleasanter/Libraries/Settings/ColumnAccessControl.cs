@@ -19,7 +19,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Users;
         public List<string> RecordUsers;
         public Permissions.Types? Type;
-        // compatibility Version 1.013
         public List<string> AllowedUsers;
 
         public ColumnAccessControl()

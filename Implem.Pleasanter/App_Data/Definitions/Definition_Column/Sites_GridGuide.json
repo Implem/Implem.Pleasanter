@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_GridGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "GridGuide",
+    "LabelText": "一覧画面のガイド",
+    "No": "103",
+    "History": "103",
+    "EditorColumn": "103",
+    "LinkColumn": "103",
+    "HistoryColumn": "103",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Grid guide",
+    "LabelText_zh": "网格定向",
+    "LabelText_de": "Rasterleitfaden",
+    "LabelText_ko": "그리드 가이드",
+    "LabelText_es": "Guía de la cuadrícula",
+    "LabelText_vn": "Hướng dẫn màn hình chỉnh sửa"
+}

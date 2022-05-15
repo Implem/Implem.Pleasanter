@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Sites_ParentId",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "ParentId",
+    "LabelText": "親サイトID",
+    "No": "113",
+    "History": "113",
+    "LinkColumn": "113",
+    "HistoryColumn": "113",
+    "TypeName": "bigint",
+    "Default": "0",
+    "Required": "1",
+    "NotForm": "1",
+    "LabelText_en": "Parent site ID",
+    "LabelText_zh": "父系站点ID",
+    "LabelText_de": "ID der übergeordneten Site",
+    "LabelText_ko": "상위 사이트 ID",
+    "LabelText_es": "ID de sitio principal",
+    "LabelText_vn": "ID Trang web cha"
+}

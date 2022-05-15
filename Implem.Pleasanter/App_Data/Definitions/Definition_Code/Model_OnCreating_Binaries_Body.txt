@@ -1,0 +1,1 @@
+﻿Size = Bin.Length;

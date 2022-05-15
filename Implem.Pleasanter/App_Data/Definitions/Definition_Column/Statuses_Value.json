@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Statuses_Value",
+    "ModelName": "Status",
+    "TableName": "Statuses",
+    "Label": "ステータス",
+    "ColumnName": "Value",
+    "LabelText": "値",
+    "No": "101",
+    "History": "101",
+    "LinkColumn": "101",
+    "HistoryColumn": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "2048",
+    "Nullable": "1",
+    "LabelText_en": "Value",
+    "LabelText_zh": "数值",
+    "LabelText_de": "Wert",
+    "LabelText_ko": "값",
+    "LabelText_es": "Valor",
+    "LabelText_vn": "Giá trị"
+}

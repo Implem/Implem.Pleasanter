@@ -1,0 +1,7 @@
+﻿Rds.InsertGroupMembers(
+    tableType: tableType,
+    param: param ?? Rds.GroupMembersParam()
+        .GroupId(raw: Def.Sql.Identity)
+        .UserId(context.UserId)
+        .Admin(true),
+    _using: groupMembersUsing),

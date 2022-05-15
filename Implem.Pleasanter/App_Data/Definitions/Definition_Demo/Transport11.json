@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport11",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "200",
+    "ClassA": "品川支店",
+    "ClassB": "有限会社ノンプログラミング",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "本社",
+    "NumA": "1896",
+    "DateA": "36654.705555555556",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

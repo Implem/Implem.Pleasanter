@@ -1,4 +1,4 @@
-namespace Implem.IRds
+﻿namespace Implem.IRds
 {
     public interface ISqlConnectionStringBuilder
     {

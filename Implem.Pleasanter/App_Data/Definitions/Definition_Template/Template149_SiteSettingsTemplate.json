@@ -1,0 +1,116 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "Status",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "Status",
+        "NumA",
+        "DateA",
+        "Body",
+        "DescriptionA",
+        "DateB",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起\n900,承認,承\n920,否決,否\n930,条件付き承認,条\n940,保留,留"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "金額",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "起案日",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "決裁日",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "起案理由"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "条件内容"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

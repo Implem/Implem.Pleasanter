@@ -1,0 +1,88 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "TitleBody",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "Title",
+        "Body",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "DateA",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "責任者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "分類",
+            "ChoicesText": "分類1\n分類2\n分類3\n分類4\n分類5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "発信部門",
+            "ChoicesText": "発信部門1\n発信部門2\n発信部門3\n発信部門4\n発信部門5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発信日",
+            "DefaultInput": "0"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "DateA": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

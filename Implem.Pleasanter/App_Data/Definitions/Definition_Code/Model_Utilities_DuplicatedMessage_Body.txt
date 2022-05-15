@@ -1,0 +1,7 @@
+﻿case Error.Types.Duplicated:
+    return Messages.ResponseDuplicated(
+        context: context,
+        data: ss.GetColumn(
+            context: context,
+            columnName: errorData.ColumnName)?.LabelText)
+                .ToJson();

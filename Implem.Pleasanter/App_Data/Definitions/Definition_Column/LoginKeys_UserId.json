@@ -1,0 +1,18 @@
+﻿{
+    "Id": "LoginKeys_UserId",
+    "ModelName": "LoginKey",
+    "TableName": "LoginKeys",
+    "Label": "ログインキー",
+    "ColumnName": "UserId",
+    "LabelText": "ユーザID",
+    "No": "103",
+    "History": "103",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "User ID",
+    "LabelText_zh": "用户ID",
+    "LabelText_de": "Benutzer-ID",
+    "LabelText_ko": "사용자 ID",
+    "LabelText_es": "ID de usuario",
+    "LabelText_vn": "ID Người dùng"
+}

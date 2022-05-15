@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster6_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Yoko Yamamoto",
+    "ClassB": "Yoko Yamamoto",
+    "ClassC": "771-5323",
+    "ClassD": "Aioi-cho, Naka-gun",
+    "ClassE": "264-834-836",
+    "ClassF": "yamamoto@example.com",
+    "ClassG": "Tokushima",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

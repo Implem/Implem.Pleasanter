@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy17",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "マウス",
+    "ClassA": "#Expendable11#",
+    "ClassB": "ファミリーストア",
+    "NumA": "19",
+    "NumB": "2867",
+    "DateA": "42814.705555555556",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User11",
+    "Updator": "User11",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

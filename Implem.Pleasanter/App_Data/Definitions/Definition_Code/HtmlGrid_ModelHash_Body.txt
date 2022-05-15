@@ -1,0 +1,1 @@
+﻿var #tableName# = new Dictionary<string, #ModelName#Model>();

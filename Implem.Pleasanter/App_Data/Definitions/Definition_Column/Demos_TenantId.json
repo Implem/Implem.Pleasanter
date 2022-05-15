@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Demos_TenantId",
+    "ModelName": "Demo",
+    "TableName": "Demos",
+    "Label": "デモ",
+    "ColumnName": "TenantId",
+    "LabelText": "テナントID",
+    "No": "101",
+    "History": "101",
+    "LinkColumn": "101",
+    "HistoryColumn": "101",
+    "TypeName": "int",
+    "Required": "1",
+    "LabelText_en": "Tenant ID",
+    "LabelText_zh": "租户ID",
+    "LabelText_de": "Mandanten-ID",
+    "LabelText_ko": "테넌트 ID",
+    "LabelText_es": "ID de arrendatario",
+    "LabelText_vn": "ID Người thuê"
+}

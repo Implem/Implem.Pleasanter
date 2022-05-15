@@ -1,0 +1,9 @@
+﻿.GridNewRows(
+    context: context,
+    ss: ss,
+    #modelName#Model: #modelName#Model,
+    columns: columns,
+    formDataSet: formDataSet,
+    editRow: editRow,
+    newRowId: newRowId,
+    offset: offset)

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Security2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site41",
+    "Status": "300",
+    "ClassA": "2017年4月度",
+    "NumA": "19",
+    "NumB": "18",
+    "NumC": "1",
+    "NumD": "0",
+    "NumE": "0",
+    "DateA": "42828",
+    "DateB": "42853",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

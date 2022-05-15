@@ -238,14 +238,8 @@ namespace Implem.Pleasanter.Controllers
             var files = Request.Form.Files;
             var context = new Context(files: files.ToList());
             var log = new SysLogModel(context: context);
-            var contentRangeHeader = Request.Headers["Content-Range"];
-            var matches = System.Text.RegularExpressions.Regex.Matches(contentRangeHeader.FirstOrDefault() ?? string.Empty, "\\d+");
-            var contentRange = matches.Count > 0
-                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
-                    long.Parse(matches[0].Value),
-                    long.Parse(matches[1].Value),
-                    long.Parse(matches[2].Value))
-                : null;
+            var contentRangeHeader = Request.Headers["Content-Range"].FirstOrDefault();
+            var contentRange = BinaryUtilities.GetContentRange(contentRangeHeader: contentRangeHeader);
             var content= context.Authenticated
                 ? BinaryUtilities.UploadFile(context, id, contentRange)
                 : Messages.ResponseAuthentication(context: context).ToJson();

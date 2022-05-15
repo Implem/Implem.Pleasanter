@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Tenants_HtmlTitleTop",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "HtmlTitleTop",
+    "LabelText": "トップ",
+    "No": "109",
+    "History": "109",
+    "TypeName": "nvarchar",
+    "MaxLength": "1024",
+    "Default": "[ProductName]",
+    "Like": "1",
+    "Required": "1",
+    "FieldCss": "field-wide",
+    "ValidateRequired": "1",
+    "LabelText_en": "Top",
+    "LabelText_zh": "顶部",
+    "LabelText_de": "Nach oben",
+    "LabelText_ko": "위로",
+    "LabelText_es": "Arriba",
+    "LabelText_vn": "Trang chủ"
+}

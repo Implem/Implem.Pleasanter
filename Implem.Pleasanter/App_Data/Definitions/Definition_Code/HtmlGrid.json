@@ -1,0 +1,6 @@
+﻿{
+    "Id": "HtmlGrid",
+    "OutputPath": "Libraries\\HtmlParts\\HtmlGrids.cs",
+    "MergeToExisting": "1",
+    "Source": "Mvc"
+}

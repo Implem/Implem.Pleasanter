@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar2_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site25_en",
+    "Title": "8th WordPress seminar",
+    "Status": "900",
+    "ClassA": "Chuo-ku, Tokyo",
+    "NumA": "10",
+    "NumB": "6",
+    "NumC": "0",
+    "DateA": "42805.541666666664",
+    "DateB": "42805.729166666664",
+    "DateC": "42794.541666666664",
+    "DateD": "42798.541666666664",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

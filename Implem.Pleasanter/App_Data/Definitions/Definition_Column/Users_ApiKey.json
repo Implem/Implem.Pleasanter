@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Users_ApiKey",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "ApiKey",
+    "LabelText": "APIキー",
+    "No": "141",
+    "History": "141",
+    "LinkColumn": "141",
+    "HistoryColumn": "141",
+    "TypeName": "nvarchar",
+    "MaxLength": "128",
+    "Ix3": "1",
+    "Nullable": "1",
+    "NotLookup": "1",
+    "LabelText_en": "API key",
+    "LabelText_zh": "API密钥",
+    "LabelText_de": "API-Schlüssel",
+    "LabelText_ko": "API 키",
+    "LabelText_es": "Clave API",
+    "LabelText_vn": "Khóa API"
+}

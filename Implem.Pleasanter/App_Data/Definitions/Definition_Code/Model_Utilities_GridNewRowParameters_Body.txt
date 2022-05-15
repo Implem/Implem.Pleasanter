@@ -1,0 +1,39 @@
+﻿var newOnGrid = context.Action == "newongrid"
+    || context.Action == "copyrow";
+if (newOnGrid && !context.CanCreate(ss: ss))
+{
+    return Messages.ResponseHasNotPermission(context: context).ToJson();
+}
+var editRow = context.Forms.Bool("EditOnGrid");
+var newRowId = newOnGrid
+    ? (context.Forms.Int("NewRowId") - 1)
+    : 0;
+#ModelName#Model #modelName#Model = null;
+var originalId = context.Forms.Long("OriginalId");
+if (editRow && offset == 0)
+{
+    if (newRowId != 0)
+    {
+        if (originalId > 0)
+        {
+            #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                #modelName#Id: originalId);
+            #modelName#Model.SetCopyDefault(
+                context: context,
+                ss: ss);
+        }
+        else
+        {
+            #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                methodType: BaseModel.MethodTypes.New);
+        }
+        #modelName#Model.#ModelName#Id = 0;
+        #modelName#Model.SetByBeforeOpeningRowServerScript(
+            context: context,
+            ss: ss);
+    }
+}

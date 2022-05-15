@@ -32,7 +32,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
-        //test
         public static string UsersEdit(Context context, long id)
         {
             return Get(

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Facility7_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site20_en",
+    "Title": "Paper-shredder(004)",
+    "ClassA": "#Dept9_en#",
+    "ClassB": "053-1127",
+    "ClassC": "Paper-shredder",
+    "NumA": "3",
+    "NumB": "0",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Extensions_ExtensionSettings",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "ExtensionSettings",
+    "LabelText": "拡張機能設定",
+    "No": "103",
+    "History": "103",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "LabelText_en": "Extension settings",
+    "LabelText_zh": "扩展程序设置",
+    "LabelText_de": "Erweiterungseinstellungen",
+    "LabelText_ko": "확장 설정",
+    "LabelText_es": "Configuraciones de extensión",
+    "LabelText_vn": "Cài đặt tiện ích"
+}

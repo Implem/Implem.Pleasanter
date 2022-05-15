@@ -1,0 +1,5 @@
+﻿Configure a server.
+・Install OS
+・Install security patch
+・Stop unecessary services
+・System Backup

@@ -1,4 +1,5 @@
 ﻿{
     "TopUrl": null,
-    "LoginAfterUrl": null
+    "LoginAfterUrl": null,
+    "LoginAfterUrlExcludePrivilegedUsers": false
 }

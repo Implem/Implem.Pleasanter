@@ -1,0 +1,39 @@
+﻿using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Linq;
+namespace Implem.Pleasanter.Libraries.Models
+{
+    public static class FormulaUtilities
+    {
+        public static void Synchronize(
+            Context context, SiteModel siteModel, IEnumerable<int> selected = null)
+        {
+            Update(
+                context: context,
+                siteModel: siteModel,
+                id: 0,
+                selected: selected);
+        }
+
+        private static void Update(
+            Context context, SiteModel siteModel, long id, IEnumerable<int> selected = null)
+        {
+            var hasFormula = siteModel.SiteSettings.Formulas?.Any() ?? false;
+            var ss = SiteSettingsUtilities.Get(
+                context: context, siteModel: siteModel, referenceId: id);
+            switch (siteModel.ReferenceType)
+            {
+
+<!--FormulaUtilities_TableCases-->
+
+                default: break;
+            }
+        }
+
+<!--FormulaUtilities_Updates-->
+
+    }
+}

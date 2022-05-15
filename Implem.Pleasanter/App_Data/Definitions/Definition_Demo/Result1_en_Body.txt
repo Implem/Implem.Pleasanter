@@ -1,0 +1,8 @@
+﻿The disk capacity in the requirement document is not correct, fix it.
+Not correct
+  C drive: 100GB
+  D drive: 250GB
+
+Correct
+  C drive: 80GB
+  D drive: 500GB

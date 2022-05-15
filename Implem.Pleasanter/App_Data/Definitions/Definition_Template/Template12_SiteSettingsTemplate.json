@@ -1,0 +1,117 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "登録者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "大分類",
+            "ChoicesText": "大分類1\n大分類2\n大分類3\n大分類4\n大分類5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "小分類",
+            "ChoicesText": "小分類1\n小分類2\n小分類3\n小分類4\n小分類5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "回答内容"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "質問内容"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

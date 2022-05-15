@@ -1,0 +1,20 @@
+﻿public static ErrorData OnMoving(
+    Context context,
+    SiteSettings ss,
+    SiteSettings destinationSs,
+    #ModelName#Model #modelName#Model)
+{
+
+<!--Model_Validator_LockedTable-->
+<!--Model_Validator_LockedRecord-->
+
+    if (!Permissions.CanMove(
+        context: context,
+        source: ss,
+        destination: destinationSs)
+            || #modelName#Model.ReadOnly)
+    {
+        return new ErrorData(type: Error.Types.HasNotPermission);
+    }
+    return new ErrorData(type: Error.Types.None);
+}

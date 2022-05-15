@@ -1,0 +1,4 @@
+﻿.Div(attributes: new HtmlAttributes()
+    .Id("SetDateRangeDialog")
+    .Class("dialog")
+    .Title(Displays.DateRange(context)))

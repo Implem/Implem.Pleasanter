@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_ErrMessage",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ErrMessage",
+    "LabelText": "エラーメッセージ",
+    "No": "134",
+    "History": "134",
+    "EditorColumn": "134",
+    "EditorEnabled": "1",
+    "LinkColumn": "134",
+    "HistoryColumn": "134",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Nullable": "1",
+    "LabelText_en": "Error message",
+    "LabelText_zh": "错误消息",
+    "LabelText_de": "Fehlermeldung",
+    "LabelText_ko": "오류 메시지",
+    "LabelText_es": "Mensaje de error",
+    "LabelText_vn": "Thông báo lỗi"
+}

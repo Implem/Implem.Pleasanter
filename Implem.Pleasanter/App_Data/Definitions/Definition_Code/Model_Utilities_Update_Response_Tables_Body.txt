@@ -1,0 +1,53 @@
+﻿switch (Parameters.General.UpdateResponseType)
+{
+    case 1:
+        var verUp = Versions.VerUp(
+            context: context,
+            ss: ss,
+            verUp: false);
+        return res
+            .Ver(context: context, ss: ss)
+            .Timestamp(context: context, ss: ss)
+            .FieldResponse(context: context, ss: ss, #modelName#Model: #modelName#Model)
+            .Val("#VerUp", verUp)
+            .Val("#Ver", #modelName#Model.Ver)
+            .Disabled("#VerUp", verUp)
+            .Html("#HeaderTitle", HttpUtility.HtmlEncode(#modelName#Model.Title.MessageDisplay(context: context)))
+            .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                context: context,
+                baseModel: #modelName#Model,
+                tableName: "#TableName#"))
+            .Html("#Links", new HtmlBuilder().Links(
+                context: context,
+                ss: ss,
+                id: #modelName#Model.#ModelName#Id))
+            .Links(
+                context: context,
+                ss: ss,
+                id: #modelName#Model.#ModelName#Id,
+                methodType: #modelName#Model.MethodType)
+            .SetMemory("formChanged", false)
+            .Message(message: UpdatedMessage(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                process: process))
+            .Messages(context.Messages)
+            .Comment(
+                context: context,
+                ss: ss,
+                column: ss.GetColumn(context: context, columnName: "Comments"),
+                comments: #modelName#Model.Comments,
+                deleteCommentId: #modelName#Model.DeleteCommentId)
+            .ClearFormData();
+    default:
+        return EditorResponse(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            message: UpdatedMessage(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                process: process));
+}

@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase6",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "R社システム開発",
+    "ClassA": "#Opportunity6#",
+    "NumA": "440000",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User11",
+    "Updator": "User11",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

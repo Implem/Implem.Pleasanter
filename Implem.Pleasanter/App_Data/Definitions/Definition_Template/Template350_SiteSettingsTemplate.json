@@ -1,0 +1,116 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "Status",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "Status",
+        "NumA",
+        "DateA",
+        "Body",
+        "DescriptionA",
+        "DateB",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Statement,Statement\n900,Approval,Approval\n920,Rejection,Rejection\n930,Conditional approval,Conditional approval\n940,On hold,Hold"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Amount of money",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Drafting date",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Date of approval",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Reason for drafting"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Condition content"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,106 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "用語"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "登録者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "分類",
+            "ChoicesText": "分類1\n分類2\n分類3\n分類4\n分類5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日",
+            "DefaultInput": "0"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "意味"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "TitleBody": 0
+            },
+            "CalendarColumn": "DateA",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

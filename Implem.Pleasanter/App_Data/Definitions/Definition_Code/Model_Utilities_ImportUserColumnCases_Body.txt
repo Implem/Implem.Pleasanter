@@ -1,0 +1,5 @@
+﻿case "#ColumnName#":
+    #modelName#Model.#ColumnName# = SiteInfo.User(
+        context: context,
+        userId: recordingData#CastType#);
+    break;

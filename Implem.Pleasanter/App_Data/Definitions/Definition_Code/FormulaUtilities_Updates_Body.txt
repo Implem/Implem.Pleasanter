@@ -1,0 +1,27 @@
+﻿private static void Update#TableName#(
+    Context context,
+    SiteSettings ss,
+    long siteId,
+    long id,
+    IEnumerable<int> selected = null,
+    bool hasFormula = false)
+{
+    new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        where: Rds.#TableName#Where()
+            .SiteId(siteId)
+            .#ModelName#Id(id, _using: id != 0))
+                .ForEach(#modelName#Model =>
+                {
+                    if (hasFormula) #modelName#Model.UpdateFormulaColumns(
+                        context: context, ss: ss, selected: selected);
+                    #modelName#Model.UpdateRelatedRecords(
+                        context: context,
+                        ss: ss,
+                        extendedSqls: true,
+                        addUpdatedTimeParam: false,
+                        addUpdatorParam: false,
+                        updateItems: false);
+                });
+}

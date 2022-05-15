@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Tenants_TopScript",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "TopScript",
+    "LabelText": "トップのスクリプト",
+    "No": "113",
+    "History": "113",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "FieldCss": "field-textarea",
+    "LabelText_en": "Top script",
+    "LabelText_zh": "最佳剧本",
+    "LabelText_de": "Top-Skript",
+    "LabelText_ko": "탑 스크립트",
+    "LabelText_es": "Guión superior",
+    "LabelText_vn": "Tập lệnh hàng đầu"
+}

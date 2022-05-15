@@ -287,7 +287,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
-                .CloseDialog()
+                .CloseDialog(_using: offset == 0)
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
@@ -4327,7 +4327,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        /// <returns></returns>
         public static string SwitchUser(Context context)
         {
             var userModel = new UserModel(

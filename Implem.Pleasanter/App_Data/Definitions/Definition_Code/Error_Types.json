@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Error_Types",
+    "RepeatType": "Display",
+    "Indent": "3",
+    "Separator": ",\\r\\n",
+    "DisplayType": "Error"
+}

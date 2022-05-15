@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Sessions_ReadOnce",
+    "ModelName": "Session",
+    "TableName": "Sessions",
+    "Label": "セッション",
+    "ColumnName": "ReadOnce",
+    "LabelText": "1回読み込み",
+    "No": "5",
+    "History": "5",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Read once",
+    "LabelText_zh": "读取一次",
+    "LabelText_de": "Einmal lesen",
+    "LabelText_ko": "한 번 읽기",
+    "LabelText_es": "Leer una vez",
+    "LabelText_vn": "Đọc một lần"
+}

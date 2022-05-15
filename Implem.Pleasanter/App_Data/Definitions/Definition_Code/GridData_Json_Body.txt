@@ -1,0 +1,7 @@
+﻿case "#TableName#":
+    exportModel = new #ModelName#ExportModel(
+        context: context,
+        ss: ss,
+        dataRow: dataRows.First(),
+        tableAlias: tableAlias);
+    break;

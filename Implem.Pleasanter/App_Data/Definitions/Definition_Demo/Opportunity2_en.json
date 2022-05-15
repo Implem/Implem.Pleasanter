@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity2_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site7_en",
+    "Title": "Translate a group ware to cloud environment.",
+    "Status": "150",
+    "ClassA": "#Customer8_en#",
+    "ClassB": "System development",
+    "ClassC": "90%",
+    "NumA": "4200000",
+    "NumB": "0",
+    "NumC": "4200000",
+    "NumD": "100",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "StartTime": "36644",
+    "CompletionTime": "36672",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble15_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site21_en",
+    "ClassA": "#Facility7_en#",
+    "ClassB": "1st floor:Area2",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "Work safety function by a paper jam",
+    "DescriptionB": "Remove a paper jam",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site21",
+    "ClassA": "#Facility3#",
+    "ClassB": "1階：エリア4",
+    "DateA": "42755.705555555556",
+    "DateB": "42755.705555555556",
+    "DescriptionA": "部品の破損のため。",
+    "DescriptionB": "予備の部品と交換しました。",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

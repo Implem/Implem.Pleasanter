@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble13",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site21",
+    "ClassA": "#Facility4#",
+    "ClassB": "1階：エリア1",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "インク(黄)がなくなっていたため。",
+    "DescriptionB": "インク(黄)を好感したところ正常に印刷されました。",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

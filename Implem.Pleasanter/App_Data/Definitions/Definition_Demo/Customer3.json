@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Customer3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site6",
+    "Title": "生産性向上委員会",
+    "ClassA": "東京都大田区",
+    "ClassB": "999-999-999",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36656.473611111112",
+    "UpdatedTime": "36656.473611111112"
+}

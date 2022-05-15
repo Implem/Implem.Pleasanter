@@ -1,0 +1,7 @@
+﻿{
+    "Id": "SiteSettings_GetByItemCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1"
+}

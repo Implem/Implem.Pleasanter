@@ -1,0 +1,8 @@
+﻿if (context.ContractSettings.Notice != false && notice)
+{
+    Notice(
+        context: context,
+        ss: ss,
+        notifications: notifications,
+        type: "Deleted");
+}

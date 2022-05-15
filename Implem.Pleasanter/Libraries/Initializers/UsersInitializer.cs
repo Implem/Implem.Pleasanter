@@ -15,21 +15,28 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 statements: Rds.SelectUsers(
                     column: Rds.UsersColumn().UsersCount())) == 0)
             {
+                var passwordExpirationTime = !Parameters.Service.WithoutChangeDefaultPassword
+                    ? new Time(
+                        context: context,
+                        value: DateTime.Now)
+                    : Parameters.Security.PasswordExpirationPeriod > 0
+                        ? new Time(
+                            context: context,
+                            value: DateTime.Today.AddDays(Parameters.Security.PasswordExpirationPeriod))
+                        : null;
                 Create(
                     context: context,
                     tenantId: 1,
                     loginId: "Administrator",
                     name: "Administrator",
                     password: Parameters.Service.DefaultPassword.Sha512Cng(),
-                    passwordExpirationTime: new Time(
-                        context: context,
-                        value: DateTime.Now),
+                    passwordExpirationTime: passwordExpirationTime,
                     tenantManager: true);
             }
         }
 
         private static void Create(
-            Context context, 
+            Context context,
             int tenantId,
             string loginId,
             string name,

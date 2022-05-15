@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    sql.#TableName#_#ColumnName#(tableName: path, _as: _as);
+    break;

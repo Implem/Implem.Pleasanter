@@ -1,0 +1,1 @@
+﻿users.Add(dataRow.Int("#ColumnName#"));

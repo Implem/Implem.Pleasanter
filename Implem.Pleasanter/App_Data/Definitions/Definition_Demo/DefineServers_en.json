@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineServers_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Define server requirement",
+    "WorkValue": "16",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Definite requirement",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Server",
+    "Manager": "User2_en",
+    "Owner": "User2_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "StartTime": "36644",
+    "CompletionTime": "36648",
+    "CreatedTime": "36640.501388888886",
+    "UpdatedTime": "36650.396527777775"
+}

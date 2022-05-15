@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Site23",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "Site22",
+    "Title": "顧客名簿",
+    "ClassA": "Results",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

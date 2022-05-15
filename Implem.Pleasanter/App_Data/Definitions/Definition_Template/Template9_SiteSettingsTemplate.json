@@ -1,0 +1,97 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "Owner",
+        "NumA",
+        "TitleBody",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Owner",
+        "NumA",
+        "Title",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "DateA",
+        "Owner",
+        "NumA",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "DateA",
+        "NumA",
+        "Owner",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "工数",
+            "DecimalPlaces": 1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "作業日",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "作業概要"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "作業詳細"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "DateA": 1,
+                "Owner": 0
+            },
+            "TimeSeriesGroupBy": "Owner",
+            "TimeSeriesAggregateType": "Total"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

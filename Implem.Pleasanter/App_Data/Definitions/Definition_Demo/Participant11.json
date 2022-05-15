@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Participant11",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site26",
+    "ClassA": "#Seminar2#",
+    "ClassB": "ササキ　ハルカ",
+    "ClassC": "佐々木 春香",
+    "ClassD": "225-149-250",
+    "ClassE": "sasaki@example.com",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

@@ -1,0 +1,15 @@
+﻿private string ReplacedContextValues(Context context, string value)
+{
+    var url = Locations.ItemEditAbsoluteUri(
+        context: context,
+        id: #ModelName#Id);
+    var mailAddress = MailAddressUtilities.Get(
+        context: context,
+        userId: context.UserId);
+    value = value
+        .Replace("{Url}", url)
+        .Replace("{LoginId}", context.User.LoginId)
+        .Replace("{UserName}", context.User.Name)
+        .Replace("{MailAddress}", mailAddress);
+    return value;
+}

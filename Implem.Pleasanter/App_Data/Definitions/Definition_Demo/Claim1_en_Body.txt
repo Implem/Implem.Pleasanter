@@ -1,0 +1,1 @@
+﻿It is hard to find "Update" button. Please change the place to upper-right on the page.

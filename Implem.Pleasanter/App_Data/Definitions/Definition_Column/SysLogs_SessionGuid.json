@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_SessionGuid",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "SessionGuid",
+    "LabelText": "セッション識別子",
+    "No": "131",
+    "History": "131",
+    "EditorColumn": "131",
+    "EditorEnabled": "1",
+    "LinkColumn": "131",
+    "HistoryColumn": "131",
+    "TypeName": "nchar",
+    "MaxLength": "34",
+    "Nullable": "1",
+    "LabelText_en": "Session GUID",
+    "LabelText_zh": "会话GUID",
+    "LabelText_de": "Sitzungs-GUID",
+    "LabelText_ko": "세션 GUID",
+    "LabelText_es": "GUID de sesión",
+    "LabelText_vn": "GUID Phiên làm việc"
+}

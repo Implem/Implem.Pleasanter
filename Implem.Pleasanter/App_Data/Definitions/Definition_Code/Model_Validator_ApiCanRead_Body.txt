@@ -1,0 +1,4 @@
+﻿if (api && !ss.IsSite(context: context) && !context.CanRead(ss: ss))
+{
+    return new ErrorData(type: Error.Types.NotFound);
+}

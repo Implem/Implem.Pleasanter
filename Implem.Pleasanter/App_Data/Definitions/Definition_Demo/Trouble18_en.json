@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble18_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site21_en",
+    "ClassA": "#Facility7_en#",
+    "ClassB": "1st floor:Area2",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "Out of gear by abrasion",
+    "DescriptionB": "Replace a spair item",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

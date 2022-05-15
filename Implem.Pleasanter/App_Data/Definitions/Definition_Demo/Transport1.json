@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport1",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "100",
+    "ClassA": "自宅",
+    "ClassB": "働き方改革推進団体",
+    "ClassE": "顧客定例会参加のため",
+    "ClassH": "新橋営業所",
+    "NumA": "1145",
+    "DateA": "36641.705555555556",
+    "Manager": "User9",
+    "Owner": "User9",
+    "Creator": "User9",
+    "Updator": "User9",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

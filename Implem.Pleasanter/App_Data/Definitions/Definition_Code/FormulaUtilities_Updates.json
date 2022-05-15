@@ -1,0 +1,8 @@
+﻿{
+    "Id": "FormulaUtilities_Updates",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1",
+    "Exclude": "Sites"
+}

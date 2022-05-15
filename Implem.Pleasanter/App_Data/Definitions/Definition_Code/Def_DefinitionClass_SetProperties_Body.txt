@@ -1,0 +1,1 @@
+﻿if (propertyCollection.ContainsKey("#DefColumnName#")) #DefColumnName# = propertyCollection["#DefColumnName#"]#CastType#; else #DefColumnName##SetDefault#;

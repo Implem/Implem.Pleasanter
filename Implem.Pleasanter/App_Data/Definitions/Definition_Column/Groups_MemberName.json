@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Groups_MemberName",
+    "ModelName": "Group",
+    "TableName": "Groups",
+    "Label": "グループ",
+    "ColumnName": "MemberName",
+    "LabelText": "メンバー名",
+    "No": "107",
+    "History": "107",
+    "TypeName": "string",
+    "TypeCs": "string",
+    "NotLookup": "1",
+    "NotForm": "1",
+    "NotSelect": "1",
+    "NotUpdate": "1",
+    "NotEditorSettings": "1",
+    "LabelText_en": "Member name",
+    "LabelText_zh": "成员名字",
+    "LabelText_de": "Mitgliedsname",
+    "LabelText_ko": "멤버 이름",
+    "LabelText_es": "Nombre de miembro",
+    "LabelText_vn": "Tên thành viên"
+}

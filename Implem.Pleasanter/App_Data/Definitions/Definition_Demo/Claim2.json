@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Claim2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site39",
+    "Title": "マニュアルが分かりづらい",
+    "Status": "300",
+    "ClassA": "山本 陽子",
+    "ClassB": "対応遅れ",
+    "DateA": "42816.705555555556",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

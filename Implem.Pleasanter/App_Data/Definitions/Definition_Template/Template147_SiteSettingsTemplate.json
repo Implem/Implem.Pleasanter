@@ -1,0 +1,63 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Body",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "企業名/団体名"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "お名前"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "ご予約",
+            "ChoicesText": "あり\nなし",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "日時",
+            "DefaultInput": "0",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm",
+            "ValidateRequired": true
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

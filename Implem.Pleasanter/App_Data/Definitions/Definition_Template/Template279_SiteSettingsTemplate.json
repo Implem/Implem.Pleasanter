@@ -1,0 +1,172 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "Owner",
+        "ClassC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Merchandise_nameItem name"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Suppliers",
+            "ChoicesText": "Suppliers1\nSuppliers2\nSuppliers3\nSuppliers4\nSuppliers5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Product classification",
+            "ChoicesText": "Product classification1\nProduct classification2\nProduct classification3\nProduct classification4\nProduct classification5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Unit price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Quantity"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Amount of money",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Voter"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Store",
+            "ChoicesText": "Store1\nStore2\nStore3\nStore4\nStore5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumC"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassB",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumC",
+            "KambanGroupByX": "ClassB",
+            "KambanGroupByY": "Owner",
+            "KambanValue": "NumC"
+        }
+    ],
+    "TitleSeparator": ")"
+}

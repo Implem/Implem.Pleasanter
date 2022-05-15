@@ -1,0 +1,1 @@
+﻿case "#TableName#": return #TableName#SiteSettings(context: context, siteId: siteId);

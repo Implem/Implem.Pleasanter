@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_ResponseSize",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ResponseSize",
+    "LabelText": "応答サイズ",
+    "No": "114",
+    "History": "114",
+    "EditorColumn": "114",
+    "EditorEnabled": "1",
+    "LinkColumn": "114",
+    "HistoryColumn": "114",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "Response size",
+    "LabelText_zh": "响应大小",
+    "LabelText_de": "Antwortgröße",
+    "LabelText_ko": "응답 크기",
+    "LabelText_es": "Tamaño de respuesta",
+    "LabelText_vn": "Dung lượng phản hồi"
+}

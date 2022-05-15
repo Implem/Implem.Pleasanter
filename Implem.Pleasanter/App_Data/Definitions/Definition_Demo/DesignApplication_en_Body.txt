@@ -1,0 +1,9 @@
+﻿Write a design sheet for configured business application.
+　・Database settings
+　・Backup settings
+　・Security settings
+　・Business parameters settings
+
+Store files to below folder.
+
+\\fileserver_example\01_demoProject\02_ConfigureManagement

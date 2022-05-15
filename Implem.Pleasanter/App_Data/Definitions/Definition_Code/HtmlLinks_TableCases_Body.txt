@@ -1,0 +1,56 @@
+﻿case "#TableName#":
+    var #modelName#Collection = new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        dataRows: dataRows);
+    #modelName#Collection.SetLinks(context: context, ss: ss);
+    hb
+        .Caption(
+            action: () => hb
+                .Span(
+                    css: "caption-direction",
+                    action: () => hb
+                        .Text(text: "{0} : ".Params(Caption(
+                            context: context,
+                            direction: direction))))
+                .Span(
+                    css: "caption-title",
+                    action: () => hb
+                        .Text(text: "{0}".Params(siteMenu.Breadcrumb(
+                            context: context,
+                            siteId: ss.SiteId)
+                                .Select(o => o.Title)
+                                .Join(" > "))))
+                .Span(
+                    css: "caption-quantity",
+                    action: () => hb
+                        .Text(text: " - {0} ".Params(
+                            Displays.Quantity(context: context))))
+                .Span(
+                    css: "caption-count",
+                    action: () => hb
+                        .Text(text: "{0}".Params(dataRows.Count()))))
+        .THead(action: () => hb
+            .GridHeader(
+                context: context,
+                ss: ss,
+                columns: columns,
+                view: view,
+                sort: true,
+                checkRow: false,
+                action: "LinkTable"))
+        .TBody(action: () => #modelName#Collection
+            .ForEach(#modelName#Model =>
+                hb.Tr(
+                    attributes: new HtmlAttributes()
+                        .Class("grid-row")
+                        .DataId(#modelName#Model.#ModelName#Id.ToString()),
+                    action: () => columns
+                        .ForEach(column => hb
+                            .TdValue(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                #modelName#Model: #modelName#Model,
+                                tabIndex: tabIndex)))));
+    break;

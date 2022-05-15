@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_HttpMethod",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "HttpMethod",
+    "LabelText": "Httpメソッド",
+    "No": "112",
+    "History": "112",
+    "EditorColumn": "112",
+    "EditorEnabled": "1",
+    "LinkColumn": "112",
+    "HistoryColumn": "112",
+    "TypeName": "nvarchar",
+    "MaxLength": "8",
+    "Nullable": "1",
+    "LabelText_en": "Http method",
+    "LabelText_zh": "Http请求方法",
+    "LabelText_de": "HTTP-Methode",
+    "LabelText_ko": "Http 방법",
+    "LabelText_es": "Método Http",
+    "LabelText_vn": "Phương thức HTTP"
+}

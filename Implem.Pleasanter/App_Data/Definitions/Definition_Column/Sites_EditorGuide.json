@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_EditorGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "EditorGuide",
+    "LabelText": "編集画面のガイド",
+    "No": "104",
+    "History": "104",
+    "EditorColumn": "104",
+    "LinkColumn": "104",
+    "HistoryColumn": "104",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Edit screen guide",
+    "LabelText_zh": "编辑界面指南",
+    "LabelText_de": "Leitfaden für Bearbeitungsfenster",
+    "LabelText_ko": "편집 화면 가이드",
+    "LabelText_es": "Editar guía de cuadrícula",
+    "LabelText_vn": "Hướng dẫn màn hình sửa"
+}

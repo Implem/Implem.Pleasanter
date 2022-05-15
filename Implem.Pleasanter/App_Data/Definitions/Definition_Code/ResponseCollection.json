@@ -1,0 +1,5 @@
+﻿{
+    "Id": "ResponseCollection",
+    "OutputPath": "Libraries\\Responses\\ResponseSpecials.cs",
+    "Source": "Mvc"
+}

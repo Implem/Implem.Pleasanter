@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance3_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Tell me how to change an extended number for groupware",
+    "Status": "200",
+    "ClassA": "100",
+    "ClassB": "Inquiry",
+    "ClassC": "Application",
+    "Manager": "User7_en",
+    "Owner": "User15_en",
+    "Creator": "User7_en",
+    "Updator": "User15_en",
+    "StartTime": "36696",
+    "CompletionTime": "36707",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

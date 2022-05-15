@@ -1,0 +1,6 @@
+﻿case "CurrentPermissionsAll":
+    RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+    break;
+case "InheritPermission":
+    RecordPermissions = new List<string>();
+    break;

@@ -1,0 +1,6 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.GridRows(
+        context: context,
+        ss: Site.SiteSettings,
+        offset: context.Forms.Int("GridOffset"),
+        action: "TrashBoxGridRows");

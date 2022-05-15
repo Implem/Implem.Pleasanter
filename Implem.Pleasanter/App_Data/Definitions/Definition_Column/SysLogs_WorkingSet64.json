@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_WorkingSet64",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "WorkingSet64",
+    "LabelText": "WorkingSet64",
+    "No": "120",
+    "History": "120",
+    "EditorColumn": "120",
+    "EditorEnabled": "1",
+    "LinkColumn": "120",
+    "HistoryColumn": "120",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "LabelText_en": "WorkingSet64",
+    "LabelText_zh": "WorkingSet64",
+    "LabelText_de": "WorkingSet64",
+    "LabelText_ko": "WorkingSet64",
+    "LabelText_es": "WorkingSet64",
+    "LabelText_vn": "WorkingSet64"
+}

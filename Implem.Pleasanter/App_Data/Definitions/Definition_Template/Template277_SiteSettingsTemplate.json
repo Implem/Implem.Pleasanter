@@ -1,0 +1,125 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Status",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "Section": "Basic information"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Annual sales target",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Sales start date"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Sale end date"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,On sale,Sale,status-inprogress\n900,End of sale,End,status-closed\n"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Sales method",
+            "Section": "Sales plan"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Target.Age",
+            "ChoicesText": "00Age\n10Age\n20Age\n30Age\n40Age\n50Age\n60Age\n70Age\n80Age\n90Age"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Target.Gender",
+            "ChoicesText": "Male\nFemale"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Target.Erea",
+            "ChoicesText": "Erea1\nErea2\nErea3\nErea4\nErea5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByY": "Columns"
+        }
+    ],
+    "TitleSeparator": ")"
+}

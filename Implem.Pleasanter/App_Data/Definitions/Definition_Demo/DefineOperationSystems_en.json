@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineOperationSystems_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Define operation management system requirement",
+    "WorkValue": "18",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Definite requirement",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Operation",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "StartTime": "36641",
+    "CompletionTime": "36647",
+    "CreatedTime": "36640.752083333333",
+    "UpdatedTime": "36649.422222222223"
+}

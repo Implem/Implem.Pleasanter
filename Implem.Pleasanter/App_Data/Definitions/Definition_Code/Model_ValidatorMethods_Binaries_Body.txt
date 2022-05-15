@@ -1,0 +1,17 @@
+﻿public static ErrorData OnGetting(Context context, SiteSettings ss)
+{
+    if (!context.HasPermission(ss: ss))
+    {
+        return new ErrorData(type: Error.Types.HasNotPermission);
+    }
+    return new ErrorData(type: Error.Types.None);
+}
+
+public static ErrorData OnUpdating(Context context, SiteSettings ss)
+{
+    if (!context.CanManageSite(ss: ss))
+    {
+        return new ErrorData(type: Error.Types.HasNotPermission);
+    }
+    return new ErrorData(type: Error.Types.None);
+}

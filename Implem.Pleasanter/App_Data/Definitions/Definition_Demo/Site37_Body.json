@@ -1,0 +1,132 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "Owner",
+            "DateA",
+            "DateB",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始",
+            "EditorFormat": "Ymdhm",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "作業種別",
+            "ChoicesText": "レジ打ち\n商品整頓\n陳列\n品出し\n返品作業"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "TimeSeriesGroupBy": "Owner",
+            "KambanGroupByX": "ClassA",
+            "KambanGroupByY": "Owner",
+            "ApiDataType": 0
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

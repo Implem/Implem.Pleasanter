@@ -1,0 +1,350 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "NumJ",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumG",
+        "NumH",
+        "NumI",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "NumJ",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "NumE",
+        "DescriptionE",
+        "NumF",
+        "DescriptionF",
+        "NumG",
+        "DescriptionG",
+        "NumH",
+        "DescriptionH",
+        "NumI",
+        "DescriptionI",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "NumJ",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumF",
+        "NumG",
+        "NumH",
+        "NumI",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "NumJ",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumF",
+        "NumG",
+        "NumH",
+        "NumI",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Business name",
+            "ChoicesText": "Business1\nBusiness2\nBusiness3\nBusiness4\nBusiness5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Customer (content)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Value to give (content)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Channel (content)"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Customer (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Value provided (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Channel (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Customer relationship (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Relationship with customers (contents)"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Revenue (Evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Key resource (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumG",
+            "LabelText": "Key activity (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumH",
+            "LabelText": "Key partner (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumI",
+            "LabelText": "Cost (evaluation)",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumJ",
+            "LabelText": "Evaluation total",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DescriptionE",
+            "LabelText": "Income (content)"
+        },
+        {
+            "ColumnName": "DescriptionF",
+            "LabelText": "Key resource (contents)"
+        },
+        {
+            "ColumnName": "DescriptionG",
+            "LabelText": "Key activity (content)"
+        },
+        {
+            "ColumnName": "DescriptionH",
+            "LabelText": "Key Partner (Contents)"
+        },
+        {
+            "ColumnName": "DescriptionI",
+            "LabelText": "Cost (content)"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumJ",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumA",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumD",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumE",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumF",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumG",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumH",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumI",
+                                "OperatorType": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassB": 0,
+                "ClassA": 0
+            },
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumJ",
+            "KambanGroupByX": "ClassB",
+            "KambanGroupByY": "ClassA",
+            "KambanValue": "NumJ",
+            "KambanAggregationView": true
+        }
+    ],
+    "EnableCalendar": false,
+    "TitleSeparator": ")"
+}

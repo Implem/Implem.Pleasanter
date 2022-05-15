@@ -1,0 +1,16 @@
+﻿{
+    "Id": "Consume5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site14_en",
+    "ClassA": "#Expendable1_en#",
+    "ClassB": "#Dept7_en#",
+    "NumA": "5",
+    "DateA": "42816.705555555556",
+    "Manager": "User11_en",
+    "Owner": "User2_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

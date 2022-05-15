@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Tenants_DisableStartGuide",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "DisableStartGuide",
+    "LabelText": "スタートガイドを使用しない",
+    "No": "107",
+    "History": "107",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Disable start guide",
+    "LabelText_zh": "禁用入门指南",
+    "LabelText_de": "Starthilfe deaktivieren",
+    "LabelText_ko": "시작 안내서 비활성화",
+    "LabelText_es": "Deshabilitar guía de inicio",
+    "LabelText_vn": "Vô hiệu hóa hướng dẫn bắt đầu"
+}

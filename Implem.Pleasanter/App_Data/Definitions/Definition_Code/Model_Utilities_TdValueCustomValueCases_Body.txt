@@ -1,0 +1,3 @@
+﻿case "#ColumnName#": value = #modelName#Model.#ColumnName#.GridText(
+    context: context,
+    column: column); break;

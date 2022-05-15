@@ -1,0 +1,18 @@
+﻿{
+    "Id": "SecurityUser22",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site42",
+    "ClassA": "#Security2#",
+    "DateA": "42839",
+    "CheckA": "1",
+    "CheckB": "1",
+    "CheckC": "1",
+    "CheckD": "1",
+    "Manager": "User3",
+    "Owner": "User3",
+    "Creator": "User3",
+    "Updator": "User3",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

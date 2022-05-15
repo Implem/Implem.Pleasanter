@@ -1,0 +1,6 @@
+﻿{
+    "#TableName#",
+    new ControlData(ReferenceTypeDisplayName(
+        context: context,
+        referenceType: "#TableName#"))
+}

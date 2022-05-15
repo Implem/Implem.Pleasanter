@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site7",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "Site5",
+    "Title": "商談",
+    "ClassA": "Issues",
+    "ClassB": "Site6",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

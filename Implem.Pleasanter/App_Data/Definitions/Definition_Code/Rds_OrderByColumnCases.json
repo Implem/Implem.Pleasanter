@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_OrderByColumnCases",
+    "RepeatType": "Join",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "Select": "1"
+}

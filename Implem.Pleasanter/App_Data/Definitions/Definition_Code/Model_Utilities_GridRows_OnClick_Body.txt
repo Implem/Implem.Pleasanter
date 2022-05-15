@@ -1,0 +1,4 @@
+﻿.OnClick("location.href='" + Locations.Edit(
+    context: context,
+    controller: "#TableName#",
+    id: child#ModelName#Model.#ModelName#Id) + "'"),

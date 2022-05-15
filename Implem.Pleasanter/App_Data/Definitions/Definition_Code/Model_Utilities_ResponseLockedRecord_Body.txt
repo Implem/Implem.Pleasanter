@@ -1,0 +1,19 @@
+﻿else if (#modelName#Model.Locked)
+{
+    ss.SetLockedRecord(
+        context: context,
+        time: #modelName#Model.UpdatedTime,
+        user: #modelName#Model.Updator);
+    return EditorResponse(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model)
+            .SetMemory("formChanged", false)
+            .Message(message: UpdatedMessage(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                process: process))
+            .Messages(context.Messages)
+            .ClearFormData();
+}

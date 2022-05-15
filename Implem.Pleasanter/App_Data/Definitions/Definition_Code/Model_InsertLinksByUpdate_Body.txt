@@ -1,0 +1,5 @@
+﻿statements.Add(Rds.PhysicalDeleteLinks(
+    where: Rds.LinksWhere().SourceId(#ModelName#Id)));
+statements.Add(InsertLinks(
+    context: context,
+    ss: ss));

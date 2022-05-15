@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site25",
+    "Title": "JavaScript勉強会 第3回",
+    "Status": "900",
+    "ClassA": "東京都新宿区",
+    "NumA": "5",
+    "NumB": "1",
+    "NumC": "0",
+    "DateA": "42805.541666666664",
+    "DateB": "42805.729166666664",
+    "DateC": "42794.541666666664",
+    "DateD": "42798.541666666664",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

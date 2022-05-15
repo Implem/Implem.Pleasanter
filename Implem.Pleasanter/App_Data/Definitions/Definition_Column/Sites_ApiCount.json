@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Sites_ApiCount",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "ApiCount",
+    "LabelText": "APIリクエスト数",
+    "No": "126",
+    "History": "126",
+    "LinkColumn": "126",
+    "HistoryColumn": "126",
+    "TypeName": "int",
+    "Default": "0",
+    "NotForm": "1",
+    "LabelText_en": "Api count",
+    "LabelText_zh": "api计数",
+    "LabelText_de": "API zählen",
+    "LabelText_ko": "API 수",
+    "LabelText_es": "Recuento de API",
+    "LabelText_vn": "Số lượng yêu cầu API"
+}

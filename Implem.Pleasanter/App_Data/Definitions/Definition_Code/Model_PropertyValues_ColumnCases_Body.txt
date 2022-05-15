@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    hash.Add("#ColumnName#", #ColumnName##RecordingData#<!--Model_PropertyValue_ColumnCases_ToString-->);
+    break;

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "WriteOperationDocuments_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Write operation documents",
+    "WorkValue": "45",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Configuration",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Operation",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.59097222222",
+    "UpdatedTime": "36648.621527777781"
+}

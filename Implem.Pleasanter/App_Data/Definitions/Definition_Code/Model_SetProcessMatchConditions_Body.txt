@@ -1,0 +1,23 @@
+﻿public void SetProcessMatchConditions(
+    Context context,
+    SiteSettings ss)
+{
+    ss.Processes?.ForEach(process =>
+        process.MatchConditions = GetProcessMatchConditions(
+            context: context,
+            ss: ss,
+            process: process));
+}
+
+public bool GetProcessMatchConditions(
+    Context context,
+    SiteSettings ss,
+    Process process)
+{
+    return Matched(
+        context: context,
+        ss: ss,
+        view: process.View)
+           && (process.CurrentStatus == -1
+                || Status.Value == process.CurrentStatus);
+}

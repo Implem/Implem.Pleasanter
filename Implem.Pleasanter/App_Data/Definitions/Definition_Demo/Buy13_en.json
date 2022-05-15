@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy13_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "Cutter knife",
+    "ClassA": "#Expendable7_en#",
+    "ClassB": "Online shop",
+    "NumA": "28",
+    "NumB": "1311",
+    "DateA": "42816.705555555556",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

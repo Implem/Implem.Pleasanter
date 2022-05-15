@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site18_en",
+    "Status": "100",
+    "ClassA": "Shimbashi Business office",
+    "ClassB": "Web Database Development Corp.",
+    "ClassE": "Project progress report meeting",
+    "ClassH": "Shimbashi Business office",
+    "NumA": "648",
+    "DateA": "36654.705555555556",
+    "Manager": "User9_en",
+    "Owner": "User9_en",
+    "Creator": "User9_en",
+    "Updator": "User9_en",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

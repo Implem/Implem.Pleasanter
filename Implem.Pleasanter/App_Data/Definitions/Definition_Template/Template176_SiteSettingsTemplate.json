@@ -1,0 +1,161 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "型番"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "ブランド",
+            "ChoicesText": "ブランド1\nブランド2\nブランド3\nブランド4\nブランド5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "原産国"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "レンズ横幅",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "間隔(鼻ブリッジ)",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "テンプル",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "天地幅",
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "タイプ",
+            "ChoicesText": "メンズ\nレディース\nユニセックス\nキッズ"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "KambanGroupByY": "ClassD",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

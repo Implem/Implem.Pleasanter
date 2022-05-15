@@ -1,0 +1,1 @@
+﻿.NoSpace(definitionRow["NoSpace"].ToBool())

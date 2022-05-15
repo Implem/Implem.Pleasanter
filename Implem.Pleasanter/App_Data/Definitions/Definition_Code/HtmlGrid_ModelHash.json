@@ -1,0 +1,8 @@
+﻿{
+    "Id": "HtmlGrid_ModelHash",
+    "RepeatType": "Table",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Exclude": "Tenants,Wikis"
+}

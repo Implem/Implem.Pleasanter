@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_SetDefault_AttachmentsColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "IncludeTypeCs": "Attachments"
+}

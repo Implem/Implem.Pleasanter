@@ -1,0 +1,34 @@
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Models;
+using System;
+namespace Implem.Pleasanter.Libraries.Settings
+{
+    [Serializable]
+    public class Lookup
+    {
+        public enum Types
+        {
+            Value,
+            DisplayName
+        }
+
+        public string From { get; set; }
+        public string To { get; set; }
+        public Types? Type { get; set; }
+
+        public Lookup GetRecordingData()
+        {
+            var lookup = new Lookup();
+            lookup.From = From;
+            lookup.To = To;
+            if (Type != Types.Value) lookup.Type = Type;
+            return lookup;
+        }
+
+<!--Lookup_Data-->
+
+    }
+}

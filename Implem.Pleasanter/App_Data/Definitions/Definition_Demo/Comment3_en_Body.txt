@@ -1,0 +1,3 @@
+﻿＞The network constructure is fixed?
+
+Sorry, not yet. I registered it to the issue list.

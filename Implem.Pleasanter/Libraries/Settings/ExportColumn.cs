@@ -21,7 +21,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string SiteTitle;
         [NonSerialized]
         public Column Column;
-        // compatibility Version 1.014
         public long? SiteId;
 
         public ExportColumn()

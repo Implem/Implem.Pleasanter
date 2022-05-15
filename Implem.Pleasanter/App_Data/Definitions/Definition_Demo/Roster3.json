@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster3",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "スズキ　マナブ",
+    "ClassB": "鈴木 学",
+    "ClassC": "206-0012",
+    "ClassD": "多摩市貝取",
+    "ClassE": "202-173-691",
+    "ClassF": "manabu@example.com",
+    "ClassG": "東京都",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

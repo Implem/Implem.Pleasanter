@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster13_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Taro Yamaguchi",
+    "ClassB": "Taro Yamaguchi",
+    "ClassC": "769-0315",
+    "ClassD": "Manno-town, Nakatado-gun",
+    "ClassE": "303-905-380",
+    "ClassF": "yamaguchi@example.com",
+    "ClassG": "Kagawa",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

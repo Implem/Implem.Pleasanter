@@ -1,0 +1,107 @@
+﻿public static string Update(Context context, <!--Model_SiteSettingsParameterAndBlank--><!--Model_Utilities_UpdateParameters_Sites-->#IdType# #modelName#Id<!--Model_Utilities_PreviousTitle-->)
+{
+
+<!--Model_Utilities_Update_NewModel-->
+<!--Model_Utilities_Update_NewModel_Sites-->
+
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+
+<!--Model_Utilities_UpdateInvalid_Users-->
+
+        default: return invalid.MessageJson(context: context);
+    }
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return Messages.ResponseDeleteConflicts(context: context).ToJson();
+    }
+
+<!--Model_Utilities_SetProcess-->
+<!--Model_Utilities_SetProcess_Tables-->
+<!--Model_Utilities_UpdateNotItems-->
+<!--Model_Utilities_UpdateItems-->
+<!--Model_Utilities_UpdateItems_Sites-->
+
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            var res = new #TableName#ResponseCollection(#modelName#Model);
+
+<!--Model_Utilities_OnUpdated_Issues-->
+<!--Model_Utilities_OnUpdated_Breadcrumb_Sites-->
+<!--Model_Utilities_OnUpdated_Breadcrumb_Wikis-->
+<!--Model_Utilities_Update_Comment-->
+<!--Model_Utilities_Update_Comment_Tables-->
+<!--Model_Utilities_DuplicatedMessage-->
+
+        case Error.Types.UpdateConflicts:
+            return Messages.ResponseUpdateConflicts(
+                context: context,
+                data: #modelName#Model.Updator.Name)
+                    .ToJson();
+        default:
+            return errorData.MessageJson(context: context);
+    }
+}
+
+private static ResponseCollection ResponseByUpdate(
+    #TableName#ResponseCollection res,
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+
+    #ModelName#Model #modelName#Model,
+    Process process)
+{
+
+<!--Model_Utilities_ResponseByUpdate_SiteSettings-->
+
+    ss.ClearColumnAccessControlCaches(baseModel: #modelName#Model);
+    if (context.Forms.Bool("IsDialogEditorForm"))
+    {
+        var view = Views.GetBySession(
+            context: context,
+            ss: ss,
+            setSession: false);
+        var gridData = new GridData(
+            context: context,
+            ss: ss,
+            view: view,
+            tableType: Sqls.TableTypes.Normal,
+            where: Rds.#TableName#Where().#ModelName#Id(#modelName#Model.#ModelName#Id));
+        var columns = ss.GetGridColumns(
+            context: context,
+            view: view,
+            checkPermission: true);
+        return res
+            .ReplaceAll(
+                $"[data-id=\"{#modelName#Model.#ModelName#Id}\"][data-latest]",
+                new HtmlBuilder().GridRows(
+                    context: context,
+                    ss: ss,
+                    dataRows: gridData.DataRows,
+                    columns: columns))
+            .CloseDialog()
+            .Message(message: UpdatedMessage(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                process: process))
+            .Messages(context.Messages);
+    }
+
+<!--Model_Utilities_ResponseLockedRecord-->
+
+    else
+    {
+
+<!--Model_Utilities_Update_Response-->
+<!--Model_Utilities_Update_Response_Tables-->
+
+    }
+}

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_TenantIdParameter",
+    "RepeatType": "Column",
+    "Include": "TenantId"
+}

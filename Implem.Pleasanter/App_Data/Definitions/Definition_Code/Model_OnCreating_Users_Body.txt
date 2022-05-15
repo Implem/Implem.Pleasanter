@@ -1,0 +1,7 @@
+﻿if (Parameters.Security.EnforcePasswordHistories > 0)
+{
+    SetPasswordHistories(
+        context: context,
+        password: Password);
+}
+PasswordExpirationPeriod(context: context);

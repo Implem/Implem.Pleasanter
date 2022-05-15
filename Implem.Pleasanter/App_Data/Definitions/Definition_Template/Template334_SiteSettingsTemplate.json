@@ -1,0 +1,164 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Start",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Validation",
+            "DefaultInput": "180",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "300,Issued,Issued,status-review\n900,Approved,Approved,status-closed\n910,Pending,Pending,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Section(Departure)"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Section(Destination)"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Affiliation",
+            "ChoicesText": "[[Depts]]"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Office_location",
+            "ChoicesText": "Office_location1\nOffice_location2\nOffice_location3\nOffice_location4\nOffice_location5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Fare",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Issued_date",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Approved_date",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "User",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassC",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "KambanGroupByY": "ClassC"
+        }
+    ],
+    "TitleSeparator": ")"
+}

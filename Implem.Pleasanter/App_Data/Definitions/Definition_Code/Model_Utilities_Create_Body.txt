@@ -1,0 +1,31 @@
+﻿<!--Model_Utilities_CreateParams-->
+<!--Model_Utilities_CreateParams_Sites-->
+
+    var invalid = #ModelName#Validators.OnCreating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+
+<!--Model_Utilities_Create_PasswordPolicies-->
+<!--Model_Utilities_SetProcess-->
+<!--Model_Utilities_SetProcess_Tables-->
+<!--Model_Utilities_Create_Models-->
+<!--Model_Utilities_Create_Tables-->
+
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+
+<!--Model_Utilities_CreatedResponse-->
+<!--Model_Utilities_CreatedResponse_Sites-->
+<!--Model_Utilities_DuplicatedMessage-->
+
+        default:
+            return errorData.MessageJson(context: context);
+    }
+}

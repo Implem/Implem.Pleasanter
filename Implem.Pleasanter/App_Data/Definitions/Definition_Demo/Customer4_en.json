@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Customer4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site6_en",
+    "Title": "Web Database Development Corp.",
+    "ClassA": "Nerima-ku, Tokyo",
+    "ClassB": "789-789-789",
+    "Manager": "User9_en",
+    "Owner": "User9_en",
+    "Creator": "User9_en",
+    "Updator": "User9_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

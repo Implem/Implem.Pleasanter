@@ -1,0 +1,11 @@
+﻿if (copyFrom > 0)
+{
+    ss.LinkActions(
+        context: context,
+        type: "CopyWithLinks",
+        data: new Dictionary<string, string>()
+        {
+            { "From", copyFrom.ToString() },
+            { "To", #ModelName#Id.ToString() }
+        });
+}

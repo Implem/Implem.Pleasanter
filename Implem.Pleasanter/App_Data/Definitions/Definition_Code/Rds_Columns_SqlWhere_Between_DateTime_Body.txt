@@ -1,0 +1,33 @@
+﻿public static #TableName#WhereCollection #ColumnName#_Between(
+    this #TableName#WhereCollection self,
+    #Type# begin,
+    #Type# end,
+    string tableName = "#JoinTableName#",
+    bool _using = true)
+{
+    return _using
+        ? self.Add(
+            columnBrackets: new string[] { "#ColumnBracket#" },
+            tableName: tableName,
+            name: "#ColumnName#",
+            _operator: " between ",
+            raw: "'{0}' and '{1}' ".Params(begin, end))
+        : self;
+}
+
+public static SqlWhereCollection #TableName#_#ColumnName#_Between(
+    this SqlWhereCollection self,
+    #Type# begin,
+    #Type# end,
+    string tableName = "#JoinTableName#",
+    bool _using = true)
+{
+    return _using
+        ? self.Add(
+            columnBrackets: new string[] { "#ColumnBracket#" },
+            tableName: tableName,
+            name: "#ColumnName#",
+            _operator: " between ",
+            raw: "'{0}' and '{1}' ".Params(begin, end))
+        : self;
+}

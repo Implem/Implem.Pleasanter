@@ -1,0 +1,12 @@
+﻿{
+    "Id": "User8_en",
+    "Language": "en",
+    "Type": "Users",
+    "ParentId": "Dept7_en",
+    "Title": "Keiko Tanaka",
+    "ClassA": "2",
+    "ClassB": "2",
+    "ClassC": "36526",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster1",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "スズキ　ヨウイチ",
+    "ClassB": "鈴木 洋一",
+    "ClassC": "222-1111",
+    "ClassD": "酒田市相沢北森",
+    "ClassE": "422-982-627",
+    "ClassF": "suzuki@example.com",
+    "ClassG": "山形県",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

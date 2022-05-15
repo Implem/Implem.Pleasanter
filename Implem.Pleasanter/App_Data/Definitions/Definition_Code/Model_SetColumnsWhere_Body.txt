@@ -1,0 +1,8 @@
+﻿var view = new View();
+view.SetColumnsWhere(
+    context: context,
+    ss: ss,
+    where: where,
+    siteId: SiteId,
+    id: #ModelName#Id,
+    timestamp: Timestamp.ToDateTime());

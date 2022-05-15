@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Rds_CopyToStatementColums",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Select": "1",
+    "Update": "1",
+    "NotJoin": "1"
+}

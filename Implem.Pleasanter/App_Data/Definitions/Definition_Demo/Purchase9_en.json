@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase9_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Software for X company",
+    "ClassA": "#Opportunity7_en#",
+    "NumA": "389000",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

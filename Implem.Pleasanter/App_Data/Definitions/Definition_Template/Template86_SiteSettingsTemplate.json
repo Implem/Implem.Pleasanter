@@ -1,0 +1,149 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Body",
+        "DescriptionA",
+        "Status",
+        "Manager",
+        "DateA",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "Owner",
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "申請者",
+            "Section": "申請内容"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "承認者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "資産番号"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "端末種類",
+            "ChoicesText": "ノートPC\nタブレットPC"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "持出し日"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "返却予定日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "理由"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "場所"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "返却日"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起,status-new\n150,承認済み,承,status-preparation\n200,持出し中,持,status-inprogress\n900,返却済み,返,status-closed\n910,保留,留,status-rejected",
+            "Section": "状況"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "Owner",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,4 @@
+﻿if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
+{
+    return Error.Types.ItemsLimit.MessageJson(context: context);
+}

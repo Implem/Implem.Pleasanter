@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Statuses_StatusId",
+    "ModelName": "Status",
+    "TableName": "Statuses",
+    "Label": "ステータス",
+    "ColumnName": "StatusId",
+    "LabelText": "ステータスID",
+    "No": "2",
+    "History": "2",
+    "LinkColumn": "2",
+    "HistoryColumn": "2",
+    "TypeName": "int",
+    "Pk": "2",
+    "Required": "1",
+    "LabelText_en": "Status ID",
+    "LabelText_zh": "状态ID",
+    "LabelText_de": "Status-ID",
+    "LabelText_ko": "상태 ID",
+    "LabelText_es": "ID de estado",
+    "LabelText_vn": "ID Trạng thái"
+}

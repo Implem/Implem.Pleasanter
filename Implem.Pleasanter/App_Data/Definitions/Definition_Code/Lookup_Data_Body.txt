@@ -1,0 +1,64 @@
+﻿public string Data(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    var column = ss.GetColumn(
+        context: context,
+        columnName: From);
+    if (column?.CanRead(
+        context: context,
+        ss: ss,
+        mine: #modelName#Model.Mine(context: context)) == true)
+    {
+        switch (column.ColumnName)
+        {
+
+<!--Lookup_DataColumnCases-->
+
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                {
+                    case "Class":
+                        return #modelName#Model.GetClass(column: column).ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "Num":
+                        return #modelName#Model.GetNum(column: column).ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "Date":
+                        return #modelName#Model.GetDate(column: column).ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "Description":
+                        return #modelName#Model.GetDescription(column: column).ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "Check":
+                        return #modelName#Model.GetCheck(column: column).ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "Attachments":
+                        return #modelName#Model.GetAttachments(column: column).ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    default:
+                        return string.Empty;
+                }
+        }
+    }
+    return string.Empty;
+}

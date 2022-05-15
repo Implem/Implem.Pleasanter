@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster3_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Manabu Suzuki",
+    "ClassB": "Manabu Suzuki",
+    "ClassC": "206-0012",
+    "ClassD": "Tama-city",
+    "ClassE": "202-173-691",
+    "ClassF": "manabu@example.com",
+    "ClassG": "Tokyo",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

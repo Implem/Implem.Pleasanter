@@ -1,0 +1,253 @@
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.ServerScripts;
+using Implem.Pleasanter.Libraries.Settings;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+namespace Implem.Pleasanter.Models
+{
+    [Serializable]
+    public class #ModelName#Model : <!--Model_InheritBase--><!--Model_InheritBaseItem--><!--Model_IConvertable-->
+    {
+
+<!--Model_ItemProperties_Sites-->
+<!--Model_GroupProperties_GroupMembers-->
+<!--Base_Property ( RepeatType = Column, NotBase = 1 ) -->
+<!--Base_PropertyCalc ( RepeatType = Column, NotBase = 1 ) -->
+<!--Base_SavedProperty ( RepeatType = Column, NotBase = 1 ) -->
+<!--Base_PropertyUpdated ( RepeatType = Column, NotBase = 1 ) -->
+<!--Base_PropertyUpdated_DateTime ( RepeatType = Column, NotBase = 1 ) -->
+<!--Base_PropertyUpdated_Bin ( RepeatType = Column, NotBase = 1 ) -->
+<!--Model_SessionProperties ( RepeatType = Column ) -->
+<!--Model_PropertyValue-->
+<!--Model_CsvData-->
+<!--Model_SwitchTargets-->
+<!--Model_Constructor ( HasIdentity = true ) -->
+<!--Model_Constructor ( ItemOnly = true ) -->
+
+        public #ModelName#Model(
+            Context context,
+
+            <!--Model_SiteSettingsParameter-->
+
+            DataRow dataRow,
+
+            <!--Model_FormDataParameter-->
+
+            string tableAlias = null)
+        {
+            OnConstructing(context: context);
+            Context = context;
+
+<!--Model_SetTenantId-->
+
+            if (dataRow != null)
+            {
+                Set(
+                    context: context,
+
+                    <!--Model_SiteSettingsWithParameterNameLower-->
+
+                    dataRow: dataRow,
+                    tableAlias: tableAlias);
+            }
+
+<!--Model_SetByFormExec-->
+<!--Model_SetByLookupsExecFormDataOnly-->
+
+            OnConstructed(context: context);
+        }
+
+        private void OnConstructing(Context context)
+        {
+        }
+
+        private void OnConstructed(Context context)
+        {
+        }
+
+        public void ClearSessions(Context context)
+        {
+
+<!--Model_ClearSessions-->
+
+        }
+
+<!--Model_Get-->
+<!--Model_GetByApi-->
+<!--Model_LinkedSsDataSetHash-->
+<!--Model_ExportByApi-->
+<!--Model_ToDisplay-->
+<!--Model_ToApiDisplayValue-->
+<!--Model_ToApiValue-->
+<!--Model_FullText-->
+<!--Model_Create ( HasIdentity = true ) -->
+<!--Model_Create ( ItemOnly = true ) -->
+<!--Model_Update ( HasIdentity = true ) -->
+<!--Model_Update ( ItemOnly = true ) -->
+<!--Model_UpdateOrCreate ( HasIdentity = true ) -->
+<!--Model_UpdateOrCreate ( ItemOnly = true ) -->
+<!--Model_Move-->
+<!--Model_Delete ( HasIdentity = true ) -->
+<!--Model_Delete ( ItemOnly = true ) -->
+<!--Model_Delete_Sites-->
+<!--Model_Restore ( HasIdentity = true ) -->
+<!--Model_Restore ( ItemOnly = true ) -->
+<!--Model_PhysicalDelete ( HasIdentity = true ) -->
+<!--Model_PhysicalDelete ( ItemOnly = true ) -->
+<!--Model_IfDuplicatedStatements-->
+<!--Model_SetDefault-->
+<!--Model_SetByForm ( HasIdentity = true ) -->
+<!--Model_SetByForm ( ItemOnly = true ) -->
+<!--Model_SetProcessMatchConditions-->
+<!--Model_SetByModel-->
+<!--Model_SetByApi-->
+<!--Model_SetByLookups-->
+<!--Model_SynchronizeSummary-->
+<!--Model_UpdateFormulaColumns-->
+<!--Model_SwitchItems-->
+<!--Model_SwitchItems2-->
+<!--Model_SwitchItemsLockMethods-->
+<!--Model_SwitchItemsOtherMethods-->
+<!--Model_SetByFormula-->
+<!--Model_SetTitle-->
+<!--Model_Matched-->
+<!--Model_ReplacedDisplayValues-->
+<!--Model_ReplacedContextValues-->
+<!--Model_Notice-->
+
+        private void SetBySession(Context context)
+        {
+
+<!--Model_SetBySession-->
+
+        }
+
+        private void Set(Context context, <!--Model_SiteSettingsParameterAndBlank-->DataTable dataTable)
+        {
+            switch (dataTable.Rows.Count)
+            {
+                case 1: Set(context, <!--Model_SiteSettings-->dataTable.Rows[0]); break;
+                case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
+                default: AccessStatus = Databases.AccessStatuses.Overlap; break;
+            }
+
+<!--Model_SetChoiceHash-->
+
+        }
+
+<!--Model_SetChoiceHashMethod-->
+
+        private void Set(Context context, <!--Model_SiteSettingsParameterAndBlank-->DataRow dataRow, string tableAlias = null)
+        {
+            AccessStatus = Databases.AccessStatuses.Selected;
+            foreach (DataColumn dataColumn in dataRow.Table.Columns)
+            {
+                var column = new ColumnNameInfo(dataColumn.ColumnName);
+                if (column.TableAlias == tableAlias)
+                {
+                    switch (column.Name)
+                    {
+
+<!--Model_SetPk-->
+<!--Model_Set-->
+
+                        case "IsHistory":
+                            VerType = dataRow.Bool(column.ColumnName)
+                                ? Versions.VerTypes.History
+                                : Versions.VerTypes.Latest; break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                            {
+                                case "Class":
+                                    GetClass(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    GetSavedClass(
+                                        columnName: column.Name,
+                                        value: GetClass(columnName: column.Name));
+                                    break;
+                                case "Num":
+                                    GetNum(
+                                        columnName: column.Name,
+                                        value: new Num(
+                                            dataRow: dataRow,
+                                            name: column.ColumnName));
+                                    GetSavedNum(
+                                        columnName: column.Name,
+                                        value: GetNum(columnName: column.Name).Value);
+                                    break;
+                                case "Date":
+                                    GetDate(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToDateTime());
+                                    GetSavedDate(
+                                        columnName: column.Name,
+                                        value: GetDate(columnName: column.Name));
+                                    break;
+                                case "Description":
+                                    GetDescription(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString());
+                                    GetSavedDescription(
+                                        columnName: column.Name,
+                                        value: GetDescription(columnName: column.Name));
+                                    break;
+                                case "Check":
+                                    GetCheck(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToBool());
+                                    GetSavedCheck(
+                                        columnName: column.Name,
+                                        value: GetCheck(columnName: column.Name));
+                                    break;
+                                case "Attachments":
+                                    GetAttachments(
+                                        columnName: column.Name,
+                                        value: dataRow[column.ColumnName].ToString()
+                                            .Deserialize<Attachments>() ?? new Attachments());
+                                    GetSavedAttachments(
+                                        columnName: column.Name,
+                                        value: GetAttachments(columnName: column.Name).ToJson());
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }
+
+<!--Model_SetTitleExec-->
+<!--Model_SetByWhenloadingRecordServerScript-->
+
+        }
+
+        public bool Updated(Context context)
+        {
+            return Updated()
+
+<!--Model_Updated-->;
+
+        }
+
+<!--Model_Mine-->
+<!--Model_IdSuffix-->
+
+    }
+}

@@ -1,0 +1,97 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "Owner",
+        "NumA",
+        "TitleBody",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Owner",
+        "NumA",
+        "Title",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "DateA",
+        "Owner",
+        "NumA",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "DateA",
+        "NumA",
+        "Owner",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Manpower",
+            "DecimalPlaces": 1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Working_date",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Work_overview"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Work_details"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1,
+                "Owner": 0
+            },
+            "TimeSeriesGroupBy": "Owner",
+            "TimeSeriesAggregateType": "Total"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

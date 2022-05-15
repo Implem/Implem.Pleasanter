@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_Restore",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "Separator": "\\r\\n"
+}

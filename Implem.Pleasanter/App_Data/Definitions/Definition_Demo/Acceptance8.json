@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance8",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "電子メールデータの移行について",
+    "Status": "150",
+    "ClassA": "200",
+    "ClassB": "問い合わせ",
+    "ClassC": "アプリケーション",
+    "Manager": "User5",
+    "Owner": "User4",
+    "Creator": "User5",
+    "Updator": "User4",
+    "StartTime": "36668",
+    "CompletionTime": "36672",
+    "CreatedTime": "36648.390972222223",
+    "UpdatedTime": "36648.390972222223"
+}
