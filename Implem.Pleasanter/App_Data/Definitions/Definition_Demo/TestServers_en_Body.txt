@@ -1,0 +1,3 @@
+﻿Test after configured a server.
+　・Basic function of OS (Start/Stop)
+　・Backup/Restore test

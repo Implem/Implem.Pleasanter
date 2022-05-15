@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Acceptance4_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Apply a mobile phone for new assigned person",
+    "Status": "100",
+    "ClassA": "200",
+    "ClassB": "Inquiry",
+    "ClassC": "Other",
+    "Manager": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "StartTime": "36642",
+    "CompletionTime": "36665",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

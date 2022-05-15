@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site25_en",
+    "Title": "6th Operating SE meeting",
+    "Status": "100",
+    "ClassA": "Sumida-ku, Tokyo",
+    "NumA": "5",
+    "NumB": "3",
+    "NumC": "0",
+    "DateA": "42819.541666666664",
+    "DateB": "42819.729166666664",
+    "DateC": "42811.729166666664",
+    "DateD": "42818.729166666664",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

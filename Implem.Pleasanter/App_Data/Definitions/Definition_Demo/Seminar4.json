@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar4",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site25",
+    "Title": "クラウドもくもく会 第9回",
+    "Status": "100",
+    "ClassA": "東京都新宿区",
+    "NumA": "5",
+    "NumB": "4",
+    "NumC": "0",
+    "DateA": "42819.541666666664",
+    "DateB": "42819.729166666664",
+    "DateC": "42811.729166666664",
+    "DateD": "42818.729166666664",
+    "Manager": "User4",
+    "Owner": "User4",
+    "Creator": "User4",
+    "Updator": "User4",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

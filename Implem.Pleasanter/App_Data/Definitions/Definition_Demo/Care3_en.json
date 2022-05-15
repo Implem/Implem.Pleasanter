@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care3_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site30_en",
+    "Title": "Drinking alchol",
+    "Status": "900",
+    "ClassA": "Makoto Kato",
+    "ClassB": "Aspiration",
+    "ClassD": "Personal room",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "When a patient family visit here, staff declines a food gift.",
+    "Manager": "User2_en",
+    "Owner": "User2_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

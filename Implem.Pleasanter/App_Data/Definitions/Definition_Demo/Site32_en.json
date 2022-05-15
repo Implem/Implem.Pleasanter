@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site32_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site31_en",
+    "Title": "Business result management",
+    "ClassA": "Results",
+    "ClassB": "Site33_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.CancelNewRow(
+        context: context,
+        ss: Site.SiteSettings,
+        id: context.Forms.Long("CancelRowId"));

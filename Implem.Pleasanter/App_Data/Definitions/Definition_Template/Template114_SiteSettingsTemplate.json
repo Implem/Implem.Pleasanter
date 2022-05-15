@@ -1,0 +1,176 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumE",
+        "DateA",
+        "UpdatedTime",
+        "Updator"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "DateA",
+        "NumE",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "会社名",
+            "ChoicesText": "自社\n会社名1\n会社名2\n会社名3\n会社名4",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "商品開発力(評価)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "営業販売力(評価)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "総括"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "サービス提供力(評価)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "財務力(評価)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "評価合計",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "商品開発力(内容)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "営業販売力(内容)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "サービス提供力(内容)"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "財務力(内容)"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumE"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableCalendar": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

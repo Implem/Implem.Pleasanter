@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster11_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Daisuke Ito",
+    "ClassB": "Daisuke Ito",
+    "ClassC": "479-0814",
+    "ClassD": "Tokoname-city",
+    "ClassE": "841-233-627",
+    "ClassF": "itou@example.com",
+    "ClassG": "Aichi",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

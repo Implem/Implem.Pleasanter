@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Sessions_Value",
+    "ModelName": "Session",
+    "TableName": "Sessions",
+    "Label": "セッション",
+    "ColumnName": "Value",
+    "LabelText": "値",
+    "No": "4",
+    "History": "4",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "LabelText_en": "Value",
+    "LabelText_zh": "数值",
+    "LabelText_de": "Wert",
+    "LabelText_ko": "값",
+    "LabelText_es": "Valor",
+    "LabelText_vn": "Giá trị"
+}

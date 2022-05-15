@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Customer4",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site6",
+    "Title": "Webデータベース開発株式会社",
+    "ClassA": "東京都練馬区",
+    "ClassB": "789-789-789",
+    "Manager": "User9",
+    "Owner": "User9",
+    "Creator": "User9",
+    "Updator": "User9",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

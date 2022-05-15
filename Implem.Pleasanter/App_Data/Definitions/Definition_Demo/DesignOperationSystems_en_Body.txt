@@ -1,0 +1,7 @@
+﻿Write a design sheet for configured operation management system.
+　・Monitoring settings
+　・Job settings
+
+Store files to below folder.
+
+\\fileserver_example\01_demoProject\02_ConfigurationManagement

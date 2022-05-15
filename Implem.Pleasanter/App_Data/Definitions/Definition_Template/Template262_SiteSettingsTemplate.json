@@ -1,0 +1,162 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassA",
+        "TitleBody",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "NumA",
+        "Body",
+        "NumB",
+        "DescriptionA",
+        "NumC",
+        "DescriptionB",
+        "NumD",
+        "DescriptionC",
+        "DescriptionD",
+        "DateA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Employee number"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Role",
+            "ChoicesText": "Person in charge\nSupervisor\nManager"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Total proficiency",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Task 1. Proficiency level",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Task 1. Details"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Task 2. proficiency",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Task 2. Details"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Task 3. Proficiency level",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Task 3. Detail"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "feedback"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registration date"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByY": "Columns",
+            "TimeSeriesGroupBy": "ClassB",
+            "KambanGroupByX": "Status"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,221 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "ClassC",
+        "NumB",
+        "NumA",
+        "NumC",
+        "ClassD",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "ClassD",
+        "Title",
+        "ClassB",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "ClassD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "顧客名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "住所",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "商品・サービス",
+            "ChoicesText": "商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "単価",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "数量"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "金額",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "支払方法",
+            "ChoicesText": "クレジット\n銀行振込\n代引き"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "受付"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "納期"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,受付,受,status-new\n200,在庫引当中,中,status-inprogress\n900,発送済み,済,status-closed\n"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "補足情報"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "受付担当者",
+            "ChoicesText": "担当者1\n担当者2\n担当者3\n担当者4\n担当者5"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "在庫引当担当者",
+            "ChoicesText": "担当者1\n担当者2\n担当者3\n担当者4\n担当者5"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "配送担当者",
+            "ChoicesText": "担当者1\n担当者2\n担当者3\n担当者4\n担当者5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "受付記載欄"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "在庫引当記載欄"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "配送記載欄"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumC\"]",
+            "CrosstabValue": "NumC",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

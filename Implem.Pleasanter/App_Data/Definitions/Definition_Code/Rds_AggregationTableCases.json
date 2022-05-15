@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Rds_AggregationTableCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Exclude": "Tenants"
+}

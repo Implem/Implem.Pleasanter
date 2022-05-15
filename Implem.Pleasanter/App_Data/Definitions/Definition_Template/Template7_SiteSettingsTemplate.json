@@ -1,0 +1,90 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "Comments",
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime",
+        "ClassA"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "課題区分",
+            "ChoicesText": "課題区分1\n課題区分2\n課題区分3\n課題区分4\n課題区分5"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未着手,未,status-new\n150,準備,準,status-preparation\n200,実施中,実,status-inprogress\n300,レビュー,レ,status-review\n900,完了,完,status-closed\n910,保留,留,status-rejected"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

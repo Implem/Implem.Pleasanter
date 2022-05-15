@@ -1,0 +1,31 @@
+﻿private static DataSet ResultContents(
+    Context context, EnumerableRowCollection<DataRow> dataRows)
+{
+    var statements = new List<SqlStatement>();
+    if (dataRows.Any(o => o.String("ReferenceType") == "Sites"))
+    {
+        statements.Add(Rds.SelectSites(
+            dataTableName: "Sites",
+            column: Rds.SitesColumn()
+                .ParentId(_as: "SiteId")
+                .SiteId(_as: "Id")
+                .Body()
+                .Items_Title(),
+            join: new SqlJoinCollection(
+                new SqlJoin(
+                    tableBracket: "\"Items\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Items\".\"ReferenceId\"=\"Sites\".\"SiteId\"")),
+            where: Rds.SitesWhere()
+                .TenantId(context.TenantId)
+                .SiteId_In(dataRows
+                    .Where(o => o.String("ReferenceType") == "Sites")
+                    .Select(o => o.Long("ReferenceId")))));
+    }
+
+<!--Model_Utilities_SearchIndexes_TableCases-->
+
+    return Repository.ExecuteDataSet(
+        context: context,
+        statements: statements.ToArray());
+}

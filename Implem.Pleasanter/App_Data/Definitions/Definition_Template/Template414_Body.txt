@@ -1,0 +1,14 @@
+﻿1, Language
+2, Geography history
+3, Civic
+4, Mathematics
+5, Science
+6, Music
+7, Art
+8, Calligraphy
+9, Crafts
+10, Physical education
+11, Health
+12, Home
+13, Information
+14, English

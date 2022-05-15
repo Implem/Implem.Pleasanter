@@ -1,0 +1,44 @@
+﻿private static HtmlBuilder ReferenceType(
+    this HtmlBuilder hb,
+    Context context,
+    string referenceType,
+    BaseModel.MethodTypes methodType)
+{
+    return methodType == BaseModel.MethodTypes.New
+        ? hb.Select(
+            attributes: new HtmlAttributes()
+                .Id("Sites_ReferenceType")
+                .Class("control-dropdown"),
+            action: () => hb
+                .OptionCollection(
+                    context: context,
+                    optionCollection: new Dictionary<string, ControlData>
+                    {
+                        {
+                            "Sites",
+                            new ControlData(ReferenceTypeDisplayName(
+                                context: context,
+                                referenceType: "Sites"))
+                        },
+
+<!--Model_Utilities_TableNameCases-->
+
+                    },
+                selectedValue: referenceType))
+        : hb.Span(css: "control-text", action: () => hb
+            .Text(text: ReferenceTypeDisplayName(
+                context: context,
+                referenceType: referenceType)));
+}
+
+private static string ReferenceTypeDisplayName(Context context, string referenceType)
+{
+    switch (referenceType)
+    {
+        case "Sites": return Displays.Folder(context: context);
+
+<!--Model_Utilities_TableDisplayNameCases-->
+
+        default: return null;
+    }
+}

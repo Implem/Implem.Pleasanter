@@ -1,0 +1,9 @@
+﻿.Html("#Links", new HtmlBuilder().Links(
+    context: context,
+    ss: ss,
+    id: #modelName#Model.#ModelName#Id))
+.Links(
+    context: context,
+    ss: ss,
+    id: #modelName#Model.#ModelName#Id,
+    methodType: #modelName#Model.MethodType)

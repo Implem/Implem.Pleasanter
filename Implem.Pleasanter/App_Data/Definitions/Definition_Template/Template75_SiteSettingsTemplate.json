@@ -1,0 +1,134 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassH",
+        "ClassG",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateC",
+        "ClassB",
+        "ClassC",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassD",
+        "ClassH",
+        "DescriptionA",
+        "Body",
+        "DateA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassH",
+        "ClassG",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "フリガナ"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "性別",
+            "ChoicesText": "男性\n女性"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "職業"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "顧客名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "郵便番号"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "住所",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "生年月日"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "顧客ランク",
+            "ChoicesText": "A\nB\nC\nD\nE"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "購買実績"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

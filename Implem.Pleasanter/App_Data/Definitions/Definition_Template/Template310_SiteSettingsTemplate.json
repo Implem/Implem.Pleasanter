@@ -1,0 +1,213 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "ClassL",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "ClassJ",
+        "DateB",
+        "ClassK",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Voter",
+            "Section": "Voter information"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Mail"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Receptionist",
+            "Section": "Reception information"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Reception date and time",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Title",
+            "Section": "Incident information"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Corresponding result"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Category",
+            "ChoicesText": "Category1\nCategory2\nCategory3\nCategory4\nCategory5"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Subcategory",
+            "ChoicesText": "Subcategory1\nSubcategory2\nSubcategory3\nSubcategory4\nSubcategory5"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Urgency",
+            "ChoicesText": "Low\nMedium\nHigh"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "Impact",
+            "ChoicesText": "Low\nMedium\nHigh"
+        },
+        {
+            "ColumnName": "ClassI",
+            "LabelText": "Priority",
+            "ChoicesText": "Embed in the plan\nLow\nMedium\nHigh\nFatal"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Start date and time",
+            "DefaultInput": "",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Completed date and time",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "Status",
+            "ChoicesText": "100,Not started yet,Notyet,status-new\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,Closed,Closed,status-rejected"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Corresponding person"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Close date and time",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "ClassJ",
+            "LabelText": "Close category",
+            "Section": "Close Information"
+        },
+        {
+            "ColumnName": "ClassK",
+            "LabelText": "Close Approver"
+        },
+        {
+            "ColumnName": "ClassL",
+            "LabelText": "Reception method",
+            "ChoicesText": "Phone\nMail\nNotification"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassE",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassI",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "ClassE",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

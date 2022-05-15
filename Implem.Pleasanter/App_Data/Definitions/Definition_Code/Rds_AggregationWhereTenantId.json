@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_AggregationWhereTenantId",
+    "RepeatType": "Column",
+    "Indent": "7",
+    "Separator": "\\r\\n",
+    "Include": "TenantId"
+}

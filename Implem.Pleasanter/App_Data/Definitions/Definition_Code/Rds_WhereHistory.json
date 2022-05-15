@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Rds_WhereHistory",
+    "RepeatType": "Join",
+    "Pk": "1",
+    "NotDefault": "1",
+    "NotCalc": "1",
+    "Select": "1",
+    "History": "1"
+}

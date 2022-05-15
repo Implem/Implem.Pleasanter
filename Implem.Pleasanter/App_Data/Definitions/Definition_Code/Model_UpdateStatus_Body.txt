@@ -1,0 +1,3 @@
+﻿StatusUtilities.UpdateStatus(
+    tenantId: <!--Model_SiteSettingsContext-->TenantId,
+    type: StatusUtilities.Types.#TableName#Updated),

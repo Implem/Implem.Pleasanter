@@ -1,0 +1,6 @@
+﻿{
+    "Id": "HtmlGrid_Model",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Include": "Issues,Results"
+}

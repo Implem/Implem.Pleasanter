@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_CalendarGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "CalendarGuide",
+    "LabelText": "カレンダーのガイド",
+    "No": "105",
+    "History": "105",
+    "EditorColumn": "105",
+    "LinkColumn": "105",
+    "HistoryColumn": "105",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Calendar guide",
+    "LabelText_zh": "日历指南",
+    "LabelText_de": "Kalenderanleitung",
+    "LabelText_ko": "캘린더 가이드",
+    "LabelText_es": "Guía de calendario",
+    "LabelText_vn": "Hướng dẫn lịch"
+}

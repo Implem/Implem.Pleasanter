@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Statuses_TenantId",
+    "ModelName": "Status",
+    "TableName": "Statuses",
+    "Label": "ステータス",
+    "ColumnName": "TenantId",
+    "LabelText": "テナントID",
+    "No": "1",
+    "History": "1",
+    "LinkColumn": "1",
+    "HistoryColumn": "1",
+    "TypeName": "int",
+    "Pk": "1",
+    "Required": "1",
+    "LabelText_en": "Tenant ID",
+    "LabelText_zh": "租户ID",
+    "LabelText_de": "Mandanten-ID",
+    "LabelText_ko": "테넌트 ID",
+    "LabelText_es": "ID de arrendatario",
+    "LabelText_vn": "ID Người thuê"
+}

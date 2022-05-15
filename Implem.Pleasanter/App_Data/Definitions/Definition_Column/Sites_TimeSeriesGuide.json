@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_TimeSeriesGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "TimeSeriesGuide",
+    "LabelText": "時系列チャートのガイド",
+    "No": "109",
+    "History": "109",
+    "EditorColumn": "109",
+    "LinkColumn": "109",
+    "HistoryColumn": "109",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Time series guide",
+    "LabelText_zh": "时间序列指南",
+    "LabelText_de": "Leitfaden für Zeitreihen",
+    "LabelText_ko": "시계열 가이드",
+    "LabelText_es": "Guía de series de tiempo",
+    "LabelText_vn": "Hướng dẫn chuỗi thời gian"
+}

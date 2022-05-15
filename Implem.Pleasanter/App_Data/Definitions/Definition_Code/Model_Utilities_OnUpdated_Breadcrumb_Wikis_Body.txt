@@ -1,0 +1,2 @@
+﻿res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
+    .Breadcrumb(context: context, ss: ss));

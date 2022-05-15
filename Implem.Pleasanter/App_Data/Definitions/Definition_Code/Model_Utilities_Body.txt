@@ -1,0 +1,95 @@
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Resources;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Libraries.Web;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+namespace Implem.Pleasanter.Models
+{
+    public static class #ModelName#Utilities
+    {
+
+<!--Model_Utilities_Index ( HasIdentity = true ) -->
+<!--Model_Utilities_Index ( ItemOnly = true ) -->
+<!--Model_Utilities_TrashBox ( ItemOnly = true ) -->
+<!--Model_Utilities_TdValue-->
+<!--Model_Utilities_Editor ( HasIdentity = true )-->
+<!--Model_Utilities_EditorItem-->
+<!--Model_Utilities_EditorJson-->
+<!--Model_Utilities_EditorJson_Sites-->
+<!--Model_Utilities_EditorJson_Items-->
+<!--Model_Utilities_EditorResponse-->
+<!--Model_Utilities_EditorResponse_Tables-->
+<!--Model_Utilities_GetSwitchTargets-->
+<!--Model_Utilities_FieldResponse-->
+<!--Model_Utilities_TableName-->
+<!--Model_Utilities_NewOnGrid-->
+<!--Model_Utilities_CancelNewRow-->
+<!--Model_Utilities_SelectedIds-->
+<!--Model_Utilities_GetByApi -->
+<!--Model_Utilities_Create-->
+<!--Model_Utilities_CreatedMessage-->
+<!--Model_Utilities_CreateByApi-->
+<!--Model_Utilities_Update-->
+<!--Model_Utilities_UpdatedMessage-->
+<!--Model_Utilities_BulkUpdate-->
+<!--Model_Utilities_UpdateByGrid-->
+<!--Model_Utilities_UpdateByApi-->
+<!--Model_Utilities_Copy-->
+<!--Model_Utilities_Copy_Sites-->
+<!--Model_Utilities_Move-->
+<!--Model_Utilities_Delete-->
+<!--Model_Utilities_DeleteByApi-->
+<!--Model_Utilities_Restore_Sites-->
+<!--Model_Utilities_Restore_Items-->
+<!--Model_Utilities_Histories-->
+<!--Model_Utilities_Separate-->
+<!--Model_Utilities_BulkMove-->
+<!--Model_Utilities_BulkDelete-->
+<!--Model_Utilities_BulkDeleteByApi-->
+<!--Model_Utilities_DeleteHistory_Sites-->
+<!--Model_Utilities_DeleteHistory_Items-->
+<!--Model_Utilities_PhysicalBulkDelete_Sites-->
+<!--Model_Utilities_PhysicalBulkDelete_Items-->
+<!--Model_Utilities_PhysicalBulkDeleteByApi_Items-->
+<!--Model_Utilities_Import-->
+<!--Model_Utilities_Export-->
+<!--Model_Utilities_ExportCrosstab-->
+<!--Model_Utilities_Calendar-->
+<!--Model_Utilities_Crosstab-->
+<!--Model_Utilities_Gantt-->
+<!--Model_Utilities_BurnDown-->
+<!--Model_Utilities_TimeSeries-->
+<!--Model_Utilities_Kamban-->
+<!--Model_Utilities_UpdateByKamban-->
+<!--Model_Utilities_UnlockRecord-->
+<!--Model_Utilities_ImageLib-->
+<!--Model_Utilities_SearchIndexes-->
+<!--Model_Utilities_ClearItemDataResponse-->
+<!--Model_Utilities_ItemJoin-->
+<!--Model_Utilities_ItemTitle-->
+<!--Model_Utilities_SetLinks-->
+<!--Model_Utilities_InRange-->
+<!--Model_Utilities_ExistsLockedRecord-->
+
+    }
+}

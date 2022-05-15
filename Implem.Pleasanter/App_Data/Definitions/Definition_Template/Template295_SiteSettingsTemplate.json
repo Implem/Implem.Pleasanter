@@ -1,0 +1,102 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Company name"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Amount of money",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Lodging",
+            "ChoicesText": "None\nYes"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Reception date and time",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remark"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Pending waiting,Wait,status-new\n900,Received,Received,status-closed\n910,On hold,Hold,status-rejected"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "Status",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "TitleSeparator": ")"
+}

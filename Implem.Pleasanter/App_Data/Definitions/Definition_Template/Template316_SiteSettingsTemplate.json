@@ -1,0 +1,176 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumE",
+        "DateA",
+        "UpdatedTime",
+        "Updator"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "DateA",
+        "NumE",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Company name",
+            "ChoicesText": "Our company\nCompany name1\nCompany name2\nCompany name3\nCompany name4",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Product development capability (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Sales sales ability (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Service provision ability (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Financial strength (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Evaluation total",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registration date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Product development capability (content)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Sales sales force (content)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Service provision ability (content)"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Financial strength (content)"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumE"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableCalendar": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

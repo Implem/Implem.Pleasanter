@@ -1,0 +1,200 @@
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+<!--Controller_Groups-->
+<!--Controller_Depts-->
+<!--Controller_Users-->
+namespace Implem.Pleasanter.Controllers
+{
+    [Authorize]
+    public class #TableName#Controller : Controller
+    {
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Index()
+        {
+            var context = new Context();
+            if (!context.Ajax)
+            {
+                var log = new SysLogModel(context: context);
+                var html = #ModelName#Utilities.Index(
+                    context: context,
+                    ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context));
+                ViewBag.HtmlBody = html;
+                log.Finish(context: context, responseSize: html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel(context: context);
+                var json = #ModelName#Utilities.IndexJson(
+                    context: context,
+                    ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context));
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult New(long id = 0)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var html = #ModelName#Utilities.EditorNew(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context));
+            ViewBag.HtmlBody = html;
+            log.Finish(context: context, responseSize: html.Length);
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Edit(int id)
+        {
+            var context = new Context();
+            if (!context.Ajax)
+            {
+                var log = new SysLogModel(context: context);
+                var html = #ModelName#Utilities.Editor(
+                    context: context,
+                    ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                    #modelName#Id: id,
+                    clearSessions: true);
+                ViewBag.HtmlBody = html;
+                log.Finish(context: context, responseSize: html.Length);
+                return View();
+            }
+            else
+            {
+                var log = new SysLogModel(context: context);
+                var json = #ModelName#Utilities.EditorJson(
+                    context: context,
+                    ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                    #modelName#Id: id);
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        [HttpPost]
+        public string GridRows()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.GridRows(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string Create()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.Create(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPut]
+        public string Update(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.Update(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                #modelName#Id: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpDelete]
+        public string Delete(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.Delete(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                #modelName#Id: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpDelete]
+        public string DeleteComment(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.Update(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                #modelName#Id: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string Histories(#IdType# id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.Histories(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                #modelName#Id: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string History(#IdType# id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = #ModelName#Utilities.History(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+                #modelName#Id: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public ActionResult SearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Libraries.Models.DropDowns.SearchDropDown(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+        [HttpPost]
+        public ActionResult SelectSearchDropDown()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = Libraries.Models.DropDowns.SelectSearchDropDown(
+                context: context,
+                ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return Content(json);
+        }
+
+    }
+}

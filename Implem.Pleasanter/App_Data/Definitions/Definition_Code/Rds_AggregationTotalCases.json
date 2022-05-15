@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Rds_AggregationTotalCases",
+    "RepeatType": "Column",
+    "Indent": "8",
+    "Separator": "\\r\\n",
+    "Computable": "1",
+    "ExcludeTypeName": "datetime"
+}

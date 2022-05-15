@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_ServiceName",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ServiceName",
+    "LabelText": "サービス名",
+    "No": "106",
+    "History": "106",
+    "EditorColumn": "106",
+    "EditorEnabled": "1",
+    "LinkColumn": "106",
+    "HistoryColumn": "106",
+    "TypeName": "nvarchar",
+    "MaxLength": "64",
+    "Nullable": "1",
+    "LabelText_en": "Service name",
+    "LabelText_zh": "服务名称",
+    "LabelText_de": "Dienstname",
+    "LabelText_ko": "서비스 이름",
+    "LabelText_es": "Nombre del servicio",
+    "LabelText_vn": "Tên dịch vụ"
+}

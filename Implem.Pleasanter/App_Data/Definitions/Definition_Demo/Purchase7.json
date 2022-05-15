@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase7",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "G社コンサルティングサービス",
+    "ClassA": "#Opportunity5#",
+    "NumA": "638000",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

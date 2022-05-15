@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport4",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "100",
+    "ClassA": "新橋営業所",
+    "ClassB": "Webデータベース開発株式会社",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "新橋営業所",
+    "NumA": "648",
+    "DateA": "36654.705555555556",
+    "Manager": "User9",
+    "Owner": "User9",
+    "Creator": "User9",
+    "Updator": "User9",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

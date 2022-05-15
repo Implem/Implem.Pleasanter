@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_SetDefault_DateTimeColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Form": "1",
+    "IncludeTypeName": "datetime",
+    "ExcludeTypeCs": "CompletionTime"
+}

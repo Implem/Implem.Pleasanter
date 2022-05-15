@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance5",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "経理システムのパスワードをリセットしてください",
+    "Status": "900",
+    "ClassA": "200",
+    "ClassB": "作業依頼",
+    "ClassC": "業務システム",
+    "Manager": "User9",
+    "Owner": "User17",
+    "Creator": "User9",
+    "Updator": "User17",
+    "StartTime": "36644",
+    "CompletionTime": "36672",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care5",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "隣の利用者の薬入りの食事を食べてしまった",
+    "Status": "900",
+    "ClassA": "伊藤 大輔",
+    "ClassB": "誤嚥・誤飲",
+    "ClassD": "キッチン",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "席から離れる時には、利用者から手の届かない位置にお盆を置く。また、食事に薬を混ぜ入れないようにする。",
+    "Manager": "User17",
+    "Owner": "User17",
+    "Creator": "User17",
+    "Updator": "User17",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

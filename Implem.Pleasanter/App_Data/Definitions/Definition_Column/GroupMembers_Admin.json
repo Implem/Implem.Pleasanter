@@ -1,0 +1,21 @@
+﻿{
+    "Id": "GroupMembers_Admin",
+    "ModelName": "GroupMember",
+    "TableName": "GroupMembers",
+    "Label": "グループメンバー",
+    "ColumnName": "Admin",
+    "LabelText": "管理",
+    "No": "101",
+    "History": "101",
+    "LinkColumn": "101",
+    "HistoryColumn": "101",
+    "TypeName": "bit",
+    "Default": "0",
+    "Required": "1",
+    "LabelText_en": "Admin",
+    "LabelText_zh": "管理员",
+    "LabelText_de": "Administrator",
+    "LabelText_ko": "관리자",
+    "LabelText_es": "Admin.",
+    "LabelText_vn": "Quản lí"
+}

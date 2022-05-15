@@ -1,0 +1,2 @@
+﻿Write Requirements document. Store the requirement document to below folder.
+\\fileserver_example\01_demoProject\01_Requirement

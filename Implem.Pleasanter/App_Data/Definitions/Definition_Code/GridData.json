@@ -1,0 +1,6 @@
+﻿{
+    "Id": "GridData",
+    "OutputPath": "Libraries\\Models\\GridData.cs",
+    "MergeToExisting": "1",
+    "Source": "Mvc"
+}

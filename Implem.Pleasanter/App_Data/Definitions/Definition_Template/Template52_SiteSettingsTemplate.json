@@ -1,0 +1,130 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DateA",
+        "NumA",
+        "ClassB",
+        "ClassA",
+        "DateB",
+        "Status",
+        "ClassC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "NumA",
+        "ClassB",
+        "Title",
+        "ClassA",
+        "Body",
+        "DescriptionA",
+        "DateB",
+        "Status",
+        "ClassC",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateB",
+        "ClassC",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "来店日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "顧客名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "連絡先"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "予約コース",
+            "ChoicesText": "コース1\nコース2\nコース3\nコース4\nコース5"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "受付日時",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "受付担当",
+            "ChoicesText": "受付担当1\n受付担当2\n受付担当3\n受付担当4\n受付担当5"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "顧客要望"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,受付\n900,来店済み\n910,キャンセル",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "人数",
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassB",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "TitleSeparator": ")"
+}

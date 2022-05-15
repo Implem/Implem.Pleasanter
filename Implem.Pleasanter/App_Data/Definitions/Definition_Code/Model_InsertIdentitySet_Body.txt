@@ -1,0 +1,1 @@
+﻿#ModelName#Id = (response.Id ?? #ModelName#Id)#CastIdType#;

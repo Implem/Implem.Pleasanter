@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Orders_OwnerId",
+    "ModelName": "Order",
+    "TableName": "Orders",
+    "Label": "順序",
+    "ColumnName": "OwnerId",
+    "LabelText": "所有者ID",
+    "No": "3",
+    "History": "3",
+    "LinkColumn": "3",
+    "HistoryColumn": "3",
+    "TypeName": "int",
+    "Pk": "3",
+    "Required": "1",
+    "LabelText_en": "Owner ID",
+    "LabelText_zh": "所有者ID",
+    "LabelText_de": "Verantwortlichen-ID",
+    "LabelText_ko": "소유자 ID",
+    "LabelText_es": "ID del propietario",
+    "LabelText_vn": "ID Người sở hữu"
+}

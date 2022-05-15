@@ -1,0 +1,57 @@
+﻿public static #TableName#WhereCollection #ColumnName#(
+    this #TableName#WhereCollection self,
+    object value = null,
+    string tableName = "#JoinTableName#",
+    string _operator = "=",
+    string multiColumnOperator = " or ",
+    string multiParamOperator = " and ",
+    SqlStatement subLeft = null,
+    SqlStatement sub = null,
+    bool subPrefix = true,
+    string raw = null,
+    bool _using = true)
+{
+    return _using
+        ? self.Add(
+            columnBrackets: new string[] { "#ColumnBracket#" },
+            tableName: tableName,
+            name: "#ColumnName#",
+            value: value,
+            _operator: _operator,
+            multiColumnOperator: multiColumnOperator,
+            multiParamOperator: multiParamOperator,
+            subLeft: subLeft,
+            sub: sub,
+            subPrefix: subPrefix,
+            raw: raw)
+        : self;
+}
+
+public static SqlWhereCollection #TableName#_#ColumnName#(
+    this SqlWhereCollection self,
+    object value = null,
+    string tableName = "#JoinTableName#",
+    string _operator = "=",
+    string multiColumnOperator = " or ",
+    string multiParamOperator = " and ",
+    SqlStatement subLeft = null,
+    SqlStatement sub = null,
+    bool subPrefix = true,
+    string raw = null,
+    bool _using = true)
+{
+    return _using
+        ? self.Add(
+            columnBrackets: new string[] { "#ColumnBracket#" },
+            tableName: tableName,
+            name: "#ColumnName#",
+            value: value,
+            _operator: _operator,
+            multiColumnOperator: multiColumnOperator,
+            multiParamOperator: multiParamOperator,
+            subLeft: subLeft,
+            sub: sub,
+            subPrefix: subPrefix,
+            raw: raw)
+        : self;
+}

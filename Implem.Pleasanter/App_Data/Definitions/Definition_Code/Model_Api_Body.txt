@@ -1,0 +1,18 @@
+﻿using Implem.Pleasanter.Models.Shared;
+using System;
+using System.Collections.Generic;
+namespace Implem.Pleasanter.Models
+{
+    [Serializable]
+    public class #ModelName#ApiModel : _BaseApiModel
+    {
+
+<!--Model_ApiPropertyCases-->
+<!--Model_ApiItemTitle-->
+<!--Model_ApiGroupMembers-->
+
+        public #ModelName#ApiModel()
+        {
+        }
+    }
+}

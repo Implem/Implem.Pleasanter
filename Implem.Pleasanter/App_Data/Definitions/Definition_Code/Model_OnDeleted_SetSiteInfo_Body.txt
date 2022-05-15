@@ -1,0 +1,5 @@
+﻿var #modelName#Hash = SiteInfo.TenantCaches.Get(context.TenantId)?.#ModelName#Hash;
+if (#modelName#Hash.Keys.Contains(#ModelName#Id))
+{
+    #modelName#Hash.Remove(#ModelName#Id);
+}

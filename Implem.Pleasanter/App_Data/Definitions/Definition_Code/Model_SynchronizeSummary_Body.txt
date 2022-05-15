@@ -1,0 +1,86 @@
+﻿public void SynchronizeSummary(Context context, SiteSettings ss, bool force = false)
+{
+    ss.Summaries.ForEach(summary =>
+    {
+        var id = SynchronizeSummaryDestinationId(linkColumn: summary.LinkColumn);
+        var savedId = SynchronizeSummaryDestinationId(
+            linkColumn: summary.LinkColumn,
+            saved: true);
+        if (id != 0)
+        {
+            SynchronizeSummary(
+                context: context,
+                ss: ss,
+                summary: summary,
+                id: id);
+        }
+        if (savedId != 0 && id != savedId)
+        {
+            SynchronizeSummary(
+                context: context,
+                ss: ss,
+                summary: summary,
+                id: savedId);
+        }
+    });
+    SynchronizeSourceSummary(
+        context: context,
+        ss: ss,
+        force: force);
+}
+
+private void SynchronizeSummary(
+    Context context, SiteSettings ss, Summary summary, long id)
+{
+    var destinationSs = SiteSettingsUtilities.Get(
+        context: context, siteId: summary.SiteId);
+    if (destinationSs != null)
+    {
+        Summaries.Synchronize(
+            context: context,
+            ss: ss,
+            destinationSs: destinationSs,
+            destinationSiteId: summary.SiteId,
+            destinationColumn: summary.DestinationColumn,
+            destinationCondition: destinationSs.Views?.Get(summary.DestinationCondition),
+            setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
+            sourceSiteId: SiteId,
+            sourceReferenceType: "#TableName#",
+            linkColumn: summary.LinkColumn,
+            type: summary.Type,
+            sourceColumn: summary.SourceColumn,
+            sourceCondition: ss.Views?.Get(summary.SourceCondition),
+            id: id);
+    }
+}
+
+private void SynchronizeSourceSummary(
+    Context context, SiteSettings ss, bool force = false)
+{
+    ss.Sources.Values.ForEach(sourceSs =>
+        sourceSs.Summaries
+            .Where(o => ss.Views?.Get(o.DestinationCondition) != null || force)
+            .ForEach(summary =>
+                Summaries.Synchronize(
+                    context: context,
+                    ss: sourceSs,
+                    destinationSs: ss,
+                    destinationSiteId: summary.SiteId,
+                    destinationColumn: summary.DestinationColumn,
+                    destinationCondition: ss.Views?.Get(summary.DestinationCondition),
+                    setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
+                    sourceSiteId: sourceSs.SiteId,
+                    sourceReferenceType: sourceSs.ReferenceType,
+                    linkColumn: summary.LinkColumn,
+                    type: summary.Type,
+                    sourceColumn: summary.SourceColumn,
+                    sourceCondition: sourceSs.Views?.Get(summary.SourceCondition),
+                    id: #ModelName#Id)));
+}
+
+private long SynchronizeSummaryDestinationId(string linkColumn, bool saved = false)
+{
+    return saved
+        ? GetSavedClass(linkColumn).ToLong()
+        : GetClass(linkColumn).ToLong();
+}

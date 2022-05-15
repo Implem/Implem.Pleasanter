@@ -1,0 +1,48 @@
+﻿public static string TrashBox(Context context, SiteSettings ss)
+{
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(context: context, ss: ss);
+    var gridData = GetGridData(context: context, ss: ss, view: view);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var serverScriptModelRow = ss.GetServerScriptModelRow(
+        context: context,
+        view: view);
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        serverScriptModelRow: serverScriptModelRow,
+        viewModeBody: () => hb
+            .TrashBoxCommands(context: context, ss: ss)
+            .Grid(
+                context: context,
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                action: "TrashBoxGridRows",
+                serverScriptModelRow: serverScriptModelRow));
+}
+
+public static string TrashBoxJson(Context context, SiteSettings ss)
+{
+    var view = Views.GetBySession(context: context, ss: ss);
+    var gridData = GetGridData(context: context, ss: ss, view: view);
+    return new ResponseCollection()
+        .ViewMode(
+            context: context,
+            ss: ss,
+            view: view,
+            invoke: "setGrid",
+            body: new HtmlBuilder()
+                .TrashBoxCommands(context: context, ss: ss)
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    action: "TrashBoxGridRows"))
+        .ToJson();
+}

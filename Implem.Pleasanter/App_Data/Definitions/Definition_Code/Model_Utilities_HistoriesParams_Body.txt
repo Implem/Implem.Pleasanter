@@ -1,0 +1,5 @@
+﻿public static string Histories(
+    Context context, SiteSettings ss, #IdType# #modelName#Id, Message message = null)
+{
+    var #modelName#Model = new #ModelName#Model(context: context, ss: ss, #modelName#Id: #modelName#Id);
+    var columns = ss.GetHistoryColumns(context: context, checkPermission: true);

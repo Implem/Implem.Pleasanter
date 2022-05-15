@@ -1,0 +1,8 @@
+﻿{
+    "Id": "ResponseCollection_ValueColumns",
+    "RepeatType": "Column",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "EditorColumn": "1",
+    "ExcludeTypeName": "image"
+}

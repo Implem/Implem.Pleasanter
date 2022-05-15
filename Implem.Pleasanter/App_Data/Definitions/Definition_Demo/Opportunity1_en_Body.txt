@@ -1,0 +1,3 @@
+﻿We received a request about validation for AI tequnique to find a risk early in a project management.
+In this year, we will validate for finding common problem point in a project using progress management data or email data.
+At first, we will make an business opportunity about definition requirement phase for making form the project.

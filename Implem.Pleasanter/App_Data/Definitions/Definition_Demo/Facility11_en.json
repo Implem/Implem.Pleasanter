@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Facility11_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site20_en",
+    "Title": "Printer(004)",
+    "ClassA": "#Dept9_en#",
+    "ClassB": "053-1112",
+    "ClassC": "Printer",
+    "NumA": "0",
+    "NumB": "0",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

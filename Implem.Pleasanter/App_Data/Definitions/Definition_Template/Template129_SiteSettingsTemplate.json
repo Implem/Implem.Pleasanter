@@ -1,0 +1,154 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateC",
+        "Status",
+        "ClassB",
+        "TitleBody",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateC",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "Status",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "DateC",
+        "Status",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "DateC",
+        "Status",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起,status-new\n900,承認,承,status-closed\n910,却下,却,status-review\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "氏名",
+            "ChoicesText": "氏名1\n氏名2\n氏名3\n氏名4\n氏名5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "所属",
+            "ChoicesText": "所属1\n所属2\n所属3\n所属4\n所属5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "承認者",
+            "ChoicesText": "承認者1\n承認者2\n承認者3\n承認者4\n承認者5"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "休暇区分",
+            "ChoicesText": "有給休暇\n特別休暇\n慶弔休暇\n代休\nその他"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "日数",
+            "DecimalPlaces": 1,
+            "Unit": "日"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "期間(自)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "期間(至)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "起票日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "理由"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

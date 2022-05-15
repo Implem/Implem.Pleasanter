@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Groups_MemberKey",
+    "ModelName": "Group",
+    "TableName": "Groups",
+    "Label": "グループ",
+    "ColumnName": "MemberKey",
+    "LabelText": "メンバーキー",
+    "No": "106",
+    "History": "106",
+    "TypeName": "string",
+    "TypeCs": "string",
+    "NotLookup": "1",
+    "NotForm": "1",
+    "NotSelect": "1",
+    "NotUpdate": "1",
+    "NotEditorSettings": "1",
+    "LabelText_en": "Member key",
+    "LabelText_zh": "会员密钥",
+    "LabelText_de": "Mitgliedsschlüssel",
+    "LabelText_ko": "멤버 키",
+    "LabelText_es": "clave de miembro",
+    "LabelText_vn": "Khóa thành viên"
+}

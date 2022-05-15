@@ -1,0 +1,7 @@
+﻿1,Sales
+2,Public relations
+3,Planning and development
+4,Technology/Research
+5,General Affairs/Legal Affairs
+6,Human Resources
+7,Accounting/finance

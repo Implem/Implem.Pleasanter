@@ -1,0 +1,5 @@
+﻿SetExtendedColumnDefinitions(definitionRows: definitionRows);
+if (Parameters.CommercialLicense())
+{
+    SetExtendedColumns(definitionRows: definitionRows);
+}

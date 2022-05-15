@@ -1,0 +1,7 @@
+﻿case Error.Types.Duplicated:
+    return ApiResults.Error(
+        context: context,
+        errorData: errorData,
+        data: ss.GetColumn(
+            context: context,
+            columnName: errorData.ColumnName)?.LabelText);

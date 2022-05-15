@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Sites_Publish",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "Publish",
+    "LabelText": "公開",
+    "No": "116",
+    "History": "116",
+    "LinkColumn": "116",
+    "HistoryColumn": "116",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Publish",
+    "LabelText_zh": "发布",
+    "LabelText_de": "Veröffentlichen",
+    "LabelText_ko": "공개",
+    "LabelText_es": "Publicar",
+    "LabelText_vn": "Công khai"
+}

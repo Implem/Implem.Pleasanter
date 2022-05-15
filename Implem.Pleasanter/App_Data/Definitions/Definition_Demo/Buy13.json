@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy13",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "カッターナイフ",
+    "ClassA": "#Expendable7#",
+    "ClassB": "オンラインショップ",
+    "NumA": "28",
+    "NumB": "1311",
+    "DateA": "42816.705555555556",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

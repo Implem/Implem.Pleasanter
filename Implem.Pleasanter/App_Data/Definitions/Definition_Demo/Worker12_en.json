@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Worker12_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site33_en",
+    "Title": "Haruka Sasaki",
+    "ClassA": "#Dept8_en#",
+    "Manager": "User17_en",
+    "Owner": "User17_en",
+    "Creator": "User17_en",
+    "Updator": "User17_en",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

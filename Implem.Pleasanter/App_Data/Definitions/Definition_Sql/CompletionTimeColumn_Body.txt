@@ -1,0 +1,1 @@
+﻿dateadd(day,#DifferenceOfDates#,"Issues"."CompletionTime")

@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Model_SetByApi_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Form": "1",
+    "Select": "1",
+    "Exclude": "SiteSettings,ImageSettings,ExportColumns,ApiKey",
+    "ExcludeTypeName": "image",
+    "ExcludeTypeCs": "Attachments"
+}

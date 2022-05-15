@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Site51_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site48_en",
+    "Title": "Revenue management ledger",
+    "ClassA": "Results",
+    "ClassB": "Site49_en",
+    "ClassC": "Site50_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

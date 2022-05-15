@@ -1,0 +1,1 @@
+﻿public #File#Definition #Id# = new #File#Definition();

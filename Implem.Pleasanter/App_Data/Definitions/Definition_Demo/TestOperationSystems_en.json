@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestOperationSystems_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Operation management system test",
+    "WorkValue": "10",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Test",
+    "ClassB": "Work[Routine]",
+    "ClassC": "Operation",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "StartTime": "36666",
+    "CompletionTime": "36667",
+    "CreatedTime": "36642.460416666669",
+    "UpdatedTime": "36640.460416666669"
+}

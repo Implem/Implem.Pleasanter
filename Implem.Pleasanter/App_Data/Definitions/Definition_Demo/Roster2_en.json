@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster2_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Miki Saito",
+    "ClassB": "Miki Saito",
+    "ClassC": "111-3331",
+    "ClassD": "Yamaguchi-city",
+    "ClassE": "611-164-343",
+    "ClassF": "saitou@example.com",
+    "ClassG": "Yamaguchi",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

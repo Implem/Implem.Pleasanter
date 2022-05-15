@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_CrosstabGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "CrosstabGuide",
+    "LabelText": "クロス集計のガイド",
+    "No": "106",
+    "History": "106",
+    "EditorColumn": "106",
+    "LinkColumn": "106",
+    "HistoryColumn": "106",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Crosstab guide",
+    "LabelText_zh": "交叉表指南",
+    "LabelText_de": "Kreuztabellen-Anleitung",
+    "LabelText_ko": "크로스탭 가이드",
+    "LabelText_es": "Guía de tabla de referencias cruzadas",
+    "LabelText_vn": "Hướng dẫn bảng chữ cái"
+}

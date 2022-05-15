@@ -1,0 +1,379 @@
+﻿public static List<SqlStatement> OnCreatingExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnCreating)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnCreatedExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId,
+    long id)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnCreated)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId,
+            id: id)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId,
+            id: id);
+    return statements;
+}
+
+public static List<SqlStatement> OnUpdatingExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId,
+    long id,
+    DateTime timestamp)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnUpdating)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId,
+            id: id)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId,
+            id: id,
+            timestamp: timestamp);
+    return statements;
+}
+
+public static List<SqlStatement> OnUpdatedExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId,
+    long id)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnUpdated)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId,
+            id: id)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId,
+            id: id);
+    return statements;
+}
+
+public static List<SqlStatement> OnUpdatingByGridExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnUpdatingByGrid)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnUpdatedByGridExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnUpdatedByGrid)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnBulkUpdatingExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnBulkUpdating)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnBulkUpdatedExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnBulkUpdated)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnDeletingExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId,
+    long id)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnDeleting)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId,
+            id: id)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId,
+            id: id);
+    return statements;
+}
+
+public static List<SqlStatement> OnDeletedExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId,
+    long id)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnDeleted)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId,
+            id: id)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId,
+            id: id);
+    return statements;
+}
+
+public static List<SqlStatement> OnBulkDeletingExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnBulkDeleting)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnBulkDeletedExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnBulkDeleted)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnImportingExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnImporting)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static List<SqlStatement> OnImportedExtendedSqls(
+    this List<SqlStatement> statements,
+    Context context,
+    long siteId)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnImported)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId)
+        .ExtendedSqls(
+            statements: statements,
+            siteId: siteId);
+    return statements;
+}
+
+public static SqlWhereCollection OnSelectingWhereExtendedSqls(
+    this SqlWhereCollection where,
+    Context context,
+    SiteSettings ss,
+    IEnumerable<ExtendedSql> extendedSqls,
+    long? siteId = null,
+    long? id = null,
+    DateTime? timestamp = null,
+    string name = null,
+    Dictionary<string, string> columnFilterHash = null,
+    Dictionary<string, string> columnPlaceholders = null)
+{
+    extendedSqls
+        ?.Where(o => o.OnSelectingWhereParams?.Any() != true
+            || o.OnSelectingWhereParams?.All(p => columnFilterHash?.ContainsKey(p) == true) == true)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: ss.SiteId,
+            name: name)
+        .ForEach(o => where.Add(raw: o.ReplacedCommandText(
+            siteId: siteId ?? ss?.SiteId ?? context.SiteId,
+            id: id ?? context.Id,
+            timestamp: timestamp,
+            columnPlaceholders: columnPlaceholders?
+                .ToDictionary(p => p.Key, p => ss.GetColumn(
+                    context: context,
+                    columnName: p.Value))
+                .Where(p => p.Value != null)
+                .ToDictionary(
+                    p => p.Key,
+                    p => $"\"{p.Value.TableName()}\".{ColumnBracket(p.Value)}"))));
+    return where;
+}
+
+public static SqlColumn OnSelectingColumnSql(Context context, SiteSettings ss, View view, SqlColumn column)
+{
+    if (column.ColumnName == null)
+    {
+        return column;
+    }
+    var extendedSql = Parameters.ExtendedSqls
+        ?.Where(o => o.OnSelectingColumn)
+        ?.Where(o => o.OnSelectingColumnParams?.Any() != true
+            || o.OnSelectingColumnParams?.All(p => view.ViewExtensionsHash?.ContainsKey(p) == true) == true)
+        .ExtensionWhere<ParameterAccessor.Parts.ExtendedSql>(
+            context: context,
+            siteId: ss.SiteId,
+            columnName: column.ColumnName)
+        .FirstOrDefault();
+    if (extendedSql?.CommandText.IsNullOrEmpty() == false)
+    {
+        var param = view.Param(context: context, ss: ss);
+        return new SqlColumn()
+        {
+            Sub = new SqlStatement(
+                commandText: extendedSql.CommandText,
+                param: param),
+            As = column.ColumnName
+        };
+    }
+    else
+    {
+        return column;
+    }
+}
+
+public static SqlOrderByCollection OnSelectingOrderByExtendedSqls(
+    this SqlOrderByCollection orderBy,
+    Context context,
+    SiteSettings ss,
+    IEnumerable<ExtendedSql> extendedSqls,
+    long? siteId = null,
+    long? id = null,
+    DateTime? timestamp = null,
+    string name = null,
+    Dictionary<string, SqlOrderBy.Types> columnSorterHash = null,
+    Dictionary<string, string> columnPlaceholders = null)
+{
+    extendedSqls
+        ?.Where(o => o.OnSelectingOrderByParams?.Any() != true
+            || o.OnSelectingOrderByParams?.All(p => columnSorterHash?.ContainsKey(p) == true) == true)
+        .ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: ss.SiteId,
+            name: name)
+        .ForEach(o => orderBy.Add(raw: o.ReplacedCommandText(
+            siteId: siteId ?? ss?.SiteId ?? context.SiteId,
+            id: id ?? context.Id,
+            timestamp: timestamp,
+            columnPlaceholders: columnPlaceholders?
+                .ToDictionary(p => p.Key, p => ss.GetColumn(
+                    context: context,
+                    columnName: p.Value))
+                .Where(p => p.Value != null)
+                .ToDictionary(
+                    p => p.Key,
+                    p => $"\"{p.Value.TableName()}\".{ColumnBracket(p.Value)}"))));
+    return orderBy;
+}
+
+public static List<SqlStatement> OnUseSecondaryAuthentication(
+    this List<SqlStatement> statements,
+    Context context)
+{
+    Parameters.ExtendedSqls
+        ?.Where(o => o.OnUseSecondaryAuthentication)
+        .ExtensionWhere<ExtendedSql>(context: context)
+        .ForEach(o => statements.Add(new SqlStatement(commandText: o.CommandText)));
+    return statements;
+}
+
+public static IEnumerable<ExtendedSql> ExtendedSqls(
+    Context context,
+    long siteId,
+    long id)
+{
+    return Parameters.ExtendedSqls
+        ?.ExtensionWhere<ExtendedSql>(
+            context: context,
+            siteId: siteId,
+            id: id);
+}
+
+private static void ExtendedSqls(
+    this IEnumerable<ExtendedSql> self,
+    List<SqlStatement> statements,
+    long siteId,
+    long id = 0,
+    DateTime? timestamp = null)
+{
+    self.ForEach(o => statements.Add(new SqlStatement()
+    {
+        CommandText = o.ReplacedCommandText(
+            siteId: siteId,
+            id: id,
+            timestamp: timestamp)
+    }));
+}

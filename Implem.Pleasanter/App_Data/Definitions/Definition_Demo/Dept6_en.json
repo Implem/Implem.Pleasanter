@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Dept6_en",
+    "Language": "en",
+    "Type": "Depts",
+    "ParentId": "Dept1_en",
+    "Title": "Sales Dept.",
+    "ClassA": "000410",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

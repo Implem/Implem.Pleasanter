@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Registrations_GroupId",
+    "ModelName": "Registration",
+    "TableName": "Registrations",
+    "Label": "ユーザ招待",
+    "ColumnName": "GroupId",
+    "LabelText": "グループID",
+    "No": "113",
+    "History": "113",
+    "LinkColumn": "113",
+    "HistoryColumn": "113",
+    "TypeName": "int",
+    "Default": "0",
+    "LabelText_en": "Group ID",
+    "LabelText_zh": "组ID",
+    "LabelText_de": "Gruppen-ID",
+    "LabelText_ko": "그룹 ID",
+    "LabelText_es": "ID del grupo",
+    "LabelText_vn": "ID Nhóm"
+}

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Keiko Tanaka",
+    "ClassB": "Keiko Tanaka",
+    "ClassC": "114-0023",
+    "ClassD": "Kita-ku",
+    "ClassE": "914-608-511",
+    "ClassF": "tanaka@example.com",
+    "ClassG": "Tokyo",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

@@ -1,0 +1,312 @@
+﻿public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_ShowProfiles-->
+<!--Model_Validator_ApiCanRead-->
+
+    if (!api && ss.GetNoDisplayIfReadOnly())
+    {
+        return new ErrorData(type: Error.Types.NotFound);
+    }
+    return context.HasPermission(ss: ss)
+        ? new ErrorData(type: Error.Types.None)
+        : !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
+}
+
+public static ErrorData OnEditing(
+    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+
+    if (ss.GetNoDisplayIfReadOnly())
+    {
+        return new ErrorData(type: Error.Types.NotFound);
+    }
+    switch (#modelName#Model.MethodType)
+    {
+        case BaseModel.MethodTypes.Edit:
+            return
+                context.CanRead(ss: ss)
+                && #modelName#Model.AccessStatus != Databases.AccessStatuses.NotFound
+                    ? new ErrorData(type: Error.Types.None)
+                    : new ErrorData(type: Error.Types.NotFound);
+        case BaseModel.MethodTypes.New:
+            return context.CanCreate(ss: ss)
+                ? new ErrorData(type: Error.Types.None)
+                : !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
+        default:
+            return new ErrorData(type: Error.Types.NotFound);
+    }
+}
+
+public static ErrorData OnCreating(
+    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_LockedTable-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+
+    if (!context.CanCreate(ss: ss) || #modelName#Model.ReadOnly)
+    {
+        return !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
+    }
+    foreach (var column in ss.Columns
+        .Where(o => !o.CanCreate(
+            context: context,
+            ss: ss,
+            mine: #modelName#Model.Mine(context: context)))
+        .Where(o => !ss.FormulaTarget(o.ColumnName))
+        .Where(o => !o.Linking))
+    {
+        switch (column.ColumnName)
+        {
+
+<!--Model_Validator_OnCreatingCases-->
+<!--Model_Validator_OnCreatingDateTimeCases-->
+
+            case "Comments":
+                if (#modelName#Model.Comments_Updated(context: context))
+                {
+                    return new ErrorData(type: Error.Types.HasNotPermission);
+                }
+                break;
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                {
+                    case "Class":
+                        if (#modelName#Model.Class_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Num":
+                        if (#modelName#Model.Num_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Date":
+                        if (#modelName#Model.Date_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Description":
+                        if (#modelName#Model.Description_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Check":
+                        if (#modelName#Model.Check_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Attachments":
+                        if (#modelName#Model.Attachments_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+<!--Model_Validator_OnAttaching-->
+<!--Model_Validator_OnInputValidating-->
+
+    return new ErrorData(type: Error.Types.None);
+}
+
+public static ErrorData OnUpdating(
+    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+{
+
+<!--Model_Validator_RecordPermissions-->
+<!--Model_Validator_Api-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+<!--Model_Validator_LockedTable-->
+<!--Model_Validator_LockedRecord-->
+<!--Model_Validator_OnUpdating_Users-->
+
+    if (!context.CanUpdate(ss: ss) || #modelName#Model.ReadOnly)
+    {
+        return !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
+    }
+    foreach (var column in ss.Columns
+        .Where(o => !o.CanUpdate(
+            context: context,
+            ss: ss,
+            mine: #modelName#Model.Mine(context: context)))
+        .Where(o => !ss.FormulaTarget(o.ColumnName)))
+    {
+        switch (column.ColumnName)
+        {
+
+<!--Model_Validator_OnUpdatingCases-->
+
+            case "Comments":
+                if (#modelName#Model.Comments_Updated(context: context))
+                {
+                    return new ErrorData(type: Error.Types.HasNotPermission);
+                }
+                break;
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                {
+                    case "Class":
+                        if (#modelName#Model.Class_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Num":
+                        if (#modelName#Model.Num_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Date":
+                        if (#modelName#Model.Date_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Description":
+                        if (#modelName#Model.Description_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Check":
+                        if (#modelName#Model.Check_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "Attachments":
+                        if (#modelName#Model.Attachments_Updated(
+                            columnName: column.Name,
+                            context: context,
+                            column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+<!--Model_Validator_OnAttaching-->
+<!--Model_Validator_OnInputValidating-->
+
+    return new ErrorData(type: Error.Types.None);
+}
+
+<!--Model_Validator_OnMoving-->
+
+public static ErrorData OnDeleting(
+    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_LockedTable-->
+<!--Model_Validator_LockedRecord-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+
+    return context.CanDelete(ss: ss) && !#modelName#Model.ReadOnly
+        ? new ErrorData(type: Error.Types.None)
+        : !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
+}
+
+public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_LockedTable-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+
+    return Permissions.CanManageTenant(context: context)
+        ? new ErrorData(type: Error.Types.None)
+        : new ErrorData(type: Error.Types.HasNotPermission);
+}
+
+public static ErrorData OnImporting(Context context, SiteSettings ss, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_LockedTable-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+
+    return context.CanImport(ss: ss)
+        ? new ErrorData(type: Error.Types.None)
+        : !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
+}
+
+public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_ShowProfilesAndHasPrivilege-->
+
+    return context.CanExport(ss: ss)
+        ? new ErrorData(type: Error.Types.None)
+        : !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
+}
+
+<!--Model_Validator_OnDeleteHistory-->
+<!--Model_Validator_OnUnlockRecord-->

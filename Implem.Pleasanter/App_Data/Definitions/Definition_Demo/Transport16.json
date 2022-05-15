@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport16",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "300",
+    "ClassA": "自宅",
+    "ClassB": "世界貿易センタービル",
+    "ClassE": "顧客定例会参加のため",
+    "ClassH": "本社",
+    "NumA": "1214",
+    "DateA": "36654.705555555556",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

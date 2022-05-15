@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Sites_SiteName",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "SiteName",
+    "LabelText": "サイト名",
+    "No": "101",
+    "History": "101",
+    "EditorColumn": "101",
+    "LinkColumn": "101",
+    "HistoryColumn": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "LabelText_en": "Site name",
+    "LabelText_zh": "站点名称",
+    "LabelText_de": "Site-Name",
+    "LabelText_ko": "사이트 이름",
+    "LabelText_es": "Nombre del sitio",
+    "LabelText_vn": "Tên trang web"
+}

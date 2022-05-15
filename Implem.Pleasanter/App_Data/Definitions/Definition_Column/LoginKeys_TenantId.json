@@ -1,0 +1,18 @@
+﻿{
+    "Id": "LoginKeys_TenantId",
+    "ModelName": "LoginKey",
+    "TableName": "LoginKeys",
+    "Label": "ログインキー",
+    "ColumnName": "TenantId",
+    "LabelText": "テナントID",
+    "No": "102",
+    "History": "102",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "Tenant ID",
+    "LabelText_zh": "租户ID",
+    "LabelText_de": "Mandanten-ID",
+    "LabelText_ko": "테넌트 ID",
+    "LabelText_es": "ID del inquilino",
+    "LabelText_vn": "ID Người thuê"
+}

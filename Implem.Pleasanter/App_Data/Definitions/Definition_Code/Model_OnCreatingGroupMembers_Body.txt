@@ -1,0 +1,4 @@
+﻿var groupMembers = setByApi
+    ? GroupMembers
+    : context.Forms.List("CurrentMembersAll");
+var addMyselfGroupmembers = !setByApi || groupMembers == null;

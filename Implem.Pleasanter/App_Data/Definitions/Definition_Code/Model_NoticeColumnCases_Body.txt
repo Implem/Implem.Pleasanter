@@ -1,0 +1,9 @@
+﻿case "#ColumnName#":
+    body.Append(#ColumnName#.ToNotice(
+        context: context,
+        saved: Saved#ColumnName#,
+        column: column,
+        notificationColumnFormat: data.Format,
+        updated: #ColumnName#_Updated(context: context),
+        update: update));
+    break;

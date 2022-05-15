@@ -1,0 +1,12 @@
+﻿statements.AddRange(PermissionUtilities.InsertStatements(
+    context: context,
+    ss: ss,
+    users: ss.Columns
+        .Where(o => o.Type == Column.Types.User)
+        .ToDictionary(o =>
+            o.ColumnName,
+            o => SiteInfo.User(
+                context: context,
+                userId: PropertyValue(
+                    context: context,
+                    column: o).ToInt()))));

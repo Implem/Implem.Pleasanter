@@ -1,0 +1,169 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassC",
+        "Owner",
+        "ClassD",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "NumA",
+        "StartTime",
+        "ClassC",
+        "Owner",
+        "DescriptionA",
+        "CompletionTime",
+        "Status",
+        "ClassD",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassC",
+        "Owner",
+        "ClassD",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "件名",
+            "Section": "依頼情報"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "依頼内容"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "回答内容",
+            "Section": "回答情報"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "緊急度",
+            "ChoicesText": "高\n中\n低"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "依頼種別",
+            "ChoicesText": "商品・サービス説明\nデモ実施\n客先同行\n情報提供\nその他"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "依頼日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "回答日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "依頼者"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "回答者"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未着手,未,status-new\n900,回答済み,回,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "依頼者.部署",
+            "ChoicesText": "部署1\n部署2\n部署3\n部署4\n部署5"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "回答者.部署",
+            "ChoicesText": "部署1\n部署2\n部署3\n部署4\n部署5"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "商談確度",
+            "ChoicesText": "90%\n50%\n30%"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "商談規模",
+            "Format": "C"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabAggregateType": "Count",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

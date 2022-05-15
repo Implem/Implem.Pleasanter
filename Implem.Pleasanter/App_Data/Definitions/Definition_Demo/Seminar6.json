@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar6",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site25",
+    "Title": "Ruby勉強会 第10回",
+    "Status": "100",
+    "ClassA": "東京都港区",
+    "NumA": "5",
+    "NumB": "3",
+    "NumC": "0",
+    "DateA": "42812.541666666664",
+    "DateB": "42812.729166666664",
+    "DateC": "42805.541666666664",
+    "DateD": "42811.729166666664",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

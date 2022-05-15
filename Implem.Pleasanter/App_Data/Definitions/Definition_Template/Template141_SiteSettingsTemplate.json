@@ -1,0 +1,142 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassC",
+        "NumA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "購入日"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "有効期限",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,購入前,前,status-new\n900,購入済み,済,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "利用者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "メーカー",
+            "ChoicesText": "メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "車種",
+            "ChoicesText": "乗用自動車\n乗合自動車\n貨物自動車\n大型特殊自動車\nその他"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "ナンバー"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "取得価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "資産管理番号"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "車名"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "KambanGroupByY": "Owner",
+            "KambanValue": "NumA"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

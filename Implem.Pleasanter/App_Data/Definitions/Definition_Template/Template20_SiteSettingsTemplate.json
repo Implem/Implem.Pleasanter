@@ -1,0 +1,126 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "NumA",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Status",
+        "Title",
+        "Body",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassA",
+        "NumA",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "NumA",
+        "ClassA",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "分類",
+            "ChoicesText": "チラシ\n提案書\n見積書\n納品書\n請求書\n領収書\n社内会議資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "依頼日"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "期日"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "依頼者"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "印刷部数",
+            "Unit": "枚"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 4,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "Manager",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_Columns_SqlColumn_SelectColumns",
+    "RepeatType": "Join",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "SelectColumns": "1"
+}

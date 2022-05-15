@@ -1,0 +1,7 @@
+﻿res.Val(
+    "#Issues_RemainingWorkValue",
+    ss.GetColumn(context: context, columnName: "RemainingWorkValue")
+        .Display(
+            context: context,
+            ss: ss,
+            value: #modelName#Model.RemainingWorkValue?.Value.ToDecimal() ?? 0));

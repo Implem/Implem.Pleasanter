@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "D社パッケージのカスタマイズ費用",
+    "ClassA": "#Opportunity3#",
+    "NumA": "2500000",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User7",
+    "Updator": "User7",
+    "CreatedTime": "36643.689583333333",
+    "UpdatedTime": "36655.686805555553"
+}

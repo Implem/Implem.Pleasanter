@@ -1,0 +1,151 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Application Requirements"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Education content"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Products / Services",
+            "ChoicesText": "Products / Services1\nProducts / Services2\nProducts / Services3\nProducts / Services4\nProducts / Services5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Number of applications",
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Capacity",
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Recruitment start"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Recruitment end"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Start date and time",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DateD",
+            "LabelText": "End date and time",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Before the event,Before,status-new\n200,In progress,In progress,status-inprogress\n900,End,End,status-closed\n910,On hold,On hold,status-rejected"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Hall"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateC",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

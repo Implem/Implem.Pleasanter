@@ -1,0 +1,228 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassE",
+        "NumB",
+        "NumE",
+        "DateA",
+        "ClassC",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "DescriptionA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Store name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Area",
+            "ChoicesText": "Area1\nArea2\nArea3\nArea4"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Owner"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Number of Employees",
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Site area",
+            "Unit": "㎡"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Open"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Number of part-time jobs",
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Total number of people",
+            "EditorReadOnly": true,
+            "Unit": "People"
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Shop style",
+            "ChoicesText": "Shop style1\nShop style2\nShop style3\nShop style4\nShop style5"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Rent",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Annual sales",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Store strategy"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Store introduction"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Location requirement"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Customer base"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumC"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumD"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassE",
+            "TimeSeriesGroupBy": "ClassE",
+            "KambanValue": "NumD"
+        }
+    ],
+    "TitleSeparator": ")"
+}

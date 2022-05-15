@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy6_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "Eraser",
+    "ClassA": "#Expendable2_en#",
+    "ClassB": "Smile Market",
+    "NumA": "3",
+    "NumB": "1429",
+    "DateA": "42755.705555555556",
+    "Manager": "User10_en",
+    "Owner": "User10_en",
+    "Creator": "User10_en",
+    "Updator": "User10_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

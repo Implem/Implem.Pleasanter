@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Site12_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site11_en",
+    "Title": "Consumables record",
+    "ClassA": "Results",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

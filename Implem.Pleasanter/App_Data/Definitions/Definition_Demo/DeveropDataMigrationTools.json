@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DeveropDataMigrationTools",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "データ移行プログラムの作成",
+    "WorkValue": "60",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "構築",
+    "ClassB": "作業[非定型]",
+    "ClassC": "業務",
+    "Manager": "User17",
+    "Owner": "User17",
+    "Creator": "User17",
+    "Updator": "User17",
+    "StartTime": "36656",
+    "CompletionTime": "36665",
+    "CreatedTime": "36656.473611111112",
+    "UpdatedTime": "36656.473611111112"
+}

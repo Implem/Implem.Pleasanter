@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Participant4",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site26",
+    "ClassA": "#Seminar1#",
+    "ClassB": "ワタナベ　ヒロシ",
+    "ClassC": "渡邉 博",
+    "ClassD": "123-432-239",
+    "ClassE": "watanabe@example.com",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

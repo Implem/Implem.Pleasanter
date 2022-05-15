@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Register(Context context)
+        public static string Register(Context context, bool async = true)
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
@@ -45,7 +45,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             context = new Context(
                 tenantId: tenantModel.TenantId,
-                language: context.Language);
+                language: context.Language,
+                context: context);
             var demoModel = new DemoModel()
             {
                 Passphrase = passphrase,
@@ -78,7 +79,8 @@ namespace Implem.Pleasanter.Models
                     To = mailAddress,
                     Bcc = Parameters.Mail.SupportFrom
                 },
-                userHash: userHash);
+                userHash: userHash,
+                async: async);
             return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
@@ -92,6 +94,7 @@ namespace Implem.Pleasanter.Models
             return Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Users")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ToDictionary(
                     demoDefinition => LoginId(
                         demoModel: demoModel,
@@ -150,6 +153,7 @@ namespace Implem.Pleasanter.Models
             return Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Users")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .FirstOrDefault()?
                 .Id;
         }
@@ -161,27 +165,58 @@ namespace Implem.Pleasanter.Models
             this DemoModel demoModel,
             Context context,
             OutgoingMailModel outgoingMailModel,
-            Dictionary<string, string> userHash)
+            Dictionary<string, string> userHash,
+            bool async)
         {
             System.Diagnostics.Debug.WriteLine(outgoingMailModel.Body);
             var idHash = new Dictionary<string, long>();
-            System.Threading.Tasks.Task.Run(() =>
+            if (async)
             {
-                try
+                System.Threading.Tasks.Task.Run(() =>
                 {
-                    demoModel.Initialize(
+                    Initialize(
+                        demoModel: demoModel,
                         context: context,
+                        outgoingMailModel: outgoingMailModel,
                         userHash: userHash,
                         idHash: idHash);
-                    outgoingMailModel.Send(
-                        context: context,
-                        ss: new SiteSettings());
-                }
-                catch (Exception e)
-                {
-                    new SysLogModel(context: context, e: e);
-                }
-            });
+                });
+            }
+            else
+            {
+                Initialize(
+                    demoModel: demoModel,
+                    context: context,
+                    outgoingMailModel: outgoingMailModel,
+                    userHash: userHash,
+                    idHash: idHash);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void Initialize(
+            this DemoModel demoModel,
+            Context context,
+            OutgoingMailModel outgoingMailModel,
+            Dictionary<string, string> userHash,
+            Dictionary<string, long> idHash)
+        {
+            try
+            {
+                demoModel.Initialize(
+                    context: context,
+                    userHash: userHash,
+                    idHash: idHash);
+                outgoingMailModel.Send(
+                    context: context,
+                    ss: new SiteSettings());
+            }
+            catch (Exception e)
+            {
+                new SysLogModel(context: context, e: e);
+            }
         }
 
         /// <summary>
@@ -213,7 +248,7 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
-                .OrderBy(o => o.Id)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(o =>
                 {
                     InitializeIssues(
@@ -252,6 +287,7 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Depts")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition => idHash.Add(
                     demoDefinition.Id, Repository.ExecuteScalar_response(
                         context: context,
@@ -279,6 +315,7 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Users")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                 {
                     var loginId = LoginId(
@@ -332,6 +369,7 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites" && o.ParentId == string.Empty)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(o => InitializeSites(
                     context: context,
                     demoModel: demoModel,
@@ -373,6 +411,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.Id == topId || o.ParentId == topId)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
@@ -440,6 +479,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.ParentId == parentId)
                 .Where(o => o.Type == "Issues")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
@@ -731,6 +771,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.ParentId == parentId)
                 .Where(o => o.Type == "Results")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
@@ -939,6 +980,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassB.Trim() != string.Empty)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                     Repository.ExecuteNonQuery(
                         context: context,
@@ -949,6 +991,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ClassC.Trim() != string.Empty)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                     Repository.ExecuteNonQuery(
                         context: context,
@@ -958,6 +1001,7 @@ namespace Implem.Pleasanter.Models
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9_]+?#$"))
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
                     Repository.ExecuteNonQuery(
                         context: context,
@@ -976,6 +1020,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
                 .Where(o => o.ParentId == string.Empty)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .Select(o => o.Id)
                 .ForEach(id =>
             {
@@ -1015,6 +1060,7 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Comments")
                 .Where(o => o.ParentId == parentId)
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .Select((o, i) => new { DemoDefinition = o, Index = i })
                 .ForEach(data =>
                     comments.Add(new Comment
@@ -1034,10 +1080,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string Replace(this string self, Dictionary<string, long> idHash)
         {
-            foreach (var id in self.RegexValues("#[A-Za-z0-9_]+?#").Distinct())
+            foreach (var id in self
+                .RegexValues("\"#[A-Za-z0-9_]+?#\"|#[A-Za-z0-9_]+?#")
+                .OrderByDescending(o => o.Length)
+                .Distinct())
             {
                 self = self.Replace(
-                    id, idHash.Get(id.ToString().Substring(1, id.Length - 2)).ToString());
+                    id, idHash.Get(id.RegexFirst("[A-Za-z0-9_]+")).ToString());
             }
             return self;
         }

@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.TestAutomation", "Im
 		{C082A0D7-13C6-4D8A-9735-3C302E81B280} = {C082A0D7-13C6-4D8A-9735-3C302E81B280}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.PleasanterTest", "Implem.PleasanterTest\Implem.PleasanterTest.csproj", "{2563902C-E1D2-4ED7-9B1B-B836C485267A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CD_ROM|Any CPU = CD_ROM|Any CPU
@@ -161,6 +163,16 @@ Global
 		{8D829515-28D9-423B-BC60-9AF376CBAB15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D829515-28D9-423B-BC60-9AF376CBAB15}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D829515-28D9-423B-BC60-9AF376CBAB15}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.CD_ROM|Any CPU.Build.0 = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.SingleImage|Any CPU.ActiveCfg = Debug|Any CPU
+		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.SingleImage|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

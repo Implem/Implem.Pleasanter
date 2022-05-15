@@ -1,0 +1,207 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "ClassC",
+        "ClassE",
+        "ClassF",
+        "NumF",
+        "NumG",
+        "ClassG",
+        "ClassH",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "NumE",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "ClassC",
+        "ClassE",
+        "ClassF",
+        "NumF",
+        "NumG",
+        "ClassG",
+        "ClassH",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "ClassC",
+        "ClassE",
+        "ClassF",
+        "NumF",
+        "NumG",
+        "ClassG",
+        "ClassH",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attachd_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product name"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Model number"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Manufacturer",
+            "ChoicesText": "Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Resolution"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Weight",
+            "DecimalPlaces": 1,
+            "Unit": "kg"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Size (width)",
+            "DecimalPlaces": 1,
+            "Unit": "cm"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Size (height)",
+            "DecimalPlaces": 1,
+            "Unit": "cm"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Screen size",
+            "DecimalPlaces": 1,
+            "Unit": "Inch"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Color"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "CPU"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Processor"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Network"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "OS"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Memory",
+            "Unit": "GB"
+        },
+        {
+            "ColumnName": "NumG",
+            "LabelText": "HDD",
+            "Unit": "GB"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

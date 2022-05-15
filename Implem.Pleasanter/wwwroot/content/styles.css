@@ -2164,6 +2164,10 @@ td > .field-normal,td > .field-wide{
     width:175px;
 }
 
+_::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + label{
+    width: 172px;
+}
+
 .control-radio{
     display:block;
     float:left;

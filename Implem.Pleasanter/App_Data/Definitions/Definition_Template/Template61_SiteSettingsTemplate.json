@@ -1,0 +1,172 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "Owner",
+        "ClassC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "仕入先",
+            "ChoicesText": "仕入先1\n仕入先2\n仕入先3\n仕入先4\n仕入先5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "商品分類",
+            "ChoicesText": "商品分類1\n商品分類2\n商品分類3\n商品分類4\n商品分類5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "単価",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "数量"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "金額",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "日付"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "起票者"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "店舗",
+            "ChoicesText": "店舗1\n店舗2\n店舗3\n店舗4\n店舗5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumC"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassB",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumC",
+            "KambanGroupByX": "ClassB",
+            "KambanGroupByY": "Owner",
+            "KambanValue": "NumC"
+        }
+    ],
+    "TitleSeparator": ")"
+}

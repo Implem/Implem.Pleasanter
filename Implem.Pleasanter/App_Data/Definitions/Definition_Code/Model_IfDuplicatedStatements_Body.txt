@@ -1,0 +1,77 @@
+﻿private List<SqlStatement> IfDuplicatedStatements(SiteSettings ss)
+{
+    var statements = new List<SqlStatement>();
+    var param = new Rds.#TableName#ParamCollection();
+    ss.Columns
+        .Where(column => column.NoDuplication == true)
+        .ForEach(column =>
+        {
+            switch (column.ColumnName)
+            {
+
+<!--Model_IfDuplicatedStatements_ColumnCases-->
+
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
+                    {
+                        case "Class":
+                            if (!GetClass(column: column).IsNullOrEmpty())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param: param.Add(
+                                        columnBracket: $"\"{column.ColumnName}\"",
+                                        name: column.ColumnName,
+                                        value: GetClass(column: column).MaxLength(1024)),
+                                    siteId: SiteId,
+                                    referenceId: #ModelName#Id));
+                            break;
+                        case "Num":
+                            var num = GetNum(column: column);
+                            if (column.Nullable == true)
+                            {
+                                if (num?.Value != null)
+                                    statements.Add(column.IfDuplicatedStatement(
+                                        param: param.Add(
+                                            columnBracket: $"\"{column.ColumnName}\"",
+                                            name: column.ColumnName,
+                                            value: num.Value),
+                                        siteId: SiteId,
+                                        referenceId: #ModelName#Id));
+                            }
+                            else
+                            {
+                                if (num?.Value != null && num?.Value != 0)
+                                    statements.Add(column.IfDuplicatedStatement(
+                                        param: param.Add(
+                                            columnBracket: $"\"{column.ColumnName}\"",
+                                            name: column.ColumnName,
+                                            value: num.Value),
+                                        siteId: SiteId,
+                                        referenceId: #ModelName#Id));
+                            }
+                            break;
+                        case "Date":
+                            if (GetDate(column: column) != 0.ToDateTime())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param: param.Add(
+                                        columnBracket: $"\"{column.ColumnName}\"",
+                                        name: column.ColumnName,
+                                        value: GetDate(column: column)),
+                                    siteId: SiteId,
+                                    referenceId: #ModelName#Id));
+                            break;
+                        case "Description":
+                            if (!GetDescription(column: column).IsNullOrEmpty())
+                                statements.Add(column.IfDuplicatedStatement(
+                                    param: param.Add(
+                                        columnBracket: $"\"{column.ColumnName}\"",
+                                        name: column.ColumnName,
+                                        value: GetDescription(column: column)),
+                                    siteId: SiteId,
+                                    referenceId: #ModelName#Id));
+                            break;
+                    }
+                    break;
+            }
+        });
+    return statements;
+}

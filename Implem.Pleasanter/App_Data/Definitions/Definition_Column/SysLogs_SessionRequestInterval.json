@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_SessionRequestInterval",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "SessionRequestInterval",
+    "LabelText": "セッション要求インターバル",
+    "No": "119",
+    "History": "119",
+    "EditorColumn": "119",
+    "EditorEnabled": "1",
+    "LinkColumn": "119",
+    "HistoryColumn": "119",
+    "TypeName": "float",
+    "Nullable": "1",
+    "LabelText_en": "Session request interval",
+    "LabelText_zh": "会话请求间隔",
+    "LabelText_de": "Sitzungsabrufintervall",
+    "LabelText_ko": "세션 요청 간격",
+    "LabelText_es": "Intervalo de solicitud de sesión",
+    "LabelText_vn": "Khoảng thời gian yêu cầu phiên làm việc"
+}

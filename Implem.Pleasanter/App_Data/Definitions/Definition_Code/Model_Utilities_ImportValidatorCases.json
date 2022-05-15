@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_Utilities_ImportValidatorCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Include": "CompletionTime",
+    "NotNull": "1"
+}

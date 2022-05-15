@@ -1,0 +1,108 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "Manager",
+        "Owner",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Ver",
+            "Title",
+            "Body",
+            "StartTime",
+            "CompletionTime",
+            "WorkValue",
+            "ProgressRate",
+            "RemainingWorkValue",
+            "Status",
+            "Manager",
+            "Owner",
+            "ClassA",
+            "ClassB",
+            "ClassC",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "TitleColumns": [
+        "ClassA",
+        "ClassB",
+        "Title"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Working_process",
+            "ChoicesText": "Requirement_definition\nDesign\nConfiguration\nTest\nRelease_and_Delivery\nInitial_support\nOperation"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Works",
+            "ChoicesText": "Survey\nAdjustment/Request\nApplication\nWriting_Documents\nWork[Routine]\nWork[Ad-hoc]\nMeeting\nOther"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Function_Cateory",
+            "ChoicesText": "Network/Security\nServer\nOperation\nBusiness_Task\n"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,not started,not started,status-new\n150,in preparation,in preparation,status-preparation\n200,Running,Running,status-inprogress\n300,Under review,Under review,status-review\n900,Done,Done,status-closed\n910,on hold,on hold,status-rejected"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "WorkValue"
+        },
+        {
+            "Id": 5,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "TimeSeriesGroupBy": "ClassC",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassC",
+            "ApiDataType": 0
+        }
+    ],
+    "TitleSeparator": "）",
+    "NoDisplayIfReadOnly": false
+}

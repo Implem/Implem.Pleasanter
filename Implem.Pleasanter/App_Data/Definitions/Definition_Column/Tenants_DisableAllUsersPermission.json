@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Tenants_DisableAllUsersPermission",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "DisableAllUsersPermission",
+    "LabelText": "全てのユーザのアクセス許可を使用しない",
+    "No": "106",
+    "History": "106",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Disable permissions for all users",
+    "LabelText_zh": "禁用所有用户的许可",
+    "LabelText_de": "Berechtigungen für alle Benutzer deaktivieren",
+    "LabelText_ko": "모든 사용자의 권한 비활성화",
+    "LabelText_es": "Desactivar permisos para todos los usuarios",
+    "LabelText_vn": "Không cho phép truy cập với mọi người dùng"
+}

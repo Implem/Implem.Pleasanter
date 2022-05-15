@@ -1,0 +1,131 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "Owner",
+        "ClassA",
+        "Title",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Status",
+        "NumA"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Status",
+        "NumA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "資格名"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "資格種類",
+            "ChoicesText": "資格種類1\n資格種類2\n資格種類3\n資格種類4\n資格種類5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "所属"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "取得日",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "更新日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "有効/無効",
+            "ChoicesText": "有効\n無効"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "担当者"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "費用",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "更新期限",
+            "ExportFormat": "Ymda"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "Status",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

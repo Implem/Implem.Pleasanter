@@ -1,0 +1,117 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Manufacturer",
+            "UseSearch": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Model name"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Purchase date"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Expiration date",
+            "DefaultInput": "365",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "User"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Type",
+            "ChoicesText": "Printer\nShredder\nProjector\nOther"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Installation location",
+            "ChoicesText": "Installation location1\nInstallation location2\nInstallation location3\nInstallation location4\nInstallation location5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Acquisition price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Asset management number"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

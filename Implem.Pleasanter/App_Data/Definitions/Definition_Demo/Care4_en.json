@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site30_en",
+    "Title": "There is internal bleeding on his wrist",
+    "Status": "900",
+    "ClassA": "Yui Yoshida",
+    "ClassB": "Care miss",
+    "ClassD": "Unit",
+    "DateA": "42814.705555555556",
+    "DateB": "42814.705555555556",
+    "DescriptionA": "When a patient stands up from wheelchair, staff help them not catching their wrist but chest.",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

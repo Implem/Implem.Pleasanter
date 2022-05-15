@@ -1,0 +1,18 @@
+﻿public static #TableName#ColumnCollection #TableName#EditorColumns(SiteSettings ss)
+{
+    if (ss != null)
+    {
+        var ret = #TableName#Column()
+
+<!--Rds_ColumnDefaultPk-->
+
+            .Comments();
+        ss.SelectColumns()?
+            .ForEach(column => ret.#TableName#Column(column.ColumnName));
+        return ret;
+    }
+    else
+    {
+        return #TableName#DefaultColumns();
+    }
+}

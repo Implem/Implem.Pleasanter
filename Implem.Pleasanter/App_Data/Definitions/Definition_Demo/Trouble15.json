@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble15",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site21",
+    "ClassA": "#Facility7#",
+    "ClassB": "1階：エリア2",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "紙詰まりにより安全装置が働いたため。",
+    "DescriptionB": "紙詰まりを解消したところ正常に利用できました。",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

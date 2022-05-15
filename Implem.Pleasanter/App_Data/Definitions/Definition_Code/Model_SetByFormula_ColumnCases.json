@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_SetByFormula_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "Update": "1",
+    "IncludeTypeName": "decimal"
+}

@@ -1,0 +1,1 @@
+﻿where: Rds.#TableName#Where().TenantId(context.TenantId),

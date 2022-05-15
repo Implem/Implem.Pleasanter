@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Summaries_SelectTotalColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Computable": "1",
+    "ExcludeTypeName": "datetime"
+}

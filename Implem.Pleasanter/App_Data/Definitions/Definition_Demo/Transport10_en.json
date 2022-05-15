@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport10_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site18_en",
+    "Status": "300",
+    "ClassA": "Shimbashi Business office",
+    "ClassB": "Information sharing innovation Lab.",
+    "ClassE": "Sales activity",
+    "ClassH": "Kawasaki Business office",
+    "NumA": "1670",
+    "DateA": "36654.705555555556",
+    "Manager": "User4_en",
+    "Owner": "User4_en",
+    "Creator": "User4_en",
+    "Updator": "User4_en",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

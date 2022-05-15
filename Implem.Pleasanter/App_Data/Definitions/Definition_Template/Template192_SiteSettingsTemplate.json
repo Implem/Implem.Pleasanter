@@ -1,0 +1,137 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassC",
+        "NumA",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "ClassD",
+        "ClassC",
+        "NumA",
+        "NumE",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassC",
+        "NumA",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "型番"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メーカ",
+            "ChoicesText": "メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "本体カラー"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "太さ",
+            "DecimalPlaces": 1,
+            "Unit": "mm"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "タイプ",
+            "ChoicesText": "鉛筆\nシャープペン\nボールペン\nマーカ\n蛍光ペン\n万年筆\n筆ペン"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,110 @@
+﻿[
+    {
+        "Id": "string",
+        "ReferenceType": "string",
+        "Name": "string",
+        "Option1": "string",
+        "Option2": "string",
+        "Option3": "string",
+        "Option4": "string",
+        "Option5": "string"
+    },
+    {
+        "Id": "Issues_Index",
+        "ReferenceType": "Issues",
+        "Name": "Index"
+    },
+    {
+        "Id": "Issues_Calendar",
+        "ReferenceType": "Issues",
+        "Name": "Calendar",
+        "Option1": "Monthly",
+        "Option2": "StartTime-CompletionTime"
+    },
+    {
+        "Id": "Issues_Crosstab",
+        "ReferenceType": "Issues",
+        "Name": "Crosstab",
+        "Option1": "Status",
+        "Option2": "Owner",
+        "Option3": "Total",
+        "Option4": "RemainingWorkValue",
+        "Option5": "Monthly"
+    },
+    {
+        "Id": "Issues_Gantt",
+        "ReferenceType": "Issues",
+        "Name": "Gantt"
+    },
+    {
+        "Id": "Issues_BurnDown",
+        "ReferenceType": "Issues",
+        "Name": "BurnDown"
+    },
+    {
+        "Id": "Issues_TimeSeries",
+        "ReferenceType": "Issues",
+        "Name": "TimeSeries",
+        "Option1": "Owner",
+        "Option2": "Count",
+        "Option3": "RemainingWorkValue"
+    },
+    {
+        "Id": "Issues_Kamban",
+        "ReferenceType": "Issues",
+        "Name": "Kamban",
+        "Option1": "Status",
+        "Option2": "Owner",
+        "Option3": "Total",
+        "Option4": "RemainingWorkValue"
+    },
+    {
+        "Id": "Issues_ImageLib",
+        "ReferenceType": "Issues",
+        "Name": "ImageLib"
+    },
+    {
+        "Id": "Results_Index",
+        "ReferenceType": "Results",
+        "Name": "Index"
+    },
+    {
+        "Id": "Results_Calendar",
+        "ReferenceType": "Results",
+        "Name": "Calendar",
+        "Option1": "Monthly",
+        "Option2": "DateA"
+    },
+    {
+        "Id": "Results_Crosstab",
+        "ReferenceType": "Results",
+        "Name": "Crosstab",
+        "Option1": "Status",
+        "Option2": "Owner",
+        "Option3": "Total",
+        "Option4": "NumA",
+        "Option5": "Monthly"
+    },
+    {
+        "Id": "Results_TimeSeries",
+        "ReferenceType": "Results",
+        "Name": "TimeSeries",
+        "Option1": "Owner",
+        "Option2": "Count",
+        "Option3": "NumA"
+    },
+    {
+        "Id": "Results_Kamban",
+        "ReferenceType": "Results",
+        "Name": "Kamban",
+        "Option1": "Status",
+        "Option2": "Owner",
+        "Option3": "Count",
+        "Option4": "NumA"
+    },
+    {
+        "Id": "Results_ImageLib",
+        "ReferenceType": "Results",
+        "Name": "ImageLib"
+    }
+]

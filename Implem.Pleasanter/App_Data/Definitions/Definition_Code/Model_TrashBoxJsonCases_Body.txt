@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.TrashBoxJson(
+        context: context,
+        ss: Site.SiteSettings);

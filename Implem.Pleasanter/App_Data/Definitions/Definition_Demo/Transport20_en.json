@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport20_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site18_en",
+    "Status": "200",
+    "ClassA": "Head quarter",
+    "ClassB": "Non-Programming Corp.",
+    "ClassE": "Customer regular meeting",
+    "ClassH": "Head quarter",
+    "NumA": "1480",
+    "DateA": "36641.705555555556",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36641.705555555556"
+}

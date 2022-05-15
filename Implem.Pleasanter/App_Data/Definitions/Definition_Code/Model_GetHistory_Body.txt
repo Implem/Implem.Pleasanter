@@ -1,0 +1,13 @@
+﻿if (context.QueryStrings.ContainsKey("ver"))
+{
+    Get(context: context,
+        tableType: Sqls.TableTypes.NormalAndHistory,
+        where: Rds.#TableName#WhereDefault(
+            context: context,
+            #modelName#Model: this)
+                .#TableName#_Ver(context.QueryStrings.Int("ver"))<!--Model_SiteSettingsBeforeComma-->);
+}
+else
+{
+    Get(context: context<!--Model_SiteSettingsBeforeComma-->);
+}

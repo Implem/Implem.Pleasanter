@@ -1,0 +1,6 @@
+﻿case "#ColumnName#":
+    return #modelName#Model.#ColumnName#.ToLookup(
+        context: context,
+        ss: ss,
+        column: column,
+        type: Type);

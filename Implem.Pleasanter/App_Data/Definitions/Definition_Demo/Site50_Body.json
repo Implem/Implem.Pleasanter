@@ -1,0 +1,128 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "Title",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "NumA",
+            "NumB",
+            "NumC",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "単価",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "総数",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "売上合計",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "商品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

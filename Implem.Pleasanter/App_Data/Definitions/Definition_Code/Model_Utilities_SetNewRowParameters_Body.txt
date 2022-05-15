@@ -1,0 +1,3 @@
+﻿#modelName#Model: #modelName#Model,
+editRow: editRow,
+newRowId: newRowId,

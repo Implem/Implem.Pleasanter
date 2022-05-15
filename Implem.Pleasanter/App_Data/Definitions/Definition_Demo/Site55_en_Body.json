@@ -1,0 +1,92 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "ClassB",
+            "Manager",
+            "Owner",
+            "Status",
+            "DateA",
+            "DateB",
+            "Body",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Not_used,Not,status-new\n200,In_used,Used,status-inprogress\n900,Returned,Returned,status-closed\n"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "User"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Key_number",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Category",
+            "ChoicesText": "Locker\nDesk\nSecurity_wire"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Start_date",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Returned_date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

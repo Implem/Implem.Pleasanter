@@ -1,0 +1,20 @@
+﻿{
+    "Id": "LoginKeys_Key",
+    "ModelName": "LoginKey",
+    "TableName": "LoginKeys",
+    "Label": "ログインキー",
+    "ColumnName": "Key",
+    "LabelText": "キー",
+    "No": "2",
+    "History": "2",
+    "TypeName": "nvarchar",
+    "MaxLength": "36",
+    "Pk": "2",
+    "Required": "1",
+    "LabelText_en": "Key",
+    "LabelText_zh": "密钥",
+    "LabelText_de": "Schlüssel",
+    "LabelText_ko": "키",
+    "LabelText_es": "Llave",
+    "LabelText_vn": "Khóa"
+}

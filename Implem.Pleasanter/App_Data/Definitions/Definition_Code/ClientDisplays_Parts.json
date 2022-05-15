@@ -1,0 +1,8 @@
+﻿{
+    "Id": "ClientDisplays_Parts",
+    "RepeatType": "Display",
+    "Indent": "2",
+    "Separator": ",\\r\\n",
+    "DisplayLanguages": "1",
+    "ClientScript": "1"
+}

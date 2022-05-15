@@ -1,0 +1,4 @@
+﻿.Div(attributes: new HtmlAttributes()
+    .Id("SetNumericRangeDialog")
+    .Class("dialog")
+    .Title(Displays.NumericRange(context)))

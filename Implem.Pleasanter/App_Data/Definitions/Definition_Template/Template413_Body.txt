@@ -1,0 +1,51 @@
+﻿101,Lawyer
+102,Patent attorney
+103,Judicial scrivener
+104,Land house investigator
+105,Administrative scrivener
+106,Maritime agent
+107,Customs officer
+201,Certified public accountant
+202,Tax accountant
+203,Small Medium Enterprise Diagnostician
+204,Social insurance labor
+205,Financial Planning Technician
+301,Residential Building Transactionist
+302,Real estate appraiser
+303,Architect
+304,Apartment manager
+305,Land Improvement Shogi
+306,Land parcel handlers
+401,Technician
+402,Surveyor
+403,Weather forecaster
+404,Ocean engineer
+405,Weighter
+406,Work environment measurer
+407,Liquefied petroleum gas equipment
+408,Firefighter
+409,Electrical worker
+501,Information Processing Security Assistant
+502,Engineer Information Engineering department
+601,Interpreter guide
+701,Doctor
+702,Dentist
+703,Veterinarian
+704,Nurse
+705,Pharmacist
+706,Artificial prosthetist
+707,Social worker
+708,Care worker
+709,Mental health care worker
+710,Emergency life-saving person
+711,Physical therapist
+712,Occupational therapist
+713,Language hearing expert
+714,Vision trainer
+715,Clinical engineer
+716,Clinical laboratory technician
+717,Medical radiology technician
+718,Acupuncturist
+719,An agriculture massage shiatsu
+720,Judo reduction agent
+721,Dental hygienist

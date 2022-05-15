@@ -1,0 +1,21 @@
+﻿public static ErrorData OnDeleteHistory(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool api = false)
+{
+    if (!Parameters.History.PhysicalDelete
+        || ss.AllowPhysicalDeleteHistories == false)
+    {
+        return new ErrorData(type: Error.Types.InvalidRequest);
+    }
+    if (!context.CanManageSite(ss: ss) || #modelName#Model.ReadOnly)
+    {
+        return new ErrorData(type: Error.Types.HasNotPermission);
+    }
+
+<!--Model_Validator_Api-->
+<!--Model_Validator_LockedRecord-->
+
+    return new ErrorData(type: Error.Types.None);
+}

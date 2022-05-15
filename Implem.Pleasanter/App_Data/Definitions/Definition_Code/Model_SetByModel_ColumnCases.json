@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Model_SetByModel_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Exclude": "Ver,Timestamp"
+}

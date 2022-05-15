@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster10_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Yui Yoshida",
+    "ClassB": "Yui Yoshida",
+    "ClassC": "565-0802",
+    "ClassD": "Suita-city",
+    "ClassE": "584-357-510",
+    "ClassF": "yosida@example.com",
+    "ClassG": "Osaka",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

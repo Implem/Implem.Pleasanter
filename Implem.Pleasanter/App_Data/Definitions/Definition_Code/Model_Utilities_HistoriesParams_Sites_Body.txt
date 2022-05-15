@@ -1,0 +1,5 @@
+﻿public static string Histories(Context context, SiteModel siteModel, Message message = null)
+{
+    var ss = siteModel.SiteSettings;
+    var columns = new SiteSettings(context: context, referenceType: "Sites")
+        .GetHistoryColumns(context: context);

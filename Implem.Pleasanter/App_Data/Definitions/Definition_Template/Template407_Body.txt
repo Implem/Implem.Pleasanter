@@ -1,0 +1,97 @@
+﻿1,A creature
+2,Animal crude product
+3,Plant crude product
+4,Metal mineral
+5,Nonmetallic minerals and rocks (excluding coal and petroleum)
+6,Coal and coal products
+7,Crude oil and petroleum products
+8,Electricity gas and water supply
+9,Other crude materials and energy sources
+10,Leather base material
+11,Rubber base material
+12,Wooden foundation material (including bamboo base material)
+13,Pulp and paper
+14,Basic textile products
+15,Chemicals
+16,Basic chemical products
+17,Non-metallic mineral foundation products
+18,Iron and copper
+19,Precious metals
+20,Nonferrous metal
+21,Metal processing basic product
+22,Wires and cables
+23,Seals (excluding bearing use)
+24,Industrial production buildings and building materials
+25,Containers (for transport and distribution containers only) and auxiliary materials for packaging (excluding others)
+26,Other processed base materials and intermediate products
+27,Boiler
+28,Engines and turbines
+29,Nuclear equipment
+30,Heavy electrical equipment
+31,Pump compressor vacuum pump blower hydraulic equipment and pneumatic equipment
+32,Metal processing machine
+33,Manipulator robot and related equipment
+34,Tools Molds and rolls
+35,Transportation / Lifting / Cargo Handling Equipment and Related Equipment
+36,Textile machinery and sewing machine
+37,Printing machinery and paper machining machinery
+38,Chemical machinery
+39,Mining and Construction Machinery
+40,Equipment for agriculture and forestry and fishing
+41,Security-Environmental protection equipment
+42,A tractor
+43,Other industrial machinery
+44,Bearing chain gear power transmission device and lubrication device
+45,Valves and fittings
+46,A vehicle (one running on a rail)
+47,Automobiles and motorcycles (including motorized bicycles)
+48,Bicycle
+49,Other transportation vehicles
+50,Ship
+51,Aircraft rockets and artificial satellites
+52,Electronic calculator and related devices
+53,Program
+54,Communication device and related device
+55,Electronic parts
+56,Refrigerator refrigerator application products and equipment
+57,Equipment for commerce and service industry
+58,Vending machine and automatic service machine
+59,Office machine and equipment
+60,Consumer electrical and electronic machinery equipment
+61,Electronic applied devices (excluding electronic computers and related devices and communication devices and related devices)
+62,Other electric and electronic machinery and equipment
+63,Measuring instruments analytical instruments testing machines and measuring instruments (except as otherwise noted)
+64,Watch
+65,Physics and chemistry machinery and optical machinery
+66,Medical equipment
+67,Weapons
+68,Handicraft craftsmanship and hand tools
+69,Agricultural foods
+70,Livestock food
+71,Seafood food
+72,Agricultural processed food
+73,Livestock processed food
+74,Fishery processed food
+75,Other food items
+76,Beverages ice and manufactured tobacco
+77,Kitchen utensils and tableware (excluding silverware silver plated and similar metal items)
+78,Clothes (excluding footwear and personal belongings)
+79,Personal belongings
+80,Footwear
+81,Jewelry personal care items and silverware
+82,Household textile products
+83,Furniture
+84,For heating and cooling food cooking utensils and equipment (not using electricity for main heat source) and sanitary equipment supplies
+85,Other living goods
+86,Medical supplies and related products
+87,Pharmaceutical products and related products
+88,Cosmetics toothpaste soap synthetic detergents for domestic use and household chemical products
+89,Entertainment device and toilet
+90,Instrument
+91,Sports gear (excluding shoes and uniforms)
+92,Printed matter films records and other recorded materials (excluding programs)
+93,Stationery paper products office equipment and photographic supplies
+94,Arts collections and bone parts
+95,Other living and cultural supplies
+96,Scrap and waste
+97,Items which can not be classified

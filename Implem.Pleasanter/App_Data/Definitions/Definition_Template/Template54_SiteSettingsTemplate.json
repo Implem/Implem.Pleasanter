@@ -1,0 +1,191 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "ClassG",
+        "ClassH",
+        "DateA",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "NumC",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "DescriptionA",
+        "Body",
+        "ClassH",
+        "NumB",
+        "DateA",
+        "Status",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassG",
+        "ClassH",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassG",
+        "ClassH",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "氏名",
+            "Section": "個人情報",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "フリガナ"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "年齢",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "性別",
+            "ChoicesText": "男性\n女性"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "住所",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "知ったきっかけ",
+            "ChoicesText": "求人情報誌\n求人情報サイト\n知人の紹介"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "応募職種",
+            "ChoicesText": "職種1\n職種2\n職種3\n職種4\n職種5"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "雇用形態",
+            "ChoicesText": "派遣社員\n請負\n契約社員\nパート\nアルバイト"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "時給",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,受付\n200,面接\n900,採用\n910,不採用\n920,保留"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "面接日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "面接結果",
+            "Section": "採用情報"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "志望動機"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "職歴"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "資格"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "アピールポイント"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "経験年数",
+            "ControlType": "Spinner",
+            "Max": 30.0,
+            "Unit": "年"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassG",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassH",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassG",
+            "KambanGroupByY": "ClassG"
+        }
+    ],
+    "TitleSeparator": ")"
+}

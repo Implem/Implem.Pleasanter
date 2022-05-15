@@ -1,0 +1,95 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassC",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "Body",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "氏名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "固定電話"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "携帯電話"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "郵便番号"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "住所",
+            "GridDesign": "〒[ClassC]\n[ClassD]",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "その他の連絡先"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "備考"
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

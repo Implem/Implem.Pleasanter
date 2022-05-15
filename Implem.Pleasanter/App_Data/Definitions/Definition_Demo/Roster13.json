@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster13",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "ヤマグチ　タロウ",
+    "ClassB": "山口 太郎",
+    "ClassC": "769-0315",
+    "ClassD": "仲多度郡まんのう町後山",
+    "ClassE": "303-905-380",
+    "ClassF": "yamaguchi@example.com",
+    "ClassG": "香川県",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

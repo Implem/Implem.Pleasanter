@@ -1,0 +1,3 @@
+﻿ss.SetLinks(context: context);
+ss.SetChoiceHash(context: context, withLink: false);
+ss.PermissionType = Permissions.Admins(context: context);

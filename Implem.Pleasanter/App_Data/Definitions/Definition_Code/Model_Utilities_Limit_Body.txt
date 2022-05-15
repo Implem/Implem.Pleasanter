@@ -1,0 +1,4 @@
+﻿if (context.ContractSettings.#TableName#Limit(context: context))
+{
+    return Error.Types.#TableName#Limit.MessageJson(context: context);
+}

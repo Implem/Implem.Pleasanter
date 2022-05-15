@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity4",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "グラフ化ツールの販売",
+    "Status": "100",
+    "ClassA": "#Customer6#",
+    "ClassB": "ソフトウェア販売",
+    "ClassC": "50%",
+    "NumA": "320000",
+    "NumB": "280000",
+    "NumC": "40000",
+    "NumD": "12.5",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "StartTime": "36641",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

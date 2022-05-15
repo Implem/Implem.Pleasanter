@@ -1,0 +1,12 @@
+﻿{
+    "Id": "User1_en",
+    "Language": "en",
+    "Type": "Users",
+    "ParentId": "Dept3_en",
+    "Title": "Test User",
+    "ClassA": "2",
+    "ClassB": "1",
+    "ClassC": "36526",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

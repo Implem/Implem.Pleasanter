@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestApplications",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "業務アプリケーションのテスト",
+    "WorkValue": "60",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "テスト",
+    "ClassB": "作業[定型]",
+    "ClassC": "業務",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "StartTime": "36673",
+    "CompletionTime": "36674",
+    "CreatedTime": "36642.398611111108",
+    "UpdatedTime": "36640.398611111108"
+}

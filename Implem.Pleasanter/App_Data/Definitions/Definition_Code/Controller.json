@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Controller",
+    "OutputPath": "Controllers\\#TableName#Controller.cs",
+    "Source": "Mvc",
+    "RepeatType": "Table",
+    "NotItem": "1",
+    "GenericUi": "1",
+    "Exclude": "Tenants"
+}

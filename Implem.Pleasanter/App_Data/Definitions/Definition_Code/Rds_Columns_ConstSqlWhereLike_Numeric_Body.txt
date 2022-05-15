@@ -1,0 +1,12 @@
+﻿public static string #TableName#_#ColumnName#_WhereLike(
+    ISqlObjectFactory factory,
+    string tableName = "#TableName#",
+    string name = "SearchText",
+    bool forward = false)
+{
+    return factory.Sqls.IntegerColumnLike(tableName, "#ColumnName#") + 
+        (forward
+            ? string.Empty
+            : factory.Sqls.WhereLikeTemplateForward) +
+        $"@{name}{factory.Sqls.WhereLikeTemplate})";
+}

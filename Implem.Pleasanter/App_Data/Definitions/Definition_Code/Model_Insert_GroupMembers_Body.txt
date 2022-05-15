@@ -1,0 +1,25 @@
+﻿groupMembers?.ForEach(data =>
+{
+    if (data.StartsWith("Dept,"))
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: Rds.InsertGroupMembers(
+                param: Rds.GroupMembersParam()
+                    .GroupId(GroupId)
+                    .DeptId(data.Split_2nd().ToInt())
+                    .Admin(data.Split_3rd().ToBool())));
+    }
+    if (data.StartsWith("User,"))
+    {
+        Repository.ExecuteNonQuery(
+            context: context,
+            transactional: true,
+            statements: Rds.InsertGroupMembers(
+                param: Rds.GroupMembersParam()
+                    .GroupId(GroupId)
+                    .UserId(data.Split_2nd().ToInt())
+                    .Admin(data.Split_3rd().ToBool())));
+    }
+});

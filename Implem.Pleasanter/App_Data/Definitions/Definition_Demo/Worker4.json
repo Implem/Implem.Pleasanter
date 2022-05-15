@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Worker4",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site33",
+    "Title": "田中 恵子",
+    "ClassA": "#Dept3#",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

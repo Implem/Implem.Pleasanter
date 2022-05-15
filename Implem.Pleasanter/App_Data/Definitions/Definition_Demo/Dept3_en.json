@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Dept3_en",
+    "Language": "en",
+    "Type": "Depts",
+    "ParentId": "Dept1_en",
+    "Title": "Human Resource Management Dept.",
+    "ClassA": "000110",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string AuthenticationType { get; set; }
         public bool? IsAuthenticated { get; set; }
         public IEnumerable<Claim> UserClaims { get; set; }
+        public bool Request { get; set; }
 
         public Context(
             bool request = true,
@@ -119,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             string apiRequestBody = null,
             string contentType = null)
         {
+            Request = request;
             Set(
                 request: request,
                 sessionStatus: sessionStatus,
@@ -134,9 +136,21 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public Context(int tenantId, int deptId = 0, int userId = 0, string language = null)
+        public Context(
+            int tenantId,
+            int deptId = 0,
+            int userId = 0,
+            string language = null,
+            Context context = null)
         {
-            SetRequests();
+            if (context?.Request != false)
+            {
+                SetRequests();
+            }
+            else
+            {
+                CopyRequests(context: context);
+            }
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
@@ -145,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ? GetUserHostAddress()
                 : null;
             SetTenantProperties();
-            SetPublish();
+            if (context?.Request != false) SetPublish();
             SetPermissions();
             SetTenantCaches();
         }
@@ -212,6 +226,37 @@ namespace Implem.Pleasanter.Libraries.Requests
                 UserHostName = AspNetCoreHttpContext.Current?.Connection?.RemoteIpAddress?.ToString();
                 UserHostAddress = GetUserHostAddress();
                 UserAgent = CreateUserAgent(AspNetCoreHttpContext.Current.Request);
+            }
+        }
+
+        private void CopyRequests(Context context)
+        {
+            if (context != null)
+            {
+                LoginId = context.LoginId;
+                AuthenticationType = context.AuthenticationType;
+                IsAuthenticated = context.IsAuthenticated;
+                UserClaims = context.UserClaims;
+                FormStringRaw = context.FormStringRaw;
+                FormString = context.FormString;
+                HttpMethod = context.HttpMethod;
+                Ajax = context.Ajax;
+                Mobile = context.Mobile;
+                RouteData = context.RouteData;
+                Server = context.Server;
+                ApplicationPath = context.ApplicationPath;
+                AbsoluteUri = context.AbsoluteUri;
+                AbsolutePath = context.AbsolutePath;
+                Url = context.Url;
+                UrlReferrer = context.UrlReferrer;
+                Query = context.Query;
+                Controller = context.Controller;
+                Action = context.Action;
+                Id = context.Id;
+                Guid = context.Guid;
+                UserHostName = context.UserHostName;
+                UserHostAddress = context.UserHostAddress;
+                UserAgent = context.UserAgent;
             }
         }
 
@@ -930,7 +975,9 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (string.IsNullOrEmpty(virtualPath)) return virtualPath;
             if (!virtualPath.StartsWith('~')) return virtualPath;
-            return virtualPath.Replace("~", AspNetCoreHttpContext.Current.Request.PathBase);
+            return virtualPath.Replace("~", (Request
+                ? AspNetCoreHttpContext.Current.Request.PathBase.ToString()
+                : string.Empty));
         }
 
         public void FormsAuthenticationSignIn(string userName, bool createPersistentCookie)
@@ -996,7 +1043,9 @@ namespace Implem.Pleasanter.Libraries.Requests
         
         public string Token()
         {
-            return AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng();
+            return Request
+                ? AspNetCoreHttpContext.Current?.Request?.Cookies[".AspNetCore.Session"]?.Sha512Cng()
+                : string.Empty;
         }
     }
 }

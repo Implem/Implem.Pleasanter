@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Model_Validator_OnCreatingDateTimeCases",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "NotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Form": "1",
+    "Update": "1",
+    "Exclude": "SiteSettings,ImageSettings,ExportColumns",
+    "IncludeTypeName": "datetime",
+    "ExcludeTypeName": "image"
+}
