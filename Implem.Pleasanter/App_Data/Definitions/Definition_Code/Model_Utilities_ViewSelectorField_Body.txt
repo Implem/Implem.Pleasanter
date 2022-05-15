@@ -1,0 +1,7 @@
+﻿.Div(
+    id: "ViewSelectorField", 
+    action: () => hb
+        .ViewSelector(
+            context: context,
+            ss: ss,
+            view: view))

@@ -103,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public SqlServerErrors SqlErrors = new SqlServerErrors();
         public SqlServerSqls Sqls = new SqlServerSqls();
         public SqlServerCommandText SqlCommandText = new SqlServerCommandText();
+        public bool Request { get; set; }
 
         public Context(
             bool request = true,
@@ -129,9 +130,21 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public Context(int tenantId, int deptId = 0, int userId = 0, string language = null)
+        public Context(
+            int tenantId,
+            int deptId = 0,
+            int userId = 0,
+            string language = null,
+            Context context = null)
         {
-            SetRequests();
+            if (context?.Request != false)
+            {
+                SetRequests();
+            }
+            else
+            {
+                CopyRequests(context: context);
+            }
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
@@ -201,6 +214,34 @@ namespace Implem.Pleasanter.Libraries.Requests
                 UserHostName = request.UserHostName;
                 UserHostAddress = GetUserHostAddress(request);
                 UserAgent = request.UserAgent;
+            }
+        }
+
+        private void CopyRequests(Context context)
+        {
+            if (context != null)
+            {
+                LoginId = context.LoginId;
+                FormStringRaw = context.FormStringRaw;
+                FormString = context.FormString;
+                HttpMethod = context.HttpMethod;
+                Ajax = context.Ajax;
+                Mobile = context.Mobile;
+                RouteData = context.RouteData;
+                Server = context.Server;
+                ApplicationPath = context.ApplicationPath;
+                AbsoluteUri = context.AbsoluteUri;
+                AbsolutePath = context.AbsolutePath;
+                Url = context.Url;
+                UrlReferrer = context.UrlReferrer;
+                Query = context.Query;
+                Controller = context.Controller;
+                Action = context.Action;
+                Id = context.Id;
+                Guid = context.Guid;
+                UserHostName = context.UserHostName;
+                UserHostAddress = context.UserHostAddress;
+                UserAgent = context.UserAgent;
             }
         }
 

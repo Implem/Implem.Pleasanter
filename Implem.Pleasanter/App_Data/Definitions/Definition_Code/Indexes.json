@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Indexes",
+    "OutputPath": "Libraries\\Search\\Indexes.cs",
+    "MergeToExisting": "1",
+    "Source": "Mvc"
+}

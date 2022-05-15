@@ -1,0 +1,75 @@
+﻿public static string Move(Context context, SiteSettings ss, long #modelName#Id)
+{
+    var siteId = context.Forms.Long("MoveTargets");
+    if (context.ContractSettings.ItemsLimit(context: context, siteId: siteId))
+    {
+        return Error.Types.ItemsLimit.MessageJson(context: context);
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id);
+    var invalid = #ModelName#Validators.OnMoving(
+        context: context,
+        ss: ss,
+        destinationSs: SiteSettingsUtilities.Get(
+            context: context,
+            siteId: siteId,
+            referenceId: #modelName#Id),
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    var targetSs = SiteSettingsUtilities.Get(
+        context: context,
+        siteId: siteId);
+    var errorData = #modelName#Model.Move(
+        context: context,
+        ss: ss,
+        targetSs: targetSs);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            if (ss.SwitchRecordWithAjax == true)
+            {
+                return EditorResponse(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    message: Messages.Moved(
+                        context: context,
+                        data: #modelName#Model.Title.MessageDisplay(context: context)),
+                    switchTargets: GetSwitchTargets(
+                        context: context,
+                        ss: ss,
+                        #modelName#Id: #modelName#Model.#ModelName#Id,
+                        siteId: #modelName#Model.SiteId).Join())
+                            .ToJson();
+            }
+            else
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.Moved(
+                        context: context,
+                        data: #modelName#Model.Title.MessageDisplay(context: context)));
+                return new ResponseCollection()
+                    .Response("id", #modelName#Model.#ModelName#Id.ToString())
+                    .Href(Locations.ItemEdit(
+                        context: context,
+                        id: #modelName#Model.#ModelName#Id))
+                    .ToJson();
+            }
+        case Error.Types.Duplicated:
+            return Messages.ResponseDuplicated(
+                context: context,
+                data: targetSs.GetColumn(
+                    context: context,
+                    columnName: errorData.ColumnName)?.LabelText)
+                        .ToJson();
+        default:
+            return errorData.MessageJson(context: context);
+    }
+}

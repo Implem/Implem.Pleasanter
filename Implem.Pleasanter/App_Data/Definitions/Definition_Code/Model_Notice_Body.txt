@@ -1,0 +1,244 @@
+﻿public List<Notification> GetNotifications(
+    Context context,
+    SiteSettings ss,
+    bool notice,
+    bool before = false,
+    Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
+{
+    if (context.ContractSettings.Notice == false || !notice)
+    {
+        return null;
+    }
+    var notifications = NotificationUtilities.Get(
+        context: context,
+        ss: ss);
+    if (notifications?.Any() == true)
+    {
+        var dataSet = Repository.ExecuteDataSet(
+            context: context,
+            statements: notifications.Select(notification =>
+            {
+                var where = ss.Views?.Get(before
+                    ? notification.BeforeCondition
+                    : notification.AfterCondition)
+                        ?.Where(
+                            context: context,
+                            ss: ss,
+                            where: Rds.#TableName#Where().#ModelName#Id(#ModelName#Id))
+                                ?? Rds.#TableName#Where().#ModelName#Id(#ModelName#Id);
+                return Rds.Select#TableName#(
+                    dataTableName: notification.Index.ToString(),
+                    tableType: tableTypes,
+                    column: Rds.#TableName#Column().#ModelName#Id(),
+                    join: ss.Join(
+                        context: context,
+                        join: where),
+                    where: where);
+            }).ToArray());
+        return notifications
+            .Where(notification =>
+                dataSet.Tables[notification.Index.ToString()].Rows.Count == 1)
+            .ToList();
+    }
+    else
+    {
+        return null;
+    }
+}
+
+public void Notice(
+    Context context,
+    SiteSettings ss,
+    List<Notification> notifications,
+    string type)
+{
+    notifications?.ForEach(notification =>
+    {
+        if (notification.HasRelatedUsers())
+        {
+            var users = new List<int>();
+            Repository.ExecuteTable(
+                context: context,
+                statements: Rds.Select#TableName#(
+                    tableType: Sqls.TableTypes.All,
+                    distinct: true,
+                    column: Rds.#TableName#Column()
+
+<!--Model_Notice_RelatedColumnCases-->,
+
+                    where: Rds.#TableName#Where().#ModelName#Id(#ModelName#Id)))
+                        .AsEnumerable()
+                        .ForEach(dataRow =>
+                        {
+
+<!--Model_Notice_RelatedDataColumnCases-->
+
+                        });
+            notification.ReplaceRelatedUsers(
+                context: context,
+                users: users);
+        }
+        var values = ss.IncludedColumns(notification.Address)
+            .ToDictionary(
+                column => column,
+                column => PropertyValue(
+                    context: context,
+                    column: column));
+        switch (type)
+        {
+            case "Created":
+            case "Copied":
+                if ((type == "Created" && notification.AfterCreate != false)
+                    || (type == "Copied" && notification.AfterCopy != false))
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.Created(
+                            context: context,
+                            data: Title.DisplayValue).ToString(),
+                        body: NoticeBody(
+                            context: context,
+                            ss: ss,
+                            notification: notification),
+                        values: values);
+                }
+                break;
+            case "Updated":
+                if (notification.AfterUpdate != false
+                    && notification.MonitorChangesColumns.Any(columnName => PropertyUpdated(
+                        context: context,
+                        name: columnName)))
+                {
+                    var body = NoticeBody(
+                        context: context,
+                        ss: ss,
+                        notification: notification,
+                        update: true);
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.Updated(
+                            context: context,
+                            data: Title.DisplayValue).ToString(),
+                        body: body,
+                        values: values);
+                }
+                break;
+            case "Deleted":
+                if (notification.AfterDelete != false)
+                {
+                    notification.Send(
+                        context: context,
+                        ss: ss,
+                        title: Displays.Deleted(
+                            context: context,
+                            data: Title.DisplayValue).ToString(),
+                        body: NoticeBody(
+                            context: context,
+                            ss: ss,
+                            notification: notification),
+                        values: values);
+                }
+                break;
+        }
+    });
+}
+
+private string NoticeBody(
+    Context context,
+    SiteSettings ss,
+    Notification notification,
+    bool update = false)
+{
+    var body = new System.Text.StringBuilder();
+    notification.GetFormat(
+        context: context,
+        ss: ss)
+            .Split('\n')
+            .Select(line => new
+            {
+                Line = line.Trim(),
+                Format = line.Trim().Deserialize<NotificationColumnFormat>()
+            })
+            .ForEach(data =>
+            {
+                var column = ss.IncludedColumns(data.Format?.Name)?.FirstOrDefault();
+                if (column == null)
+                {
+                    body.Append(ReplacedContextValues(
+                        context: context,
+                        value: data.Line));
+                    body.Append("\n");
+                }
+                else
+                {
+                    switch (column.Name)
+                    {
+
+<!--Model_NoticeColumnCases-->
+
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                            {
+                                case "Class":
+                                    body.Append(GetClass(columnName: column.Name).ToNotice(
+                                        context: context,
+                                        saved: GetSavedClass(columnName: column.Name),
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Class_Updated(columnName: column.Name),
+                                        update: update));
+                                    break;
+                                case "Num":
+                                    body.Append(GetNum(columnName: column.Name).ToNotice(
+                                        context: context,
+                                        saved: GetSavedNum(columnName: column.Name),
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Num_Updated(columnName: column.Name),
+                                        update: update));
+                                    break;
+                                case "Date":
+                                    body.Append(GetDate(columnName: column.Name).ToNotice(
+                                        context: context,
+                                        saved: GetSavedDate(columnName: column.Name),
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Date_Updated(columnName: column.Name),
+                                        update: update));
+                                    break;
+                                case "Description":
+                                    body.Append(GetDescription(columnName: column.Name).ToNotice(
+                                        context: context,
+                                        saved: GetSavedDescription(columnName: column.Name),
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Description_Updated(columnName: column.Name),
+                                        update: update));
+                                    break;
+                                case "Check":
+                                    body.Append(GetCheck(columnName: column.Name).ToNotice(
+                                        context: context,
+                                        saved: GetSavedCheck(columnName: column.Name),
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Check_Updated(columnName: column.Name),
+                                        update: update));
+                                    break;
+                                case "Attachments":
+                                    body.Append(GetAttachments(columnName: column.Name).ToNotice(
+                                        context: context,
+                                        saved: GetSavedAttachments(columnName: column.Name),
+                                        column: column,
+                                        notificationColumnFormat: data.Format,
+                                        updated: Attachments_Updated(columnName: column.Name),
+                                        update: update));
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            });
+    return body.ToString();
+}

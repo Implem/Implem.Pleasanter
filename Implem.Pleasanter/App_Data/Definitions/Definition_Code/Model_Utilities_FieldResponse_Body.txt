@@ -1,0 +1,123 @@
+﻿public static ResponseCollection FieldResponse(
+    this ResponseCollection res,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    string idSuffix = null)
+{
+    var replaceFieldColumns = ss.ReplaceFieldColumns(
+        context: context,
+        serverScriptModelRow: #modelName#Model.ServerScriptModelRow);
+    res.Val(
+        target: "#ReplaceFieldColumns",
+        value: replaceFieldColumns?.ToJson());
+    var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
+        ? ss.GetColumn(
+            context: context,
+            columnName: context.Forms.ControlId().Split_2nd('_'))
+        : null);
+    columnNames
+        .Select(columnName => ss.GetColumn(
+            context: context,
+            columnName: columnName))
+        .Where(column => column != null)
+        .ForEach(column =>
+        {
+            var serverScriptModelColumn = #modelName#Model
+                ?.ServerScriptModelRow
+                ?.Columns.Get(column.ColumnName);
+            if (replaceFieldColumns?.Contains(column.ColumnName) == true)
+            {
+                res.ReplaceAll(
+                    target: $"##TableName#_{column.Name}Field" + idSuffix,
+                    value: new HtmlBuilder().Field(
+                        context: context,
+                        ss: ss,
+                        #modelName#Model: #modelName#Model,
+                        column: column,
+                        idSuffix: idSuffix));
+            }
+            else
+            {
+                switch (column.Name)
+                {
+
+<!--Model_Utilities_FieldResponse_ColumnCases-->
+
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                        {
+                            case "Class":
+                                res.Val(
+                                    target: $"##TableName#_{column.Name}{idSuffix}",
+                                    value: #modelName#Model.GetClass(columnName: column.Name).ToResponse(
+                                        context: context,
+                                        ss: ss,
+                                        column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Num":
+                                res.Val(
+                                    target: $"##TableName#_{column.Name}{idSuffix}",
+                                    value: #modelName#Model.GetNum(columnName: column.Name).ToResponse(
+                                        context: context,
+                                        ss: ss,
+                                        column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Date":
+                                res.Val(
+                                    target: $"##TableName#_{column.Name}{idSuffix}",
+                                    value: #modelName#Model.GetDate(columnName: column.Name).ToResponse(
+                                        context: context,
+                                        ss: ss,
+                                        column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Description":
+                                res.Val(
+                                    target: $"##TableName#_{column.Name}{idSuffix}",
+                                    value: #modelName#Model.GetDescription(columnName: column.Name).ToResponse(
+                                        context: context,
+                                        ss: ss,
+                                        column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Check":
+                                res.Val(
+                                    target: $"##TableName#_{column.Name}{idSuffix}",
+                                    value: #modelName#Model.GetCheck(columnName: column.Name),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                            case "Attachments":
+                                res.ReplaceAll(
+                                    target: $"##TableName#_{column.Name}Field",
+                                    value: new HtmlBuilder()
+                                        .FieldAttachments(
+                                            context: context,
+                                            fieldId: $"#TableName#_{column.Name}Field",
+                                            controlId: $"#TableName#_{column.Name}",
+                                            columnName: column.ColumnName,
+                                            fieldCss: column.FieldCss
+                                                + (column.TextAlign == SiteSettings.TextAlignTypes.Right
+                                                    ? " right-align"
+                                                    : string.Empty),
+                                            fieldDescription: column.Description,
+                                            labelText: column.LabelText,
+                                            value: #modelName#Model.GetAttachments(columnName: column.Name).ToJson(),
+                                            readOnly: Permissions.ColumnPermissionType(
+                                                context: context,
+                                                ss: ss,
+                                                column: column,
+                                                baseModel: #modelName#Model)
+                                                    != Permissions.ColumnPermissionTypes.Update,
+                                            allowDelete: column.AllowDeleteAttachments != false),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
+                        }
+                        break;
+                }
+            }
+        });
+    return res;
+}

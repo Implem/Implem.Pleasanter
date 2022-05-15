@@ -1,0 +1,137 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "DateA",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Merchandise/Service",
+            "ChoicesText": "Merchandise/Service1\nMerchandise/Service2\nMerchandise/Service3\nMerchandise/Service4\nMerchandise/Service5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Work_category",
+            "ChoicesText": "Work_category1\nWork_category2\nWork_category3\nWork_category4\nWork_category5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Difficulty",
+            "ChoicesText": "High\nMiddle\nLow"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Required_time",
+            "Unit": "Minutes"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Work_name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Work_description"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Attention"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registered_date"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Approver"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Register"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

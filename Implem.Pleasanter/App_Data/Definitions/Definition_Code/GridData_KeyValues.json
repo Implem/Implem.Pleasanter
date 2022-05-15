@@ -1,0 +1,9 @@
+﻿{
+    "Id": "GridData_KeyValues",
+    "RepeatType": "Table",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "NotItem": "1",
+    "GenericUi": "1",
+    "Exclude": "Tenants,Registrations"
+}

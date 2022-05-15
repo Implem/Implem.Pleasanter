@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_Export",
+    "OutputPath": "Models\\#TableName#\\#ModelName#ExportModel.cs",
+    "Source": "Mvc",
+    "RepeatType": "Table",
+    "Include": "Issues,Results"
+}

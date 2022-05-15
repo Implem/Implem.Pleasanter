@@ -1,0 +1,2 @@
+﻿case "#ColumnName#":
+    return self.#ColumnName#(_as: _as, function: function);

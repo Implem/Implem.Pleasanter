@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Base_SavedProperty",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Exclude": "Comments"
+}

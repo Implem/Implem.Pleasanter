@@ -37,7 +37,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Depts;
         public List<int> Groups;
         public List<int> Users;
-        // compatibility Version 1.014
         public Join Join;
 
         public Export()

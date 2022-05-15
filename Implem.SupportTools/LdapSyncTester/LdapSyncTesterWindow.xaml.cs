@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace Implem.SupportTools.LdapSyncTester
 {
-    /// <summary>
-    /// UserControl1.xaml の相互作用ロジック
-    /// </summary>
     public partial class LdapSyncTesterWindow : UserControl
     {
         public LdapSyncTesterWindow()

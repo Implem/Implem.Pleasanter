@@ -1,0 +1,5 @@
+﻿if (Parameters.Security.JoeAccountCheck
+    && context.Forms.Get("Users_Password") == context.Forms.Get("Users_LoginId"))
+{
+    return Error.Types.JoeAccountCheck.MessageJson(context: context);
+}

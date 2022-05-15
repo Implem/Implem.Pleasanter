@@ -1,0 +1,213 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "DateA",
+        "ClassL",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "ClassJ",
+        "DateB",
+        "ClassK",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "起票者",
+            "Section": "起票者情報"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "受付担当者",
+            "Section": "受付情報"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "受付日時",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Title",
+            "Section": "インシデント情報"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "対応結果"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "カテゴリ",
+            "ChoicesText": "カテゴリ1\nカテゴリ2\nカテゴリ3\nカテゴリ4\nカテゴリ5"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "サブカテゴリ",
+            "ChoicesText": "サブカテゴリ1\nサブカテゴリ2\nサブカテゴリ3\nサブカテゴリ4\nサブカテゴリ5"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "緊急度",
+            "ChoicesText": "低\n中\n高"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "インパクト",
+            "ChoicesText": "低\n中\n高"
+        },
+        {
+            "ColumnName": "ClassI",
+            "LabelText": "優先度",
+            "ChoicesText": "計画に組み込み\n低\n中\n高\n致命的"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "開始日時",
+            "DefaultInput": "",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "完了日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "ステータス",
+            "ChoicesText": "100,未着手,未,status-new\n200,実施中,実,status-inprogress\n900,完了,完,status-closed\n910,クローズ済み,済,status-rejected"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "対応者"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "クローズ日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "ClassJ",
+            "LabelText": "クローズカテゴリ",
+            "Section": "クローズ情報"
+        },
+        {
+            "ColumnName": "ClassK",
+            "LabelText": "クローズ承認者"
+        },
+        {
+            "ColumnName": "ClassL",
+            "LabelText": "受付方法",
+            "ChoicesText": "電話\nメール\n通知"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassE",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassI",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "ClassE",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

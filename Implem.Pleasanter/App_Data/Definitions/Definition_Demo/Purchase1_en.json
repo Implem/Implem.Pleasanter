@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase1_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Internal manpower",
+    "ClassA": "#Opportunity1_en#",
+    "NumA": "1100000",
+    "Manager": "User9_en",
+    "Owner": "User9_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

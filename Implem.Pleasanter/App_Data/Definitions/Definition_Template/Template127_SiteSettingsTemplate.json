@@ -1,0 +1,107 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "氏名",
+            "ChoicesText": "氏名1\n氏名2\n氏名3\n氏名4\n氏名5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "所属",
+            "ChoicesText": "所属1\n所属2\n所属3\n所属4\n所属5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "出勤",
+            "DefaultInput": "0",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "出勤場所",
+            "ChoicesText": "場所1\n場所2\n場所3\n場所4\n場所5"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "退勤",
+            "DefaultInput": "0",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdhm"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "DateA": 1,
+                "ClassC": 1,
+                "ClassB": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

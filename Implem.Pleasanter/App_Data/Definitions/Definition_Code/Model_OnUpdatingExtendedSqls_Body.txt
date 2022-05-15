@@ -1,0 +1,8 @@
+﻿if (extendedSqls)
+{
+    statements.OnUpdatingExtendedSqls(
+        context: context,
+        siteId: SiteId,
+        id: #ModelName#Id,
+        timestamp: Timestamp.ToDateTime());
+}

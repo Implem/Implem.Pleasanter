@@ -219,6 +219,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseIncompleteFilter;
         public bool? UseOwnFilter;
         public bool? UseNearCompletionTimeFilter;
+        public bool? UseDelayFilter;
         public bool? UseOverdueFilter;
         public bool? UseSearchFilter;
         public bool? OutputFormulaLogs;
@@ -240,32 +241,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
         private ServerScriptModel.ServerScriptModelRow ServerScriptModelRowCache;
-        // compatibility Version 1.002
         public Dictionary<string, long> LinkColumnSiteIdHash;
-        // compatibility Version 1.003
         public List<string> GridColumnsOrder;
         public List<string> FilterColumnsOrder;
         public List<string> EditorColumnsOrder;
         public List<string> TitleColumnsOrder;
         public List<string> LinkColumnsOrder;
         public List<string> HistoryColumnsOrder;
-        // compatibility Version 1.004
         public Dictionary<string, Formula> FormulaHash;
-        // compatibility Version 1.006
         public List<Column> ColumnCollection;
         public List<Aggregation> AggregationCollection;
         public List<Link> LinkCollection;
         public List<Summary> SummaryCollection;
-        // compatibility Version 1.011
         public string NewStyle;
         public string EditStyle;
         public string GridStyle;
         public string NewScript;
         public string EditScript;
         public string GridScript;
-        // compatibility Version 1.015
         public bool? EditInDialog;
-        // compatibility Version 1.016
         public List<string> EditorColumns;
 
         public SiteSettings()
@@ -372,6 +366,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseIncompleteFilter = UseIncompleteFilter ?? true;
             UseOwnFilter = UseOwnFilter ?? true;
             UseNearCompletionTimeFilter = UseNearCompletionTimeFilter ?? true;
+            UseDelayFilter = UseDelayFilter ?? true;
             UseOverdueFilter = UseOverdueFilter ?? true;
             UseSearchFilter = UseSearchFilter ?? true;
             OutputFormulaLogs = OutputFormulaLogs ?? false;
@@ -855,6 +850,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseNearCompletionTimeFilter == false)
             {
                 ss.UseNearCompletionTimeFilter = UseNearCompletionTimeFilter;
+            }
+            if (UseDelayFilter == false)
+            {
+                ss.UseDelayFilter = UseDelayFilter;
             }
             if (UseOverdueFilter == false)
             {
@@ -3374,6 +3373,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseIncompleteFilter": UseIncompleteFilter = value.ToBool(); break;
                 case "UseOwnFilter": UseOwnFilter = value.ToBool(); break;
                 case "UseNearCompletionTimeFilter": UseNearCompletionTimeFilter = value.ToBool(); break;
+                case "UseDelayFilter": UseDelayFilter = value.ToBool(); break;
                 case "UseOverdueFilter": UseOverdueFilter = value.ToBool(); break;
                 case "UseSearchFilter": UseSearchFilter = value.ToBool(); break;
                 case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;

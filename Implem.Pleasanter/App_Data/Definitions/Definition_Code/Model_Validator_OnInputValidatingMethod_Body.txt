@@ -1,0 +1,83 @@
+﻿public static List<ErrorData> OnInputValidating(
+    Context context,
+    SiteSettings ss,
+    Dictionary<int, #ModelName#Model> #modelName#Hash)
+{
+    var errors = #modelName#Hash
+        ?.OrderBy(data => data.Key)
+        .SelectMany((data, index) => OnInputValidating(
+            context: context,
+            ss: ss,
+            #modelName#Model: data.Value,
+            rowNo: index + 1))
+        .Where(data => data.Type != Error.Types.None).ToList()
+            ?? new List<ErrorData>();
+    if (errors.Count == 0)
+    {
+        errors.Add(new ErrorData(type: Error.Types.None));
+    }
+    return errors;
+}
+
+private static List<ErrorData> OnInputValidating(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    int rowNo = 0)
+{
+    var errors = new List<ErrorData>();
+    var editorColumns = ss.GetEditorColumns(context: context);
+    editorColumns
+        ?.Concat(ss
+            .Columns
+            ?.Where(o => !o.NotEditorSettings)
+            .Where(column => !editorColumns
+                .Any(editorColumn => editorColumn.ColumnName == column.ColumnName)))
+        .ForEach(column =>
+        {
+            var value = #modelName#Model.PropertyValue(
+                context: context,
+                column: column);
+            if (column.TypeCs == "Comments")
+            {
+                var savedCommentId = #modelName#Model
+                    .SavedComments
+                    ?.Deserialize<Comments>()
+                    ?.Max(savedComment => (int?)savedComment.CommentId) ?? default(int);
+                var comment = value
+                    ?.Deserialize<Comments>()
+                    ?.FirstOrDefault();
+                value = comment?.CommentId > savedCommentId ? comment?.Body : null;
+            }
+            if (!value.IsNullOrEmpty())
+            {
+                Validators.ValidateMaxLength(
+                    columnName: column.ColumnName,
+                    maxLength: column.MaxLength,
+                    errors: errors,
+                    value: value);
+                Validators.ValidateRegex(
+                    columnName: column.ColumnName,
+                    serverRegexValidation: column.ServerRegexValidation,
+                    regexValidationMessage: column.RegexValidationMessage,
+                    errors: errors,
+                    value: value);
+                ss.Processes
+                    ?.FirstOrDefault(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                    ?.ValidateInputs
+                    ?.Where(validateInputs => validateInputs.ColumnName == column.ColumnName)
+                    ?.ForEach(validateInputs =>
+                        Validators.ValidateRegex(
+                            columnName: validateInputs.ColumnName,
+                            serverRegexValidation: validateInputs.ServerRegexValidation,
+                            regexValidationMessage: validateInputs.RegexValidationMessage,
+                            errors: errors,
+                            value: value));
+            }
+        });
+    if (errors.Count == 0)
+    {
+        errors.Add(new ErrorData(type: Error.Types.None));
+    }
+    return errors;
+}

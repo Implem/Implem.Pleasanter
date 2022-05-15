@@ -1,0 +1,1 @@
+﻿Shredder is not worked even though the power is turn on.

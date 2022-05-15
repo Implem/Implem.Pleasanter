@@ -1,0 +1,5 @@
+﻿public static string EditorJson(Context context, SiteModel siteModel)
+{
+    siteModel.ClearSessions(context: context);
+    return EditorResponse(context: context, siteModel: siteModel).ToJson();
+}

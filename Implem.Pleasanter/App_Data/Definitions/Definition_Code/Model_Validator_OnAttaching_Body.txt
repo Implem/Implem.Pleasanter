@@ -1,0 +1,8 @@
+﻿var errorData = OnAttaching(
+    context: context,
+    ss: ss,
+    #modelName#Model: #modelName#Model);
+if (errorData.Type != Error.Types.None)
+{
+    return errorData;
+}

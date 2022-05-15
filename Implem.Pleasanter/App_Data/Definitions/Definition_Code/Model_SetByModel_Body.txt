@@ -1,0 +1,13 @@
+﻿public void SetByModel(#ModelName#Model #modelName#Model)
+{
+
+<!--Model_SetByModel_ColumnCases-->
+
+    Comments = #modelName#Model.Comments;
+    ClassHash = #modelName#Model.ClassHash;
+    NumHash = #modelName#Model.NumHash;
+    DateHash = #modelName#Model.DateHash;
+    DescriptionHash = #modelName#Model.DescriptionHash;
+    CheckHash = #modelName#Model.CheckHash;
+    AttachmentsHash = #modelName#Model.AttachmentsHash;
+}

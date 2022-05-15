@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_BulkDeleteByApiCases",
+    "RepeatType": "Table",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1",
+    "Exclude": "Sites,Wikis"
+}

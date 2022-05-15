@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble8",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site21",
+    "ClassA": "#Facility4#",
+    "ClassB": "1階：エリア1",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "紙が詰まっていたため。",
+    "DescriptionB": "紙詰まりを解消したところ、解決しました。",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36641.705555555556"
+}

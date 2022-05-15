@@ -1,0 +1,114 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassA",
+        "ClassC",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "Status",
+        "TitleBody",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassC",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "Status",
+        "ClassD",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassE"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "ClassC",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "Status",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Unconfirmed,Unconfirmed,status-new\n900,Confirmed,Confirmed,status-closed"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Sender"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Receiver"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Destination"
+        },
+        {
+            "ColumnName": "ClassE",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Urgency",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Reception time",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Message contents"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Message summary",
+            "ChoicesText": "Please call me back\nPlease tell me that there was a phone call\nI will call you later\nI will send you an email so please check\nPlease give me a message",
+            "FieldCss": "field-wide"
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableCalendar": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

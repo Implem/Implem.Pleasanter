@@ -1,0 +1,3 @@
+﻿case "CurrentPermissionsAll":
+    RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+    break;

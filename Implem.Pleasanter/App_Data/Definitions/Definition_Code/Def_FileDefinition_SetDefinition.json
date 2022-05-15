@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Def_FileDefinition_SetDefinition",
+    "RepeatType": "DefinitionColumn",
+    "Indent": "6",
+    "Separator": "\\r\\n"
+}

@@ -1,0 +1,3 @@
+﻿#ModelName#Model #modelName#Model = null,
+bool editRow = false,
+long newRowId = 0,

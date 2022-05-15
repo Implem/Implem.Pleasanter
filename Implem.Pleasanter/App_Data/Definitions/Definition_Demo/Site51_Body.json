@@ -1,0 +1,191 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "Owner",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "DateA",
+            "ClassA",
+            "ClassB",
+            "NumA",
+            "NumB",
+            "NumC",
+            "Owner",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "店舗名",
+            "ChoicesText": "[[#Site49#]]",
+            "ValidateRequired": true,
+            "Link": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "商品名",
+            "ChoicesText": "[[#Site50#]]",
+            "ValidateRequired": true,
+            "Link": true
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "単価",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "個数"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "金額",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "日付",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumC"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumC"
+        }
+    ],
+    "Links": [
+        {
+            "ColumnName": "ClassA",
+            "SiteId": "#Site49#"
+        },
+        {
+            "ColumnName": "ClassB",
+            "SiteId": "#Site50#"
+        }
+    ],
+    "Summaries": [
+        {
+            "SiteId": "#Site49#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumB",
+            "LinkColumn": "ClassB",
+            "Type": "Total",
+            "SourceColumn": "NumB",
+            "Id": 1
+        },
+        {
+            "SiteId": "#Site49#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumC",
+            "LinkColumn": "ClassB",
+            "Type": "Total",
+            "SourceColumn": "NumC",
+            "Id": 2
+        },
+        {
+            "SiteId": "#Site49#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumA",
+            "LinkColumn": "ClassA",
+            "Type": "Total",
+            "SourceColumn": "NumC",
+            "Id": 3
+        },
+        {
+            "SiteId": "#Site50#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumB",
+            "LinkColumn": "ClassB",
+            "Type": "Total",
+            "SourceColumn": "NumB",
+            "Id": 4
+        },
+        {
+            "SiteId": "#Site50#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumC",
+            "LinkColumn": "ClassB",
+            "Type": "Total",
+            "SourceColumn": "NumC",
+            "Id": 5
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

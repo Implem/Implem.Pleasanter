@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care8_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site30_en",
+    "Title": "Fall down moving to bathroom",
+    "Status": "900",
+    "ClassA": "Daisuke Ito",
+    "ClassB": "Falling",
+    "ClassD": "Corridor",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "Staff watches a patient in moving. When it is needed to get clothes, staff should keep safety for a patient.",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

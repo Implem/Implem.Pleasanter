@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_ColumnDefault",
+    "RepeatType": "Join",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Select": "1"
+}

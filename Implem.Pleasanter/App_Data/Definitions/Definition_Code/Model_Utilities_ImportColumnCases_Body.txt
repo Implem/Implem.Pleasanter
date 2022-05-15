@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    #modelName#Model.#ColumnName##RecordingData# = recordingData#CastType#;
+    break;

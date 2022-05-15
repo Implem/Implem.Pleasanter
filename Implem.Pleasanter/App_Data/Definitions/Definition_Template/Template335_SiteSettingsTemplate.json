@@ -1,0 +1,150 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassF",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassE",
+        "DateB",
+        "UpdatedTime",
+        "Updator"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassF",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "DescriptionA",
+        "NumD",
+        "DateA",
+        "NumC",
+        "Body",
+        "DateB",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Building name"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Room number"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Security deposit"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Deposit"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Key money"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Property type",
+            "ChoicesText": "Rent(apartment・condominium・detached house)\nRental store(tenant)\nRental office(rental office)\nRental car park\nRental building・Rental warehouse・Other"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Rent",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Management expenses etc.",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Occupied area",
+            "Unit": "㎡"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Construction date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Access"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Facility"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Access from the nearest station",
+            "Unit": "Minute"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Contract date"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassF",
+            "Type": 2,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassF"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

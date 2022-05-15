@@ -1,0 +1,136 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "DateB",
+        "Owner",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "ClassB",
+            "DateA",
+            "DateB",
+            "Owner",
+            "Body",
+            "DescriptionA",
+            "DescriptionB",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "ClassA",
+        "Owner",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Repaieman"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Facility_name",
+            "ChoicesText": "[[#Site20_en#]]",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide",
+            "Link": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Facility_location",
+            "ChoicesText": "1st_floor：Area1\n1st_floor：Area2\n1st_floor：Area3\n1st_floor：Area4\n2nd_floor：Area1\n2nd_floor：Area2\n2nd_floor：Area3\n2nd_floor：Area4",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Occurrence_date",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Recoverred_date",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Cause_of_failure"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Details_of_repair"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Details_of_failure"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Links": [
+        {
+            "ColumnName": "ClassA",
+            "SiteId": "#Site20_en#"
+        }
+    ],
+    "Summaries": [
+        {
+            "SiteId": "#Site20_en#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumA",
+            "LinkColumn": "ClassA",
+            "Type": "Count",
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": "desc"
+            },
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "ApiDataType": 0
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

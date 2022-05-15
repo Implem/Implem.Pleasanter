@@ -1,0 +1,2 @@
+﻿public string ItemTitle { get; set; }
+public long? SiteId { get; set; }

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster9_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Makoto Kato",
+    "ClassB": "Makoto Kato",
+    "ClassC": "929-1816",
+    "ClassD": "Nakanoto-town, Kashima-gun",
+    "ClassE": "818-284-307",
+    "ClassF": "kato@example.com",
+    "ClassG": "Ishikawa",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

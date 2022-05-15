@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model",
+    "OutputPath": "Models\\#TableName#\\#ModelName#Model.cs",
+    "Source": "Mvc",
+    "RepeatType": "Table"
+}

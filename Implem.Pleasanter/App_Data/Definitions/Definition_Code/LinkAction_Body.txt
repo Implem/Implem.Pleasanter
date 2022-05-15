@@ -1,0 +1,143 @@
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Models;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+namespace Implem.Pleasanter.Libraries.Settings
+{
+    [Serializable]
+    public class LinkAction
+    {
+        public string Type;
+        public View View;
+        public string CharToAddWhenCopying;
+        public bool? CopyWithComments;
+
+        public LinkAction GetRecordingData(Context context, SiteSettings ss)
+        {
+            var linkAction = new LinkAction();
+            linkAction.Type = Type;
+            linkAction.View = View?.GetRecordingData(
+                context: context,
+                ss: ss);
+            linkAction.CharToAddWhenCopying = CharToAddWhenCopying;
+            linkAction.CopyWithComments = CopyWithComments == true
+                ? (bool?)true
+                : null;
+            return linkAction;
+        }
+
+        public void CopyWithLinks(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            long from,
+            long to)
+        {
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column == null)
+            {
+                return;
+            }
+            if (View == null)
+            {
+                View = new View();
+            }
+            if (View.ColumnFilterHash == null)
+            {
+                View.ColumnFilterHash = new Dictionary<string, string>();
+            }
+            View.GridColumns = new List<string>()
+            {
+                Rds.IdColumn(ss.ReferenceType),
+                columnName
+            };
+            View.ColumnFilterHash.AddOrUpdate(columnName, $"[\"{from}\"]");
+            if (View.ColumnSorterHash == null)
+            {
+                View.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
+            }
+            View.ColumnSorterHash.AddOrUpdate("CreatedTime", SqlOrderBy.Types.asc);
+            var dataRows = new GridData(
+                context: context,
+                ss: ss,
+                view: View,
+                count: false)
+                    .DataRows;
+            switch (ss.ReferenceType)
+            {
+
+<!--LinkAction_CopyWithLinks-->
+
+            }
+        }
+
+        private string GetData(
+            DataRow dataRow,
+            Column column,
+            long from,
+            long to)
+        {
+            var data = to.ToString();
+            if (column.MultipleSelections == true)
+            {
+                var list = dataRow.String(column.ColumnName) ?? string.Empty;
+                data = list.Replace($"\"{from}\"", $"\"{to}\"");
+            }
+            return data;
+        }
+
+        public void DeleteWithLinks(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            SqlSelect sub)
+        {
+            if (!context.CanDelete(ss: ss))
+            {
+                return;
+            }
+            var column = ss.GetColumn(
+                context: context,
+                columnName: columnName);
+            if (column == null)
+            {
+                return;
+            }
+            if (View == null)
+            {
+                View = new View();
+            }
+            if (View.ColumnFilterHash == null)
+            {
+                View.ColumnFilterHash = new Dictionary<string, string>();
+            }
+            var where = View.Where(
+                context: context,
+                ss: ss,
+                itemJoin: false);
+            var linksSub = Rds.SelectItems(
+                column: Rds.ItemsColumn().ReferenceId(),
+                join: new Rds.LinksJoinCollection().Add(new SqlJoin(
+                    tableBracket: "\"Links\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Links\".\"SourceId\"=\"Items\".\"ReferenceId\"")),
+                where: Rds.LinksWhere().DestinationId_In(sub: sub));
+            ErrorData invalid;
+            switch (ss.ReferenceType)
+            {
+
+<!--LinkAction_DeleteWithLinks-->
+
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster9",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "カトウ　マコト",
+    "ClassB": "加藤 誠",
+    "ClassC": "929-1816",
+    "ClassD": "鹿島郡中能登町浅井",
+    "ClassE": "818-284-307",
+    "ClassF": "kato@example.com",
+    "ClassG": "石川県",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

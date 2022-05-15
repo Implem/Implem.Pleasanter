@@ -1,0 +1,162 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassA",
+        "TitleBody",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "NumA",
+        "Body",
+        "NumB",
+        "DescriptionA",
+        "NumC",
+        "DescriptionB",
+        "NumD",
+        "DescriptionC",
+        "DescriptionD",
+        "DateA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "従業員番号"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "氏名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "役割",
+            "ChoicesText": "担当者\nスーパーバイザー\nマネージャ"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "習熟度合計",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "総括"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "作業1.習熟度",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "作業1.詳細"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "作業2.習熟度",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "作業2.詳細"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "作業3.習熟度",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "作業3.詳細"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "フィードバック"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByY": "Columns",
+            "TimeSeriesGroupBy": "ClassB",
+            "KambanGroupByX": "Status"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

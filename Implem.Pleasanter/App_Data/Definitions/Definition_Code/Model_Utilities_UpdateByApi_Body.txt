@@ -1,0 +1,121 @@
+﻿public static ContentResultInheritance UpdateByApi(
+    Context context,
+    SiteSettings ss,
+    long #modelName#Id,
+    string previousTitle)
+{
+    if (!Mime.ValidateOnApi(contentType: context.ContentType))
+    {
+        return ApiResults.BadRequest(context: context);
+    }
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        setByApi: true);
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return ApiResults.Error(
+            context: context,
+            errorData: invalid);
+    }
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(
+        context: context,
+        ss: ss);
+    #modelName#Model.VerUp = Versions.MustVerUp(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+    var errorData = #modelName#Model.Update(
+        context: context,
+        ss: ss,
+        notice: true,
+        previousTitle: previousTitle);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            return ApiResults.Success(
+                #modelName#Model.#ModelName#Id,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                message: Displays.Updated(
+                    context: context,
+                    data: #modelName#Model.Title.MessageDisplay(context: context)));
+
+<!--Model_Utilities_ApiDuplicatedMessage-->
+
+        default:
+            return ApiResults.Error(
+                context: context,
+                errorData: errorData);
+    }
+}
+
+public static bool UpdateByServerScript(
+    Context context,
+    SiteSettings ss,
+    long #modelName#Id,
+    string previousTitle,
+    object model)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        setByApi: true);
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return false;
+    }
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return false;
+    }
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(
+        context: context,
+        ss: ss);
+    #modelName#Model.VerUp = Versions.MustVerUp(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+    var errorData = #modelName#Model.Update(
+        context: context,
+        ss: ss,
+        notice: true,
+        previousTitle: previousTitle);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+            {
+                if (serverScriptModelApiModel.Model is #ModelName#Model data)
+                {
+                    data.SetByModel(#modelName#Model: #modelName#Model);
+                }
+            }
+            return true;
+        case Error.Types.Duplicated:
+            return false;
+        default:
+            return false;
+    }
+}

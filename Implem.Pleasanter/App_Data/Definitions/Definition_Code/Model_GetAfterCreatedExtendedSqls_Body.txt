@@ -1,0 +1,10 @@
+﻿if (get && Rds.ExtendedSqls(
+    context: context,
+    siteId: SiteId,
+    id: #ModelName#Id)
+        ?.Any(o => o.OnCreated) == true)
+{
+    Get(
+        context: context,
+        ss: ss);
+}

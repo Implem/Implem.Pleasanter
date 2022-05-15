@@ -1,0 +1,5 @@
+﻿{
+    "Id": "ItemsInitializer",
+    "OutputPath": "Libraries\\Initializers\\ItemsInitializer.cs",
+    "Source": "Mvc"
+}

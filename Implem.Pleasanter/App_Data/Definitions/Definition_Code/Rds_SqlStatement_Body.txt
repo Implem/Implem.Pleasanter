@@ -1,0 +1,10 @@
+﻿public static SqlStatement #TableName#Statement(
+    string commandText,
+    SqlParamCollection param = null)
+{
+    return new SqlStatement
+    {
+        CommandText = commandText,
+        SqlParamCollection = param
+    };
+}

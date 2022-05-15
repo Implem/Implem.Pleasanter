@@ -1,0 +1,20 @@
+﻿A,Agriculture Forestry
+B,Fishery
+C,Mining quarrying gravel sampling
+D,Construction industry
+E,Manufacturing industry
+F,Electricity / gas / heat supply / water supply industry
+G,Information and communication industry
+H,Transport industry postal service
+I,Wholesale Retail
+J,Financial industry insurance industry
+K,Real estate industry goods rental business
+L,Academic research specialized / technical service industry
+M,Accommodation industry food service business
+N,Living-related service industry entertainment industry
+O,Education learning support industry
+P,Medical welfare
+Q,Combined service business
+R,Service industry (not classified elsewhere)
+S,Official duties (excluding those classified elsewhere)
+T,Unclassifiable industry

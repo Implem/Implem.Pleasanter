@@ -1,0 +1,145 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassD",
+        "ClassA",
+        "TitleBody",
+        "DescriptionA",
+        "ClassE",
+        "ClassB",
+        "NumA",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassE",
+        "ClassD",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "DateA",
+        "DateB",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "プロジェクト名"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "担当者",
+            "ChoicesText": "担当者1\n担当者2\n担当者3\n担当者4\n担当者5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "役割",
+            "ChoicesText": "メンバ\nリーダ\nプロジェクトマネージャ"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "金額",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "作業内容"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "所属",
+            "ChoicesText": "所属1\n所属2\n所属3\n所属4"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "分類",
+            "ChoicesText": "分類1\n分類2\n分類3\n分類4\n分類5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "成果"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassE",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "KambanGroupByX": "ClassE",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

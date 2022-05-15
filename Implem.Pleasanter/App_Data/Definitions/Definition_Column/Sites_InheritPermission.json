@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_InheritPermission",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "InheritPermission",
+    "LabelText": "アクセス権の継承元",
+    "No": "114",
+    "History": "114",
+    "EditorColumn": "114",
+    "EditorEnabled": "1",
+    "LinkColumn": "114",
+    "HistoryColumn": "114",
+    "TypeName": "bigint",
+    "Ix3": "2",
+    "Required": "1",
+    "LabelText_en": "Inherit permission from",
+    "LabelText_zh": "继承许可来源",
+    "LabelText_de": "Berechtigung erben von",
+    "LabelText_ko": "권한 계승 대상",
+    "LabelText_es": "Heredar permiso de",
+    "LabelText_vn": "Nguồn kế thừa quyền truy cập"
+}

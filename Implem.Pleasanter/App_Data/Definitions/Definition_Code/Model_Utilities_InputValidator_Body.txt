@@ -1,0 +1,9 @@
+﻿var inputErrorData = #ModelName#Validators.OnInputValidating(
+    context: context,
+    ss: ss,
+    #modelName#Hash: #modelName#Hash).FirstOrDefault();
+switch (inputErrorData.Type)
+{
+    case Error.Types.None: break;
+    default: return inputErrorData.MessageJson(context: context);
+}

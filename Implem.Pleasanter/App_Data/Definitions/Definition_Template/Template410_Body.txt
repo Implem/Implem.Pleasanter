@@ -1,0 +1,6 @@
+﻿100,Passanger car
+200,Common car
+300,Truck
+400,Large special use vehicle
+500,Special use vehicle
+600,Other

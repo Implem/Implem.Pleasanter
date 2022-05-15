@@ -4487,11 +4487,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetReturnUrl(string returnUrl)
         {
-            return (!returnUrl.IsNullOrEmpty() || Permissions.PrivilegedUsers(LoginId))
-                ? ((returnUrl == "/") && (!Parameters.Locations.LoginAfterUrl.IsNullOrEmpty()))
+            return Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers
+                ? returnUrl
+                : returnUrl.IsNullOrEmpty() || returnUrl == "/"
                     ? Parameters.Locations.LoginAfterUrl
-                    : returnUrl
-                : Parameters.Locations.LoginAfterUrl;
+                    : returnUrl;
         }
     }
 }

@@ -6,6 +6,7 @@
         public string EnvironmentName;
         public string TimeZoneDefault;
         public string DefaultPassword;
+        public bool WithoutChangeDefaultPassword;
         public string DefaultLanguage;
         public string AbsoluteUri;
         public bool RequireHttps;

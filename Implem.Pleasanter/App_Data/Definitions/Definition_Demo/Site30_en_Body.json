@@ -1,0 +1,123 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "DateB",
+        "Owner",
+        "Manager",
+        "Status",
+        "ClassA",
+        "DateA",
+        "ClassD",
+        "ClassB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "DateB",
+            "Owner",
+            "Manager",
+            "Status",
+            "ClassA",
+            "DateA",
+            "ClassD",
+            "ClassB",
+            "Body",
+            "DescriptionA",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Authorizer",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Creater",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "User"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Occurrence_date",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Creation_date",
+            "DefaultInput": "0",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Category",
+            "ChoicesText": "Tumbling\nFalling\nAspiration\nCare_miss\nFood_poisoning/Infection"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Issue_a_slip,Issue,status-new\n900,Approved,Approved,status-closed\n910,Pending,Pending,status-rejected",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Occurrence_location",
+            "ChoicesText": "Unit\nPersonal_room\nCorridor\nToilet\nBathroom\nKitchen\nOther",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Cause/Solution"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": "desc"
+            },
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "TimeSeriesGroupBy": "ClassD",
+            "ApiDataType": 0
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

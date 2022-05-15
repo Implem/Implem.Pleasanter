@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_SqlUpdateOrInsert",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "Separator": "\\r\\n"
+}

@@ -1,0 +1,7 @@
+﻿    Rds.InsertItems(
+        dataTableName: dataTableName,
+        selectIdentity: true,
+        param: Rds.ItemsParam()
+            .ReferenceType("#TableName#")
+            .SiteId(SiteId)
+            .Title(Title.DisplayValue)),

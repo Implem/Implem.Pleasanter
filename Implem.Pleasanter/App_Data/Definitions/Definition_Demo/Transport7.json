@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport7",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "900",
+    "ClassA": "川崎営業所",
+    "ClassB": "マネジメント快適化ホールディングス",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "新橋営業所",
+    "NumA": "776",
+    "DateA": "36654.705555555556",
+    "Manager": "User1",
+    "Owner": "User1",
+    "Creator": "User1",
+    "Updator": "User1",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    #ColumnName# = #ByDataRow#(dataRow[column.ColumnName]);
+    break;

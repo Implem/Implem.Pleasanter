@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_NewJsonCases",
+    "RepeatType": "Table",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1",
+    "Exclude": "Sites"
+}

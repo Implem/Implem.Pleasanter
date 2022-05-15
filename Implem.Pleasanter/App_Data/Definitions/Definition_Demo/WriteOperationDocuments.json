@@ -1,0 +1,21 @@
+﻿{
+    "Id": "WriteOperationDocuments",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "運用者向けマニュアルを作成する",
+    "WorkValue": "45",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "構築",
+    "ClassB": "ドキュメント作成",
+    "ClassC": "運用",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.59097222222",
+    "UpdatedTime": "36648.621527777781"
+}

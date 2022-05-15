@@ -1,0 +1,7 @@
+﻿var error#ColumnName# = Imports.Validate(
+    context: context,
+    hash: #modelName#Hash.ToDictionary(
+        o => o.Key,
+        o => o.Value.#ColumnName##RecordingData#.ToString()),
+    column: ss.GetColumn(context: context, columnName: "#ColumnName#"));
+if (error#ColumnName# != null) return error#ColumnName#;

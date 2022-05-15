@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance6",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "検索システムが利用できない",
+    "Status": "150",
+    "ClassA": "300",
+    "ClassB": "トラブル",
+    "ClassC": "業務システム",
+    "Manager": "User10",
+    "Owner": "User2",
+    "Creator": "User10",
+    "Updator": "User2",
+    "StartTime": "36647",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar6_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site25_en",
+    "Title": "10th Ruby seminar",
+    "Status": "100",
+    "ClassA": "Minato-ku, Tokyo",
+    "NumA": "5",
+    "NumB": "3",
+    "NumC": "0",
+    "DateA": "42812.541666666664",
+    "DateB": "42812.729166666664",
+    "DateC": "42805.541666666664",
+    "DateD": "42811.729166666664",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

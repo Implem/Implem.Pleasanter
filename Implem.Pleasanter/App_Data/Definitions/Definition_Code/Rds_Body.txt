@@ -1,0 +1,568 @@
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.ParameterAccessor.Parts;
+using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+namespace Implem.Pleasanter.Libraries.DataSources
+{
+    public static class Rds
+    {
+        public static void ExecuteNonQuery(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            if (statements?.Any() == true)
+            {
+                using (var io = Def.SqlIoByUser(
+                    rdsUser: context.RdsUser(),
+                    connectionString: connectionString,
+                    transactional: transactional,
+                    writeSqlToDebugLog: writeSqlToDebugLog,
+                    statements: statements))
+                {
+                    io.ExecuteNonQuery();
+                    return;
+                }
+            }
+        }
+
+        public static bool ExecuteScalar_bool(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_bool();
+                return returnValue;
+            }
+        }
+
+        public static int ExecuteScalar_int(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_int();
+                return returnValue;
+            }
+        }
+
+        public static long ExecuteScalar_long(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_long();
+                return returnValue;
+            }
+        }
+
+        public static decimal ExecuteScalar_decimal(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_decimal();
+                return returnValue;
+            }
+        }
+
+        public static DateTime ExecuteScalar_datetime(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_datetime();
+                return returnValue;
+            }
+        }
+
+        public static string ExecuteScalar_string(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_string();
+                return returnValue;
+            }
+        }
+
+        public static byte[] ExecuteScalar_bytes(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_bytes();
+                return returnValue;
+            }
+        }
+
+        public static SqlResponse ExecuteScalar_response(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool selectIdentity = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                selectIdentity: selectIdentity,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteScalar_response();
+                return returnValue;
+            }
+        }
+
+        public static DataTable ExecuteTable(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteTable();
+                return returnValue;
+            }
+        }
+
+        public static DataSet ExecuteDataSet(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteDataSet();
+                return returnValue;
+            }
+        }
+
+        public static List<SqlResponse> ExecuteDataSet_responses(
+            Context context,
+            string connectionString = null,
+            bool transactional = false,
+            bool writeSqlToDebugLog = true,
+            params SqlStatement[] statements)
+        {
+            using (var io = Def.SqlIoByUser(
+                rdsUser: context.RdsUser(),
+                connectionString: connectionString,
+                transactional: transactional,
+                writeSqlToDebugLog: writeSqlToDebugLog,
+                statements: statements))
+            {
+                var returnValue = io.ExecuteDataSet_responses();
+                return returnValue;
+            }
+        }
+
+        public static SqlSelect SelectCount(
+            string tableName,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            string dataTableName = "Count",
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null)
+        {
+            return Select(
+                tableName: tableName,
+                tableType: tableType,
+                dataTableName: dataTableName,
+                column: new SqlColumnCollection().Add(
+                    columnBracket: "*",
+                    function: Sqls.Functions.Count),
+                join: join,
+                where: where,
+                param: param);
+        }
+
+        public static SqlStatement RowCount(string dataTableName = null)
+        {
+            return new SqlStatement(
+                commandText: "select '{\"Count\":' + convert(nvarchar(20),@@rowcount) + '}'\n",
+                dataTableName: dataTableName);
+        }
+
+        public static SqlStatement If(string _if)
+        {
+            return new SqlStatement("if (" + _if + ") begin\n");
+        }
+
+        public static SqlStatement End()
+        {
+            return new SqlStatement("end\n");
+        }
+
+        public static SqlStatement Raw(string raw)
+        {
+            return new SqlStatement(raw);
+        }
+        
+        public static int Count(DataSet dataSet)
+        {
+            return dataSet != null && dataSet.Tables.Contains("Count")
+                ? dataSet.Tables["Count"].AsEnumerable().Sum(dataRow => dataRow[0].ToInt())
+                : 0;
+        }
+        
+        public static string DataColumnName(ColumnNameInfo column, string columnName)
+        {
+            return column?.Joined == true
+                ? column.TableAlias + "," + columnName
+                : columnName;
+        }
+        
+        public static string IdColumn(string tableName)
+        {
+            switch (tableName)
+            {
+
+<!--Rds_IdColumnCases-->
+
+                default: return null;
+            }
+        }
+
+        public static string IdColumnBracket(this SiteSettings ss)
+        {
+            return $"\"{ss.ReferenceType}\".\"{IdColumn(ss.ReferenceType)}\"";
+        }
+
+        public static SqlWhereCollection Bool(
+            this SqlWhereCollection where, Column column, bool? value)
+        {
+            return value.HasValue
+                ? where.Add(
+                    tableName: column.TableName(),
+                    name: Strings.NewGuid(),
+                    columnBrackets: new string[] { "\"" + column.Name + "\"" },
+                    value: value)
+                : where.Add(
+                    tableName: column.TableName(),
+                    columnBrackets: new string[] { "\"" + column.Name + "\"" },
+                    _operator: " is null");
+        }
+
+<!--Rds_SqlStatement-->
+
+        public static SqlSelect Select(
+            string tableName,
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            string _as = null,
+            SqlColumnCollection column = null,
+            SqlJoinCollection join = null,
+            SqlWhereCollection where = null,
+            SqlGroupByCollection groupBy = null,
+            SqlHavingCollection having = null,
+            SqlOrderByCollection orderBy = null,
+            SqlParamCollection param = null,
+            bool distinct = false,
+            int top = 0,
+            int offset = 0,
+            int pageSize = 0,
+            Sqls.UnionTypes unionType = Sqls.UnionTypes.None,
+            bool _using = true)
+        {
+            return new SqlSelect
+            {
+                DataTableName = dataTableName,
+                TableType = tableType,
+                TableBracket = "\"" + tableName + "\"",
+                HistoryTableBracket = "\"" + tableName + "_history\"",
+                DeletedTableBracket = "\"" + tableName + "_deleted\"",
+                As = _as,
+                SqlColumnCollection = column,
+                SqlJoinCollection = join,
+                SqlWhereCollection = where,
+                SqlGroupByCollection = groupBy,
+                SqlHavingCollection = having,
+                SqlOrderByCollection = orderBy,
+                SqlParamCollection = param,
+                Distinct = distinct,
+                Top = top,
+                Offset = offset,
+                PageSize = pageSize,
+                UnionType = unionType,
+                Using = _using
+            };
+        }
+
+        public static SqlColumnCollection Add(
+            this SqlColumnCollection self,
+            Context context,
+            Column column,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            bool _using = true)
+        {
+            if (column == null || !_using) return self;
+            self.Add(
+               tableName: column.TableName(),
+               columnBracket: ColumnBracket(column),
+               _as: _as ?? column.ColumnName,
+               function: function);
+            return self;
+        }
+
+        public static SqlColumnCollection ItemTitle(
+            this SqlColumnCollection self,
+            string tableName,
+            string _as = null,
+            bool _using = true)
+        {
+            return _using
+                ? self.Add(
+                    tableName: tableName + "_Items",
+                    columnBracket: "\"Title\"",
+                    columnName: "ItemTitle",
+                    _as: _as ?? "ItemTitle")
+                : self;
+        }
+
+        public static SqlColumnCollection WithItemTitle(
+            this SqlColumnCollection sqlColumn,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column != null)
+            {
+                sqlColumn.Add(column: column);
+                var link = column.SiteSettings.Links
+                    .Where(o => o.SiteId > 0)
+                    .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
+                    .FirstOrDefault(o => o.ColumnName == column.Name);
+                if (link != null)
+                {
+                    var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
+                        ? column.TableAlias + "-"
+                        : string.Empty)
+                            + link.LinkedTableName();
+                    sqlColumn.Add(
+                        columnBracket: "\"Title\"",
+                        tableName: linkedTableName + "_Items",
+                        _as: linkedTableName + ",ItemTitle");
+                }
+            }
+            return sqlColumn;
+        }
+
+        public static SqlGroupByCollection WithItemTitle(
+            this SqlGroupByCollection groupBy,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (column != null)
+            {
+                groupBy.Add(column: column);
+                var link = column.SiteSettings.Links
+                    .Where(o => o.SiteId > 0)
+                    .Where(o => ss.JoinedSsHash.ContainsKey(o.SiteId))
+                    .FirstOrDefault(o => o.ColumnName == column.Name);
+                if (link != null)
+                {
+                    var linkedTableName = (!column.TableAlias.IsNullOrEmpty()
+                        ? column.TableAlias + "-"
+                        : string.Empty)
+                            + link.LinkedTableName();
+                    groupBy.Add(
+                        columnBracket: "\"Title\"",
+                        tableName: linkedTableName + "_Items");
+                }
+            }
+            return groupBy;
+        }
+
+        public static SqlColumnCollection Add(
+            this SqlColumnCollection self,
+            Column column,
+            string _as = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            bool _using = true)
+        {
+            return column != null && _using
+                ? self.Add(
+                   tableName: column.TableName(),
+                   columnBracket: ColumnBracket(column),
+                   _as: _as ?? column.ColumnName,
+                   function: function)
+                : self;
+        }
+
+        public static SqlGroupByCollection Add(
+            this SqlGroupByCollection self,
+            Column column,
+            bool _using = true)
+        {
+            return column != null && _using
+                ? self.Add(
+                   tableName: column.TableName(),
+                   columnBracket: ColumnBracket(column))
+                : self;
+        }
+
+
+        public static string ColumnBracket(Column column)
+        {
+            switch (column.SiteSettings.ReferenceType)
+            {
+
+<!--Rds_ColumnBracketTableCases-->
+
+                default: return null;
+            }
+        }
+
+        public static SqlOrderByCollection Add(
+            this SqlOrderByCollection self,
+            Column column,
+            SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+            string isNullValue = null,
+            Sqls.Functions function = Sqls.Functions.None,
+            bool _using = true)
+        {
+            if (!_using || column == null) return self;
+            switch (column.SiteSettings.ReferenceType)
+            {
+
+<!--Rds_OrderByTableCases-->
+
+                default: return null;
+            }
+        }
+
+<!--Rds_ExtendedSql-->
+<!--Rds_SqlSelect-->
+<!--Rds_SqlExists-->
+<!--Rds_SqlInsert-->
+<!--Rds_SqlUpdate-->
+<!--Rds_SqlUpdateOrInsert-->
+<!--Rds_SqlDelete-->
+<!--Rds_SqlPhysicalDelete-->
+<!--Rds_SqlRestore-->
+<!--Rds_CopyToStatement-->
+<!--Rds_Aggregations-->
+<!--Rds_AggregationTables-->
+<!--Rds_Delete-->
+
+        private static string[] DeleteParams(string tableName)
+        {
+            var extended = ColumnUtilities.ExtendedColumns(tableName: tableName);
+            return new string[]
+            {
+                "{0}",
+                extended.Any()
+                    ? "," + extended
+                        .Select(columnName => $"\"{tableName}_deleted\".\"{columnName}\"")
+                        .Join()
+                    : string.Empty,
+                extended.Any()
+                    ? "," + extended
+                        .Select(columnName => $"\"{tableName}\".\"{columnName}\"")
+                        .Join()
+                    : string.Empty
+            };
+        }
+
+<!--Rds_Restore-->
+<!--Rds_Columns-->
+<!--Rds_Defaults-->
+<!--Rds_TitleColumn-->
+
+    }
+}

@@ -91,7 +91,6 @@
     <Compile Include="Functions\SqlServer\LoginsConfigurator.cs" />
     <Compile Include="Functions\SqlServer\Parts\Tables.cs" />
     <Compile Include="Functions\SqlServer\Spid.cs" />
-    <Compile Include="Functions\Web\Styles\CssCreator.cs" />
     <Compile Include="Functions\SqlServer\Configurator.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\MvcCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,7 +100,6 @@
     <Compile Include="Starter.cs" />
     <Compile Include="Utilities\CodePatterns.cs" />
     <Compile Include="Functions\AspNetMvc\CSharp\Converts.cs" />
-    <Compile Include="Functions\AspNetMvc\CSharp\ReservedWords.cs" />
     <Compile Include="Utilities\DefinitionFiles.cs" />
   </ItemGroup>
   <ItemGroup>

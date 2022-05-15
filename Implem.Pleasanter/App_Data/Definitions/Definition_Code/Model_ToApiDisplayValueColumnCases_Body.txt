@@ -1,0 +1,5 @@
+﻿case "#ColumnName#":
+    return #ColumnName#.ToApiDisplayValue(
+        context: context,
+        ss: ss,
+        column: column);

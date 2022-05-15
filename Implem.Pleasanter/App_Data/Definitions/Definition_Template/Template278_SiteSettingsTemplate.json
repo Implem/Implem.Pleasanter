@@ -1,0 +1,126 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "ClassD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "ClassD",
+        "DateA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "ClassD",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "ClassC",
+        "ClassB",
+        "NumA",
+        "ClassD",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Product classification",
+            "ChoicesText": "Product classification1\nProduct classification2\nProduct classification3\nProduct classification4\nProduct classification5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Store",
+            "ChoicesText": "Store1\nStore2\nStore3\nStore4\nStore5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Survey date"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Competitor",
+            "ChoicesText": "Competitor1\nCompetitor2\nCompetitor3\nCompetitor4\nCompetitor5"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Stock information",
+            "ChoicesText": "Fully\nOnly a few left\nout of stock\nUnknown"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Average",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

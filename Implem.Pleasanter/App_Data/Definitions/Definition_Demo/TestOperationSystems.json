@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestOperationSystems",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "運用管理システムのテスト",
+    "WorkValue": "10",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "テスト",
+    "ClassB": "作業[定型]",
+    "ClassC": "運用",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "StartTime": "36666",
+    "CompletionTime": "36667",
+    "CreatedTime": "36642.460416666669",
+    "UpdatedTime": "36640.460416666669"
+}

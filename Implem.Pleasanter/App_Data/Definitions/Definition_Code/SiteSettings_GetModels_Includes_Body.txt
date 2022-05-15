@@ -1,0 +1,14 @@
+﻿public static SiteSettings #TableName#SiteSettings(
+    this SiteModel siteModel, Context context)
+{
+    var ss = new SiteSettings();
+    ss.ReferenceType = "#TableName#";
+    ss.SiteId = siteModel.SiteId;
+    ss.InheritPermission = siteModel.InheritPermission;
+    ss.ParentId = siteModel.ParentId;
+    ss.Title = siteModel.Title.Value;
+    ss.Body = siteModel.Body;
+    ss.AccessStatus = siteModel.AccessStatus;
+    ss.Init(context: context);
+    return ss;
+}

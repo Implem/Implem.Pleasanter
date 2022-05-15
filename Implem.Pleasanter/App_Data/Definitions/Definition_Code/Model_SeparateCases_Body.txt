@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.Separate(
+        context: context,
+        ss: Site.SiteSettings,
+        #modelName#Id: ReferenceId);

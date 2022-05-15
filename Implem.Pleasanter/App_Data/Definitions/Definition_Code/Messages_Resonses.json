@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Messages_Resonses",
+    "RepeatType": "Display",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "DisplayType": "Success,Information,Warning,Error"
+}

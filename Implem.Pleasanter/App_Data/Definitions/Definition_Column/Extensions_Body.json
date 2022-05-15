@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Extensions_Body",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "Body",
+    "LabelText": "内容",
+    "No": "104",
+    "History": "104",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Body",
+    "LabelText_zh": "主体",
+    "LabelText_de": "Text",
+    "LabelText_ko": "본문",
+    "LabelText_es": "Cuerpo",
+    "LabelText_vn": "Nội dung"
+}

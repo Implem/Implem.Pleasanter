@@ -1,0 +1,157 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassC",
+        "Owner",
+        "ClassD",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "ClassC",
+        "Owner",
+        "DescriptionA",
+        "CompletionTime",
+        "Status",
+        "ClassD",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassC",
+        "Owner",
+        "ClassD",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Subject",
+            "Section": "Request information"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Contents of request"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Answer contents",
+            "Section": "Answer information"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Urgency",
+            "ChoicesText": "High\nMedium\nLow"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Request type",
+            "ChoicesText": "I want to borrow hands \nI want to borrow inventory / materials \nI would like to borrow facilities\nOther"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Requested date and time",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Answer date and time",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Requester"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Respondent"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Not started,yet,status-new\n900,Answer,Times,status-closed\n910,Pending,status-rejected"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Requester.store",
+            "ChoicesText": "Store1\nStore2\nStore3\nStore4\nStore5"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Respondent.Store",
+            "ChoicesText": "Store1\nStore2\nStore3\nStore4\nStore5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabAggregateType": "Count",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

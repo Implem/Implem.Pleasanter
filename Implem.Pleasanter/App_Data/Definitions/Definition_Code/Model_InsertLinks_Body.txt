@@ -1,0 +1,18 @@
+﻿private SqlInsert InsertLinks(Context context, SiteSettings ss, bool setIdentity = false)
+{
+    var link = ss.Links
+        ?.Where(o => o.SiteId > 0)
+        .Where(o => ss.Destinations.ContainsKey(o.SiteId))
+        .Select(o => ss.GetColumn(
+            context: context,
+            columnName: o.ColumnName))
+        .Where(o => o != null)
+        .SelectMany(column => column.MultipleSelections == true
+            ? GetClass(column).Deserialize<List<long>>()
+                ?? new List<long>()
+            : GetClass(column).ToLong().ToSingleList())
+        .Where(id => id > 0)
+        .Distinct()
+        .ToDictionary(id => id, id => #ModelName#Id);
+    return LinkUtilities.Insert(link, setIdentity);
+}

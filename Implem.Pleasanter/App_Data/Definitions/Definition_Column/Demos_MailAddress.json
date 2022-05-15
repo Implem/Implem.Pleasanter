@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Demos_MailAddress",
+    "ModelName": "Demo",
+    "TableName": "Demos",
+    "Label": "デモ",
+    "ColumnName": "MailAddress",
+    "LabelText": "メールアドレス",
+    "No": "105",
+    "History": "105",
+    "LinkColumn": "105",
+    "HistoryColumn": "105",
+    "TypeName": "nvarchar",
+    "MaxLength": "2048",
+    "Required": "1",
+    "LabelText_en": "Email address",
+    "LabelText_zh": "电子邮箱地址",
+    "LabelText_de": "E-Mail-Adresse",
+    "LabelText_ko": "이메일 주소",
+    "LabelText_es": "Dirección de correo electrónico",
+    "LabelText_vn": "Địa chỉ email"
+}

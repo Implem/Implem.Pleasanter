@@ -1,0 +1,21 @@
+﻿{
+    "Id": "OutgoingMails_Port",
+    "ModelName": "OutgoingMail",
+    "TableName": "OutgoingMails",
+    "Label": "メール送信",
+    "ColumnName": "Port",
+    "LabelText": "ポート",
+    "No": "102",
+    "History": "102",
+    "LinkColumn": "102",
+    "HistoryColumn": "102",
+    "TypeName": "int",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Port",
+    "LabelText_zh": "端口",
+    "LabelText_de": "Port",
+    "LabelText_ko": "포트",
+    "LabelText_es": "Puerto",
+    "LabelText_vn": "Cổng"
+}

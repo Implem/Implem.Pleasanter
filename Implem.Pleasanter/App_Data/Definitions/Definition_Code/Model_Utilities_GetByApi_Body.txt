@@ -1,0 +1,165 @@
+﻿public static ContentResultInheritance GetByApi(
+    Context context,
+    SiteSettings ss,
+    long #modelName#Id,
+    bool internalRequest)
+{
+    if (!Mime.ValidateOnApi(contentType: context.ContentType))
+    {
+        return ApiResults.BadRequest(context: context);
+    }
+    var invalid = #ModelName#Validators.OnEntry(
+        context: context,
+        ss: ss,
+        api: !internalRequest);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return ApiResults.Error(
+            context: context,
+            errorData: invalid);
+    }
+    var api = context.RequestDataString.Deserialize<Api>();
+    if (api == null && !context.RequestDataString.IsNullOrEmpty())
+    {
+        return ApiResults.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+    }
+    var view = api?.View ?? new View();
+    var pageSize = Parameters.Api.PageSize;
+    var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+    if (#modelName#Id > 0)
+    {
+        if (view.ColumnFilterHash == null)
+        {
+            view.ColumnFilterHash = new Dictionary<string, string>();
+        }
+        view.ColumnFilterHash.Add("#ModelName#Id", #modelName#Id.ToString());
+    }
+    view.MergeSession(sessionView: Views.GetBySession(
+        context: context,
+        ss: ss));
+    switch (view.ApiDataType)
+    {
+        case View.ApiDataTypes.KeyValues:
+            var gridData = new GridData(
+                context: context,
+                ss: ss,
+                view: view,
+                tableType: tableType,
+                offset: api?.Offset ?? 0,
+                pageSize: pageSize);
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                response: new
+                {
+                    Offset = api?.Offset ?? 0,
+                    PageSize = pageSize,
+                    TotalCount = gridData.TotalCount,
+                    Data = gridData.KeyValues(
+                        context: context,
+                        ss: ss,
+                        view: view)
+                });
+        default:
+            var #modelName#Collection = new #ModelName#Collection(
+                context: context,
+                ss: ss,
+                join: Rds.ItemsJoin().Add(new SqlJoin(
+                    tableBracket: "\"Items\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"#TableName#\".\"#ModelName#Id\"=\"#TableName#_Items\".\"ReferenceId\"",
+                    _as: "#TableName#_Items")),
+                where: view.Where(
+                    context: context,
+                    ss: ss),
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss),
+                offset: api?.Offset ?? 0,
+                pageSize: pageSize,
+                tableType: tableType);
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                response: new
+                {
+                    Offset = api?.Offset ?? 0,
+                    PageSize = pageSize,
+                    #modelName#Collection.TotalCount,
+                    Data = #modelName#Collection.Select(o => o.GetByApi(
+                        context: context,
+                        ss: ss))
+                });
+    }
+}
+
+public static #ModelName#Model[] GetByServerScript(
+    Context context,
+    SiteSettings ss,
+    bool internalRequest)
+{
+    var invalid = #ModelName#Validators.OnEntry(
+        context: context,
+        ss: ss,
+        api: !internalRequest);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return null;
+    }
+    var api = context.RequestDataString.Deserialize<Api>();
+    var view = api?.View ?? new View();
+    var pageSize = Parameters.Api.PageSize;
+    var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+    var #modelName#Collection = new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        join: Rds.ItemsJoin().Add(new SqlJoin(
+            tableBracket: "\"Items\"",
+            joinType: SqlJoin.JoinTypes.Inner,
+            joinExpression: "\"#TableName#\".\"#ModelName#Id\"=\"#TableName#_Items\".\"ReferenceId\"",
+            _as: "#TableName#_Items")),
+        where: view.Where(context: context, ss: ss),
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss),
+        offset: api?.Offset ?? 0,
+        pageSize: pageSize,
+        tableType: tableType);
+    return #modelName#Collection.ToArray();
+}
+
+public static #ModelName#Model GetByServerScript(
+    Context context,
+    SiteSettings ss,
+    long #modelName#Id,
+    bool internalRequest)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: #modelName#Id,
+        methodType: BaseModel.MethodTypes.Edit);
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return null;
+    }
+    var invalid = #ModelName#Validators.OnEditing(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: !internalRequest);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return null;
+    }
+    return #modelName#Model;
+}

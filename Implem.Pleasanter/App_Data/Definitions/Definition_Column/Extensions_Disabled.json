@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Extensions_Disabled",
+    "ModelName": "Extension",
+    "TableName": "Extensions",
+    "Label": "拡張機能",
+    "ColumnName": "Disabled",
+    "LabelText": "無効",
+    "No": "106",
+    "History": "106",
+    "TypeName": "bit",
+    "Default": "0",
+    "LabelText_en": "Disabled",
+    "LabelText_zh": "已禁用",
+    "LabelText_de": "Deaktiviert",
+    "LabelText_ko": "비활성화됨",
+    "LabelText_es": "Desactivado",
+    "LabelText_vn": "Vô hiệu hóa"
+}

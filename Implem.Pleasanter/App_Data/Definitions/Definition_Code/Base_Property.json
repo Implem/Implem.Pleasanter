@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Base_Property",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Exclude": "SiteSettings"
+}

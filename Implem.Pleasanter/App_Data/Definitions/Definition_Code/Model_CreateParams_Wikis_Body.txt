@@ -1,0 +1,3 @@
+﻿Process process = null,
+bool extendedSqls = true,
+bool notice = false,

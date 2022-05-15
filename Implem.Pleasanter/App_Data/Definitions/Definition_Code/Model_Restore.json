@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_Restore",
+    "Indent": "2",
+    "HasTableNameId": "1",
+    "Exclude": "Items,SysLogs"
+}

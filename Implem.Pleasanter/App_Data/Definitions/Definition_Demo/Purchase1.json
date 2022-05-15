@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase1",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "内部工数",
+    "ClassA": "#Opportunity1#",
+    "NumA": "1100000",
+    "Manager": "User9",
+    "Owner": "User9",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

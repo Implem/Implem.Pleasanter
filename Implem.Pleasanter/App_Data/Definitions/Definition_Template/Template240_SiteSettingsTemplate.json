@@ -1,0 +1,146 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "Owner",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "DescriptionA",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Business_meeting_title"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Business_meeting_desctription"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Customer_name",
+            "ChoicesText": "Customer1\nCustomer2\nCustomer3\nCustomer4\nCustomer5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Start"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "End"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Budget_price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Lost_phase",
+            "ChoicesText": "100,Inquiry,Inquiry,status-new\n150,Proposal,Proposal,status-preparation\n200,Negotiation,Negotiation,status-inprogress\n300,Contraction,Contraction,status-review"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Lost_reason",
+            "ChoicesText": "Merchandise/Service\nPrice\nDelivery\nQuality\nProposal\nActual_record\nHuman_relation\nOther"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Details_of_lost_reason"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Feedback"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassB",
+            "TimeSeriesGroupBy": "ClassC"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

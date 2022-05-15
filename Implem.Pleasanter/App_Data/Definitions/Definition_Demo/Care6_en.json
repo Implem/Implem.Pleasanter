@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care6_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site30_en",
+    "Title": "Mistake medicine for morning and evening",
+    "Status": "900",
+    "ClassA": "Haruka Sasaki",
+    "ClassB": "Aspiration",
+    "ClassD": "Personal room",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "Staff exactly check medicine case in food delivery.",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

@@ -1,0 +1,20 @@
+﻿namespace Implem.Pleasanter.Libraries.Settings
+{
+    public class Column
+    {
+        private void SelectColumns(
+            SqlColumnCollection sql,
+            string tableName,
+            string columnName,
+            string path,
+            string _as)
+        {
+            switch (tableName)
+            {
+
+<!--Column_TableCases-->
+
+            }
+        }
+    }
+}

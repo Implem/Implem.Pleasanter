@@ -1,0 +1,216 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumE",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "NumE",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "事業名",
+            "ChoicesText": "事業1\n事業2\n事業3\n事業4\n事業5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "製品(内容)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "価格(内容)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "流通(内容)"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "総括"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "製品(評価)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "価格(評価)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "流通(評価)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "プロモーション(評価)",
+            "ControlType": "Spinner",
+            "Max": 10.0
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "プロモーション(内容)"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "評価合計",
+            "EditorReadOnly": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumA",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumD",
+                                "OperatorType": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassB": 0,
+                "ClassA": 0
+            },
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumE",
+            "KambanGroupByX": "ClassB",
+            "KambanGroupByY": "ClassA",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "EnableCalendar": false,
+    "TitleSeparator": ")"
+}

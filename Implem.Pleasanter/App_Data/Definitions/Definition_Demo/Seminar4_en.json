@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Seminar4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site25_en",
+    "Title": "9th Cloud workshop",
+    "Status": "100",
+    "ClassA": "Shinjuku-ku, Tokyo",
+    "NumA": "5",
+    "NumB": "4",
+    "NumC": "0",
+    "DateA": "42819.541666666664",
+    "DateB": "42819.729166666664",
+    "DateC": "42811.729166666664",
+    "DateD": "42818.729166666664",
+    "Manager": "User4_en",
+    "Owner": "User4_en",
+    "Creator": "User4_en",
+    "Updator": "User4_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

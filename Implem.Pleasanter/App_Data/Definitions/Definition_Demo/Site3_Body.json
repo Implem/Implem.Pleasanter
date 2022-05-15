@@ -1,0 +1,73 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Ver",
+            "Title",
+            "Body",
+            "StartTime",
+            "CompletionTime",
+            "WorkValue",
+            "ProgressRate",
+            "RemainingWorkValue",
+            "Status",
+            "Manager",
+            "Owner",
+            "ClassA",
+            "ClassB",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "WBS",
+            "ChoicesText": "[[#Site2#]]",
+            "Link": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "区分",
+            "ChoicesText": "ハードウェア\nソフトウェア\nその他"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Links": [
+        {
+            "ColumnName": "ClassA",
+            "SiteId": "#Site2#"
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

@@ -1,0 +1,98 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "Manager",
+        "Owner",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "ClassC",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB",
+        "Title"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Work_process",
+            "ChoicesText": "Working_process1\nWorking_process2\nWorking_process3\nWorking_process4\nWorking_process5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Working_contents",
+            "ChoicesText": "Working_contents1\nWorking_contents2\nWorking_contents3\nWorking_contents4\nWorking_contents5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Team",
+            "ChoicesText": "Team1\nTeam2\nTeam3\nTeam4\nTeam5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "WorkValue"
+        },
+        {
+            "Id": 5,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassC",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassC"
+        }
+    ],
+    "TitleSeparator": "）"
+}

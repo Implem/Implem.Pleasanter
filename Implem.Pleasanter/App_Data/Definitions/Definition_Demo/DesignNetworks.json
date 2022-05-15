@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignNetworks",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "ネットワークのデザインシート作成",
+    "WorkValue": "11",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "設計",
+    "ClassB": "ドキュメント作成",
+    "ClassC": "ネットワーク・セキュリティ",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "StartTime": "36650",
+    "CompletionTime": "36651",
+    "CreatedTime": "36640.445138888892",
+    "UpdatedTime": "36653.868750000001"
+}

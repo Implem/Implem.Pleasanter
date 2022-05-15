@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Rds_Columns_ConstSqlWhereLike",
+    "RepeatType": "Join",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "Like": "1",
+    "NotCalc": "1",
+    "Select": "1",
+    "Update": "1"
+}

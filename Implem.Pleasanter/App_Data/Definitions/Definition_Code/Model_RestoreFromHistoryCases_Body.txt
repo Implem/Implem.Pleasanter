@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.RestoreFromHistory(
+        context: context,
+        ss: Site.SiteSettings,
+        #modelName#Id: ReferenceId);

@@ -631,6 +631,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "Log",
                         value: (new { Log = context.GetLog() }).ToJson())
                     .Hidden(
+                        controlId: "AnchorTargetBlank",
+                        value: "1",
+                        _using: Parameters.General.AnchorTargetBlank)
+                    .Hidden(
                         controlId: "data-validation-maxlength-type", 
                         value: Parameters.Validation.MaxLengthCountType)
                     .Hidden(

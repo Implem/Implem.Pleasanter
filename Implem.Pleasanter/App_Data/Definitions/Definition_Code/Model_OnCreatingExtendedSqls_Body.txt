@@ -1,0 +1,6 @@
+﻿if (extendedSqls)
+{
+    statements.OnCreatingExtendedSqls(
+        context: context,
+        siteId: SiteId);
+}

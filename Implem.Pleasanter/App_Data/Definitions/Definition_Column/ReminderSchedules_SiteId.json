@@ -1,0 +1,19 @@
+﻿{
+    "Id": "ReminderSchedules_SiteId",
+    "ModelName": "ReminderSchedule",
+    "TableName": "ReminderSchedules",
+    "Label": "リマインダースケジュール",
+    "ColumnName": "SiteId",
+    "LabelText": "サイトID",
+    "No": "1",
+    "History": "1",
+    "TypeName": "bigint",
+    "Pk": "1",
+    "Ix1": "2",
+    "LabelText_en": "Site ID",
+    "LabelText_zh": "站点ID",
+    "LabelText_de": "Site-ID",
+    "LabelText_ko": "사이트 ID",
+    "LabelText_es": "ID del sitio",
+    "LabelText_vn": "ID Trang web"
+}

@@ -1,0 +1,8 @@
+﻿#modelName#Model.SetByForm(
+    context: context,
+    formData: context.Forms);
+#modelName#Model.SiteSettings = SiteSettingsUtilities.Get(
+    context: context,
+    #modelName#Model: #modelName#Model,
+    referenceId: siteId);
+var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);

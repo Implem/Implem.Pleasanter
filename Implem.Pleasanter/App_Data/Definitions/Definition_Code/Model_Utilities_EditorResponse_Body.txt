@@ -1,0 +1,23 @@
+﻿private static ResponseCollection EditorResponse(
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+
+    #ModelName#Model #modelName#Model,
+    Message message = null,
+    string switchTargets = null)
+{
+    #modelName#Model.MethodType = #modelName#Model.#ModelName#Id == 0
+        ? BaseModel.MethodTypes.New
+        : BaseModel.MethodTypes.Edit;
+    return new #TableName#ResponseCollection(#modelName#Model)
+        .Invoke("clearDialogs")
+        .ReplaceAll("#MainContainer", Editor(context, <!--Model_SiteSettings-->#modelName#Model))
+        .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+        .SetMemory("formChanged", false)
+        .Invoke("setCurrentIndex")
+        .Message(message)
+        .Messages(context.Messages)
+        .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
+        .Log(context.GetLog());
+}

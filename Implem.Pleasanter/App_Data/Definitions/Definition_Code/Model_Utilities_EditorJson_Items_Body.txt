@@ -1,0 +1,42 @@
+﻿public static string EditorJson(Context context, <!--Model_SiteSettingsParameterAndBlank-->#IdType# #modelName#Id)
+{
+    #ModelName#Model #modelName#Model = null;
+    var copyFrom = context.Forms.Long("CopyFrom");
+    if (ss.AllowReferenceCopy == true && copyFrom > 0)
+    {
+        #modelName#Model = new #ModelName#Model(
+            context: context,
+            ss: ss,
+            #modelName#Id: copyFrom,
+            methodType: BaseModel.MethodTypes.New);
+        if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected
+            && Permissions.CanRead(
+                context: context,
+                siteId: ss.SiteId,
+                id: #modelName#Model.#ModelName#Id))
+        {
+            #modelName#Model.SetCopyDefault(
+                context: context,
+                ss: ss);
+            #modelName#Model.SetByForm(
+                context: context,
+                ss: ss,
+                formData: context.Forms);
+            #modelName#Model.SetByLookups(
+                context: context,
+                ss: ss,
+                requestFormData: context.Forms);
+            #modelName#Model.#ModelName#Id = 0;
+            #modelName#Model.Ver = 1;
+            #modelName#Model.Comments = new Comments();
+            #modelName#Model.AccessStatus = Databases.AccessStatuses.Initialized;
+        }
+        else
+        {
+            return Messages.ResponseNotFound(context: context).ToJson();
+        }
+    }
+    return EditorResponse(context, ss, #modelName#Model ?? new #ModelName#Model(
+        context, <!--Model_SiteSettings-->#modelName#Id<!--Model_Utilities_InitSiteSettings-->,
+        formData: context.Forms)).ToJson();
+}

@@ -114,9 +114,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string OnSelectingOrderBy;
         [NonSerialized]
         public Dictionary<string, string> ColumnPlaceholders;
-        // compatibility Version 1.008
         public string KambanGroupBy;
-        // compatibility Version 1.012
         public string CalendarColumn;
         public bool? ShowHistory;
         public bool? MergeSessionViewFilters;

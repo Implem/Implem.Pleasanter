@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster8_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Keiko Kobayashi ",
+    "ClassB": "Keiko Kobayashi ",
+    "ClassC": "400-0604",
+    "ClassD": "Kajikazawa-town, Minamikuma-gun",
+    "ClassE": "198-320-310",
+    "ClassF": "kobayashi@example.com",
+    "ClassG": "Yamanashi",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

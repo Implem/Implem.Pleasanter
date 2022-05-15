@@ -1,0 +1,1 @@
+﻿set identity_insert ""#TableName#"" off; 

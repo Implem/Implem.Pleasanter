@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_Elapsed",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "Elapsed",
+    "LabelText": "経過時間",
+    "No": "115",
+    "History": "115",
+    "EditorColumn": "115",
+    "EditorEnabled": "1",
+    "LinkColumn": "115",
+    "HistoryColumn": "115",
+    "TypeName": "float",
+    "Nullable": "1",
+    "LabelText_en": "Elapsed time",
+    "LabelText_zh": "耗时",
+    "LabelText_de": "Verstrichene Zeit",
+    "LabelText_ko": "경과 시간",
+    "LabelText_es": "Tiempo transcurrido",
+    "LabelText_vn": "Thời gian chạy"
+}

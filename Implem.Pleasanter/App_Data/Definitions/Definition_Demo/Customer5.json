@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Customer5",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site6",
+    "Title": "情報共有イノベーション研究所",
+    "ClassA": "東京都新宿区",
+    "ClassB": "333-333-333",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

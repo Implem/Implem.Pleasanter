@@ -1,0 +1,114 @@
+﻿private static ResponseCollection EditorResponse(
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+
+    #ModelName#Model #modelName#Model,
+    Message message = null,
+    string switchTargets = null)
+{
+    #modelName#Model.MethodType = #modelName#Model.#ModelName#Id == 0
+        ? BaseModel.MethodTypes.New
+        : BaseModel.MethodTypes.Edit;
+    var editInDialog = context.Forms.Bool("EditInDialog");
+    return context.QueryStrings.Bool("control-auto-postback")
+        ? EditorFields(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model)
+        : editInDialog
+            ? new #TableName#ResponseCollection(#modelName#Model)
+                .Response("id", #modelName#Model.#ModelName#Id.ToString())
+                .Html("#EditInDialogBody", Editor(
+                    context: context,
+                    ss: ss,
+                    #modelName#Model: #modelName#Model,
+                    editInDialog: editInDialog))
+                .Invoke("openEditorDialog")
+                .Messages(context.Messages)
+                .Events("on_editor_load")
+                .Log(context.GetLog())
+            : new #TableName#ResponseCollection(#modelName#Model)
+                .Response("id", #modelName#Model.#ModelName#Id.ToString())
+                .Invoke("clearDialogs")
+                .ReplaceAll("#MainContainer", Editor(context, <!--Model_SiteSettings-->#modelName#Model))
+                .Val("#Id", #modelName#Model.#ModelName#Id.ToString())
+                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                .SetMemory("formChanged", false)
+                .Invoke("setCurrentIndex")
+                .Invoke("initRelatingColumnEditor")
+                .Message(message)
+                .Messages(context.Messages)
+                .ClearFormData()
+                .Events("on_editor_load")
+                .Log(context.GetLog());
+}
+
+private static ResponseCollection EditorFields(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    var invalid = #ModelName#Validators.OnEditing(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return new ResponseCollection()
+                .Message(invalid.Message(context: context))
+                .Messages(context.Messages);
+    }
+    var serverScriptModelRow = #modelName#Model.SetByBeforeOpeningPageServerScript(
+        context: context,
+        ss: ss);
+    var ret = new ResponseCollection()
+        .FieldResponse(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model)
+        .ReplaceAll(
+            "#MainCommandsContainer",
+            new HtmlBuilder().EditorMainCommands(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model,
+                serverScriptModelRow: serverScriptModelRow),
+            _using: ss.SwitchCommandButtonsAutoPostBack == true)
+        .Messages(context.Messages)
+        .Log(context.GetLog());
+    return ret;
+}
+
+private static HtmlBuilder EditorMainCommands(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    ServerScriptModelRow serverScriptModelRow)
+{
+
+<!--Model_Utilities_SetProcessMatchConditions-->
+
+    return hb.MainCommands(
+        context: context,
+        ss: ss,
+        verType: #modelName#Model.VerType,
+        readOnly: #modelName#Model.ReadOnly,
+        updateButton: true,
+        copyButton: true,
+        moveButton: true,
+        mailButton: true,
+        deleteButton: true,
+        serverScriptModelRow: serverScriptModelRow,
+        extensions: () => hb
+            .MainCommandExtensions(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model)
+            .ProcessCommands(
+                context: context,
+                ss: ss));
+}

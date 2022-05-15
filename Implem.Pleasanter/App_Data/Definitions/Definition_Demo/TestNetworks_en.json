@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestNetworks_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Network test",
+    "WorkValue": "12",
+    "ProgressRate": "22",
+    "Status": "200",
+    "ClassA": "Test",
+    "ClassB": "Work[Routine]",
+    "ClassC": "Network/Security",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "StartTime": "36657",
+    "CompletionTime": "36658",
+    "CreatedTime": "36642.752083333333",
+    "UpdatedTime": "36640.752083333333"
+}

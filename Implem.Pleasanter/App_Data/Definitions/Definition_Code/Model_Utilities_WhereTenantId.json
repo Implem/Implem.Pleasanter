@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_Utilities_WhereTenantId",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Include": "TenantId"
+}

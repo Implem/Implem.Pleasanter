@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Task2",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site35",
+    "Title": "[監視対象追加]情報共有イノベーション研究所",
+    "Status": "100",
+    "ClassA": "作業種別2",
+    "Manager": "User8",
+    "Owner": "User13",
+    "Creator": "User8",
+    "Updator": "User8",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

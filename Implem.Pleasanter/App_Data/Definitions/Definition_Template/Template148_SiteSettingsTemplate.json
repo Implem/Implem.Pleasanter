@@ -1,0 +1,114 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassA",
+        "ClassC",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "Status",
+        "TitleBody",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassC",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "Status",
+        "ClassD",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassE"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "ClassC",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "Status",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未確認,未,status-new\n900,確認済み,済,status-closed"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "発信者"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "受信者"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "宛先"
+        },
+        {
+            "ColumnName": "ClassE",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "緊急度",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "受信時間",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "伝言内容"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "伝言要旨",
+            "ChoicesText": "折り返し電話をおねがいします\n電話があったことをお伝えください\nまた電話します\nメールを送りますのでご確認ください\n伝言をおねがいします",
+            "FieldCss": "field-wide"
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableCalendar": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,4 @@
+﻿if (#modelName#Model.RecordPermissions != null && !context.CanManagePermission(ss: ss))
+{
+    return new ErrorData(type: Error.Types.HasNotPermission);
+}

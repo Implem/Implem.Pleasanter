@@ -1,0 +1,56 @@
+﻿case "#TableName#":
+    var #modelName#Model = new #ModelName#Model(
+        context: context, ss: ss, dataRow: dataRow);
+    ss.IncludedColumns(line).ForEach(column =>
+    {
+        switch (column.ColumnName)
+        {
+            case "Title":
+                line = line.Replace("[Title]", dataRow.String("ItemTitle"));
+                break;
+
+<!--Reminder_ColumnCases-->
+
+            default:
+                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                {
+                    case "Class":
+                        line = line.Replace(
+                            $"[{column.Name}]",
+                            #modelName#Model.GetClass(column: column).ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Num":
+                        line = line.Replace(
+                            $"[{column.Name}]",
+                            #modelName#Model.GetNum(column: column).ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Date":
+                        line = line.Replace(
+                            $"[{column.Name}]",
+                            #modelName#Model.GetDate(column: column).ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Description":
+                        line = line.Replace(
+                            $"[{column.Name}]",
+                            #modelName#Model.GetDescription(column: column).ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Check":
+                        line = line.Replace(
+                            $"[{column.Name}]",
+                            #modelName#Model.GetCheck(column: column).ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                }
+                break;
+        }
+    });
+    break;

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Rds_AggregationGroupByCases",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "Aggregatable": "1"
+}

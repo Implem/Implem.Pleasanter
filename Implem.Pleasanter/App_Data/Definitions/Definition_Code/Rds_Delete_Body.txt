@@ -1,0 +1,23 @@
+﻿public static string Delete#TableName#Statement()
+{
+    return @"
+        update ""#TableName#""
+        set
+            ""Updator"" = @_U,
+            ""UpdatedTime"" = getdate() {0};
+        insert into ""#TableName#_deleted""
+        (
+
+<!--Rds_Delete_DeletedColumns-->
+
+            {1}
+        )
+        (
+        select
+
+<!--Rds_Delete_Columns--> 
+
+            {2}
+        from ""#TableName#"" {0});
+        delete from ""#TableName#"" {0}".Params(DeleteParams(tableName: "#TableName#"));
+}

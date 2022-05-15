@@ -1,0 +1,20 @@
+﻿{
+    "Id": "LoginKeys_LoginId",
+    "ModelName": "LoginKey",
+    "TableName": "LoginKeys",
+    "Label": "ログインキー",
+    "ColumnName": "LoginId",
+    "LabelText": "ログインID",
+    "No": "1",
+    "History": "1",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Pk": "1",
+    "Required": "1",
+    "LabelText_en": "Login ID",
+    "LabelText_zh": "登录ID",
+    "LabelText_de": "Anmelde-ID",
+    "LabelText_ko": "로그인 ID",
+    "LabelText_es": "Ingresar identificación",
+    "LabelText_vn": "ID Đăng nhập"
+}

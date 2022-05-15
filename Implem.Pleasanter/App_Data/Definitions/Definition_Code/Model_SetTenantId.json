@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_SetTenantId",
+    "RepeatType": "Column",
+    "Indent": "3",
+    "Include": "TenantId"
+}

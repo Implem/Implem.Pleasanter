@@ -1,0 +1,96 @@
+﻿public string FullText(
+    Context context,
+    SiteSettings ss,
+    bool backgroundTask = false,
+    bool onCreating = false)
+{
+    if (!Parameters.Search.CreateIndexes && !backgroundTask) return null;
+    if (AccessStatus == Databases.AccessStatuses.NotFound) return null;
+
+<!--Model_FullText_Sites_Wikis-->
+
+    var fullText = new System.Text.StringBuilder();
+    if (ss.FullTextIncludeBreadcrumb == true)
+    {
+        SiteInfo.TenantCaches
+            .Get(context.TenantId)?
+            .SiteMenu.Breadcrumb(
+                context: context,
+                siteId: SiteId)
+            .FullText(
+                context: context,
+                fullText: fullText);
+    }
+    if (ss.FullTextIncludeSiteId == true)
+    {
+        fullText.Append($" {ss.SiteId}");
+    }
+    if (ss.FullTextIncludeSiteTitle == true)
+    {
+        fullText.Append($" {ss.Title}");
+    }
+    ss.GetEditorColumnNames(
+        context: context,
+        columnOnly: true)
+            .Select(columnName => ss.GetColumn(
+                context: context,
+                columnName: columnName))
+            .ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+
+<!--Model_FullTextColumnCases-->
+
+                    default:
+                        BaseFullText(
+                            context: context,
+                            column: column,
+                            fullText: fullText);
+                        break;
+                }
+            });
+    Creator.FullText(
+        context,
+        column: ss.GetColumn(
+            context: context,
+            columnName: "Creator"),
+        fullText);
+    Updator.FullText(
+        context,
+        column: ss.GetColumn(
+            context: context,
+            columnName: "Updator"),
+        fullText);
+    CreatedTime.FullText(
+        context,
+        column: ss.GetColumn(
+            context: context,
+            columnName: "CreatedTime"),
+        fullText);
+    UpdatedTime.FullText(
+        context,
+        column: ss.GetColumn(
+            context: context,
+            columnName: "UpdatedTime"),
+        fullText);
+    if (!onCreating)
+    {
+        FullTextExtensions.OutgoingMailsFullText(
+            context: context,
+            ss: ss,
+            fullText: fullText,
+            referenceType: "#TableName#",
+            referenceId: #ModelName#Id);
+    }
+    return fullText
+        .ToString()
+        .Replace("　", " ")
+        .Replace("\r", " ")
+        .Replace("\n", " ")
+        .Split(' ')
+        .Select(o => o.Trim())
+        .Where(o => o != string.Empty)
+        .Distinct()
+        .Join(" ");
+}

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "SiteSettings_GetModels_Items",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "ItemOnly": "1"
+}

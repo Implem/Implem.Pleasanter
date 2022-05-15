@@ -1,0 +1,7 @@
+﻿if (extendedSqls)
+{
+    statements.OnUpdatedExtendedSqls(
+        context: context,
+        siteId: SiteId,
+        id: #ModelName#Id);
+}

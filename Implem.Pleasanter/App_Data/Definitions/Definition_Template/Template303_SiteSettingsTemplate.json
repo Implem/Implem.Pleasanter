@@ -1,0 +1,134 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "DateA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Target_month",
+            "ChoicesText": "2017/04\n2017/05\n2017/06\n2017年/07\n2017/08\n2017/09\n2017/10\n2017/11\n2017/12\n2018/01\n2018/02\n2018/03",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Check date",
+            "DefaultInput": "0",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "CheckA",
+            "LabelText": "Presence of employee ID card"
+        },
+        {
+            "ColumnName": "CheckB",
+            "LabelText": "Presence of customer deposit card"
+        },
+        {
+            "ColumnName": "CheckC",
+            "LabelText": "Presence of mobile phone supply"
+        },
+        {
+            "ColumnName": "CheckD",
+            "LabelText": "PC security measures"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Name",
+            "ChoicesText": "Name1\nName2\nName3\nName4\nName5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

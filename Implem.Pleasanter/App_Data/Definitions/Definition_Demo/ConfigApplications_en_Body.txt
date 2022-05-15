@@ -1,0 +1,5 @@
+﻿Configure business application
+・Configure database
+・Configure business application
+・Update a resource
+・Update a configured file

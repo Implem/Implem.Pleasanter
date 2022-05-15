@@ -1,0 +1,1336 @@
+﻿1, Mizuho 
+5, Mitsubishi Tokyo
+9, Sumitomo Mitsui
+10, Resona 
+17, Saitama Resona
+33, Japan net
+34, Seven 
+35, Sony 
+36, Rakuten 
+38, Shumishin SBI
+39, Jibun 
+40, Ion 
+41, Yamato Next
+116, Hokkaido 
+117, Aomori 
+118, Michinoku 
+119, Akita 
+120, North Town
+121, Shounai 
+122, Yamagata 
+123, Iwate 
+124, Tohoku 
+125, 77 
+126, TOHO 
+128, Gumma 
+129, Ashikaga 
+130, Joyo 
+131, Tsukuba 
+133, Musashino 
+134, Chiba 
+135, Chiba Kogyo
+137, Tokyo citizen
+138, Yokohama 
+140, The fourth
+141, Hokuetsu 
+142, Yamanashi Chuo
+143, 82 
+144, Hokuriku 
+145, Toyama 
+146, North Korea
+147, Fukui 
+149, Shizuoka 
+150, SURGA 
+151, Shimizu 
+152, Ogaki Kyoritsu
+153, 16 
+154, Mie 
+155, 155 
+157, Shiga 
+158, Kyoto 
+159, Kinki Osaka
+161, Ikeda Quanzhou
+162, Nambu 
+163, Nyayo 
+164, Tajima 
+166, Tottori 
+167, Sanpei Joint
+168, China 
+169, Hiroshima 
+170, Yamaguchi 
+172, Awa 
+173, 114 
+174, Iyo 
+175, Shikoku 
+177, Fukuoka 
+178, Chikubo 
+179, Saga 
+180, 18 
+181, Shinwa 
+182, Higo 
+183, Oita 
+184, Miyazaki 
+185, Kagoshima 
+187, Ryukyusu 
+188, Okinawa 
+190, West Japan City
+191, Kitakyushu 
+288, Mitsubishi UFJ Trust bank
+289, Mizuho Trust bank 
+294, Mitsui Sumitomo Trust bank
+295, New York Mellon Trust
+297, Japan Master Trust bank
+300, SMBC Trust bank 
+304, Nomura Trust bank 
+307, Orix   
+309, Credit union Trust bank
+310, Aozora Trust bank 
+311, Nowchuu Trust bank 
+320, Shinsei Trust bank 
+321, Japan Securities Trust bank
+322, New bank Tokyo 
+324, Japan Trusty-Service Trust bank
+325, Asset management services Trust
+397, Shinsei 
+398, Aozora 
+401, Citibank N.A.
+402, JP Morgan
+403, USA 
+411, Hong Kong Shanghai
+413, Standard Chartered
+414, Barclays 
+421, Credi-Agricole 
+423, Hana 
+424, Indo 
+425, Chouhou International Commerce
+426, Bangkok  
+429, Bank Negara Indonesia
+430, Germany  
+432, Brazil  
+442, New York melon
+444, Oversea Chinese 
+456, Yubafuarabu French Association
+457, Portigon AG
+458, DBS 
+461, Commerz 
+468, India State
+471, Royal Canada
+472, SBJ 
+477, Woori 
+484, National Australia Bank Limited
+489, China 
+498, SME 
+501, North Sea
+508, Kiraaka 
+509, Northern Japan
+512, Sendai 
+513, Fukushima 
+514, Daito 
+516, Towa 
+517, Tochigi 
+522, Keiyo 
+525, East Japan
+526, Tokyo Star
+530, Kanagawa 
+532, Taikko 
+533, Nagano 
+534, Toyama Daiichi
+537, Fukuoka 
+538, Shizuoka Central
+542, Aichi 
+543, Nagoya 
+544, Chukyo 
+546, third 
+554, Kansai Urban
+555, Taisho 
+562, Minato 
+565, Shimane 
+566, tomato 
+569, Maple 
+570, Saigyo 
+572, Tokushima 
+573, Kagawa 
+576, Ehime 
+578, Kochi 
+582, Fukuoka Central
+583, Kaori Saga
+585, Nagasaki 
+587, Kumamoto 
+590, Hoakazu 
+591, Miyazaki Sun
+594, South Japan
+596, Okinawa Seiki
+597, Yachiyo 
+603, Korean industry
+607, Changhua Commerce
+608, Wells Fargo
+611, First commercial
+612, Taiwan 
+615, Koutuu 
+616, Metropolitan 
+617, Philippine National Bank  
+619, China Industry & Commerce 
+621, Trust bank business in China
+623, Intersa San Paolo  
+624, Kokumin 
+625, China Construction
+626, Itaou Unibanco
+629, Fortis 
+630, China Agriculture
+631, Taiwan International Business Commercial
+1000, Credit union Central Bank
+1001, Sapporo Credit union (CU)
+1003, Muroran CU  
+1004, Sorachi CU  
+1006, Tomakomai CU  
+1008, Kitamon CU  
+1009, Date CU  
+1010, Kita-Sorachi CU  
+1011, Hidaka CU  
+1013, Toshima CU  
+1014, Donan Umi-machi CU 
+1016, Otaru CU
+1018, Hokkaido CU
+1020, Asahikawa CU
+1021, Wakkanai CU
+1022, Shamon CU
+1024, Kitahashi CU
+1026, Obihiro CU
+1027, Kushiro CU
+1028, Daichi-Mirai CU
+1030, Kitami CU
+1031, Abashiri CU
+1033, Takafumi CU
+1104, Tokutoshin CU
+1105, Aomori CU
+1120, Akita CU
+1123, Maki CU
+1140, Yamagata CU
+1141, Yonezawa CU
+1142, Tsuruoka CU
+1143, Shinko CU
+1150, Morioka CU
+1152, Miyako CU
+1153, Ichinoseki CU
+1154, Kitakami CU
+1155, Hanamaki CU
+1156, Mizusawa CU
+1170, Miyako CU
+1171, Miyagi Daiichi CU 
+1172, Ishinomaki CU
+1174, Shinkan CU
+1175, Kesenuma CU
+1181, Aizu CU
+1182, Kuniyama CU
+1184, Shinkawa CU
+1185, Sukagawa CU
+1186, Himawari CU
+1188, Abukuma CU
+1189, Nihommatsu CU
+1190, Fukushima CU
+1203, Takasaki CU
+1204, Kiryu CU
+1206, Iron CU
+1208, Tone CU
+1209, Tombayashi CU
+1210, North Gumma CU 
+1211, Shinonome CU  
+1221, Ashikaga Oyama CU 
+1222, Tochigi CU
+1223, Kanuma mutual CU 
+1224, Sano CU
+1225, Otawara CU
+1227, Karasuyama CU
+1240, Mito CU
+1242, Yuki CU
+1250, Saitama Prefecture CU 
+1251, Kawaguchi CU
+1252, Aoki CU
+1253, Hanno CU
+1260, Chiba CU
+1261, Choshi CU
+1262, Tokyo Bay CU 
+1264, Tateyama CU
+1267, Sawara CU
+1280, Yokohama CU
+1281, Kanagawa CU
+1282, Shonan CU
+1283, Kawasaki CU
+1286, Hiratsuka CU
+1288, Sagami CU
+1289, Chuei CU
+1290, Cyunan CU
+1303, Asahi CU
+1305, Kosan CU
+1310, Sawayaka CU
+1311, Tokyo City CU 
+1319, Shiba CU
+1320, East Tokyo CU
+1321, Toho CU
+1323, Kameari CU
+1326, Komatsugawa CU
+1327, Adachi CU
+1333, Tokyo Sankyo
+1336, Saigyo CU
+1341, Seibu CU
+1344, Shonan CU
+1345, Showa CU
+1346, Meguro CU
+1348, Setagaya CU
+1349, Tokyo CU
+1351, Shotoku CU
+1352, Takinokawa CU
+1356, Sugamo CU
+1358, Ome CU
+1360, Tama CU
+1370, Niigata CU
+1371, Nagaoka CU
+1373, Sanjo CU
+1374, Shibata CU
+1375, Kashiwazaki CU
+1376, Joetsu CU
+1377, Arai CU
+1379, Murakami CU
+1380, Kamo CU
+1385, Kofu CU
+1386, Yamashina CU
+1390, Nagano CU
+1391, Matsumoto CU
+1392, Ueda CU
+1393, Suwa CU
+1394, Iida CU
+1396, Alps Central CU 
+1401, Toyama CU
+1402, Takaoka CU
+1404, Shinminato CU
+1405, Niikawa CU
+1406, Himi Fushiki CU  
+1412, Tonami CU
+1413, Ishido CU
+1440, Kanazawa CU
+1442, Noto Kyoei CU 
+1444, Hokuriku CU
+1445, Tsurugi CU
+1448, Kono CU
+1470, Fukui CU
+1471, Tsuruga CU
+1473, Obama CU
+1475, Echizen CU
+1501, Shizuka CU
+1502, Shizusei CU
+1503, Hamamatsu CU
+1505, Numazu CU
+1506, Mishima CU
+1507, Fujinomiya CU
+1509, Shimada CU
+1511, Iwata CU
+1512, Yuzu CU
+1513, Kakegawa CU
+1515, FUJI CU
+1517, Unshu CU
+1530, Gifu CU
+1531, Ogaki Seino CU 
+1532, Takayama CU
+1533, Tono CU
+1534, Seki CU
+1538, Yahata CU
+1550, Aichi CU
+1551, Toyohashi CU
+1552, Okazaki CU
+1553, Ichigo CU
+1554, Seto CU
+1555, Handa CU
+1556, Chita CU
+1557, Toyokawa CU
+1559, Toyoda CU
+1560, Akumi CU
+1561, Nishio CU
+1562, Gamagori CU
+1563, Oshin CU
+1565, Shinkidai CU
+1566, Toshun CU
+1580, Tsu CU
+1581, Kita Ise-Ueno CU
+1582, Mie CU
+1583, Kuwana CU
+1585, Kihoku CU
+1602, Shiga Central CU
+1603, Nagahama CU
+1604, Koto CU
+1610, Kyoto CU
+1611, Kyoto Central CU
+1620, Kyoto Kitamoto CU
+1630, Osaka CU 
+1633, Osaka Kosei CU
+1635, Osaka City CU
+1636, Osaka Shoko CU
+1643, Nagawa CU 
+1645, North Osaka CU
+1656, Hirakata CU 
+1666, Nara CU 
+1667, Yamato CU 
+1668, Nara Central CU
+1671, Shinkaku CU 
+1674, Kinokuni CU 
+1680, Kobe CU 
+1685, Himeji CU 
+1686, Shinshu CU 
+1687, Hyogo CU 
+1688, Amagasaki CU 
+1689, Nissin CU 
+1691, Awaji CU 
+1692, Tajima CU 
+1694, West Hyogo CU
+1695, Medium Hyogo CU
+1696, Tanyo CU
+1701, Tottori CU
+1702, Yone CU
+1703, Kurayoshi CU
+1710, Shimane CU
+1711, Nihonkai CU
+1712, Shimane Central CU
+1732, Okayama CU
+1734, Mizushima CU
+1735, Tsuyama CU
+1738, Tamashima CU
+1740, Shinbei CU
+1741, Kibi CU
+1742, Nissin CU
+1743, Biscinki CU
+1750, Hiroshima CU
+1752, Kure CU
+1756, Shimanami CU
+1758, Hiroshima Midori CU
+1780, Hagi Yamaguchi CU
+1781, West China CU
+1789, Higashi Yamaguchi CU
+1801, Tokushima CU
+1803, Anan CU
+1830, Takamatsu CU
+1833, Kanonji CU
+1860, Ehime CU
+1862, Ukijima CU
+1864, Toyo CU
+1866, Kawanoe CU
+1880, Hata CU
+1881, Kochi CU
+1901, Fukuoka CU
+1903, Fukuoka Hiki CU
+1908, Omuta Yanagawa CU
+1909, Chikugo CU
+1910, Iizuka CU
+1913, Tagawa CU
+1917, Okawa CU
+1920, Credit CU
+1930, Karatsu CU
+1931, Saga CU
+1932, Imari CU
+1933, Kyushu Hizen CU
+1942, Tachibana CU
+1951, Kumamoto CU
+1952, Kumamoto Daiichi CU
+1954, Kumamoto Central CU
+1955, Amakusa CU
+1960, Oita CU
+1962, Oita Mirai CU
+1968, Hita CU
+1980, Miyazaki CU
+1981, Miyakijo CU
+1982, Nobuoka CU
+1985, Takanabe CU
+1986, Nanko CU
+1990, Kagoshima CU
+1991, Kagoshima mutual funds  
+1993, Amami Oshima CU  
+1996, Koza CU   
+2004, Commerce and Industry Fund 
+2010, National Credit Cooperatives Union    
+2011, North Central CU  
+2013, Sapporo Central CU  
+2014, Uri CU   
+2017, Hakodate Commerce and Industry CU   
+2019, Sorachi Commerce and Industry CU   
+2024, Tokachi CU   
+2025, Kushiro CU   
+2030, Aomori Prefecture CU  
+2045, Futuna CU   
+2049, Iwate Prefecture doctor CU 
+2060, Asuka CU   
+2061, Ishinomaki Commerce and Industry CU   
+2062, Furukawa CU Union  
+2063, Senboku CU Union  
+2075, Akita Prefecture CU  
+2083, Kitaguri CU   
+2084, Yamagata Central CU  
+2085, Yamagata Daiichi CU  
+2087, Yamagata Prefecture doctor CU 
+2090, Fukushima Commerce and Industry CU   
+2092, Iwaki CU   
+2095, Sotsubo Gosho CU  
+2096, Aizu Commerce and Industry CU   
+2101, Ibaraki Prefecture CU     
+2122, Shinka CU
+2125, Nasu CU
+2143, Akagi CU
+2146, Gumma Prefecture CU     
+2149, Gumma Mirai CU     
+2151, Gumma Doctor CU     
+2162, Saitama Medical Doctot CU     
+2165, Kumagaya Commerce and Industry CU   
+2167, Saitama CU      
+2180, Boso CU      
+2184, Choshi Commerce and Industry CU   
+2190, Kimitsu CU      
+2202, All Toei CU     
+2210, Toyoku CU      
+2211, Cultural Industry CU     
+2213, Organization and Collection Agency    
+2215, Tokyo Stock CU     
+2224, Tokyo Health CU     
+2226, East CU
+2229, Koto CU
+2231, Yumito CU
+2235, Nakanoshin CU
+2241, Kyoritsu CU
+2243, Shichinajima CU
+2248, Dai-Tokyo CU
+2254, Daiichi-kan CU
+2271, Metropolitan officials CU     
+2272, Koshi CU
+2274, Tokyo fire fighting CU    
+2276, Tokyo Metropolitan Employee CU    
+2277, Hana CU
+2304, Kanagawa Prefecture doctor CU    
+2305, Kanagawa dental doctor CU    
+2306, Yokohama Yuki CU     
+2307, Yokohama Hanagin CU     
+2315, Odawara Daiichi CU     
+2318, Soai CU      
+2332, Shizuoka Prefecture doctor CU    
+2351, Niigata Prefecture CU     
+2354, Niigata Train CU     
+2356, Shingin CU      
+2357, Shinraku CU      
+2358, Sakura Street CU     
+2360, Kyoei CU      
+2361, Sanji CU      
+2362, Maki CU      
+2363, Niigata Daiei CU     
+2365, Shiozawa CU      
+2366, Itoigawa CU      
+2377, Yamanashi Prefecture CU     
+2378, Tsuru CU      
+2390, Nagano Prefecture CU     
+2402, Toyama Prefecture doctor CU    
+2404, Toyama Prefecture CU     
+2411, Kanazawa Central CU     
+2417, Ishikawa Prefecture doctor CU    
+2430, Fukuizumi CU      
+2435, Fukui Prefecture doctor CU    
+2440, Maruhachi CU      
+2442, Aichi merchant CU     
+2443, Aichi Prefecture Police CU    
+2444, Nagoya Vegetable CU     
+2446, Aichi Medical CU     
+2447, Aichi-ken Doctor CU     
+2448, Toyohashi Commerce and Industry CU   
+2451, Aichi Central CU     
+2470, Gifu Commerce and Industry CU   
+2471, Io CU      
+2473, Gifu Prefecture doctor CU    
+2476, Hida CU      
+2481, Masuda CU      
+2485, Mie Prefecture employee CU    
+2504, Shiga Prefectural CU     
+2505, Shiga Prefecture CU     
+2526, Keisei CU      
+2540, Daido CU      
+2541, Seikyo CU      
+2543, Osaka Kyoei CU     
+2548, Osaka saving CU     
+2549, Nozomi CU      
+2556, Central CU      
+2560, Osaka Prefectural doctor CU    
+2566, Osaka Prefectural police CU    
+2567, Kinki Industry CU     
+2580, Asahi Shimbun CU     
+2581, daily CU      
+2582, Mile CU      
+2602, Hyogo Prefecture Police CU    
+2605, Hyogo Medical CU     
+2606, Hyogo prefecture CU     
+2610, Kobe City Employee CU    
+2616, Tanyo CU      
+2620, Hyogo Himawari CU     
+2634, Wakayama prefecture doctor CU    
+2661, Shimane Masuda CU     
+2672, Asahi Bank CU     
+2673, Okayama merchant CU     
+2674, Kasaoka CU      
+2680, Hiroshima City CU     
+2681, Hiroshima Prefecture CU     
+2684, Hiroshima merchant CU     
+2686, Kure City Employee CU    
+2690, Bini CU      
+2696, Bingo CU      
+2703, Yamaguchi Prefecture CU     
+2721, Kagawa Prefecture CU     
+2740, Tosa CU      
+2741, Sukumo Yoshinaga CU     
+2751, Fukuoka Prefectural Government CU    
+2753, Fukuoka Prefecture doctor CU    
+2763, Fukuoka Minami CU     
+2773, Fukuoka Central CU     
+2778, Tobu CU      
+2802, Saga Prefecture doctor CU    
+2803, Saga Higashi CU     
+2808, Saga West CU     
+2820, Nagasaki Mitsubishi CU     
+2821, Nagasaki Prefecture doctor CU    
+2825, Nagasaki Prefectural CU     
+2826, Sasebo Central CU     
+2833, Fukue CU      
+2842, Kumamoto Prefecture doctor CU    
+2845, Kumamoto Prefecture CU     
+2870, Oita Prefecture CU     
+2884, Miyazaki Prefecture southern CU    
+2890, Kagoshima Kogyo CU     
+2891, Kagoshima Prefecture doctor CU    
+2895, Amami CU      
+2950, Labour Bank Association     
+2951, Hokkaido Labour Bank     
+2954, Tohoku Labour Bank     
+2963, Central Labour Bank     
+2965, Niigata Prefecture Labour Bank    
+2966, Nagano Prefecture Labour Bank    
+2968, Shizuoka Labour Bank     
+2970, Hokuriku Labour Bank     
+2972, Tokai Labour Bank     
+2978, Kinki Labour Bank     
+2984, Cyugoku Labour Bank     
+2987, Shikoku Labour Bank     
+2990, Kyushu Labour Bank     
+2997, Okinawa Prefecture Labour Bank    
+3000, Norinchukin Bank      
+3001, Hokkaido Credit Agricultural Cooperative Association (ACA)  
+3003, Iwate Prefecture Credit ACA
+3008, Ibaraki Prefecture Credit ACA
+3011, Saitama Prefecture Credit ACA
+3013, Tokyo Metropolitan Credit ACA
+3014, Kanagawa Prefecture Credit ACA
+3015, Yamanashi Prefecture Credit ACA
+3016, Nagano Prefecture Credit ACA
+3017, Niigata Prefecture Credit ACA
+3019, Ishikawa Prefecture Credit ACA
+3020, Gifu Prefecture Credit ACA
+3021, Shizuoka Prefecture Credit ACA
+3022, Aichi Prefecture Credit ACA
+3023, Mie Prefecture Credit ACA
+3024, Fukui Prefecture Credit ACA
+3025, Shiga Prefecture Credit ACA
+3026, Kyoto prefectural credit ACA
+3027, Osaka prefectural credit ACA
+3028, Hyogo Prefecture Credit ACA
+3030, Wakayama Prefecture Credit ACA
+3031, Tottori Prefecture Credit ACA
+3034, Hiroshima Prefecture Credit ACA
+3035, Yamaguchi Prefecture Credit ACA
+3036, Tokushima Prefecture Credit ACA
+3037, Kagawa Prefecture Credit ACA
+3038, Ehime Prefecture Credit ACA
+3039, Kochi Prefecture Credit ACA
+3040, Fukuoka Prefecture Credit ACA
+3041, Saga Prefecture Credit ACA
+3044, Oita Prefecture Credit ACA
+3045, Miyazaki Prefecture Credit ACA
+3046, Kagoshima Prefecture Credit ACA
+3056, Kitahiyama Town ACA 
+3058, Imagane ACA  
+3066, Hakodate Kameda ACA 
+3068, Shin Hakodate ACA 
+3086, Youtei ACA  
+3087, Kyowa ACA  
+3094, Shin Otaru ACA 
+3095, Yoichi Town ACA 
+3103, Toya Lake ACA 
+3107, Date City ACA 
+3112, Tomakomai wide area ACA
+3114, Mukawa ACA  
+3120, Biratori ACA  
+3122, Mombetsu ACA  
+3124, Niikappu ACA  
+3125, Shizunai ACA  
+3126, Mitsuishi ACA  
+3129, Hidaka East ACA 
+3133, Sapporo City ACA 
+3139, Hokkaido Central ACA 
+3142, Ishikari-city ACA  
+3145, North Ishikari ACA 
+3147, Shinshinozu village ACA 
+3154, Satsuraku ACA  
+3156, Iwamizawa ACA  
+3161, Namporo Town ACA 
+3164, Bibai City ACA 
+3165, Minenobu ACA  
+3168, Tsukigata-town ACA  
+3170, Naganuma ACA  
+3172, Sorachi Minami ACA 
+3173, Yubari City ACA 
+3175, Shinsunagawa ACA  
+3177, Takikawa ACA  
+3181, Pinne ACA  
+3188, Kita Ibuki ACA 
+3189, Katasorashi ACA  
+3200, Minami Rumoi ACA 
+3201, Tomamae Town ACA 
+3202, Oloron ACA  
+3206, Teshio-town ACA  
+3208, Horonobe ACA  
+3210, Asahikawa ACA  
+3214, Taisetsu ACA  
+3219, Higashi Kagura ACA 
+3220, Higashi Asahikawa ACA 
+3223, Toma ACA  
+3224, Pippu town ACA 
+3225, Kamikawa Central ACA 
+3227, Higashikawa Town ACA 
+3228, Biei-town ACA  
+3231, Furano ACA  
+3238, Kita Hibiki ACA 
+3244, Dohoku Nayoro ACA 
+3248, Northern Haruka ACA 
+3254, Wakkanai ACA  
+3257, Kita Soya ACA 
+3259, Higashi Soya ACA 
+3260, Nakatombetsu Town ACA 
+3261, Soya Minami ACA 
+3264, Obihiro Kawanishi ACA 
+3265, Obihiro Taisho ACA 
+3266, Nakasatsunai village ACA 
+3267, Sarabetsu Village ACA 
+3268, Cyurui ACA  
+3269, Taiki Town ACA 
+3270, Hiroo Town ACA 
+3271, Memuro Town ACA 
+3273, Tokachi Shimizu Town ACA
+3275, Shintoku-town ACA  
+3276, Shikaoi-town ACA  
+3277, Kino ACA  
+3278, Otodara Town ACA 
+3279, Shihoro Town ACA 
+3280, Kamishihoro Town ACA 
+3281, Satsunai ACA  
+3282, Makubetsu-cho ACA  
+3283, Tokachi Ikeda Town ACA
+3285, Tokachi Takashima ACA 
+3286, Toyokono Town ACA 
+3287, Urahoro-town ACA  
+3288, Honbetsu Town ACA 
+3289, Ashoro Town ACA 
+3290, Rikubetsu-machi ACA  
+3297, North Okhotsk ACA 
+3301, Okhotsk Hamanasu ACA 
+3303, Saroma Town ACA 
+3305, Yubetsu-town ACA  
+3306, Enyu ACA  
+3317, Kita-Mirai ACA  
+3319, Tsubetsu-town ACA  
+3320, Bihoro Town ACA 
+3321, Memambetsu Town ACA 
+3322, Tokoro Town ACA 
+3326, Okhotsk Abashiri ACA 
+3328, Koshimizu Town ACA 
+3329, Shari-town ACA  
+3330, Kiyosato Town ACA 
+3334, Kushiro Ota ACA 
+3335, Hamanaka Town ACA 
+3336, Shibecha Town ACA 
+3337, Lake Masyu ACA 
+3338, Akan ACA  
+3339, Kushiro Tancho ACA 
+3348, Shibetsu Town ACA 
+3349, Nakashibetsu Town ACA 
+3350, Norikubetsu ACA  
+3354, Doto Asahi ACA 
+3358, Nakashumbetsu ACA  
+3373, Aomori ACA  
+3387, Tsugaru Hirosaki ACA 
+3390, Soma Village ACA 
+3407, Tsugaru-Mirai ACA  
+3421, Tsugaru-Nishikita ACA  
+3442, Goshotsugaru ACA  
+3455, Towada Oirase ACA 
+3469, Yuuki Aomori ACA 
+3474, Oirase ACA  
+3488, Hachinohe ACA  
+3517, Shin Iwate ACA 
+3541, Iwate Central ACA 
+3553, Hanamaki ACA  
+3572, Iwate Furusato ACA 
+3579, Iwate Esashi ACA 
+3590, Iwato Hiraizumi ACA 
+3598, Ofunato City ACA 
+3636, Sendai ACA  
+3647, Iwanuma City ACA 
+3652, Natori Iwanuma ACA 
+3653, Miyagi Watari ACA 
+3664, Asahina ACA  
+3665, Miyagi Tome ACA 
+3682, Minami Sanriku ACA 
+3702, Kurikko ACA  
+3704, Furukawa ACA  
+3710, Kami Yotsuba ACA 
+3717, Iwadeyama ACA  
+3721, Midorino ACA  
+3731, Ioshimaki ACA  
+3751, Miyagi Sennan ACA 
+3762, Kaduno ACA  
+3764, Akita North ACA 
+3771, Takanosu-town ACA  
+3773, Akita Hokuo ACA 
+3784, Akita Shirakami ACA 
+3795, Akita Yamamoto ACA 
+3798, Akita Koto ACA 
+3805, Akita Minami ACA 
+3810, Shin Akita ACA 
+3825, Akita Shinsei ACA 
+3855, Akita Obako ACA 
+3878, Akita Furusato ACA 
+3913, Komachi ACA  
+3917, Ugo ACA  
+3929, Ogata Village ACA 
+3931, Yamagata-city ACA  
+3932, Yamagata ACA  
+3938, Tendo City ACA 
+3943, SAGAE Nishimurayama ACA 
+3960, Michinoku Murayama ACA 
+3962, Higashine City ACA 
+3971, Shinjo-city ACA  
+3973, Shinjo Mogami ACA 
+3980, Yamagata Mogami ACA 
+3986, Mamurokawa Town ACA 
+3987, Kanayama ACA  
+3989, Yamagata Okitama ACA 
+4000, Tsuruoka City ACA 
+4013, Shonai Tagawa ACA 
+4022, Amarume Town ACA 
+4027, Shonai Midori ACA 
+4036, Sakata-city Sodeura ACA 
+4047, Fukushima Mirai ACA 
+4091, Yume Minami ACA 
+4132, East and West Shirakawa ACA 
+4160, Aizu Yotsuba ACA 
+4196, Sakura Fukushima ACA 
+4238, Mito ACA  
+4263, Hitachi ACA  
+4294, Hitachi City Taga ACA
+4295, Ibaraki Asahi-village ACA 
+4296, Hokota ACA  
+4301, Shiosai ACA  
+4310, Namegata ACA  
+4322, Inashiki ACA  
+4324, Ibaraki Kasumi ACA 
+4344, Ryugasaki ACA  
+4357, Tsuchiura ACA  
+4363, Tsukuba City ACA 
+4371, Tsukuba-City Yatabe ACA 
+4378, Ibaraki Minami ACA 
+4387, Yasato ACA  
+4394, Shin Hitachino ACA 
+4397, North Tsukuba ACA 
+4413, Joso Hikari ACA 
+4422, Ibaraki Mutsumi ACA 
+4425, Iwai ACA  
+4445, Utsunomiya ACA  
+4456, Kamitsuga ACA  
+4463, Hagano ACA  
+4478, Shimotsuke ACA  
+4490, Oyama ACA  
+4497, Shionoya ACA  
+4507, Nasuno ACA  
+4518, Nasu Minami ACA 
+4523, Sano ACA  
+4533, Ashikaga-city ACA  
+4540, Akagi Tachibana ACA 
+4544, Maebashi-city ACA  
+4563, Takasaki City ACA 
+4567, Hagukumi ACA  
+4593, North Gumma Shibukawa ACA
+4594, Tano Fujioka ACA 
+4608, Kanra Tomioka ACA 
+4613, Usui Annaka ACA 
+4626, Agatsuma ACA  
+4628, Tsumagoi Village ACA 
+4632, Tone Numata ACA 
+4652, Saha Isesaki ACA 
+4664, Nitta Midori ACA 
+4665, Ota City ACA 
+4677, Ora Tatebayashi ACA 
+4682, Saitama ACA  
+4730, Asakano ACA  
+4735, Irumano ACA  
+4780, Saitama Central ACA 
+4792, Chichibu ACA  
+4802, Saitama Hibikino ACA 
+4808, Kumagaya ACA  
+4820, Saitama Okabe ACA 
+4821, Kabasawa ACA  
+4823, Hanazono ACA  
+4828, Hokusai ACA  
+4847, Koshigaya City ACA 
+4848, Nansai ACA  
+4859, Saitama Mizuho ACA 
+4864, Saikatsu ACA  
+4874, Fukaya ACA  
+4876, Awa ACA  
+4893, Isumi ACA  
+4902, Kisarazu City ACA 
+4909, Kimitsu Municipal ACA 
+4916, Chosei ACA  
+4929, Sambu-gun Municipal ACA 
+4949, Ichihara City ACA 
+4954, Chiba-mirai ACA  
+4955, Yachiyo City ACA 
+4959, Ichikawa-city ACA  
+4965, Central Tokatsu ACA 
+4975, Chiba Tokatsu ACA 
+4992, Narita City ACA 
+4993, Tomisato City ACA 
+4996, Nishi-Imba ACA  
+5000, Katori ACA  
+5002, Sawara ACA  
+5011, Tako-town ACA  
+5016, Chiba-midori ACA  
+5030, Nishitokyo ACA  
+5037, Nishitama ACA  
+5039, Akigawa ACA  
+5050, Hachioji City ACA 
+5055, Tokyo South ACA 
+5060, Machida City ACA 
+5070, Mines ACA  
+5072, Tokyo Midori ACA 
+5077, Tokyo MIRAI ACA 
+5087, Tokyo Musashi ACA 
+5094, Tokyo Central ACA 
+5095, Setagaya Meguro ACA 
+5097, Tokyo Aoba ACA 
+5100, Tokyo Smile ACA 
+5114, Yokohama ACA  
+5123, Selisa Kawasaki ACA 
+5128, Yokosuka Hayama ACA 
+5130, Miura City ACA 
+5131, Sagami ACA  
+5137, Shonan ACA  
+5139, Isehara-city ACA  
+5140, Hadano City ACA 
+5147, Kanagawa Seisyo ACA 
+5152, Atsugi City ACA 
+5153, Keno-Aikawa ACA  
+5159, Sagamihara-city ACA  
+5162, Tsukui-gun ACA  
+5169, Fruits Yamanashi ACA 
+5199, Fuefuki ACA  
+5207, Nishiyashiro ACA  
+5209, Fujikawa ACA  
+5222, Kofu City ACA 
+5234, Eastern Nakakuma ACA 
+5243, Kuma ACA  
+5260, Rihoku ACA  
+5272, Crane ACA  
+5284, North Fuji ACA 
+5287, Narusawa village ACA 
+5311, Nagano Yatsugatake ACA 
+5330, Kawakami Bussan ACA 
+5335, Saku Asama ACA 
+5348, Shinshu Ueda ACA 
+5372, Shinshu Suwa ACA 
+5384, Kamiina ACA  
+5405, Minami Shinshu ACA 
+5437, Shimoina Horticultural ACA 
+5441, Kiso ACA  
+5447, Matsumoto City ACA 
+5448, Matsumoto Highland ACA 
+5449, Shiojiri City ACA 
+5462, Seba ACA  
+5466, Azumino ACA  
+5470, Daihoku ACA  
+5477, Green Nagano ACA 
+5491, Nakano-city ACA  
+5499, Nagano ACA  
+5541, Kitakan Minami ACA 
+5542, Sasakami ACA  
+5554, North Echigo ACA 
+5568, Tainai City ACA 
+5577, Niigata Mirai ACA 
+5585, Nitsu Satsuki ACA 
+5600, Echigo Central ACA 
+5631, Nigata Nanpo ACA 
+5666, Echigo Nagaoka ACA 
+5685, Echigo Santo ACA 
+5690, Echigo Ojiya ACA 
+5693, Kitauonuma ACA  
+5706, Shiozawa ACA  
+5707, Uonuma Minami ACA 
+5714, Tokamachi ACA  
+5719, Tsuna-town ACA  
+5720, Kashiwazaki ACA  
+5768, Echigo Joetsu ACA 
+5797, Hisui ACA  
+5815, Kamihayashi ACA  
+5823, Niigata Iwafune ACA 
+5832, Sado ACA  
+5847, Hagumo ACA  
+5864, Niigata City ACA 
+5877, Minaho ACA  
+5883, Kurobe-city ACA  
+5885, Uozu City ACA 
+5888, Alps ACA  
+5895, Aoba ACA  
+5897, Toyama City ACA 
+5898, Nanohana ACA  
+5906, Yamada Village ACA 
+5911, Izumino ACA  
+5916, Takaoka City ACA 
+5920, Himi City ACA 
+5921, Tonamino ACA  
+5927, Nanto ACA  
+5932, Inaba ACA  
+5935, Fukumitsu ACA  
+5943, Kaga ACA  
+5962, Komatsu City ACA 
+5980, Negami ACA  
+5982, Nomi ACA  
+5997, Matsuto City ACA 
+6010, Nonoichi ACA  
+6012, Hakusan ACA  
+6024, Kanazawa Central ACA 
+6025, Kanazawa City ACA 
+6062, Ishikawa Kohoku ACA 
+6076, Hakui ACA  
+6084, Shiga ACA  
+6094, Noto Wakaba ACA 
+6113, Oozora ACA  
+6117, Machino Town ACA 
+6121, Uchiura Town ACA 
+6122, Suzu City ACA 
+6129, Gifu ACA  
+6175, West Mino ACA 
+6198, Ibigawa ACA  
+6242, Megumino ACA  
+6265, Toto ACA  
+6287, Higashi Mino ACA 
+6313, Hida ACA  
+6328, Izu Taiyo ACA 
+6333, Mishima Kanan ACA 
+6338, Izu-no-kuni City ACA 
+6342, Aira Izu ACA 
+6345, Nambu ACA  
+6351, Gotemba ACA  
+6355, Fuji City ACA 
+6357, Fujinomiya ACA  
+6363, Shimizu ACA  
+6373, Shizuoka City ACA 
+6377, Oigawa ACA  
+6382, Hainan ACA  
+6386, Kakegawa-city ACA  
+6387, Yuzhou Yumezaki ACA 
+6391, Enshu Central ACA 
+6403, Pia Hamamatsu ACA 
+6423, Sankei-town ACA  
+6426, Sanbohara pioneering ACA 
+6430, Nagoya ACA  
+6436, Tenpaku Credit ACA 
+6443, Green Credit ACA 
+6451, Owari Central ACA 
+6456, Saishoi ACA  
+6466, Aichi-Taito ACA  
+6470, Aichi North ACA 
+6483, Aichi West ACA 
+6503, Kaifu East ACA 
+6514, Aichi Seaside ACA 
+6531, Aichi Chita ACA 
+6552, Aichi Nakajo ACA 
+6560, Nishi Mikawa ACA 
+6572, Aichi Mikawa ACA 
+6582, Aichi Toyoda ACA 
+6591, Aichi East ACA 
+6606, Gamagori City ACA 
+6612, Himawari ACA  
+6615, Aichi Minami ACA 
+6618, Toyohashi ACA  
+6649, Mie Northern ACA 
+6665, Suzuka ACA  
+6673, Tsu Aki ACA 
+6677, Mie Central ACA 
+6678, Koshi Eastern ACA 
+6690, Matsusaka ACA  
+6697, Taki County ACA 
+6731, Ise ACA  
+6741, Toba Shima ACA 
+6758, Northern Iga ACA 
+6762, Iga Southern ACA 
+6770, Mie Nanki ACA 
+6785, Fukui City ACA 
+6789, Fukui City Southern ACA
+6805, Eiheiji Town ACA 
+6810, Hanasaki Fukui ACA 
+6823, Harue ACA  
+6832, Teraru Echizen ACA 
+6836, Fukui Tannan ACA 
+6838, Fukui Ikeda Town ACA
+6841, Niji Echizen ACA 
+6853, Echizen Takefu ACA 
+6860, Yoshimi Tsuruga ACA 
+6863, Wakasa ACA  
+6874, Lake Otsu ACA 
+6883, Kusatsu City ACA 
+6885, Ritto City ACA 
+6888, Omi Fuji ACA 
+6889, Koka ACA  
+6897, Green Oumi ACA 
+6900, Shiga Gamo-town ACA 
+6909, East Notogawa ACA 
+6911, Koto ACA  
+6912, East Biwako ACA 
+6919, Lake Ibuki ACA 
+6924, North Biwako ACA 
+6931, Makino Town ACA 
+6932, Imazu-town ACA  
+6933, Shinkawa-town ACA  
+6935, Nishi Biwako ACA 
+6941, Kyoto City ACA 
+6956, Kyoto Central ACA 
+6961, Kyoto Yamashira ACA 
+6990, Kyoto ACA  
+6996, Kyoto Tan-no-kuni ACA 
+7025, Northern Osaka ACA 
+7029, Takatsuki City ACA 
+7032, Ibaraki-shi ACA  
+7041, Northern Osaka ACA 
+7087, Osaka Quanzhou ACA 
+7092, Izumino ACA  
+7111, Sakai City ACA 
+7139, Southern Osaka ACA 
+7156, Green Osaka ACA 
+7164, Osaka Nakagauchi ACA 
+7184, Earstern Osaka ACA 
+7191, Kuisato ACA  
+7193, Kitagawachi ACA  
+7200, Osaka Municipal ACA 
+7213, Hyogo Rokko ACA 
+7239, Akashi ACA  
+7240, Hyogo Minami ACA 
+7249, Minori ACA  
+7264, Hyogo MIRAI ACA 
+7274, Kakogawa City South ACA
+7288, Hyogo Western ACA 
+7316, Aioi City ACA 
+7326, Harima ACA  
+7338, Tamajima ACA  
+7353, Tamba Hikami ACA 
+7362, Tamba Sasayama ACA 
+7363, Awaji Hinode ACA 
+7393, Awaji Island ACA 
+7387, Nara ACA  
+7532, Wakayama ACA  
+7541, Nagami ACA  
+7543, Kinosato ACA  
+7550, Kihoku Kawakami ACA 
+7559, Arida ACA  
+7565, Kishu ACA  
+7576, Kinan ACA  
+7591, Mikuma ACA  
+7601, Tottori Inaga ACA 
+7625, Tottori Central ACA 
+7641, Western Tottori ACA 
+7708, Shimane ACA  
+7755, Okayama City ACA 
+7768, Okayama East ACA 
+7794, Okayama West ACA 
+7825, Kurashiki Kayasa ACA 
+7837, Binji ACA  
+7847, Ashin ACA  
+7859, Maniwa ACA  
+7868, Tsuyama ACA  
+7889, Katsuhide ACA  
+7909, Hiroshima City  
+7913, Kure ACA  
+7916, Aki ACA  
+7938, Saeki Central ACA 
+7981, Northern Hiroshima ACA 
+7994, Hiroshima Central ACA 
+8011, Kunan ACA  
+8019, Hiroshima Yutaka ACA 
+8027, Mihara ACA  
+8029, Onomichi City ACA 
+8047, Fukuyama City ACA 
+8069, Third ACA  
+8076, Shobara ACA  
+8096, Yamaguchi Oshima ACA 
+8102, Iwakuni-shi ACA  
+8103, Yamaguchi East ACA 
+8118, Minami Sao ACA 
+8134, Shunan ACA  
+8143, Hofu Tsugi ACA 
+8153, Yamaguchi ACA  
+8166, Yamaguchi Ube ACA 
+8181, Shimonoseki ACA  
+8197, Mimaki Yamaguchi ACA 
+8200, Nagato Otsu ACA 
+8223, Orange Hagi ACA 
+8231, Tokushima City ACA 
+8234, East Tokushima ACA 
+8242, Nishi-gun ACA  
+8252, Itano-gun ACA  
+8257, Tokushima North ACA 
+8261, Otsu Matsuma ACA 
+8263, Sato ACA  
+8268, Anan ACA  
+8288, Kaifu ACA  
+8296, Awa Town ACA 
+8300, Market Town ACA 
+8301, Awa-gun Eastern ACA 
+8305, Asami County ACA 
+8312, Mima ACA  
+8323, Miyoshi Awa ACA 
+8332, Kagawa ACA ACA 
+8389, Uma ACA  
+8395, Saijo City ACA 
+8397, Niihama City ACA 
+8398, Zouku ACA  
+8400, Ochi Imabari ACA 
+8401, Imabari Tachibana ACA 
+8425, Matsuyama City ACA 
+8457, Ehime Takaki ACA 
+8463, Nishiwa ACA  
+8477, Higashiwa ACA  
+8482, Ehime South ACA 
+8500, Ehime Central ACA 
+8511, Arja Village ACA 
+8512, Aki Tosa ACA 
+8514, Kosumi Tosa ACA 
+8524, Nankoku-city ACA  
+8528, Nagaoka ACA  
+8536, Nankoku Tochi ACA 
+8544, Tosa Rajiku ACA 
+8551, Kochi-city ACA  
+8559, Kochi Haruno ACA 
+8575, Tosa-city ACA  
+8582, Cosmos ACA  
+8589, Tosa Kuroshio ACA 
+8592, Tsunano ACA  
+8593, Shimanto ACA  
+8610, Kochi ACA  
+8621, Munakata ACA  
+8626, Kasuya ACA  
+8632, Eastern Fukuoka-city ACA 
+8633, Fukuoka-city ACA  
+8635, Itoshima ACA  
+8636, Chikushi ACA  
+8645, Chikuzen Asakura ACA 
+8653, Binji ACA  
+8656, Mi ACA  
+8660, Kurume-city ACA  
+8664, Sansho-town ACA  
+8667, Fukuoka Oishi ACA 
+8668, Fukuoka Yame ACA 
+8680, Yanagawa ACA  
+8689, South Chikugo ACA 
+8692, Kitakyushu ACA  
+8694, Nao Sadra ACA 
+8701, Fukuoka Yoshiho ACA 
+8715, Tagawa ACA  
+8730, Fukuoka Kyodo ACA 
+8740, Saga-city Central ACA 
+8762, Saga ACA  
+8766, Karatsu ACA  
+8771, Imari-city ACA  
+8794, Nagasaki Nishio ACA 
+8813, Nagasaki ACA  
+8829, Shimabara Unzen ACA 
+8857, Nagasaki Saikai ACA 
+8893, Goto ACA  
+8905, Iki City ACA 
+8906, Tsushima ACA  
+8916, Kumamoto City ACA 
+8926, Tamana ACA  
+8934, Tamana City Ohama Town ACA
+8941, Kamoto ACA  
+8949, Kikuchi Regional ACA 
+8964, Aso ACA  
+8982, Yamashiro ACA  
+9010, Kumamoto Uki ACA 
+9017, Yatsushiro Region ACA 
+9043, Ashikita ACA  
+9048, Kumami Regional ACA 
+9069, Honma Gora ACA 
+9070, Amakusa ACA  
+9072, Reihoku Town ACA 
+9103, Beppu Hinode ACA 
+9104, Oita ACA  
+9137, Kusu Kuju ACA 
+9140, Kokonoe-town Iida ACA 
+9145, Oita Oyama Town ACA
+9169, Miyazaki Central ACA 
+9177, Aya Town ACA 
+9178, Hamqyu ACA  
+9181, Kushima-city Otaba ACA 
+9184, Miyakonojo ACA  
+9193, Kobayashi ACA  
+9197, Ebino City ACA 
+9200, Konoyu ACA  
+9203, Ozu ACA  
+9205, Saito ACA  
+9208, Nobeoka ACA  
+9213, Hyuga ACA  
+9221, Takachiho district ACA 
+9229, Kagoshima Central ACA 
+9234, Green Kagoshima ACA 
+9240, Tobu ACA  
+9251, Ivusuki ACA  
+9257, Minami Satsuma ACA 
+9270, Satsuma Hioki ACA 
+9296, North Satsuma ACA 
+9302, Izumi Kagoshima ACA 
+9319, Agora ACA  
+9332, Kagoshima ACA  
+9338, Aozora ACA  
+9341, Kagoshima Kimitaki ACA 
+9347, Agripira Town ACA 
+9353, Yakuzu ACA  
+9363, Amami ACA  
+9375, Okinawa ACA  
+9450, Hokkaido Credit Fisheries Cooperative Association (FCA)
+9451, Aomori Credit FCA 
+9452, Iwate Credit FCA 
+9453, Miyagi FCA  
+9456, Fukushima Credit FCA 
+9457, Ibaraki Credit FCA 
+9461, Chiba Federation FCA 
+9462, Tokyo Credit FCA 
+9463, Kanagawa Credit FCA 
+9466, Niigata Credit FCA 
+9467, Toyama Credit FCA 
+9468, Ishikawa Credit FCA 
+9470, Shizuoka Credit FCA 
+9471, Aichi Credit FCA 
+9472, Mie Credit FCA 
+9473, Fukui Credit FCA 
+9475, Kyoto Credit FCA 
+9477, Nagisa Credit FCA 
+9480, Tottori Credit FCA 
+9481, JF Shimane FCA 
+9483, Hiroshima Credit FCA 
+9484, Yamaguchi FCA  
+9485, Tokushima Credit FCA 
+9486, Kagawa Credit FCA 
+9487, Ehime Credit FCA 
+9488, Kochi Credit FCA 
+9489, Fukuoka Credit FCA 
+9490, Saga Credit FCA 
+9491, Federation of Nagasaki Credit FCA   
+9493, Oita FCA  
+9494, Miyazaki Credit FCA 
+9495, Kagoshima Credit FCA 
+9496, Okinawa Credit FCA 
+9900, JP bank

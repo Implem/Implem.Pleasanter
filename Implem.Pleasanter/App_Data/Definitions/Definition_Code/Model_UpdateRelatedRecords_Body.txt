@@ -1,0 +1,11 @@
+﻿UpdateRelatedRecords(
+    context: context,
+    
+    <!--Model_SiteSettingsWithParameterNameLower-->
+    <!--Model_ExtendedSqls-->
+    <!--Model_PreviousTitle-->
+    
+    get: get,
+    addUpdatedTimeParam: true,
+    addUpdatorParam: true,
+    updateItems: true);

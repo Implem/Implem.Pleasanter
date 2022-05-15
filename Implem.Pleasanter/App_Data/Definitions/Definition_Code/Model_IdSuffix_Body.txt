@@ -1,0 +1,4 @@
+﻿public string IdSuffix()
+{
+    return $"_{SiteId}_{(#ModelName#Id == 0 ? -1 : #ModelName#Id)}";
+}

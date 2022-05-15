@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_InsertIdentity",
+    "Indent": "3",
+    "HasIdentity": "1",
+    "Exclude": "Users"
+}

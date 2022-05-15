@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_SqlSelect",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "Separator": "\\r\\n"
+}

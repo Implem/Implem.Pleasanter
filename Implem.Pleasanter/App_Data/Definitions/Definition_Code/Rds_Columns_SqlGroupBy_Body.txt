@@ -1,0 +1,11 @@
+﻿public static #TableName#GroupByCollection #ColumnName#(
+    this #TableName#GroupByCollection self, string tableName = "#JoinTableName#")
+{
+    return self.Add(columnBracket: "#ColumnBracket#", tableName: tableName);
+}
+
+public static SqlGroupByCollection #TableName#_#ColumnName#(
+    this SqlGroupByCollection self, string tableName = "#JoinTableName#")
+{
+    return self.Add(columnBracket: "#ColumnBracket#", tableName: tableName);
+}

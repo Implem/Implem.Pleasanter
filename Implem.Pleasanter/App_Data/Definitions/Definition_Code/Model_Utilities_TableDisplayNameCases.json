@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_Utilities_TableDisplayNameCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Order": "ItemId",
+    "ItemOnly": "1",
+    "Exclude": "Sites"
+}

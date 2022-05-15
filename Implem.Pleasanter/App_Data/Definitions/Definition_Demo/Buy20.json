@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy20",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "インク(黒)",
+    "ClassA": "#Expendable15#",
+    "ClassB": "スマイルマーケット",
+    "NumA": "10",
+    "NumB": "2627",
+    "DateA": "42818.705555555556",
+    "Manager": "User11",
+    "Owner": "User11",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

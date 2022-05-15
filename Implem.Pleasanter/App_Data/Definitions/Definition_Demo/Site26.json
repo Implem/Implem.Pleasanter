@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site26",
+    "Language": "ja",
+    "Type": "Sites",
+    "ParentId": "Site24",
+    "Title": "参加者一覧",
+    "ClassA": "Results",
+    "ClassB": "Site25",
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

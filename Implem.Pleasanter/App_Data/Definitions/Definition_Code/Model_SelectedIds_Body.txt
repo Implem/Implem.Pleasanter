@@ -1,0 +1,8 @@
+﻿case "#TableName#":
+    if (SiteId == ReferenceId)
+    {
+        return #ModelName#Utilities.SelectedIds(
+            context: context,
+            ss: Site.SiteSettings);
+    }
+    break;

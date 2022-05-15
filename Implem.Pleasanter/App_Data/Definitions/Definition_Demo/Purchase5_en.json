@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Purchase a package product P made in oversea company",
+    "ClassA": "#Opportunity4_en#",
+    "NumA": "280000",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User10_en",
+    "Updator": "User10_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

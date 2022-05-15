@@ -1,0 +1,88 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Issues",
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Ver",
+            "Title",
+            "Body",
+            "StartTime",
+            "CompletionTime",
+            "ClassA",
+            "ClassB",
+            "ClassC",
+            "Status",
+            "Manager",
+            "Owner",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Urgency",
+            "ChoicesText": "100,High,High,status-review\n200,Middle,Middle,status-inprogress\n300,Low,Low,status-new",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Issue_a_slip,Issue,status-new\n150,Take_an_inquiry,Take,status-preparation\n200,Ongoing,Ongoing,status-inprogress\n300,Wait_a_response,Wait,status-review\n900,Completion,Comp,status-closed\n910,Pending,Pend,status-rejected"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Requester"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Responder"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Correspondence_category",
+            "ChoicesText": "Inquiry\nRequest_Work\nTrouble\nOther",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Function_category",
+            "ChoicesText": "Business_system\nApplication\nMiddleware\nOS\nNetwork\nHardware\nOther",
+            "ValidateRequired": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Manager",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

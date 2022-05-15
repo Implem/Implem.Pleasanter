@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase7_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Consulting service for G company",
+    "ClassA": "#Opportunity5_en#",
+    "NumA": "638000",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Rds_Columns_SqlWhere",
+    "RepeatType": "Join",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "Select": "1",
+    "NotSelectColumn": "1",
+    "NotComputeColumn": "1"
+}

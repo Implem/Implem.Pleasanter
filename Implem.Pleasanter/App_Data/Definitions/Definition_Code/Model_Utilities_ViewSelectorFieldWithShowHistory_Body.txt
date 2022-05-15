@@ -1,0 +1,16 @@
+﻿.Div(
+    id: "ViewSelectorField", 
+    action: () => hb
+        .ViewSelector(
+            context: context,
+            ss: ss,
+            view: view)
+        .FieldCheckBox(
+            fieldId: "ShowHistoryField",
+            fieldCss: "field-auto-thin",
+            controlId: "ViewFilters_ShowHistory",
+            controlCss: " auto-postback",
+            method: "post",
+            _checked: view.ShowHistory == true,
+            labelText: Displays.ShowHistory(context:context),
+            _using: ss.HistoryOnGrid == true))

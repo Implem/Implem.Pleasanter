@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Registrations_UserId",
+    "ModelName": "Registration",
+    "TableName": "Registrations",
+    "Label": "ユーザ招待",
+    "ColumnName": "UserId",
+    "LabelText": "ユーザID",
+    "No": "111",
+    "History": "111",
+    "LinkColumn": "111",
+    "HistoryColumn": "111",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "User ID",
+    "LabelText_zh": "用户ID",
+    "LabelText_de": "Benutzer-ID",
+    "LabelText_ko": "사용자 ID",
+    "LabelText_es": "ID de usuario",
+    "LabelText_vn": "ID Người dùng"
+}

@@ -6,9 +6,6 @@ using System.Windows.Input;
 
 namespace Implem.SupportTools.MailTester.View
 {
-    /// <summary>
-    /// UserControl1.xaml の相互作用ロジック
-    /// </summary>
     public partial class MailTesterWindow : UserControl
     {
         public MailTesterWindow()

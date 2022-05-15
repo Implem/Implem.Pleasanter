@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_UserLanguage",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "UserLanguage",
+    "LabelText": "ユーザ言語",
+    "No": "129",
+    "History": "129",
+    "EditorColumn": "129",
+    "EditorEnabled": "1",
+    "LinkColumn": "129",
+    "HistoryColumn": "129",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "LabelText_en": "User language",
+    "LabelText_zh": "用户语言",
+    "LabelText_de": "Benutzersprache",
+    "LabelText_ko": "사용자 언어",
+    "LabelText_es": "Idioma del usuario",
+    "LabelText_vn": "Ngôn ngữ ngườ dùng"
+}

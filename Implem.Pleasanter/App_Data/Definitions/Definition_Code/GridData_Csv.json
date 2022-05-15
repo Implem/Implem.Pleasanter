@@ -1,0 +1,9 @@
+﻿{
+    "Id": "GridData_Csv",
+    "RepeatType": "Table",
+    "Indent": "8",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Include": "Users,Issues,Results",
+    "Exclude": "Sites"
+}

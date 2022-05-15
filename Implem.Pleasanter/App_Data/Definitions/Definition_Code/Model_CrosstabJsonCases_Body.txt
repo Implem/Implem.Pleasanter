@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.CrosstabJson(
+        context: context,
+        ss: Site.SiteSettings);

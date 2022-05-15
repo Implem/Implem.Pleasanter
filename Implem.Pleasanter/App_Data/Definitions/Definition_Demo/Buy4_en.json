@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "Highlighter(Pink)",
+    "ClassA": "#Expendable2_en#",
+    "ClassB": "Smile Market",
+    "NumA": "7",
+    "NumB": "2412",
+    "DateA": "42755.705555555556",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

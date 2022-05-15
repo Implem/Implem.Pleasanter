@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Column_TableCases",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Exclude": "Tenants,Wikis"
+}

@@ -1,0 +1,12 @@
+﻿{
+    "Id": "User6_en",
+    "Language": "en",
+    "Type": "Users",
+    "ParentId": "Dept7_en",
+    "Title": "Brown Emily",
+    "ClassA": "1",
+    "ClassB": "2",
+    "ClassC": "36526",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

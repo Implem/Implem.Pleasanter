@@ -200,7 +200,8 @@ namespace Implem.Libraries.Utilities
             IEnumerable<string> excludePathCollection,
             FileAttributes excludeFileAttributes = FileAttributes.Hidden,
             FileAttributes excludeDirectoryAttributes = FileAttributes.Hidden,
-            bool overwrite = true)
+            bool overwrite = true,
+            bool uncommenting = false)
         {
             if (excludePathCollection.Any(o => destinationPath.ToLower().EndsWith(o.ToLower())))
             {
@@ -218,32 +219,83 @@ namespace Implem.Libraries.Utilities
             Directory.EnumerateFiles(sourcePath)
                 .Where(o => (File.GetAttributes(o) & excludeFileAttributes) !=
                     excludeFileAttributes)
-                .ForEach(sourceFilePath => File.Copy(sourceFilePath, Path.Combine(
-                    destinationPath, Path.GetFileName(sourceFilePath)), overwrite));
+                .ForEach(sourceFileName =>
+                {
+                    if (uncommenting
+                        && (sourceFileName.EndsWith(".cs")
+                            || sourceFileName.EndsWith(".js")
+                            || (sourceFileName.Contains("\\Definition_Code\\")
+                                && sourceFileName.EndsWith(".txt")))
+                        && !sourceFileName.ToLower().Contains("\\plugins\\"))
+                    {
+                        CopyFileWhileUncommenting(
+                            sourceFileName: sourceFileName,
+                            destFileName: Path.Combine(
+                                destinationPath,
+                                Path.GetFileName(sourceFileName)),
+                            overwrite: overwrite);
+                    }
+                    else
+                    {
+                        File.Copy(
+                            sourceFileName: sourceFileName,
+                            destFileName: Path.Combine(
+                                destinationPath,
+                                Path.GetFileName(sourceFileName)),
+                            overwrite: overwrite);
+                    }
+                });
             Directory.EnumerateDirectories(sourcePath)
                 .Where(o => (new DirectoryInfo(o).Attributes & excludeDirectoryAttributes) !=
                     excludeDirectoryAttributes)
                 .ForEach(subDirectoryPath => CopyDirectory(
-                    subDirectoryPath,
-                    Path.Combine(destinationPath, Path.GetFileName(subDirectoryPath)),
-                    excludePathCollection));
+                    sourcePath: subDirectoryPath,
+                    destinationPath: Path.Combine(destinationPath, Path.GetFileName(subDirectoryPath)),
+                    excludePathCollection: excludePathCollection,
+                    uncommenting: uncommenting));
         }
 
-        public static string CopyToTemp(string sourcePath, string tempPath)
+        private static void CopyFileWhileUncommenting(
+            string sourceFileName,
+            string destFileName,
+            bool overwrite)
         {
-            var sourceFile = new FileInfo(sourcePath);
-            var path = Path.Combine(tempPath, Strings.NewGuid() + sourceFile.Extension);
-            if (!new DirectoryInfo(tempPath).Exists) Directory.CreateDirectory(tempPath);
-            sourceFile.CopyTo(path);
-            return path;
-        }
-
-        public static FileInfo WriteToTemp(
-            this string self, string path, string encoding = "utf-8")
-        {
-            var tempPath = Path.Combine(path, Strings.NewGuid() + ".txt");
-            self.Write(tempPath, encoding);
-            return new FileInfo(tempPath);
+            if (!overwrite && Exists(destFileName))
+            {
+                return;
+            }
+            var data = new List<string>();
+            var file = Read(sourceFileName);
+            var exclude = new List<string>()
+            {
+                "/// <summary>",
+                "/// Fixed:",
+                "/// </summary>"
+            }.ToJson();
+            var recent = new List<string>();
+            file.Split('\n').ForEach(line =>
+            {
+                var trimedLine = line.Trim();
+                if (trimedLine.StartsWith("//"))
+                {
+                    if (exclude.Contains(trimedLine))
+                    {
+                        recent.Add(line);
+                        if (exclude == recent.Select(o => o.Trim()).ToJson())
+                        {
+                            recent.ForEach(recentLine =>
+                                data.Add(recentLine));
+                            recent.Clear();
+                        }
+                    }
+                }
+                else
+                {
+                    recent.Clear();
+                    data.Add(line);
+                }
+            });
+            Write(data.Join("\n"), destFileName);
         }
 
         public static void DeleteTemporaryFiles(string path, int timeElapsed)

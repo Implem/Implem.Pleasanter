@@ -1,0 +1,1 @@
+﻿case "#TableName#": return Displays.Get(context: context, id: "#TableName#");

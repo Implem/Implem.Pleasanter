@@ -10,9 +10,6 @@ using System.Windows.Input;
 
 namespace Implem.SupportTools.SysLogViewer.View
 {
-    /// <summary>
-    /// UserControl1.xaml の相互作用ロジック
-    /// </summary>
     public partial class SysLogViewerWindow : UserControl
     {
         private SysLogViewerViewModel VM { get => DataContext as SysLogViewerViewModel; }

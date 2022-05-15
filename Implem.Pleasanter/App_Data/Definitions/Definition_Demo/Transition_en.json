@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Transition_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Transition_en to Actual system",
+    "WorkValue": "48",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Release&Delivery",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Business task",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36643.689583333333",
+    "UpdatedTime": "36655.686805555553"
+}

@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_AggregationWhereTenantId",
+    "Indent": "7",
+    "Separator": "\\r\\n",
+    "Include": "Depts,Groups,Users"
+}

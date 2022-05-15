@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Binaries_Bin",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "Bin",
+    "LabelText": "バイナリ",
+    "No": "104",
+    "History": "104",
+    "LinkColumn": "104",
+    "HistoryColumn": "104",
+    "TypeName": "image",
+    "Nullable": "1",
+    "NotForm": "1",
+    "ByForm": "System.Text.Encoding.UTF8.GetBytes(value)",
+    "ByDataRow": "dataRow.Bytes(\"Bin\")",
+    "LabelText_en": "Binary",
+    "LabelText_zh": "二进制",
+    "LabelText_de": "Binär",
+    "LabelText_ko": "바이너리",
+    "LabelText_es": "Binario",
+    "LabelText_vn": "Nhị phân"
+}

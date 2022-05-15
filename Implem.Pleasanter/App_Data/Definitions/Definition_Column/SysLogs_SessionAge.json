@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_SessionAge",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "SessionAge",
+    "LabelText": "セッション経過時間",
+    "No": "118",
+    "History": "118",
+    "EditorColumn": "118",
+    "EditorEnabled": "1",
+    "LinkColumn": "118",
+    "HistoryColumn": "118",
+    "TypeName": "float",
+    "Nullable": "1",
+    "LabelText_en": "Session elapsed time",
+    "LabelText_zh": "会话耗时",
+    "LabelText_de": "Verstrichene Sitzungszeit",
+    "LabelText_ko": "세션 경과 시간",
+    "LabelText_es": "Tiempo transcurrido en la sesión",
+    "LabelText_vn": "Thời gian chạy của phiên làm việc"
+}

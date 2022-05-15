@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Messages_Parts",
+    "RepeatType": "Display",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "DisplayType": "Success,Information,Warning,Error"
+}

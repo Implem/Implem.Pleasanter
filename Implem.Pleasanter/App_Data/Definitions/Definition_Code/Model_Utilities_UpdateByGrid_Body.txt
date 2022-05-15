@@ -1,0 +1,286 @@
+﻿public static string UpdateByGrid(Context context, SiteSettings ss)
+{
+    if (ss.GridEditorType != SiteSettings.GridEditorTypes.Grid)
+    {
+        return Error.Types.InvalidRequest.MessageJson(context: context);
+    }
+    var formDataSet = new FormDataSet(
+        context: context,
+        ss: ss)
+            .Where(o => !o.Suffix.IsNullOrEmpty())
+            .Where(o => o.SiteId == ss.SiteId)
+            .ToList();
+    var statements = new List<SqlStatement>();
+    statements.OnUpdatingByGridExtendedSqls(
+        context: context,
+        siteId: ss.SiteId);
+    var #modelName#Collection = new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id_In(formDataSet
+                .Where(formData => formData.Id > 0)
+                .Select(formData => formData.Id)),
+        formDataSet: formDataSet);
+    var exists = ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        targets: #modelName#Collection.Select(o => o.#ModelName#Id).ToList());
+    switch (exists.Type)
+    {
+        case Error.Types.None: break;
+        default: return exists.MessageJson(context: context);
+    }
+    var notificationHash = #modelName#Collection.ToDictionary(
+        o => o.#ModelName#Id,
+        o => o.GetNotifications(
+            context: context,
+            ss: ss,
+            notice: true,
+            before: true));
+    foreach (var formData in formDataSet)
+    {
+        var #modelName#Model = #modelName#Collection
+            .FirstOrDefault(o => o.#ModelName#Id == formData.Id);
+        if (#modelName#Model != null)
+        {
+            #modelName#Model.SetByBeforeUpdateServerScript(
+                context: context,
+                ss: ss);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                return (context.ErrorData).MessageJson(context: context);
+            }
+            var invalid = #ModelName#Validators.OnUpdating(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            #modelName#Model.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: #modelName#Model);
+            statements.AddRange(#modelName#Model.UpdateStatements(
+                context: context,
+                ss: ss,
+                dataTableName: formData.Id.ToString()));
+        }
+        else if (formData.Id < 0)
+        {
+            #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                formData: formData.Data);
+            #modelName#Model.SetByBeforeCreateServerScript(
+                context: context,
+                ss: ss);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                return (context.ErrorData).MessageJson(context: context);
+            }
+            var invalid = #ModelName#Validators.OnCreating(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            statements.AddRange(#modelName#Model.CreateStatements(
+                context: context,
+                ss: ss,
+                dataTableName: formData.Id.ToString()));
+        }
+        else
+        {
+            return ItemUtilities.ClearItemDataResponse(
+                context: context,
+                ss: ss,
+                id: formData.Id)
+                    .Remove($"[data-id=\"{formData.Id}\"][data-latest]")
+                    .Message(Messages.NotFound(context: context))
+                    .Messages(context.Messages)
+                    .ToJson();
+        }
+        #modelName#Model?.SetByBeforeOpeningRowServerScript(
+            context: context,
+            ss: ss);
+    }
+    statements.OnUpdatedByGridExtendedSqls(
+        context: context,
+        siteId: ss.SiteId);
+    var responses = Repository.ExecuteDataSet_responses(
+        context: context,
+        transactional: true,
+        statements: statements.ToArray());
+    var response = responses.FirstOrDefault(o => !o.Event.IsNullOrEmpty());
+    switch (response?.Event)
+    {
+        case "Duplicated":
+            return UpdateByGridDuplicated(
+                context: context,
+                ss: ss,
+                response: response);
+        case "Conflicted":
+            return UpdateByGridConflicted(
+                context: context,
+                ss: ss,
+                response: response);
+        default:
+            return UpdateByGridSuccess(
+                context: context,
+                ss: ss,
+                formDataSet: formDataSet,
+                responses: responses,
+                notificationHash: notificationHash);
+    }
+}
+
+private static string UpdateByGridDuplicated(
+    Context context, SiteSettings ss, SqlResponse response)
+{
+    return Messages.ResponseDuplicated(
+        context: context,
+        target: "row_" + response.Id,
+        data: ss.GetColumn(
+            context: context,
+            columnName: response.ColumnName)?.LabelText)
+                .ToJson();
+}
+
+private static string UpdateByGridConflicted(
+    Context context, SiteSettings ss, SqlResponse response)
+{
+    var target = "row_" + response.Id;
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: response.Id.ToLong());
+    return #modelName#Model.AccessStatus == Databases.AccessStatuses.Selected
+        ? Messages.ResponseUpdateConflicts(
+            context: context,
+            target: target,
+            data: #modelName#Model.Updator.Name)
+                .ToJson()
+        : Messages.ResponseNotFound(
+            context: context,
+            target: target)
+                .ToJson();
+}
+
+private static string UpdateByGridSuccess(
+    Context context,
+    SiteSettings ss,
+    List<FormData> formDataSet,
+    List<SqlResponse> responses,
+    Dictionary<long, List<Notification>> notificationHash)
+{
+    var #modelName#Collection = new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id_In(responses
+                .Where(o => o.Id > 0)
+                .Select(o => o.Id.ToLong())
+                .ToList()));
+    #modelName#Collection.ForEach(#modelName#Model =>
+    {
+        #modelName#Model.SynchronizeSummary(
+            context: context,
+            ss: ss);
+        if (!formDataSet.Any(o => o.Id == #modelName#Model.#ModelName#Id))
+        {
+            #modelName#Model.ExecuteAutomaticNumbering(
+                context: context,
+                ss: ss);
+            #modelName#Model.Notice(
+                context: context,
+                ss: ss,
+                notifications: #modelName#Model.GetNotifications(
+                    context: context,
+                    ss: ss,
+                    notice: true),
+                type: "Created");
+            #modelName#Model.SetByAfterCreateServerScript(
+                context: context,
+                ss: ss);                
+        }
+        else
+        {
+            #modelName#Model.Notice(
+                context: context,
+                ss: ss,
+                notifications: NotificationUtilities.MeetConditions(
+                    ss: ss,
+                    before: notificationHash.Get(#modelName#Model.#ModelName#Id),
+                    after: #modelName#Model.GetNotifications(
+                        context: context,
+                        ss: ss,
+                        notice: true)),
+                type: "Updated");
+            #modelName#Model.SetByAfterUpdateServerScript(
+                context: context,
+                ss: ss);
+        }
+    });
+    Repository.ExecuteNonQuery(
+        context: context,
+        transactional: true,
+        statements: new #ModelName#Collection(
+            context: context,
+            ss: ss,
+            column: Rds.#TableName#EditorColumns(ss: ss),
+            where: Rds.#TableName#Where()
+                .SiteId(ss.SiteId)
+                .#ModelName#Id_In(responses.Select(o => o.Id.ToLong())))
+                    .SelectMany(o => o.UpdateRelatedRecordsStatements(
+                        context: context,
+                        ss: ss))
+                            .ToArray());
+    var res = new ResponseCollection();
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var gridData = new GridData(
+        context: context,
+        ss: ss,
+        view: view,
+        tableType: Sqls.TableTypes.Normal,
+        where: Rds.#TableName#Where()
+            .SiteId(ss.SiteId)
+            .#ModelName#Id_In(responses.Select(o => o.Id.ToLong())));
+    var columns = ss.GetGridColumns(
+        context: context,
+        view: view,
+        checkPermission: true);
+    gridData.DataRows.ForEach(dataRow =>
+        res.ReplaceAll(
+            $"[data-id=\"{responses.FirstOrDefault(o => o.Id == dataRow.Long("#ModelName#Id"))?.DataTableName}\"][data-latest]",
+            new HtmlBuilder().Tr(
+                context: context,
+                ss: ss,
+                dataRow: dataRow,
+                columns: columns,
+                recordSelector: null,
+                editRow: true,
+                checkRow: false,
+                idColumn: "#ModelName#Id")));
+    formDataSet.ForEach(formData =>
+        formData.Data.Keys.ForEach(controlId =>
+            res.ClearFormData(controlId + formData.Suffix)));
+    return res
+        .SetMemory("formChanged", false)
+        .Message(Messages.UpdatedByGrid(
+            context: context,
+            data: responses.Count().ToString()))
+        .Messages(context.Messages)
+        .Log(context.GetLog())
+        .ToJson();
+}

@@ -65,9 +65,6 @@ namespace Implem.CodeDefiner
                     case "mvc":
                         CreateMvcCode(target);
                         break;
-                    case "css":
-                        CreateCssCode();
-                        break;
                     case "backup":
                         CreateSolutionBackup();
                         break;
@@ -159,14 +156,6 @@ namespace Implem.CodeDefiner
             Functions.AspNetMvc.CSharp.MvcCreator.Create(target);
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerMvcCompleted"),
-                Consoles.Types.Success);
-        }
-
-        private static void CreateCssCode()
-        {
-            Functions.Web.Styles.CssCreator.Create();
-            Consoles.Write(
-                DisplayAccessor.Displays.Get("CodeDefinerCssCompleted"),
                 Consoles.Types.Success);
         }
 

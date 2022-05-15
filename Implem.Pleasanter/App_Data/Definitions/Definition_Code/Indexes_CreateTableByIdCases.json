@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Indexes_CreateTableByIdCases",
+    "RepeatType": "Table",
+    "Indent": "5",
+    "ItemOnly": "1",
+    "Exclude": "Sites"
+}

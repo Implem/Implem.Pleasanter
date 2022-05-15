@@ -1,0 +1,276 @@
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+namespace Implem.Pleasanter.Libraries.Models
+{
+    public static class Summaries
+    {
+        public static void Synchronize(Context context, SiteSettings ss)
+        {
+            ss.Summaries?.ForEach(summary => Synchronize(
+                context: context, ss: ss, summary: summary));
+        }
+
+        public static void Synchronize(Context context, SiteSettings ss, int id)
+        {
+            var summary = ss.Summaries?.Get(id);
+            Synchronize(context: context, ss: ss, summary: summary);
+        }
+
+        public static void Synchronize(Context context, SiteSettings ss, Summary summary)
+        {
+            var destinationSs = SiteSettingsUtilities.Get(
+                context: context, siteId: summary?.SiteId ?? 0);
+            if (destinationSs != null && summary != null)
+            {
+                Synchronize(
+                    context: context,
+                    ss: ss,
+                    destinationSs: destinationSs,
+                    destinationSiteId: summary.SiteId,
+                    destinationColumn: summary.DestinationColumn,
+                    destinationCondition: destinationSs.Views?.Get(summary.DestinationCondition),
+                    setZeroWhenOutOfCondition: summary.SetZeroWhenOutOfCondition == true,
+                    sourceSiteId: ss.SiteId,
+                    sourceReferenceType: ss.ReferenceType,
+                    linkColumn: summary.LinkColumn,
+                    type: summary.Type,
+                    sourceColumn: summary.SourceColumn,
+                    sourceCondition: ss.Views?.Get(summary.SourceCondition));
+            }
+        }
+
+        public static string Synchronize(
+            Context context,
+            SiteSettings ss,
+            SiteSettings destinationSs,
+            long destinationSiteId,
+            string destinationColumn,
+            View destinationCondition,
+            bool setZeroWhenOutOfCondition,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition,
+            long id = 0)
+        {
+            switch (destinationSs.ReferenceType)
+            {
+
+<!--Summaries_SynchronizeCases-->
+
+            }
+            return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
+        }
+
+<!--Summaries_SynchronizeTables-->
+
+        private static Dictionary<long, decimal> Data(
+            Context context,
+            SiteSettings ss,
+            string destinationColumn,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+
+<!--Summaries_DataTablesCases-->
+
+                default: return null;
+            }
+        }
+
+        private static SqlSelect Select(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string type,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (type)
+            {
+                case "Count": return SelectCount(
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceCondition: sourceCondition);
+                case "Total": return SelectTotal(
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
+                case "Average": return SelectAverage(
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
+                case "Min": return SelectMin(
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
+                case "Max": return SelectMax(
+                    context: context,
+                    ss: ss,
+                    destinations: destinations,
+                    sourceSiteId: sourceSiteId,
+                    sourceReferenceType: sourceReferenceType,
+                    linkColumn: linkColumn,
+                    sourceColumn: sourceColumn,
+                    sourceCondition: sourceCondition);
+                default: return null;
+            }
+        }
+
+        private static SqlSelect SelectCount(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+
+<!--Summaries_SelectCountTables-->
+
+                default: return null;
+            }
+        }
+
+        private static SqlSelect SelectTotal(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+
+<!--Summaries_SelectTotalTableCases-->
+
+                default: return null;
+            }
+        }
+
+<!--Summaries_SelectTotalColumns-->
+
+        private static SqlSelect SelectAverage(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+
+<!--Summaries_SelectAverageTableCases-->
+
+                default: return null;
+            }
+        }
+
+<!--Summaries_SelectAverageColumns-->
+
+        private static SqlSelect SelectMin(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+
+<!--Summaries_SelectMinTableCases-->
+
+                default: return null;
+            }
+        }
+
+<!--Summaries_SelectMinColumns-->
+
+        private static SqlSelect SelectMax(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<long> destinations,
+            long sourceSiteId,
+            string sourceReferenceType,
+            string linkColumn,
+            string sourceColumn,
+            View sourceCondition)
+        {
+            switch (sourceReferenceType)
+            {
+
+<!--Summaries_SelectMaxTableCases-->
+
+                default: return null;
+            }
+        }
+
+<!--Summaries_SelectMaxColumns-->
+<!--Summaries_WhereTables-->
+
+        private static SqlWhereCollection Where(
+            Context context,
+            SiteSettings ss,
+            View view,
+            SqlWhereCollection where)
+        {
+            return view != null
+                ? view.Where(context: context, ss: ss, where: where)
+                : where;
+        }
+    }
+}

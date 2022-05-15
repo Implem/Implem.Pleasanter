@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_IdentityParameters",
+    "RepeatType": "Column",
+    "Separator": ", ",
+    "IdentityOrPk": "1",
+    "IncludeTypeName": "int,bigint"
+}

@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_AddSqlParamPkHistory",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "PkHistory": "1"
+}

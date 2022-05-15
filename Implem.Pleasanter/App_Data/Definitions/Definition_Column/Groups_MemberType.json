@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Groups_MemberType",
+    "ModelName": "Group",
+    "TableName": "Groups",
+    "Label": "グループ",
+    "ColumnName": "MemberType",
+    "LabelText": "メンバー種別",
+    "No": "105",
+    "History": "105",
+    "TypeName": "string",
+    "TypeCs": "string",
+    "NotLookup": "1",
+    "NotForm": "1",
+    "NotSelect": "1",
+    "NotUpdate": "1",
+    "NotEditorSettings": "1",
+    "LabelText_en": "Member type",
+    "LabelText_zh": "会员类型",
+    "LabelText_de": "Mitgliedstyp",
+    "LabelText_ko": "멤버 유형",
+    "LabelText_es": "tipo de miembro",
+    "LabelText_vn": "Loại thành viên"
+}

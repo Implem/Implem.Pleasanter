@@ -1,0 +1,125 @@
+﻿public static #TableName#ColumnCollection #TableName#DefaultColumns()
+{
+    var column = #TableName#Column()
+
+<!--Rds_ColumnDefault-->;
+
+    Def.ColumnDefinitionCollection
+        .Where(columnDefinition => columnDefinition.TableName == "#TableName#")
+        .Where(columnDefinition => !columnDefinition.ExtendedColumnType.IsNullOrEmpty())
+        .ForEach(columnDefinition =>
+            column.#TableName#Column(columnDefinition.ColumnName));
+    return column;
+}
+
+<!--Rds_ItemEditorColumns-->
+
+public static #TableName#JoinCollection #TableName#JoinDefault()
+{
+    var join = #TableName#Join();
+
+<!--Rds_JoinDefault-->
+
+    return join;
+}
+
+public static #TableName#WhereCollection #TableName#WhereDefault(
+    Context context, #ModelName#Model #modelName#Model)
+{
+    return #TableName#Where()
+
+<!--Rds_Where_TenantId-->
+<!--Rds_WherePk--><!--Rds_WherePkSemicolon-->
+<!--Rds_Where_SiteId-->
+<!--Rds_Where_ItemId-->
+}
+
+public static #TableName#ParamCollection #TableName#ParamDefault(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool setDefault = false,
+    bool otherInitValue = false)
+{
+    var param = #TableName#Param()
+
+<!--Rds_ParamDefault_TenantId-->
+<!--Rds_ParamItemId-->
+<!--Rds_ParamDefault-->;
+
+    #modelName#Model.ClassHash
+        .Where(o => #modelName#Model.Class_Updated(columnName: o.Key)
+            || (otherInitValue && !#modelName#Model.GetClass(columnName: o.Key)
+                .InitialValue(context: context)))
+        .ForEach(o =>
+            param.Add(
+                columnBracket: $"\"{o.Key}\"",
+                name: o.Key,
+                value: o.Value.MaxLength(1024)));
+    #modelName#Model.NumHash
+        .Where(o => #modelName#Model.Num_Updated(
+            columnName: o.Key,
+            column: ss?.GetColumn(
+                context: context,
+                columnName: o.Key),
+            paramDefault: true)
+                || (otherInitValue && !#modelName#Model.GetNum(columnName: o.Key)
+                    .InitialValue(context: context)))
+                        .ForEach(o =>
+                        {
+                            if (o.Value?.Value != null)
+                            {
+                                param.Add(
+                                    columnBracket: $"\"{o.Key}\"",
+                                    name: o.Key,
+                                    value: o.Value.Value);
+                            }
+                            else
+                            {
+                                param.Add(
+                                    columnBracket: $"\"{o.Key}\"",
+                                    name: o.Key,
+                                    raw: "null");
+                            }
+                        });
+    #modelName#Model.DateHash
+        .Where(o => #modelName#Model.Date_Updated(columnName: o.Key)
+            || (otherInitValue && !#modelName#Model.GetDate(columnName: o.Key)
+                .InitialValue(context: context)))
+        .ForEach(o =>
+            param.Add(
+                columnBracket: $"\"{o.Key}\"",
+                name: o.Key,
+                value: o.Value));
+    #modelName#Model.DescriptionHash
+        .Where(o => #modelName#Model.Description_Updated(columnName: o.Key)
+            || (otherInitValue && !#modelName#Model.GetDescription(columnName: o.Key)
+                .InitialValue(context: context)))
+        .ForEach(o =>
+            param.Add(
+                columnBracket: $"\"{o.Key}\"",
+                name: o.Key,
+                value: o.Value ?? string.Empty));
+    #modelName#Model.CheckHash
+        .Where(o => #modelName#Model.Check_Updated(columnName: o.Key)
+            || (otherInitValue && !#modelName#Model.GetCheck(columnName: o.Key)
+                .InitialValue(context: context)))
+        .ForEach(o =>
+            param.Add(
+                columnBracket: $"\"{o.Key}\"",
+                name: o.Key,
+                value: o.Value));
+    #modelName#Model.AttachmentsHash
+        .Where(o => #modelName#Model.Attachments_Updated(columnName: o.Key)
+            || (otherInitValue && !#modelName#Model.GetAttachments(columnName: o.Key)
+                .InitialValue(context: context)))
+        .ForEach(o =>
+            param.Add(
+                columnBracket: $"\"{o.Key}\"",
+                name: o.Key,
+                value: o.Value?.RecordingJson() ?? string.Empty));
+
+<!--Rds_ParamDefaultNotNull-->
+
+    return param;
+}

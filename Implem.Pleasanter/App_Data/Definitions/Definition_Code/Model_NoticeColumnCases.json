@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Model_NoticeColumnCases",
+    "RepeatType": "Column",
+    "Indent": "8",
+    "Separator": "\\r\\n",
+    "NotPk": "1",
+    "Update": "1",
+    "Exclude": "Ver,CreatedTime,UpdatedTime",
+    "ExcludeTypeCs": "Attachments"
+}

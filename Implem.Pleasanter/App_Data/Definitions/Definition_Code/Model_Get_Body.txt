@@ -1,0 +1,44 @@
+﻿public #ModelName#Model Get(
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    SqlColumnCollection column = null,
+    SqlJoinCollection join = null,
+    SqlWhereCollection where = null,
+    SqlOrderByCollection orderBy = null,
+    SqlParamCollection param = null,
+
+    <!--Model_LinkedSsDataSetHashParameter-->
+
+    bool distinct = false,
+    int top = 0)
+{
+    where = where ?? Rds.#TableName#WhereDefault(
+        context: context,
+        #modelName#Model: this);
+
+<!--Model_SetColumnsWhere-->
+
+    column = (column ?? <!--Model_GetDefaultColumns--><!--Model_GetSitesDefaultColumns--><!--Model_GetItemsDefaultColumns-->)<!--Model_SetExtendedSqlSelectingColumn-->;
+    join = join ?? Rds.#TableName#JoinDefault();
+
+<!--Model_GetSqlJoin-->
+
+    Set(context, <!--Model_SiteSettings-->Repository.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            tableType: tableType,
+            column: column,
+            join: join,
+            where: where,
+            orderBy: orderBy,
+            param: param,
+            distinct: distinct,
+            top: top)));
+
+<!--Model_SetSiteSettingsProperties-->
+
+    return this;
+}

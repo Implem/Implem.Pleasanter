@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster10",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site23",
+    "ClassA": "ヨシダ　ユイ",
+    "ClassB": "吉田 結",
+    "ClassC": "565-0802",
+    "ClassD": "吹田市青葉丘南",
+    "ClassE": "584-357-510",
+    "ClassF": "yosida@example.com",
+    "ClassG": "大阪府",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

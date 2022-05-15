@@ -1,0 +1,4 @@
+﻿Write manuals for operators.
+・Routine work
+・Backup procedure
+・Troubleshooting procedure

@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Roster14_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site23_en",
+    "ClassA": "Misaki Matsumoto",
+    "ClassB": "Misaki Matsumoto",
+    "ClassC": "299-4202",
+    "ClassD": "Shirako-town, Chosei-gun",
+    "ClassE": "868-279-871",
+    "ClassF": "matsumoto@example.com",
+    "ClassG": "Chiba",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

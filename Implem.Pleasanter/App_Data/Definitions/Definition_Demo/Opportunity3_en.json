@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity3_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site7_en",
+    "Title": "Develop a environment monitoring system in a food dactory",
+    "Status": "200",
+    "ClassA": "#Customer2_en#",
+    "ClassB": "System development",
+    "ClassC": "50%",
+    "NumA": "4500000",
+    "NumB": "3207000",
+    "NumC": "1293000",
+    "NumD": "28.7",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "StartTime": "36647",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

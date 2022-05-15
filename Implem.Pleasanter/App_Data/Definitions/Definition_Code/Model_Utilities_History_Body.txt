@@ -1,0 +1,28 @@
+﻿public static string History(Context context, SiteSettings ss, #IdType# #modelName#Id)
+{
+    var #modelName#Model = new #ModelName#Model(context: context, ss: ss, #modelName#Id: #modelName#Id);
+    #modelName#Model.Get(
+        context: context,
+
+        <!--Model_SiteSettingsWithParameterNameLower-->
+
+        where: Rds.#TableName#Where()
+            .#ModelName#Id(#modelName#Model.#ModelName#Id)
+            .Ver(context.Forms.Int("Ver")),
+        tableType: Sqls.TableTypes.NormalAndHistory);
+    #modelName#Model.VerType = context.Forms.Bool("Latest")
+        ? Versions.VerTypes.Latest
+        : Versions.VerTypes.History;
+    return EditorResponse(context, <!--Model_SiteSettings-->#modelName#Model)
+        .PushState("History", Locations.Get(
+            context: context,
+            parts: new string[]
+            {
+                "Items",
+                #modelName#Id.ToString() 
+                    + (#modelName#Model.VerType == Versions.VerTypes.History
+                        ? "?ver=" + context.Forms.Int("Ver") 
+                        : string.Empty)
+            }))
+        .ToJson();
+}

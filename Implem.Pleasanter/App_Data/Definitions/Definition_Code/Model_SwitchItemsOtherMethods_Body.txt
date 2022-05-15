@@ -1,0 +1,98 @@
+﻿public string SynchronizeTitles(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    return SiteUtilities.SynchronizeTitles(
+        context: context,
+        siteModel: Site);
+}
+
+public string SynchronizeSummaries(Context context)
+{
+    SetSite(context: context);
+    return SiteUtilities.SynchronizeSummaries(
+        context: context,
+        siteModel: Site);
+}
+
+public string SynchronizeFormulas(Context context)
+{
+    SetSite(context: context);
+    return SiteUtilities.SynchronizeFormulas(
+        context: context,
+        siteModel: Site);
+}
+
+public void SetSite(
+    Context context,
+    bool siteOnly = false,
+    bool initSiteSettings = false,
+    bool setSiteIntegration = false,
+    bool setAllChoices = false,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    Dictionary<long, DataSet> linkedSsDataSetHash = null)
+{
+    Site = GetSite(
+        context: context,
+        siteOnly: siteOnly,
+        initSiteSettings: initSiteSettings,
+        setSiteIntegration: setSiteIntegration,
+        setAllChoices: setAllChoices,
+        tableType: tableType,
+        linkedSsDataSetHash: linkedSsDataSetHash);
+    SetByWhenloadingSiteSettingsServerScript(
+        context: context,
+        ss: Site.SiteSettings);
+}
+
+public SiteModel GetSite(
+    Context context,
+    bool siteOnly = false,
+    bool initSiteSettings = false,
+    bool setSiteIntegration = false,
+    bool setAllChoices = false,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+    Dictionary<long, DataSet> linkedSsDataSetHash = null)
+{
+    SiteModel siteModel;
+    if (ReferenceType == "Sites" && context.Forms.Exists("Ver"))
+    {
+        siteModel = new SiteModel();
+        siteModel.Get(
+            context: context,
+            where: Rds.SitesWhere()
+                .TenantId(context.TenantId)
+                .SiteId(ReferenceId)
+                .Ver(context.Forms.Int("Ver")),
+            tableType: Sqls.TableTypes.NormalAndHistory);
+        siteModel.VerType =  context.Forms.Bool("Latest")
+            ? Versions.VerTypes.Latest
+            : Versions.VerTypes.History;
+    }
+    else
+    {
+        siteModel = siteOnly
+            ? new SiteModel(
+                context: context,
+                siteId: ReferenceId,
+                linkedSsDataSetHash: linkedSsDataSetHash)
+            : new SiteModel(
+                context: context,
+                siteId: ReferenceType == "Sites"
+                    ? ReferenceId
+                    : SiteId,
+                linkedSsDataSetHash: linkedSsDataSetHash);
+    }
+    if (initSiteSettings)
+    {
+        siteModel.SiteSettings = SiteSettingsUtilities.Get(
+            context: context,
+            siteModel: siteModel,
+            referenceId: ReferenceId,
+            setSiteIntegration: setSiteIntegration,
+            setAllChoices: setAllChoices,
+            tableType: tableType);
+    }
+    return siteModel;
+}

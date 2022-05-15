@@ -1,0 +1,112 @@
+﻿public static string BulkMove(Context context, SiteSettings ss)
+{
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return Messages.ResponseSelectTargets(context: context).ToJson();
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    var param = view.Param(
+        context: context,
+        ss: ss);
+    var invalid = ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: where,
+        param: param,
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss));
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    var siteId = context.Forms.Long("MoveTargets");
+    if (context.ContractSettings.ItemsLimit(
+        context: context,
+        siteId: siteId,
+        number: Repository.ExecuteScalar_int(
+            context: context,
+            statements: Rds.Select#TableName#(
+                column: Rds.#TableName#Column().#TableName#Count(),
+                where: where,
+                param: param))))
+    {
+        return Error.Types.ItemsLimit.MessageJson(context: context);
+    }
+    if (Permissions.CanMove(
+        context: context,
+        source: ss,
+        destination: SiteSettingsUtilities.Get(
+            context: context,
+            siteId: siteId,
+            referenceId: siteId)))
+    {
+        var count = BulkMove(
+            context: context,
+            ss: ss,
+            siteId: siteId,
+            where: where,
+            param: param);
+        Summaries.Synchronize(context: context, ss: ss);
+        return GridRows(
+            context: context,
+            ss: ss,
+            clearCheck: true,
+            message: Messages.BulkMoved(
+                context: context,
+                data: count.ToString()));
+    }
+    else
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+}
+
+private static int BulkMove(
+    Context context,
+    SiteSettings ss,
+    long siteId,
+    SqlWhereCollection where,
+    SqlParamCollection param)
+{
+    var sub = Rds.Select#TableName#(
+        column: Rds.#TableName#Column().#ModelName#Id(),
+        where: where,
+        param: param);
+    var guid = Strings.NewGuid();
+    return Repository.ExecuteScalar_response(
+        context: context,
+        transactional: true,
+        statements: new SqlStatement[]
+        {
+            Rds.UpdateItems(
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceId_In(sub: sub),
+                param: Rds.ItemsParam()
+                    .ReferenceType(guid)),
+            Rds.Update#TableName#(
+                where: where,
+                param: Rds.#TableName#Param()
+                    .SiteId(siteId)),
+            Rds.RowCount(),
+            Rds.UpdateItems(
+                where: Rds.ItemsWhere()
+                    .SiteId(ss.SiteId)
+                    .ReferenceType(guid),
+                param: Rds.ItemsParam()
+                    .SiteId(siteId)
+                    .ReferenceType(ss.ReferenceType))
+        }).Count.ToInt();
+}

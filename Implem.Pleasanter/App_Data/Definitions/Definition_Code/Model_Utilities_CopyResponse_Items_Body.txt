@@ -1,0 +1,26 @@
+﻿if (ss.SwitchRecordWithAjax == true)
+{
+    return EditorResponse(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        message: Messages.Copied(context: context),
+        switchTargets: GetSwitchTargets(
+            context: context,
+            ss: ss,
+            #modelName#Id: #modelName#Model.#ModelName#Id,
+            siteId: #modelName#Model.SiteId).Join())
+                .ToJson();
+}
+else
+{
+    SessionUtilities.Set(
+        context: context,
+        message: Messages.Copied(context: context));
+    return new ResponseCollection()
+        .Response("id", #modelName#Model.#ModelName#Id.ToString())
+        .Href(Locations.ItemEdit(
+            context: context,
+            id: #modelName#Model.#ModelName#Id))
+        .ToJson();
+}

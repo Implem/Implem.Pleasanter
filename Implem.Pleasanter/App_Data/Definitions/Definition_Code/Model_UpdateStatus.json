@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_UpdateStatus",
+    "Indent": "4",
+    "UpdateMonitor": "1",
+    "Exclude": "Registrations"
+}
