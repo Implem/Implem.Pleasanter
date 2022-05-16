@@ -89,5 +89,8 @@ namespace Implem.ParameterAccessor.Parts
         public DateTime MinTime;
         public DateTime MaxTime;
         public int DateTimeStep;
+        public bool HideCurrentTimeIcon;
+        public bool HideCurrentUserIcon;
+        public bool HideCurrentDeptIcon;
     }
 }
