@@ -235,7 +235,9 @@ namespace Implem.Pleasanter.Controllers.Api
                             guidParam: targetGuid,
                             referenceId: context.QueryStrings.Long("id"),
                             file: postedFile);
-                        var response = attachment.Create(context: context);
+                        var response = BinaryUtilities.CreateAttachment(
+                            context: context,
+                            attachment: attachment);
                         log.Finish(
                             context: context,
                             responseSize: response?.Content?.Length ?? 0);

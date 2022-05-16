@@ -1061,5 +1061,24 @@ namespace Implem.Pleasanter.Models
                     long.Parse(matches[2].Value))
                 : null;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateAttachment(
+            Context context,
+            Attachment attachment)
+        {
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                attachments: new Attachments() { attachment });
+            if (invalid != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: invalid));
+            }
+            return attachment.Create(context: context);
+        }
     }
 }
