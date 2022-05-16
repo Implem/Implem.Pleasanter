@@ -1,1 +1,61 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["ResultId","TitleBody","Comments","Status","Manager","Owner","ClassA","DateA","Updator","UpdatedTime"],"EditorColumns":["Comments","ResultId","Ver","Title","Body","Status","Manager","Owner","ClassA","DateA"],"LinkColumns":["ResultId","Title","Status","Owner","ClassA","DateA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"指摘区分","ChoicesText":"指摘区分1\n指摘区分2\n指摘区分3\n指摘区分4\n指摘区分5"},{"ColumnName":"Manager","LabelText":"評価者"},{"ColumnName":"DateA","LabelText":"レビュー日時","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"}],"ViewLatestId":0,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "Comments",
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "DateA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "指摘区分",
+            "ChoicesText": "指摘区分1\n指摘区分2\n指摘区分3\n指摘区分4\n指摘区分5"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "評価者"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "レビュー日時",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        }
+    ],
+    "ViewLatestId": 0,
+    "TitleSeparator": ")"
+}

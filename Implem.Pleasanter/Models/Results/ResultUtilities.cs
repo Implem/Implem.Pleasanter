@@ -1222,6 +1222,12 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
+                    var newResult = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        methodType: BaseModel.MethodTypes.New);
+                    newResult.SetByModel(resultModel);
+                    resultModel = newResult;
                     resultModel.SetCopyDefault(
                         context: context,
                         ss: ss);
@@ -1229,6 +1235,10 @@ namespace Implem.Pleasanter.Models
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();
                     resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                    resultModel.SetByLookups(
+                        context: context,
+                        ss: ss,
+                        copyByDefaultOnly: true);
                 }
                 else
                 {
@@ -6248,8 +6258,14 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
-            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
-                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            if (groupByX?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == false
+                        || groupByY?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null) == false)
             {
                 return HtmlTemplates.Error(
                     context: context,
@@ -6342,8 +6358,14 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
-            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
-                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            if (groupByX?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == false
+                        || groupByY?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null) == false)
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }

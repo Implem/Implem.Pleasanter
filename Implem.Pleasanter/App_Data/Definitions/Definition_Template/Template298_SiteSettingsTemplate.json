@@ -1,1 +1,165 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","Title","ClassB","ClassA","ClassD","ClassE","NumA","Status","ClassC","StartTime","CompletionTime","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","StartTime","CompletionTime","Status","Manager","Owner","ClassB","ClassA","ClassD","ClassE","NumA","ClassC","Body","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","StartTime","CompletionTime","Status","Manager","Owner","ClassB","ClassA","ClassD","NumA","ClassC","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","StartTime","CompletionTime","Status","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"StartTime","LabelText":"Purchased_date","ExportFormat":"Ymda"},{"ColumnName":"CompletionTime","LabelText":"Expired_date","DefaultInput":"365","ExportFormat":"Ymda"},{"ColumnName":"ClassA","LabelText":"Model_name"},{"ColumnName":"ClassB","LabelText":"Manufacture","ChoicesText":"Manufacture1\nManufacture2\nManufacture3\nManufacture4\nManufacture5"},{"ColumnName":"Title","LabelText":"Asset_management_number"},{"ColumnName":"Body","LabelText":"Notes"},{"ColumnName":"Owner","LabelText":"User"},{"ColumnName":"ClassC","LabelText":"Location","ChoicesText":"Location1\nLocation2\nLocation3\nLocation4\nLocation5"},{"ColumnName":"NumA","LabelText":"Purchased_price","Format":"C"},{"ColumnName":"Status","ChoicesText":"100,Before_purchase,Before,status-new\n900,Purchased,Purchased,status-closed\n910,Pending,Pending,status-rejected"},{"ColumnName":"ClassD","LabelText":"Category","ChoicesText":"Laptop\nDesktop\nTablet"},{"ColumnName":"ClassE","LabelText":"Serial_numberNo"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassD","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassD","Type":1,"Target":"NumA"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","TimeSeriesGroupBy":"ClassD","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumA","KambanGroupByY":"Owner","KambanValue":"NumA"}],"EnableGantt":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "Status",
+        "ClassC",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "ClassC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "NumA",
+        "ClassC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Purchased_date",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Expired_date",
+            "DefaultInput": "365",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Model_name"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Manufacture",
+            "ChoicesText": "Manufacture1\nManufacture2\nManufacture3\nManufacture4\nManufacture5"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Asset_management_number"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "User"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Location",
+            "ChoicesText": "Location1\nLocation2\nLocation3\nLocation4\nLocation5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Purchased_price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Before_purchase,Before,status-new\n900,Purchased,Purchased,status-closed\n910,Pending,Pending,status-rejected"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Category",
+            "ChoicesText": "Laptop\nDesktop\nTablet"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Serial_numberNo"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassD",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumA",
+            "KambanGroupByY": "Owner",
+            "KambanValue": "NumA"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

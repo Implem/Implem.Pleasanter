@@ -1,1 +1,157 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","Comments","StartTime","CompletionTime","ClassA","ClassB","ClassC","Status","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","DescriptionA","StartTime","CompletionTime","ClassA","ClassB","ClassC","Status","Manager","Owner","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"緊急度","ChoicesText":"100,高,高,status-review\n200,中,中,status-inprogress\n300,低,低,status-new"},{"ColumnName":"Status","ChoicesText":"100,起票,起,status-new\n150,受け付け,受,status-preparation\n200,対応中,対,status-inprogress\n300,応答待ち,待,status-review\n900,完了,完,status-closed\n910,保留,留,status-rejected","ValidateRequired":false},{"ColumnName":"Manager","LabelText":"起票者"},{"ColumnName":"Owner","LabelText":"対応者"},{"ColumnName":"ClassB","LabelText":"エスカレーション種別","ChoicesText":"クレーム\nトラブル\n事故\n事件\nその他"},{"ColumnName":"ClassC","LabelText":"商品・サービス","ChoicesText":"商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"},{"ColumnName":"DescriptionA","LabelText":"対応結果"},{"ColumnName":"Body","LabelText":"エスカレーション内容"},{"ColumnName":"StartTime","LabelText":"起票日時","GridFormat":"Ymdahm","EditorFormat":"Ymdhm"},{"ColumnName":"CompletionTime","LabelText":"完了日時","GridFormat":"Ymdahm","EditorFormat":"Ymdhm"}],"Aggregations":[{"Id":6,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"Owner","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":4,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":5,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"StartTime","CrosstabGroupByY":"ClassC","KambanGroupByY":"Owner"}],"EnableGantt":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "StartTime",
+        "CompletionTime",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "Manager",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "緊急度",
+            "ChoicesText": "100,高,高,status-review\n200,中,中,status-inprogress\n300,低,低,status-new"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起,status-new\n150,受け付け,受,status-preparation\n200,対応中,対,status-inprogress\n300,応答待ち,待,status-review\n900,完了,完,status-closed\n910,保留,留,status-rejected",
+            "ValidateRequired": false
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "起票者"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "対応者"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "エスカレーション種別",
+            "ChoicesText": "クレーム\nトラブル\n事故\n事件\nその他"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "商品・サービス",
+            "ChoicesText": "商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "対応結果"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "エスカレーション内容"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "起票日時",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "完了日時",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 6,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 5,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "ClassC",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,164 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["ResultId","TitleBody","Status","Manager","Owner","ClassA","DateA","DateB","NumD","NumA","NumB","NumC","NumE","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","Status","Manager","Owner","ClassA","DateA","DateB","NumD","NumA","NumB","NumC","NumE","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","Status","Owner","ClassA","DateA","DateB","NumD","NumA","NumB","NumC","NumE","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Status","Owner","ClassA","NumD","DateA","DateB","NumA","NumB","NumC","NumE","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"イベント名"},{"ColumnName":"Status","ChoicesText":"100,未着手,未,status-new\n150,準備,準,status-preparation\n200,実施中,実,status-inprogress\n900,完了,完,status-closed\n910,保留,留,status-rejected"},{"ColumnName":"ClassA","LabelText":"場所"},{"ColumnName":"NumA","LabelText":"一人あたりの費用","Format":"C"},{"ColumnName":"NumB","LabelText":"参加人数","Unit":"人"},{"ColumnName":"DateA","LabelText":"開始"},{"ColumnName":"DateB","LabelText":"終了"},{"ColumnName":"NumC","LabelText":"費用合計","Format":"C"},{"ColumnName":"NumD","LabelText":"予算","Format":"C"},{"ColumnName":"NumE","LabelText":"差額","Format":"C","EditorReadOnly":true}],"Formulas":[{"Target":"NumC","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumB","OperatorType":3}]},"Id":1},{"Target":"NumE","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumD","OperatorType":0},{"ColumnName":"NumC","OperatorType":2}]},"Id":2}],"ViewLatestId":0,"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumE",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "NumD",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Status",
+        "Owner",
+        "ClassA",
+        "NumD",
+        "DateA",
+        "DateB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "イベント名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未着手,未,status-new\n150,準備,準,status-preparation\n200,実施中,実,status-inprogress\n900,完了,完,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "場所"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "一人あたりの費用",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "参加人数",
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "費用合計",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "予算",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "差額",
+            "Format": "C",
+            "EditorReadOnly": true
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 2
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

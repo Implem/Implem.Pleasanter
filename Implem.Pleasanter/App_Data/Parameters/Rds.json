@@ -1,5 +1,5 @@
 ﻿{
-    "Dbms": "PostgreSQL",
+    "Dbms": "SQLServer",
     "Provider": "Local",
     "SaConnectionString": null,
     "OwnerConnectionString": null,

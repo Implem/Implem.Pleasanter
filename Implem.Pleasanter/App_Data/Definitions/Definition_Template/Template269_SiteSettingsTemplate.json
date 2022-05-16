@@ -1,1 +1,106 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassA","DateA","ClassC","ClassB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","DateA","ClassC","ClassB","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA","DateA","ClassC","ClassB"],"LinkColumns":["ClassA","DateA","ClassC","ClassB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"DateA","LabelText":"Date","ValidateRequired":true},{"ColumnName":"ClassA","LabelText":"Store","ChoicesText":"Store1\nStore2\nStore3\nStore4\nStore5"},{"ColumnName":"ClassB","LabelText":"Personnel","ChoicesText":"Personnel1\nPersonnel2\nPersonnel3\nPersonnel4\nPersonnel5"},{"ColumnName":"ClassC","LabelText":"Shift","ChoicesText":"A.M.\nP.M.\nNight\nDay_off"},{"ColumnName":"Body","LabelText":"Notes"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassC","TimeSeriesGroupBy":"ClassB"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassA",
+        "DateA",
+        "ClassC",
+        "ClassB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "DateA",
+        "ClassC",
+        "ClassB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "DateA",
+        "ClassC",
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "DateA",
+        "ClassC",
+        "ClassB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Store",
+            "ChoicesText": "Store1\nStore2\nStore3\nStore4\nStore5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Personnel",
+            "ChoicesText": "Personnel1\nPersonnel2\nPersonnel3\nPersonnel4\nPersonnel5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Shift",
+            "ChoicesText": "A.M.\nP.M.\nNight\nDay_off"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassC",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

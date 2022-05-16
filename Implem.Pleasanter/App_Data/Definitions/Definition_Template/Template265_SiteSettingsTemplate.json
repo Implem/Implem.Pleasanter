@@ -1,1 +1,218 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateA","Title","ClassA","ClassB","NumB","NumC","NumD","NumE","NumF","NumA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","Title","ClassA","ClassB","DescriptionA","NumB","DescriptionB","NumC","DescriptionC","NumD","DescriptionD","NumE","DescriptionE","NumF","Body","NumA","AttachmentsA","Comments"],"LinkColumns":["DateA","Title","ClassA","ClassB","NumB","NumC","NumD","NumE","NumF","NumA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","ClassA","ClassB","NumB","NumC","NumD","NumE","NumF","NumA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Respondent"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"sex","ChoicesText":"Man \nWoman\nUnanswered"},{"ColumnName":"ClassB","LabelText":"age","ChoicesText":"10's\n20's\n30's\n40's\n50's\n60's"},{"ColumnName":"Body","LabelText":"Remarks"},{"ColumnName":"DateA","LabelText":"Answer date"},{"ColumnName":"DescriptionA","LabelText":"Question1"},{"ColumnName":"DescriptionB","LabelText":"Question2"},{"ColumnName":"DescriptionC","LabelText":"Question3"},{"ColumnName":"DescriptionD","LabelText":"Question4"},{"ColumnName":"DescriptionE","LabelText":"Question5"},{"ColumnName":"NumA","LabelText":"Answer total","EditorReadOnly":true},{"ColumnName":"NumB","LabelText":"Answer1","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumC","LabelText":"Answer2","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumD","LabelText":"Answer3","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumE","LabelText":"Answer4","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumF","LabelText":"Answer5","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0}],"Formulas":[{"Target":"NumA","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumB","OperatorType":0},{"ColumnName":"NumC","OperatorType":1},{"ColumnName":"NumD","OperatorType":1},{"ColumnName":"NumE","OperatorType":1},{"ColumnName":"NumF","OperatorType":1}]},"Id":1}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"DateA":1}}],"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "NumE",
+        "DescriptionE",
+        "NumF",
+        "Body",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Respondent"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "sex",
+            "ChoicesText": "Man \nWoman\nUnanswered"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "age",
+            "ChoicesText": "10's\n20's\n30's\n40's\n50's\n60's"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Answer date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Question1"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Question2"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Question3"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Question4"
+        },
+        {
+            "ColumnName": "DescriptionE",
+            "LabelText": "Question5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Answer total",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Answer1",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Answer2",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Answer3",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Answer4",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Answer5",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumE",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumF",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

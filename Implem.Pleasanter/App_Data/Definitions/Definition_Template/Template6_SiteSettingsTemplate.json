@@ -1,1 +1,115 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","ClassA","ClassB","TitleBody","Comments","Manager","Owner","StartTime","CompletionTime","Status","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","StartTime","CompletionTime","Status","ClassC","Manager","Owner","ClassA","ClassB","AttachmentsA","Comments"],"TitleColumns":["ClassA","ClassB","Title"],"LinkColumns":["IssueId","Title","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"作業工程","ChoicesText":"作業工程1\n作業工程2\n作業工程3\n作業工程4\n作業工程5"},{"ColumnName":"ClassB","LabelText":"作業内容","ChoicesText":"作業内容1\n作業内容2\n作業内容3\n作業内容4\n作業内容5"},{"ColumnName":"ClassC","LabelText":"チーム","ChoicesText":"チーム1\nチーム2\nチーム3\nチーム4\nチーム5"}],"Aggregations":[{"Id":6,"GroupBy":"Status","Type":0,"Target":""},{"Id":7,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":8,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","TimeSeriesGroupBy":"Status","TimeSeriesAggregateType":"Count","KambanGroupByY":"ClassC"}],"EnableGantt":false,"EnableBurnDown":false,"TitleSeparator":"）"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "Manager",
+        "Owner",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "ClassC",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "ClassB",
+        "Title"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "作業工程",
+            "ChoicesText": "作業工程1\n作業工程2\n作業工程3\n作業工程4\n作業工程5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "作業内容",
+            "ChoicesText": "作業内容1\n作業内容2\n作業内容3\n作業内容4\n作業内容5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "チーム",
+            "ChoicesText": "チーム1\nチーム2\nチーム3\nチーム4\nチーム5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 6,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 7,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 8,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "Status",
+            "TimeSeriesAggregateType": "Count",
+            "KambanGroupByY": "ClassC"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": "）"
+}

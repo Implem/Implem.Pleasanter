@@ -1,1 +1,237 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","TitleBody","Comments","ClassA","NumA","NumB","NumC","NumF","Status","StartTime","CompletionTime","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","Title","Body","ClassA","NumA","StartTime","CompletionTime","Status","Manager","Owner","NumB","NumD","NumC","NumE","NumF","NumG","AttachmentsA","Comments"],"LinkColumns":["IssueId","Title","NumA","NumB","NumC","NumF","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","NumB","NumC","NumF","StartTime","CompletionTime","Status","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"StartTime","ExportFormat":"Ymda"},{"ColumnName":"CompletionTime","LabelText":"終了","DefaultInput":"90","ExportFormat":"Ymda"},{"ColumnName":"Status","ChoicesText":"100,未着手,未,status-new\n150,準備,準,status-preparation\n200,実施中,実,status-inprogress\n900,完了,完,status-closed\n910,保留,留,status-rejected"},{"ColumnName":"Manager","LabelText":"責任者"},{"ColumnName":"NumA","LabelText":"広告宣伝費","Format":"C"},{"ColumnName":"NumB","LabelText":"問合せ","Section":"実施結果","Unit":"件"},{"ColumnName":"NumC","LabelText":"商談化","NoWrap":true,"Unit":"件"},{"ColumnName":"Title","LabelText":"施策名"},{"ColumnName":"Body","LabelText":"施策内容"},{"ColumnName":"ClassA","LabelText":"種類","ChoicesText":"インターネット広告\nマス広告\nSP広告"},{"ColumnName":"NumD","LabelText":"広告宣伝費÷問合せ","Format":"C","EditorReadOnly":true},{"ColumnName":"NumE","LabelText":"広告宣伝費÷商談化","Format":"C","EditorReadOnly":true},{"ColumnName":"NumF","LabelText":"受注","NoWrap":true,"Unit":"件"},{"ColumnName":"NumG","LabelText":"広告宣伝費÷受注","Format":"C","EditorReadOnly":true}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":0,"Target":""}],"Formulas":[{"Target":"NumD","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumB","OperatorType":4}]},"Id":1},{"Target":"NumE","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumC","OperatorType":4}]},"Id":2},{"Target":"NumG","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumF","OperatorType":4}]},"Id":3}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"StartTime","CrosstabGroupByX":"StartTime","CrosstabGroupByY":"Columns","CrosstabColumns":"[\"NumA\",\"NumB\",\"NumC\",\"NumF\"]","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Count","TimeSeriesValue":"WorkValue","KambanGroupByY":"ClassA","KambanAggregateType":"Total","KambanValue":"NumA","KambanAggregationView":true}],"EnableGantt":false,"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumF",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "NumA",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "NumB",
+        "NumD",
+        "NumC",
+        "NumE",
+        "NumF",
+        "NumG",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumF",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "NumB",
+        "NumC",
+        "NumF",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "終了",
+            "DefaultInput": "90",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未着手,未,status-new\n150,準備,準,status-preparation\n200,実施中,実,status-inprogress\n900,完了,完,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "責任者"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "広告宣伝費",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "問合せ",
+            "Section": "実施結果",
+            "Unit": "件"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "商談化",
+            "NoWrap": true,
+            "Unit": "件"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "施策名"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "施策内容"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "種類",
+            "ChoicesText": "インターネット広告\nマス広告\nSP広告"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "広告宣伝費÷問合せ",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "広告宣伝費÷商談化",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "受注",
+            "NoWrap": true,
+            "Unit": "件"
+        },
+        {
+            "ColumnName": "NumG",
+            "LabelText": "広告宣伝費÷受注",
+            "Format": "C",
+            "EditorReadOnly": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 2
+        },
+        {
+            "Target": "NumG",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumF",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 3
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "StartTime",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\",\"NumF\"]",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Count",
+            "TimeSeriesValue": "WorkValue",
+            "KambanGroupByY": "ClassA",
+            "KambanAggregateType": "Total",
+            "KambanValue": "NumA",
+            "KambanAggregationView": true
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

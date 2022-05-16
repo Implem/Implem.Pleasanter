@@ -1,1 +1,218 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["DateA","Title","ClassA","ClassB","NumB","NumC","NumD","NumE","NumF","NumA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","Title","ClassA","ClassB","DescriptionA","NumB","DescriptionB","NumC","DescriptionC","NumD","DescriptionD","NumE","DescriptionE","NumF","Body","NumA","AttachmentsA","Comments"],"LinkColumns":["DateA","Title","ClassA","ClassB","NumB","NumC","NumD","NumE","NumF","NumA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","ClassA","ClassB","NumB","NumC","NumD","NumE","NumF","NumA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"回答者"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"性別","ChoicesText":"男\n女\n未回答"},{"ColumnName":"ClassB","LabelText":"年齢","ChoicesText":"10代\n20代\n30代\n40代\n50代\n60代"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"DateA","LabelText":"回答日"},{"ColumnName":"DescriptionA","LabelText":"設問1"},{"ColumnName":"DescriptionB","LabelText":"設問2"},{"ColumnName":"DescriptionC","LabelText":"設問3"},{"ColumnName":"DescriptionD","LabelText":"設問4"},{"ColumnName":"DescriptionE","LabelText":"設問5"},{"ColumnName":"NumA","LabelText":"回答合計","EditorReadOnly":true},{"ColumnName":"NumB","LabelText":"回答1","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumC","LabelText":"回答2","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumD","LabelText":"回答3","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumE","LabelText":"回答4","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0},{"ColumnName":"NumF","LabelText":"回答5","DefaultInput":"1","ControlType":"Spinner","Min":1.0,"Max":5.0}],"Formulas":[{"Target":"NumA","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumB","OperatorType":0},{"ColumnName":"NumC","OperatorType":1},{"ColumnName":"NumD","OperatorType":1},{"ColumnName":"NumE","OperatorType":1},{"ColumnName":"NumF","OperatorType":1}]},"Id":1}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","ColumnSorterHash":{"DateA":1}}],"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "NumE",
+        "DescriptionE",
+        "NumF",
+        "Body",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "回答者"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "性別",
+            "ChoicesText": "男\n女\n未回答"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "年齢",
+            "ChoicesText": "10代\n20代\n30代\n40代\n50代\n60代"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "回答日"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "設問1"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "設問2"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "設問3"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "設問4"
+        },
+        {
+            "ColumnName": "DescriptionE",
+            "LabelText": "設問5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "回答合計",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "回答1",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "回答2",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "回答3",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "回答4",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "回答5",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Min": 1.0,
+            "Max": 5.0
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumA",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumE",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumF",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "DateA": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

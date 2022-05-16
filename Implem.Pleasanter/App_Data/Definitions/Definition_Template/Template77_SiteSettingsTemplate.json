@@ -1,1 +1,102 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","ClassA","NumA","ClassB","Status","DateA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","NumA","ClassB","Status","DateA","Body","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","NumA","ClassB","Status","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassA","NumA","ClassB","Status","DateA","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"氏名","FieldCss":"field-normal"},{"ColumnName":"ClassA","LabelText":"会社名"},{"ColumnName":"NumA","LabelText":"金額","Format":"C"},{"ColumnName":"ClassB","LabelText":"宿泊","ChoicesText":"なし\nあり"},{"ColumnName":"DateA","LabelText":"受付日時","DefaultInput":"0","EditorFormat":"Ymdhm"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"Status","ChoicesText":"100,来場待ち,待,status-new\n900,受付済み,済,status-closed\n910,保留,留,status-rejected"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","CrosstabGroupByY":"Status","KambanGroupByY":"ClassB"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "氏名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "会社名"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "金額",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "宿泊",
+            "ChoicesText": "なし\nあり"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "受付日時",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,来場待ち,待,status-new\n900,受付済み,済,status-closed\n910,保留,留,status-rejected"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "Status",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "TitleSeparator": ")"
+}

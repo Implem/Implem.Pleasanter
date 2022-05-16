@@ -1,1 +1,197 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["TitleBody","Comments","DescriptionA","DescriptionB","DescriptionC","DescriptionD","NumE","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","Manager","Owner","NumE","Body","NumA","DescriptionA","NumB","DescriptionB","NumC","DescriptionC","NumD","DescriptionD","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ClassA","NumE","NumA","NumB","NumC","NumD","Manager","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassA","NumE","NumA","NumB","NumC","NumD","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"Department","ChoicesText":"Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5","FieldCss":"field-wide"},{"ColumnName":"NumA","LabelText":"Strength (evaluation)","ControlType":"Spinner","Max":5.0},{"ColumnName":"NumB","LabelText":"Weakness (evaluation)","ControlType":"Spinner","Max":5.0},{"ColumnName":"NumC","LabelText":"Opportunity (evaluation)","ControlType":"Spinner","Max":5.0},{"ColumnName":"NumD","LabelText":"Threat (evaluation)","ControlType":"Spinner","Max":5.0},{"ColumnName":"DescriptionA","LabelText":"Strengths (contents)"},{"ColumnName":"DescriptionB","LabelText":"Weakness (content)"},{"ColumnName":"DescriptionC","LabelText":"Opportunity (content)"},{"ColumnName":"DescriptionD","LabelText":"Threat (content)"},{"ColumnName":"NumE","LabelText":"Evaluation total","EditorReadOnly":true},{"ColumnName":"Body","LabelText":"Summary"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":1,"Target":"NumE"}],"Formulas":[{"Target":"NumE","Formula":{"OperatorType":0,"Children":[{"OperatorType":0},{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0}]},{"OperatorType":1,"Children":[{"ColumnName":"NumB","OperatorType":0}]},{"OperatorType":1,"Children":[{"ColumnName":"NumC","OperatorType":0}]},{"OperatorType":1,"Children":[{"ColumnName":"NumD","OperatorType":0}]}]},"Id":1}],"ViewLatestId":0,"EnableCalendar":false,"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumE",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "NumE",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassA",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Strength (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Weakness (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Opportunity (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Threat (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Strengths (contents)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Weakness (content)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Opportunity (content)"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Threat (content)"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Evaluation total",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumE"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumA",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumD",
+                                "OperatorType": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableCalendar": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,143 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","ClassA","ClassB","ClassC","DateA","DateB","Status","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","ClassB","ClassC","Body","DateA","DateB","Status","ClassD","ClassE","ClassF","ClassG","ClassH","ClassI","ClassJ","ClassK","ClassL","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","ClassC","DateA","DateB","Status","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Status","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"氏名","FieldCss":"field-normal"},{"ColumnName":"ClassA","LabelText":"電話"},{"ColumnName":"ClassB","LabelText":"メール"},{"ColumnName":"ClassC","LabelText":"勤務地","FieldCss":"field-wide"},{"ColumnName":"Body","LabelText":"業務内容"},{"ColumnName":"DateA","LabelText":"着任日"},{"ColumnName":"DateB","LabelText":"離任日"},{"ColumnName":"Status","LabelText":"状態","ChoicesText":"100,在任中\n900,離任"},{"ColumnName":"ClassD","LabelText":"契約者"},{"ColumnName":"ClassE","LabelText":"契約者.電話"},{"ColumnName":"ClassF","LabelText":"契約者.メール"},{"ColumnName":"ClassG","LabelText":"指揮命令者"},{"ColumnName":"ClassH","LabelText":"指揮命令者.電話"},{"ColumnName":"ClassI","LabelText":"指揮命令者.メール"},{"ColumnName":"ClassJ","LabelText":"苦情処理申出先"},{"ColumnName":"ClassK","LabelText":"苦情処理申出先.電話"},{"ColumnName":"ClassL","LabelText":"苦情処理申出先.メール"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Body",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "氏名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "勤務地",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "業務内容"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "着任日"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "離任日"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "状態",
+            "ChoicesText": "100,在任中\n900,離任"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "契約者"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "契約者.電話"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "契約者.メール"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "指揮命令者"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "指揮命令者.電話"
+        },
+        {
+            "ColumnName": "ClassI",
+            "LabelText": "指揮命令者.メール"
+        },
+        {
+            "ColumnName": "ClassJ",
+            "LabelText": "苦情処理申出先"
+        },
+        {
+            "ColumnName": "ClassK",
+            "LabelText": "苦情処理申出先.電話"
+        },
+        {
+            "ColumnName": "ClassL",
+            "LabelText": "苦情処理申出先.メール"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準"
+        }
+    ],
+    "TitleSeparator": ")"
+}

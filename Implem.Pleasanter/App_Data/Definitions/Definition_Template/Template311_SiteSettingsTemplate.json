@@ -1,1 +1,126 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","ClassB","TitleBody","Comments","StartTime","CompletionTime","ProgressRate","Status","DescriptionA","DescriptionB","DescriptionC","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","ClassA","Manager","Owner","ClassB","StartTime","CompletionTime","ProgressRate","Status","Title","Body","DescriptionA","DescriptionB","DescriptionC","AttachmentsA","Comments"],"LinkColumns":["IssueId","ClassB","ClassA","Title","StartTime","CompletionTime","ProgressRate","Status","Owner","Manager","Updator","UpdatedTime"],"HistoryColumns":["Ver","ClassB","ClassA","Title","Comments","StartTime","CompletionTime","ProgressRate","Status","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Department","ChoicesText":"Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5","FieldCss":"field-wide"},{"ColumnName":"ClassB","LabelText":"Point of view","ChoicesText":"Learning and growth\nBusiness process\nClient\nFinance"},{"ColumnName":"DescriptionA","LabelText":"Strategic objective(KGI)"},{"ColumnName":"DescriptionB","LabelText":"Critical success factors(CSF)"},{"ColumnName":"DescriptionC","LabelText":"Critical evaluation index(KPI)"},{"ColumnName":"Title","LabelText":"Measure name"},{"ColumnName":"Body","LabelText":"Measures"},{"ColumnName":"Status","ChoicesText":"100,Not started yet,Notyet,status-new\n150,Preparation,Preparation,status-preparation\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,On hold,Hold,status-rejected"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"ClassA":0,"ClassB":0},"CalendarColumn":"StartTime","KambanGroupByY":"Manager"}],"EnableBurnDown":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "ProgressRate",
+        "Status",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "ProgressRate",
+        "Status",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "ClassB",
+        "ClassA",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "ProgressRate",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "ProgressRate",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Point of view",
+            "ChoicesText": "Learning and growth\nBusiness process\nClient\nFinance"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Strategic objective(KGI)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Critical success factors(CSF)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Critical evaluation index(KPI)"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Measure name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Measures"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Not started yet,Notyet,status-new\n150,Preparation,Preparation,status-preparation\n200,In progress,In progress,status-inprogress\n900,Done,Done,status-closed\n910,On hold,Hold,status-rejected"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassA": 0,
+                "ClassB": 0
+            },
+            "CalendarColumn": "StartTime",
+            "KambanGroupByY": "Manager"
+        }
+    ],
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

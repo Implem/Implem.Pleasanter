@@ -1,1 +1,161 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["DateA","ClassA","Manager","NumA","NumB","NumC","NumD","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","Manager","NumA","NumB","NumC","NumD","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["DateA","ClassA","Manager","NumA","NumB","NumC","NumD","Updator","UpdatedTime"],"HistoryColumns":["Ver","DateA","ClassA","Manager","NumA","NumB","NumC","NumD","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Office","ChoicesText":"Office1\nOffice2\nOffice3\nOffice4\nOffice5","FieldCss":"field-normal"},{"ColumnName":"NumA","LabelText":"Electric bill","Format":"C"},{"ColumnName":"NumB","LabelText":"Gas Fee","Format":"C"},{"ColumnName":"NumC","LabelText":"Water bill","Format":"C"},{"ColumnName":"NumD","LabelText":"Total fee","Format":"C","EditorReadOnly":true},{"ColumnName":"DateA","LabelText":"Target month","ExportFormat":"Ym"},{"ColumnName":"Body","LabelText":"Remarks"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":1,"Target":"NumD"},{"Id":2,"GroupBy":"ClassA","Type":1,"Target":"NumA"},{"Id":3,"GroupBy":"ClassA","Type":1,"Target":"NumB"},{"Id":4,"GroupBy":"ClassA","Type":1,"Target":"NumC"}],"Formulas":[{"Target":"NumD","Formula":{"OperatorType":0,"Children":[{"ColumnName":"NumA","OperatorType":0},{"ColumnName":"NumB","OperatorType":1},{"ColumnName":"NumC","OperatorType":1}]},"Id":1}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","ColumnSorterHash":{"DateA":1},"TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total","TimeSeriesValue":"NumD"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "Manager",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "Manager",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "Manager",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "DateA",
+        "ClassA",
+        "Manager",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Office",
+            "ChoicesText": "Office1\nOffice2\nOffice3\nOffice4\nOffice5",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Electric bill",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Gas Fee",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Water bill",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Total fee",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Target month",
+            "ExportFormat": "Ym"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumD"
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumB"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumC"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 1
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1
+            },
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumD"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -15,6 +15,7 @@
     "DisplayLogoText": false,
     "DisableAutoComplete": false,
     "SiteMenuHotSpan": 30,
+    "AnchorTargetBlank": true,
     "LimitWarning1": 86400,
     "LimitWarning2": 0,
     "LimitWarning3": -259200,

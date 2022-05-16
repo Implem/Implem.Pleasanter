@@ -1,1 +1,118 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["DateA","ClassA","NumA","NumB","NumC","NumD","NumE","NumF","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassA","NumA","NumB","NumC","NumD","NumE","NumF","Body","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["DateA","ClassA","NumA","NumB","NumC","NumD","NumE","NumF","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"DateA","LabelText":"日付"},{"ColumnName":"ClassA","LabelText":"サイト名","ChoicesText":"サイト1\nサイト2\nサイト3\nサイト4\nサイト5"},{"ColumnName":"NumA","LabelText":"ページビュー"},{"ColumnName":"NumB","LabelText":"ユニークユーザ"},{"ColumnName":"NumC","LabelText":"自然流入"},{"ColumnName":"NumD","LabelText":"ダイレクト"},{"ColumnName":"NumE","LabelText":"リファーラル"},{"ColumnName":"NumF","LabelText":"SNS"},{"ColumnName":"Body","LabelText":"備考"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","CrosstabGroupByY":"Columns","CrosstabColumns":"[\"NumA\",\"NumB\",\"NumC\",\"NumD\",\"NumE\",\"NumF\"]","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "日付"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "サイト名",
+            "ChoicesText": "サイト1\nサイト2\nサイト3\nサイト4\nサイト5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "ページビュー"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "ユニークユーザ"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "自然流入"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "ダイレクト"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "リファーラル"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "SNS"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "Columns",
+            "CrosstabColumns": "[\"NumA\",\"NumB\",\"NumC\",\"NumD\",\"NumE\",\"NumF\"]",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

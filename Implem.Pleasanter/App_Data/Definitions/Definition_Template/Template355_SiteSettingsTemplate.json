@@ -1,1 +1,131 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassB","Owner","ClassA","Title","DateA","DateB","DateC","Status","NumA"],"EditorColumns":["ResultId","Ver","Title","ClassA","ClassB","ClassC","DateA","DateB","DateC","Status","NumA","Body","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Qualification name"},{"ColumnName":"ClassA","LabelText":"Qualification type","ChoicesText":"Qualification type1\nQualification type2\nQualification type3\nQualification type4\nQualification type5"},{"ColumnName":"ClassB","LabelText":"Belongs"},{"ColumnName":"DateA","LabelText":"Date of acquisition","ExportFormat":"Ymda"},{"ColumnName":"DateB","LabelText":"Update date"},{"ColumnName":"Body","LabelText":"Remarks"},{"ColumnName":"Status","LabelText":"Enable/Disable","ChoicesText":"Enable\nDisable"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassC","LabelText":"Person in charge"},{"ColumnName":"NumA","LabelText":"Cost","Format":"C"},{"ColumnName":"DateC","LabelText":"Renewal deadline","ExportFormat":"Ymda"}],"Aggregations":[{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","TimeSeriesGroupBy":"ClassA","KambanGroupByX":"Status","KambanGroupByY":"ClassA"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "Owner",
+        "ClassA",
+        "Title",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Status",
+        "NumA"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Status",
+        "NumA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Qualification name"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Qualification type",
+            "ChoicesText": "Qualification type1\nQualification type2\nQualification type3\nQualification type4\nQualification type5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Belongs"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date of acquisition",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Update date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "Enable/Disable",
+            "ChoicesText": "Enable\nDisable"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Person in charge"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Cost",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Renewal deadline",
+            "ExportFormat": "Ymda"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "Status",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

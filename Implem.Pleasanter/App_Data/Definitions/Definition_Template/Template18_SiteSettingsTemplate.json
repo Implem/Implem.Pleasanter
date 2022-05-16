@@ -1,1 +1,141 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassA","Title","ClassD","ClassE","ClassB","ClassC","ClassF","DescriptionA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","ClassB","ClassC","Title","ClassD","ClassE","ClassF","ClassG","ClassH","ClassI","ClassJ","ClassK","DescriptionA","DateA","Body","AttachmentsA","Comments"],"LinkColumns":["ClassA","Title","ClassD","ClassE","ClassB","ClassC","ClassF","DescriptionA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassB","ClassC","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"会社名"},{"ColumnName":"ClassB","LabelText":"部署名"},{"ColumnName":"ClassC","LabelText":"役職"},{"ColumnName":"Title","LabelText":"氏名"},{"ColumnName":"ClassD","LabelText":"メール"},{"ColumnName":"ClassE","LabelText":"郵便番号"},{"ColumnName":"ClassF","LabelText":"住所"},{"ColumnName":"ClassG","LabelText":"電話(会社)"},{"ColumnName":"ClassH","LabelText":"電話(部門)"},{"ColumnName":"ClassI","LabelText":"電話(直通)"},{"ColumnName":"ClassJ","LabelText":"FAX"},{"ColumnName":"ClassK","LabelText":"携帯電話"},{"ColumnName":"DescriptionA","LabelText":"会社HP"},{"ColumnName":"DateA","LabelText":"名刺交換日"},{"ColumnName":"Body","LabelText":"備考"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassA",
+        "Title",
+        "ClassD",
+        "ClassE",
+        "ClassB",
+        "ClassC",
+        "ClassF",
+        "DescriptionA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "DescriptionA",
+        "DateA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "Title",
+        "ClassD",
+        "ClassE",
+        "ClassB",
+        "ClassC",
+        "ClassF",
+        "DescriptionA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "会社名"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "部署名"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "役職"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "氏名"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "郵便番号"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "住所"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "電話(会社)"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "電話(部門)"
+        },
+        {
+            "ColumnName": "ClassI",
+            "LabelText": "電話(直通)"
+        },
+        {
+            "ColumnName": "ClassJ",
+            "LabelText": "FAX"
+        },
+        {
+            "ColumnName": "ClassK",
+            "LabelText": "携帯電話"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "会社HP"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "名刺交換日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準"
+        }
+    ],
+    "TitleSeparator": ")"
+}

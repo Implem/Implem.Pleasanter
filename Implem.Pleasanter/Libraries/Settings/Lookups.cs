@@ -20,7 +20,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss,
             Link link,
-            long id)
+            long id,
+            bool copyByDefaultOnly = false)
         {
             var currentSs = ss.Destinations.Get(link.SiteId);
             var canRead = false;
@@ -50,14 +51,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                     siteId: currentSs.SiteId,
                     id: id);
             }
-            var formData = link.Lookups.ToDictionary(
+            var lookups = link.Lookups
+                .Where(o => copyByDefaultOnly == false
+                    || ss.GetColumn(
+                        context: context,
+                        columnName: o.To)?.CopyByDefault == true)
+                .ToList();
+            var formData = lookups.ToDictionary(
                 lookup => $"{ss.ReferenceType}_{lookup.To}",
                 lookup => string.Empty);
             if (id > 0
                 && currentSs != null
                 && canRead)
             {
-                link.Lookups.ForEach(lookup =>
+                lookups.ForEach(lookup =>
                 {
                     formData.AddOrUpdate(
                         $"{ss.ReferenceType}_{lookup.To}",
@@ -70,7 +77,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             context: context,
                             ss: currentSs,
                             issueId: id);
-                        link.Lookups.ForEach(lookup =>
+                        lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
@@ -83,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             context: context,
                             ss: currentSs,
                             resultId: id);
-                        link.Lookups.ForEach(lookup =>
+                        lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
@@ -96,7 +103,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             context: context,
                             ss: currentSs,
                             deptId: id.ToInt());
-                        link.Lookups.ForEach(lookup =>
+                        lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
@@ -109,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             context: context,
                             ss: currentSs,
                             userId: id.ToInt());
-                        link.Lookups.ForEach(lookup =>
+                        lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
@@ -122,7 +129,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             context: context,
                             ss: currentSs,
                             groupId: id.ToInt());
-                        link.Lookups.ForEach(lookup =>
+                        lookups.ForEach(lookup =>
                             formData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(

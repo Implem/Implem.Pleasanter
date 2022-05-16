@@ -1,1 +1,137 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","DateA","ClassA","ClassB","ClassC","NumA","NumB","NumC","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","DateA","ClassA","ClassB","ClassC","NumA","NumB","NumC","Body","AttachmentsA","Comments"],"LinkColumns":["Title","DateA","ClassA","ClassB","ClassC","NumA","NumB","NumC","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Name"},{"ColumnName":"DateA","LabelText":"Release date"},{"ColumnName":"ClassA","LabelText":"Manufacturer","ChoicesText":"Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"},{"ColumnName":"ClassB","LabelText":"Type","ChoicesText":"PotatoShochu\nWheatShochu\nBrown sugarShochu\nRiceShochu\nSobaShochu"},{"ColumnName":"ClassC","LabelText":"Production area"},{"ColumnName":"NumA","LabelText":"Alcohol","ControlType":"Spinner","DecimalPlaces":1,"Max":100.0,"Unit":"%"},{"ColumnName":"NumB","LabelText":"Internal capacity","Unit":"ml"},{"ColumnName":"NumC","LabelText":"Price","Format":"C"},{"ColumnName":"NumD","ControlType":"Normal","Max":100.0},{"ColumnName":"NumF","Format":"C"},{"ColumnName":"Body","LabelText":"Description"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"ClassB","CrosstabGroupByY":"ClassA","CrosstabAggregateType":"Average","CrosstabValue":"NumF","TimeSeriesGroupBy":"ClassB"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release date"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Manufacturer",
+            "ChoicesText": "Manufacturer1\nManufacturer2\nManufacturer3\nManufacturer4\nManufacturer5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Type",
+            "ChoicesText": "PotatoShochu\nWheatShochu\nBrown sugarShochu\nRiceShochu\nSobaShochu"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Production area"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Alcohol",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 100.0,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Internal capacity",
+            "Unit": "ml"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumD",
+            "ControlType": "Normal",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "NumF",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Description"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "ClassB",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Average",
+            "CrosstabValue": "NumF",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,1 +1,159 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassA","ClassG","ClassD","ClassH","ClassI","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","Title","ClassA","DateC","ClassB","ClassC","ClassE","ClassF","ClassG","ClassD","Body","DescriptionA","ClassH","ClassI","CheckA","ClassJ","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassG","ClassD","ClassH","ClassI","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassH","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"ClassA","LabelText":"Phonetic"},{"ColumnName":"ClassB","LabelText":"Sex","ChoicesText":"Male\nFmale"},{"ColumnName":"ClassC","LabelText":"Occupation"},{"ColumnName":"Title","LabelText":"Customer name","Section":"personal information","FieldCss":"field-normal"},{"ColumnName":"ClassD","LabelText":"Mail"},{"ColumnName":"ClassE","LabelText":"Postal code"},{"ColumnName":"ClassF","LabelText":"Address","FieldCss":"field-wide"},{"ColumnName":"ClassG","LabelText":"Phone"},{"ColumnName":"DateA","LabelText":"Registration date"},{"ColumnName":"Body","LabelText":"Remarks"},{"ColumnName":"DateC","LabelText":"Birthday"},{"ColumnName":"ClassH","LabelText":"Customer rank","ChoicesText":"A\nB\nC\nD\nE"},{"ColumnName":"DescriptionA","LabelText":"Usual request","Section":"Usage information"},{"ColumnName":"ClassI","LabelText":"The main charge","ChoicesText":"Responsible1\nResponsible2\nResponsible3\nResponsible4\nResponsible5"},{"ColumnName":"CheckA","LabelText":"DMNecessity"},{"ColumnName":"ClassJ","LabelText":"The trigger of visiting stores","ChoicesText":"Flyer\nMagazine\nThe Internet\nCommercial\nIntroduction of acquaintance\nOther"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassH","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassH","TimeSeriesGroupBy":"ClassH"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassG",
+        "ClassD",
+        "ClassH",
+        "ClassI",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "Title",
+        "ClassA",
+        "DateC",
+        "ClassB",
+        "ClassC",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "ClassD",
+        "Body",
+        "DescriptionA",
+        "ClassH",
+        "ClassI",
+        "CheckA",
+        "ClassJ",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassG",
+        "ClassD",
+        "ClassH",
+        "ClassI",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassH",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Phonetic"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Sex",
+            "ChoicesText": "Male\nFmale"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Occupation"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Customer name",
+            "Section": "personal information",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Mail"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Postal code"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Registration date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Birthday"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "Customer rank",
+            "ChoicesText": "A\nB\nC\nD\nE"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Usual request",
+            "Section": "Usage information"
+        },
+        {
+            "ColumnName": "ClassI",
+            "LabelText": "The main charge",
+            "ChoicesText": "Responsible1\nResponsible2\nResponsible3\nResponsible4\nResponsible5"
+        },
+        {
+            "ColumnName": "CheckA",
+            "LabelText": "DMNecessity"
+        },
+        {
+            "ColumnName": "ClassJ",
+            "LabelText": "The trigger of visiting stores",
+            "ChoicesText": "Flyer\nMagazine\nThe Internet\nCommercial\nIntroduction of acquaintance\nOther"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassH",
+            "TimeSeriesGroupBy": "ClassH"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

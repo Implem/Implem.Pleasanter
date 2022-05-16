@@ -1,1 +1,172 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","ClassF","TitleBody","Comments","ClassH","DateA","DateB","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassF","Title","ClassH","ClassA","ClassB","ClassC","ClassD","ClassE","ClassG","Body","DateC","NumA","NumB","NumC","DateA","DateB","DescriptionB","DescriptionA","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassH","DateA","DateB","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","Comments","ClassH","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"会社名","FieldCss":"field-normal"},{"ColumnName":"ClassA","LabelText":"郵便番号"},{"ColumnName":"ClassB","LabelText":"住所","FieldCss":"field-wide"},{"ColumnName":"ClassC","LabelText":"代表者"},{"ColumnName":"ClassD","LabelText":"電話"},{"ColumnName":"ClassE","LabelText":"FAX"},{"ColumnName":"ClassF","LabelText":"業種","ChoicesText":"A,農業，林業\nB,漁業\nC,鉱業，採石業，砂利採取業\nD,建設業\nE,製造業\nF,電気・ガス・熱供給・水道業\nG,情報通信業\nH,運輸業，郵便業\nI,卸売業，小売業\nJ,金融業，保険業\nK,不動産業，物品賃貸業\nL,学術研究，専門・技術サービス業\nM,宿泊業，飲食サービス業\nN,生活関連サービス業，娯楽業\nO,教育，学習支援業\nP,医療，福祉\nQ,複合サービス事業\nR,サービス業（他に分類されないもの）\nS,公務（他に分類されるものを除く）\nT,分類不能の産業"},{"ColumnName":"DateA","LabelText":"取引開始日"},{"ColumnName":"DateB","LabelText":"取引完了日"},{"ColumnName":"DescriptionA","LabelText":"特記事項"},{"ColumnName":"Body","LabelText":"会社概要"},{"ColumnName":"ClassG","LabelText":"メール"},{"ColumnName":"NumA","LabelText":"資本金","Format":"C"},{"ColumnName":"NumB","LabelText":"従業員数"},{"ColumnName":"DateC","LabelText":"設立日"},{"ColumnName":"NumC","LabelText":"売上高","Format":"C"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"DescriptionB","LabelText":"会社HP"},{"ColumnName":"ClassH","LabelText":"顧客ランク","ChoicesText":"A\nB\nC\nD"}],"Aggregations":[{"Id":1,"GroupBy":"ClassH","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassF","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","CrosstabAggregateType":"Count","TimeSeriesGroupBy":"ClassH","KambanGroupByX":"ClassH","KambanColumns":15}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassF",
+        "TitleBody",
+        "Comments",
+        "ClassH",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassF",
+        "Title",
+        "ClassH",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassG",
+        "Body",
+        "DateC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "DateA",
+        "DateB",
+        "DescriptionB",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassH",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "ClassH",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "会社名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "郵便番号"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "住所",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "代表者"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "FAX"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "業種",
+            "ChoicesText": "A,農業，林業\nB,漁業\nC,鉱業，採石業，砂利採取業\nD,建設業\nE,製造業\nF,電気・ガス・熱供給・水道業\nG,情報通信業\nH,運輸業，郵便業\nI,卸売業，小売業\nJ,金融業，保険業\nK,不動産業，物品賃貸業\nL,学術研究，専門・技術サービス業\nM,宿泊業，飲食サービス業\nN,生活関連サービス業，娯楽業\nO,教育，学習支援業\nP,医療，福祉\nQ,複合サービス事業\nR,サービス業（他に分類されないもの）\nS,公務（他に分類されるものを除く）\nT,分類不能の産業"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "取引開始日"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "取引完了日"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "特記事項"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "会社概要"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "メール"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "資本金",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "従業員数"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "設立日"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "売上高",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "会社HP"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "顧客ランク",
+            "ChoicesText": "A\nB\nC\nD"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassH",
+            "KambanGroupByX": "ClassH",
+            "KambanColumns": 15
+        }
+    ],
+    "TitleSeparator": ")"
+}

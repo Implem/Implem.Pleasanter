@@ -18,6 +18,12 @@
                 siteId: ss.SiteId,
                 id: #modelName#Model.#ModelName#Id))
         {
+            var new#ModelName# = new #ModelName#Model(
+                context: context,
+                ss: ss,
+                methodType: BaseModel.MethodTypes.New);
+            new#ModelName#.SetByModel(#modelName#Model);
+            #modelName#Model = new#ModelName#;
             #modelName#Model.SetCopyDefault(
                 context: context,
                 ss: ss);
@@ -25,6 +31,10 @@
             #modelName#Model.Ver = 1;
             #modelName#Model.Comments = new Comments();
             #modelName#Model.AccessStatus = Databases.AccessStatuses.Initialized;
+            #modelName#Model.SetByLookups(
+                context: context,
+                ss: ss,
+                copyByDefaultOnly: true);
         }
         else
         {

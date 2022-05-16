@@ -1,0 +1,137 @@
+﻿{
+    "Version": 1.014,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "DateB",
+        "Owner",
+        "ClassC",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "DateB",
+        "Owner",
+        "ClassC",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "ClassA",
+        "Owner",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "修理担当者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "設備名",
+            "ChoicesText": "[[#Site107#]]",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide",
+            "Link": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "設置場所",
+            "ChoicesText": "1階：エリア1\n1階：エリア2\n1階：エリア3\n1階：エリア4\n2階：エリア1\n2階：エリア2\n2階：エリア3\n2階：エリア4",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発生日時",
+            "DefaultInput": "0",
+            "EditorFormat": "Ymdhm",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "復旧日時",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "故障原因"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "修理内容"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "故障内容"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "異常種別",
+            "ChoicesText": "異常振動\n摩耗\n異常音\n割れ\n疲労\nゆるみ"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Links": [
+        {
+            "ColumnName": "ClassA",
+            "SiteId": "#Site107#"
+        }
+    ],
+    "Summaries": [
+        {
+            "SiteId": 107,
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumA",
+            "LinkColumn": "ClassA",
+            "Type": "Count",
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 0,
+    "TitleSeparator": ")",
+    "SwitchRecordWithAjax": true
+}

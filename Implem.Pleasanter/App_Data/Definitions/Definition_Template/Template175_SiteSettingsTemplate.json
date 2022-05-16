@@ -1,1 +1,161 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassA","ClassB","NumA","ClassC","ClassD","ClassE","ClassF","ClassG","NumE","DateA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","DateA","ClassB","NumA","ClassC","NumE","ClassD","ClassE","ClassF","ClassG","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassA","ClassB","NumA","ClassC","ClassD","ClassE","ClassF","ClassG","NumE","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","NumE","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Title","LabelText":"製品名"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"型番"},{"ColumnName":"ClassB","LabelText":"メーカ","ChoicesText":"メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"},{"ColumnName":"ClassC","LabelText":"タイプ","ChoicesText":"メンズ\nレディース\nユニセックス"},{"ColumnName":"NumA","LabelText":"重量","Unit":"g"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"NumE","LabelText":"価格","Format":"C"},{"ColumnName":"DateA","LabelText":"発売日"},{"ColumnName":"Body","LabelText":"備考"},{"ColumnName":"ClassD","LabelText":"カラー"},{"ColumnName":"ClassE","LabelText":"表示","ChoicesText":"アナログ\nデジタル\nアナログ・デジタル"},{"ColumnName":"ClassF","LabelText":"ムーブメント","ChoicesText":"クォーツ\n自動巻き"},{"ColumnName":"ClassG","LabelText":"防水機能","ChoicesText":"非防水\n30m～50m防水\n100ｍ防水\n200ｍ防水\n300ｍ防水～"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":2,"Target":"NumE"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateA","KambanGroupByY":"ClassC","KambanAggregateType":"Average","KambanValue":"NumE","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "NumA",
+        "ClassC",
+        "NumE",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "製品名"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "型番"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メーカ",
+            "ChoicesText": "メーカ1\nメーカ2\nメーカ3\nメーカ4\nメーカ5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "タイプ",
+            "ChoicesText": "メンズ\nレディース\nユニセックス"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "重量",
+            "Unit": "g"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "カラー"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "表示",
+            "ChoicesText": "アナログ\nデジタル\nアナログ・デジタル"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "ムーブメント",
+            "ChoicesText": "クォーツ\n自動巻き"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "防水機能",
+            "ChoicesText": "非防水\n30m～50m防水\n100ｍ防水\n200ｍ防水\n300ｍ防水～"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "KambanGroupByY": "ClassC",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

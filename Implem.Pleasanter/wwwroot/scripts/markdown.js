@@ -60,17 +60,20 @@ $p.markup = function (markdownValue, encoded) {
         var regex_i = /(!\[[^\]]+\]\(.+?\))/gi;
         var regex_t = /(\[[^\]]+\]\(.+?\))/gi;
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
+        var anchorTargetBlank = $('#AnchorTargetBlank').length === 1
+            ? ' target="_blank"'
+            : '';
         return text
             .replace(regex_i, function ($1) {
                 return '<a href="' + address($1) + '" target="_blank">'
                     + '<img src="' + address($1) + '?thumbnail=1" alt="' + title($1) + '" /></a>';
             })
             .replace(regex_t, function ($1) {
-                return '<a href="' + address($1) + '" target="_blank">' + title($1) + '</a>';
+                return '<a href="' + address($1) + '"' + anchorTargetBlank + '>' + title($1) + '</a>';
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
-                    ? '<a href="' + $1 + '" target="_blank">' + $1 + '</a>'
+                    ? '<a href="' + $1 + '"' + anchorTargetBlank + '>' + $1 + '</a>'
                     : $1;
             });
     }
@@ -143,8 +146,10 @@ $p.uploadImage = function (controlId, file) {
 }
 
 $p.setTargetBlank = function () {
-    var aTags = $('.md a');
-    aTags.each(function () {
-        $(this).attr('target', '_blank');
-    })
+    if ($('#AnchorTargetBlank').length === 1) {
+        var aTags = $('.md a');
+        aTags.each(function () {
+            $(this).attr('target', '_blank');
+        });
+    }
 }

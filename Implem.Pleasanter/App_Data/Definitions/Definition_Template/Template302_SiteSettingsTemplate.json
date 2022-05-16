@@ -1,1 +1,154 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassC","Title","DescriptionA","ClassB","ClassD","ClassA","DateA","DateB","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassC","Title","ClassB","ClassA","ClassD","Owner","Manager","DateA","DateB","DescriptionA","Body","AttachmentsA","Comments"],"LinkColumns":["ClassC","Title","ClassA","ClassB","ClassD","DateA","DateB","Owner","Manager","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassC","Title","ClassA","ClassB","ClassD","DateA","DateB","Owner","Manager","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"Manager","LabelText":"Approver"},{"ColumnName":"Owner","LabelText":"Creator"},{"ColumnName":"ClassA","LabelText":"Management_section","ChoicesText":"Management_section1\nManagement_section2\nManagement_section3\nManagement_section4\nManagement_section5"},{"ColumnName":"ClassB","LabelText":"Category","ChoicesText":"Category1\nCategory2\nCategory3\nCategory4\nCategory5"},{"ColumnName":"DateA","LabelText":"Created_date"},{"ColumnName":"Body","LabelText":"Notes"},{"ColumnName":"Title","LabelText":"File_name"},{"ColumnName":"ClassC","LabelText":"Management_number"},{"ColumnName":"ClassD","LabelText":"Security_level","ChoicesText":"Low\nMiddle\nHigh"},{"ColumnName":"DateB","LabelText":"Stored_period"},{"ColumnName":"DescriptionA","LabelText":"Stored_URL"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassD","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"DateA","TimeSeriesGroupBy":"ClassA","KambanGroupByX":"ClassA","KambanGroupByY":"ClassD","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassC",
+        "Title",
+        "DescriptionA",
+        "ClassB",
+        "ClassD",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "Owner",
+        "Manager",
+        "DateA",
+        "DateB",
+        "DescriptionA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassC",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassC",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "DateA",
+        "DateB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Approver"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Creator"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Management_section",
+            "ChoicesText": "Management_section1\nManagement_section2\nManagement_section3\nManagement_section4\nManagement_section5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Category",
+            "ChoicesText": "Category1\nCategory2\nCategory3\nCategory4\nCategory5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Created_date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "File_name"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Management_number"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Security_level",
+            "ChoicesText": "Low\nMiddle\nHigh"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Stored_period"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Stored_URL"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "ClassA",
+            "KambanGroupByY": "ClassD",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

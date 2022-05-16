@@ -1,0 +1,110 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "Title",
+        "ClassC",
+        "ClassD",
+        "Manager",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "Title",
+            "ClassA",
+            "ClassB",
+            "ClassC",
+            "ClassD",
+            "Manager",
+            "NumA",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassC",
+        "ClassD",
+        "Manager",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "郵便番号",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "都道府県",
+            "ChoicesText": "北海道\n青森県\n岩手県\n宮城県\n秋田県\n山形県\n福島県\n茨城県\n栃木県\n群馬県\n埼玉県\n千葉県\n東京都\n神奈川県\n新潟県\n富山県\n石川県\n福井県\n山梨県\n長野県\n岐阜県\n静岡県\n愛知県\n三重県\n滋賀県\n京都府\n大阪府\n兵庫県\n奈良県\n和歌山県\n鳥取県\n島根県\n岡山県\n広島県\n山口県\n徳島県\n香川県\n愛媛県\n高知県\n福岡県\n佐賀県\n長崎県\n熊本県\n大分県\n宮崎県\n鹿児島県\n沖縄県",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "売上合計",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DateA",
+            "DefaultInput": "0"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "責任者",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "店舗名"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "住所",
+            "GridDesign": "〒[ClassA]\n[ClassB][ClassC]",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "電話番号"
+        }
+    ],
+    "Summaries": [
+        {
+            "SiteId": 0,
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumB",
+            "LinkColumn": "ClassB",
+            "Type": "Total",
+            "SourceColumn": "NumB",
+            "Id": 1
+        },
+        {
+            "SiteId": 0,
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumC",
+            "LinkColumn": "ClassB",
+            "Type": "Total",
+            "SourceColumn": "NumC",
+            "Id": 2
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

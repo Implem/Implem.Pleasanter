@@ -1,1 +1,101 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","ClassA","NumA","DateA","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","DescriptionA","DescriptionB","ClassA","NumA","DateA","Owner","AttachmentsA","Comments"],"LinkColumns":["Title","Body","ClassA","NumA","DateA","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Product name"},{"ColumnName":"Body","LabelText":"Description of item"},{"ColumnName":"ClassA","LabelText":"Product type","ChoicesText":"Product type1\nProduct type2\nProduct type3\nProduct type4\nProduct type5"},{"ColumnName":"NumA","LabelText":"price","Format":"C"},{"ColumnName":"DateA","LabelText":"Release date"},{"ColumnName":"DescriptionA","LabelText":"Handling method"},{"ColumnName":"DescriptionB","LabelText":"Public information ・ Web site"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"standard","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassA","TimeSeriesGroupBy":"ClassA"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "ClassA",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "ClassA",
+        "NumA",
+        "DateA",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "Body",
+        "ClassA",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Description of item"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Product type",
+            "ChoicesText": "Product type1\nProduct type2\nProduct type3\nProduct type4\nProduct type5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release date"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Handling method"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Public information ・ Web site"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

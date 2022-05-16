@@ -1,1 +1,112 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","TitleBody","Comments","ClassA","ClassB","DateA","ClassC","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","Body","ClassA","ClassB","DateA","ClassC","Owner","DescriptionA","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassA","ClassB","DateA","ClassC","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassA","ClassB","DateA","ClassC","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Body","LabelText":"活用ポイント"},{"ColumnName":"ClassA","LabelText":"商品・サービス","ChoicesText":"商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"},{"ColumnName":"ClassB","LabelText":"資料種類","ChoicesText":"カタログ\nパンフレット\nポスター\nチラシ"},{"ColumnName":"DateA","LabelText":"作成日"},{"ColumnName":"ClassC","LabelText":"作成部署","ChoicesText":"部署1\n部署2\n部署3\n部署4\n部署5"},{"ColumnName":"DescriptionA","LabelText":"備考"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","TimeSeriesGroupBy":"ClassA"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "DateA",
+        "ClassC",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "活用ポイント"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "商品・サービス",
+            "ChoicesText": "商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "資料種類",
+            "ChoicesText": "カタログ\nパンフレット\nポスター\nチラシ"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "作成日"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "作成部署",
+            "ChoicesText": "部署1\n部署2\n部署3\n部署4\n部署5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

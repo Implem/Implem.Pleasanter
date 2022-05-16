@@ -1,1 +1,196 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassD","ClassE","ClassF","ClassH","ClassG","ClassI","DateB","DateC","Status","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassA","DateA","NumA","ClassB","ClassC","ClassD","ClassE","DescriptionA","DescriptionB","DescriptionC","ClassF","ClassH","ClassG","ClassI","DateB","DateC","Status","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassD","ClassE","ClassF","ClassH","ClassG","ClassI","DateB","DateC","Status","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassD","ClassE","ClassG","DateB","DateC","Status","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Name","FieldCss":"field-normal"},{"ColumnName":"ClassA","LabelText":"Phonetic"},{"ColumnName":"DateA","LabelText":"Birthday"},{"ColumnName":"NumA","LabelText":"Age","ControlType":"Spinner","Max":100.0},{"ColumnName":"ClassB","LabelText":"Sex","ChoicesText":"Male\nFemale"},{"ColumnName":"ClassC","LabelText":"Address","FieldCss":"field-wide"},{"ColumnName":"ClassD","LabelText":"Phone"},{"ColumnName":"ClassE","LabelText":"Mail"},{"ColumnName":"DescriptionA","LabelText":"Employment history"},{"ColumnName":"DescriptionB","LabelText":"Qualification"},{"ColumnName":"DescriptionC","LabelText":"Specialty area"},{"ColumnName":"ClassF","LabelText":"Employment status","ChoicesText":"Full-time employee\nTemporary employee\nContractor\nContract employee\nPart\nPart-timejob"},{"ColumnName":"ClassG","LabelText":"Role","ChoicesText":"Person in charge\nleader\nmanager"},{"ColumnName":"DateB","LabelText":"Date of arrival"},{"ColumnName":"DateC","LabelText":"Departure date"},{"ColumnName":"Status","LabelText":"State","ChoicesText":"100,On office\n900,Departure"},{"ColumnName":"Body","LabelText":"Remarks"},{"ColumnName":"ClassH","LabelText":"Store","ChoicesText":"Store1\nStore2\nStore3\nStore4\nStore5"},{"ColumnName":"ClassI","LabelText":"Main task in charge","ChoicesText":"Business1\nBusiness2\nBusiness3\nBusiness4\nBusiness5"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassF","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassG","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"DateB","CrosstabGroupByX":"DateB","CrosstabGroupByY":"ClassG","TimeSeriesGroupBy":"ClassF","KambanGroupByY":"ClassF"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassH",
+        "ClassG",
+        "ClassI",
+        "DateB",
+        "DateC",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "DateA",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "ClassF",
+        "ClassH",
+        "ClassG",
+        "ClassI",
+        "DateB",
+        "DateC",
+        "Status",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassH",
+        "ClassG",
+        "ClassI",
+        "DateB",
+        "DateC",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassD",
+        "ClassE",
+        "ClassG",
+        "DateB",
+        "DateC",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Phonetic"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Birthday"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Age",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Sex",
+            "ChoicesText": "Male\nFemale"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Mail"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Employment history"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Qualification"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Specialty area"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Employment status",
+            "ChoicesText": "Full-time employee\nTemporary employee\nContractor\nContract employee\nPart\nPart-timejob"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Role",
+            "ChoicesText": "Person in charge\nleader\nmanager"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Date of arrival"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Departure date"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "State",
+            "ChoicesText": "100,On office\n900,Departure"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "Store",
+            "ChoicesText": "Store1\nStore2\nStore3\nStore4\nStore5"
+        },
+        {
+            "ColumnName": "ClassI",
+            "LabelText": "Main task in charge",
+            "ChoicesText": "Business1\nBusiness2\nBusiness3\nBusiness4\nBusiness5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassG",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateB",
+            "CrosstabGroupByX": "DateB",
+            "CrosstabGroupByY": "ClassG",
+            "TimeSeriesGroupBy": "ClassF",
+            "KambanGroupByY": "ClassF"
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,69 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "Title",
+        "NumA",
+        "Manager",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "Title",
+            "Manager",
+            "NumA",
+            "Body",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "担当者名",
+            "ValidateRequired": false,
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "所属",
+            "ChoicesText": "[[Depts]]",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "管理職名"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "ポイント平均",
+            "Unit": "点",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

@@ -1,1 +1,176 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassB","TitleBody","Comments","DescriptionA","DescriptionB","DescriptionC","DescriptionD","DescriptionE","ClassH","Manager","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","ClassB","Manager","Owner","ClassH","Body","ClassC","DescriptionA","ClassD","DescriptionB","ClassE","DescriptionC","ClassF","DescriptionD","ClassG","DescriptionE","AttachmentsA","Comments"],"TitleColumns":["ClassA"],"LinkColumns":["ClassB","ClassA","ClassH","ClassC","ClassD","ClassE","ClassF","ClassG","Manager","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","ClassH","ClassC","ClassD","ClassE","ClassF","ClassG","Manager","Owner","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"事業名","ChoicesText":"事業1\n事業2\n事業3\n事業4\n事業5","FieldCss":"field-wide"},{"ColumnName":"ClassB","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassC","LabelText":"新規参入の脅威(圧力)","ChoicesText":"弱\n中\n強"},{"ColumnName":"ClassD","LabelText":"代替製品の脅威(圧力)","ChoicesText":"弱\n中\n強"},{"ColumnName":"ClassE","LabelText":"仕入先との交渉力(圧力)","ChoicesText":"弱\n中\n強"},{"ColumnName":"ClassF","LabelText":"買い手との交渉力(圧力)","ChoicesText":"弱\n中\n強"},{"ColumnName":"ClassG","LabelText":"同業他社との競合(圧力)","ChoicesText":"弱\n中\n強"},{"ColumnName":"DescriptionA","LabelText":"新規参入の脅威(内容)"},{"ColumnName":"DescriptionB","LabelText":"新規参入の脅威(内容)"},{"ColumnName":"DescriptionC","LabelText":"仕入先との交渉力(内容)"},{"ColumnName":"DescriptionD","LabelText":"買い手との交渉力(内容)"},{"ColumnName":"DescriptionE","LabelText":"同業他社との競合(内容)"},{"ColumnName":"Body","LabelText":"総括"},{"ColumnName":"ClassH","LabelText":"判断結果","ChoicesText":"参入\n却下\n再検討\n保留"},{"ColumnName":"Status","ChoicesText":""}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassH","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","ColumnSorterHash":{"ClassB":0,"ClassA":0},"KambanGroupByX":"ClassH"}],"EnableCalendar":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "DescriptionE",
+        "ClassH",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "ClassH",
+        "Body",
+        "ClassC",
+        "DescriptionA",
+        "ClassD",
+        "DescriptionB",
+        "ClassE",
+        "DescriptionC",
+        "ClassF",
+        "DescriptionD",
+        "ClassG",
+        "DescriptionE",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassH",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "ClassH",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "事業名",
+            "ChoicesText": "事業1\n事業2\n事業3\n事業4\n事業5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "新規参入の脅威(圧力)",
+            "ChoicesText": "弱\n中\n強"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "代替製品の脅威(圧力)",
+            "ChoicesText": "弱\n中\n強"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "仕入先との交渉力(圧力)",
+            "ChoicesText": "弱\n中\n強"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "買い手との交渉力(圧力)",
+            "ChoicesText": "弱\n中\n強"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "同業他社との競合(圧力)",
+            "ChoicesText": "弱\n中\n強"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "新規参入の脅威(内容)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "新規参入の脅威(内容)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "仕入先との交渉力(内容)"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "買い手との交渉力(内容)"
+        },
+        {
+            "ColumnName": "DescriptionE",
+            "LabelText": "同業他社との競合(内容)"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "総括"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "判断結果",
+            "ChoicesText": "参入\n却下\n再検討\n保留"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassB": 0,
+                "ClassA": 0
+            },
+            "KambanGroupByX": "ClassH"
+        }
+    ],
+    "EnableCalendar": false,
+    "TitleSeparator": ")"
+}

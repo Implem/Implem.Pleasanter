@@ -1,1 +1,95 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridColumns":["ResultId","TitleBody","ClassD","ClassA","ClassB","ClassC","ClassE","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassC","ClassD","ClassA","ClassB","ClassE","Body","DescriptionA","AttachmentsA","Comments"],"LinkColumns":["ResultId","Title","ClassD","ClassA","ClassB","ClassE","Updator","UpdatedTime"],"HistoryColumns":["Ver","Title","ClassD","ClassA","ClassB","ClassE","Comments","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Name","FieldCss":"field-normal"},{"ColumnName":"ClassA","LabelText":"Fixed_phone"},{"ColumnName":"ClassB","LabelText":"Mobile_phone"},{"ColumnName":"ClassC","LabelText":"Postal_code"},{"ColumnName":"ClassD","LabelText":"Address","GridDesign":"〒[ClassC]\n[ClassD]","FieldCss":"field-wide"},{"ColumnName":"Body","LabelText":"Other_contact"},{"ColumnName":"ClassE","LabelText":"Mail"},{"ColumnName":"DescriptionA","LabelText":"Notes"}],"ViewLatestId":0,"EnableTimeSeries":false,"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassC",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "Body",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "ClassE",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Fixed_phone"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Mobile_phone"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Postal_code"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Address",
+            "GridDesign": "〒[ClassC]\n[ClassD]",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Other_contact"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Mail"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Notes"
+        }
+    ],
+    "ViewLatestId": 0,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

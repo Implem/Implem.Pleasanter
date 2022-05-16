@@ -1,1 +1,169 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ResultId","ClassB","TitleBody","Comments","Status","ClassC","DateA","DateB","DateC","DateD","NumA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassB","ClassA","ClassC","Status","DateA","DateB","Body","DateC","DateD","NumA","AttachmentsA","Comments"],"TitleColumns":["ClassB","ClassA"],"LinkColumns":["ResultId","ClassB","Title","ClassC","Status","DateA","DateB","DateC","DateD","NumA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Status","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Status","ChoicesText":"100,Statement,Statement,status-new\n900,Approval,Approval,status-closed\n910,Dismissal,Dismissal,status-review\n920,On hold,On hold,status-rejected"},{"ColumnName":"ClassA","LabelText":"Name","ChoicesText":"Name1\nName2\nName3\nName4\nName5"},{"ColumnName":"ClassB","LabelText":"Belongs","ChoicesText":"Belongs1\nBelongs2\nBelongs3\nBelongs4\nBelongs5"},{"ColumnName":"ClassC","LabelText":"Management title","ChoicesText":"Management title1\nManagement title2\nManagement title3\nManagement title4\nManagement title5"},{"ColumnName":"NumA","LabelText":"Time","ControlType":"Spinner","DecimalPlaces":1,"Max":10.0,"Step":0.1,"Unit":"h"},{"ColumnName":"DateA","LabelText":"Scheduled to start)","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"},{"ColumnName":"DateB","LabelText":"Termination (planned)","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"},{"ColumnName":"DateC","LabelText":"Start (actual)","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"},{"ColumnName":"DateD","LabelText":"End (actual)","EditorFormat":"Ymdhm","ExportFormat":"Ymdahm"},{"ColumnName":"Body","LabelText":"Reason"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""}],"Aggregations":[{"Id":3,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":4,"GroupBy":"ClassB","Type":1,"Target":"NumA"},{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassA","Type":1,"Target":"NumA"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","TimeSeriesGroupBy":"ClassA","TimeSeriesAggregateType":"Total","KambanGroupByY":"ClassA"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "Status",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "Status",
+        "DateA",
+        "DateB",
+        "Body",
+        "DateC",
+        "DateD",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassB",
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "ClassB",
+        "Title",
+        "ClassC",
+        "Status",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Statement,Statement,status-new\n900,Approval,Approval,status-closed\n910,Dismissal,Dismissal,status-review\n920,On hold,On hold,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Name",
+            "ChoicesText": "Name1\nName2\nName3\nName4\nName5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Belongs",
+            "ChoicesText": "Belongs1\nBelongs2\nBelongs3\nBelongs4\nBelongs5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Management title",
+            "ChoicesText": "Management title1\nManagement title2\nManagement title3\nManagement title4\nManagement title5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Time",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 10.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Scheduled to start)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Termination (planned)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "Start (actual)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateD",
+            "LabelText": "End (actual)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Reason"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

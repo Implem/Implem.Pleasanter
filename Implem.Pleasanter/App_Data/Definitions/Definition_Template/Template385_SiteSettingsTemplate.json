@@ -1,1 +1,158 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["Title","ClassB","ClassA","ClassC","ClassD","NumC","NumA","ClassE","NumE","DateA","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","Title","ClassB","ClassA","ClassC","ClassD","NumC","NumA","ClassE","DateA","NumE","Body","AttachmentsA","Comments"],"LinkColumns":["Title","ClassB","ClassA","ClassC","ClassD","NumC","NumA","ClassE","NumE","DateA","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","NumE","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"Attached_files"},{"ColumnName":"Title","LabelText":"Product name"},{"ColumnName":"Status","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"Country of origin"},{"ColumnName":"ClassB","LabelText":"Brand","ChoicesText":"Brand1\nBrand2\nBrand3\nBrand4\nBrand5"},{"ColumnName":"ClassC","LabelText":"Production area"},{"ColumnName":"NumA","LabelText":"Liquid capacity","Unit":"ml"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"NumE","LabelText":"Price","Format":"C"},{"ColumnName":"DateA","LabelText":"Release date"},{"ColumnName":"Body","LabelText":"Remarks"},{"ColumnName":"NumC","LabelText":"Alcohol degree","DecimalPlaces":1,"Unit":"%"},{"ColumnName":"ClassD","LabelText":"Classification"},{"ColumnName":"ClassE","LabelText":"Container type","ChoicesText":"Bottle\nCan\nPETbottles"}],"Aggregations":[{"Id":1,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":2,"Target":"NumE"},{"Id":3,"GroupBy":"ClassA","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"Standard","CalendarColumn":"DateA","KambanAggregateType":"Average","KambanValue":"NumE","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "NumC",
+        "NumA",
+        "ClassE",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "NumC",
+        "NumA",
+        "ClassE",
+        "DateA",
+        "NumE",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "NumC",
+        "NumA",
+        "ClassE",
+        "NumE",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Product name"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Country of origin"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Brand",
+            "ChoicesText": "Brand1\nBrand2\nBrand3\nBrand4\nBrand5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Production area"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Liquid capacity",
+            "Unit": "ml"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Alcohol degree",
+            "DecimalPlaces": 1,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Classification"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Container type",
+            "ChoicesText": "Bottle\nCan\nPETbottles"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 2,
+            "Target": "NumE"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "KambanAggregateType": "Average",
+            "KambanValue": "NumE",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}

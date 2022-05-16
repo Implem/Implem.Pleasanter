@@ -1,1 +1,134 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["ClassA","TitleBody","ClassB","ClassC","DateA","Owner","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","ClassA","Title","ClassB","ClassC","Body","DescriptionA","DescriptionB","DescriptionC","DescriptionD","DateA","Owner","AttachmentsA","Comments"],"LinkColumns":["ClassA","Title","ClassB","ClassC","DateA","Owner","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"ClassA","LabelText":"商品・サービス","ChoicesText":"商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"},{"ColumnName":"Title","LabelText":"顧客名"},{"ColumnName":"ClassB","LabelText":"業種","ChoicesText":"A,農業，林業\nB,漁業\nC,鉱業，採石業，砂利採取業\nD,建設業\nE,製造業\nF,電気・ガス・熱供給・水道業\nG,情報通信業\nH,運輸業，郵便業\nI,卸売業，小売業\nJ,金融業，保険業\nK,不動産業，物品賃貸業\nL,学術研究，専門・技術サービス業\nM,宿泊業，飲食サービス業\nN,生活関連サービス業，娯楽業\nO,教育，学習支援業\nP,医療，福祉\nQ,複合サービス事業\nR,サービス業（他に分類されないもの）\nS,公務（他に分類されるものを除く）\nT,分類不能の産業"},{"ColumnName":"ClassC","LabelText":"部門"},{"ColumnName":"Body","LabelText":"概要"},{"ColumnName":"DescriptionA","LabelText":"顧客課題"},{"ColumnName":"DescriptionB","LabelText":"解決策"},{"ColumnName":"DescriptionC","LabelText":"効果"},{"ColumnName":"DateA","LabelText":"登録日"},{"ColumnName":"Owner","LabelText":"登録者"},{"ColumnName":"DescriptionD","LabelText":"受注の決め手"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassB","Type":0,"Target":""},{"Id":3,"GroupBy":"ClassC","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CrosstabGroupByX":"DateA","CrosstabGroupByY":"ClassA","CrosstabAggregateType":"Count","TimeSeriesGroupBy":"ClassA"}],"EnableKamban":false,"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassA",
+        "TitleBody",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "DateA",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassA",
+        "Title",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "商品・サービス",
+            "ChoicesText": "商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "顧客名"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "業種",
+            "ChoicesText": "A,農業，林業\nB,漁業\nC,鉱業，採石業，砂利採取業\nD,建設業\nE,製造業\nF,電気・ガス・熱供給・水道業\nG,情報通信業\nH,運輸業，郵便業\nI,卸売業，小売業\nJ,金融業，保険業\nK,不動産業，物品賃貸業\nL,学術研究，専門・技術サービス業\nM,宿泊業，飲食サービス業\nN,生活関連サービス業，娯楽業\nO,教育，学習支援業\nP,医療，福祉\nQ,複合サービス事業\nR,サービス業（他に分類されないもの）\nS,公務（他に分類されるものを除く）\nT,分類不能の産業"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "部門"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "概要"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "顧客課題"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "解決策"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "効果"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "登録者"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "受注の決め手"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

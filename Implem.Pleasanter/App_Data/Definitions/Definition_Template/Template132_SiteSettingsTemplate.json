@@ -1,1 +1,164 @@
-﻿{"Version":1.011,"ReferenceType":"Issues","GridView":1,"GridColumns":["IssueId","ClassC","Title","ClassD","ClassA","ClassB","StartTime","CompletionTime","NumA","Status","DateA","DateB","Updator","UpdatedTime"],"EditorColumns":["IssueId","Ver","ClassC","Title","ClassD","ClassA","ClassB","StartTime","CompletionTime","NumA","Status","DateA","DateB","Body","AttachmentsA","Comments"],"LinkColumns":["IssueId","ClassC","Title","ClassD","ClassA","ClassB","StartTime","CompletionTime","NumA","Status","DateA","DateB","Updator","UpdatedTime"],"HistoryColumns":["Ver","ClassC","Title","ClassD","ClassA","ClassB","StartTime","CompletionTime","NumA","Status","DateA","DateB","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"StartTime","LabelText":"利用開始","ExportFormat":"Ymda"},{"ColumnName":"CompletionTime","LabelText":"有効期限","DefaultInput":"180","ExportFormat":"Ymda"},{"ColumnName":"Status","ChoicesText":"300,起票,起,status-review\n900,承認,承,status-closed\n910,保留,留,status-rejected"},{"ColumnName":"ClassA","LabelText":"利用区間(発)"},{"ColumnName":"ClassB","LabelText":"利用区間(着)"},{"ColumnName":"ClassC","LabelText":"所属","ChoicesText":"[[Depts]]"},{"ColumnName":"ClassD","LabelText":"勤務地","ChoicesText":"勤務地1\n勤務地2\n勤務地3\n勤務地4\n勤務地5"},{"ColumnName":"NumA","LabelText":"金額","Format":"C"},{"ColumnName":"DateA","LabelText":"起票日","DefaultInput":"0","ExportFormat":"Ymda"},{"ColumnName":"DateB","LabelText":"承認日","ExportFormat":"Ymda"},{"ColumnName":"Title","LabelText":"利用者","FieldCss":"field-normal"},{"ColumnName":"Body","LabelText":"備考"}],"Aggregations":[{"Id":1,"GroupBy":"Status","Type":0,"Target":""},{"Id":2,"GroupBy":"ClassC","Type":1,"Target":"NumA"},{"Id":3,"GroupBy":"ClassD","Type":1,"Target":"NumA"}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","KambanGroupByY":"ClassC"}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassD",
+        "ClassA",
+        "ClassB",
+        "StartTime",
+        "CompletionTime",
+        "NumA",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "利用開始",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "有効期限",
+            "DefaultInput": "180",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "300,起票,起,status-review\n900,承認,承,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "利用区間(発)"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "利用区間(着)"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "所属",
+            "ChoicesText": "[[Depts]]"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "勤務地",
+            "ChoicesText": "勤務地1\n勤務地2\n勤務地3\n勤務地4\n勤務地5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "金額",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "起票日",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "承認日",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "利用者",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassC",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "KambanGroupByY": "ClassC"
+        }
+    ],
+    "TitleSeparator": ")"
+}

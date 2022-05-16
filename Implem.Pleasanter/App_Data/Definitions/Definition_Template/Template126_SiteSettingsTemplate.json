@@ -1,1 +1,155 @@
-﻿{"Version":1.011,"ReferenceType":"Results","GridView":1,"GridColumns":["TitleBody","Comments","ClassD","ClassE","Status","NumA","DateA","DateB","DateC","Updator","UpdatedTime"],"EditorColumns":["ResultId","Ver","DateA","ClassC","ClassA","ClassB","ClassD","DateB","Body","ClassE","Status","NumA","DateC","AttachmentsA","Comments"],"TitleColumns":["ClassC","ClassA","ClassB"],"LinkColumns":["Title","ClassD","ClassE","Status","NumA","DateA","DateB","DateC","Updator","UpdatedTime"],"HistoryColumns":["Ver","Comments","Title","ClassD","ClassE","Status","NumA","DateA","DateB","DateC","Updator","UpdatedTime"],"Columns":[{"ColumnName":"AttachmentsA","LabelText":"添付資料"},{"ColumnName":"Status","ChoicesText":"100,申請中,申,status-new\n200,入寮,入,status-inprogress\n900,退寮済み,退,status-closed\n910,却下,却,status-rejected"},{"ColumnName":"Manager","ChoicesText":""},{"ColumnName":"Owner","ChoicesText":""},{"ColumnName":"ClassA","LabelText":"部門","ChoicesText":"部門1\n部門2\n部門3\n部門4\n部門5"},{"ColumnName":"ClassB","LabelText":"氏名","ChoicesText":"氏名1\n氏名2\n氏名3\n氏名4\n氏名5"},{"ColumnName":"ClassC","LabelText":"従業員番号"},{"ColumnName":"ClassD","LabelText":"希望寮","ChoicesText":"寮1\n寮2\n寮3\n寮4\n寮5"},{"ColumnName":"ClassE","LabelText":"連絡先"},{"ColumnName":"DateA","LabelText":"申請日"},{"ColumnName":"DateB","LabelText":"入寮希望日"},{"ColumnName":"DateC","LabelText":"退寮日"},{"ColumnName":"Body","LabelText":"入寮理由"},{"ColumnName":"NumA","LabelText":"寮費","Format":"C"}],"Aggregations":[{"Id":1,"GroupBy":"ClassA","Type":0,"Target":""},{"Id":3,"GroupBy":"Status","Type":0,"Target":""}],"ViewLatestId":1,"Views":[{"Id":1,"Name":"標準","CalendarColumn":"DateB","TimeSeriesGroupBy":"ClassA","KambanGroupByX":"ClassA","KambanGroupByY":"ClassD","KambanAggregationView":true}],"TitleSeparator":")"}
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "ClassD",
+        "ClassE",
+        "Status",
+        "NumA",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassC",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "DateB",
+        "Body",
+        "ClassE",
+        "Status",
+        "NumA",
+        "DateC",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassC",
+        "ClassA",
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassD",
+        "ClassE",
+        "Status",
+        "NumA",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassD",
+        "ClassE",
+        "Status",
+        "NumA",
+        "DateA",
+        "DateB",
+        "DateC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,申請中,申,status-new\n200,入寮,入,status-inprogress\n900,退寮済み,退,status-closed\n910,却下,却,status-rejected"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "氏名",
+            "ChoicesText": "氏名1\n氏名2\n氏名3\n氏名4\n氏名5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "従業員番号"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "希望寮",
+            "ChoicesText": "寮1\n寮2\n寮3\n寮4\n寮5"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "連絡先"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "申請日"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "入寮希望日"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "退寮日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "入寮理由"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "寮費",
+            "Format": "C"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateB",
+            "TimeSeriesGroupBy": "ClassA",
+            "KambanGroupByX": "ClassA",
+            "KambanGroupByY": "ClassD",
+            "KambanAggregationView": true
+        }
+    ],
+    "TitleSeparator": ")"
+}
