@@ -10092,7 +10092,9 @@ namespace Implem.Pleasanter.Models
                         controlId: "NotificationType",
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(context: context),
-                        optionCollection: NotificationUtilities.Types(context: context),
+                        optionCollection: Parameters.Notification.ListOrder == null
+                            ? NotificationUtilities.Types(context: context)
+                            : NotificationUtilities.OrderdTypes(context: context),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",

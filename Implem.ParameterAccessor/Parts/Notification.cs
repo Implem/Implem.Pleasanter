@@ -12,5 +12,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool RocketChat;
         public bool InCircle;
         public OptionTypes CopyWithNotifications;
+        public string[] ListOrder;
     }
 }

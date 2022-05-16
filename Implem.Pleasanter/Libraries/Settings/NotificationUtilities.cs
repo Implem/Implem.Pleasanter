@@ -60,6 +60,86 @@ namespace Implem.Pleasanter.Libraries.Settings
             return notificationType;
         }
 
+        public static Dictionary<string, string> OrderdTypes(Context context)
+        {
+            var orderdTypes = Parameters.Notification.ListOrder
+                .Select(o => System.Enum.TryParse(o, out Notification.Types t) ? t : (Notification.Types?)null)
+                .Where(o => o != null);
+
+            var notificationType = new Dictionary<string, string>();
+            foreach (var type in orderdTypes)
+            {
+                switch (type)
+                {
+                    case Notification.Types.Mail:
+                        if (Parameters.Notification.Mail)
+                        {
+                            notificationType.Add(
+                                Notification.Types.Mail.ToInt().ToString(),
+                                Displays.Mail(context: context));
+                        }
+                        break;
+                    case Notification.Types.Slack:
+                        if (Parameters.Notification.Slack)
+                        {
+                            notificationType.Add(
+                                Notification.Types.Slack.ToInt().ToString(),
+                                Displays.Slack(context: context));
+                        }
+                        break;
+                    case Notification.Types.ChatWork:
+                        if (Parameters.Notification.ChatWork)
+                        {
+                            notificationType.Add(
+                                Notification.Types.ChatWork.ToInt().ToString(),
+                                Displays.ChatWork(context: context));
+                        }
+                        break;
+                    case Notification.Types.Line:
+                        if (Parameters.Notification.Line)
+                        {
+                            notificationType.Add(
+                                Notification.Types.Line.ToInt().ToString(),
+                                Displays.Line(context: context));
+                        }
+                        break;
+                    case Notification.Types.LineGroup:
+                        if (Parameters.Notification.Line)
+                        {
+                            notificationType.Add(
+                                Notification.Types.LineGroup.ToInt().ToString(),
+                                Displays.LineGroup(context: context));
+                        }
+                        break;
+                    case Notification.Types.Teams:
+                        if (Parameters.Notification.Teams)
+                        {
+                            notificationType.Add(
+                                Notification.Types.Teams.ToInt().ToString(),
+                                Displays.Teams(context: context));
+                        }
+                        break;
+                    case Notification.Types.RocketChat:
+                        if (Parameters.Notification.RocketChat)
+                        {
+                            notificationType.Add(
+                                Notification.Types.RocketChat.ToInt().ToString(),
+                                Displays.RocketChat(context: context));
+                        }
+                        break;
+                    case Notification.Types.InCircle:
+                        if (Parameters.Notification.InCircle)
+                        {
+                            notificationType.Add(
+                                Notification.Types.InCircle.ToInt().ToString(),
+                                Displays.InCircle(context: context));
+                        }
+                        break;
+                }
+            }
+            return notificationType;
+        }
+
         public static bool RequireToken(Notification notification)
         {
             return TokenList().Contains(notification.Type);
