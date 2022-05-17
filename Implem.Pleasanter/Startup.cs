@@ -113,14 +113,15 @@ namespace Implem.Pleasanter.NetCore
             services.Configure<IISServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
+                options.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             });
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
+                options.Limits.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             })
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
             services.AddHealthChecks();
-
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
