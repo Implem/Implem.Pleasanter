@@ -509,14 +509,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     if (column.MultipleSelections != true)
                                     {
                                         hb
-                                          .Div(
-                                              css: "ui-icon ui-icon-person current-user",
-                                              _using: !Parameters.General.HideCurrentUserIcon
-                                                && column.Type == Column.Types.User)
-                                          .Div(
-                                              css: "ui-icon ui-icon-person current-dept",
-                                              _using: !Parameters.General.HideCurrentDeptIcon
-                                                && column.Type == Column.Types.Dept);
+                                            .Div(
+                                                css: "ui-icon ui-icon-person current-user",
+                                                _using: !Parameters.General.HideCurrentUserIcon
+                                                    && column.Type == Column.Types.User)
+                                            .Div(
+                                                css: "ui-icon ui-icon-person current-dept",
+                                                _using: !Parameters.General.HideCurrentDeptIcon
+                                                    && column.Type == Column.Types.Dept);
                                     }
                                 });
                         case ControlTypes.Text:

@@ -64,7 +64,8 @@ namespace Implem.Pleasanter.Libraries.Security
         public static bool DisableDeletingSiteAuthentication(Context context)
         {
             return Parameters.Security.DisableDeletingSiteAuthentication == true
-                || Windows(context: context) || SAML();
+                || Windows(context: context)
+                || SAML();
         }
 
         public static bool SAML()
