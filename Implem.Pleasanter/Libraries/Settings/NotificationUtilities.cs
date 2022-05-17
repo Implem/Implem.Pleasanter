@@ -11,53 +11,138 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public static Dictionary<string, string> Types(Context context)
         {
-            var notificationType = new Dictionary<string, string>();
+            var notificationTypes = new Dictionary<string, string>();
             if (Parameters.Notification.Mail)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.Mail.ToInt().ToString(),
                     Displays.Mail(context: context));
             }
             if (Parameters.Notification.Slack)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.Slack.ToInt().ToString(),
                     Displays.Slack(context: context));
             }
             if (Parameters.Notification.ChatWork)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.ChatWork.ToInt().ToString(),
                     Displays.ChatWork(context: context));
             }
             if (Parameters.Notification.Line)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.Line.ToInt().ToString(),
                     Displays.Line(context: context));
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.LineGroup.ToInt().ToString(),
                     Displays.LineGroup(context: context));
             }
             if (Parameters.Notification.Teams)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.Teams.ToInt().ToString(),
                     Displays.Teams(context: context));
             }
             if (Parameters.Notification.RocketChat)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.RocketChat.ToInt().ToString(),
                     Displays.RocketChat(context: context));
             }
             if (Parameters.Notification.InCircle)
             {
-                notificationType.Add(
+                notificationTypes.Add(
                     Notification.Types.InCircle.ToInt().ToString(),
                     Displays.InCircle(context: context));
             }
-            return notificationType;
+            return notificationTypes;
+        }
+
+        public static Dictionary<string, string> OrderTypes(Context context)
+        {
+            var orderTypes = Parameters.Notification.ListOrder?
+                .Select(o => System.Enum.TryParse(o, out Notification.Types t)
+                    ? t
+                    : (Notification.Types?)null)
+                .Where(o => o != null);
+            var notificationTypes = new Dictionary<string, string>();
+            if (orderTypes == null)
+            {
+                return notificationTypes;
+            }
+            foreach (var type in orderTypes)
+            {
+                switch (type)
+                {
+                    case Notification.Types.Mail:
+                        if (Parameters.Notification.Mail)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.Mail(context: context));
+                        }
+                        break;
+                    case Notification.Types.Slack:
+                        if (Parameters.Notification.Slack)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.Slack(context: context));
+                        }
+                        break;
+                    case Notification.Types.ChatWork:
+                        if (Parameters.Notification.ChatWork)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.ChatWork(context: context));
+                        }
+                        break;
+                    case Notification.Types.Line:
+                        if (Parameters.Notification.Line)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.Line(context: context));
+                        }
+                        break;
+                    case Notification.Types.LineGroup:
+                        if (Parameters.Notification.Line)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.LineGroup(context: context));
+                        }
+                        break;
+                    case Notification.Types.Teams:
+                        if (Parameters.Notification.Teams)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.Teams(context: context));
+                        }
+                        break;
+                    case Notification.Types.RocketChat:
+                        if (Parameters.Notification.RocketChat)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.RocketChat(context: context));
+                        }
+                        break;
+                    case Notification.Types.InCircle:
+                        if (Parameters.Notification.InCircle)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.InCircle(context: context));
+                        }
+                        break;
+                }
+            }
+            return notificationTypes;
         }
 
         public static bool RequireToken(Notification notification)

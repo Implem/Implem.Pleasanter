@@ -3956,8 +3956,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "enterprise-banner.png"))),
-                            _using: !Parameters.CommercialLicense()
-                                || Parameters.Service.Demo)
+                            _using: !Parameters.DisableAds()
+                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
@@ -3969,8 +3969,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "cases-banner.png"))),
-                            _using: !Parameters.CommercialLicense()
-                                || Parameters.Service.Demo)
+                            _using: !Parameters.DisableAds()
+                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(context: context, siteModel: siteModel)
                             .FieldSetGeneral(context: context, siteModel: siteModel)
@@ -10092,7 +10092,9 @@ namespace Implem.Pleasanter.Models
                         controlId: "NotificationType",
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(context: context),
-                        optionCollection: NotificationUtilities.Types(context: context),
+                        optionCollection: Parameters.Notification.ListOrder == null
+                            ? NotificationUtilities.Types(context: context)
+                            : NotificationUtilities.OrderTypes(context: context),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",
@@ -12573,12 +12575,12 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "Users_LoginId",
                         labelText: Displays.Users_LoginId(context: context),
-                        _using: !Authentications.SSO(context: context))
+                        _using: !Authentications.DisableDeletingSiteAuthentication(context: context))
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
                         controlId: "Users_Password",
                         labelText: Displays.Users_Password(context: context),
-                        _using: !Authentications.SSO(context: context))
+                        _using: !Authentications.DisableDeletingSiteAuthentication(context: context))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

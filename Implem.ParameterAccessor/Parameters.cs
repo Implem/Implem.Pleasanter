@@ -72,5 +72,25 @@ namespace Implem.DefinitionAccessor
         {
             return License.Licensee;
         }
+
+        public static string Copyright()
+        {
+            var prop = License.GetType().GetProperty("Copyright");
+            return (string)(prop?.GetValue(License))
+                ?? $"Copyright &copy; Implem Inc. 2014 - {DateTime.Now.Year}";
+        }
+
+        public static string CopyrightUrl()
+        {
+            var prop = License.GetType().GetProperty("CopyrightUrl");
+            return (string)(prop?.GetValue(License))
+                ?? "https://implem.co.jp";
+        }
+
+        public static bool DisableAds()
+        {
+            var prop = License.GetType().GetProperty("DisableAds");
+            return (bool?)(prop?.GetValue(License)) ?? false;
+        }
     }
 }

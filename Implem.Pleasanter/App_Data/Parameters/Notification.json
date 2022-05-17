@@ -7,5 +7,6 @@
     "Teams": false,
     "RocketChat": false,
     "InCircle": false,
-    "CopyWithNotifications": "On"
+    "CopyWithNotifications": "On",
+    "ListOrder": null
 }
