@@ -511,10 +511,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         hb
                                           .Div(
                                               css: "ui-icon ui-icon-person current-user",
-                                              _using: !Parameters.General.HideCurrentUserIcon && column.Type == Column.Types.User)
+                                              _using: !Parameters.General.HideCurrentUserIcon
+                                                && column.Type == Column.Types.User)
                                           .Div(
                                               css: "ui-icon ui-icon-person current-dept",
-                                              _using: !Parameters.General.HideCurrentDeptIcon && column.Type == Column.Types.Dept);
+                                              _using: !Parameters.General.HideCurrentDeptIcon
+                                                && column.Type == Column.Types.Dept);
                                     }
                                 });
                         case ControlTypes.Text:
@@ -693,7 +695,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl,
                                 controlOption: () => hb
-                                    .Div(css: "ui-icon ui-icon-clock current-time", _using: !Parameters.General.HideCurrentTimeIcon));
+                                    .Div(
+                                        css: "ui-icon ui-icon-clock current-time",
+                                        _using: !Parameters.General.HideCurrentTimeIcon));
                         case ControlTypes.CheckBox:
                             return hb.FieldCheckBox(
                                 fieldId: controlId + "Field",

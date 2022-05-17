@@ -10094,7 +10094,7 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.NotificationType(context: context),
                         optionCollection: Parameters.Notification.ListOrder == null
                             ? NotificationUtilities.Types(context: context)
-                            : NotificationUtilities.OrderdTypes(context: context),
+                            : NotificationUtilities.OrderTypes(context: context),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",

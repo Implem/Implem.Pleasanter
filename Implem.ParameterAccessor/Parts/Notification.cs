@@ -1,4 +1,5 @@
-﻿using static Implem.ParameterAccessor.Parts.Types;
+﻿using System.Collections.Generic;
+using static Implem.ParameterAccessor.Parts.Types;
 namespace Implem.ParameterAccessor.Parts
 {
     public class Notification
@@ -12,6 +13,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool RocketChat;
         public bool InCircle;
         public OptionTypes CopyWithNotifications;
-        public string[] ListOrder;
+        public List<string> ListOrder;
     }
 }
