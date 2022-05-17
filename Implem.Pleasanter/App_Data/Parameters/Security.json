@@ -8,7 +8,7 @@
     "TokenCheck": false,
     "SecureCookies": false,
     "DisableMvcResponseHeader": false,
-    "DisableSiteDeletingLogin": false,
+    "DisableDeletingSiteAuthentication": false,
     "AccessControlAllowOrigin": null,
     "EnforcePasswordHistories": 0,
     "PasswordPolicies": [

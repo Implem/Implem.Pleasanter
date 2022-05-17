@@ -259,7 +259,7 @@ namespace Implem.Pleasanter.Models
 
         private static bool Authenticate(Context context)
         {
-            return Authentications.DisableSiteDeletingLogin(context: context)
+            return Authentications.DisableDeletingSiteAuthentication(context: context)
                 || Authentications.Try(
                     context: context,
                     loginId: context.Forms.Data("Users_LoginId"),

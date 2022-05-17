@@ -61,9 +61,9 @@ namespace Implem.Pleasanter.Libraries.Security
             return context.AuthenticationsWindows();
         }
 
-        public static bool DisableSiteDeletingLogin(Context context)
+        public static bool DisableDeletingSiteAuthentication(Context context)
         {
-            return Parameters.Security.DisableSiteDeletingLogin == true
+            return Parameters.Security.DisableDeletingSiteAuthentication == true
                 || Windows(context: context) || SAML();
         }
 
