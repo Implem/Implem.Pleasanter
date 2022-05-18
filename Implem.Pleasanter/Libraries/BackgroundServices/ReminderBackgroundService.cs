@@ -6,7 +6,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Implem.Pleasanter.Libraries.Server
+namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     /// <summary>
     /// Reminderを定期的に呼び出すBackgroundServiceクラス
@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 {
                     ReminderScheduleUtilities.Remind(context: context);
                     exceptionCount = 0;
-;                }
+                }
                 catch (OperationCanceledException e)
                 {
                     new SysLogModel(context, e, "Reminder Canceled");
