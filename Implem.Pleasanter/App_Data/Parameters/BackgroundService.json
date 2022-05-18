@@ -1,0 +1,5 @@
+﻿{
+    "Reminder": false,
+    "ReminderIntervalSeconds": 5,
+    "ReminderMaxExceptionCount": 30
+}

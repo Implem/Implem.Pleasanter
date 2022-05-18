@@ -131,7 +131,10 @@ namespace Implem.Pleasanter.NetCore
                 // BackgroundServiceで例外発生してもWebアプリケーション自体は終了させない設定
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
             });
-            services.AddHostedService<ReminderBackgroundService>();
+            if (Parameters.BackgroundService.Reminder)
+            {
+                services.AddHostedService<ReminderBackgroundService>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

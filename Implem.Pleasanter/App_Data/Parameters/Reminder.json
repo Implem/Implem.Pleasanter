@@ -7,8 +7,5 @@
     "MinRange": 1,
     "MaxRange": 1000,
     "DefaultRange": 30,
-    "CopyWithReminders": "On",
-    "RemindIntervalSeconds": 5,
-    "UseGenericHost": true,
-    "MaxExceptionCount": 30
+    "CopyWithReminders": "On"
 }

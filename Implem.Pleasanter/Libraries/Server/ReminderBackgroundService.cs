@@ -19,7 +19,7 @@ namespace Implem.Pleasanter.Libraries.Server
         /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!Parameters.Reminder.Enabled || !Parameters.Reminder.UseGenericHost)
+            if (!Parameters.Reminder.Enabled)
             {
                 return;
             }
@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 {
                     ReminderScheduleUtilities.Remind(context: context);
                     await Task.Delay(
-                        TimeSpan.FromSeconds(Parameters.Reminder.RemindIntervalSeconds),
+                        TimeSpan.FromSeconds(Parameters.BackgroundService.ReminderIntervalSeconds),
                         stoppingToken);
                     exceptionCount = 0;
                 }
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 {
                     exceptionCount++;
                     new SysLogModel(context, e, $"Reminder Exception Count={exceptionCount}");
-                    if (exceptionCount > Parameters.Reminder.MaxExceptionCount)
+                    if (exceptionCount > Parameters.BackgroundService.ReminderMaxExceptionCount)
                     {
                         throw;
                     }
