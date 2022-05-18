@@ -3,6 +3,10 @@
     build:
       context: .
       dockerfile: ./Implem.Pleasanter/Dockerfile
+    environment:
+        Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString:
+        Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString:
+        Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString:
     image: implem.pleasanter
     container_name: pleasanter
     depends_on:
@@ -13,6 +17,10 @@
     build:
       context: .
       dockerfile: ./Implem.CodeDefiner/Dockerfile
+    environment:
+        Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString:
+        Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString:
+        Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString:
     image: implem.codedefiner
     container_name: codedefiner
     depends_on:
