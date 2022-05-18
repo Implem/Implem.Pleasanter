@@ -3,7 +3,6 @@
     public class BackgroundService
     {
         public bool Reminder;
-        public int ReminderIntervalSeconds;
-        public int ReminderMaxExceptionCount;
+        public int ReminderIgnoreConsecutiveExceptionCount;
     }
 }

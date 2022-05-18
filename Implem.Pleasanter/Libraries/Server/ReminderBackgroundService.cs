@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Server
     {
         /// <summary>
         /// 内部でループして定期的にReminderScheduleUtilities.Remind()を呼び出す。
-        /// Pleasanter起動時に自動的に呼ばれる。
+        /// Pleasanter起動時にGeneric Hostにより自動的に呼ばれる。
         /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -35,11 +35,8 @@ namespace Implem.Pleasanter.Libraries.Server
                 try
                 {
                     ReminderScheduleUtilities.Remind(context: context);
-                    await Task.Delay(
-                        TimeSpan.FromSeconds(Parameters.BackgroundService.ReminderIntervalSeconds),
-                        stoppingToken);
                     exceptionCount = 0;
-                }
+;                }
                 catch (OperationCanceledException e)
                 {
                     new SysLogModel(context, e, "Reminder Canceled");
@@ -49,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 {
                     exceptionCount++;
                     new SysLogModel(context, e, $"Reminder Exception Count={exceptionCount}");
-                    if (exceptionCount > Parameters.BackgroundService.ReminderMaxExceptionCount)
+                    if (exceptionCount > Parameters.BackgroundService.ReminderIgnoreConsecutiveExceptionCount)
                     {
                         throw;
                     }

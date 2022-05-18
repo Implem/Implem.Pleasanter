@@ -1,5 +1,4 @@
 ﻿{
     "Reminder": false,
-    "ReminderIntervalSeconds": 5,
-    "ReminderMaxExceptionCount": 30
+    "ReminderIgnoreConsecutiveExceptionCount": 30
 }
