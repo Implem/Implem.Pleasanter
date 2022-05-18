@@ -1,4 +1,4 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 WORKDIR /app
@@ -32,5 +32,10 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
+RUN apt-get update && apt install -y gnupg wget unzip && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    wget -q http://dl.google.com/linux/deb/pool/main/g/google-chrome-stable/google-chrome-stable_101.0.4951.54-1_amd64.deb&& \
+    apt-get install -y -f ./google-chrome-stable_101.0.4951.54-1_amd64.deb
+ADD https://chromedriver.storage.googleapis.com/101.0.4951.41/chromedriver_linux64.zip /opt/chromedriver/
+RUN unzip /opt/chromedriver/chromedriver_linux64.zip -d Implem.TestAutomation
 ENTRYPOINT ["dotnet", "Implem.TestAutomation/Implem.TestAutomation.dll", "/p", "Implem.Pleasanter/Implem.Pleasanter", "/s"]
-# ENTRYPOINT ["dotnet", "Implem.TestAutomation/Implem.TestAutomation.dll"]
