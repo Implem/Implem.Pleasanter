@@ -39,13 +39,19 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 }
                 catch (OperationCanceledException e)
                 {
-                    new SysLogModel(context, e, "Reminder Canceled");
+                    new SysLogModel(
+                        context: context,
+                        e: e,
+                        extendedErrorMessage: "Reminder Canceled");
                     break;
                 }
                 catch (Exception e)
                 {
                     exceptionCount++;
-                    new SysLogModel(context, e, $"Reminder Exception Count={exceptionCount}");
+                    new SysLogModel(
+                        context: context,
+                        e: e,
+                        extendedErrorMessage:  $"Reminder Exception Count={exceptionCount}");
                     if (exceptionCount > Parameters.BackgroundService.ReminderIgnoreConsecutiveExceptionCount)
                     {
                         throw;
