@@ -12,5 +12,8 @@ namespace Implem.ParameterAccessor.Parts
         public int MaxRange;
         public int DefaultRange;
         public OptionTypes CopyWithReminders;
+        public int RemindIntervalSeconds;
+        public bool UseGenericHost;
+        public int MaxExceptionCount;        
     }
 }
