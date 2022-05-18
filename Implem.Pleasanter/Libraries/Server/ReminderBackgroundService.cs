@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Controllers;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using Microsoft.Extensions.Hosting;
@@ -9,11 +8,18 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.Server
 {
+    /// <summary>
+    /// Reminderを定期的に呼び出すBackgroundServiceクラス
+    /// </summary>
     class ReminderBackgroundService : BackgroundService
     {
+        /// <summary>
+        /// 内部でループして定期的にReminderScheduleUtilities.Remind()を呼び出す。
+        /// Pleasanter起動時に自動的に呼ばれる。
+        /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!Parameters.Reminder.Enabled)
+            if (!Parameters.Reminder.Enabled || !Parameters.Reminder.UseGenericHost)
             {
                 return;
             }
@@ -28,8 +34,10 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 try
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken);
                     ReminderScheduleUtilities.Remind(context: context);
+                    await Task.Delay(
+                        TimeSpan.FromSeconds(Parameters.Reminder.RemindIntervalSeconds),
+                        stoppingToken);
                     exceptionCount = 0;
                 }
                 catch (OperationCanceledException e)
@@ -39,11 +47,13 @@ namespace Implem.Pleasanter.Libraries.Server
                 }
                 catch (Exception e)
                 {
-                    const int MAX_INTERVAL_MINUTES = 30;
                     exceptionCount++;
                     new SysLogModel(context, e, $"Reminder Exception Count={exceptionCount}");
-                    var waitMinutes = Math.Min(exceptionCount, MAX_INTERVAL_MINUTES);
-                    await Task.Delay(waitMinutes, stoppingToken);
+                    if (exceptionCount > Parameters.Reminder.MaxExceptionCount)
+                    {
+                        throw;
+                    }
+                    await Task.Delay(TimeSpan.FromMinutes(exceptionCount), stoppingToken);
                 }
             }
         }
