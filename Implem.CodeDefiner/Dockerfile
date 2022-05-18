@@ -29,8 +29,6 @@ WORKDIR "/src/Implem.Pleasanter"
 RUN dotnet publish "Implem.Pleasanter.csproj" -c Release -o /app/publish/Implem.Pleasanter
 
 FROM base AS final
-# WORKDIR /app/Implem.Pleasanter/App_Data
-# COPY Implem.Pleasanter/App_Data .
 WORKDIR /app
 COPY --from=publish /app/publish .
 WORKDIR /app/Implem.CodeDefiner
