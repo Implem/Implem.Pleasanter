@@ -1,7 +1,7 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-RUN apt-get update && apt-get install -y libgdiplus
+RUN apt-get update && apt-get install -y libgdiplus curl
 
 WORKDIR /app
 EXPOSE 80
@@ -24,6 +24,10 @@ RUN dotnet build "Implem.Pleasanter.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "Implem.Pleasanter.csproj" -c Release -o /app/publish
+RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/bin/jq && \
+    cat App_Data/Parameters/Service.json \
+    | jq '.WithoutChangeDefaultPassword|=true | .ShowStartGuide|=false | .Demo|=false' \
+    > /app/publish/App_Data/Parameters/Service.json
 
 FROM base AS final
 WORKDIR /app
