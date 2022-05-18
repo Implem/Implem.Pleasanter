@@ -8,6 +8,7 @@ namespace Implem.DefinitionAccessor
         public static List<string> SyntaxErrors = new List<string>();
         public static Api Api;
         public static Authentication Authentication;
+        public static BackgroundService BackgroundService;
         public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;
         public static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitions;

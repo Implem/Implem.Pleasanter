@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
@@ -127,6 +128,15 @@ namespace Implem.Pleasanter.NetCore
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
+            services.Configure<HostOptions>(options =>
+            {
+                // BackgroundServiceで例外発生してもWebアプリケーション自体は終了させない設定
+                options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+            });
+            if (Parameters.BackgroundService.Reminder)
+            {
+                services.AddHostedService<ReminderBackgroundService>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

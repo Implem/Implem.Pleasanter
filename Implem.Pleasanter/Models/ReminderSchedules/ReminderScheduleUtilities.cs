@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Models
                         System.Threading.Thread.Sleep(Parameters.Reminder.Interval);
                     }
                 });
+                System.Threading.Thread.Sleep(100);
             }
             return string.Empty;
         }
