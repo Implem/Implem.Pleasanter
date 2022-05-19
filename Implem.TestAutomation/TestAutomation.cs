@@ -181,6 +181,8 @@ namespace Implem.TestAutomation
                 case BrowserTypes.Chrome:
                     var opt = new ChromeOptions();
                     opt.AddArgument("--headless");
+                    opt.AddArgument("--no-sandbox");
+                    opt.AddArgument("--disable-dev-shm-usage");
                     return new ChromeDriver(options: opt);
                 case BrowserTypes.IE:
                     return new InternetExplorerDriver();
