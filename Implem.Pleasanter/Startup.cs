@@ -80,7 +80,11 @@ namespace Implem.Pleasanter.NetCore
             {
                 services
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(o => o.LoginPath = new PathString("/users/login"))
+                    .AddCookie(o =>
+                    {
+                        o.LoginPath = new PathString("/users/login");
+                        o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+                    })
                     .AddSaml2(options =>
                     {
                         Saml.SetSPOptions(options);
@@ -90,7 +94,11 @@ namespace Implem.Pleasanter.NetCore
             {
                 services
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(o => o.LoginPath = new PathString("/users/login"));
+                    .AddCookie(o =>
+                    {
+                        o.LoginPath = new PathString("/users/login");
+                        o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+                    });
             }
             if (Parameters.Security.SecureCookies)
             {
