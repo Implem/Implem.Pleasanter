@@ -22,7 +22,11 @@ jobs:
             POSTGRES_PASSWORD: ${{ secrets.postgres_password }}
             POSTGRES_DB: ${{ secrets.postgres_db }}
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
+            - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
+              uses: actions/setup-dotnet@v2
+              with:
+                dotnet-version: ${{ env.DOTNET_CORE_VERSION }}            
             - name: build on docker-compose
               run: docker-compose build
               working-directory: ./
@@ -30,8 +34,14 @@ jobs:
               run: docker-compose run --rm --name codedefiner implem.codedefiner _rds
               working-directory: ./
             - name: run Implem.Pleasanter on docker-compose
-              run: docker-compose run -d -p 50001:80 --name pleasanter implem.pleasanter
+              run: docker-compose run -d -p 50001:80 --rm --name pleasanter implem.pleasanter
               working-directory: ./
+            - name: build Implem.TestAutomation
+              run: dotnet build "Implem.TestAutomation.csproj" -c Release
+              working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}
+            - name: run Implem.TestAutomation
+              run: dotnet Implem.TestAutomation.dll /p . /s
+              working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}/bin/Release/net6.0
             - name: clean up on docker-compose
               run: docker-compose down
               working-directory: ./
