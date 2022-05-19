@@ -78,9 +78,9 @@ namespace Implem.Pleasanter.Libraries.Images
         {
             if (Type == Types.SiteImage)
             {
-                WriteToLocal(ReSize(SizeTypes.Regular), ReferenceId, Type, SizeTypes.Regular);
-                WriteToLocal(ReSize(SizeTypes.Thumbnail), ReferenceId, Type, SizeTypes.Thumbnail);
-                WriteToLocal(ReSize(SizeTypes.Icon), ReferenceId, Type, SizeTypes.Icon);
+                Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Regular));
+                Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Thumbnail));
+                Files.DeleteFile(Path(ReferenceId, Type, SizeTypes.Icon));
             }
             else
             {
