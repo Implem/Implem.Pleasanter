@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     {
                         throw;
                     }
-                    await Task.Delay(TimeSpan.FromMinutes(exceptionCount), stoppingToken);
+                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
                 }
             }
         }
