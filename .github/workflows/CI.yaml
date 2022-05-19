@@ -5,7 +5,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: pleasanter
   AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
-  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.pleasanter_f16e }}
+#  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.pleasanter_f16e }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
   WORKING_DIRECTORY: Implem.Pleasanter
@@ -15,12 +15,12 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.pleasanter_rds_sa_conn }}
-            Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.pleasanter_rds_owner_conn }}
-            Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.pleasanter_rds_user_conn }}
-            POSTGRES_USER: ${{ secrets.postgres_user }}
-            POSTGRES_PASSWORD: ${{ secrets.postgres_password }}
-            POSTGRES_DB: ${{ secrets.postgres_db }}
+            Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN }}
+            Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.PLEASANTER_RDS_OWNER_CONN }}
+            Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.PLEASANTER_RDS_USER_CONN }}
+            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         steps:
             - uses: actions/checkout@v3
             - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
