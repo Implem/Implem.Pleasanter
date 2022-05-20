@@ -1,4 +1,4 @@
-﻿version: '3.5'
+version: '3.5'
 
 services:
   implem.pleasanter:
@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: ./Implem.Pleasanter/Dockerfile
     environment:
-        - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
-        - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
-        - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=${Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=${Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=${Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString}
     image: implem.pleasanter
     container_name: pleasanter
     depends_on:
@@ -20,9 +20,9 @@ services:
       context: .
       dockerfile: ./Implem.CodeDefiner/Dockerfile
     environment:
-        - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
-        - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
-        - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=${Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=${Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
+        - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=${Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString}
     image: implem.codedefiner
     container_name: codedefiner
     depends_on:
