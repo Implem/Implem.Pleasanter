@@ -49,6 +49,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /.vs
+/.vscode
 
 # Build results
 [Dd]ebug/
