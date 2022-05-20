@@ -31,6 +31,7 @@ jobs:
               working-directory: ./
               env:
                 DOCKER_BUILDKIT: 1
+                COMPOSE_DOCKER_CLI_BUILD: 1
               run: docker-compose build
             - name: run Implem.CodeDefiner on docker-compose
               run: docker-compose run --rm --name codedefiner implem.codedefiner _rds
