@@ -34,7 +34,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 try
                 {
-                    ReminderScheduleUtilities.Remind(context: context);
+                    // Remind()を直接呼ぶとASP.NETのWebリクエストのスレッドが待たされるのでRun()を使う。
+                    await Task.Run(() => ReminderScheduleUtilities.Remind(context: context));
                     exceptionCount = 0;
                 }
                 catch (OperationCanceledException e)
@@ -56,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     {
                         throw;
                     }
-                    await Task.Delay(TimeSpan.FromMinutes(exceptionCount), stoppingToken);
+                    await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
                 }
             }
         }
