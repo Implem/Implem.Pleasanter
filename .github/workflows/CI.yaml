@@ -15,9 +15,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN }}
-            Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.PLEASANTER_RDS_OWNER_CONN }}
-            Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.PLEASANTER_RDS_USER_CONN }}
+            Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN }}
+            Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString: ${{ secrets.PLEASANTER_RDS_OWNER_CONN }}
+            Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString: ${{ secrets.PLEASANTER_RDS_USER_CONN }}
             POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
             POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
             POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -26,7 +26,7 @@ jobs:
             - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
               uses: actions/setup-dotnet@v2
               with:
-                dotnet-version: ${{ env.DOTNET_CORE_VERSION }}            
+                dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
             - name: build on docker-compose
               run: docker-compose build
               working-directory: ./
