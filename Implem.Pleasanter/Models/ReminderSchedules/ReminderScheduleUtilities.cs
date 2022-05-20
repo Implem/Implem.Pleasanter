@@ -91,10 +91,22 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void Remind(Context context, DataRow dataRow)
         {
-            context = new Context(
-                tenantId: dataRow.Int("TenantId"),
-                userId: dataRow.Int("Updator"),
-                deptId: dataRow.Int("DeptId"));
+            if (Parameters.BackgroundService.Reminder)
+            {
+                context = new Context(
+                    tenantId: dataRow.Int("TenantId"),
+                    userId: dataRow.Int("Updator"),
+                    deptId: dataRow.Int("DeptId"),
+                    request: false);
+                context.AbsoluteUri = Parameters.Service.AbsoluteUri;
+            }
+            else
+            {
+                context = new Context(
+                    tenantId: dataRow.Int("TenantId"),
+                    userId: dataRow.Int("Updator"),
+                    deptId: dataRow.Int("DeptId"));
+            }
             context.ServerScriptDisabled = true;
             SiteSettingsUtilities.Get(
                 context: context,

@@ -141,11 +141,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             int deptId = 0,
             int userId = 0,
             string language = null,
+            bool request = true,
             Context context = null)
         {
             if (context?.Request != false)
             {
-                SetRequests();
+                if (request)
+                {
+                    SetRequests();
+                }
             }
             else
             {
