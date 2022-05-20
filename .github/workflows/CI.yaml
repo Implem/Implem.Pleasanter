@@ -28,8 +28,10 @@ jobs:
               with:
                 dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
             - name: build on docker-compose
-              run: docker-compose build
               working-directory: ./
+              env:
+                DOCKER_BUILDKIT: 1
+              run: docker-compose build
             - name: run Implem.CodeDefiner on docker-compose
               run: docker-compose run --rm --name codedefiner implem.codedefiner _rds
               working-directory: ./
