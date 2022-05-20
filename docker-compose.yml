@@ -1,4 +1,4 @@
-version: '3.5'
+﻿version: '3.5'
 
 services:
   implem.pleasanter:
@@ -42,14 +42,6 @@ services:
       - "5432:5432"
     volumes:
       - ./docker-build/postgresql/init:/docker-entrypoint-initdb.d
-    networks:
-      - default
-  implem.testautomation:
-    container_name: testautomation
-    image: implem.testautomation
-    build:
-      context: .
-      dockerfile: Implem.TestAutomation/Dockerfile
     networks:
       - default
 networks:
