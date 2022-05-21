@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Models
         {
             var controlId = context.Forms.Data("DropDownSearchTarget");
             var filter = controlId.StartsWith("ViewFilters__")
+                || controlId.StartsWith("ProcessViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             string parentClass = context.Forms.Data("DropDownSearchParentClass");
@@ -70,7 +71,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 controlId: controlId,
                 searchText: string.Empty,
-                filter: filter,
                 parentClass: parentClass,
                 parentIds: parentIds);
             var nextOffset = Paging.NextOffset(
@@ -104,7 +104,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 controlId: controlId,
                 searchText: searchText,
-                filter: filter,
                 parentClass: parentClass,
                 parentIds: parentIds);
             var nextOffset = Paging.NextOffset(
@@ -146,7 +145,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 controlId: controlId,
                 searchText: searchText,
-                filter: filter,
                 offset: offset,
                 parentClass: parentClass,
                 parentIds: parentIds);
@@ -207,7 +205,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 controlId: controlId,
                 searchText: searchText,
-                filter: filter,
                 parentClass: parentClass,
                 parentIds: parentIds,
                 searchColumnOnly: false,
@@ -256,7 +253,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 ss: ss,
                 controlId: controlId,
                 searchText: searchText,
-                filter: filter,
                 searchFormat: false);
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
             var selected = multiple
@@ -295,20 +291,16 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             string controlId,
             string searchText,
-            bool filter,
             int offset = 0,
             string parentClass = "",
             List<long> parentIds = null,
             bool searchColumnOnly = true,
             bool searchFormat = true)
         {
+            var columnName = controlId.Split('_').Last();
             var column = ss.GetColumn(
                 context: context,
-                columnName: filter
-                    ? (controlId.StartsWith("ViewFilters__")
-                        ? controlId.Substring("ViewFilters__".Length)
-                        : controlId.Substring("ViewFiltersOnGridHeader__".Length))
-                    : controlId.Split_2nd('_'));
+                columnName: columnName);
             var searchIndexes = searchText.SearchIndexes();
             var link = column?.SiteSettings?.Links
                 ?.Where(o => o.JsonFormat == true)
