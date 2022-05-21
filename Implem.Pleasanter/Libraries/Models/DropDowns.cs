@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     search: true,
                     searchFormat: searchFormat);
             }
-            else if (column?.Linked() == true)
+            else if (column?.Linked(context: context) == true)
             {
                 column?.SetChoiceHash(
                     context: context,

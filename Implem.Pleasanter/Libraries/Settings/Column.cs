@@ -436,7 +436,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             }
                         }
                     }
-                    else if (Linked())
+                    else if (Linked(context: context))
                     {
                         if (setChoices)
                         {
@@ -445,7 +445,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 settings: line).SiteId + "]]";
                             if (linkHash != null && linkHash.ContainsKey(key))
                             {
-                                if (Linked(withoutWiki: true))
+                                if (Linked(
+                                    context: context,
+                                    withoutWiki: true))
                                 {
                                     linkHash.Get(key)?
                                         .ToDictionary(
@@ -595,7 +597,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (Type)
                 {
                     case Types.Normal:
-                        if (Linked()
+                        if (Linked(context: context)
                             && SiteSettings?.Links
                                 .Where(o => o.SiteId > 0)
                                 .Where(o => o.ColumnName == ColumnName)
@@ -707,7 +709,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : selectedValues?.ToLong().ToSingleList())
                     ?.Where(o => o > 0)
                     .ToList();
-            if (ids?.Any() == true && Linked(withoutWiki: true))
+            if (ids?.Any() == true && Linked(
+                context: context,
+                withoutWiki: true))
             {
                 if (LinkedTitleHash.ContainsKey(selectedValues))
                 {
@@ -1188,13 +1192,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public bool Linked(bool withoutWiki = false)
+        public bool Linked(Context context, bool withoutWiki = false)
         {
             return SiteSettings?.Links?
                 .Where(o => o.SiteId > 0)
                 .Any(o => o.ColumnName == Name
                     && (!withoutWiki
-                        || SiteSettings?.JoinedSsHash?.Keys.Contains(o.SiteId) == true)) == true;
+                        || SiteInfo.Sites(context: context)
+                            .Get(o.SiteId)
+                            ?.String("ReferenceType") != "Wikis")) == true;
         }
 
         public bool LinkedWithNewSet()

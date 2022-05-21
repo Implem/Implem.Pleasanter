@@ -416,17 +416,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             column.UseSearch == true &&
                             currentSs.Links
                                 ?.Where(o => o.SiteId > 0)
-                                .Any(o => o.ColumnName == column.ColumnName) == true)
+                                .Any(o => o.ColumnName == column.Name) == true)
                         {
                             currentSs.SetChoiceHash(
                                 context: context,
-                                columnName: column?.ColumnName,
+                                columnName: column?.Name,
                                 selectedValues: view.ColumnFilter(column.ColumnName)
                                     .Deserialize<List<string>>());
                         }
                         hb.DropDown(
                             context: context,
-                            ss: ss,
+                            ss: currentSs,
                             column: column,
                             view: view,
                             optionCollection: column.EditChoices(

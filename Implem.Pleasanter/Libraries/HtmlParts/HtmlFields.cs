@@ -190,7 +190,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var editChoices = column.EditChoices(
                 context: context,
                 addNotSet: addNotSet);
-            if (column.Linked(withoutWiki: true))
+            if (column.Linked(
+                context: context,
+                withoutWiki: true))
             {
                 SelectedValues(
                     column: column,

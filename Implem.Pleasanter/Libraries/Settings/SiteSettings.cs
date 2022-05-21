@@ -2075,7 +2075,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column LinkedTitleColumn(Context context, Column column)
         {
-            return column?.Linked() == true
+            return column?.Linked(context: context) == true
                 ? GetColumn(
                     context: context,
                     columnName: ColumnUtilities.ColumnName(column.TableAlias, "Title"))
@@ -3778,7 +3778,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(columnName => columnName.EndsWith(",ItemTitle"))
                 .ToList();
             Columns
-                .Where(column => column.Linked())
+                .Where(column => column.Linked(context: context))
                 .Where(column => !column.ColumnName.Contains("~~"))
                 .ForEach(column =>
                 {
