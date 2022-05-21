@@ -149,6 +149,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 if (request)
                 {
+                    Request = request;
                     SetRequests();
                 }
             }
