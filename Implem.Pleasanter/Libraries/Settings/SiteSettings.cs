@@ -4016,7 +4016,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where: Rds.ItemsWhere()
                                 .ReferenceType("Sites", _operator: "<>")
                                 .SiteId(siteId)
-                                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
+                                .CanRead(
+                                    context: context,
+                                    idColumnBracket: "\"Items\".\"ReferenceId\"",
+                                    _using: !context.Publish)
                                 .Add(
                                     or: Rds.ItemsWhere()
                                         .ReferenceType(raw: "'Wikis'")

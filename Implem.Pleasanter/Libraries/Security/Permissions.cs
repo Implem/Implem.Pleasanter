@@ -446,6 +446,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserId == context.Id;
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
+                case "publishes":
+                    return context.Publish;
                 default:
                     if (ss.IsSiteEditor(context: context))
                     {
