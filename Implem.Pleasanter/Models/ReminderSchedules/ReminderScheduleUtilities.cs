@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
                                 joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\"")
                             .Add(
                                 tableName: "\"Tenants\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
                                 joinExpression: "\"Tenants\".\"TenantId\"=\"Sites\".\"TenantId\""),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
