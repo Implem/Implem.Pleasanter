@@ -97,7 +97,8 @@ namespace Implem.Pleasanter.Models
                     tenantId: dataRow.Int("TenantId"),
                     userId: dataRow.Int("Updator"),
                     deptId: dataRow.Int("DeptId"),
-                    request: false);
+                    request: false,
+                    setAuthenticated: true);
                 context.AbsoluteUri = Parameters.Service.AbsoluteUri;
             }
             else
@@ -105,7 +106,8 @@ namespace Implem.Pleasanter.Models
                 context = new Context(
                     tenantId: dataRow.Int("TenantId"),
                     userId: dataRow.Int("Updator"),
-                    deptId: dataRow.Int("DeptId"));
+                    deptId: dataRow.Int("DeptId"),
+                    setAuthenticated: true);
             }
             context.ServerScriptDisabled = true;
             SiteSettingsUtilities.Get(

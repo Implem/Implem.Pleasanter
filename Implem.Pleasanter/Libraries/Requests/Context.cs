@@ -142,6 +142,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             int userId = 0,
             string language = null,
             bool request = true,
+            bool setAuthenticated = false,
             Context context = null)
         {
             if (context?.Request != false)
@@ -158,6 +159,17 @@ namespace Implem.Pleasanter.Libraries.Requests
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
+            Dept = SiteInfo.Dept(
+                tenantId: TenantId,
+                deptId: DeptId);
+            User = SiteInfo.User(
+                context: this,
+                userId: UserId);
+            if (setAuthenticated)
+            {
+                // SetPermissionsを実行するにはAuthenticatedをtrueにする必要がある。
+                Authenticated = !User.Anonymous() && UserId > 0;
+            }
             Language = language ?? Language;
             UserHostAddress = HasRoute
                 ? GetUserHostAddress()
