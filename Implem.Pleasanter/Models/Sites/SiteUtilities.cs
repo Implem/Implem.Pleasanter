@@ -9323,8 +9323,24 @@ namespace Implem.Pleasanter.Models
                                 .Id($"{prefix}ViewFilters__" + column.ColumnName)
                                 .Value(value));
                 case Types.CsString:
-                    return column.HasChoices()
-                        ? hb.FieldDropDown(
+                    if (column.HasChoices())
+                    {
+                        var currentSs = column.SiteSettings;
+                        if (column.UseSearch == true
+                            && currentSs.Links
+                                ?.Where(o => o.SiteId > 0)
+                                .Any(o => o.ColumnName == column.Name) == true)
+                        {
+                            currentSs.SetChoiceHash(
+                                context: context,
+                                columnName: column?.Name,
+                                selectedValues: value.Deserialize<List<string>>());
+                            column.ChoiceHash = currentSs.GetColumn(
+                                context: context,
+                                columnName: column.Name)?.ChoiceHash
+                                    ?? new Dictionary<string, Choice>();
+                        }
+                        return hb.FieldDropDown(
                             context: context,
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
@@ -9342,13 +9358,17 @@ namespace Implem.Pleasanter.Models
                                 addNotSet: true),
                             selectedValue: value,
                             multiple: true,
-                            addSelectedValue: false)
-                        : hb.FieldTextBox(
+                            addSelectedValue: false);
+                    }
+                    else
+                    {
+                        return hb.FieldTextBox(
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             text: value);
+                    }
                 default:
                     return hb;
             }
