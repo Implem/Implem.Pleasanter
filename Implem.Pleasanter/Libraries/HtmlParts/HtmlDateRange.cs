@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -54,7 +55,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     { "data-step", column.DateTimeStep?.ToString() }
                                 },
                             controlOption: () => hb
-                                .Div(css: "ui-icon ui-icon-clock current-time"))
+                                .Div(
+                                    css: "ui-icon ui-icon-clock current-time",
+                                    _using: !Parameters.General.HideCurrentTimeIcon))
                         .FieldTextBox(
                             textType: HtmlTypes.TextTypes.DateTime,
                             fieldId: "DateRangeEndField",
@@ -78,7 +81,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     { "data-step", column.DateTimeStep?.ToString() }
                                 },
                             controlOption: () => hb
-                                .Div(css: "ui-icon ui-icon-clock current-time"))
+                                .Div(
+                                    css: "ui-icon ui-icon-clock current-time",
+                                    _using: !Parameters.General.HideCurrentTimeIcon))
                         .P(css: "message-dialog")
                         .Div(
                             css: "command-center",

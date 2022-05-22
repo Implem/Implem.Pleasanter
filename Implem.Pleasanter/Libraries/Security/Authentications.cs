@@ -71,9 +71,11 @@ namespace Implem.Pleasanter.Libraries.Security
                 .GetSection("system.web/authentication")).Mode.ToString() == "Windows";
         }
 
-        public static bool SSO(Context context)
+        public static bool DisableDeletingSiteAuthentication(Context context)
         {
-            return Windows() || SAML();
+            return Parameters.Security.DisableDeletingSiteAuthentication == true
+                || Windows()
+                || SAML();
         }
 
         public static bool SAML()

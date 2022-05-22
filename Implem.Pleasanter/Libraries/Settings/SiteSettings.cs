@@ -2068,7 +2068,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column LinkedTitleColumn(Context context, Column column)
         {
-            return column?.Linked() == true
+            return column?.Linked(context: context) == true
                 ? GetColumn(
                     context: context,
                     columnName: ColumnUtilities.ColumnName(column.TableAlias, "Title"))
@@ -3771,7 +3771,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(columnName => columnName.EndsWith(",ItemTitle"))
                 .ToList();
             Columns
-                .Where(column => column.Linked())
+                .Where(column => column.Linked(context: context))
                 .Where(column => !column.ColumnName.Contains("~~"))
                 .ForEach(column =>
                 {
@@ -4009,7 +4009,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where: Rds.ItemsWhere()
                                 .ReferenceType("Sites", _operator: "<>")
                                 .SiteId(siteId)
-                                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
+                                .CanRead(
+                                    context: context,
+                                    idColumnBracket: "\"Items\".\"ReferenceId\"",
+                                    _using: !context.Publish)
                                 .Add(
                                     or: Rds.ItemsWhere()
                                         .ReferenceType(raw: "'Wikis'")

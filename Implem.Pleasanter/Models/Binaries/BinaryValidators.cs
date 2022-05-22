@@ -284,6 +284,67 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types OnUploading(
             Context context,
+            Attachments attachments)
+        {
+            if (!context.ContractSettings.Attachments())
+            {
+                return Error.Types.BadRequest;
+            }
+            if (OverLimitQuantity(
+                attachments: attachments,
+                limitQuantity: Parameters.BinaryStorage.LimitQuantity))
+            {
+                return Error.Types.OverLimitQuantity;
+            }
+            switch (BinaryUtilities.BinaryStorageProvider())
+            {
+                case "LocalFolder":
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: Parameters.BinaryStorage.MaxSize))
+                    {
+                        return Error.Types.OverLocalFolderTotalLimitSize;
+                    }
+                    break;
+                case "AutoDataBaseOrLocalFolder":
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: Parameters.BinaryStorage.MaxSize))
+                    {
+                        return Error.Types.OverTotalLimitSize;
+                    }
+                    break;
+                default:
+                    if (OverTotalLimitSize(
+                        attachments: attachments,
+                        totalLimitSize: Parameters.BinaryStorage.MaxSize))
+                    {
+                        return Error.Types.OverTotalLimitSize;
+                    }
+                    break;
+            }
+            if (OverTenantStorageSize(
+                totalFileSize: BinaryUtilities.UsedTenantStorageSize(context: context),
+                newTotalFileSize: attachments
+                    .Select(o => o.Added == true
+                        ? o.Size
+                        : o.Deleted == true
+                            ? o.Size * -1
+                            : 0)
+                    .Sum()
+                    .ToDecimal(),
+                storageSize: context.ContractSettings.StorageSize))
+            {
+                return Error.Types.OverTenantStorageSize;
+            }
+            return Error.Types.None;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types OnUploading(
+            Context context,
             Column column,
             Libraries.DataTypes.Attachments attachments,
             System.Web.HttpPostedFileBase[] files,

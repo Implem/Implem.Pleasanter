@@ -39,6 +39,26 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string OpenSetNumericRangeDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenSetNumericRangeDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenSetDateRangeDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(context: context, referenceId: id).OpenSetDateRangeDialog(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public ActionResult SearchDropDown(long id = 0)
         {
             var context = new Context();

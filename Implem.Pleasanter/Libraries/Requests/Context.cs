@@ -135,6 +135,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             int deptId = 0,
             int userId = 0,
             string language = null,
+            bool setAuthenticated = false,
             Context context = null)
         {
             if (context?.Request != false)
@@ -148,6 +149,16 @@ namespace Implem.Pleasanter.Libraries.Requests
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
+            Dept = SiteInfo.Dept(
+                tenantId: TenantId,
+                deptId: DeptId);
+            User = SiteInfo.User(
+                context: this,
+                userId: UserId);
+            if (setAuthenticated)
+            {
+                Authenticated = !User.Anonymous() && UserId > 0;
+            }
             Language = language ?? Language;
             UserHostAddress = HasRoute
                 ? GetUserHostAddress(HttpContext.Current.Request)

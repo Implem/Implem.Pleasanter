@@ -68,7 +68,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.OutputClassColumn == true)
                 .Select(o => o.Column)
                 .Where(o => o.MultipleSelections == true)
-                .Where(o => o.Linked(withoutWiki: true))
+                .Where(o => o.Linked(
+                    context: context,
+                    withoutWiki: true))
                 .Where(o => o.CanRead(
                     context: context,
                     ss: ss,

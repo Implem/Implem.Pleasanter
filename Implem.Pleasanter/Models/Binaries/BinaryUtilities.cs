@@ -701,7 +701,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string BinaryStorageProvider(Column column)
+        public static string BinaryStorageProvider(Column column = null)
         {
             if (Parameters.BinaryStorage.UseStorageSelect)
             {
@@ -868,7 +868,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HttpPostedFileBase[] ToArray(HttpFileCollectionBase collectionBase)
+        public static HttpPostedFileBase[] ToArray(HttpFileCollectionBase collectionBase)
         {
             var list = new List<HttpPostedFileBase>();
             for (int filesIndex = 0; filesIndex < HttpContext.Current.Request.Files.Count; ++filesIndex)
@@ -879,7 +879,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(
+        public static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(
             HttpPostedFileBase[] files)
         {
             var contentRange = HttpContext.Current.Request.Headers["Content-Range"];
@@ -900,7 +900,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
+        public static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
         {
             var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
             if (!tempDirectoryInfo.Exists)
@@ -1015,7 +1015,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Error.Types ValidateFileHash(
+        public static Error.Types ValidateFileHash(
             System.IO.FileInfo fileInfo,
             System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
             string hash)
@@ -1083,6 +1083,25 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateAttachment(
+            Context context,
+            Attachment attachment)
+        {
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                attachments: new Attachments() { attachment });
+            if (invalid != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: invalid));
+            }
+            return attachment.Create(context: context);
         }
     }
 }
