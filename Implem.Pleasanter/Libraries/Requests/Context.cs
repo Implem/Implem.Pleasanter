@@ -141,11 +141,17 @@ namespace Implem.Pleasanter.Libraries.Requests
             int deptId = 0,
             int userId = 0,
             string language = null,
+            bool request = true,
+            bool setAuthenticated = false,
             Context context = null)
         {
             if (context?.Request != false)
             {
-                SetRequests();
+                if (request)
+                {
+                    Request = request;
+                    SetRequests();
+                }
             }
             else
             {
@@ -154,6 +160,16 @@ namespace Implem.Pleasanter.Libraries.Requests
             TenantId = tenantId;
             DeptId = deptId;
             UserId = userId;
+            Dept = SiteInfo.Dept(
+                tenantId: TenantId,
+                deptId: DeptId);
+            User = SiteInfo.User(
+                context: this,
+                userId: UserId);
+            if (setAuthenticated)
+            {
+                Authenticated = !User.Anonymous() && UserId > 0;
+            }
             Language = language ?? Language;
             UserHostAddress = HasRoute
                 ? GetUserHostAddress()

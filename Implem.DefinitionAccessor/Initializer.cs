@@ -84,6 +84,7 @@ namespace Implem.DefinitionAccessor
             }
             Parameters.Api = Read<Api>();
             Parameters.Authentication = Read<Authentication>();
+            Parameters.BackgroundService = Read<BackgroundService>();
             Parameters.BackgroundTask = Read<BackgroundTask>();
             Parameters.BinaryStorage = Read<BinaryStorage>();
             Parameters.CustomDefinitions = CustomDefinitionsHash();

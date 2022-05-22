@@ -194,7 +194,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static Dictionary<string, string> LinkedLabelHash(
             Context context, SiteSettings ss, Column groupBy, Aggregation aggregation)
         {
-            if (groupBy?.Linked() == true)
+            if (groupBy?.Linked(context: context) == true)
             {
                 var link = ss?.Links
                     ?.Where(o => o.SiteId > 0)

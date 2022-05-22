@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Initializers;
 using Implem.Pleasanter.Libraries.Migrators;
@@ -79,7 +80,11 @@ namespace Implem.Pleasanter.NetCore
             {
                 services
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(o => o.LoginPath = new PathString("/users/login"))
+                    .AddCookie(o =>
+                    {
+                        o.LoginPath = new PathString("/users/login");
+                        o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+                    })
                     .AddSaml2(options =>
                     {
                         Saml.SetSPOptions(options);
@@ -89,7 +94,11 @@ namespace Implem.Pleasanter.NetCore
             {
                 services
                     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(o => o.LoginPath = new PathString("/users/login"));
+                    .AddCookie(o =>
+                    {
+                        o.LoginPath = new PathString("/users/login");
+                        o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
+                    });
             }
             if (Parameters.Security.SecureCookies)
             {
@@ -113,19 +122,28 @@ namespace Implem.Pleasanter.NetCore
             services.Configure<IISServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
+                options.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             });
             services.Configure<KestrelServerOptions>(options =>
             {
                 options.AllowSynchronousIO = true;
+                options.Limits.MaxRequestBodySize = Parameters.Service.MaxRequestBodySize;
             })
             .Configure<KestrelServerOptions>(configuration.GetSection("Kestrel"));
             services.AddHealthChecks();
-
             services.Configure<ForwardedHeadersOptions>(options =>
             {
                 options.ForwardedHeaders =
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
             });
+            services.Configure<HostOptions>(options =>
+            {
+                options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
+            });
+            if (Parameters.BackgroundService.Reminder)
+            {
+                services.AddHostedService<ReminderBackgroundService>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

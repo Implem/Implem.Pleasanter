@@ -1,0 +1,4 @@
+﻿{
+    "Reminder": false,
+    "ReminderIgnoreConsecutiveExceptionCount": 30
+}

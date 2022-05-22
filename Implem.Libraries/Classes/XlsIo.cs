@@ -42,7 +42,7 @@ namespace Implem.Libraries.Classes
                 var cs = Files.Read(System.IO.Path.Combine(Path, "__ColumnSettings.json")).Deserialize<Dictionary<string, string>>();
                 XlsSheet.Columns = cs.Keys.ToList();
                 XlsSheet.Add(new XlsRow(cs));
-                foreach (var file in dir.GetFiles())
+                foreach (var file in dir.GetFiles().OrderBy(o => o.Name.FileNameOnly()))
                 {
                     if (file.Name.EndsWith("_Body.txt"))
                     {

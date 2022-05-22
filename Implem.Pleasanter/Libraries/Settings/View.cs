@@ -2316,7 +2316,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         isNullValue: column.IsNullValue(context: context));
                     break;
                 default:
-                    if (column.Linked(withoutWiki: true))
+                    if (column.Linked(
+                        context: context,
+                        withoutWiki: true))
                     {
                         orderBy.Add(new SqlOrderBy(
                             orderType: data.Value,
