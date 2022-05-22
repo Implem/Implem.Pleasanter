@@ -13,7 +13,7 @@ namespace Implem.Pleasanter.Controllers
         public string Remind()
         {
             var context = new Context();
-            if (Parameters.Reminder.Enabled)
+            if (Parameters.Reminder.Enabled && !Parameters.BackgroundService.Reminder)
             {
                 if (context.QueryStrings.Bool("NoLog"))
                 {

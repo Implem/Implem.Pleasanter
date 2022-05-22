@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Models
                                 joinExpression: "\"Users\".\"UserId\"=\"Sites\".\"Updator\"")
                             .Add(
                                 tableName: "\"Tenants\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
+                                joinType: SqlJoin.JoinTypes.LeftOuter,
                                 joinExpression: "\"Tenants\".\"TenantId\"=\"Sites\".\"TenantId\""),
                         where: Rds.ReminderSchedulesWhere()
                             .ScheduledTime(
@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Models
                         System.Threading.Thread.Sleep(Parameters.Reminder.Interval);
                     }
                 });
+                System.Threading.Thread.Sleep(100);
             }
             return string.Empty;
         }
@@ -90,10 +91,24 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static void Remind(Context context, DataRow dataRow)
         {
-            context = new Context(
-                tenantId: dataRow.Int("TenantId"),
-                userId: dataRow.Int("Updator"),
-                deptId: dataRow.Int("DeptId"));
+            if (Parameters.BackgroundService.Reminder)
+            {
+                context = new Context(
+                    tenantId: dataRow.Int("TenantId"),
+                    userId: dataRow.Int("Updator"),
+                    deptId: dataRow.Int("DeptId"),
+                    request: false,
+                    setAuthenticated: true);
+                context.AbsoluteUri = Parameters.Service.AbsoluteUri;
+            }
+            else
+            {
+                context = new Context(
+                    tenantId: dataRow.Int("TenantId"),
+                    userId: dataRow.Int("Updator"),
+                    deptId: dataRow.Int("DeptId"),
+                    setAuthenticated: true);
+            }
             context.ServerScriptDisabled = true;
             SiteSettingsUtilities.Get(
                 context: context,

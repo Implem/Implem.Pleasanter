@@ -446,6 +446,8 @@ namespace Implem.Pleasanter.Libraries.Security
                         || context.UserId == context.Id;
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
+                case "publishes":
+                    return context.Publish;
                 default:
                     if (ss.IsSiteEditor(context: context))
                     {
@@ -632,21 +634,20 @@ namespace Implem.Pleasanter.Libraries.Security
                 context: context,
                 ss: ss,
                 baseModel: baseModel);
-
             if (context.IsNew)
             {
                 return column.CanCreate(
-                        context: context,
-                        ss: ss,
-                        mine: baseModel?.Mine(context: context))
-                            && canEdit
-                                ? ColumnPermissionTypes.Update
-                                : column.CanRead(
-                                    context: context,
-                                    ss: ss,
-                                    mine: baseModel?.Mine(context: context))
-                                        ? ColumnPermissionTypes.Read
-                                        : ColumnPermissionTypes.Deny;
+                    context: context,
+                    ss: ss,
+                    mine: baseModel?.Mine(context: context))
+                        && canEdit
+                            ? ColumnPermissionTypes.Update
+                            : column.CanRead(
+                                context: context,
+                                ss: ss,
+                                mine: baseModel?.Mine(context: context))
+                                    ? ColumnPermissionTypes.Read
+                                    : ColumnPermissionTypes.Deny;
             }
             else
             {
