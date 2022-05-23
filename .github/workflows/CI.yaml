@@ -1,5 +1,7 @@
 ﻿name: CI
 on:
+    schedule:
+        - cron: '0 17 * * *'   # UTC (= 02:00 next day)
     push:
         branches: ['feature/daily-build-and-test']
 env:
