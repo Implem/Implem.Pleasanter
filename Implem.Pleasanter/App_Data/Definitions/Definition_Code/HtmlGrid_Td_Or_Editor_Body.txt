@@ -32,7 +32,8 @@ else if (column.ColumnName.Contains("~")
     hb.Td(
         context: context,
         column: column,
-        value: string.Empty,
+        value: serverScriptModelColumn?.RawText
+            ?? string.Empty,
         tabIndex: null,
         serverScriptModelColumn: serverScriptModelColumn);
 }
