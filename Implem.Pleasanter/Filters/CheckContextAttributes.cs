@@ -23,6 +23,17 @@ namespace Implem.PleasanterFilters
                 filterContext.Result = new RedirectResult(
                     Locations.ParameterSyntaxError(context: context));
             }
+            if (!IpAddresses.AllowedIpAddress(
+                allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                ipAddress: context.UserHostAddress))
+            {
+                filterContext.Result = new ContentResult()
+                {
+                    StatusCode = 403,
+                    Content = "HTTP 403 Forbidden"
+                };
+                return;
+            }
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {
