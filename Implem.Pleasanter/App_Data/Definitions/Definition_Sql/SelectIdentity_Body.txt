@@ -1,0 +1,2 @@
+﻿set @_I = @@identity;
+select '{"Id":' + convert(nvarchar,@_I) + '}';

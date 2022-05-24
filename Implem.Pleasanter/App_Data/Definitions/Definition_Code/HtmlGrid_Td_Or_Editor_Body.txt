@@ -1,0 +1,47 @@
+﻿if (!#modelName#Model.Locked
+    && !#modelName#Model.ReadOnly
+    && !isHistory
+    && EditColumn(
+        context: context,
+        ss: ss,
+        column: column,
+        mine: #modelName#Model.Mine(context: context))
+    && column.CanEdit(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model))
+{
+    hb.Td(
+        css: column.TextAlign == SiteSettings.TextAlignTypes.Right
+            ? " right-align"
+            : string.Empty,
+        action: () => hb.Field(
+            context: context,
+            column: column,
+            #modelName#Model: #modelName#Model,
+            ss: column.SiteSettings,
+            controlOnly: true,
+            idSuffix: <!--HtmlGrid_Td_IdSuffix--><!--HtmlGrid_Td_IdSuffixNull-->));
+}
+else if (column.ColumnName.Contains("~")
+    && !Permissions.CanRead(
+        context: context,
+        siteId: #modelName#Model.SiteId,
+        id: #modelName#Model.#ModelName#Id))
+{
+    hb.Td(
+        context: context,
+        column: column,
+        value: string.Empty,
+        tabIndex: null,
+        serverScriptModelColumn: serverScriptModelColumn);
+}
+else
+{
+    hb.TdValue(
+        context: context,
+        ss: column.SiteSettings,
+        column: column,
+        #modelName#Model: #modelName#Model,
+        serverScriptModelColumn: serverScriptModelColumn);
+}

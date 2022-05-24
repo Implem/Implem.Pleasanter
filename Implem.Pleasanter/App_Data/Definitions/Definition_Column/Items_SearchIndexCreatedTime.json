@@ -1,0 +1,21 @@
+﻿{
+    "Id": "Items_SearchIndexCreatedTime",
+    "ModelName": "Item",
+    "TableName": "Items",
+    "Label": "アイテム",
+    "ColumnName": "SearchIndexCreatedTime",
+    "LabelText": "検索インデックス作成日時",
+    "No": "106",
+    "History": "106",
+    "LinkColumn": "106",
+    "HistoryColumn": "106",
+    "TypeName": "datetime",
+    "Ix3": "1",
+    "Nullable": "1",
+    "LabelText_en": "Search index created on",
+    "LabelText_zh": "根据创建时间搜索索引",
+    "LabelText_de": "Suchindex erstellt am",
+    "LabelText_ko": "검색 색인 생성 날짜",
+    "LabelText_es": "Índice de búsqueda creado el",
+    "LabelText_vn": "Thời gian tạo chỉ mục tìm kiếm"
+}

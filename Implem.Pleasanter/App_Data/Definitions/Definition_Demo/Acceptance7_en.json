@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance7_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Cannot turn on a personal computer",
+    "Status": "200",
+    "ClassA": "100",
+    "ClassB": "Trouble",
+    "ClassC": "Hardware",
+    "Manager": "User11_en",
+    "Owner": "User3_en",
+    "Creator": "User11_en",
+    "Updator": "User3_en",
+    "StartTime": "36641",
+    "CompletionTime": "36658",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

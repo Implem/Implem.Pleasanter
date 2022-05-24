@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy14",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "フラットファイル",
+    "ClassA": "#Expendable8#",
+    "ClassB": "スマイルマーケット",
+    "NumA": "28",
+    "NumB": "1375",
+    "DateA": "42816.705555555556",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User7",
+    "Updator": "User7",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Purchase sensor equipment",
+    "ClassA": "#Opportunity3_en#",
+    "NumA": "550000",
+    "Manager": "User16_en",
+    "Owner": "User16_en",
+    "Creator": "User9_en",
+    "Updator": "User9_en",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

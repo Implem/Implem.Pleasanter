@@ -1,0 +1,154 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Release date"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Brewery",
+            "ChoicesText": "Brewery1\nBrewery2\nBrewery3\nBrewery4\nBrewery5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Type",
+            "ChoicesText": "Daiginjo\nPurericeDaiginjo\nGinjoLiquor\nJunmaiGinjoLiquor\nThisbrewedLiquor\nPurericeLiquor"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelTet": "Raw materials"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Rice polishing ratio",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 100.0,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "JapaneseLiquorPrice"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Acidity",
+            "DecimalPlaces": 1
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Alcohol",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 100.0,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Internal capacity",
+            "Unit": "ml"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "Price",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Description"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "ClassB",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Average",
+            "CrosstabValue": "NumF",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

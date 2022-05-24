@@ -219,6 +219,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseIncompleteFilter;
         public bool? UseOwnFilter;
         public bool? UseNearCompletionTimeFilter;
+        public bool? UseDelayFilter;
         public bool? UseOverdueFilter;
         public bool? UseSearchFilter;
         public bool? OutputFormulaLogs;
@@ -372,6 +373,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseIncompleteFilter = UseIncompleteFilter ?? true;
             UseOwnFilter = UseOwnFilter ?? true;
             UseNearCompletionTimeFilter = UseNearCompletionTimeFilter ?? true;
+            UseDelayFilter = UseDelayFilter ?? true;
             UseOverdueFilter = UseOverdueFilter ?? true;
             UseSearchFilter = UseSearchFilter ?? true;
             OutputFormulaLogs = OutputFormulaLogs ?? false;
@@ -855,6 +857,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseNearCompletionTimeFilter == false)
             {
                 ss.UseNearCompletionTimeFilter = UseNearCompletionTimeFilter;
+            }
+            if (UseDelayFilter == false)
+            {
+                ss.UseDelayFilter = UseDelayFilter;
             }
             if (UseOverdueFilter == false)
             {
@@ -2069,7 +2075,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column LinkedTitleColumn(Context context, Column column)
         {
-            return column?.Linked() == true
+            return column?.Linked(context: context) == true
                 ? GetColumn(
                     context: context,
                     columnName: ColumnUtilities.ColumnName(column.TableAlias, "Title"))
@@ -2185,6 +2191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(column =>
                     GridColumns.Contains(column.ColumnName)
                     || GetEditorColumnNames().Contains(column.ColumnName)
+                    || column.Id_Ver
                     || column.ColumnName.Contains("~")
                     || column.ColumnName == "Creator"
                     || column.ColumnName == "Updator"
@@ -3373,6 +3380,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseIncompleteFilter": UseIncompleteFilter = value.ToBool(); break;
                 case "UseOwnFilter": UseOwnFilter = value.ToBool(); break;
                 case "UseNearCompletionTimeFilter": UseNearCompletionTimeFilter = value.ToBool(); break;
+                case "UseDelayFilter": UseDelayFilter = value.ToBool(); break;
                 case "UseOverdueFilter": UseOverdueFilter = value.ToBool(); break;
                 case "UseSearchFilter": UseSearchFilter = value.ToBool(); break;
                 case "OutputFormulaLogs": OutputFormulaLogs = value.ToBool(); break;
@@ -3770,7 +3778,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(columnName => columnName.EndsWith(",ItemTitle"))
                 .ToList();
             Columns
-                .Where(column => column.Linked())
+                .Where(column => column.Linked(context: context))
                 .Where(column => !column.ColumnName.Contains("~~"))
                 .ForEach(column =>
                 {
@@ -4008,7 +4016,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                             where: Rds.ItemsWhere()
                                 .ReferenceType("Sites", _operator: "<>")
                                 .SiteId(siteId)
-                                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"")
+                                .CanRead(
+                                    context: context,
+                                    idColumnBracket: "\"Items\".\"ReferenceId\"",
+                                    _using: !context.Publish)
                                 .Add(
                                     or: Rds.ItemsWhere()
                                         .ReferenceType(raw: "'Wikis'")

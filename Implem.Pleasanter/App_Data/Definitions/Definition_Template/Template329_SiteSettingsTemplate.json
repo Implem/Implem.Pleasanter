@@ -1,0 +1,107 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Name",
+            "ChoicesText": "Name1\nName2\nName3\nName4\nName5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Belongs",
+            "ChoicesText": "Belongs1\nBelongs2\nBelongs3\nBelongs4\nBelongs5"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Attendance",
+            "DefaultInput": "0",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Work place",
+            "ChoicesText": "Place1\nPlace2\nPlace3\nPlace4\nPlace5"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Office work",
+            "DefaultInput": "0",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdhm"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1,
+                "ClassC": 1,
+                "ClassB": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

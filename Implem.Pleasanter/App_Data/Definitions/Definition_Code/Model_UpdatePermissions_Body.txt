@@ -1,0 +1,4 @@
+﻿if (RecordPermissions != null)
+{
+    statements.UpdatePermissions(context, ss, #ModelName#Id, RecordPermissions<!--Model_SiteTrue-->);
+}

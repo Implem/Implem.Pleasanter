@@ -1,0 +1,32 @@
+﻿if (context.ContractSettings.Notice != false && notice)
+{
+    SetTitle(
+        context: context,
+        ss: ss);
+    Notice(
+        context: context,
+        ss: ss,
+        notifications: GetNotifications(
+            context: context,
+            ss: ss,
+            notice: notice),
+        type: noticeType);
+    process?.Notifications?.ForEach(notification =>
+        notification.Send(
+            context: context,
+            ss: ss,
+            title: ReplacedDisplayValues(
+                context: context,
+                ss: ss,
+                value: notification.Subject),
+            body: ReplacedDisplayValues(
+                context: context,
+                ss: ss,
+                value: notification.Body),
+            values: ss.IncludedColumns(notification.Address)
+                .ToDictionary(
+                    column => column,
+                    column => PropertyValue(
+                        context: context,
+                        column: column))));
+}

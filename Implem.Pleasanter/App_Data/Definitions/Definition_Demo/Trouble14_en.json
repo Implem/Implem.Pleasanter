@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Trouble14_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site21_en",
+    "ClassA": "#Facility5_en#",
+    "ClassB": "1st floor:Area4",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "A Part cracking",
+    "DescriptionB": "Replace a spair item",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36641.705555555556"
+}

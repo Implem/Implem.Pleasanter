@@ -281,7 +281,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridCheckAll", _using: clearCheck)
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
-                .CloseDialog()
+                .CloseDialog(_using: offset == 0)
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
@@ -3956,8 +3956,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "enterprise-banner.png"))),
-                            _using: !Parameters.CommercialLicense()
-                                || Parameters.Service.Demo)
+                            _using: !Parameters.DisableAds()
+                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
@@ -3969,8 +3969,8 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "cases-banner.png"))),
-                            _using: !Parameters.CommercialLicense()
-                                || Parameters.Service.Demo)
+                            _using: !Parameters.DisableAds()
+                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
                         .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
                             .EditorTabs(context: context, siteModel: siteModel)
                             .FieldSetGeneral(context: context, siteModel: siteModel)
@@ -4922,6 +4922,11 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseNearCompletionTimeFilter(context: context),
                     _checked: ss.UseNearCompletionTimeFilter == true)
+                .FieldCheckBox(
+                    controlId: "UseDelayFilter",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseDelayFilter(context: context),
+                    _checked: ss.UseDelayFilter == true)
                 .FieldCheckBox(
                     controlId: "UseOverdueFilter",
                     fieldCss: "field-auto-thin",
@@ -8034,11 +8039,12 @@ namespace Implem.Pleasanter.Models
                 columnName: "Status");
             var optionCollection = $"-1,*\n{status.ChoicesText}".SplitReturn()
                 .Select(o => new Choice(o))
+                .GroupBy(o => o.Value)
                 .ToDictionary(
-                    o => o.Value,
+                    o => o.Key,
                     o => new ControlData(
-                        text: o.Text,
-                        css: o.CssClass));
+                        text: o.First().Text,
+                        css: o.First().CssClass));
             return hb.FieldSet(id: "ProcessGeneralTab", action: () => hb
                 .Div(css: "items", action: () => hb
                     .FieldDropDown(
@@ -9317,8 +9323,24 @@ namespace Implem.Pleasanter.Models
                                 .Id($"{prefix}ViewFilters__" + column.ColumnName)
                                 .Value(value));
                 case Types.CsString:
-                    return column.HasChoices()
-                        ? hb.FieldDropDown(
+                    if (column.HasChoices())
+                    {
+                        var currentSs = column.SiteSettings;
+                        if (column.UseSearch == true
+                            && currentSs.Links
+                                ?.Where(o => o.SiteId > 0)
+                                .Any(o => o.ColumnName == column.Name) == true)
+                        {
+                            currentSs.SetChoiceHash(
+                                context: context,
+                                columnName: column?.Name,
+                                selectedValues: value.Deserialize<List<string>>());
+                            column.ChoiceHash = currentSs.GetColumn(
+                                context: context,
+                                columnName: column.Name)?.ChoiceHash
+                                    ?? new Dictionary<string, Choice>();
+                        }
+                        return hb.FieldDropDown(
                             context: context,
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
@@ -9336,13 +9358,17 @@ namespace Implem.Pleasanter.Models
                                 addNotSet: true),
                             selectedValue: value,
                             multiple: true,
-                            addSelectedValue: false)
-                        : hb.FieldTextBox(
+                            addSelectedValue: false);
+                    }
+                    else
+                    {
+                        return hb.FieldTextBox(
                             controlId: controlId,
                             fieldCss: "field-auto-thin",
                             labelText: column.LabelText,
                             labelTitle: labelTitle,
                             text: value);
+                    }
                 default:
                     return hb;
             }
@@ -10086,7 +10112,9 @@ namespace Implem.Pleasanter.Models
                         controlId: "NotificationType",
                         controlCss: " always-send",
                         labelText: Displays.NotificationType(context: context),
-                        optionCollection: NotificationUtilities.Types(context: context),
+                        optionCollection: Parameters.Notification.ListOrder == null
+                            ? NotificationUtilities.Types(context: context)
+                            : NotificationUtilities.OrderTypes(context: context),
                         selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "NotificationPrefix",
@@ -12567,12 +12595,12 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                         controlId: "Users_LoginId",
                         labelText: Displays.Users_LoginId(context: context),
-                        _using: !Authentications.SSO(context: context))
+                        _using: !Authentications.DisableDeletingSiteAuthentication(context: context))
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.Password,
                         controlId: "Users_Password",
                         labelText: Displays.Users_Password(context: context),
-                        _using: !Authentications.SSO(context: context))
+                        _using: !Authentications.DisableDeletingSiteAuthentication(context: context))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

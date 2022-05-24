@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Worker4_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site33_en",
+    "Title": "Keiko Tanaka",
+    "ClassA": "#Dept3_en#",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

@@ -1,0 +1,58 @@
+﻿public static XlsIo #File#Xls;
+public static List<#File#Definition> #File#DefinitionCollection;
+public static #File#Column2nd #File#;
+public static #File#Table #File#Table;
+
+public static void Set#File#Definition()
+{
+    Construct#File#Definitions();
+    if (#File#Xls.AccessStatus != Files.AccessStatuses.Read) { return; }
+    #File#Xls.XlsSheet.ForEach(definitionRow =>
+    {
+        switch (definitionRow[0].ToString())
+        {
+
+<!--Def_FileDefinition_SetColumn2ndAndTable-->
+
+            default: break;
+        }
+    });
+    var definitionRows = #File#Xls.DefinitionRows();
+
+<!--Def_FileExtendedColumns-->
+
+    definitionRows.ForEach(definitionRow =>
+    {
+        var new#File#Definition = new #File#Definition();
+        var customDefinitionRow = Parameters.CustomDefinitions
+            .Get("#File#")
+            .Get(definitionRow["Id"]);
+        #File#Xls.XlsSheet.FirstOrDefault().Select(o => o.Key).ForEach(key =>
+        {
+            var data = definitionRow.Get(key) ?? string.Empty;
+            switch (key)
+            {
+
+<!--Def_FileDefinition_SetDefinition-->
+
+                default: break;
+            }
+        });
+        #File#DefinitionCollection.Add(new#File#Definition);
+    });
+}
+
+private static void Set#File#Table(#File#Definition definition, XlsRow definitionRow, XlsIo #file#xls)
+{
+
+<!--Def_FileDefinition_SetTable-->
+
+}
+
+private static void Construct#File#Definitions()
+{
+    #File#Xls = Initializer.DefinitionFile("#File#");
+    #File#DefinitionCollection = new List<#File#Definition>();
+    #File# = new #File#Column2nd();
+    #File#Table = new #File#Table();
+}

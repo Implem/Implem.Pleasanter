@@ -1,0 +1,124 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassC",
+        "NumC",
+        "NumD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassC",
+        "Body",
+        "NumC",
+        "NumD",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "TitleBody",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "ClassC",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Dog breed"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Type",
+            "ChoicesText": "Small dog\nMedium dog\nLarge dog"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Country of origin"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Color"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Body Height",
+            "Format": "About",
+            "DecimalPlaces": 1,
+            "Unit": "cm"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Body weight",
+            "Format": "About",
+            "DecimalPlaces": 1,
+            "Unit": "kg"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "lifespan",
+            "Format": "About",
+            "Unit": "Year"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Personality"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Price",
+            "Format": "C"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 2,
+            "Target": "NumD"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard"
+        }
+    ],
+    "TitleSeparator": ")"
+}

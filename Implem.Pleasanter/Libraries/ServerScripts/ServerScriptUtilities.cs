@@ -292,16 +292,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(
             Context context, SiteSettings ss, BaseItemModel model)
         {
-            var mine = model.Mine(context: context);
-            var columns = Def
-                .ColumnDefinitionCollection
+            var columns = Def.ColumnDefinitionCollection
                 .Where(definition => definition.TableName == ss?.ReferenceType)
-                .Select(definition =>
+                .Select(definition => definition.ColumnName)
+                .Concat(ss.GridColumns)
+                .Distinct()
+                .Select(columnName =>
                 {
-                    Column column = null;
-                    ss?.ColumnHash?.TryGetValue(definition.ColumnName, out column);
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
                     return (
-                        definition.ColumnName,
+                        columnName,
                         model.ServerScriptModelRow.Columns?.Get(column?.ColumnName)
                             ?? new ServerScriptModelColumn(
                                 labelText: column?.LabelText,
@@ -318,8 +320,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                                 extendedHtmlBetweenLabelAndControl: column?.ExtendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: column?.ExtendedHtmlAfterControl,
                                 extendedHtmlAfterField: column?.ExtendedHtmlAfterField));
-                })
-                .ToArray();
+                }).ToArray();
             return columns;
         }
 

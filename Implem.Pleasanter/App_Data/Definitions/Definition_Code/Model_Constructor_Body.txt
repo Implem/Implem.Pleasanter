@@ -1,0 +1,68 @@
+﻿public #ModelName#Model()
+{
+}
+
+public #ModelName#Model(
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+    <!--Model_ParentIdParameter-->
+    <!--Model_InheritPermissionParameter-->
+    <!--Model_FormDataParameter-->
+    <!--Model_SetByApiParameter-->
+
+    MethodTypes methodType = MethodTypes.NotSet)
+{
+    OnConstructing(context: context);
+    Context = context;
+
+<!--Model_SetTenantId-->
+<!--Model_SetSiteId-->
+<!--Model_SetParentId-->
+<!--Model_SetInheritPermission-->
+<!--Model_SetDefaultExec-->
+<!--Model_SetByFormExec-->
+<!--Model_SetByApiExec-->
+<!--Model_SetBySiteApiExec-->
+<!--Model_SetByLookupsExec-->
+
+    MethodType = methodType;
+    OnConstructed(context: context);
+}
+
+public #ModelName#Model(
+    Context context,
+
+    <!--Model_SiteSettingsParameter-->
+    <!--Model_IdentityParameters-->
+    <!--Model_FormDataParameter-->
+    <!--Model_SetByApiParameter-->
+
+    bool clearSessions = false,
+
+    <!--Model_SwitchTargetsParameter-->
+    <!--Model_LinkedSsDataSetHashParameter-->
+
+    MethodTypes methodType = MethodTypes.NotSet)
+{
+    OnConstructing(context: context);
+    Context = context;
+
+<!--Model_SetTenantId-->
+<!--Model_SetId-->
+<!--Model_SetSiteId-->
+<!--Model_GetHistory-->
+<!--Model_GetNormal-->
+    
+    if (clearSessions) ClearSessions(context: context);
+
+<!--Model_SetDefaultExec-->
+<!--Model_SetByFormExec-->
+<!--Model_SetByApiExec-->
+<!--Model_SetByLookupsExec-->
+<!--Model_SetLockedRecord-->
+<!--Model_SetSwitchTargets-->
+
+    MethodType = methodType;
+    OnConstructed(context: context);
+}

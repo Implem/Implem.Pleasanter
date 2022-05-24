@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Users_GlobalId",
+    "ModelName": "User",
+    "TableName": "Users",
+    "Label": "ユーザ",
+    "ColumnName": "GlobalId",
+    "LabelText": "グローバルID",
+    "No": "102",
+    "History": "102",
+    "LinkColumn": "102",
+    "HistoryColumn": "102",
+    "TypeName": "nvarchar",
+    "MaxLength": "36",
+    "Nullable": "1",
+    "NotLookup": "1",
+    "LabelText_en": "Global ID",
+    "LabelText_zh": "全局ID",
+    "LabelText_de": "Globale ID",
+    "LabelText_ko": "글로벌 ID",
+    "LabelText_es": "ID global",
+    "LabelText_vn": "ID Toàn cầu"
+}

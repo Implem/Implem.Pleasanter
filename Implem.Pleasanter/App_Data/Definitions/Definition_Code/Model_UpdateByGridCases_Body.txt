@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.UpdateByGrid(
+        context: context,
+        ss: Site.SiteSettings);

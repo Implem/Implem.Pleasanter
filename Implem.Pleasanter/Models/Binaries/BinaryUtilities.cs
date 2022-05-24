@@ -509,6 +509,14 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             binaryModel.Delete(context: context);
+            var path = System.IO.Path.Combine(
+                Directories.BinaryStorage(),
+                "Images",
+                binaryModel.Guid);
+            if (System.IO.File.Exists(path))
+            {
+                Files.DeleteFile(path);
+            }
             return new ResponseCollection()
                 .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
@@ -693,7 +701,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string BinaryStorageProvider(Column column)
+        public static string BinaryStorageProvider(Column column = null)
         {
             if (Parameters.BinaryStorage.UseStorageSelect)
             {
@@ -827,7 +835,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
+        public static System.IO.FileInfo GetTempFileInfo(string fileUuid, string fileName)
         {
             var tempDirectoryInfo = new System.IO.DirectoryInfo(DefinitionAccessor.Directories.Temp());
             if (!tempDirectoryInfo.Exists)
@@ -939,7 +947,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static Error.Types ValidateFileHash(
+        public static Error.Types ValidateFileHash(
             System.IO.FileInfo fileInfo,
             System.Net.Http.Headers.ContentRangeHeaderValue contentRange,
             string hash)
@@ -1012,6 +1020,65 @@ namespace Implem.Pleasanter.Models
                             resultId: context.Id));
                 default: return new ErrorData(Error.Types.HasNotPermission);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void DeleteFromLocal(Context context, EnumerableRowCollection<DataRow> dataRows)
+        {
+            dataRows.ForEach(binary =>
+            {
+                var binaryType = binary.String("BinaryType");
+                if (binaryType == "Attachments")
+                {
+                    new Attachment() { Guid = binary.String("Guid") }.DeleteFromLocal(context: context);
+                }
+                else if (binaryType == "Images")
+                {
+                    var path = System.IO.Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Images",
+                        binary.String("Guid"));
+                    if (System.IO.File.Exists(path))
+                    {
+                        Files.DeleteFile(path);
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static System.Net.Http.Headers.ContentRangeHeaderValue GetContentRange(string contentRangeHeader)
+        {
+            var matches = System.Text.RegularExpressions.Regex.Matches(contentRangeHeader ?? string.Empty, "\\d+");
+            return matches.Count > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    long.Parse(matches[0].Value),
+                    long.Parse(matches[1].Value),
+                    long.Parse(matches[2].Value))
+                : null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateAttachment(
+            Context context,
+            Attachment attachment)
+        {
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                attachments: new Attachments() { attachment });
+            if (invalid != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: invalid));
+            }
+            return attachment.Create(context: context);
         }
     }
 }

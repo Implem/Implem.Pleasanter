@@ -1,0 +1,9 @@
+﻿{
+    "Id": "GridData_Json",
+    "RepeatType": "Table",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "GenericUi": "1",
+    "Include": "Issues,Results",
+    "Exclude": "Sites"
+}

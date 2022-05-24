@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Shift5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site37_en",
+    "ClassA": "Returned work",
+    "DateA": "42818.5",
+    "DateB": "42818.833333333336",
+    "Manager": "User12_en",
+    "Owner": "User12_en",
+    "Creator": "User12_en",
+    "Updator": "User12_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

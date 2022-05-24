@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Binaries_ReferenceId",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "ReferenceId",
+    "LabelText": "参照ID",
+    "No": "3",
+    "History": "3",
+    "TypeName": "bigint",
+    "Ix1": "1",
+    "NotForm": "1",
+    "LabelText_en": "Reference ID",
+    "LabelText_zh": "参考ID",
+    "LabelText_de": "Referenz-ID",
+    "LabelText_ko": "참조 ID",
+    "LabelText_es": "ID de referencia",
+    "LabelText_vn": "ID Tham chiếu"
+}

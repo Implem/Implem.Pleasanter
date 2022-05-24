@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Rds_ColumnDefaultPk",
+    "RepeatType": "Join",
+    "Indent": "5",
+    "Separator": "\\r\\n",
+    "Pk": "1",
+    "Exclude": "UpdatedTime"
+}

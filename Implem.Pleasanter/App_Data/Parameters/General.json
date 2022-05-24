@@ -15,6 +15,7 @@
     "DisplayLogoText": false,
     "DisableAutoComplete": false,
     "SiteMenuHotSpan": 30,
+    "AnchorTargetBlank": true,
     "LimitWarning1": 86400,
     "LimitWarning2": 0,
     "LimitWarning3": -259200,
@@ -84,5 +85,8 @@
     "DateFilterMaxSpan": 1,
     "MinTime": "1900/1/1",
     "MaxTime": "2100/1/1",
-    "DateTimeStep": 10
+    "DateTimeStep": 10,
+    "HideCurrentTimeIcon": false,
+    "HideCurrentUserIcon": false,
+    "HideCurrentDeptIcon": false
 }

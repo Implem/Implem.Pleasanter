@@ -1,0 +1,50 @@
+﻿public class #File#Definition
+{
+
+<!--Def_DefinitionClass_Definition-->
+
+    public #File#Definition()
+    {
+    }
+
+    public #File#Definition(Dictionary<string, string> propertyCollection)
+    {
+
+<!--Def_DefinitionClass_SetProperties-->
+
+    }
+
+    public object this[string key]
+    {
+        get{
+            switch(key)
+            {
+
+<!--Def_DefinitionClass_DefinitionAccessor-->
+
+                default: return null;
+            }
+        }
+    }
+
+    public void RestoreBySavedMemory()
+    {
+
+<!--Def_DefinitionClass_RestoreBySavedMemory-->
+
+    }
+}
+
+public class #File#Column2nd
+{
+
+<!--Def_DefinitionClass_DefinitionColumn2nd-->
+
+}
+
+public class #File#Table
+{
+
+<!--Def_DefinitionClass_DefinitionTable-->
+
+}

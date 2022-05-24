@@ -1,0 +1,16 @@
+﻿case "#TableName#":
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: id);
+
+<!--Indexes_SetChoiceHash-->
+
+    CreateFullText(
+        context: context,
+        id: id,
+        fullText: #modelName#Model.FullText(
+            context: context,
+            ss: ss,
+            backgroundTask: true));
+    break;

@@ -1,0 +1,146 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "NumA",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "NumA",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "NumA",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "会議名"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "承認者"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "作成者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "場所"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "DefaultInput": "[md]\n## 参加者\n\n\n## 議題\n1. xxxx\n1. xxxx\n1. xxxx\n\n## 内容\n\n\n以上"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,作成中,作,status-inprogress\n300,承認待ち,待,status-review\n900,承認済み,済,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "部門",
+            "ChoicesText": "部門1\n部門2\n部門3\n部門4\n部門5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "時間",
+            "ControlType": "Normal",
+            "Unit": "分"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "DateA",
+            "TimeSeriesGroupBy": "ClassB",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByX": "Status",
+            "KambanGroupByY": "Manager"
+        }
+    ],
+    "TitleSeparator": ")"
+}

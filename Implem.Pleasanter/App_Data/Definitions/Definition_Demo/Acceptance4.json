@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Acceptance4",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "新規配属者の携帯電話の申請について",
+    "Status": "100",
+    "ClassA": "200",
+    "ClassB": "問い合わせ",
+    "ClassC": "その他",
+    "Manager": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "StartTime": "36642",
+    "CompletionTime": "36665",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

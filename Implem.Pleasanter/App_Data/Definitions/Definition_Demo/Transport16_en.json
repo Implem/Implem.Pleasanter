@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport16_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site18_en",
+    "Status": "300",
+    "ClassA": "Home",
+    "ClassB": "World trading center building",
+    "ClassE": "Customer regular meeting",
+    "ClassH": "Head quarter",
+    "NumA": "1214",
+    "DateA": "36654.705555555556",
+    "Manager": "User8_en",
+    "Owner": "User8_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

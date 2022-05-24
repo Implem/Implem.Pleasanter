@@ -1,0 +1,54 @@
+﻿public static SiteSettings #TableName#SiteSettings(
+    this SiteModel siteModel,
+    Context context,
+    long referenceId,
+    bool setSiteIntegration = false,
+    bool setAllChoices = false,
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+{
+    var ss = siteModel.SiteSettings ?? new SiteSettings();
+    ss.LockedTableTime = siteModel.LockedTime;
+    ss.LockedTableUser = siteModel.LockedUser;
+    ss.TableType = tableType;
+    ss.SiteId = siteModel.SiteId;
+    ss.ReferenceId = referenceId;
+    ss.Title = siteModel.Title.Value;
+    ss.Body = siteModel.Body;
+    ss.GridGuide = siteModel.GridGuide;
+    ss.EditorGuide = siteModel.EditorGuide;
+    ss.CalendarGuide = siteModel.CalendarGuide;
+    ss.CrosstabGuide = siteModel.CrosstabGuide;
+    ss.GanttGuide = siteModel.GanttGuide;
+    ss.BurnDownGuide = siteModel.BurnDownGuide;
+    ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+    ss.KambanGuide = siteModel.KambanGuide;
+    ss.ImageLibGuide = siteModel.ImageLibGuide;
+    ss.ReferenceType = "#TableName#";
+    ss.ParentId = siteModel.ParentId;
+    ss.InheritPermission = siteModel.InheritPermission;
+    ss.Publish = siteModel.Publish;
+    ss.AccessStatus = siteModel.AccessStatus;
+    ss.ApiCount = siteModel.ApiCount;
+    ss.ApiCountDate = siteModel.ApiCountDate;
+    ss.Init(context: context);
+    ss.SetLinkedSiteSettings(context: context);
+    ss.SetPermissions(context: context, referenceId: referenceId);
+
+<!--SiteSettings_GetModels_Items_SiteIntegration-->
+<!--SiteSettings_GetModels_Items_Choices-->
+
+    return ss;
+}
+
+public static SiteSettings #TableName#SiteSettings(
+    Context context, long siteId, bool setAllChoices = false)
+{
+    var ss = new SiteSettings();
+    ss.ReferenceType = "#TableName#";
+    ss.SiteId = siteId;
+    ss.Init(context: context);
+
+<!--SiteSettings_GetModels_Items_Choices-->
+
+    return ss;
+}

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigNetwork_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Network configuration",
+    "WorkValue": "12",
+    "ProgressRate": "85",
+    "Status": "100",
+    "ClassA": "Configuration",
+    "ClassB": "Work[Routine]",
+    "ClassC": "Network/Security",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "StartTime": "36654",
+    "CompletionTime": "36656",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

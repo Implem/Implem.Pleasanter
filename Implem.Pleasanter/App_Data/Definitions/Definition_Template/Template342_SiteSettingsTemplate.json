@@ -1,0 +1,137 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassC",
+        "Title",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassC",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "StartTime",
+        "CompletionTime",
+        "Body",
+        "Status",
+        "Manager",
+        "ClassD",
+        "DescriptionA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ClassC",
+        "Title",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassC",
+        "TitleBody",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "ClassD",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Loan Date"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Scheduled return date"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,In-use,In-use,status-inprogress\n900,Free,Free,status-rejected"
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "User",
+            "ChoicesText": "User1\nUser2\nUser3\nUser4\nUser5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "User affiliation",
+            "ChoicesText": "User affiliation1\nUser affiliation2\nUser affiliation3\nUser affiliation4\nUser affiliation5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Rmarks"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Fixture name"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Reason"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Control number"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Storage location",
+            "ChoicesText": "Storage location1\nStorage location2\nStorage location3\nStorage location4\nStorage location5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassC": 0
+            }
+        }
+    ],
+    "EnableBurnDown": false,
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

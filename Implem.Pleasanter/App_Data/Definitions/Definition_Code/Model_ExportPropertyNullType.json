@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_ExportPropertyNullType",
+    "NotTypeCs": "1",
+    "IncludeTypeName": "bit,int,bigint,decimal,datetime"
+}

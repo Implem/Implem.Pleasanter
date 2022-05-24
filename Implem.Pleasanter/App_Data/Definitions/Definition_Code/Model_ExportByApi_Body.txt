@@ -1,0 +1,37 @@
+﻿public ContentResultInheritance ExportByApi(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (Site.ReferenceType)
+    {
+        case "Issues":
+            if (SiteId == ReferenceId)
+            {
+                return IssueUtilities.ExportByApi(
+                    context: context,
+                    ss: Site.SiteSettings,
+                    siteModel: Site);
+            }
+            break;
+        case "Results":
+            if (SiteId == ReferenceId)
+            {
+                return ResultUtilities.ExportByApi(
+                    context: context,
+                    ss: Site.SiteSettings,
+                    siteModel: Site);
+            }
+            break;
+        default:
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+    }
+    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+}

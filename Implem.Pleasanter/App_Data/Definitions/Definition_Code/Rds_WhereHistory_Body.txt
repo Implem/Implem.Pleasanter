@@ -1,0 +1,1 @@
+﻿.#ColumnName#(#modelName#Model.#ColumnName##RecordingData##MaxLength#)

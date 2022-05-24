@@ -1,0 +1,15 @@
+﻿case "#TableName#":
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        dataRow: dataRow,
+        formData: editRow
+            ? formDataSet?.FirstOrDefault(o =>
+                o.Id == dataRow.Long("#ModelName#Id"))?.Data
+            : null);
+    ss.ClearColumnAccessControlCaches(baseModel: #modelName#Model);
+    serverScriptModelRow = #modelName#Model?.SetByBeforeOpeningRowServerScript(
+        context: context,
+        ss: ss);
+    #tableName#.Add("#TableName#", #modelName#Model);
+    break;

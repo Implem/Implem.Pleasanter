@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Task2_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site35_en",
+    "Title": "[Request Adding Monitoring target]Information sharing innovation Lab.",
+    "Status": "100",
+    "ClassA": "Work category2",
+    "Manager": "User8_en",
+    "Owner": "User13_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

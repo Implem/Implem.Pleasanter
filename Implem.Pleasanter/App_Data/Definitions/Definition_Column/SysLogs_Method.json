@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_Method",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "Method",
+    "LabelText": "メソッド",
+    "No": "110",
+    "History": "110",
+    "EditorColumn": "110",
+    "EditorEnabled": "1",
+    "LinkColumn": "110",
+    "HistoryColumn": "110",
+    "TypeName": "nvarchar",
+    "MaxLength": "256",
+    "Nullable": "1",
+    "LabelText_en": "Method",
+    "LabelText_zh": "方法",
+    "LabelText_de": "Methode",
+    "LabelText_ko": "방법",
+    "LabelText_es": "Método",
+    "LabelText_vn": "Phương pháp"
+}

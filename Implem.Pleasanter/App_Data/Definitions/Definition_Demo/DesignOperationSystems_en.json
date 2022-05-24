@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignOperationSystems_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Design operation management system",
+    "WorkValue": "11",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Design",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Operation",
+    "Manager": "User6_en",
+    "Owner": "User6_en",
+    "Creator": "User6_en",
+    "Updator": "User6_en",
+    "StartTime": "36652",
+    "CompletionTime": "36653",
+    "CreatedTime": "36640.398611111108",
+    "UpdatedTime": "36653.511111111111"
+}

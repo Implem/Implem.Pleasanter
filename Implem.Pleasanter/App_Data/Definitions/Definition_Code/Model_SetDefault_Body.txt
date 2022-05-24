@@ -1,0 +1,74 @@
+﻿public void SetDefault(Context context, SiteSettings ss)
+{
+    ss.Columns
+        .Where(o => !o.DefaultInput.IsNullOrEmpty())
+        .ForEach(column => SetDefault(context: context, ss: ss, column: column));
+}
+
+public void SetCopyDefault(Context context, SiteSettings ss)
+{
+    ss.Columns
+        .Where(column => column.CopyByDefault == true
+            || column.TypeCs == "Attachments"
+            || !column.CanRead(
+                context: context,
+                ss: ss,
+                mine: Mine(context: context)))
+        .ForEach(column => SetDefault(
+            context: context,
+            ss: ss,
+            column: column));
+}
+
+public void SetDefault(Context context, SiteSettings ss, Column column)
+{
+    var defaultInput = column.GetDefaultInput(context: context);
+    switch (column.ColumnName)
+    {
+
+<!--Model_SetDefault_ColumnCases-->
+<!--Model_SetDefault_UserColumnCases-->
+<!--Model_SetDefault_AttachmentsColumnCases-->
+<!--Model_SetDefault_DateTimeColumnCases-->
+<!--Model_SetDefault_CompletionTimeColumnCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
+            {
+                case "Class":
+                    GetClass(
+                        column: column,
+                        value: defaultInput);
+                    break;
+                case "Num":
+                    GetNum(
+                        column: column,
+                        value: new Num(
+                            context: context,
+                            column: column,
+                            value: defaultInput));
+                    break;
+                case "Date":
+                    GetDate(
+                        column: column,
+                        value: column.DefaultTime(context: context));
+                    break;
+                case "Description":
+                    GetDescription(
+                        column: column,
+                        value: defaultInput.ToString());
+                    break;
+                case "Check":
+                    GetCheck(
+                        column: column,
+                        value: defaultInput.ToBool());
+                    break;
+                case "Attachments":
+                    GetAttachments(
+                        column: column,
+                        value: new Attachments());
+                    break;
+            }
+            break;
+    }
+}

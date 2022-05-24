@@ -1,0 +1,165 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "Status",
+        "ClassC",
+        "StartTime",
+        "CompletionTime",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "NumA",
+        "ClassC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "NumA",
+        "ClassC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "購入日",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "利用期限",
+            "DefaultInput": "365",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "機種名"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "メーカー",
+            "ChoicesText": "メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "資産管理番号"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "利用者"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "設置場所",
+            "ChoicesText": "設置場所1\n設置場所2\n設置場所3\n設置場所4\n設置場所5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "取得価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,購入前,前,status-new\n900,購入済み,済,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "種類",
+            "ChoicesText": "ノート\nデスクトップ\nタブレット"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "シリアルNo"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassD",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassD",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumA",
+            "KambanGroupByY": "Owner",
+            "KambanValue": "NumA"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

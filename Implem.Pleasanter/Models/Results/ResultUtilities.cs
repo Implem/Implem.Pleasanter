@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
                 .ClearFormData("GridUnCheckedItems", _using: clearCheck)
                 .ClearFormData("GridCheckedItems", _using: clearCheck)
                 .ClearFormData("OriginalId", _using: newOnGrid)
-                .CloseDialog()
+                .CloseDialog(_using: offset == 0)
                 .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
                     .CopyDirectUrlToClipboard(
                         context: context,
@@ -1222,6 +1222,12 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
+                    var newResult = new ResultModel(
+                        context: context,
+                        ss: ss,
+                        methodType: BaseModel.MethodTypes.New);
+                    newResult.SetByModel(resultModel);
+                    resultModel = newResult;
                     resultModel.SetCopyDefault(
                         context: context,
                         ss: ss);
@@ -1229,6 +1235,10 @@ namespace Implem.Pleasanter.Models
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();
                     resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+                    resultModel.SetByLookups(
+                        context: context,
+                        ss: ss,
+                        copyByDefaultOnly: true);
                 }
                 else
                 {
@@ -2935,7 +2945,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static bool CreateByServerScript(Context context, SiteSettings ss)
+        public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
             {
@@ -2966,6 +2976,14 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is ResultModel data)
+                        {
+                            data.ResultId = resultModel.ResultId;
+                            data.SetByModel(resultModel: resultModel);
+                        }
+                    }
                     return true;
                 case Error.Types.Duplicated:
                     return false;
@@ -3804,7 +3822,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long resultId,
-            string previousTitle)
+            string previousTitle,
+            object model)
         {
             var resultModel = new ResultModel(
                 context: context,
@@ -3842,6 +3861,13 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is ResultModel data)
+                        {
+                            data.SetByModel(resultModel: resultModel);
+                        }
+                    }
                     return true;
                 case Error.Types.Duplicated:
                     return false;
@@ -5106,15 +5132,13 @@ namespace Implem.Pleasanter.Models
                     .ResultId(tableName: "Results" + tableName),
                 where: where,
                 param: param);
-            var attachments = Rds.ExecuteTable(
+            var dataRows = Rds.ExecuteTable(
                 context: context,
                 statements: Rds.SelectBinaries(
                     tableType: tableType,
-                    column: Rds.BinariesColumn().Guid(),
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
                     where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
-                        .AsEnumerable()
-                        .Select(o => new Attachment() { Guid = o.String("Guid") })
-                        .ToList();
+                        .AsEnumerable();
             var guid = Strings.NewGuid();
             var count = Repository.ExecuteScalar_response(
                 context: context,
@@ -5141,11 +5165,12 @@ namespace Implem.Pleasanter.Models
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
-            if (tableType == Sqls.TableTypes.Deleted)
-            {
-                attachments.ForEach(attachment =>
-                    attachment.DeleteFromLocal(context: context));
-            }
+                if (tableType == Sqls.TableTypes.Deleted)
+                {
+                    BinaryUtilities.DeleteFromLocal(
+                        context: context,
+                        dataRows: dataRows);
+                }
             return count;
         }
 
@@ -6233,8 +6258,14 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
-            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
-                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            if (groupByX?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == false
+                        || groupByY?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null) == false)
             {
                 return HtmlTemplates.Error(
                     context: context,
@@ -6327,8 +6358,14 @@ namespace Implem.Pleasanter.Models
             var groupByY = ss.GetColumn(
                 context: context,
                 columnName: view.GetCrosstabGroupByY(context: context, ss: ss));
-            if (!groupByX.CanRead(context: context, ss: ss, mine: null)
-                || !groupByY.CanRead(context: context, ss: ss, mine: null))
+            if (groupByX?.CanRead(
+                    context: context,
+                    ss: ss,
+                    mine: null) == false
+                        || groupByY?.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null) == false)
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }

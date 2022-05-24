@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignNetworks_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Design networks",
+    "WorkValue": "11",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "Design",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Network/Security",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "StartTime": "36650",
+    "CompletionTime": "36651",
+    "CreatedTime": "36640.445138888892",
+    "UpdatedTime": "36653.868750000001"
+}

@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Tenants_ContractSettings",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "ContractSettings",
+    "LabelText": "契約設定",
+    "No": "104",
+    "History": "104",
+    "TypeName": "nvarchar",
+    "TypeCs": "ContractSettings",
+    "RecordingData": "?.RecordingJson()",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "NotForm": "1",
+    "ByDataRow": "GetContractSettings(dataRow)",
+    "LabelText_en": "Contract settings",
+    "LabelText_zh": "合同设置",
+    "LabelText_de": "Vertragseinstellungen",
+    "LabelText_ko": "계약 설정",
+    "LabelText_es": "Ajustes del contrato",
+    "LabelText_vn": "Cài đặt hợp đồng"
+}

@@ -1,0 +1,3 @@
+﻿case "#ColumnName#":
+    return #tableName#Column.#ColumnName#(
+        _as: "Value", function: Sqls.Functions.Avg);

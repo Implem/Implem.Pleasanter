@@ -1,0 +1,21 @@
+﻿public static void SetLinks(
+    this List<#ModelName#Model> #tableName#, Context context, SiteSettings ss)
+{
+    var links = ss.GetUseSearchLinks(context: context);
+    links?.ForEach(link =>
+        ss.SetChoiceHash(
+            context: context,
+            columnName: link.ColumnName,
+            selectedValues: #tableName#
+                .Select(o => o.PropertyValue(
+                    context: context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: link.ColumnName)))
+                .Distinct()));
+    if (links?.Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
+    {
+        #tableName#.ForEach(#modelName#Model => #modelName#Model
+            .SetTitle(context: context, ss: ss));
+    }
+}

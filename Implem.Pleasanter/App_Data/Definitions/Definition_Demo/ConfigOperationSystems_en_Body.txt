@@ -1,0 +1,3 @@
+﻿Configure operation management system.
+・Configure monitoring
+・Configure jobs

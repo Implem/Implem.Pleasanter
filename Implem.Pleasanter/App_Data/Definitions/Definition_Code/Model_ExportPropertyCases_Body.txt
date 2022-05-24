@@ -1,0 +1,1 @@
+﻿public #Type#<!--Model_ExportPropertyNullType--> #ColumnName# { get; set; }

@@ -1,0 +1,138 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "DescriptionA",
+        "DescriptionB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "ClassC",
+        "Body",
+        "ClassD",
+        "DescriptionA",
+        "ClassE",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "Comments",
+        "ClassC",
+        "DescriptionA",
+        "DescriptionB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Business name",
+            "ChoicesText": "business1\nbusiness2\nbusiness3\nbusiness4\nbusiness5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Business classification",
+            "ChoicesText": "Favorite business\nChange business\nOpportunity business\nCanceled business"
+        },
+        {
+            "ColumnName": "NumB",
+            "DefaultInput": "0",
+            "ControlType": "Normal"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Consistency with vision",
+            "ChoicesText": "High\nMedium\nLow"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Capital efficiency",
+            "ChoicesText": "High\nMedium\nLow"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Consistency with the vision (content)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Capital efficiency (content)"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassB": 0
+            },
+            "TimeSeriesGroupBy": "ClassC",
+            "TimeSeriesAggregateType": "Count"
+        }
+    ],
+    "EnableCalendar": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Shift1",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site37",
+    "ClassA": "レジ打ち",
+    "DateA": "42818.5",
+    "DateB": "42818.833333333336",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

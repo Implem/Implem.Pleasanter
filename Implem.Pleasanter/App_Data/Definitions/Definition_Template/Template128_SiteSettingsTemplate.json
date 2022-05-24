@@ -1,0 +1,169 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "Status",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "Status",
+        "DateA",
+        "DateB",
+        "Body",
+        "DateC",
+        "DateD",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassB",
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "ClassB",
+        "Title",
+        "ClassC",
+        "Status",
+        "DateA",
+        "DateB",
+        "DateC",
+        "DateD",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,起票,起,status-new\n900,承認,承,status-closed\n910,却下,却,status-review\n920,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "氏名",
+            "ChoicesText": "氏名1\n氏名2\n氏名3\n氏名4\n氏名5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "所属",
+            "ChoicesText": "所属1\n所属2\n所属3\n所属4\n所属5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "管理職名",
+            "ChoicesText": "管理職名1\n管理職名2\n管理職名3\n管理職名4\n管理職名5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "時間",
+            "ControlType": "Spinner",
+            "DecimalPlaces": 1,
+            "Max": 10.0,
+            "Step": 0.1,
+            "Unit": "h"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始(予定)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了(予定)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "開始(実績)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateD",
+            "LabelText": "終了(実績)",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "理由"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassA"
+        }
+    ],
+    "TitleSeparator": ")"
+}

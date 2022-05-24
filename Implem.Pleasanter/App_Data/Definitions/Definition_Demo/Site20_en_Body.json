@@ -1,0 +1,113 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "ClassC",
+        "TitleBody",
+        "ClassA",
+        "Manager",
+        "ClassB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassC",
+            "Title",
+            "ClassA",
+            "Manager",
+            "ClassB",
+            "NumA",
+            "Body",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "NumA",
+        "ClassA",
+        "Manager",
+        "ClassB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Facility_name"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Facility_manager",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Affiliation",
+            "ChoicesText": "[[Depts]]",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Contact_number",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Notes"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Count_of_failure",
+            "Unit": "Count",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Category",
+            "ChoicesText": "Printer\nShredder\nProjector",
+            "ValidateRequired": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassC",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "Title": "asc"
+            },
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "TimeSeriesGroupBy": "ClassC",
+            "TimeSeriesAggregateType": "Total",
+            "ApiDataType": 0
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

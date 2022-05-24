@@ -1,0 +1,144 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "DateA"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "DescriptionA",
+        "DateA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "NumA",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "DateA"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "NumA",
+        "DateA"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "商品名"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "調査日",
+            "DefaultInput": "0"
+        },
+        {
+            "ColumnName": "CheckA",
+            "LabelText": "機能Aの有無"
+        },
+        {
+            "ColumnName": "CheckB",
+            "LabelText": "機能Bの有無"
+        },
+        {
+            "ColumnName": "CheckC",
+            "LabelText": "機能Cの有無"
+        },
+        {
+            "ColumnName": "CheckD",
+            "LabelText": "機能Dの有無"
+        },
+        {
+            "ColumnName": "CheckE",
+            "LabelText": "機能Eの有無"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "メーカー",
+            "ChoicesText": "メーカー1\nメーカー2\nメーカー3\nメーカー4\nメーカー5"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "出典元"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "商品分類",
+            "ChoicesText": "商品分類1\n商品分類2\n商品分類3\n商品分類4\n商品分類5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ColumnSorterHash": {
+                "ClassA": 0,
+                "Title": 0
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

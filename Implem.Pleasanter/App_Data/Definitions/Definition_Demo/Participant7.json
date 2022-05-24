@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Participant7",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site26",
+    "ClassA": "#Seminar1#",
+    "ClassB": "コバヤシ　ケイコ",
+    "ClassC": "小林 佳子",
+    "ClassD": "198-320-310",
+    "ClassE": "kobayashi@example.com",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

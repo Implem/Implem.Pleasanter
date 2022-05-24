@@ -1,0 +1,8 @@
+﻿Write a design sheet for configured network.
+　・Network diagram
+　・IP address list
+　・Routing diagram
+
+Store files to below folder.
+
+\\fileserver_example\01_demoProject\02_ConfigurationManagement

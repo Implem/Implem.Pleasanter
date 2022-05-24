@@ -1,0 +1,4 @@
+﻿case "#ColumnName#":
+    groupBy.#ColumnName#();
+    column.#ColumnName#();
+    break;

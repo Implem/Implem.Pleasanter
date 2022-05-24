@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Displays",
+    "OutputPath": "Libraries\\Responses\\Displays.cs",
+    "Source": "Mvc"
+}

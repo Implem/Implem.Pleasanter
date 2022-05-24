@@ -1,0 +1,16 @@
+﻿public string ReplacedDisplayValues(
+    Context context,
+    SiteSettings ss,
+    string value)
+{
+    ss.IncludedColumns(value: value).ForEach(column =>
+        value = value.Replace(
+            $"[{column.ColumnName}]",
+            ToDisplay(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: Mine(context: context))));
+    value = ReplacedContextValues(context, value);
+    return value;
+}

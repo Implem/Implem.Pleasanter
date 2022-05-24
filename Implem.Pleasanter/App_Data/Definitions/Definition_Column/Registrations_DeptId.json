@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Registrations_DeptId",
+    "ModelName": "Registration",
+    "TableName": "Registrations",
+    "Label": "ユーザ招待",
+    "ColumnName": "DeptId",
+    "LabelText": "組織",
+    "No": "112",
+    "History": "112",
+    "LinkColumn": "112",
+    "HistoryColumn": "112",
+    "TypeName": "int",
+    "Default": "0",
+    "LabelText_en": "Department",
+    "LabelText_zh": "部门",
+    "LabelText_de": "Abteilung",
+    "LabelText_ko": "부서",
+    "LabelText_es": "Departamento",
+    "LabelText_vn": "Tổ chức"
+}

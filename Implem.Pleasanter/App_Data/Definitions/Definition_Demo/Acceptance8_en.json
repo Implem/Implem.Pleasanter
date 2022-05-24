@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance8_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site10_en",
+    "Title": "Transfer data of e-mail",
+    "Status": "150",
+    "ClassA": "200",
+    "ClassB": "Inquiry",
+    "ClassC": "Application",
+    "Manager": "User5_en",
+    "Owner": "User4_en",
+    "Creator": "User5_en",
+    "Updator": "User4_en",
+    "StartTime": "36668",
+    "CompletionTime": "36672",
+    "CreatedTime": "36648.390972222223",
+    "UpdatedTime": "36648.390972222223"
+}

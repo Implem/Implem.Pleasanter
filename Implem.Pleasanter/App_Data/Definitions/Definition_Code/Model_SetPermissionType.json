@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_SetPermissionType",
+    "Indent": "3",
+    "Exclude": "Sites,Permissions,OutgoingMails,Links"
+}

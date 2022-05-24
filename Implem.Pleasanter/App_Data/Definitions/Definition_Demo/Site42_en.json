@@ -1,0 +1,13 @@
+﻿{
+    "Id": "Site42_en",
+    "Language": "en",
+    "Type": "Sites",
+    "ParentId": "Site40_en",
+    "Title": "Input Personnel",
+    "ClassA": "Results",
+    "ClassB": "Site41_en",
+    "Creator": "User2_en",
+    "Updator": "User2_en",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

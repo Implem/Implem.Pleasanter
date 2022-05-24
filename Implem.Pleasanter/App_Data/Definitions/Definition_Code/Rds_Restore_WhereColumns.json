@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_Restore_WhereColumns",
+    "RepeatType": "Column",
+    "Separator": " and ",
+    "Order": "Pk"
+}

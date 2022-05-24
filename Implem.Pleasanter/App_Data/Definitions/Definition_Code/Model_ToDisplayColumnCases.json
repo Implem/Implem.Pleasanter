@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_ToDisplayColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Form": "1",
+    "Exclude": "FirstAndLastNameOrder,LogoType"
+}

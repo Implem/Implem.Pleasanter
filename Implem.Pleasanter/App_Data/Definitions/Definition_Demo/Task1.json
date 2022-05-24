@@ -1,0 +1,17 @@
+﻿{
+    "Id": "Task1",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site35",
+    "Title": "[監視抑止依頼]Webデータベース開発株式会社",
+    "Status": "100",
+    "ClassA": "作業種別1",
+    "Manager": "User8",
+    "Owner": "User13",
+    "Creator": "User8",
+    "Updator": "User8",
+    "StartTime": "36680",
+    "CompletionTime": "36681",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

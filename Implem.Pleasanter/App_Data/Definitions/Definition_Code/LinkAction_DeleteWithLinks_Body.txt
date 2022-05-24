@@ -1,0 +1,25 @@
+﻿case "#TableName#":
+    invalid = #ModelName#Utilities.ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: where,
+        param: null,
+        orderBy: View.OrderBy(
+            context: context,
+            ss: ss));
+    where.AddRange(new Rds.#TableName#WhereCollection()
+        .#ModelName#Id_In(sub: linksSub));
+    switch (invalid.Type)
+    {
+        case Error.Types.None:
+            #ModelName#Utilities.BulkDelete(
+                context: context,
+                ss: ss,
+                where: where,
+                param: null);
+            break;
+    }
+    Summaries.Synchronize(
+        context: context,
+        ss: ss);
+    break;

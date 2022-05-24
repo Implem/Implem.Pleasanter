@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care5_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site30_en",
+    "Title": "Mistake eat meals for neighbor patient",
+    "Status": "900",
+    "ClassA": "Daisuke Ito",
+    "ClassB": "Aspiration",
+    "ClassD": "Kitchen",
+    "DateA": "42816.705555555556",
+    "DateB": "42816.705555555556",
+    "DescriptionA": "When a staff leaves a sheet, tray should be located a placed that an user cannot take it. Also medicine is not mixed in a meal.",
+    "Manager": "User17_en",
+    "Owner": "User17_en",
+    "Creator": "User17_en",
+    "Updator": "User17_en",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

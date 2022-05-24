@@ -1,0 +1,4 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.CreateByApi(
+        context: context,
+        ss: Site.SiteSettings);

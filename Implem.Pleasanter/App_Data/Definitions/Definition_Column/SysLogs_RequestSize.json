@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_RequestSize",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "RequestSize",
+    "LabelText": "要求サイズ",
+    "No": "113",
+    "History": "113",
+    "EditorColumn": "113",
+    "EditorEnabled": "1",
+    "LinkColumn": "113",
+    "HistoryColumn": "113",
+    "TypeName": "int",
+    "Nullable": "1",
+    "LabelText_en": "Request size",
+    "LabelText_zh": "请求大小",
+    "LabelText_de": "Anforderungsgröße",
+    "LabelText_ko": "요청 크기",
+    "LabelText_es": "Tamaño de solicitud",
+    "LabelText_vn": "Dung lượng yêu cầu"
+}

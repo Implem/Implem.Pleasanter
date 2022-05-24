@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy18_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "DVD",
+    "ClassA": "#Expendable12_en#",
+    "ClassB": "Online shop",
+    "NumA": "12",
+    "NumB": "3513",
+    "DateA": "42816.705555555556",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

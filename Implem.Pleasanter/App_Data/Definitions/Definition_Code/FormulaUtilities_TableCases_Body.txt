@@ -1,0 +1,9 @@
+﻿case "#TableName#":
+    Update#TableName#(
+        context: context,
+        ss: ss,
+        siteId: siteModel.SiteId,
+        id: id,
+        selected: selected,
+        hasFormula: hasFormula);
+    break;

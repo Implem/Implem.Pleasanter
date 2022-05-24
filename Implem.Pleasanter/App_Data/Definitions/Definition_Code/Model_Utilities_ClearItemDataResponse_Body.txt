@@ -1,0 +1,15 @@
+﻿public static ResponseCollection ClearItemDataResponse(
+    Context context, SiteSettings ss, long id)
+{
+    var formDataSet = new FormDataSet(
+        context: context,
+        ss: ss);
+    var res = new ResponseCollection().ClearFormData("Id");
+    formDataSet
+        .Where(o => !o.Suffix.IsNullOrEmpty())
+        .Where(o => o.Id == id)
+        .ForEach(formData =>
+            formData.Data.Keys.ForEach(controlId =>
+                res.ClearFormData(controlId + formData.Suffix)));
+    return res;
+}

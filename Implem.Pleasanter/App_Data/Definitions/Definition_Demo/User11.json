@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User11",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept7",
+    "Title": "中村 隆",
+    "ClassA": "2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

@@ -1,0 +1,142 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "Status",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "ClassA",
+        "Title",
+        "ClassB",
+        "Manager",
+        "Status",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "NumA",
+        "NumB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "Status",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "StartTime",
+        "CompletionTime",
+        "DateA",
+        "Status",
+        "NumA",
+        "NumB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "StartTime",
+            "LabelText": "Distribution date"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "Expiration date",
+            "DefaultInput": "365"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Deploying,Deploying,status-new\n900,Disposal,Disposal,status-closed\n"
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Classification",
+            "ChoicesText": "Water\nFood\nFirst aid kit\nBlanket\nSanitary goods\nOther"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Base",
+            "ChoicesText": "Base1\nBase2\nBase3\nBase4\nBase5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Deployment number"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Cost",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Item"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Remarks"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Disposal date"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumB",
+            "KambanGroupByY": "ClassB",
+            "KambanValue": "NumB"
+        }
+    ],
+    "EnableGantt": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

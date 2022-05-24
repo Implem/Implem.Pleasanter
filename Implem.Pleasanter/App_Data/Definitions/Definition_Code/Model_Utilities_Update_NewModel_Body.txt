@@ -1,0 +1,5 @@
+﻿var #modelName#Model = new #ModelName#Model(
+    context: context,
+    ss: ss,
+    #modelName#Id: #modelName#Id,
+    formData: context.Forms);

@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Summaries_SetColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Update": "1",
+    "Computable": "1",
+    "ExcludeTypeName": "datetime"
+}

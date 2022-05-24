@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Worker11",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site33",
+    "Title": "伊藤 大輔",
+    "ClassA": "#Dept5#",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

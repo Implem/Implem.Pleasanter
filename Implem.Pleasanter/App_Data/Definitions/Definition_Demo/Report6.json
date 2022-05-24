@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Report6",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site16",
+    "Status": "100",
+    "ClassA": "達成",
+    "ClassB": "#Dept6#",
+    "NumA": "6",
+    "NumB": "2",
+    "NumC": "2",
+    "NumD": "1",
+    "NumE": "1",
+    "NumF": "0",
+    "NumG": "66.7",
+    "DateA": "42821.705555555556",
+    "Manager": "User8",
+    "Owner": "User1",
+    "Creator": "User1",
+    "Updator": "User1",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

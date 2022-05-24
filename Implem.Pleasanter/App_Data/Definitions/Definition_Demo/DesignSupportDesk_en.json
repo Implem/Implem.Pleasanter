@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignSupportDesk_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Design support framework",
+    "WorkValue": "22",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Release&Delivery",
+    "ClassB": "Meeting",
+    "ClassC": "Business task",
+    "Manager": "User10_en",
+    "Owner": "User10_en",
+    "Creator": "User10_en",
+    "Updator": "User10_en",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36651.439583333333"
+}

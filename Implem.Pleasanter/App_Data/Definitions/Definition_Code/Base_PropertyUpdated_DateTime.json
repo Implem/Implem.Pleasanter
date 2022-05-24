@@ -1,0 +1,11 @@
+﻿{
+    "Id": "Base_PropertyUpdated_DateTime",
+    "Indent": "2",
+    "Separator": "\\r\\n",
+    "HasNotIdentity": "1",
+    "NotItemId": "1",
+    "NotCalc": "1",
+    "Update": "1",
+    "NotJoin": "1",
+    "IncludeTypeName": "datetime"
+}

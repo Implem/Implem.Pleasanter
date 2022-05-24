@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_UrlReferer",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "UrlReferer",
+    "LabelText": "リファラ",
+    "No": "126",
+    "History": "126",
+    "EditorColumn": "126",
+    "EditorEnabled": "1",
+    "LinkColumn": "126",
+    "HistoryColumn": "126",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Referer",
+    "LabelText_zh": "参照页",
+    "LabelText_de": "Referenz",
+    "LabelText_ko": "리퍼러",
+    "LabelText_es": "Persona de referencia",
+    "LabelText_vn": "Người giới thiệu"
+}

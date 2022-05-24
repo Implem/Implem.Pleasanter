@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase4",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site8",
+    "Title": "センサー機器類の購入",
+    "ClassA": "#Opportunity3#",
+    "NumA": "550000",
+    "Manager": "User16",
+    "Owner": "User16",
+    "Creator": "User9",
+    "Updator": "User9",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36656.47152777778"
+}

@@ -1,0 +1,138 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DateA",
+        "NumA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumB",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "DateA",
+        "NumA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "NumB",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "DateA",
+        "NumA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumB",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "発売日"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "価格",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "アーティスト"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "ジャンル",
+            "ChoicesText": "邦楽\n洋楽\nK-POP\nダンスミュージック\nラップ\nレゲエ\nジャズ\nクラシック"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "発売元"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "販売元"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "曲数",
+            "Unit": "曲"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "収録時間"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "メーカ品番"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "JANコード"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "収録内容"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassB"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

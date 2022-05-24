@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport10",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "300",
+    "ClassA": "新橋営業所",
+    "ClassB": "情報共有イノベーション研究所",
+    "ClassE": "営業活動",
+    "ClassH": "川崎営業所",
+    "NumA": "1670",
+    "DateA": "36654.705555555556",
+    "Manager": "User4",
+    "Owner": "User4",
+    "Creator": "User4",
+    "Updator": "User4",
+    "CreatedTime": "36654.705555555556",
+    "UpdatedTime": "36654.705555555556"
+}

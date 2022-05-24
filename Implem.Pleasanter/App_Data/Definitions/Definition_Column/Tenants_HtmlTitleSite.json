@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Tenants_HtmlTitleSite",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "HtmlTitleSite",
+    "LabelText": "サイト",
+    "No": "110",
+    "History": "110",
+    "TypeName": "nvarchar",
+    "MaxLength": "1024",
+    "Default": "[ProductName]",
+    "Like": "1",
+    "Required": "1",
+    "FieldCss": "field-wide",
+    "ValidateRequired": "1",
+    "LabelText_en": "Site",
+    "LabelText_zh": "站点",
+    "LabelText_de": "Site",
+    "LabelText_ko": "사이트",
+    "LabelText_es": "Sitio",
+    "LabelText_vn": "Trang web"
+}

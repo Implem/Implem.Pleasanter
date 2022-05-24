@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestSystems_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "System test",
+    "WorkValue": "80",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Test",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Business task",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User11_en",
+    "Updator": "User11_en",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

@@ -1,0 +1,191 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "Comments",
+        "ClassG",
+        "ClassH",
+        "DateA",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "NumA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "ClassF",
+        "ClassG",
+        "NumC",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "DescriptionA",
+        "Body",
+        "ClassH",
+        "NumB",
+        "DateA",
+        "Status",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "ClassG",
+        "ClassH",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "ClassG",
+        "ClassH",
+        "Status",
+        "DateA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Name",
+            "Section": "Personal information",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Phonetic"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Age",
+            "ControlType": "Spinner",
+            "Max": 100.0
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Sex",
+            "ChoicesText": "Male\nfemale"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Address",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Phone"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Mail"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "Clues I've learned",
+            "ChoicesText": "Job Hunting Journal\nJob Information Website\nIntroduction of acquaintance"
+        },
+        {
+            "ColumnName": "ClassG",
+            "LabelText": "Applicants",
+            "ChoicesText": "Job category1\nJob category2\nJob category3\nJob category4\nJob category5"
+        },
+        {
+            "ColumnName": "ClassH",
+            "LabelText": "Employment status",
+            "ChoicesText": "Temporary staff\nContract\nContract employee\nPart\nPart time job"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Hourly wage",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Receptionist\n200,interview\n900,Adoption\n910,Not adopted\n920,On hold"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Interview date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Interview result",
+            "Section": "Careers"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Motivation for motivation"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Employment history"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Qualification"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Appeal point"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Year of experience",
+            "ControlType": "Spinner",
+            "Max": 30.0,
+            "Unit": "Years"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassG",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassH",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassH",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassG",
+            "KambanGroupByY": "ClassG"
+        }
+    ],
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_ImageLibGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "ImageLibGuide",
+    "LabelText": "画像ライブラリのガイド",
+    "No": "111",
+    "History": "111",
+    "EditorColumn": "111",
+    "LinkColumn": "111",
+    "HistoryColumn": "111",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Image library guide",
+    "LabelText_zh": "图片库指南",
+    "LabelText_de": "Leitfaden zur Bildbibliothek",
+    "LabelText_ko": "이미지 라이브러리 가이드",
+    "LabelText_es": "Guía de la biblioteca de imágenes",
+    "LabelText_vn": "Hướng dẫn thư viện hình ảnh"
+}

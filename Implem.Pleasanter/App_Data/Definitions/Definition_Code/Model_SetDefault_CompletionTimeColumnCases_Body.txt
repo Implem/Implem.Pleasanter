@@ -1,0 +1,7 @@
+﻿case "#ColumnName#":
+    CompletionTime = new CompletionTime(
+        context: context,
+        ss: ss,
+        value: column.DefaultTime(context: context),
+        status: Status);
+    break;

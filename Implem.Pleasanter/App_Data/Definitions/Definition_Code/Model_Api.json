@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_Api",
+    "OutputPath": "Models\\#TableName#\\#ModelName#ApiModel.cs",
+    "Source": "Mvc",
+    "RepeatType": "Table",
+    "GenericUi": "1",
+    "Exclude": "Sites"
+}

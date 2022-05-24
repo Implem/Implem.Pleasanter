@@ -1,0 +1,170 @@
+﻿public static #TableName#ColumnCollection #TableName#Column()
+{
+    return new #TableName#ColumnCollection();
+}
+
+public class #TableName#ColumnCollection : SqlColumnCollection
+{
+    public new #TableName#ColumnCollection Add(
+        string columnBracket = null,
+        string tableName = "#TableName#",
+        string columnName = null,
+        string _as = null,
+        Sqls.Functions function = Sqls.Functions.None,
+        SqlStatement sub = null,
+        bool subPrefix = true)
+    {
+        base.Add(
+            columnBracket: columnBracket,
+            tableName: tableName,
+            columnName: columnName,
+            _as: _as,
+            function: function,
+            sub: sub,
+            subPrefix: subPrefix);
+        return this;
+    }
+}
+
+public static #TableName#JoinCollection #TableName#Join()
+{
+    return new #TableName#JoinCollection();
+}
+
+public class #TableName#JoinCollection : SqlJoinCollection
+{
+    public #TableName#JoinCollection Add(params SqlJoin[] sqlJoinCollection)
+    {
+        sqlJoinCollection.ForEach(sqlJoin => base.Add(sqlJoin));
+        return this;
+    }
+}
+
+public static #TableName#WhereCollection #TableName#Where()
+{
+    return new #TableName#WhereCollection();
+}
+
+public class #TableName#WhereCollection : SqlWhereCollection
+{
+    public #TableName#WhereCollection Add(
+        string tableName = "#TableName#",
+        string[] columnBrackets = null,
+        string name = null,
+        object value = null,
+        string _operator = "=",
+        string multiColumnOperator = " or ",
+        string multiParamOperator = " and ",
+        SqlStatement subLeft = null,
+        SqlStatement sub = null,
+        bool subPrefix = true,
+        string raw = null,
+        bool _using = true)
+    {
+        if (_using)
+        {
+            Add(new SqlWhere(
+                columnBrackets: columnBrackets,
+                tableName: tableName,
+                name: name,
+                value: value,
+                _operator: _operator,
+                multiColumnOperator: multiColumnOperator,
+                multiParamOperator: multiParamOperator,
+                subLeft: subLeft,
+                sub: sub,
+                subPrefix: subPrefix,
+                raw: raw));
+        }
+        return this;
+    }
+}
+
+public static #TableName#GroupByCollection #TableName#GroupBy()
+{
+    return new #TableName#GroupByCollection();
+}
+
+public class #TableName#GroupByCollection : SqlGroupByCollection
+{
+    public new #TableName#GroupByCollection Add(
+        string columnBracket, string tableName = "#TableName#")
+    {
+        Add(new SqlGroupBy(
+            columnBracket: columnBracket,
+            tableName: tableName));
+        return this;
+    }
+}
+
+public static #TableName#HavingCollection #TableName#Having()
+{
+    return new #TableName#HavingCollection();
+}
+
+public class #TableName#HavingCollection : SqlHavingCollection
+{
+    public #TableName#HavingCollection Add(
+        string columnBracket,
+        string tableName = "#TableName#",
+        object value = null,
+        string _operator = "=",
+        Sqls.Functions function = Sqls.Functions.None)
+    {
+        Add(new SqlHaving(
+            columnBracket: columnBracket,
+            tableName: tableName,
+            value: value,
+            _operator: _operator,
+            function: function));
+        return this;
+    }
+}
+
+public static #TableName#OrderByCollection #TableName#OrderBy()
+{
+    return new #TableName#OrderByCollection();
+}
+
+public class #TableName#OrderByCollection : SqlOrderByCollection
+{
+    public #TableName#OrderByCollection Add(
+        string columnBracket,
+        SqlOrderBy.Types orderType = SqlOrderBy.Types.asc,
+        string tableName = "#TableName#",
+        Sqls.Functions function = Sqls.Functions.None)
+    {
+        Add(new SqlOrderBy(
+            columnBracket: columnBracket,
+            tableName: tableName,
+            orderType: orderType,
+            function: function));
+        return this;
+    }
+}
+
+public static #TableName#ParamCollection #TableName#Param()
+{
+    return new #TableName#ParamCollection();
+}
+
+public class #TableName#ParamCollection : SqlParamCollection
+{
+    public new #TableName#ParamCollection Add(
+        string columnBracket = null,
+        string name = null,
+        object value = null,
+        SqlStatement sub = null,
+        string raw = null,
+        bool _using = true)
+    {
+        Add(new SqlParam(
+            columnBracket: columnBracket,
+            name: name,
+            value: value,
+            sub: sub,
+            raw: raw,
+            _using: _using));
+        return this;
+    }
+}

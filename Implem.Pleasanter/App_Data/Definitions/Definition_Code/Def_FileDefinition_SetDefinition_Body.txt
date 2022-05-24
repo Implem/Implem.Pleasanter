@@ -1,0 +1,5 @@
+﻿case "#DefColumnNameOriginal#":
+    new#File#Definition.#DefColumnName# = customDefinitionRow.Get("#DefColumnNameOriginal#")?#CastType# ??
+        data#CastType#;
+    new#File#Definition.Saved#DefColumnName# = new#File#Definition.#DefColumnName#;
+    break;

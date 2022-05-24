@@ -1,0 +1,2 @@
+﻿Password was reset.
+New password is your birthday (yyyymmdd). Login use the password, and change it definitely.

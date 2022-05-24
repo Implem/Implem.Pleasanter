@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_ErrStackTrace",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ErrStackTrace",
+    "LabelText": "エラースタックトレース",
+    "No": "135",
+    "History": "135",
+    "EditorColumn": "135",
+    "EditorEnabled": "1",
+    "LinkColumn": "135",
+    "HistoryColumn": "135",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Error stuck trace",
+    "LabelText_zh": "错误卡滞跟踪",
+    "LabelText_de": "Fehlerstopp nachverfolgen",
+    "LabelText_ko": "오류 막힘 추적",
+    "LabelText_es": "Rastreo de bloqueo en error",
+    "LabelText_vn": "Dấu vết lỗi"
+}

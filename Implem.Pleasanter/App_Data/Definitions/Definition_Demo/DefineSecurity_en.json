@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineSecurity_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Define security requirement",
+    "WorkValue": "12",
+    "ProgressRate": "90",
+    "Status": "300",
+    "ClassA": "Definite requirement",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Network/Security",
+    "Manager": "User13_en",
+    "Owner": "User13_en",
+    "Creator": "User13_en",
+    "Updator": "User13_en",
+    "StartTime": "36647",
+    "CompletionTime": "36649",
+    "CreatedTime": "36640.689583333333",
+    "UpdatedTime": "36650.533333333333"
+}

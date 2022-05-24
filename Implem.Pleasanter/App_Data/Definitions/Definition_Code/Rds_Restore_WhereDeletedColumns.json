@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Rds_Restore_WhereDeletedColumns",
+    "RepeatType": "Column",
+    "Separator": " and ",
+    "Order": "Pk"
+}

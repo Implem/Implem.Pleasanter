@@ -1,0 +1,149 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ResultId",
+        "TitleBody",
+        "DescriptionA",
+        "DescriptionB",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateB",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "DescriptionB",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateB",
+        "Status",
+        "Owner",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "DateB",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Cause"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Solution"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Date and time of occurrence",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "place of occurrence",
+            "ChoicesText": "place of occurrence1\nplace of occurrence2\nplace of occurrence3\nplace of occurrence4\nplace of occurrence5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Work type",
+            "ChoicesText": "Work type1\nWork type2\nWork type3\nWork type4\nWork type5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Classification",
+            "ChoicesText": "Crash / fall\nToppling over\nCrash\nFlying / falling\nCollapse and collapse\nIt is a crash\nScolded/involved\nCut and rub\nContact with high temperature / low temperature objects\nElectric shock / fire\nContact with harmful substances\nTraffic accident\nAction reaction/impossible operation\nRupture\nOther"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Created date"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Submission,Submission,status-new\n900,Confirmed,Confirmed,status-closed\n910,On hold,On hold,status-rejected"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Author"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Authorizer"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "TimeSeriesGroupBy": "ClassC"
+        }
+    ],
+    "TitleSeparator": ")"
+}

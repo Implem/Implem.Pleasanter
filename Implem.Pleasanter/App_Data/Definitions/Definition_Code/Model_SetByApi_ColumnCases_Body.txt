@@ -1,0 +1,1 @@
+﻿if (data.#ColumnName# != null) #ColumnName# = #ByApi#(data.#ColumnName##CastType#)#Hash#<!--Model_ToUniversal-->;

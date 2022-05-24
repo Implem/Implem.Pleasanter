@@ -1,0 +1,12 @@
+﻿{
+    "Id": "User10_en",
+    "Language": "en",
+    "Type": "Users",
+    "ParentId": "Dept7_en",
+    "Title": "Yoko Yamamoto",
+    "ClassA": "2",
+    "ClassB": "2",
+    "ClassC": "36526",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

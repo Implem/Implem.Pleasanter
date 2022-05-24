@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Acceptance2",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site10",
+    "Title": "プリンターの印字汚れについて",
+    "Status": "900",
+    "ClassA": "100",
+    "ClassB": "トラブル",
+    "ClassC": "ハードウェア",
+    "Manager": "User6",
+    "Owner": "User14",
+    "Creator": "User6",
+    "Updator": "User14",
+    "StartTime": "36682",
+    "CompletionTime": "36696",
+    "CreatedTime": "36643.752083333333",
+    "UpdatedTime": "36656.918749999997"
+}

@@ -1,0 +1,7 @@
+﻿if (response.Event == "Duplicated")
+{
+    return new ErrorData(
+        type: Error.Types.Duplicated,
+        id: #ModelName#Id,
+        columnName: response.ColumnName);
+}

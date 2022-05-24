@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestApplications_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Business application test",
+    "WorkValue": "60",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Test",
+    "ClassB": "Work[Routine]",
+    "ClassC": "Business task",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "StartTime": "36673",
+    "CompletionTime": "36674",
+    "CreatedTime": "36642.398611111108",
+    "UpdatedTime": "36640.398611111108"
+}

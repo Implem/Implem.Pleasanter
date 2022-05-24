@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_PropertyValue_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Exclude": "MailAddresses"
+}

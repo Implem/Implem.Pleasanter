@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_DeleteAttachments",
+    "Indent": "3",
+    "Include": "Issues,Results"
+}

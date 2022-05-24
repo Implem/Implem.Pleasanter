@@ -1,0 +1,5 @@
+﻿{
+    "Id": "LinkAction",
+    "OutputPath": "Libraries\\Settings\\LinkAction.cs",
+    "Source": "Mvc"
+}

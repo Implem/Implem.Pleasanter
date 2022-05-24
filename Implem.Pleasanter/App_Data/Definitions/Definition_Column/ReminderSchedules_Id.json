@@ -1,0 +1,19 @@
+﻿{
+    "Id": "ReminderSchedules_Id",
+    "ModelName": "ReminderSchedule",
+    "TableName": "ReminderSchedules",
+    "Label": "リマインダースケジュール",
+    "ColumnName": "Id",
+    "LabelText": "リマインダーID",
+    "No": "2",
+    "History": "2",
+    "TypeName": "int",
+    "Pk": "2",
+    "Ix1": "3",
+    "LabelText_en": "Reminder ID",
+    "LabelText_zh": "提醒ID",
+    "LabelText_de": "Erinnerungs-ID",
+    "LabelText_ko": "알림 ID",
+    "LabelText_es": "ID recordatorio",
+    "LabelText_vn": "ID Lời nhắc"
+}

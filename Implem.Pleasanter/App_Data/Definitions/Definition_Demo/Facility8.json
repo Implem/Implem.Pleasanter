@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Facility8",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site20",
+    "Title": "プロジェクタ(001)",
+    "ClassA": "#Dept9#",
+    "ClassB": "053-1127",
+    "ClassC": "プロジェクタ",
+    "NumA": "0",
+    "NumB": "0",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

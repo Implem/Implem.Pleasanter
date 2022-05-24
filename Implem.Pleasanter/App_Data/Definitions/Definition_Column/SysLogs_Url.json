@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_Url",
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "Url",
+    "LabelText": "Url",
+    "No": "125",
+    "History": "125",
+    "EditorColumn": "125",
+    "EditorEnabled": "1",
+    "LinkColumn": "125",
+    "HistoryColumn": "125",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "LabelText_en": "Url",
+    "LabelText_zh": "Url",
+    "LabelText_de": "URL",
+    "LabelText_ko": "Url",
+    "LabelText_es": "Url",
+    "LabelText_vn": "Url"
+}

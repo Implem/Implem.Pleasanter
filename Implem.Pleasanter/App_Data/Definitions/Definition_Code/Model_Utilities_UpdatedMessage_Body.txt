@@ -1,0 +1,22 @@
+﻿private static Message UpdatedMessage(
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    Process process)
+{
+    if (process == null)
+    {
+        return Messages.Updated(
+            context: context,
+            data: #modelName#Model.Title.MessageDisplay(context: context));
+    }
+    else
+    {
+        var message = process.GetSuccessMessage(context: context);
+        message.Text = #modelName#Model.ReplacedDisplayValues(
+            context: context,
+            ss: ss,
+            value: message.Text);
+        return message;
+    }
+}

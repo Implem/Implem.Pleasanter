@@ -1,0 +1,231 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "ClassA",
+        "TitleBody",
+        "Comments",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "NumE",
+        "Body",
+        "NumA",
+        "DescriptionA",
+        "NumB",
+        "DescriptionB",
+        "NumC",
+        "DescriptionC",
+        "NumD",
+        "DescriptionD"
+    ],
+    "TitleColumns": [
+        "ClassB",
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumE",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Management Resources",
+            "ChoicesText": "Product development\nMarketing\nManagement\nTalent\nFunds"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "Economic value (content)"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "Rarity (content)"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "Imitation difficulty (content)"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "Organization (content)"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Economic value (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Rarity (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "Imitation difficulty (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "Organization (evaluation)",
+            "ControlType": "Spinner",
+            "Max": 5.0
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "Evaluation total",
+            "EditorReadOnly": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumE"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumE"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "OperatorType": 0
+                    },
+                    {
+                        "OperatorType": 0,
+                        "Children": [
+                            {
+                                "ColumnName": "NumA",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumB",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumC",
+                                "OperatorType": 0
+                            }
+                        ]
+                    },
+                    {
+                        "OperatorType": 1,
+                        "Children": [
+                            {
+                                "ColumnName": "NumD",
+                                "OperatorType": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassB": 0,
+                "ClassA": 0
+            },
+            "TimeSeriesGroupBy": "ClassB",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumE"
+        }
+    ],
+    "EnableCalendar": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

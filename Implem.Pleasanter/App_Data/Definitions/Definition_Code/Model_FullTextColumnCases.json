@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_FullTextColumnCases",
+    "RepeatType": "Column",
+    "Indent": "7",
+    "Separator": "\\r\\n",
+    "SearchIndex": "1",
+    "Exclude": "SiteId,Creator,Updator,CreatedTime,UpdatedTime"
+}

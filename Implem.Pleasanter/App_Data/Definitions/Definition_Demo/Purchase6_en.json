@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase6_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "System development for R company",
+    "ClassA": "#Opportunity6_en#",
+    "NumA": "440000",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User11_en",
+    "Updator": "User11_en",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

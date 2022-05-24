@@ -1,0 +1,4 @@
+﻿public static string History(Context context, SiteModel siteModel)
+{
+    return EditorResponse(context: context, siteModel: siteModel).ToJson();
+}

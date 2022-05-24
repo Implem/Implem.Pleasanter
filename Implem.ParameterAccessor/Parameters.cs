@@ -8,6 +8,7 @@ namespace Implem.DefinitionAccessor
         public static List<string> SyntaxErrors = new List<string>();
         public static Api Api;
         public static Authentication Authentication;
+        public static BackgroundService BackgroundService;
         public static BackgroundTask BackgroundTask;
         public static BinaryStorage BinaryStorage;
         public static Dictionary<string, Dictionary<string, Dictionary<string, string>>> CustomDefinitions;
@@ -71,6 +72,26 @@ namespace Implem.DefinitionAccessor
         public static string Licensee()
         {
             return License.Licensee;
+        }
+
+        public static string Copyright()
+        {
+            var prop = License.GetType().GetProperty("Copyright");
+            return (string)(prop?.GetValue(License))
+                ?? $"Copyright &copy; Implem Inc. 2014 - {DateTime.Now.Year}";
+        }
+
+        public static string CopyrightUrl()
+        {
+            var prop = License.GetType().GetProperty("CopyrightUrl");
+            return (string)(prop?.GetValue(License))
+                ?? "https://implem.co.jp";
+        }
+
+        public static bool DisableAds()
+        {
+            var prop = License.GetType().GetProperty("DisableAds");
+            return (bool?)(prop?.GetValue(License)) ?? false;
         }
     }
 }

@@ -1,0 +1,12 @@
+﻿public static string Create(Context context, SiteSettings ss)
+{
+
+<!--Model_Utilities_Limit-->
+<!--Model_Utilities_Limit_Items-->
+<!--Model_Utilities_Create_JoeAccountCheck-->
+
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        formData: context.Forms);

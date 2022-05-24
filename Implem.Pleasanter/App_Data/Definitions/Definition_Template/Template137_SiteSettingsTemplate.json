@@ -1,0 +1,92 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "Title",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "Status",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "Manager",
+        "Owner",
+        "Status",
+        "DateA",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未使用,未,status-new\n200,利用中,利,status-inprogress\n900,返却済み,返,status-closed\n"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "利用者"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "種類",
+            "ChoicesText": "ロッカー\nデスク\nセキュリティワイヤー",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "利用開始日",
+            "DefaultInput": "0",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "返却日"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "鍵番号"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 3,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 0,
+    "TitleSeparator": ")"
+}

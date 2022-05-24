@@ -1,0 +1,6 @@
+﻿var notifications = context.ContractSettings.Notice != false && notice
+    ? GetNotifications(
+        context: context,
+        ss: ss,
+        notice: notice)
+    : null;

@@ -1,0 +1,10 @@
+﻿{
+    "Id": "Dept5_en",
+    "Language": "en",
+    "Type": "Depts",
+    "ParentId": "Dept1_en",
+    "Title": "General Affairs Dept.",
+    "ClassA": "000310",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

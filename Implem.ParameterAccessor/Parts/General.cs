@@ -19,6 +19,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool DisplayLogoText;
         public bool DisableAutoComplete;
         public int SiteMenuHotSpan;
+        public bool AnchorTargetBlank;
         public int LimitWarning1;
         public int LimitWarning2;
         public int LimitWarning3;
@@ -89,5 +90,8 @@ namespace Implem.ParameterAccessor.Parts
         public DateTime MinTime;
         public DateTime MaxTime;
         public int DateTimeStep;
+        public bool HideCurrentTimeIcon;
+        public bool HideCurrentUserIcon;
+        public bool HideCurrentDeptIcon;
     }
 }

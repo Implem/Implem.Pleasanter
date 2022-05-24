@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Purchase8_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site8_en",
+    "Title": "Initial setup service for X company",
+    "ClassA": "#Opportunity7_en#",
+    "NumA": "160000",
+    "Manager": "User10_en",
+    "Owner": "User10_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

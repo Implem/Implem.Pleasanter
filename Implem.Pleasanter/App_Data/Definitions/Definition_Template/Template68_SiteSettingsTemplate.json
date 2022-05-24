@@ -1,0 +1,122 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Manager",
+        "Owner",
+        "ClassA",
+        "ClassB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "ClassA",
+        "ClassB",
+        "Title",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "作業分類",
+            "ChoicesText": "展示ブース\n販促品\n集客"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "発注有無",
+            "ChoicesText": "社内\n外注"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "Owner",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CalendarColumn": "StartTime",
+            "KambanGroupByY": "Owner"
+        }
+    ],
+    "TitleSeparator": ")"
+}

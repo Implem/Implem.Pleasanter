@@ -1,0 +1,6 @@
+﻿if (context.ContractSettings.#TableName#Limit(context: context))
+{
+    return HtmlTemplates.Error(
+        context: context,
+        errorData: new ErrorData(type: Error.Types.#TableName#Limit));
+}

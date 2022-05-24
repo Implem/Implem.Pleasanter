@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy7",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site13",
+    "Title": "蛍光ペン(ピンク)",
+    "ClassA": "#Expendable1#",
+    "ClassB": "ファミリーストア",
+    "NumA": "27",
+    "NumB": "3440",
+    "DateA": "42755.705555555556",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User6",
+    "Updator": "User6",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

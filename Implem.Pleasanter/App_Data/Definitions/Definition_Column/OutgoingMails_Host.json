@@ -1,0 +1,22 @@
+﻿{
+    "Id": "OutgoingMails_Host",
+    "ModelName": "OutgoingMail",
+    "TableName": "OutgoingMails",
+    "Label": "メール送信",
+    "ColumnName": "Host",
+    "LabelText": "ホスト",
+    "No": "101",
+    "History": "101",
+    "LinkColumn": "101",
+    "HistoryColumn": "101",
+    "TypeName": "nvarchar",
+    "MaxLength": "1024",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Host",
+    "LabelText_zh": "主机",
+    "LabelText_de": "Host",
+    "LabelText_ko": "호스트",
+    "LabelText_es": "Host",
+    "LabelText_vn": "Máy chủ"
+}

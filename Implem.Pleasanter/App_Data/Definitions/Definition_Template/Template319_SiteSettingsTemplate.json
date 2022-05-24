@@ -1,0 +1,124 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassA",
+        "ClassB",
+        "Manager",
+        "Owner",
+        "NumA",
+        "NumB",
+        "ClassC",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "Comments",
+        "ClassC",
+        "NumA",
+        "NumB",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Business name",
+            "ChoicesText": "Business name1\nBusiness name2\nBusiness name3\nBusiness name4\nBusiness name5",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Business classification",
+            "ChoicesText": "Selling business\nMoney tree\nProblematic child\nA loser\n"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Market growth rate",
+            "Unit": "%/Year"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "Relative market share",
+            "DefaultInput": "1",
+            "ControlType": "Spinner",
+            "Max": 5.0,
+            "Step": 0.1,
+            "Unit": "Double:Logarithm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Summary"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "ClassB": 0
+            },
+            "TimeSeriesGroupBy": "ClassC"
+        }
+    ],
+    "EnableCalendar": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_Utilities_ImportSettings",
+    "Indent": "5",
+    "Include": "Users,Issues,Results,Depts,Groups"
+}

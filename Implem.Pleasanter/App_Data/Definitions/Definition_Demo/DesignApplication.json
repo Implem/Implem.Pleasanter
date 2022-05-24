@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignApplication",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "業務アプリケーション設定のデザインシート作成",
+    "WorkValue": "30",
+    "ProgressRate": "48",
+    "Status": "200",
+    "ClassA": "設計",
+    "ClassB": "ドキュメント作成",
+    "ClassC": "業務",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "StartTime": "36652",
+    "CompletionTime": "36667",
+    "CreatedTime": "36640.59097222222",
+    "UpdatedTime": "36656.547222222223"
+}

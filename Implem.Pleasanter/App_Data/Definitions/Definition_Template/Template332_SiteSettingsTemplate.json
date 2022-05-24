@@ -1,0 +1,134 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "DateB",
+        "Body",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "DateB",
+        "Body",
+        "NumA",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassB"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "Status",
+        "DateB",
+        "NumA",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Applicant",
+            "ChoicesText": "Applicant1\nApplicant2\nApplicant3\nApplicant4\nApplicant5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Approver",
+            "ChoicesText": "Approver1\nApprover2\nApprover3\nApprover4\nApprover5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Fare",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Issued_date"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Purchaed_date"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Purpose"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,Issued,Issued\n200,Approved,Approved\n300,Settled,Settled\n900,Pending,Pending"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "TitleSeparator": ")"
+}

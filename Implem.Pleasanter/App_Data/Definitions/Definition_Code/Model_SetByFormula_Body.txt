@@ -1,0 +1,57 @@
+﻿public void SetByFormula(Context context, SiteSettings ss)
+{
+    SetByBeforeFormulaServerScript(
+        context: context,
+        ss: ss);
+    ss.Formulas?.ForEach(formulaSet =>
+    {
+        var columnName = formulaSet.Target;
+        var formula = formulaSet.Formula;
+        var view = ss.Views?.Get(formulaSet.Condition);
+        if (view != null && !Matched(context: context, ss: ss, view: view))
+        {
+            if (formulaSet.OutOfCondition != null)
+            {
+                formula = formulaSet.OutOfCondition;
+            }
+            else
+            {
+                return;
+            }
+        }
+        var data = new Dictionary<string, decimal>
+        {
+
+<!--Model_SetByFormula_Data-->
+
+        };
+        data.AddRange(NumHash.ToDictionary(
+            o => o.Key,
+            o => o.Value?.Value?.ToDecimal() ?? 0));
+        var value = formula?.GetResult(
+            data: data,
+            column: ss.GetColumn(
+                context: context,
+                columnName: columnName)) ?? 0;
+        switch (columnName)
+        {
+
+<!--Model_SetByFormula_ColumnCases-->
+
+            default:
+                GetNum(
+                    columnName: columnName,
+                    value: new Num(value));
+                break;
+        }
+        if (ss.OutputFormulaLogs == true)
+        {
+            context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+            context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+            context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+        }
+    });
+    SetByAfterFormulaServerScript(
+        context: context,
+        ss: ss);
+}

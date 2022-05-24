@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineSecurity",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "セキュリティ要件の確認",
+    "WorkValue": "12",
+    "ProgressRate": "90",
+    "Status": "300",
+    "ClassA": "要件定義",
+    "ClassB": "作業[非定型]",
+    "ClassC": "ネットワーク・セキュリティ",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "StartTime": "36647",
+    "CompletionTime": "36649",
+    "CreatedTime": "36640.689583333333",
+    "UpdatedTime": "36650.533333333333"
+}

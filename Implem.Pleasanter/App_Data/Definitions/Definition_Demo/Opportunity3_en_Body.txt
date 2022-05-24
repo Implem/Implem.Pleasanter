@@ -1,0 +1,2 @@
+﻿We received a request about development an environment monitoring system with temperature and humidity sensors located 6 food factories in Kanto area.
+We will propose that a sensor is used arduino, and connected with Wi-Fi in a factory, moreover, monitoring and analysis system is customized package system by D company.

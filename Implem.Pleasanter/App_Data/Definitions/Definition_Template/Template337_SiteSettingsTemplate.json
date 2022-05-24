@@ -1,0 +1,135 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "ClassB",
+        "ClassA",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Visitor"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Member belonging to a visitor"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Admission hours",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "Leave time",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "Reason"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Admission card number"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Visit",
+            "ChoicesText": "Visit1\nVisit2\nVisit3\nVisit4\nVisit5"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Person in charge of visit",
+            "ChoicesText": "Person in charge of visit1\nPerson in charge of visit2\nPerson in charge of visit3\nPerson in charge of visit4\nPerson in charge of visit5"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassD",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "ColumnSorterHash": {
+                "DateA": 1
+            }
+        }
+    ],
+    "EnableTimeSeries": false,
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

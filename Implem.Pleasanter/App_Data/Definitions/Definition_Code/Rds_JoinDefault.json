@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Rds_JoinDefault",
+    "RepeatType": "Join",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Select": "1",
+    "JoinExpression": "1"
+}

@@ -1,0 +1,118 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "Manager",
+        "Status",
+        "DateA",
+        "DateB",
+        "NumB",
+        "NumA",
+        "NumC",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "Manager",
+            "Status",
+            "DateA",
+            "DateB",
+            "NumB",
+            "NumA",
+            "NumC",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "TitleColumns": [
+        "ClassA"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "対象月",
+            "ChoicesText": "2016年3月度\n2017年4月度\n2017年5月度\n2017年6月度\n2017年7月度",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "開始日",
+            "DefaultInput": "0",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "終了日",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "完了人数",
+            "Unit": "人",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "部員数",
+            "ValidateRequired": true,
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "未完了人数",
+            "Unit": "人",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,実施中,実,status-inprogress\n300,セキュリティ事故,事,status-review\n900,完了,完,status-closed\n"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "NoDisplayIfReadOnly": false
+}

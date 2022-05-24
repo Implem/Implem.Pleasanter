@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Buy16_en",
+    "Language": "en",
+    "Type": "Results",
+    "ParentId": "Site13_en",
+    "Title": "DVD case",
+    "ClassA": "#Expendable10_en#",
+    "ClassB": "Online shop",
+    "NumA": "14",
+    "NumB": "1985",
+    "DateA": "42818.705555555556",
+    "Manager": "User11_en",
+    "Owner": "User11_en",
+    "Creator": "User8_en",
+    "Updator": "User8_en",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

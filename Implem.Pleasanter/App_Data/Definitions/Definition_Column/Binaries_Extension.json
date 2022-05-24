@@ -1,0 +1,22 @@
+﻿{
+    "Id": "Binaries_Extension",
+    "ModelName": "Binary",
+    "TableName": "Binaries",
+    "Label": "バイナリ",
+    "ColumnName": "Extension",
+    "LabelText": "拡張子",
+    "No": "108",
+    "History": "108",
+    "LinkColumn": "108",
+    "HistoryColumn": "108",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Extension",
+    "LabelText_zh": "扩展名",
+    "LabelText_de": "Erweiterung",
+    "LabelText_ko": "확장자",
+    "LabelText_es": "Extensión",
+    "LabelText_vn": "Định dạng tệp"
+}

@@ -1,0 +1,146 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "Comments",
+        "NumA",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "NumA",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "NumA",
+        "ClassA",
+        "DateA",
+        "DateB",
+        "Status",
+        "ClassB",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_files"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "Meeting_title"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "Approver"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "Creater"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Location"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "Start",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "End",
+            "GridFormat": "Ymdahm",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymdahm"
+        },
+        {
+            "ColumnName": "Body",
+            "DefaultInput": "[md]\n## Participant\n\n\n## Agenda\n1. xxxx\n1. xxxx\n1. xxxx\n\n## Description\n\n\nEOM"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "200,In_action,Act,status-inprogress\n300,Wait_an_authorization,Wait,status-review\n900,Approved,Approved,status-closed\n910,Pending,Pending,status-rejected"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Department",
+            "ChoicesText": "Department1\nDepartment2\nDepartment3\nDepartment4\nDepartment5"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "Time",
+            "ControlType": "Normal",
+            "Unit": "分"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "Standard",
+            "CalendarColumn": "DateA",
+            "TimeSeriesGroupBy": "ClassB",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByX": "Status",
+            "KambanGroupByY": "Manager"
+        }
+    ],
+    "TitleSeparator": ")"
+}

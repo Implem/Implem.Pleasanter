@@ -1,0 +1,349 @@
+﻿public static string Calendar(Context context, SiteSettings ss)
+{
+    if (!ss.EnableViewMode(context: context, name: "Calendar"))
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.HasNotPermission));
+    }
+    var hb = new HtmlBuilder();
+    var view = Views.GetBySession(context: context, ss: ss);
+    var viewMode = ViewModes.GetSessionData(
+        context: context,
+        siteId: ss.SiteId);
+    var timePeriod = view.GetCalendarTimePeriod(ss: ss);
+    var fromColumn = ss.GetColumn(
+        context: context,
+        columnName: view.GetCalendarFromColumn(ss));
+    var toColumn = ss.GetColumn(
+        context: context,
+        columnName: view.GetCalendarToColumn(ss));
+    var date = view.GetCalendarDate();
+    var groupBy = ss.GetColumn(
+        context: context,
+        columnName: view.GetCalendarGroupBy());
+    var choices = groupBy?.EditChoices(
+        context: context,
+        insertBlank: true,
+        view: view);
+    var inRangeY = Libraries.ViewModes
+        .CalendarUtilities.InRangeY(
+            context: context,
+            choices?.Count ?? 0);
+    var begin = Calendars.BeginDate(
+        context: context,
+        date: date,
+        timePeriod: timePeriod);
+    var end = Calendars.EndDate(
+        context: context,
+        date: date,
+        timePeriod: timePeriod);
+    var dataRows = inRangeY
+        ? CalendarDataRows(
+            context: context,
+            ss: ss,
+            view: view,
+            fromColumn: fromColumn,
+            toColumn: toColumn,
+            groupBy: groupBy,
+            begin: begin,
+            end: end)
+        : null;
+    var inRange = inRangeY
+        && Libraries.ViewModes
+            .CalendarUtilities.InRange(
+                context: context,
+                dataRows: dataRows);
+    var serverScriptModelRow = ss.GetServerScriptModelRow(
+        context: context,
+        view: view);
+    return hb.ViewModeTemplate(
+        context: context,
+        ss: ss,
+        view: view,
+        viewMode: viewMode,
+        serverScriptModelRow: serverScriptModelRow,
+        viewModeBody: () => hb
+            .Calendar(
+                context: context,
+                ss: ss,
+                timePeriod: timePeriod,
+                groupBy: groupBy,
+                fromColumn: fromColumn,
+                toColumn: toColumn,
+                date: date,
+                begin: begin,
+                choices: choices,
+                dataRows: dataRows,
+                bodyOnly: false,
+                inRange: inRange));
+}
+
+public static string UpdateByCalendar(Context context, SiteSettings ss)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: context.Forms.Long("Id"),
+        formData: context.Forms);
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
+    {
+        return Messages.ResponseDeleteConflicts(context: context).ToJson();
+    }
+    #modelName#Model.VerUp = Versions.MustVerUp(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+    #modelName#Model.Update(
+        context: context,
+        ss: ss,
+        notice: true);
+    return CalendarJson(
+        context: context,
+        ss: ss,
+        changedItemId: #modelName#Model.#ModelName#Id,
+        update: true,
+        message: Messages.Updated(
+            context: context,
+            data: #modelName#Model.Title.MessageDisplay(context: context)));
+}
+
+public static string CalendarJson(
+    Context context,
+    SiteSettings ss,
+    long changedItemId = 0,
+    bool update = false,
+    Message message = null)
+{
+    if (!ss.EnableViewMode(context: context, name: "Calendar"))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var view = Views.GetBySession(context: context, ss: ss);
+    var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
+    var timePeriod = view.GetCalendarTimePeriod(ss: ss);
+    var fromColumn = ss.GetColumn(
+        context: context,
+        columnName: view.GetCalendarFromColumn(ss));
+    var toColumn = ss.GetColumn(
+        context: context,
+        columnName: view.GetCalendarToColumn(ss));
+    var date = view.GetCalendarDate();
+    var groupBy = ss.GetColumn(
+        context: context,
+        columnName: view.GetCalendarGroupBy());
+    var choices = groupBy?.EditChoices(
+        context: context,
+        insertBlank: true,
+        view: view);
+    var inRangeY = Libraries.ViewModes
+        .CalendarUtilities.InRangeY(
+            context: context,
+            choices?.Count ?? 0);
+    var begin = Calendars.BeginDate(
+        context: context,
+        date: date,
+        timePeriod: timePeriod);
+    var end = Calendars.EndDate(
+        context: context,
+        date: date,
+        timePeriod: timePeriod);
+    var dataRows = inRangeY 
+        ? CalendarDataRows(
+            context: context,
+            ss: ss,
+            view: view,
+            fromColumn: fromColumn,
+            toColumn: toColumn,
+            groupBy: groupBy,
+            begin: begin,
+            end: end)
+        :null;
+    var inRange = inRangeY
+        && Libraries.ViewModes
+            .CalendarUtilities.InRange(
+                context: context,
+                dataRows: dataRows);
+    return inRange
+        ? new ResponseCollection()
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                invoke: "setCalendar",
+                message: message,
+                loadScroll: update,
+                bodyOnly: bodyOnly,
+                bodySelector: "#CalendarBody",
+                body: new HtmlBuilder()
+                    .Calendar(
+                        context: context,
+                        ss: ss,
+                        timePeriod: timePeriod,
+                        groupBy: groupBy,
+                        fromColumn: fromColumn,
+                        toColumn: toColumn,
+                        date: date,
+                        begin: begin,
+                        choices: choices,
+                        dataRows: dataRows,
+                        bodyOnly: bodyOnly,
+                        inRange: true,
+                        changedItemId: changedItemId))
+            .Events("on_calendar_load")
+            .ToJson()
+        : new ResponseCollection()
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                message: inRangeY
+                    ? Messages.TooManyCases(
+                        context: context,
+                        data: Parameters.General.CalendarLimit.ToString())
+                    : Messages.TooManyRowCases(
+                        context: context,
+                        data: Parameters.General.CalendarYLimit.ToString()),
+                bodyOnly: bodyOnly,
+                bodySelector: "#CalendarBody",
+                body: new HtmlBuilder()
+                    .Calendar(
+                        context: context,
+                        ss: ss,
+                        timePeriod: timePeriod,
+                        groupBy: groupBy,
+                        fromColumn: fromColumn,
+                        toColumn: toColumn,
+                        date: date,
+                        begin: begin,
+                        choices: choices,
+                        dataRows: dataRows,
+                        bodyOnly: bodyOnly,
+                        inRange: false,
+                        changedItemId: changedItemId))
+            .Events("on_calendar_load")
+            .ToJson();
+}
+
+private static EnumerableRowCollection<DataRow> CalendarDataRows(
+    Context context,
+    SiteSettings ss,
+    View view,
+    Column fromColumn,
+    Column toColumn,
+    Column groupBy,
+    DateTime begin,
+    DateTime end)
+{
+    var where = new SqlWhereCollection();
+    if (toColumn == null)
+    {
+        where.Add(
+            tableName: "#TableName#",
+            raw: $"\"#TableName#\".\"{fromColumn.ColumnName}\" between @Begin and @End");
+    }
+    else
+    {
+        where.Add(or: Rds.#TableName#Where()
+            .Add(raw: $"\"#TableName#\".\"{fromColumn.ColumnName}\" between @Begin and @End")
+            .Add(raw: $"\"#TableName#\".\"{toColumn.ColumnName}\" between @Begin and @End")
+            .Add(raw: $"\"#TableName#\".\"{fromColumn.ColumnName}\"<=@Begin and \"#TableName#\".\"{toColumn.ColumnName}\">=@End"));
+    }
+    where = view.Where(
+        context: context,
+        ss: ss,
+        where: where);
+    var param = view.Param(
+        context: context,
+        ss: ss);
+    param.Add(new SqlParam()
+    {
+        VariableName = "Begin",
+        Value = begin,
+        NoCount = true
+    });
+    param.Add(new SqlParam()
+    {
+        VariableName = "End",
+        Value = end,
+        NoCount = true
+    });
+    return Rds.ExecuteTable(
+        context: context,
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#TitleColumn(
+                context: context,
+                ss: ss)
+                    .#ModelName#Id(_as: "Id")
+                    .#TableName#Column(
+                        columnName: fromColumn.ColumnName,
+                        _as: "From")
+                    .#TableName#Column(
+                        columnName: toColumn?.ColumnName,
+                        _as: "To")
+                    .UpdatedTime()
+                    .ItemTitle(ss.ReferenceType)
+                    .Add(
+                        column: groupBy,
+                        function: Sqls.Functions.SingleColumn),
+            join: ss.Join(
+                context: context,
+                join: where),
+            where: where,
+            param: param))
+                .AsEnumerable();
+}
+
+private static HtmlBuilder Calendar(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    string timePeriod,
+    Column groupBy,
+    Column fromColumn,
+    Column toColumn,
+    DateTime date,
+    DateTime begin,
+    Dictionary<string, ControlData> choices,
+    EnumerableRowCollection<DataRow> dataRows,
+    bool bodyOnly,
+    bool inRange,
+    long changedItemId = 0)
+{
+    return !bodyOnly
+        ? hb.Calendar(
+            context: context,
+            ss: ss,
+            timePeriod: timePeriod,
+            groupBy: groupBy,
+            fromColumn: fromColumn,
+            toColumn: toColumn,
+            date: date,
+            begin: begin,
+            choices: choices,
+            dataRows: dataRows,
+            inRange: inRange,
+            changedItemId: changedItemId)
+        : hb.CalendarBody(
+            context: context,
+            ss: ss,
+            timePeriod: timePeriod,
+            groupBy: groupBy,
+            fromColumn: fromColumn,
+            toColumn: toColumn,
+            date: date,
+            begin: begin,
+            choices: choices,
+            dataRows: dataRows,
+            inRange: inRange,
+            changedItemId: changedItemId);
+}

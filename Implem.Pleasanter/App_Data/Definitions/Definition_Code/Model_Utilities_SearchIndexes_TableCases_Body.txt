@@ -1,0 +1,19 @@
+﻿if (dataRows.Any(o => o.String("ReferenceType") == "#TableName#"))
+{
+    statements.Add(Rds.Select#TableName#(
+        dataTableName: "#TableName#",
+        column: Rds.#TableName#Column()
+            .SiteId()
+            .#ModelName#Id(_as: "Id")
+            .Body()
+            .Items_Title(),
+        join: new SqlJoinCollection(
+            new SqlJoin(
+                tableBracket: "\"Items\"",
+                joinType: SqlJoin.JoinTypes.Inner,
+                joinExpression: "\"Items\".\"ReferenceId\"=\"#TableName#\".\"#Model#Id\"")),
+        where: Rds.#TableName#Where()
+            .#ModelName#Id_In(dataRows
+                .Where(o => o.String("ReferenceType") == "#TableName#")
+                .Select(o => o.Long("ReferenceId")))));
+}

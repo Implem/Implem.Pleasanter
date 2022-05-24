@@ -1313,7 +1313,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             SqlWhereCollection where = null,
             bool checkPermission = true,
-            bool itemJoin = true)
+            bool itemJoin = true,
+            bool requestSearchCondition = true)
         {
             if (where == null) where = new SqlWhereCollection();
             SetGeneralsWhere(
@@ -1334,9 +1335,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
-            if (RequestSearchCondition(
-                context: context,
-                ss: ss))
+            if (requestSearchCondition
+                && RequestSearchCondition(
+                    context: context,
+                    ss: ss))
             {
                 where.Add(raw: "(0=1)");
             }
@@ -2318,7 +2320,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         isNullValue: column.IsNullValue(context: context));
                     break;
                 default:
-                    if (column.Linked(withoutWiki: true))
+                    if (column.Linked(
+                        context: context,
+                        withoutWiki: true))
                     {
                         orderBy.Add(new SqlOrderBy(
                             orderType: data.Value,

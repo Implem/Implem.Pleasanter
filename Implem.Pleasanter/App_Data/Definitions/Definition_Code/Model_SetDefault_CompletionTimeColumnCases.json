@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Model_SetDefault_CompletionTimeColumnCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "IncludeTypeCs": "CompletionTime"
+}

@@ -1,0 +1,49 @@
+﻿public static string Copy(Context context, SiteSettings ss, #IdType# #modelName#Id)
+{
+
+<!--Model_Utilities_Limit-->
+<!--Model_Utilities_Limit_Items-->
+<!--Model_Utilities_Update_NewModel-->
+
+    var invalid = #ModelName#Validators.OnCreating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    #modelName#Model.#ModelName#Id = 0;
+    #modelName#Model.Ver = 1;
+    if (ss.GetEditorColumnNames().Contains("Title"))
+    {
+        #modelName#Model.Title.Value += ss.CharToAddWhenCopying;
+    }
+    if (!context.Forms.Bool("CopyWithComments"))
+    {
+        #modelName#Model.Comments.Clear();
+    }
+    #modelName#Model.SetCopyDefault(
+        context: context,
+        ss: ss);
+    var errorData = #modelName#Model.Create(
+        context: context,
+        ss: ss,
+        copyFrom: #modelName#Id,
+        forceSynchronizeSourceSummary: true,
+        notice: true,
+        noticeType: "Copied",
+        otherInitValue: true);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+
+<!--Model_Utilities_CopyResponse-->
+<!--Model_Utilities_CopyResponse_Items-->
+<!--Model_Utilities_DuplicatedMessage-->
+
+        default:
+            return errorData.MessageJson(context: context);
+    }
+}

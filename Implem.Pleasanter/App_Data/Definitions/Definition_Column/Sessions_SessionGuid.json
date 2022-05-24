@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Sessions_SessionGuid",
+    "ModelName": "Session",
+    "TableName": "Sessions",
+    "Label": "セッション",
+    "ColumnName": "SessionGuid",
+    "LabelText": "セッションGUID",
+    "No": "1",
+    "History": "1",
+    "TypeName": "nvarchar",
+    "MaxLength": "32",
+    "Pk": "1",
+    "LabelText_en": "Session GUID",
+    "LabelText_zh": "会话GUID",
+    "LabelText_de": "Sitzungs-GUID",
+    "LabelText_ko": "세션 GUID",
+    "LabelText_es": "GUID de sesión",
+    "LabelText_vn": "GUID Phiên làm việc"
+}

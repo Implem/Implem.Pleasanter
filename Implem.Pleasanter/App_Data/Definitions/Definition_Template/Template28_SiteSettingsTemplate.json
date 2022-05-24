@@ -1,0 +1,202 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "TitleBody",
+        "DescriptionA",
+        "Comments",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "IssueId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "IssueId",
+        "Title",
+        "ClassB",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Manager",
+        "Owner",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Title",
+        "Comments",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "StartTime",
+        "CompletionTime",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "キャンペーン種別",
+            "ChoicesText": "値引き\n景品\nその他"
+        },
+        {
+            "ColumnName": "CompletionTime",
+            "LabelText": "終了",
+            "DefaultInput": "30"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "売上目標",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "売上実績",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "予実差",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "達成度",
+            "DecimalPlaces": 1,
+            "EditorReadOnly": true,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "商品・サービス",
+            "ChoicesText": "商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,未着手,未,status-new\n150,準備,準,status-preparation\n200,実施中,実,status-inprogress\n900,完了,完,status-closed\n910,保留,留,status-rejected"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "目的"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 2
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 4
+                    },
+                    {
+                        "RawValue": 100.0,
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 2
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "StartTime",
+            "CrosstabValue": "NumB",
+            "KambanGroupByY": "ClassB"
+        }
+    ],
+    "ShowGanttProgressRate": false,
+    "EnableBurnDown": false,
+    "TitleSeparator": ")"
+}

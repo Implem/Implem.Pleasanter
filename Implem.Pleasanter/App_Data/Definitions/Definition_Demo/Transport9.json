@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport9",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "200",
+    "ClassA": "本社",
+    "ClassB": "Webデータベース開発株式会社",
+    "ClassE": "プロジェクト進捗報告",
+    "ClassH": "品川支店",
+    "NumA": "1720",
+    "DateA": "36642.705555555556",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36642.705555555556",
+    "UpdatedTime": "36642.705555555556"
+}

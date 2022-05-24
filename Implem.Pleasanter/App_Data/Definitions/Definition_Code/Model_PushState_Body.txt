@@ -1,0 +1,4 @@
+﻿Locations.Edit(
+    context: context,
+    controller: "#TableName#",
+    id: #modelName#Model.#ModelName#Id),

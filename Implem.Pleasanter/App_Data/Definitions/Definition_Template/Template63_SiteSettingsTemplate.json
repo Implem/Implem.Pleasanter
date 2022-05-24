@@ -1,0 +1,137 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "Body",
+        "DescriptionA",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Manager",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "NumA",
+        "DateA",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "DateA",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "商品・サービス",
+            "ChoicesText": "商品・サービス1\n商品・サービス2\n商品・サービス3\n商品・サービス4\n商品・サービス5"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "作業種別",
+            "ChoicesText": "作業種別1\n作業種別2\n作業種別3\n作業種別4\n作業種別5"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "難易度",
+            "ChoicesText": "高\n中\n低"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "所要時間",
+            "Unit": "分"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "作業名"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "作業内容"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "注意ポイント"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "登録日"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "承認者"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "登録者"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassC",
+            "Type": 0,
+            "Target": ""
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassA",
+            "CrosstabAggregateType": "Count",
+            "TimeSeriesGroupBy": "ClassA"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

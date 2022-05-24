@@ -181,18 +181,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Delay(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            return hb.FieldCheckBox(
-                controlId: "ViewFilters_Delay",
-                fieldCss: "field-auto-thin",
-                controlCss: ss.UseFilterButton != true
-                    ? " auto-postback"
-                    : string.Empty,
-                labelText: Displays.Delay(context: context),
-                _checked: view.Delay == true,
-                method: "post",
-                labelPositionIsRight: true,
-                _using: view.HasDelayColumns(context: context, ss: ss)
-                    && Visible(ss, "ProgressRate"));
+            return ss.UseDelayFilter == true
+                ? hb
+                    .FieldCheckBox(
+                        controlId: "ViewFilters_Delay",
+                        fieldCss: "field-auto-thin",
+                        controlCss: ss.UseFilterButton != true
+                            ? " auto-postback"
+                            : string.Empty,
+                        labelText: Displays.Delay(context: context),
+                        _checked: view.Delay == true,
+                        method: "post",
+                        labelPositionIsRight: true,
+                        _using: view.HasDelayColumns(context: context, ss: ss)
+                            && Visible(ss, "ProgressRate"))
+                : hb;
         }
 
         private static HtmlBuilder Limit(
@@ -413,17 +416,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             column.UseSearch == true &&
                             currentSs.Links
                                 ?.Where(o => o.SiteId > 0)
-                                .Any(o => o.ColumnName == column.ColumnName) == true)
+                                .Any(o => o.ColumnName == column.Name) == true)
                         {
                             currentSs.SetChoiceHash(
                                 context: context,
-                                columnName: column?.ColumnName,
+                                columnName: column?.Name,
                                 selectedValues: view.ColumnFilter(column.ColumnName)
                                     .Deserialize<List<string>>());
                         }
                         hb.DropDown(
                             context: context,
-                            ss: ss,
+                            ss: currentSs,
                             column: column,
                             view: view,
                             optionCollection: column.EditChoices(

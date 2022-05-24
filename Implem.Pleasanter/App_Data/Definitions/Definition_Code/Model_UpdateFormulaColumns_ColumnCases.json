@@ -1,0 +1,8 @@
+﻿{
+    "Id": "Model_UpdateFormulaColumns_ColumnCases",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "Update": "1",
+    "IncludeTypeName": "decimal"
+}

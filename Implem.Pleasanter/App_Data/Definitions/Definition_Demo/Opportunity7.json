@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity7",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "文書管理ソフトウェアの販売",
+    "Status": "300",
+    "ClassA": "#Customer4#",
+    "ClassB": "ソフトウェア販売",
+    "ClassC": "50%",
+    "NumA": "688000",
+    "NumB": "549000",
+    "NumC": "139000",
+    "NumD": "20.2",
+    "Manager": "User11",
+    "Owner": "User12",
+    "Creator": "User11",
+    "Updator": "User12",
+    "StartTime": "36652",
+    "CompletionTime": "36679",
+    "CreatedTime": "36642.460416666669",
+    "UpdatedTime": "36640.460416666669"
+}

@@ -1,0 +1,139 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Comments",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "FilterColumns": [
+        "ClassA",
+        "ClassC",
+        "ClassF",
+        "ClassG",
+        "ClassH",
+        "ClassI",
+        "ClassJ",
+        "ClassK",
+        "ClassL",
+        "ClassM",
+        "ClassN",
+        "ClassO",
+        "ClassP",
+        "ClassQ",
+        "ClassR",
+        "ClassS",
+        "ClassT",
+        "ClassU",
+        "ClassV",
+        "ClassW",
+        "ClassX",
+        "ClassY",
+        "ClassZ",
+        "CheckA",
+        "CheckB",
+        "CheckC",
+        "CheckD",
+        "CheckE",
+        "CheckF",
+        "CheckG",
+        "CheckH",
+        "CheckI",
+        "CheckJ",
+        "CheckK",
+        "CheckL",
+        "CheckM",
+        "CheckN",
+        "CheckO",
+        "CheckP",
+        "CheckQ",
+        "CheckR",
+        "CheckS",
+        "CheckT",
+        "CheckU",
+        "CheckV",
+        "CheckW",
+        "CheckX",
+        "CheckY",
+        "CheckZ"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ResultId",
+            "Ver",
+            "ClassA",
+            "ClassB",
+            "ClassC",
+            "ClassD",
+            "ClassE",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "LinkColumns": [
+        "ResultId",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "Attached_file"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "Title_of_seminar",
+            "ChoicesText": "[[#Site25_en#]]",
+            "ValidateRequired": true,
+            "FieldCss": "field-wide",
+            "Link": true
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "Phonetic",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "Name",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "Phone_number",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "Mail_address",
+            "ValidateRequired": true
+        }
+    ],
+    "Links": [
+        {
+            "ColumnName": "ClassA",
+            "SiteId": "#Site25_en#"
+        }
+    ],
+    "Summaries": [
+        {
+            "SiteId": "#Site25_en#",
+            "DestinationReferenceType": "Results",
+            "DestinationColumn": "NumB",
+            "LinkColumn": "ClassA",
+            "Type": "Count",
+            "Id": 1
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}

@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Collections.Generic;
@@ -118,13 +119,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool AllowedIpAddress(string ipAddress)
         {
-            if (AllowIpAddresses?.Any() != true)
-            {
-                return true;
-            }
-            return AllowIpAddresses
-                .Select(addr => IpRange.FromCidr(addr))
-                .Any(range => range.InRange(ipAddress));
+            return IpAddresses.AllowedIpAddress(
+                allowIpAddresses: AllowIpAddresses,
+                ipAddress: ipAddress);
         }
 
         public bool NewFeatures()

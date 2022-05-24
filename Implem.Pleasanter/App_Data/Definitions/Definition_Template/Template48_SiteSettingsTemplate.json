@@ -1,0 +1,237 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "TitleBody",
+        "DescriptionA",
+        "ClassA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "NumF",
+        "NumG",
+        "DateA",
+        "Status",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "DateA",
+        "ClassA",
+        "Owner",
+        "Body",
+        "NumA",
+        "NumB",
+        "NumD",
+        "NumF",
+        "NumC",
+        "NumE",
+        "NumG",
+        "DescriptionA",
+        "Manager",
+        "Status",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "TitleColumns": [
+        "ClassA",
+        "Owner"
+    ],
+    "LinkColumns": [
+        "DateA",
+        "ClassA",
+        "Status",
+        "ClassB",
+        "NumA",
+        "NumB",
+        "NumC",
+        "NumD",
+        "NumE",
+        "Owner",
+        "Manager",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "営業日",
+            "DefaultInput": "0",
+            "Section": "報告内容"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "店舗名",
+            "ChoicesText": "店舗1\n店舗2\n店舗3\n店舗4\n店舗5"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "作成者"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "確認者"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": "100,提出,提,status-new\n900,確認済,済,status-closed\n910,保留,留,status-rejected",
+            "ValidateRequired": true
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "報告内容"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "売上目標",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "売上合計",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "目標達成度",
+            "DecimalPlaces": 1,
+            "EditorReadOnly": true,
+            "Unit": "%"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "客数",
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "客単価",
+            "Format": "C",
+            "EditorReadOnly": true
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "フィードバック",
+            "Section": "フィードバック"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "スタッフ人数",
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "NumG",
+            "LabelText": "スタッフ一人あたりの売上",
+            "Format": "C",
+            "EditorReadOnly": true
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 2,
+            "GroupBy": "ClassB",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumB"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumC",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 4
+                    },
+                    {
+                        "RawValue": 100.0,
+                        "OperatorType": 3
+                    }
+                ]
+            },
+            "Id": 1
+        },
+        {
+            "Target": "NumE",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumD",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 2
+        },
+        {
+            "Target": "NumG",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumB",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumF",
+                        "OperatorType": 4
+                    }
+                ]
+            },
+            "Id": 3
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "Columns",
+            "TimeSeriesGroupBy": "ClassA",
+            "TimeSeriesAggregateType": "Total",
+            "TimeSeriesValue": "NumB",
+            "KambanGroupByY": "Manager"
+        }
+    ],
+    "TitleSeparator": ")"
+}

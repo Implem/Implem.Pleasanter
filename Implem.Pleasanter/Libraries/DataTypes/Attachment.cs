@@ -2,6 +2,7 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -147,6 +148,21 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             {
                 return null;
             }
+            var invalid = BinaryValidators.OnUploading(
+                context: context,
+                attachments: new Attachments() { this });
+            if (invalid != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: invalid));
+            }
+            var isLocal = IsStoreLocalFolder(null);
+            if (isLocal)
+            {
+                WriteToLocal(context: context);
+            }
+            var bin = isLocal ? default : GetBin();
             var statements = new List<SqlStatement>();
             statements.Add(Rds.InsertBinaries(
                 selectIdentity: true,
@@ -156,7 +172,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     .Guid(Guid)
                     .Title(Name ?? FileName)
                     .BinaryType("Attachments")
-                    .Bin(GetBin())
+                    .Bin(bin, _using: !isLocal)
+                    .Bin(raw: "NULL", _using: isLocal)
                     .FileName(Name ?? FileName)
                     .Extension(Extention)
                     .Size(Size)
@@ -175,7 +192,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             if (IsStoreLocalFolder(column))
             {
-                var filename = Path.Combine(Directories.Temp(), Guid, Name ?? FileName);
+                var tempFile = Path.Combine(
+                    Directories.Temp(),
+                    Guid,
+                    Name ?? FileName);
+                var filename = System.IO.File.Exists(tempFile)
+                    ? tempFile
+                    : Path.Combine(
+                        Directories.BinaryStorage(),
+                        "Attachments",
+                        Guid);
                 using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     var sha = System.Security.Cryptography.SHA256.Create();

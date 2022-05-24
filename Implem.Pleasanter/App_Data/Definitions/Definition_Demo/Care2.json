@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "廊下で座り込んでいるのを発見される",
+    "Status": "100",
+    "ClassA": "小林 佳子",
+    "ClassB": "転倒",
+    "ClassD": "ユニット",
+    "DateA": "42818.705555555556",
+    "DateB": "42818.705555555556",
+    "DescriptionA": "移動時には、スタッフが見守り解除を行う。",
+    "Manager": "User8",
+    "Owner": "User8",
+    "Creator": "User8",
+    "Updator": "User8",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36657.543055555558"
+}

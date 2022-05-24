@@ -1,0 +1,105 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Issues",
+    "GridView": 1,
+    "GridColumns": [
+        "IssueId",
+        "ClassA",
+        "ClassB",
+        "TitleBody",
+        "Comments",
+        "Manager",
+        "Owner",
+        "StartTime",
+        "CompletionTime",
+        "WorkValue",
+        "ProgressRate",
+        "RemainingWorkValue",
+        "Status",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "IssueId",
+            "Ver",
+            "Title",
+            "Body",
+            "StartTime",
+            "CompletionTime",
+            "WorkValue",
+            "ProgressRate",
+            "RemainingWorkValue",
+            "Status",
+            "Manager",
+            "Owner",
+            "ClassA",
+            "ClassB",
+            "ClassC",
+            "AttachmentsA",
+            "Comments"
+        ]
+    },
+    "TitleColumns": [
+        "ClassA",
+        "ClassB",
+        "Title"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "作業工程",
+            "ChoicesText": "要件定義\n設計\n構築\nテスト\nリリース・展開\n初期サポート\n運用"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "作業内容",
+            "ChoicesText": "調査\n調整/依頼\n申請\nドキュメント作成\n作業[定型]\n作業[非定型]\n打ち合わせ\nその他"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "機能分類",
+            "ChoicesText": "ネットワーク・セキュリティ\nサーバ\n運用\n業務\n"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "WorkValue"
+        },
+        {
+            "Id": 5,
+            "GroupBy": "[NotGroupBy]",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "Owner",
+            "Type": 1,
+            "Target": "RemainingWorkValue"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "ApiColumnKeyDisplayType": 0,
+            "ApiColumnValueDisplayType": 0,
+            "TimeSeriesGroupBy": "ClassC",
+            "TimeSeriesAggregateType": "Total",
+            "KambanGroupByY": "ClassC",
+            "ApiDataType": 0
+        }
+    ],
+    "SwitchRecordWithAjax": true,
+    "TitleSeparator": "）",
+    "NoDisplayIfReadOnly": false
+}

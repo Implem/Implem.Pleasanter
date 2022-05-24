@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_SetByForm_Site",
+    "Indent": "3",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Include": "Sites"
+}

@@ -1,0 +1,988 @@
+﻿public string GridRows(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_GridRowsCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string ReloadRow(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    var id = context.Forms.Long("Id");
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_ReloadRowCases-->
+
+        default:
+            return ItemUtilities.ClearItemDataResponse(
+                context: context,
+                ss: Site.SiteSettings,
+                id: id)
+                    .Remove($"[data-id=\"{id}\"]")
+                    .Message(Messages.NotFound(context: context))
+                    .ToJson();
+    }
+}
+
+public string CopyRow(Context context)
+{
+    SetSite(
+        context: context,
+        siteOnly: true,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_CopyRowCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string TrashBoxGridRows(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        tableType: Sqls.TableTypes.Deleted);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_TrashBoxGridRowsCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string ImageLibNext(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_ImageLibNextCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public ContentResultInheritance GetByApi(Context context, bool internalRequest = false, string referenceType = null)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (referenceType ?? Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.GetByApi(
+                context: context,
+                ss: Site.SiteSettings,
+                siteId: Site.SiteId,
+                internalRequest: internalRequest);
+<!--Model_GetByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public BaseItemModel[] GetByServerScript(
+    Context context,
+    Context apiContext)
+{
+    SetSite(context: context);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return null;
+    }
+    switch (Site.ReferenceType)
+    {
+        case "Issues":
+            if (SiteId == ReferenceId)
+            {
+                return IssueUtilities.GetByServerScript(
+                    context: apiContext,
+                    ss: Site.IssuesSiteSettings(
+                        context: apiContext,
+                        referenceId: ReferenceId),
+                    internalRequest: true);
+            }
+            else
+            {
+                return new[]
+                {
+                    IssueUtilities.GetByServerScript(
+                        context: apiContext,
+                        ss: Site.IssuesSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId),
+                        issueId: ReferenceId,
+                        internalRequest: true)
+                }.Where(model => model != null).ToArray();
+            }
+        case "Results":
+            if (SiteId == ReferenceId)
+            {
+                return ResultUtilities.GetByServerScript(
+                    context: apiContext,
+                    ss: Site.ResultsSiteSettings(
+                        context: apiContext,
+                        referenceId: ReferenceId),
+                    internalRequest: true);
+            }
+            else
+            {
+                return new[]
+                {
+                    ResultUtilities.GetByServerScript(
+                        context: apiContext,
+                        ss: Site.ResultsSiteSettings(
+                            context: apiContext,
+                            referenceId: ReferenceId),
+                        resultId: ReferenceId,
+                        internalRequest: true)
+                }.Where(model => model != null).ToArray();
+            }
+        default:
+            return null;
+    }
+}
+
+public string Create(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.Create(
+                context: context,
+                parentId: Site.SiteId,
+                inheritPermission: Site.InheritPermission);
+
+<!--Model_CreateCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public ContentResultInheritance CreateByApi(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.CreateByApi(
+                context: context,
+                parentId: Site.SiteId,
+                inheritPermission: Site.InheritPermission);
+<!--Model_CreateByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public bool CreateByServerScript(Context context, Context apiContext, object model)
+{
+    SetSite(context: context);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return false;
+    }
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_CreateByServerScriptCases-->
+
+        default:
+            return false;
+    }
+}
+
+public string Templates(Context context)
+{
+    SetSite(context: context);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.Templates(
+                context: context,
+                parentId: Site.SiteId,
+                inheritPermission: Site.InheritPermission);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string CreateByTemplate(Context context)
+{
+    SetSite(context: context);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.CreateByTemplate(
+                context: context,
+                parentId: Site.SiteId,
+                inheritPermission: Site.InheritPermission);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string SiteMenu(Context context)
+{
+    SetSite(context: context);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.SiteMenuJson(
+                context: context,
+                siteModel: Site);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string Update(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+    switch (ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.Update(
+                context: context,
+                siteModel: Site,
+                siteId: ReferenceId);
+
+<!--Model_UpdateCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string OpenBulkUpdateSelectorDialog(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_OpenBulkUpdateSelectorDialogCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string BulkUpdateSelectChanged(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_BulkUpdateSelectChangedCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string BulkUpdate(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.SiteSettings.ReferenceType)
+    {
+
+<!--Model_BulkUpdateCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string UpdateByGrid(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.SiteSettings.ReferenceType)
+    {
+
+<!--Model_UpdateByGridCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public ContentResultInheritance UpdateByApi(Context context, string referenceType = null)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (referenceType ?? Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.UpdateByApi(
+                context: context,
+                siteModel: Site,
+                siteId: ReferenceId);
+<!--Model_UpdateByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public bool UpdateByServerScript(Context context, Context apiContext, object model)
+{
+    SetSite(context: context);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return false;
+    }
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_UpdateByServerScriptCases-->
+
+        default:
+            return false;
+    }
+}
+
+public string DeleteComment(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.Update(
+                context: context,
+                siteModel: Site,
+                siteId: ReferenceId);
+
+<!--Model_DeleteCommentCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string Copy(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.Copy(
+                context: context,
+                siteModel: Site);
+
+<!--Model_CopyCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string MoveTargets(Context context)
+{
+    SetSite(context: context);
+    return new ResponseCollection().Html("#MoveTargets", new HtmlBuilder()
+        .OptionCollection(
+            context: context,
+            optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(
+                context: context,
+                enabled: true)))
+                    .ToJson();
+}
+
+public string Move(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (ReferenceType)
+    {
+
+<!--Model_MoveCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string BulkMove(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_BulkMoveCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string Delete(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (ReferenceType)
+    {
+
+<!--Model_DeleteCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public ContentResultInheritance DeleteByApi(Context context, string referenceType = null)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (referenceType ?? Site.ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.DeleteByApi(
+                context: context,
+                ss: Site.SiteSettings,
+                siteId: ReferenceId);
+<!--Model_DeleteByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public bool DeleteByServerScript(Context context, Context apiContext)
+{
+    SetSite(context: context);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return false;
+    }
+    switch (Site.ReferenceType)
+    {
+        case "Issues":
+            return IssueUtilities.DeleteByServerScript(
+                context: apiContext,
+                ss: Site.IssuesSiteSettings(
+                    context: apiContext,
+                    referenceId: ReferenceId),
+                issueId: ReferenceId);
+        case "Results":
+            return ResultUtilities.DeleteByServerScript(
+                context: apiContext,
+                ss: Site.ResultsSiteSettings(
+                    context: apiContext,
+                    referenceId: ReferenceId),
+                resultId: ReferenceId);
+        default:
+            return false;
+    }
+}
+
+public string BulkDelete(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_BulkDeleteCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public ContentResultInheritance BulkDeleteByApi(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    if (context.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
+    {
+        switch (Site.ReferenceType)
+        {
+<!--Model_PhysicalDeleteByApiCases-->
+
+            default:
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+        }
+    }
+    else
+    {
+        switch (Site.ReferenceType)
+        {
+<!--Model_BulkDeleteByApiCases-->
+
+            default:
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+        }
+    }
+}
+
+public long BulkDeleteByServerScript(Context context, Context apiContext)
+{
+    SetSite(context: context);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return 0;
+    }
+    if (apiContext.RequestDataString.Deserialize<ApiDeleteOption>()?.PhysicalDelete == true)
+    {
+        switch (Site.ReferenceType)
+        {
+            case "Issues":
+                return IssueUtilities.PhysicalBulkDeleteByServerScript(
+                    context: apiContext,
+                    ss: Site.IssuesSiteSettings(
+                        context: apiContext,
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted));
+            case "Results":
+                return ResultUtilities.PhysicalBulkDeleteByServerScript(
+                    context: apiContext,
+                    ss: Site.ResultsSiteSettings(
+                        context: apiContext,
+                        referenceId: ReferenceId,
+                        setSiteIntegration: true,
+                        tableType: Sqls.TableTypes.Deleted));
+            default:
+                return 0;
+        }
+    }
+    else
+    {
+        switch (Site.ReferenceType)
+        {
+            case "Issues":
+                return IssueUtilities.BulkDeleteByServerScript(
+                    context: apiContext,
+                    ss: Site.IssuesSiteSettings(
+                        context: apiContext,
+                        referenceId: ReferenceId));
+            case "Results":
+                return ResultUtilities.BulkDeleteByServerScript(
+                    context: apiContext,
+                    ss: Site.ResultsSiteSettings(
+                        context: apiContext,
+                        referenceId: ReferenceId));
+            default:
+                return 0;
+        }
+    }
+}
+
+public string DeleteHistory(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        tableType: Sqls.TableTypes.History);
+    if (SiteId == ReferenceId)
+    {
+        return SiteUtilities.DeleteHistory(
+            context: context,
+            ss: Site.SiteSettings,
+            siteId: ReferenceId);
+    }
+    else
+    {
+        switch (Site.ReferenceType)
+        {
+
+<!--Model_DeleteHistoryCases-->
+
+            default:
+                return Messages.ResponseNotFound(context: context).ToJson();
+        }
+    }
+}
+
+public string PhysicalBulkDelete(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        tableType: Sqls.TableTypes.Deleted);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_PhysicalDeleteCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string Restore(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        tableType: Sqls.TableTypes.Deleted);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_RestoreCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string RestoreFromHistory(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        tableType: Sqls.TableTypes.History);
+    switch (ReferenceType)
+    {
+
+<!--Model_RestoreFromHistoryCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string EditSeparateSettings(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_EditSeparateSettingsCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string Separate(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_SeparateCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string Histories(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        tableType: Sqls.TableTypes.NormalAndHistory);
+    switch (ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.Histories(
+                context: context,
+                siteModel: Site);
+
+<!--Model_HistoriesCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string History(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        tableType: Sqls.TableTypes.History);
+    switch (ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.History(
+                context: context,
+                siteModel: Site);
+
+<!--Model_HistoryCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string EditorJson(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (ReferenceType)
+    {
+        case "Sites":
+            return SiteUtilities.EditorJson(
+                context: context,
+                siteModel: Site);
+
+<!--Model_EditorJsonCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string UpdateByCalendar(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_UpdateByCalendarCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string UpdateByKamban(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_UpdateByKambanCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string OpenImportSitePackageDialog(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return Libraries.SitePackages.Utilities.OpenImportSitePackageDialog(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+            return Libraries.SitePackages.Utilities.OpenImportSitePackageDialog(
+                context: context,
+                ss: Site.SiteSettings);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public string ImportSitePackage(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return Libraries.SitePackages.Utilities.ImportSitePackage(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+        default:
+            throw new NotImplementedException();
+    }
+}
+
+public string OpenExportSitePackageDialog(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return Libraries.SitePackages.Utilities.OpenExportSitePackageDialog(
+                context: context,
+                ss: Site.SiteSettings,
+                recursive: true);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+            return Libraries.SitePackages.Utilities.OpenExportSitePackageDialog(
+                context: context,
+                ss: Site.SiteSettings,
+                recursive: false);
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+public ResponseFile ExportSitePackage(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+            return Libraries.SitePackages.Utilities.ExportSitePackage(
+                context: context,
+                ss: Site.SiteSettings);
+        case "Issues":
+        case "Results":
+        case "Wikis":
+            return Libraries.SitePackages.Utilities.ExportSitePackage(
+                context: context,
+                ss: Site.SiteSettings);
+        default:
+            return null;
+    }
+}
+
+public ContentResultInheritance CopySitePackageByApi(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (Site.ReferenceType)
+    {
+        case "Sites":
+        case "Issues":
+        case "Results":
+        case "Wikis":
+            var response = Libraries.SitePackages.Utilities.ImportSitePackage(
+                context: context,
+                ss: Site.SiteSettings,
+                apiData: context.RequestDataString.Deserialize<Sites.SitePackageApiModel>());
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - Site.SiteSettings.ApiCount,
+                response: new
+                {
+                    Data = response
+                });
+        default:
+            return null;
+    }
+}

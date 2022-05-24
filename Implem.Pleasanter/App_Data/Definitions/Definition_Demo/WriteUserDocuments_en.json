@@ -1,0 +1,21 @@
+﻿{
+    "Id": "WriteUserDocuments_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Write user documents",
+    "WorkValue": "90",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Configuration",
+    "ClassB": "Writing_Documents",
+    "ClassC": "Business task",
+    "Manager": "User9_en",
+    "Owner": "User9_en",
+    "Creator": "User9_en",
+    "Updator": "User9_en",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}

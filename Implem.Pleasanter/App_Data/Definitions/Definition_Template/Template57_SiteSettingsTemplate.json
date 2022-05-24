@@ -1,0 +1,228 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridView": 1,
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassE",
+        "NumB",
+        "NumE",
+        "DateA",
+        "ClassC",
+        "DescriptionB",
+        "DescriptionC",
+        "DescriptionD",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "DescriptionA",
+        "Body",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "Title",
+        "ClassA",
+        "ClassB",
+        "ClassD",
+        "ClassE",
+        "ClassC",
+        "DateA",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "NumA",
+        "NumC",
+        "NumD",
+        "NumF",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "店舗名",
+            "FieldCss": "field-normal"
+        },
+        {
+            "ColumnName": "Status",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "Manager",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "エリア",
+            "ChoicesText": "エリア1\nエリア2\nエリア3\nエリア4"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "住所",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "オーナー"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "電話"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "社員数",
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "敷地面積",
+            "Unit": "㎡"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "オープン"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "パート・アルバイト数",
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "合計人数",
+            "EditorReadOnly": true,
+            "Unit": "人"
+        },
+        {
+            "ColumnName": "Owner",
+            "ChoicesText": ""
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "店舗形態",
+            "ChoicesText": "店舗形態1\n店舗形態2\n店舗形態3\n店舗形態4\n店舗形態5"
+        },
+        {
+            "ColumnName": "NumE",
+            "LabelText": "家賃",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumF",
+            "LabelText": "年商",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "店舗戦略"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "店舗紹介"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "立地条件"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "客層"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassA",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 3,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumC"
+        },
+        {
+            "Id": 4,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumD"
+        }
+    ],
+    "Formulas": [
+        {
+            "Target": "NumD",
+            "Formula": {
+                "OperatorType": 0,
+                "Children": [
+                    {
+                        "ColumnName": "NumA",
+                        "OperatorType": 0
+                    },
+                    {
+                        "ColumnName": "NumC",
+                        "OperatorType": 1
+                    }
+                ]
+            },
+            "Id": 1
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "CrosstabGroupByX": "DateA",
+            "CrosstabGroupByY": "ClassE",
+            "TimeSeriesGroupBy": "ClassE",
+            "KambanValue": "NumD"
+        }
+    ],
+    "TitleSeparator": ")"
+}

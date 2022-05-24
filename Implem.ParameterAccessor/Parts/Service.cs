@@ -9,6 +9,7 @@
         public bool WithoutChangeDefaultPassword;
         public string DefaultLanguage;
         public string AbsoluteUri;
+        public long MaxRequestBodySize;
         public bool RequireHttps;
         public bool ShowProfiles;
         public bool ShowChangePassword;

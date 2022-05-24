@@ -1,0 +1,50 @@
+﻿public ErrorData Delete(Context context, SiteSettings ss)
+{
+    var siteMenu = SiteInfo.TenantCaches.Get(TenantId)?
+        .SiteMenu
+        .Children(
+            context: context,
+            siteId: ss.SiteId,
+            withParent: true);
+    var siteIds = siteMenu
+        .Select(o => o.SiteId)
+        .ToList();
+    var outside = Rds.ExecuteTable(
+        context: context,
+        statements: Rds.SelectSites(
+            column: Rds.SitesColumn()
+                .SiteId()
+                .Title(),
+            where: Rds.SitesWhere()
+                .TenantId(context.TenantId)
+                .InheritPermission_In(siteIds)))
+                    .AsEnumerable()
+                    .FirstOrDefault(o => !siteMenu.Any(p => p.SiteId == o.Long("SiteId")));
+    if (outside != null)
+    {
+        return new ErrorData(
+            type: Error.Types.CannotDeletePermissionInherited,
+            data: $"{outside.Long("SiteId")} {outside.String("Title")}");
+    }
+    Repository.ExecuteNonQuery(
+        context: context,
+        transactional: true,
+        statements: new SqlStatement[]
+        {
+            Rds.DeleteItems(
+                factory: context,
+                where: Rds.ItemsWhere().SiteId_In(siteIds)),
+
+<!--Model_Delete_SitesItems-->
+
+            Rds.DeleteSites(
+                factory: context,
+                where: Rds.SitesWhere()
+                    .TenantId(TenantId)
+                    .SiteId_In(siteIds))
+        });
+    SiteInfo.DeleteSiteCaches(
+        context: context,
+        siteIds: siteIds);
+    return new ErrorData(type: Error.Types.None);
+}

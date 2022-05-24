@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigApplications_en",
+    "Language": "en",
+    "Type": "Issues",
+    "ParentId": "Site2_en",
+    "Title": "Business application configuration",
+    "WorkValue": "60",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "Configuration",
+    "ClassB": "Work[Ad-hoc]",
+    "ClassC": "Business task",
+    "Manager": "User7_en",
+    "Owner": "User7_en",
+    "Creator": "User7_en",
+    "Updator": "User7_en",
+    "StartTime": "36668",
+    "CompletionTime": "36672",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}

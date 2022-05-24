@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Care9",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site30",
+    "Title": "介護士が近くにいない時にご利用者が車椅子から立ち上がろうとして転落しそうになる",
+    "Status": "100",
+    "ClassA": "佐々木 春香",
+    "ClassB": "転倒",
+    "ClassD": "個人部屋",
+    "DateA": "42776.705555555556",
+    "DateB": "42776.705555555556",
+    "DescriptionA": "スタッフが席を外す前に、あらかじめソファーやベッドに移乗させて安全を確保する。",
+    "Manager": "User17",
+    "Owner": "User17",
+    "Creator": "User17",
+    "Updator": "User17",
+    "CreatedTime": "36643.39166666667",
+    "UpdatedTime": "36654.882638888892"
+}

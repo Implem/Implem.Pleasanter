@@ -1,0 +1,324 @@
+﻿public static string EditorNew(Context context, SiteSettings ss)
+{
+
+<!--Model_Utilities_LimitTemplate-->
+
+    return Editor(context: context, ss: ss, #modelName#Model: new #ModelName#Model(
+        context: context,
+
+<!--Model_Utilities_SiteSettingsUtilities-->
+
+        methodType: BaseModel.MethodTypes.New));
+}
+
+public static string Editor(
+    Context context, SiteSettings ss, #IdType# #modelName#Id, bool clearSessions)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+        #modelName#Id: #modelName#Id,
+        clearSessions: clearSessions,
+        methodType: BaseModel.MethodTypes.Edit);
+    #modelName#Model.SwitchTargets = GetSwitchTargets(
+        context: context,
+        ss: SiteSettingsUtilities.#TableName#SiteSettings(context: context),
+        #modelName#Id: #modelName#Model.#ModelName#Id);
+    return Editor(context: context, ss: ss, #modelName#Model: #modelName#Model);
+}
+
+public static string Editor(
+    Context context, SiteSettings ss, #ModelName#Model #modelName#Model)
+{
+    var invalid = #ModelName#Validators.OnEditing(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return HtmlTemplates.Error(
+            context: context,
+            errorData: invalid);
+    }
+    var hb = new HtmlBuilder();
+    return hb.Template(
+        context: context,
+        ss: ss,
+        view: null,
+        verType: #modelName#Model.VerType,
+        methodType: #modelName#Model.MethodType,
+        referenceType: "#TableName#",
+        title: #modelName#Model.MethodType == BaseModel.MethodTypes.New
+            ? Displays.#TableName#(context: context) + " - " + Displays.New(context: context)
+            : #modelName#Model.Title.MessageDisplay(context: context),
+        action: () => hb
+            .Editor(
+                context: context,
+                ss: ss,
+                #modelName#Model: #modelName#Model)).ToString();
+}
+
+private static HtmlBuilder Editor(
+    this HtmlBuilder hb, Context context, SiteSettings ss, #ModelName#Model #modelName#Model)
+{
+    var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
+    var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
+        context: context,
+        ss: ss,
+        column: commentsColumn,
+        baseModel: #modelName#Model);
+    var showComments = ss.ShowComments(commentsColumnPermissionType);
+    var tabsCss = showComments ? null : "max";
+    return hb.Div(id: "Editor", action: () => hb
+        .Form(
+            attributes: new HtmlAttributes()
+                .Id("MainForm")
+                .Class("main-form confirm-unload")
+                .Action(#modelName#Model.#ModelName#Id != 0
+                    ? Locations.Action(
+                        context: context,
+                        controller: "#TableName#",
+                        id: #modelName#Model.#ModelName#Id)
+                    : Locations.Action(
+                        context: context,
+                        controller: "#TableName#")),
+            action: () => hb
+                .RecordHeader(
+                    context: context,
+                    ss: ss,
+                    baseModel: #modelName#Model,
+                    tableName: "#TableName#")
+                .Div(
+                    id: "EditorComments", action: () => hb
+                        .Comments(
+                            context: context,
+                            ss: ss,
+                            comments: #modelName#Model.Comments,
+                            column: commentsColumn,
+                            verType: #modelName#Model.VerType,
+                            columnPermissionType: commentsColumnPermissionType),
+                    _using: showComments)
+                .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
+                    .EditorTabs(
+                        context: context,
+                        #modelName#Model: #modelName#Model)
+                    .FieldSetGeneral(context: context, ss: ss, #modelName#Model: #modelName#Model)
+                    .FieldSet(
+                        attributes: new HtmlAttributes()
+                            .Id("FieldSetHistories")
+                            .DataAction("Histories")
+                            .DataMethod("post"),
+                        _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                            && !context.Publish)
+                    .MainCommands(
+                        context: context,
+                        ss: ss,
+                        verType: #modelName#Model.VerType,
+                        updateButton: true,
+                        mailButton: true,
+                        deleteButton: true,
+                        extensions: () => hb
+                            .MainCommandExtensions(
+                                context: context,
+                                #modelName#Model: #modelName#Model,
+                                ss: ss)))
+                .Hidden(
+                    controlId: "BaseUrl",
+                    value: Locations.BaseUrl(context: context))
+                .Hidden(
+                    controlId: "Ver",
+                    value: #modelName#Model.Ver.ToString())
+                .Hidden(
+                    controlId: "MethodType",
+                    value: #modelName#Model.MethodType.ToString().ToLower())
+                .Hidden(
+                    controlId: "#TableName#_Timestamp",
+                    css: "always-send",
+                    value: #modelName#Model.Timestamp)
+                .Hidden(
+                    controlId: "SwitchTargets",
+                    css: "always-send",
+                    value: #modelName#Model.SwitchTargets?.Join(),
+                    _using: !context.Ajax))
+        .OutgoingMailsForm(
+            context: context,
+            ss: ss,
+            referenceType: "#TableName#",
+            referenceId: #modelName#Model.#ModelName#Id,
+            referenceVer: #modelName#Model.Ver)
+        .DropDownSearchDialog(
+            context: context,
+            id: ss.SiteId)
+        .CopyDialog(
+            context: context,
+            ss: ss)
+        .OutgoingMailDialog()
+        .EditorExtensions(
+            context: context,
+            #modelName#Model: #modelName#Model,
+            ss: ss));
+}
+
+private static HtmlBuilder EditorTabs(
+    this HtmlBuilder hb, Context context, #ModelName#Model #modelName#Model)
+{
+    return hb.Ul(id: "EditorTabs", action: () => hb
+        .Li(action: () => hb
+            .A(
+                href: "#FieldSetGeneral",
+                text: Displays.General(context: context)))
+        .Li(
+            _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                && !context.Publish,
+            action: () => hb
+                .A(
+                    href: "#FieldSetHistories",
+                    text: Displays.ChangeHistoryList(context: context))));
+}
+
+private static HtmlBuilder FieldSetGeneral(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
+        .FieldSetGeneralColumns(
+            context: context, ss: ss, #modelName#Model: #modelName#Model));
+}
+
+private static HtmlBuilder FieldSetGeneralColumns(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool preview = false)
+{
+    ss.GetEditorColumns(context: context).ForEach(column =>
+        hb.Field(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            column: column,
+            preview: preview));
+    if (!preview)
+    {
+        hb.VerUpCheckBox(
+            context: context,
+            ss: ss,
+            baseModel: #modelName#Model);
+    }
+    return hb;
+}
+
+public static HtmlBuilder Field(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    Column column,
+    bool controlOnly = false,
+    bool alwaysSend = false,
+    string idSuffix = null,
+    bool preview = false,
+    bool disableSection = false)
+{
+    var value = #modelName#Model.ControlValue(
+        context: context,
+        ss: ss,
+        column: column);
+    if (value != null)
+    {
+        hb.Field(
+            context: context,
+            ss: ss,
+            column: column,
+            methodType: #modelName#Model.MethodType,
+            value: value,
+            columnPermissionType: Permissions.ColumnPermissionType(
+                context: context,
+                ss: ss,
+                column: column,
+                baseModel: #modelName#Model),
+            controlOnly: controlOnly,
+            alwaysSend: alwaysSend,
+            idSuffix: idSuffix,
+            preview: preview,
+            disableSection: disableSection);
+    }
+    return hb;
+}
+
+public static string ControlValue(
+    this #ModelName#Model #modelName#Model,
+    Context context,
+    SiteSettings ss,
+    Column column)
+{
+    switch (column.Name)
+    {
+
+<!--Model_Utilities_FieldCases-->
+
+        default:
+            switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+            {
+                case "Class":
+                    return #modelName#Model.GetClass(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Num":
+                    return #modelName#Model.GetNum(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Date":
+                    return #modelName#Model.GetDate(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Description":
+                    return #modelName#Model.GetDescription(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Check":
+                    return #modelName#Model.GetCheck(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                case "Attachments":
+                    return #modelName#Model.GetAttachments(columnName: column.Name)
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
+                default: return null;
+            }
+    }
+}
+
+private static HtmlBuilder MainCommandExtensions(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    return hb;
+}
+
+private static HtmlBuilder EditorExtensions(
+    this HtmlBuilder hb,
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model)
+{
+    return hb;
+}

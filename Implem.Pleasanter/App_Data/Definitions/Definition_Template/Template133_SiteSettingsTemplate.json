@@ -1,0 +1,150 @@
+﻿{
+    "Version": 1.011,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "ClassF",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassE",
+        "DateB",
+        "UpdatedTime",
+        "Updator"
+    ],
+    "EditorColumns": [
+        "ResultId",
+        "Ver",
+        "ClassF",
+        "Title",
+        "ClassA",
+        "NumA",
+        "NumB",
+        "ClassB",
+        "ClassC",
+        "ClassD",
+        "ClassE",
+        "DescriptionA",
+        "NumD",
+        "DateA",
+        "NumC",
+        "Body",
+        "DateB",
+        "DescriptionB",
+        "AttachmentsA",
+        "Comments"
+    ],
+    "LinkColumns": [
+        "ResultId",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "HistoryColumns": [
+        "Ver",
+        "Comments",
+        "Title",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "添付資料"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "建物名"
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "部屋番号"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "敷金"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "保証金"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "礼金"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "住所",
+            "FieldCss": "field-wide"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "物件種目",
+            "ChoicesText": "賃貸(アパート・マンション・一戸建て)\n貸店舗（テナント）\n貸事務所（貸オフィス）\n貸駐車場\n貸ビル・貸倉庫・その他"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "賃料",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumB",
+            "LabelText": "管理費等",
+            "Format": "C"
+        },
+        {
+            "ColumnName": "NumC",
+            "LabelText": "専有面積",
+            "Unit": "㎡"
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "築年月"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "アクセス"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "備考"
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "設備"
+        },
+        {
+            "ColumnName": "NumD",
+            "LabelText": "最寄り駅からのアクセス",
+            "Unit": "分"
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "契約日"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "ClassF",
+            "Type": 0,
+            "Target": ""
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassF",
+            "Type": 2,
+            "Target": "NumA"
+        }
+    ],
+    "ViewLatestId": 1,
+    "Views": [
+        {
+            "Id": 1,
+            "Name": "標準",
+            "TimeSeriesGroupBy": "ClassF"
+        }
+    ],
+    "EnableKamban": false,
+    "TitleSeparator": ")"
+}

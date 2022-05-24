@@ -1,0 +1,39 @@
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+namespace Implem.Pleasanter.Libraries.General
+{
+    public static class Error
+    {
+        public enum Types
+        {
+            None,
+
+<!--Error_Types-->
+
+        }
+
+        public static bool Has(this Types type)
+        {
+            return type != Types.None;
+        }
+
+        public static Message Message(this Types type, Context context, params string[] data)
+        {
+            switch (type)
+            {
+
+<!--Error_Messages-->
+
+                default: return null;
+            }
+        }
+
+        public static string MessageJson(this Types type, Context context, params string[] data)
+        {
+            return new ResponseCollection().Message(type.Message(
+                context: context,
+                data: data)).ToJson();
+        }
+    }
+}

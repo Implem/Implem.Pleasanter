@@ -436,7 +436,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             }
                         }
                     }
-                    else if (Linked())
+                    else if (Linked(context: context))
                     {
                         if (setChoices)
                         {
@@ -445,7 +445,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 settings: line).SiteId + "]]";
                             if (linkHash != null && linkHash.ContainsKey(key))
                             {
-                                if (Linked(withoutWiki: true))
+                                if (Linked(
+                                    context: context,
+                                    withoutWiki: true))
                                 {
                                     linkHash.Get(key)?
                                         .ToDictionary(
@@ -595,7 +597,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 switch (Type)
                 {
                     case Types.Normal:
-                        if (Linked()
+                        if (Linked(context: context)
                             && SiteSettings?.Links
                                 .Where(o => o.SiteId > 0)
                                 .Where(o => o.ColumnName == ColumnName)
@@ -707,7 +709,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : selectedValues?.ToLong().ToSingleList())
                     ?.Where(o => o > 0)
                     .ToList();
-            if (ids?.Any() == true && Linked(withoutWiki: true))
+            if (ids?.Any() == true && Linked(
+                context: context,
+                withoutWiki: true))
             {
                 if (LinkedTitleHash.ContainsKey(selectedValues))
                 {
@@ -1188,13 +1192,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public bool Linked(bool withoutWiki = false)
+        public bool Linked(Context context, bool withoutWiki = false)
         {
             return SiteSettings?.Links?
                 .Where(o => o.SiteId > 0)
                 .Any(o => o.ColumnName == Name
                     && (!withoutWiki
-                        || SiteSettings?.JoinedSsHash?.Keys.Contains(o.SiteId) == true)) == true;
+                        || SiteInfo.Sites(context: context)
+                            .Get(o.SiteId)
+                            ?.String("ReferenceType") != "Wikis")) == true;
         }
 
         public bool LinkedWithNewSet()
@@ -1562,6 +1568,132 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                     }
                     break;
+                case "Sites":
+                    switch (columnName)
+                    {
+                        case "TenantId":
+                            sql.Sites_TenantId(tableName: path, _as: _as);
+                            break;
+                        case "SiteId":
+                            sql.Sites_SiteId(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.Sites_UpdatedTime(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.Sites_Ver(tableName: path, _as: _as);
+                            break;
+                        case "Body":
+                            sql.Sites_Body(tableName: path, _as: _as);
+                            break;
+                        case "SiteName":
+                            sql.Sites_SiteName(tableName: path, _as: _as);
+                            break;
+                        case "SiteGroupName":
+                            sql.Sites_SiteGroupName(tableName: path, _as: _as);
+                            break;
+                        case "GridGuide":
+                            sql.Sites_GridGuide(tableName: path, _as: _as);
+                            break;
+                        case "EditorGuide":
+                            sql.Sites_EditorGuide(tableName: path, _as: _as);
+                            break;
+                        case "CalendarGuide":
+                            sql.Sites_CalendarGuide(tableName: path, _as: _as);
+                            break;
+                        case "CrosstabGuide":
+                            sql.Sites_CrosstabGuide(tableName: path, _as: _as);
+                            break;
+                        case "GanttGuide":
+                            sql.Sites_GanttGuide(tableName: path, _as: _as);
+                            break;
+                        case "BurnDownGuide":
+                            sql.Sites_BurnDownGuide(tableName: path, _as: _as);
+                            break;
+                        case "TimeSeriesGuide":
+                            sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
+                            break;
+                        case "KambanGuide":
+                            sql.Sites_KambanGuide(tableName: path, _as: _as);
+                            break;
+                        case "ImageLibGuide":
+                            sql.Sites_ImageLibGuide(tableName: path, _as: _as);
+                            break;
+                        case "ReferenceType":
+                            sql.Sites_ReferenceType(tableName: path, _as: _as);
+                            break;
+                        case "ParentId":
+                            sql.Sites_ParentId(tableName: path, _as: _as);
+                            break;
+                        case "InheritPermission":
+                            sql.Sites_InheritPermission(tableName: path, _as: _as);
+                            break;
+                        case "SiteSettings":
+                            sql.Sites_SiteSettings(tableName: path, _as: _as);
+                            break;
+                        case "Publish":
+                            sql.Sites_Publish(tableName: path, _as: _as);
+                            break;
+                        case "DisableCrossSearch":
+                            sql.Sites_DisableCrossSearch(tableName: path, _as: _as);
+                            break;
+                        case "LockedTime":
+                            sql.Sites_LockedTime(tableName: path, _as: _as);
+                            break;
+                        case "LockedUser":
+                            sql.Sites_LockedUser(tableName: path, _as: _as);
+                            break;
+                        case "ApiCountDate":
+                            sql.Sites_ApiCountDate(tableName: path, _as: _as);
+                            break;
+                        case "ApiCount":
+                            sql.Sites_ApiCount(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.Sites_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.Sites_Creator(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.Sites_Updator(tableName: path, _as: _as);
+                            break;
+                        case "CreatedTime":
+                            sql.Sites_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        case "TitleBody":
+                            sql.Sites_Body(tableName: path, _as: Joined
+                                ? path + ",Body"
+                                : "Body");
+                            goto case "Title";
+                        case "Title":
+                            sql
+                                .Sites_Title(tableName: path, _as: _as)
+                                .ItemTitle(
+                                    tableName: path,
+                                    _as: Joined
+                                        ? path + ",ItemTitle"
+                                        : "ItemTitle");
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
+                            {
+                                case "Class":
+                                case "Num":
+                                case "Date":
+                                case "Description":
+                                case "Check":
+                                case "Attachments":
+                                    sql.Add(
+                                        columnBracket: $"\"{columnName}\"",
+                                        tableName: path,
+                                        columnName: columnName,
+                                        _as: _as);
+                                break;
+                            }
+                            break;
+                    }
+                    break;
                 case "Users":
                     switch (columnName)
                     {
@@ -1714,132 +1846,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "UpdatedTime":
                             sql.Users_UpdatedTime(tableName: path, _as: _as);
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
-                            {
-                                case "Class":
-                                case "Num":
-                                case "Date":
-                                case "Description":
-                                case "Check":
-                                case "Attachments":
-                                    sql.Add(
-                                        columnBracket: $"\"{columnName}\"",
-                                        tableName: path,
-                                        columnName: columnName,
-                                        _as: _as);
-                                break;
-                            }
-                            break;
-                    }
-                    break;
-                case "Sites":
-                    switch (columnName)
-                    {
-                        case "TenantId":
-                            sql.Sites_TenantId(tableName: path, _as: _as);
-                            break;
-                        case "SiteId":
-                            sql.Sites_SiteId(tableName: path, _as: _as);
-                            break;
-                        case "UpdatedTime":
-                            sql.Sites_UpdatedTime(tableName: path, _as: _as);
-                            break;
-                        case "Ver":
-                            sql.Sites_Ver(tableName: path, _as: _as);
-                            break;
-                        case "Body":
-                            sql.Sites_Body(tableName: path, _as: _as);
-                            break;
-                        case "SiteName":
-                            sql.Sites_SiteName(tableName: path, _as: _as);
-                            break;
-                        case "SiteGroupName":
-                            sql.Sites_SiteGroupName(tableName: path, _as: _as);
-                            break;
-                        case "GridGuide":
-                            sql.Sites_GridGuide(tableName: path, _as: _as);
-                            break;
-                        case "EditorGuide":
-                            sql.Sites_EditorGuide(tableName: path, _as: _as);
-                            break;
-                        case "CalendarGuide":
-                            sql.Sites_CalendarGuide(tableName: path, _as: _as);
-                            break;
-                        case "CrosstabGuide":
-                            sql.Sites_CrosstabGuide(tableName: path, _as: _as);
-                            break;
-                        case "GanttGuide":
-                            sql.Sites_GanttGuide(tableName: path, _as: _as);
-                            break;
-                        case "BurnDownGuide":
-                            sql.Sites_BurnDownGuide(tableName: path, _as: _as);
-                            break;
-                        case "TimeSeriesGuide":
-                            sql.Sites_TimeSeriesGuide(tableName: path, _as: _as);
-                            break;
-                        case "KambanGuide":
-                            sql.Sites_KambanGuide(tableName: path, _as: _as);
-                            break;
-                        case "ImageLibGuide":
-                            sql.Sites_ImageLibGuide(tableName: path, _as: _as);
-                            break;
-                        case "ReferenceType":
-                            sql.Sites_ReferenceType(tableName: path, _as: _as);
-                            break;
-                        case "ParentId":
-                            sql.Sites_ParentId(tableName: path, _as: _as);
-                            break;
-                        case "InheritPermission":
-                            sql.Sites_InheritPermission(tableName: path, _as: _as);
-                            break;
-                        case "SiteSettings":
-                            sql.Sites_SiteSettings(tableName: path, _as: _as);
-                            break;
-                        case "Publish":
-                            sql.Sites_Publish(tableName: path, _as: _as);
-                            break;
-                        case "DisableCrossSearch":
-                            sql.Sites_DisableCrossSearch(tableName: path, _as: _as);
-                            break;
-                        case "LockedTime":
-                            sql.Sites_LockedTime(tableName: path, _as: _as);
-                            break;
-                        case "LockedUser":
-                            sql.Sites_LockedUser(tableName: path, _as: _as);
-                            break;
-                        case "ApiCountDate":
-                            sql.Sites_ApiCountDate(tableName: path, _as: _as);
-                            break;
-                        case "ApiCount":
-                            sql.Sites_ApiCount(tableName: path, _as: _as);
-                            break;
-                        case "Comments":
-                            sql.Sites_Comments(tableName: path, _as: _as);
-                            break;
-                        case "Creator":
-                            sql.Sites_Creator(tableName: path, _as: _as);
-                            break;
-                        case "Updator":
-                            sql.Sites_Updator(tableName: path, _as: _as);
-                            break;
-                        case "CreatedTime":
-                            sql.Sites_CreatedTime(tableName: path, _as: _as);
-                            break;
-                        case "TitleBody":
-                            sql.Sites_Body(tableName: path, _as: Joined
-                                ? path + ",Body"
-                                : "Body");
-                            goto case "Title";
-                        case "Title":
-                            sql
-                                .Sites_Title(tableName: path, _as: _as)
-                                .ItemTitle(
-                                    tableName: path,
-                                    _as: Joined
-                                        ? path + ",ItemTitle"
-                                        : "ItemTitle");
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))

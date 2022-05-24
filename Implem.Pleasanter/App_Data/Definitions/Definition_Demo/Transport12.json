@@ -1,0 +1,19 @@
+﻿{
+    "Id": "Transport12",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site18",
+    "Status": "900",
+    "ClassA": "本社",
+    "ClassB": "マネジメント快適化ホールディングス",
+    "ClassE": "顧客定例会参加のため",
+    "ClassH": "品川支店",
+    "NumA": "859",
+    "DateA": "36636.705555555556",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "CreatedTime": "36636.705555555556",
+    "UpdatedTime": "36636.705555555556"
+}

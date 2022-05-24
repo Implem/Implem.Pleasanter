@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Lookup_Data",
+    "RepeatType": "Table",
+    "Indent": "2",
+    "GenericUi": "1",
+    "Exclude": "Tenants,Registrations,Sites,Wikis"
+}

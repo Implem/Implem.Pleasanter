@@ -1,0 +1,24 @@
+﻿case "#TableName#":
+    var #modelName#Ss = Site.#TableName#SiteSettings(
+        context: apiContext,
+        referenceId: ReferenceId);
+    if(model is string #modelName#RequestString)
+    {
+        apiContext.ApiRequestBody = #modelName#RequestString;
+    }
+    else if(model is ServerScriptModelApiModel #modelName#ApiModel)
+    {
+        apiContext.ApiRequestBody = #modelName#ApiModel.ToJsonString(
+            context: apiContext,
+            ss: #modelName#Ss);
+    }
+    else
+    {
+        return false;
+    }
+    return #ModelName#Utilities.UpdateByServerScript(
+        context: apiContext,
+        ss: #modelName#Ss,
+        #modelName#Id: ReferenceId,
+        previousTitle: Title,
+        model: model);
