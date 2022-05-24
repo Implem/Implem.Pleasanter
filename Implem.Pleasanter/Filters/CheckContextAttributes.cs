@@ -30,7 +30,7 @@ namespace Implem.PleasanterFilters
                 filterContext.Result = new ContentResult()
                 {
                     StatusCode = 403,
-                    Content = "HTTP 403 Forbidden"
+                    Content = "403 Forbidden"
                 };
                 return;
             }
