@@ -463,8 +463,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     hb.Td(
                                         context: context,
                                         column: column,
-                                        value: serverScriptModelColumn?.RawText
-                                            ?? string.Empty,
+                                        value: string.Empty,
                                         tabIndex: null,
                                         serverScriptModelColumn: serverScriptModelColumn);
                                 }
@@ -528,8 +527,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     hb.Td(
                                         context: context,
                                         column: column,
-                                        value: serverScriptModelColumn?.RawText
-                                            ?? string.Empty,
+                                        value: string.Empty,
                                         tabIndex: null,
                                         serverScriptModelColumn: serverScriptModelColumn);
                                 }
