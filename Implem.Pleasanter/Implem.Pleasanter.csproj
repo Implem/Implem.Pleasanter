@@ -90,4 +90,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
