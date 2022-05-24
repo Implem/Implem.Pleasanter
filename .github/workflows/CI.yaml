@@ -10,6 +10,7 @@ env:
 #  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.pleasanter_f16e }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
+  DOTNET_CORE_DIR: net6.0
   WORKING_DIRECTORY: Implem.Pleasanter
   WORKING_DIR_CODEDEFINER: Implem.CodeDefiner
   WORKING_DIR_TESTAUTOMATION: Implem.TestAutomation
@@ -56,7 +57,7 @@ jobs:
               working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}
             - name: run Implem.TestAutomation
               run: dotnet Implem.TestAutomation.dll /p . /s
-              working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}/bin/Release/net6.0
+              working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}/bin/${{ env.CONFIGURATION }}/${{ env.DOTNET_CORE_DIR }}
             - name: clean up on docker-compose
               run: docker-compose down
               working-directory: ./
