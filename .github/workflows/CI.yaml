@@ -3,7 +3,7 @@ on:
   push:
     branches: ['feature/daily-build-and-test']
   schedule:
-        - cron: '15 5,13 * * *'   # UTC (= 22:00 JST)
+    - cron: '0 13 * * *'   # UTC (= 22:00 JST)
 env:
   AZURE_WEBAPP_NAME: pleasanter
   AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
@@ -26,8 +26,6 @@ jobs:
             POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
         steps:
             - uses: actions/checkout@v3
-              with:
-                ref: feature/daily-build-and-test
             - name: Deploy Started Notification
               uses: mikesprague/teams-incoming-webhook-action@v1
               with:
