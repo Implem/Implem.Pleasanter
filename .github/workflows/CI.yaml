@@ -1,8 +1,8 @@
 name: CI
 on:
-    push:
-        branches: ['feature/daily-build-and-test']
-    schedule:
+  push:
+    branches: ['feature/daily-build-and-test']
+  schedule:
         - cron: '15 5,13 * * *'   # UTC (= 22:00 JST)
 env:
   AZURE_WEBAPP_NAME: pleasanter
@@ -46,10 +46,10 @@ jobs:
                 COMPOSE_DOCKER_CLI_BUILD: 1
               run: docker-compose build
             - name: run Implem.CodeDefiner on docker-compose
-              run: docker-compose run --rm --name codedefiner implem.codedefiner _rds
+              run: docker-compose run --rm --name codedefiner Implem.CodeDefiner _rds
               working-directory: ./
             - name: run Implem.Pleasanter on docker-compose
-              run: docker-compose run -d -p 50001:80 --rm --name pleasanter implem.pleasanter
+              run: docker-compose run -d -p 50001:80 --rm --name pleasanter Implem.Pleasanter
               working-directory: ./
             - name: build Implem.TestAutomation
               run: dotnet build "Implem.TestAutomation.csproj" -c Release
