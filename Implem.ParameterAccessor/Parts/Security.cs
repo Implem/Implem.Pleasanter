@@ -3,6 +3,7 @@ namespace Implem.ParameterAccessor.Parts
 {
     public class Security
     {
+        public List<string> AllowIpAddresses;
         public bool MimeTypeCheckOnApi;
         public List<string> PrivilegedUsers;
         public bool RevealUserDisabled;
