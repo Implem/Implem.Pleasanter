@@ -58,7 +58,7 @@ namespace Implem.TestAutomation
                             autoTestScenario.TestCases
                                 .SelectMany(testCase => Parameters.ExtendedAutoTestOperations
                                     .Where(testOperateion => testOperateion.TestPartsPath
-                                    .EndsWith($"{testCase.TestPartsPath}{Path.DirectorySeparatorChar}{testCase.TestPartsName}")))
+                                        .EndsWith($"{testCase.TestPartsPath}{Path.DirectorySeparatorChar}{testCase.TestPartsName}")))
                                 .ForEach(testOperation =>
                                     TestAutomationExecute.ExecuteAutoTest(
                                         testOperation: testOperation,
