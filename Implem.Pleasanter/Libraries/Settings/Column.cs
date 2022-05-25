@@ -114,6 +114,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? DefaultMinValue;
         public decimal? DefaultMaxValue;
         public bool? NoDuplication;
+        public string MessageWhenDuplicated;
         public bool? CopyByDefault;
         public bool? EditorReadOnly;
         public bool? AutoPostBack;
