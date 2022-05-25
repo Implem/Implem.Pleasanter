@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         private void SetAnonymous()
         {
             TenantId = 0;
-            Id = SiteInfo.AnonymousId.ToInt();
+            Id = 0;
             DeptId = 0;
             LoginId = "Anonymous";
             TenantManager = false;

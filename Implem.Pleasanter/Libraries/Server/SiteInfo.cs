@@ -369,7 +369,7 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             return new User(
                 context: context,
-                userId: AnonymousId.ToInt());
+                userId: 0);
         }
 
         public static string UserName(
