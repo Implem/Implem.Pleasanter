@@ -901,18 +901,35 @@ namespace Implem.DefinitionAccessor
 
         private static void SetBundleVersions()
         {
-            Environments.BundlesVersions.Add("generals.js", Files.Read(Path.Combine(
+            var generalsPath = Path.Combine(
                 Directories.Wwwroot(),
                 "bundles",
-                "generals.js")).Sha512Cng());
-            Environments.BundlesVersions.Add("responsive.css", Files.Read(Path.Combine(
+                "generals.js");
+
+            if (Files.Exists(generalsPath))
+            {
+                Environments.BundlesVersions.Add("generals.js", Files.Read(generalsPath).Sha512Cng());
+            }
+
+            var responsivePath = Path.Combine(
                 Directories.Wwwroot(),
                 "content",
-                "responsive.css")).Sha512Cng());
-            Environments.BundlesVersions.Add("styles.css", Files.Read(Path.Combine(
+                "responsive.css");
+
+            if (Files.Exists(responsivePath)) 
+            {
+                Environments.BundlesVersions.Add("responsive.css", Files.Read(responsivePath).Sha512Cng());
+            }
+            
+            var stylesPath = Path.Combine(
                 Directories.Wwwroot(),
                 "content",
-                "styles.css")).Sha512Cng());
+                "styles.css");
+
+            if (Files.Exists(stylesPath))
+            {
+                Environments.BundlesVersions.Add("styles.css", Files.Read(stylesPath).Sha512Cng());
+            }
         }
 
         private static void DeleteTemporaryFiles()
