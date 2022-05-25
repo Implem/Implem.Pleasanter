@@ -1,13 +1,10 @@
-name: CI
+﻿name: CI
 on:
-  push:
-    branches: ['feature/daily-build-and-test']
   schedule:
-    - cron: '0 13 * * *'   # UTC (= 22:00 JST)
+    - cron: '0 4,13 * * *'   # UTC (= 22:00 JST)
 env:
   AZURE_WEBAPP_NAME: pleasanter
   AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
-#  AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.pleasanter_f16e }}
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
   DOTNET_CORE_DIR: net6.0
