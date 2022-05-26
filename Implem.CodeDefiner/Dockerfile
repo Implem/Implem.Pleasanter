@@ -1,6 +1,8 @@
 ﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
+RUN apt-get update && apt-get install -y curl
+
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
@@ -27,6 +29,9 @@ WORKDIR "/src/Implem.CodeDefiner"
 RUN dotnet publish "Implem.CodeDefiner.csproj" -c Release -o /app/publish/Implem.CodeDefiner
 WORKDIR "/src/Implem.Pleasanter"
 RUN dotnet publish "Implem.Pleasanter.csproj" -c Release -o /app/publish/Implem.Pleasanter
+RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/bin/jq && \
+    cat App_Data/Parameters/Rds.json \
+    | jq '.Dbms|="PostgreSQL"' > /app/publish/Implem.Pleasanter/App_Data/Parameters/Rds.json
 
 FROM base AS final
 WORKDIR /app
