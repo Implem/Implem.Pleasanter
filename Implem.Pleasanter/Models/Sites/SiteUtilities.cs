@@ -6051,7 +6051,7 @@ namespace Implem.Pleasanter.Models
                                     case Types.CsNumeric:
                                     case Types.CsDateTime:
                                     case Types.CsString:
-                                        if(!column.Id_Ver
+                                        if (!column.Id_Ver
                                             && !column.NotUpdate
                                             && column.ControlType != "Attachments"
                                             && column.ColumnName != "Comments")
