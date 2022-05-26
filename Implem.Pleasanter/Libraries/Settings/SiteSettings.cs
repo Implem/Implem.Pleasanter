@@ -1369,6 +1369,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.NoDuplication = column.NoDuplication;
                     }
+                    if (!column.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        enabled = true;
+                        newColumn.MessageWhenDuplicated = column.MessageWhenDuplicated;
+                    }
                     if (column.CopyByDefault == true)
                     {
                         enabled = true;
@@ -3584,6 +3589,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Min": column.Min = value.ToDecimal(); break;
                 case "Step": column.Step = value.ToDecimal(); break;
                 case "NoDuplication": column.NoDuplication = value.ToBool(); break;
+                case "MessageWhenDuplicated": column.MessageWhenDuplicated = value; break;
                 case "CopyByDefault": column.CopyByDefault = value.ToBool(); break;
                 case "EditorReadOnly": column.EditorReadOnly = value.ToBool(); break;
                 case "AutoPostBack": column.AutoPostBack = value.ToBool(); break;
