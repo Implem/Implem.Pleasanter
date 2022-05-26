@@ -3034,8 +3034,8 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName);
+                        context: context,
+                        columnName: errorData.ColumnName);
                     if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                     {
                         return Messages.ResponseDuplicated(
@@ -3270,8 +3270,8 @@ namespace Implem.Pleasanter.Models
                     }
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName);
+                        context: context,
+                        columnName: errorData.ColumnName);
                     if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                     {
                         return Messages.ResponseDuplicated(
@@ -4168,8 +4168,8 @@ namespace Implem.Pleasanter.Models
                     }
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName);
+                        context: context,
+                        columnName: errorData.ColumnName);
                     if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                     {
                         return Messages.ResponseDuplicated(
@@ -5916,8 +5916,8 @@ namespace Implem.Pleasanter.Models
                                     break;
                                 case Error.Types.Duplicated:
                                     var duplicatedColumn = ss.GetColumn(
-                                            context: context,
-                                            columnName: errorData.ColumnName);
+                                        context: context,
+                                        columnName: errorData.ColumnName);
                                     if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                                     {
                                         return Messages.ResponseDuplicated(
@@ -5964,8 +5964,8 @@ namespace Implem.Pleasanter.Models
                                 break;
                             case Error.Types.Duplicated:
                                 var duplicatedColumn = ss.GetColumn(
-                                        context: context,
-                                        columnName: errorData.ColumnName);
+                                    context: context,
+                                    columnName: errorData.ColumnName);
                                 if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                                 {
                                     return Messages.ResponseDuplicated(

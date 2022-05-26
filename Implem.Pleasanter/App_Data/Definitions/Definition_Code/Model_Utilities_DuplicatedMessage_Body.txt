@@ -1,7 +1,7 @@
 ﻿case Error.Types.Duplicated:
     var duplicatedColumn = ss.GetColumn(
-            context: context,
-            columnName: errorData.ColumnName);
+        context: context,
+        columnName: errorData.ColumnName);
     if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
     {
         return Messages.ResponseDuplicated(

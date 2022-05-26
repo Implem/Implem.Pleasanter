@@ -6051,24 +6051,26 @@ namespace Implem.Pleasanter.Models
                                     case Types.CsNumeric:
                                     case Types.CsDateTime:
                                     case Types.CsString:
-                                        hb
-                                            .FieldCheckBox(
-                                                controlId: "NoDuplication",
-                                                labelText: Displays.NoDuplication(context: context),
-                                                _checked: column.NoDuplication == true,
-                                                _using: !column.Id_Ver
-                                                    && !column.NotUpdate
-                                                    && column.ControlType != "Attachments"
-                                                    && column.ColumnName != "Comments")
-                                            .FieldTextBox(
-                                                fieldId: "MessageWhenDuplicatedField",
-                                                controlId: "MessageWhenDuplicated",
-                                                fieldCss: "field-wide"
-                                                    + (column.NoDuplication != true
-                                                        ? " hidden"
-                                                        : string.Empty),
-                                                labelText: Displays.MessageWhenDuplicated(context: context),
-                                                text: column.MessageWhenDuplicated);
+                                        if(!column.Id_Ver
+                                            && !column.NotUpdate
+                                            && column.ControlType != "Attachments"
+                                            && column.ColumnName != "Comments")
+                                        {
+                                            hb
+                                                .FieldCheckBox(
+                                                    controlId: "NoDuplication",
+                                                    labelText: Displays.NoDuplication(context: context),
+                                                    _checked: column.NoDuplication == true)
+                                                .FieldTextBox(
+                                                    fieldId: "MessageWhenDuplicatedField",
+                                                    controlId: "MessageWhenDuplicated",
+                                                    fieldCss: "field-wide"
+                                                        + (column.NoDuplication != true
+                                                            ? " hidden"
+                                                            : string.Empty),
+                                                    labelText: Displays.MessageWhenDuplicated(context: context),
+                                                    text: column.MessageWhenDuplicated);
+                                        }
                                         break;
                                 }
                                 if ((column.Required == false
