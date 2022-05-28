@@ -44,6 +44,18 @@ namespace Implem.Pleasanter.Filters
                 item: false,
                 setPermissions: false,
                 apiRequestBody: requestData);
+            if (!IpAddresses.AllowedIpAddress(
+                allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                ipAddress: context.UserHostAddress))
+            {
+                return await Task.FromResult(actionContext.Request.CreateResponse(
+                    statusCode: HttpStatusCode.Forbidden,
+                    value: new
+                    {
+                        Message = "403 Forbidden"
+                    },
+                    mediaType: "application/json"));
+            }
             if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {
                 return await Task.FromResult(actionContext.Request.CreateResponse(

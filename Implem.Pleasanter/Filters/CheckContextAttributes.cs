@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 namespace Implem.Pleasanter.Filters
 {
@@ -21,6 +22,17 @@ namespace Implem.Pleasanter.Filters
             {
                 filterContext.Result = new RedirectResult(
                     Locations.ParameterSyntaxError(context: context));
+            }
+            if (!IpAddresses.AllowedIpAddress(
+                allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                ipAddress: context.UserHostAddress))
+            {
+                filterContext.HttpContext.Response.StatusCode = 403;
+                filterContext.Result = new ContentResult()
+                {
+                    Content = "403 Forbidden"
+                };
+                return;
             }
             if (context.Authenticated
                 && !context.ContractSettings.AllowedIpAddress(context.UserHostAddress))

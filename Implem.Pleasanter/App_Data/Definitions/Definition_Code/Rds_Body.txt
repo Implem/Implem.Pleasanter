@@ -276,6 +276,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 dataTableName: dataTableName);
         }
 
+        public static SqlStatement Exists(params SqlStatement[] statements)
+        {
+            return new SqlExists
+            {
+                SqlStatements = statements.ToList()
+            };
+        }
+
         public static SqlStatement If(string _if)
         {
             return new SqlStatement("if (" + _if + ") begin\n");

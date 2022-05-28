@@ -3033,12 +3033,28 @@ namespace Implem.Pleasanter.Models
                                             : string.Empty))
                         .ToJson();
                 case Error.Types.Duplicated:
-                    return Messages.ResponseDuplicated(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        data: ss.GetColumn(
+                        columnName: errorData.ColumnName);
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        return Messages.ResponseDuplicated(
                             context: context,
-                            columnName: errorData.ColumnName)?.LabelText)
-                                .ToJson();
+                            data: ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText)
+                                    .ToJson();
+                    }
+                    else
+                    {
+                        return new ResponseCollection().Message(
+                            message: new Message()
+                            {
+                                Id = "MessageWhenDuplicated",
+                                Text = duplicatedColumn.MessageWhenDuplicated,
+                                Css = "alert-error"
+                            }).ToJson();
+                    }
                 default:
                     return errorData.MessageJson(context: context);
             }
@@ -3253,12 +3269,28 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                     }
                 case Error.Types.Duplicated:
-                    return Messages.ResponseDuplicated(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        data: ss.GetColumn(
+                        columnName: errorData.ColumnName);
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        return Messages.ResponseDuplicated(
                             context: context,
-                            columnName: errorData.ColumnName)?.LabelText)
-                                .ToJson();
+                            data: ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText)
+                                    .ToJson();
+                    }
+                    else
+                    {
+                        return new ResponseCollection().Message(
+                            message: new Message()
+                            {
+                                Id = "MessageWhenDuplicated",
+                                Text = duplicatedColumn.MessageWhenDuplicated,
+                                Css = "alert-error"
+                            }).ToJson();
+                    }
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
                         context: context,
@@ -4135,12 +4167,28 @@ namespace Implem.Pleasanter.Models
                             .ToJson();
                     }
                 case Error.Types.Duplicated:
-                    return Messages.ResponseDuplicated(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        data: ss.GetColumn(
+                        columnName: errorData.ColumnName);
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        return Messages.ResponseDuplicated(
                             context: context,
-                            columnName: errorData.ColumnName)?.LabelText)
-                                .ToJson();
+                            data: ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText)
+                                    .ToJson();
+                    }
+                    else
+                    {
+                        return new ResponseCollection().Message(
+                            message: new Message()
+                            {
+                                Id = "MessageWhenDuplicated",
+                                Text = duplicatedColumn.MessageWhenDuplicated,
+                                Css = "alert-error"
+                            }).ToJson();
+                    }
                 default:
                     return errorData.MessageJson(context: context);
             }
@@ -5867,12 +5915,28 @@ namespace Implem.Pleasanter.Models
                                 case Error.Types.None:
                                     break;
                                 case Error.Types.Duplicated:
-                                    return Messages.ResponseDuplicated(
+                                    var duplicatedColumn = ss.GetColumn(
                                         context: context,
-                                        data: ss.GetColumn(
+                                        columnName: errorData.ColumnName);
+                                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                                    {
+                                        return Messages.ResponseDuplicated(
                                             context: context,
-                                            columnName: errorData.ColumnName)?.LabelText)
-                                                .ToJson();
+                                            data: ss.GetColumn(
+                                                context: context,
+                                                columnName: errorData.ColumnName)?.LabelText)
+                                                    .ToJson();
+                                    }
+                                    else
+                                    {
+                                        return new ResponseCollection().Message(
+                                            message: new Message()
+                                            {
+                                                Id = "MessageWhenDuplicated",
+                                                Text = duplicatedColumn.MessageWhenDuplicated,
+                                                Css = "alert-error"
+                                            }).ToJson();
+                                    }
                                 default:
                                     return errorData.MessageJson(context: context);
                             }
@@ -5899,12 +5963,28 @@ namespace Implem.Pleasanter.Models
                                 }
                                 break;
                             case Error.Types.Duplicated:
-                                return Messages.ResponseDuplicated(
+                                var duplicatedColumn = ss.GetColumn(
                                     context: context,
-                                    data: ss.GetColumn(
+                                    columnName: errorData.ColumnName);
+                                if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                                {
+                                    return Messages.ResponseDuplicated(
                                         context: context,
-                                        columnName: errorData.ColumnName)?.LabelText)
-                                            .ToJson();
+                                        data: ss.GetColumn(
+                                            context: context,
+                                            columnName: errorData.ColumnName)?.LabelText)
+                                                .ToJson();
+                                }
+                                else
+                                {
+                                    return new ResponseCollection().Message(
+                                        message: new Message()
+                                        {
+                                            Id = "MessageWhenDuplicated",
+                                            Text = duplicatedColumn.MessageWhenDuplicated,
+                                            Css = "alert-error"
+                                        }).ToJson();
+                                }
                             default:
                                 return errorData.MessageJson(context: context);
                         }

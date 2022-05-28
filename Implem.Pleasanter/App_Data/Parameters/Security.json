@@ -1,4 +1,5 @@
 ﻿{
+    "AllowIpAddresses": null,
     "MimeTypeCheckOnApi": false,
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,

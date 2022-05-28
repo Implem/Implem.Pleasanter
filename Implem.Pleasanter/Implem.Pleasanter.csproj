@@ -412,6 +412,7 @@
     <Compile Include="Libraries\Responses\FileContentResults.cs" />
     <Compile Include="Libraries\Responses\Paging.cs" />
     <Compile Include="Libraries\Responses\ResponseViewModes.cs" />
+    <Compile Include="Libraries\Security\IpAddresses.cs" />
     <Compile Include="Libraries\Security\Defenses.cs" />
     <Compile Include="Libraries\Security\Permission.cs" />
     <Compile Include="Libraries\ServerScripts\ScriptEngine.cs" />

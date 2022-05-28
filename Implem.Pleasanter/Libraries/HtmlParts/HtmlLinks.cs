@@ -308,7 +308,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .CanRead(
                         context: context,
                         idColumnBracket: "\"Issues\".\"IssueId\"")
-                    .Sites_TenantId(context.TenantId));
+                    .Sites_TenantId(context.TenantId),
+                requestSearchCondition: false);
             var orderBy = view.OrderBy(
                 context: context,
                 ss: ss);
@@ -387,7 +388,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .CanRead(
                         context: context,
                         idColumnBracket: "\"Results\".\"ResultId\"")
-                    .Sites_TenantId(context.TenantId));
+                    .Sites_TenantId(context.TenantId),
+                requestSearchCondition: false);
             var orderBy = view.OrderBy(
                 context: context,
                 ss: ss);
