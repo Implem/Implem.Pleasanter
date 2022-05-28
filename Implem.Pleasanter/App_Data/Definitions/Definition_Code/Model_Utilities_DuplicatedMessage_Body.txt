@@ -1,7 +1,23 @@
 ﻿case Error.Types.Duplicated:
-    return Messages.ResponseDuplicated(
+    var duplicatedColumn = ss.GetColumn(
         context: context,
-        data: ss.GetColumn(
+        columnName: errorData.ColumnName);
+    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+    {
+        return Messages.ResponseDuplicated(
             context: context,
-            columnName: errorData.ColumnName)?.LabelText)
-                .ToJson();
+            data: ss.GetColumn(
+                context: context,
+                columnName: errorData.ColumnName)?.LabelText)
+                    .ToJson();
+    }
+    else
+    {
+        return new ResponseCollection().Message(
+            message: new Message()
+            {
+                Id = "MessageWhenDuplicated",
+                Text = duplicatedColumn.MessageWhenDuplicated,
+                Css = "alert-error"
+            }).ToJson();
+    }

@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -38,6 +39,18 @@ namespace Implem.PleasanterFilters
                 item: false,
                 setPermissions: false,
                 apiRequestBody: requestData);
+            if (!IpAddresses.AllowedIpAddress(
+                allowIpAddresses: Parameters.Security.AllowIpAddresses,
+                ipAddress: context.UserHostAddress))
+            {
+                filterContext.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
+                filterContext.Result = new JsonResult(
+                    new
+                    {
+                        Message = "403 Forbidden"
+                    });
+                return;
+            }
             if (!context.ContractSettings.AllowedIpAddress(context.UserHostAddress))
             {
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MessageWhenDuplicated",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Message when duplicated"
+        },
+        {
+            "Language": "zh",
+            "Body": "重复时的消息"
+        },
+        {
+            "Language": "ja",
+            "Body": "重複時のメッセージ"
+        },
+        {
+            "Language": "de",
+            "Body": "Meldung bei Duplizierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "복제 시 메시지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mensaje cuando se duplica"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tin nhắn khi bị trùng lặp"
+        }
+    ]
+}

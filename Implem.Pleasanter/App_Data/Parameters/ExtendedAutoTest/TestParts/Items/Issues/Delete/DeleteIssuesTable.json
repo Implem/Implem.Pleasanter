@@ -25,7 +25,7 @@
         {
             "ElementId": "Users_Password",
             "Action": "Input",
-            "Value": "password"
+            "Value": "pleasanter"
         },
         {
             "ElementXpath": "//button[@data-action='Delete']",

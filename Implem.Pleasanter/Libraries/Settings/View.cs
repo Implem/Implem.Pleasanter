@@ -1117,6 +1117,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ColumnFilterHash
                     .Where(o =>
                     {
+                        switch (o.Key)
+                        {
+                            case "Groups":
+                                return true;
+                        }
                         var column = ss?.GetColumnOrExtendedFieldColumn(
                             context: context,
                             columnName: o.Key,
@@ -1311,7 +1316,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             SqlWhereCollection where = null,
             bool checkPermission = true,
-            bool itemJoin = true)
+            bool itemJoin = true,
+            bool requestSearchCondition = true)
         {
             if (where == null) where = new SqlWhereCollection();
             SetGeneralsWhere(
@@ -1332,9 +1338,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 checkPermission: checkPermission);
-            if (RequestSearchCondition(
-                context: context,
-                ss: ss))
+            if (requestSearchCondition
+                && RequestSearchCondition(
+                    context: context,
+                    ss: ss))
             {
                 where.Add(raw: "(0=1)");
             }
@@ -1538,9 +1545,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     data.Value,
                     Or = data.Key.StartsWith("or_"),
                     And = data.Key.StartsWith("and_"),
+                    Groups = data.Key == "Groups",
                     OnSelectingWhere = data.Key == "OnSelectingWhere"
                 })
-                .Where(o => o.Column != null || o.Or || o.And || o.OnSelectingWhere)
+                .Where(o => o.Column != null
+                    || o.Or
+                    || o.And
+                    || o.Groups
+                    || o.OnSelectingWhere)
                 .ForEach(data =>
                 {
                     if (data.Or)
@@ -1575,6 +1587,69 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 id: id,
                                 timestamp: timestamp);
                             if (and.Any()) where.Add(and: and);
+                        }
+                    }
+                    else if (data.Groups)
+                    {
+                        var ids = data.Value.Deserialize<List<int>>();
+                        switch (ss.ReferenceType)
+                        {
+                            case "Depts":
+                                where.Add(sub: Rds.ExistsGroupMembers(
+                                    join: Rds.GroupMembersJoinDefault()
+                                        .Add(new SqlJoin(
+                                            tableBracket: "\"Groups\"",
+                                            joinType: SqlJoin.JoinTypes.Inner,
+                                            joinExpression: "\"GroupMembers\".\"GroupId\"=\"Groups\".\"GroupId\""))
+                                        .Add(new SqlJoin(
+                                            tableBracket: "\"Depts\"",
+                                            joinType: SqlJoin.JoinTypes.Inner,
+                                            joinExpression: "\"GroupMembers\".\"DeptId\"=\"Depts\".\"DeptId\"",
+                                            _as: "GroupMemberDepts")),
+                                    where: Rds.GroupMembersWhere()
+                                        .GroupId_In(ids)
+                                        .DeptId(0, _operator: "<>")
+                                        .DeptId(raw: "\"Depts\".\"DeptId\"")
+                                        .Groups_Disabled(false)
+                                        .Depts_Disabled(false, tableName: "GroupMemberDepts")));
+                                break;
+                            case "Users":
+                                where.Add(sub: Rds.Exists(statements: new SqlStatement[]
+                                {
+                                    Rds.SelectGroupMembers(
+                                        column: Rds.GroupMembersColumn().GroupId(),
+                                        join: Rds.GroupMembersJoinDefault()
+                                            .Add(new SqlJoin(
+                                                tableBracket: "\"Groups\"",
+                                                joinType: SqlJoin.JoinTypes.Inner,
+                                                joinExpression: "\"GroupMembers\".\"GroupId\"=\"Groups\".\"GroupId\"")),
+                                        where: Rds.GroupMembersWhere()
+                                            .GroupId_In(ids)
+                                            .UserId(0, _operator: "<>")
+                                            .UserId(raw: "\"Users\".\"UserId\"")
+                                            .Groups_Disabled(false),
+                                        top: 1),
+                                    Rds.SelectGroupMembers(
+                                        column: Rds.GroupMembersColumn().GroupId(),
+                                        join: Rds.GroupMembersJoinDefault()
+                                            .Add(new SqlJoin(
+                                                tableBracket: "\"Groups\"",
+                                                joinType: SqlJoin.JoinTypes.Inner,
+                                                joinExpression: "\"GroupMembers\".\"GroupId\"=\"Groups\".\"GroupId\""))
+                                            .Add(new SqlJoin(
+                                                tableBracket: "\"Depts\"",
+                                                joinType: SqlJoin.JoinTypes.Inner,
+                                                joinExpression: "\"GroupMembers\".\"DeptId\"=\"Depts\".\"DeptId\"")),
+                                        where: Rds.GroupMembersWhere()
+                                            .GroupId_In(ids)
+                                            .DeptId(0, _operator: "<>")
+                                            .DeptId(raw: "\"Users\".\"DeptId\"")
+                                            .Groups_Disabled(false)
+                                            .Depts_Disabled(false),
+                                        top: 1,
+                                        unionType: Sqls.UnionTypes.UnionAll)
+                                }));
+                                break;
                         }
                     }
                     else if (data.OnSelectingWhere)
