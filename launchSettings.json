@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "composeLaunchAction": "None",
+      "composeLaunchServiceName": "implem.testautomation",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "db": "StartWithoutDebugging",
+        "implem.codedefiner": "StartDebugging",
+        "implem.pleasanter": "StartDebugging",
+        "implem.testautomation": "StartDebugging"
+      }
+    }
+  }
+}

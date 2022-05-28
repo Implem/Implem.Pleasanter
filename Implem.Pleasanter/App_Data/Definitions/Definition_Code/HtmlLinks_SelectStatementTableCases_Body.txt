@@ -23,7 +23,8 @@
             .CanRead(
                 context: context,
                 idColumnBracket: "\"#TableName#\".\"#ModelName#Id\"")
-            .Sites_TenantId(context.TenantId));
+            .Sites_TenantId(context.TenantId),
+        requestSearchCondition: false);
     var orderBy = view.OrderBy(
         context: context,
         ss: ss);

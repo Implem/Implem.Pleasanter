@@ -49,6 +49,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /.vs
+/.vscode
 
 # Build results
 [Dd]ebug/
@@ -76,3 +77,5 @@ packages/
 /Implem.CodeDefiner.NetCore/Properties/launchSettings.json
 /Implem.Pleasanter/App_Data/Temp/
 Env.json
+.env
+*.env

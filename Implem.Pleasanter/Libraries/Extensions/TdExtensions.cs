@@ -55,7 +55,16 @@ namespace Implem.Pleasanter.Libraries.Extensions
             int? tabIndex,
             ServerScriptModelColumn serverScriptModelColumn = null)
         {
-            if (column.HasChoices())
+            if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
+            {
+                return hb.Td(
+                    context: context,
+                    column: column,
+                    action: () => hb.Raw(serverScriptModelColumn?.RawText),
+                    tabIndex: tabIndex,
+                    serverScriptModelColumn: serverScriptModelColumn);
+            }
+            else if (column.HasChoices())
             {
                 if (column.MultipleSelections == true)
                 {
