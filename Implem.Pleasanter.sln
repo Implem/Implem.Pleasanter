@@ -49,7 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CICD", "CICD", "{EDD4BA11-3
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{10984740-E12C-427F-A980-0100734AE1B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Implem.PleasanterTest", "Implem.PleasanterTest\Implem.PleasanterTest.csproj", "{2563902C-E1D2-4ED7-9B1B-B836C485267A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Implem.PleasanterTest", "Implem.PleasanterTest\Implem.PleasanterTest.csproj", "{2563902C-E1D2-4ED7-9B1B-B836C485267A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,11 +173,9 @@ Global
 		{10984740-E12C-427F-A980-0100734AE1B9}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10984740-E12C-427F-A980-0100734AE1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10984740-E12C-427F-A980-0100734AE1B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
 		{10984740-E12C-427F-A980-0100734AE1B9}.SingleImage|Any CPU.Build.0 = Release|Any CPU
 		{2563902C-E1D2-4ED7-9B1B-B836C485267A}.CD_ROM|Any CPU.ActiveCfg = Debug|Any CPU
