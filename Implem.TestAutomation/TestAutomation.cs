@@ -70,7 +70,7 @@ namespace Implem.TestAutomation
                         logFileName: Parameters.ExtendedAutoTestSettings.LogFileName,
                         logMessage: Displays.AutoTestFinished(context: context)
                         );
-                    Console.ReadKey(intercept: true);
+//                    Console.ReadKey(intercept: true);
                 }
             }
             catch (NoSuchElementException ex)
