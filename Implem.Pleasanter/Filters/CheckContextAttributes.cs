@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.Linq;
 namespace Implem.PleasanterFilters
 {
@@ -13,6 +14,8 @@ namespace Implem.PleasanterFilters
     {
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
+            Performance.GeneratedTime = DateTime.Now;
+            Performance.PreviousTime = DateTime.Now;
             var context = new Context(
                 sessionStatus: false,
                 sessionData: false,

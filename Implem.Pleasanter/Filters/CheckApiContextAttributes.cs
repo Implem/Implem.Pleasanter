@@ -3,9 +3,11 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System;
 using System.IO;
 using System.Text;
 namespace Implem.PleasanterFilters
@@ -14,6 +16,8 @@ namespace Implem.PleasanterFilters
     {
         public void OnAuthorization(AuthorizationFilterContext filterContext)
         {
+            Performance.GeneratedTime = DateTime.Now;
+            Performance.PreviousTime = DateTime.Now;
             if (filterContext.HttpContext?.Request?.Body == null)
             {
                 filterContext.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
