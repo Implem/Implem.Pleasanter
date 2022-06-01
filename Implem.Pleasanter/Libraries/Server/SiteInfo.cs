@@ -334,6 +334,18 @@ namespace Implem.Pleasanter.Libraries.Server
                 .FirstOrDefault() ?? new Dept();
         }
 
+        public static Dept Dept(int tenantId, string deptCode)
+        {
+            if (tenantId == 0)
+            {
+                return new Dept();
+            }
+            return TenantCaches.Get(tenantId)?.DeptHash?
+                .Where(o => o.Value?.Code == deptCode)
+                .Select(o => o.Value)
+                .FirstOrDefault() ?? new Dept();
+        }
+
         public static Group Group(int tenantId, int groupId)
         {
             if (tenantId == 0 || groupId == 0)
