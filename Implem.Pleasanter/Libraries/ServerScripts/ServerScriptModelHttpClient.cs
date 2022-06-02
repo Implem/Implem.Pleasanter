@@ -11,7 +11,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string Encoding { get; set; } = "utf-8";
         public string MediaType { get; set; } = "application/json";
         public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
-
+        public int StatusCode { get; private set; }
+        public bool IsSuccess { get; private set; }
         static ServerScriptModelHttpClient()
         {
             _httpClient = new HttpClient();
@@ -23,6 +24,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 var request = CreateHttpRequest(HttpMethod.Get);
                 var response = _httpClient.SendAsync(request).Result;
+                StatusCode = (int)response.StatusCode;
+                IsSuccess = response.IsSuccessStatusCode;
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -42,6 +45,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     mediaType: MediaType);
                 var request = CreateHttpRequest(HttpMethod.Post, content);
                 var response = _httpClient.SendAsync(request).Result;
+                StatusCode = (int)response.StatusCode;
+                IsSuccess = response.IsSuccessStatusCode;
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -61,6 +66,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     mediaType: MediaType);
                 var request = CreateHttpRequest(HttpMethod.Put, content);
                 var response = _httpClient.SendAsync(request).Result;
+                StatusCode = (int)response.StatusCode;
+                IsSuccess = response.IsSuccessStatusCode;
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
@@ -76,6 +83,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 var request = CreateHttpRequest(HttpMethod.Delete);
                 var response = _httpClient.SendAsync(request).Result;
+                StatusCode = (int)response.StatusCode;
+                IsSuccess = response.IsSuccessStatusCode;
                 var responseContent = response.Content.ReadAsStringAsync().Result;
                 return responseContent;
             }
