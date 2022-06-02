@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string Content { get; set; }
         public string Encoding { get; set; } = "utf-8";
         public string MediaType { get; set; } = "application/json";
-        public Dictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> RequestHeaders { get; set; } = new Dictionary<string, string>();
 
         static ServerScriptModelHttpClient()
         {
@@ -91,7 +91,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             request.Method = method;
             request.RequestUri = new Uri(RequestUri);
             request.Content = content;
-            foreach (var header in Headers)
+            foreach (var header in RequestHeaders)
             {
                 request.Headers.Add(header.Key, header.Value);
             }
