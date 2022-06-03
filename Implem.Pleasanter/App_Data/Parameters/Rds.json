@@ -1,9 +1,9 @@
 ﻿{
-    "Dbms": "SQLServer",
+    "Dbms": "PostgreSQL",
     "Provider": "Local",
-    "SaConnectionString": null,
-    "OwnerConnectionString": null,
-    "UserConnectionString": null,
+    "SaConnectionString": "Server=163.43.193.61;Port=5432;Database=Implem.Pleasanter;UID=postgres;PWD=Plea3ter;",
+    "OwnerConnectionString": "Server=163.43.193.61;Port=5432;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD;",
+    "UserConnectionString": "Server=163.43.193.61;Port=5432;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD;",
     "SqlCommandTimeOut": 0,
     "MinimumTime": 3,
     "DeadlockRetryCount": 4,

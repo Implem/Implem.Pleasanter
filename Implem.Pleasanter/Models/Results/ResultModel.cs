@@ -499,14 +499,9 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
             }
-            if (encloseDoubleQuotes != false)
-            {
-                return "\"" + value?.Replace("\"", "\"\"") + "\"";
-            }
-            else
-            {
-                return value;
-            }
+            return CsvUtilities.EncloseDoubleQuotes(
+                value: value,
+                encloseDoubleQuotes: encloseDoubleQuotes);
         }
 
         public List<long> SwitchTargets;
