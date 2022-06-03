@@ -202,6 +202,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HideLink;
         public bool? SwitchRecordWithAjax;
         public bool? SwitchCommandButtonsAutoPostBack;
+        public bool? DeleteImageWhenDeleting;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
         public bool? NoDisplayCrosstabGraph;
@@ -355,6 +356,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
+            DeleteImageWhenDeleting = DeleteImageWhenDeleting ?? true;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
             NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
@@ -793,6 +795,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (SwitchCommandButtonsAutoPostBack == true)
             {
                 ss.SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack;
+            }
+            if (DeleteImageWhenDeleting == false)
+            {
+                ss.DeleteImageWhenDeleting = DeleteImageWhenDeleting;
             }
             if (EnableCalendar == false)
             {
@@ -3367,6 +3373,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "SwitchCommandButtonsAutoPostBack": SwitchCommandButtonsAutoPostBack = value.ToBool(); break;
+                case "DeleteImageWhenDeleting": DeleteImageWhenDeleting = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
