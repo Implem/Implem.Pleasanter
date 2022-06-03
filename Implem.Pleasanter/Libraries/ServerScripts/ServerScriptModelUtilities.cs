@@ -3,6 +3,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Text;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelUtilities
@@ -29,6 +31,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var inRange = dt.ToDateTime().InRange();
             return inRange;
+        }
+
+        public string ConvertToBase64String(string s, string encoding = "utf-8")
+        {
+            var bytes= Encoding.GetEncoding(encoding).GetBytes(s);
+            return Convert.ToBase64String(bytes);
         }
     }
 }
