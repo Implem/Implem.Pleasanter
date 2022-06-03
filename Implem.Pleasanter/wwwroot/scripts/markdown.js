@@ -97,13 +97,13 @@ $p.markup = function (markdownValue, encoded) {
     }
 
     function address($1) {
-        var m = $1.match(/\(.+?\)/gi)[0];
-        return m.substring(1, m.length - 1);
+        var m = $1.match(/\]\(.+?\)/gi)[0];
+        return m.substring(2, m.length - 1);
     }
 
     function title($1) {
-        var m = $1.match(/\[[^\]]+\]/i)[0];
-        return m.substring(1, m.length - 1);
+        var m = $1.match(/\[[^\]]+\]\(/i)[0];
+        return m.substring(1, m.length - 2);
     }
 }
 
