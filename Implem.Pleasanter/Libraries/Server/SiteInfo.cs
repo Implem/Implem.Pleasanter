@@ -328,8 +328,8 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 return new Dept();
             }
-            return TenantCaches.Get(tenantId)?.DeptHash?
-                .Where(o => o.Key == deptId)
+            return TenantCaches.Get(tenantId)?.DeptHash
+                ?.Where(o => o.Key == deptId)
                 .Select(o => o.Value)
                 .FirstOrDefault() ?? new Dept();
         }
@@ -340,10 +340,26 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 return new Dept();
             }
-            return TenantCaches.Get(tenantId)?.DeptHash?
-                .Where(o => o.Value?.Code == deptCode)
+            return TenantCaches.Get(tenantId)?.DeptHash
+                ?.Where(o => o.Value?.Code == deptCode)
                 .Select(o => o.Value)
                 .FirstOrDefault() ?? new Dept();
+        }
+
+        public static List<User> DeptUsers(Context context, Dept dept)
+        {
+            if (dept.Id > 0 && !dept.Disabled)
+            {
+                return TenantCaches.Get(context.TenantId)?.UserHash
+                    ?.Select(o => o.Value)
+                    .Where(user => user.DeptId == dept.Id)
+                    .Where(user => !user.Disabled)
+                    .ToList() ?? new List<User>();
+            }
+            else
+            {
+                return new List<User>();
+            }
         }
 
         public static Group Group(int tenantId, int groupId)
@@ -352,10 +368,62 @@ namespace Implem.Pleasanter.Libraries.Server
             {
                 return new Group();
             }
-            return TenantCaches.Get(tenantId)?.GroupHash?
-                .Where(o => o.Key == groupId)
+            return TenantCaches.Get(tenantId)?.GroupHash
+                ?.Where(o => o.Key == groupId)
                 .Select(o => o.Value)
                 .FirstOrDefault() ?? new Group();
+        }
+
+        public static List<User> GroupUsers(Context context, Group group)
+        {
+            if (group.Id > 0 && !group.Disabled)
+            {
+                var data = new List<User>();
+                var groupMembers = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectGroupMembers(
+                        column: Rds.GroupMembersColumn()
+                            .DeptId()
+                            .UserId(),
+                        where: Rds.GroupMembersWhere()
+                            .GroupId(group.Id)))
+                                .AsEnumerable();
+                foreach (var groupMember in groupMembers)
+                {
+                    if (groupMember.Int("DeptId") > 0)
+                    {
+                        var dept = Dept(
+                            tenantId: context.TenantId,
+                            deptId: groupMember.Int("DeptId"));
+                        if (!dept.Disabled)
+                        {
+                            data.AddRange(DeptUsers(
+                                context: context,
+                                dept: dept));
+                        }
+                    }
+                    else if (groupMember.Int("UserId") > 0)
+                    {
+                        var user = User(
+                            context: context,
+                            userId: groupMember.Int("UserId"));
+                        if (!user.Disabled)
+                        {
+                            data.Add(user);
+                        }
+                    }
+                }
+                return data
+                    .Where(user => !user.Anonymous())
+                    .Where(user => !user.Disabled)
+                    .GroupBy(user => user.Id)
+                    .Select(o => o.FirstOrDefault())
+                    .ToList();
+            }
+            else
+            {
+                return new List<User>();
+            }
         }
 
         public static User User(Context context, int userId)
