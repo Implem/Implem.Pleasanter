@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: ss,
                                 controller: context.Controller,
                                 display: Displays.Tenants(context: context),
-                                action: "Edit") 
+                                action: "Edit")
                             : Breadcrumb(
                                 hb: hb,
                                 context: context,
@@ -122,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             ss: ss);
                 case "permissions":
-                    return hb.Breadcrumb(context: context, ss: ss);    
+                    return hb.Breadcrumb(context: context, ss: ss);
                 default:
                     return hb;
             }
@@ -293,7 +293,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             return new System.UriBuilder(url)
             {
-                Query = queryString.ToString()
+                Query = queryString.ToString(),
+                Port = -1
             }.ToString();
         }
     }

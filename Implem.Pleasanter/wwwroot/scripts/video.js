@@ -11,7 +11,7 @@
             }
         });
         $p.video = document.getElementById('Video');
-        $p.video.src = window.URL.createObjectURL(stream);
+        $p.video.srcObject = stream;
         $p.videoTracks = stream.getVideoTracks();
         $p.video.play();
     }).catch(function (error) {

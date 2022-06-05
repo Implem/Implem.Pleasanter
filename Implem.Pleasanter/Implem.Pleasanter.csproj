@@ -5,10 +5,10 @@
     <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.3.8.0</AssemblyVersion>
-    <FileVersion>1.3.8.0</FileVersion>
+    <AssemblyVersion>1.3.9.0</AssemblyVersion>
+    <FileVersion>1.3.9.0</FileVersion>
     <LangVersion>7.2</LangVersion>
-    <Version>1.3.8.0</Version>
+    <Version>1.3.9.0</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
@@ -88,6 +88,19 @@
     <None Include="App_Data\Parameters\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase0_FileUpload.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase10_ToIssuesCrosstab.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase11_ToIssuesGantt.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase12_ToIssuesBurnDown.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase13_ToIssuesTimeSeries.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase14_ToIssuesKamban.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase15_ToIssuesImageLib.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase4_User.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase8_ToIssuesIndex.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase9_ToIssuesCalendar.json.ignore" />
   </ItemGroup>
 
   <ItemGroup>
