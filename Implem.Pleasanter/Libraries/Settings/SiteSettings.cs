@@ -4082,7 +4082,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .FirstOrDefault(),
                     columnName: columnName,
                     parentColumn: GetColumn(
-                        context: context,columnName: parentClass),
+                        context: context,
+                        columnName: parentClass),
                     parentIds: parentIds,
                     setTotalCount: setTotalCount));
             return hash;
@@ -4101,22 +4102,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             IEnumerable<long> parentIds,
             bool setTotalCount = false)
         {
-            var select = Indexes.Select(
-                context: context,
-                ss: Destinations?.Get(link.SiteId),
-                searchText: searchIndexes?.Join(" "),
-                siteIdList: link.SiteId.ToSingleList());
             var join = new SqlJoinCollection(
                 new SqlJoin(
                     tableBracket: "\"Sites\"",
                     joinType: SqlJoin.JoinTypes.Inner,
                     joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\""));
             var where = Rds.ItemsWhere()
-                .ReferenceId(
-                    _operator: " in ",
-                    sub: select,
-                    subPrefix: false,
-                    _using: select != null)
                 .ReferenceId_In(
                     selectedValues,
                     _using: selectedValues?.Any() == true
@@ -4134,11 +4125,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         parentIds: parentIds),
                     _using: (referenceType == "Results"
                         || referenceType == "Issues")
-                        && (parentIds?.Any() ?? false)
-                        && parentColumn != null)
+                            && (parentIds?.Any() ?? false)
+                            && parentColumn != null)
                 .ReferenceType("Sites", _operator: "<>")
-                .SiteId(link.SiteId)
-                .CanRead(context: context, idColumnBracket: "\"Items\".\"ReferenceId\"");
+                .Sites_TenantId(context.TenantId)
+                .Sites_SiteId(link.SiteId)
+                .SearchTextWhere(
+                    context: context,
+                    ss: Destinations?.Get(link.SiteId),
+                    searchText: searchIndexes?.Join(" "))
+                .CanRead(
+                    context: context,
+                    idColumnBracket: "\"Items\".\"ReferenceId\"");
             var statements = new List<SqlStatement>
             {
                 Rds.SelectItems(
@@ -5082,16 +5080,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         || serverScript.BeforeOpeningPage == true
                         || serverScript.BeforeOpeningRow == true)
                     .ForEach(serverScript =>
-                {
-                    serverScript.SetDebug();
-                    var body = serverScript.Body;
-                    var sharedServerScripts = SharedServerScripts(serverScripts: ServerScriptsAndExtended);
-                    if (!sharedServerScripts.IsNullOrEmpty())
                     {
-                        body = sharedServerScripts + "\n" + body;
-                    }
-                    serverScript.Body = body;
-                });
+                        serverScript.SetDebug();
+                        var body = serverScript.Body;
+                        var sharedServerScripts = SharedServerScripts(serverScripts: ServerScriptsAndExtended);
+                        if (!sharedServerScripts.IsNullOrEmpty())
+                        {
+                            body = sharedServerScripts + "\n" + body;
+                        }
+                        serverScript.Body = body;
+                    });
                 ServerScriptsAndExtended.ForEach(serverScript =>
                 {
                     var body = serverScript.Body;

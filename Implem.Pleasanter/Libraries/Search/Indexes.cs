@@ -413,82 +413,57 @@ namespace Implem.Pleasanter.Libraries.Search
             return hb;
         }
 
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static SqlSelect Select(
+        public static SqlWhereCollection SearchTextWhere(
+            this SqlWhereCollection where,
             Context context,
             SiteSettings ss,
-            string searchText,
-            IEnumerable<long> siteIdList)
+            string searchText)
         {
+
             if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
             {
-                return Select(
-                    ss: ss,
+                return where.SqlWhereLike(
+                    tableName: "Items",
+                    name: "SearchText",
                     searchText: searchText,
-                    siteIdList: siteIdList,
-                    like: Rds.Items_FullText_WhereLike(
+                    clauseCollection: Rds.Items_FullText_WhereLike(
                         factory: context,
-                        forward: false));
+                        forward: false).ToSingleList());
             }
             switch (ss?.SearchType)
             {
                 case SiteSettings.SearchTypes.FullText:
-                    var words = context.SqlCommandText.CreateSearchTextWords(
-                        words: Words(searchText.SearchIndexes().Join(" ")),
-                        searchText: searchText.SearchIndexes().Join(" "));
+                    var words = Words(searchText.SearchIndexes().Join(" "));
                     if (words?.Any() != true) return null;
-                    return SelectByFullText(
+                    return where.FullTextWhere(
                         context: context,
-                        column: Rds.ItemsColumn().ReferenceId(),
-                        orderBy: null,
-                        siteIdList: siteIdList,
                         words: words);
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
-                    return Select(
-                        ss: ss,
-                        searchText: searchText,
-                        siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(
-                            factory: context,
-                            forward: true));
-                case SiteSettings.SearchTypes.BroadMatchOfTitle:
-                    return Select(
-                        ss: ss,
-                        searchText: searchText,
-                        siteIdList: siteIdList,
-                        like: Rds.Items_Title_WhereLike(
-                            factory: context,
-                            forward: false));
-                case SiteSettings.SearchTypes.PartialMatch:
-                default:
-                    return Select(
-                        ss: ss,
-                        searchText: searchText.SearchIndexes().Join(" "),
-                        siteIdList: siteIdList,
-                        like: Rds.Items_FullText_WhereLike(
-                            factory: context,
-                            forward: false));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static SqlSelect Select(
-            SiteSettings ss, string searchText, IEnumerable<long> siteIdList, string like)
-        {
-            return Rds.SelectItems(
-                tableType: ss?.TableType ?? Sqls.TableTypes.Normal,
-                column: Rds.ItemsColumn().ReferenceId(),
-                where: Rds.ItemsWhere()
-                    .SiteId_In(siteIdList)
-                    .SqlWhereLike(
+                    return where.SqlWhereLike(
                         tableName: "Items",
                         name: "SearchText",
                         searchText: searchText,
-                        clauseCollection: like.ToSingleList()));
+                        clauseCollection: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: true).ToSingleList());
+                case SiteSettings.SearchTypes.BroadMatchOfTitle:
+                    return where.SqlWhereLike(
+                        tableName: "Items",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: Rds.Items_Title_WhereLike(
+                            factory: context,
+                            forward: false).ToSingleList());
+                case SiteSettings.SearchTypes.PartialMatch:
+                default:
+                    return where.SqlWhereLike(
+                        tableName: "Items",
+                        name: "SearchText",
+                        searchText: searchText,
+                        clauseCollection: Rds.Items_FullText_WhereLike(
+                            factory: context,
+                            forward: false).ToSingleList());
+            }
         }
 
         /// <summary>
@@ -523,7 +498,7 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (itemJoin)
                     {
                         where.FullTextWhere(
-                            context:context,
+                            context: context,
                             words: words,
                             itemsTableName: ss.ReferenceType + "_Items");
                     }
@@ -780,20 +755,10 @@ namespace Implem.Pleasanter.Libraries.Search
                             tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                    where: Rds.ItemsWhere()
-                        .FullTextWhere(
-                            context: context,
-                            words: words)
-                        .Add(
-                            raw: Def.Sql.CanRead,
-                            _using: !context.HasPrivilege && !context.Publish)
-                        .Add(
-                            raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
-                            _using: siteIdList?.Any() == true)
-                        .Add(raw: $"{context.Sqls.IsNull}(\"Sites\".\"DisableCrossSearch\",'false')='false'")
-                        .Add(
-                            raw: "\"Items\".\"ReferenceType\"<>'Sites'",
-                            _using: Parameters.Search.DisableCrossSearchSites),
+                    where: Rds.ItemsWhere().FullTextWhere(
+                        context: context,
+                        words: words,
+                        siteIdList: siteIdList),
                     param: FullTextParam(words),
                     orderBy: orderBy,
                     offset: offset,
@@ -805,16 +770,10 @@ namespace Implem.Pleasanter.Libraries.Search
                             tableBracket: "\"Sites\"",
                             joinType: SqlJoin.JoinTypes.Inner,
                             joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                    where: Rds.ItemsWhere()
-                        .FullTextWhere(
-                            context: context,
-                            words: words)
-                        .Add(
-                            raw: Def.Sql.CanRead,
-                            _using: !context.HasPrivilege && !context.Publish)
-                        .Add(
-                            raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
-                            _using: siteIdList?.Any() == true),
+                    where: Rds.ItemsWhere().FullTextWhere(
+                        context: context,
+                        words: words,
+                        siteIdList: siteIdList),
                     param: FullTextParam(words));
         }
 
@@ -822,6 +781,31 @@ namespace Implem.Pleasanter.Libraries.Search
         /// Fixed:
         /// </summary>
         private static SqlWhereCollection FullTextWhere(
+            this SqlWhereCollection where,
+            Context context,
+            Dictionary<string, string> words,
+            IEnumerable<long> siteIdList)
+        {
+            return Rds.ItemsWhere()
+                .Add(
+                    raw: "\"Items\".\"SiteId\" in ({0})".Params(siteIdList?.Join()),
+                    _using: siteIdList?.Any() == true)
+                .FullTextWhere(
+                    context: context,
+                    words: words)
+                .Add(
+                    raw: Def.Sql.CanRead,
+                    _using: !context.HasPrivilege && !context.Publish)
+                .Add(raw: $"{context.Sqls.IsNull}(\"Sites\".\"DisableCrossSearch\",'false')='false'")
+                .Add(
+                    raw: "\"Items\".\"ReferenceType\"<>'Sites'",
+                    _using: Parameters.Search.DisableCrossSearchSites);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static SqlWhereCollection FullTextWhere(
             this SqlWhereCollection where,
             Context context,
             Dictionary<string, string> words,
