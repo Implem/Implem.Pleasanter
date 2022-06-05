@@ -55,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                         verType: Versions.VerTypes.Latest,
                         backButton: !context.Publish && !editOnGrid,
                         serverScriptModelRow: serverScriptModelRow))
+                .Val("#EditOnGrid", editOnGrid.ToOneOrZeroString())
                 .SetMemory("formChanged", false, _using: !editOnGrid)
                 .Invoke(invoke)
                 .Message(message)

@@ -2945,6 +2945,11 @@ namespace Implem.Pleasanter.Models
                             case "DeptId":
                                 userModel.DeptId = recordingData.ToInt();
                                 break;
+                            case "DeptCode":
+                                userModel.DeptId = SiteInfo.Dept(
+                                    tenantId: context.TenantId,
+                                    deptCode: recordingData).Id;
+                                break;
                             case "Body":
                                 userModel.Body = recordingData.ToString();
                                 break;
@@ -2965,6 +2970,9 @@ namespace Implem.Pleasanter.Models
                                 break;
                             case "AllowGroupCreation":
                                 userModel.AllowGroupCreation = recordingData.ToBool();
+                                break;
+                            case "AllowApi":
+                                userModel.AllowApi = recordingData.ToBool();
                                 break;
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();

@@ -144,6 +144,25 @@ namespace Implem.Libraries.Utilities
             }
         }
 
+        public static void WriteLine(string filePath, string line)
+        {
+            if (!new FileInfo(filePath).Directory.Exists)
+            {
+                Directory.CreateDirectory(new FileInfo(filePath).Directory.FullName);
+            }
+            try
+            {
+                using (var sw = new StreamWriter(filePath, true, Encoding.UTF8))
+                {
+                    sw.WriteLine(line);
+                    sw.Close();
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
         public static bool Exists(this string self)
         {
             return File.Exists(self);

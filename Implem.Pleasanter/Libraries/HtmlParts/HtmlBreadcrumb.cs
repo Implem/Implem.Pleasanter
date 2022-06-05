@@ -293,7 +293,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             return new System.UriBuilder(url)
             {
-                Query = queryString.ToString()
+                Query = queryString.ToString(),
+                Port = -1
             }.ToString();
         }
     }

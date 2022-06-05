@@ -26,7 +26,8 @@ namespace Implem.Pleasanter.Libraries.Mails
                     address: address))
                 .Where(address => IsValid(address: address))
                 .Where(address => ExternalMailAddress(addresses: address).IsNullOrEmpty())
-                .Where(address => !address.IsNullOrEmpty());
+                .Where(address => !address.IsNullOrEmpty())
+                .Distinct();
         }
 
         public static List<string> GetSplitList(this string addresses)

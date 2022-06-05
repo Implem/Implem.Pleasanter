@@ -3,6 +3,7 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -20,6 +21,8 @@ namespace Implem.Pleasanter.Filters
             CancellationToken cancellationToken,
             Func<Task<HttpResponseMessage>> continuation)
         {
+            Performance.GeneratedTime = DateTime.Now;
+            Performance.PreviousTime = DateTime.Now;
             var stream = await actionContext?.Request?.Content?.ReadAsStreamAsync();
             if (stream == null)
             {
