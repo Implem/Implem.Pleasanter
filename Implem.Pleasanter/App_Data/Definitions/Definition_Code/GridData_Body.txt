@@ -65,15 +65,53 @@ namespace Implem.Pleasanter.Libraries.Models
 
 <!--GridData_ModelHash ( Indent = 4 ) -->
 
+                ServerScriptModelRow serverScriptModelRow = null;
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        var issueModel = new IssueModel(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow);
+                        ss.ClearColumnAccessControlCaches(baseModel: issueModel);
+                        serverScriptModelRow = issueModel?.SetByBeforeOpeningRowServerScript(
+                            context: context,
+                            ss: ss);
+                        issues.Add("Issues", issueModel);
+                        break;
+                    case "Results":
+                        var resultModel = new ResultModel(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow);
+                        ss.ClearColumnAccessControlCaches(baseModel: resultModel);
+                        serverScriptModelRow = resultModel?.SetByBeforeOpeningRowServerScript(
+                            context: context,
+                            ss: ss);
+                        results.Add("Results", resultModel);
+                        break;
+                };
                 exportColumns.ForEach(exportColumn =>
                 {
                     var column = exportColumn.Column;
                     var key = column.TableName();
-                    switch (column.SiteSettings?.ReferenceType)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns
+                        ?.Get(column?.ColumnName);
+                    if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
                     {
+                        data.Add(CsvUtilities.EncloseDoubleQuotes(
+                            value: serverScriptModelColumn.RawText,
+                            encloseDoubleQuotes: encloseDoubleQuotes));                        
+                    }
+                    else
+                    {
+                        switch (column.SiteSettings?.ReferenceType)
+                        {
 
-<!--GridData_Csv ( Indent = 6 ) -->
+<!--GridData_Csv ( Indent = 7 ) -->
 
+                        }
                     }
                 });
                 csv.Append(data.Join(delimiter), "\n");
