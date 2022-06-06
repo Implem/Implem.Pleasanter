@@ -1786,6 +1786,36 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public ContentResultInheritance UpsertByApi(Context context, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.UpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        previousTitle: Title);
+                case "Results":
+                    return ResultUtilities.UpdateByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: ReferenceId,
+                        previousTitle: Title);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
         public bool UpdateByServerScript(Context context, Context apiContext, object model)
         {
             SetSite(context: context);

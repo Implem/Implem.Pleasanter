@@ -670,6 +670,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long issueId,
+            View view = null,
             Dictionary<string, string> formData = null,
             bool setByApi = false,
             bool clearSessions = false,
@@ -691,7 +692,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(context: context, ss: ss, view: view);
             }
             if (clearSessions) ClearSessions(context: context);
             if (IssueId == 0) SetDefault(context: context, ss: ss);
@@ -772,6 +773,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            View view = null,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -780,10 +782,12 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.IssuesWhereDefault(
-                context: context,
-                issueModel: this);
-            var view = new View();
+            where = (view != null)
+                ? new SqlWhereCollection()
+                : where ?? Rds.IssuesWhereDefault(
+                    context: context,
+                    issueModel: this);
+            view = view?? new View();
             view.SetColumnsWhere(
                 context: context,
                 ss: ss,

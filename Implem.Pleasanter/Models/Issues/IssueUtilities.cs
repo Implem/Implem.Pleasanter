@@ -4038,6 +4038,87 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance UpsertByApi(
+            Context context,
+            SiteSettings ss,
+            string previousTitle)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null && !context.RequestDataString.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: 0,
+                view: api?.View,
+                setByApi: true);
+            if (issueModel.AccessStatus == Databases.AccessStatuses.NotFound)
+            {
+                return CreateByApi(context: context, ss: ss);
+            }
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = IssueValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                issueModel: issueModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
+            }
+            issueModel.SiteId = ss.SiteId;
+            issueModel.SetTitle(
+                context: context,
+                ss: ss);
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
+            var errorData = issueModel.Update(
+                context: context,
+                ss: ss,
+                notice: true,
+                previousTitle: previousTitle);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        issueModel.IssueId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: issueModel.Title.MessageDisplay(context: context)));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: errorData.ColumnName)?.LabelText);
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
         public static bool UpdateByServerScript(
             Context context,
             SiteSettings ss,
