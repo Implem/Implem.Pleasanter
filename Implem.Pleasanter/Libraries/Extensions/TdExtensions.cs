@@ -60,7 +60,19 @@ namespace Implem.Pleasanter.Libraries.Extensions
                 return hb.Td(
                     context: context,
                     column: column,
-                    action: () => hb.Raw(serverScriptModelColumn?.RawText),
+                    action: () =>
+                    {
+                        if (column.ControlType == "MarkDown")
+                        {
+                            hb.Div(css: "grid-title-body", action: () => hb
+                                .P(css: "body markup", action: () => hb
+                                    .Raw(serverScriptModelColumn?.RawText)));
+                        }
+                        else
+                        {
+                            hb.Raw(serverScriptModelColumn?.RawText);
+                        }
+                    },
                     tabIndex: tabIndex,
                     serverScriptModelColumn: serverScriptModelColumn);
             }
