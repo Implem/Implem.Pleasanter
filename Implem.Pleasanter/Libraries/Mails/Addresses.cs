@@ -2,7 +2,10 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using MimeKit;
 using System.Collections.Generic;
 using System.Data;
@@ -165,6 +168,63 @@ namespace Implem.Pleasanter.Libraries.Mails
             return
                 !Parameters.Mail.FixedFrom.IsNullOrEmpty() &&
                 Parameters.Mail.AllowedFrom?.Contains(from.Address) != true;
+        }
+
+        public static string ReplacedAddress(Context context, Column column, string value)
+        {
+            var users = new List<User>();
+            switch (column.Type)
+            {
+                case Column.Types.Dept:
+                    users.AddRange(column.MultipleSelections == true
+                        ? value.Deserialize<List<int>>()
+                            ?.Select(deptId => SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: deptId))
+                            .SelectMany(dept => SiteInfo.DeptUsers(
+                                context: context,
+                                dept: dept))
+                        : SiteInfo.DeptUsers(
+                            context: context,
+                            dept: SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: value.ToInt())));
+                    break;
+                case Column.Types.Group:
+                    users.AddRange(column.MultipleSelections == true
+                        ? value.Deserialize<List<int>>()
+                            ?.Select(groupId => SiteInfo.Group(
+                                tenantId: context.TenantId,
+                                groupId: groupId))
+                            .SelectMany(group => SiteInfo.GroupUsers(
+                                context: context,
+                                group: group))
+                        : SiteInfo.GroupUsers(
+                            context: context,
+                            group: SiteInfo.Group(
+                                tenantId: context.TenantId,
+                                groupId: value.ToInt())));
+                    break;
+                case Column.Types.User:
+                    users.AddRange(column.MultipleSelections == true
+                        ? value.Deserialize<List<int>>()
+                            ?.Select(userId => SiteInfo.User(
+                                context: context,
+                                userId: userId))
+                        : SiteInfo.User(
+                            context: context,
+                            userId: value.ToInt()).ToSingleList());
+                    break;
+                default:
+                    return column.MultipleSelections == true
+                        ? value.Deserialize<List<string>>()?.Join()
+                        : value;
+            }
+            return users
+                .Where(user => !user.Anonymous())
+                .Where(user => !user.Disabled)
+                .Select(user => $"[User{user.Id}]")
+                .Join();
         }
     }
 }

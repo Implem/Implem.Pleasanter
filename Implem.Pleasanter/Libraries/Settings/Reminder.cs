@@ -282,9 +282,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         toColumns.ForEach(toColumn =>
                             Addresses.Get(
                                 context: context,
-                                addresses: toColumn.Type == Settings.Column.Types.User
-                                    ? $"[User{dataRow.String(toColumn.ColumnName)}]"
-                                    : dataRow.String(toColumn.ColumnName))
+                                addresses: Addresses.ReplacedAddress(
+                                    context: context,
+                                    column: toColumn,
+                                    value: dataRow.String(toColumn.ColumnName)))
                                         .ForEach(mailAddress =>
                                         {
                                             if (!hash.ContainsKey(mailAddress))
