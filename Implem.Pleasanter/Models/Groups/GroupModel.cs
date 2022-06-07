@@ -443,9 +443,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-    where = where ?? Rds.GroupsWhereDefault(
-        context: context,
-        groupModel: this);
+            where = where ?? Rds.GroupsWhereDefault(
+                context: context,
+                groupModel: this);
             column = (column ?? Rds.GroupsDefaultColumns());
             join = join ?? Rds.GroupsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(

@@ -290,9 +290,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-    where = where ?? Rds.RegistrationsWhereDefault(
-        context: context,
-        registrationModel: this);
+            where = where ?? Rds.RegistrationsWhereDefault(
+                context: context,
+                registrationModel: this);
             column = (column ?? Rds.RegistrationsDefaultColumns());
             join = join ?? Rds.RegistrationsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(

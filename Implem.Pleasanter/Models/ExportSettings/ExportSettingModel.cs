@@ -219,9 +219,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-    where = where ?? Rds.ExportSettingsWhereDefault(
-        context: context,
-        exportSettingModel: this);
+            where = where ?? Rds.ExportSettingsWhereDefault(
+                context: context,
+                exportSettingModel: this);
             column = (column ?? Rds.ExportSettingsDefaultColumns());
             join = join ?? Rds.ExportSettingsJoinDefault();
             Set(context, Repository.ExecuteTable(

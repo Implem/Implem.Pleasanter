@@ -287,9 +287,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-    where = where ?? Rds.TenantsWhereDefault(
-        context: context,
-        tenantModel: this);
+            where = where ?? Rds.TenantsWhereDefault(
+                context: context,
+                tenantModel: this);
             column = (column ?? Rds.TenantsDefaultColumns());
             join = join ?? Rds.TenantsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(

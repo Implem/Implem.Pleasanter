@@ -118,9 +118,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-    where = where ?? Rds.AutoNumberingsWhereDefault(
-        context: context,
-        autoNumberingModel: this);
+            where = where ?? Rds.AutoNumberingsWhereDefault(
+                context: context,
+                autoNumberingModel: this);
             column = (column ?? Rds.AutoNumberingsDefaultColumns());
             join = join ?? Rds.AutoNumberingsJoinDefault();
             Set(context, Repository.ExecuteTable(

@@ -420,9 +420,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-    where = where ?? Rds.SysLogsWhereDefault(
-        context: context,
-        sysLogModel: this);
+            where = where ?? Rds.SysLogsWhereDefault(
+                context: context,
+                sysLogModel: this);
             column = (column ?? Rds.SysLogsDefaultColumns());
             join = join ?? Rds.SysLogsJoinDefault();
             Set(context, Repository.ExecuteTable(
