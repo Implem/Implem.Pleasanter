@@ -3872,13 +3872,16 @@ namespace Implem.Pleasanter.Models
                 resultId: 0,
                 view: api?.View,
                 setByApi: true);
-            if (resultModel.AccessStatus == Databases.AccessStatuses.NotFound)
+            switch (resultModel.AccessStatus)
             {
-                return CreateByApi(context: context, ss: ss);
-            }
-            if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return ApiResults.Get(ApiResponses.NotFound(context: context));
+                case Databases.AccessStatuses.Selected:
+                    break;
+                case Databases.AccessStatuses.NotFound:
+                    return CreateByApi(context: context, ss: ss);
+                case Databases.AccessStatuses.Overlap:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
             var invalid = ResultValidators.OnUpdating(
                 context: context,

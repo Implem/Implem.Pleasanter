@@ -783,7 +783,7 @@ namespace Implem.Pleasanter.Models
             int top = 0)
         {
             where = (view != null)
-                ? new SqlWhereCollection()
+                ? Rds.IssuesWhere().SiteId(SiteId)
                 : where ?? Rds.IssuesWhereDefault(
                     context: context,
                     issueModel: this);

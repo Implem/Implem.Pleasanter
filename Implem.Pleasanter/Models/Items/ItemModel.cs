@@ -1806,10 +1806,9 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings,
                         previousTitle: Title);
                 case "Results":
-                    return ResultUtilities.UpdateByApi(
+                    return ResultUtilities.UpsertByApi(
                         context: context,
                         ss: Site.SiteSettings,
-                        resultId: ReferenceId,
                         previousTitle: Title);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
