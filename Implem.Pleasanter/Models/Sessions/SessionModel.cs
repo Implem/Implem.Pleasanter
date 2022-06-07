@@ -127,9 +127,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.SessionsWhereDefault(
-                context: context,
-                sessionModel: this);
+    where = where ?? Rds.SessionsWhereDefault(
+        context: context,
+        sessionModel: this);
             column = (column ?? Rds.SessionsDefaultColumns());
             join = join ?? Rds.SessionsJoinDefault();
             Set(context, Repository.ExecuteTable(

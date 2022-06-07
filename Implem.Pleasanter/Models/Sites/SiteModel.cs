@@ -672,9 +672,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.SitesWhereDefault(
-                context: context,
-                siteModel: this);
+    where = where ?? Rds.SitesWhereDefault(
+        context: context,
+        siteModel: this);
             column = (column ?? Rds.SitesDefaultColumns());
             join = join ?? Rds.SitesJoinDefault();
             Set(context, Repository.ExecuteTable(

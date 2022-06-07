@@ -283,9 +283,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.WikisWhereDefault(
-                context: context,
-                wikiModel: this);
+    where = where ?? Rds.WikisWhereDefault(
+        context: context,
+        wikiModel: this);
             column = (column ?? Rds.WikisEditorColumns(ss));
             join = join ?? Rds.WikisJoinDefault();
             Set(context, ss, Repository.ExecuteTable(

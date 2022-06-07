@@ -97,9 +97,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.LinksWhereDefault(
-                context: context,
-                linkModel: this);
+    where = where ?? Rds.LinksWhereDefault(
+        context: context,
+        linkModel: this);
             column = (column ?? Rds.LinksDefaultColumns());
             join = join ?? Rds.LinksJoinDefault();
             Set(context, Repository.ExecuteTable(

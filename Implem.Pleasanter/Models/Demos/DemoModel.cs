@@ -186,9 +186,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.DemosWhereDefault(
-                context: context,
-                demoModel: this);
+    where = where ?? Rds.DemosWhereDefault(
+        context: context,
+        demoModel: this);
             column = (column ?? Rds.DemosDefaultColumns());
             join = join ?? Rds.DemosJoinDefault();
             Set(context, Repository.ExecuteTable(

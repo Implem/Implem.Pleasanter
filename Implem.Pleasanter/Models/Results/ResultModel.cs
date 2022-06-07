@@ -656,8 +656,8 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = (view == null)
-                ? new SqlWhereCollection()
+            where = (view != null)
+                ? Rds.ResultsWhere().SiteId(SiteId)
                 : where ?? Rds.ResultsWhereDefault(
                     context: context,
                     resultModel: this);

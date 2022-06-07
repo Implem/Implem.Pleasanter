@@ -107,9 +107,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.OrdersWhereDefault(
-                context: context,
-                orderModel: this);
+    where = where ?? Rds.OrdersWhereDefault(
+        context: context,
+        orderModel: this);
             column = (column ?? Rds.OrdersDefaultColumns());
             join = join ?? Rds.OrdersJoinDefault();
             Set(context, Repository.ExecuteTable(

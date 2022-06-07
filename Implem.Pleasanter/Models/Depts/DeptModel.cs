@@ -476,9 +476,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.DeptsWhereDefault(
-                context: context,
-                deptModel: this);
+    where = where ?? Rds.DeptsWhereDefault(
+        context: context,
+        deptModel: this);
             column = (column ?? Rds.DeptsDefaultColumns());
             join = join ?? Rds.DeptsJoinDefault();
             Set(context, ss, Repository.ExecuteTable(

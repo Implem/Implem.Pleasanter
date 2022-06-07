@@ -157,9 +157,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.MailAddressesWhereDefault(
-                context: context,
-                mailAddressModel: this);
+    where = where ?? Rds.MailAddressesWhereDefault(
+        context: context,
+        mailAddressModel: this);
             column = (column ?? Rds.MailAddressesDefaultColumns());
             join = join ?? Rds.MailAddressesJoinDefault();
             Set(context, Repository.ExecuteTable(

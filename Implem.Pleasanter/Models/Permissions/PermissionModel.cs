@@ -123,9 +123,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.PermissionsWhereDefault(
-                context: context,
-                permissionModel: this);
+    where = where ?? Rds.PermissionsWhereDefault(
+        context: context,
+        permissionModel: this);
             column = (column ?? Rds.PermissionsDefaultColumns());
             join = join ?? Rds.PermissionsJoinDefault();
             Set(context, Repository.ExecuteTable(

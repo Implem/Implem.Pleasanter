@@ -269,9 +269,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.BinariesWhereDefault(
-                context: context,
-                binaryModel: this);
+    where = where ?? Rds.BinariesWhereDefault(
+        context: context,
+        binaryModel: this);
             column = (column ?? Rds.BinariesDefaultColumns());
             join = join ?? Rds.BinariesJoinDefault();
             Set(context, Repository.ExecuteTable(

@@ -107,9 +107,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.GroupMembersWhereDefault(
-                context: context,
-                groupMemberModel: this);
+    where = where ?? Rds.GroupMembersWhereDefault(
+        context: context,
+        groupMemberModel: this);
             column = (column ?? Rds.GroupMembersDefaultColumns());
             join = join ?? Rds.GroupMembersJoinDefault();
             Set(context, Repository.ExecuteTable(

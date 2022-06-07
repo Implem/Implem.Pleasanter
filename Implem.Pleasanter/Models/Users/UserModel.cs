@@ -1332,9 +1332,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.UsersWhereDefault(
-                context: context,
-                userModel: this);
+    where = where ?? Rds.UsersWhereDefault(
+        context: context,
+        userModel: this);
             column = (column ?? Rds.UsersDefaultColumns());
             join = join ?? Rds.UsersJoinDefault();
             Set(context, ss, Repository.ExecuteTable(

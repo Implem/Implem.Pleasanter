@@ -242,9 +242,9 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.OutgoingMailsWhereDefault(
-                context: context,
-                outgoingMailModel: this);
+    where = where ?? Rds.OutgoingMailsWhereDefault(
+        context: context,
+        outgoingMailModel: this);
             column = (column ?? Rds.OutgoingMailsDefaultColumns());
             join = join ?? Rds.OutgoingMailsJoinDefault();
             Set(context, Repository.ExecuteTable(

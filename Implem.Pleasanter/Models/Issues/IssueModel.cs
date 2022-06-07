@@ -772,8 +772,8 @@ namespace Implem.Pleasanter.Models
         public IssueModel Get(
             Context context,
             SiteSettings ss,
-            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             View view = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -787,7 +787,7 @@ namespace Implem.Pleasanter.Models
                 : where ?? Rds.IssuesWhereDefault(
                     context: context,
                     issueModel: this);
-            view = view?? new View();
+            view = view ?? new View();
             view.SetColumnsWhere(
                 context: context,
                 ss: ss,
