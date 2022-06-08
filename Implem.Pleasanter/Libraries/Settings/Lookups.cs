@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             Link link,
             long id,
+            List<string> blankColumns,
             bool copyByDefaultOnly = false)
         {
             var currentSs = ss.Destinations.Get(link.SiteId);
@@ -52,10 +53,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     id: id);
             }
             var lookups = link.Lookups
-                .Where(o => copyByDefaultOnly == false
+                .Where(lookup => copyByDefaultOnly == false
                     || ss.GetColumn(
                         context: context,
-                        columnName: o.To)?.CopyByDefault == true)
+                        columnName: lookup.To)?.CopyByDefault == true)
+                .Where(lookup => lookup.Overwrite != false
+                    || blankColumns.Contains(lookup.To))
                 .ToList();
             var formData = lookups.ToDictionary(
                 lookup => $"{ss.ReferenceType}_{lookup.To}",

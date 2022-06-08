@@ -554,6 +554,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
                     case "Model_RestoreCases": Code.Model_RestoreCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreCases, definitionRow, CodeXls); break;
                     case "Model_RestoreFromHistoryCases": Code.Model_RestoreFromHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreFromHistoryCases, definitionRow, CodeXls); break;
+                    case "Model_SavedPropertyValue_ColumnCases": Code.Model_SavedPropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SavedPropertyValue_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SelectedIds": Code.Model_SelectedIds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectedIds, definitionRow, CodeXls); break;
                     case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
                     case "Model_SeparateCases": Code.Model_SeparateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SeparateCases, definitionRow, CodeXls); break;
@@ -6715,6 +6716,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Restore_Item;
         public string Model_RestoreCases;
         public string Model_RestoreFromHistoryCases;
+        public string Model_SavedPropertyValue_ColumnCases;
         public string Model_SelectedIds;
         public string Model_SelectIdentity;
         public string Model_SeparateCases;
@@ -7444,6 +7446,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
         public CodeDefinition Model_RestoreCases = new CodeDefinition();
         public CodeDefinition Model_RestoreFromHistoryCases = new CodeDefinition();
+        public CodeDefinition Model_SavedPropertyValue_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SelectedIds = new CodeDefinition();
         public CodeDefinition Model_SelectIdentity = new CodeDefinition();
         public CodeDefinition Model_SeparateCases = new CodeDefinition();

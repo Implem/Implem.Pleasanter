@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string From { get; set; }
         public string To { get; set; }
         public Types? Type { get; set; }
+        public bool? Overwrite { get; set; }
 
         public Lookup GetRecordingData()
         {
@@ -25,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             lookup.From = From;
             lookup.To = To;
             if (Type != Types.Value) lookup.Type = Type;
+            if (Overwrite == false) lookup.Overwrite = Overwrite;
             return lookup;
         }
 
