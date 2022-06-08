@@ -73,6 +73,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? MultipleSelections;
         public bool? NotInsertBlankChoice;
         public string DefaultInput;
+        public bool? UseImportKey;
         public string GridFormat;
         public string EditorFormat;
         public string ExportFormat;

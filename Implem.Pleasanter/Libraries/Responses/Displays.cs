@@ -2489,6 +2489,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DefaultImportKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DefaultImportKey",
+                data: data);
+        }
+
         public static string DefaultInput(
             Context context,
             params string[] data)
@@ -4026,6 +4036,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Imported",
+                data: data);
+        }
+
+        public static string ImportKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportKey",
                 data: data);
         }
 
@@ -8506,6 +8526,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseHalf",
+                data: data);
+        }
+
+        public static string UseImportKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseImportKey",
                 data: data);
         }
 

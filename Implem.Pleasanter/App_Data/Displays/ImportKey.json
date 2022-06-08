@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ImportKey",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default value"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认值"
+        },
+        {
+            "Language": "ja",
+            "Body": "インポートKey"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardwert"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor predeterminado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giá trị mặc định"
+        }
+    ]
+}

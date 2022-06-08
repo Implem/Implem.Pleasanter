@@ -5364,9 +5364,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary> // TODO Fixed消す
+        /// Fixed:
+        /// </summary>
         public static string Import(Context context, SiteModel siteModel)
         {
             var updatableImport = context.Forms.Bool("UpdatableImport");
+            var importKey = context.Forms.Data("ImportKey");
             var ss = siteModel.ResultsSiteSettings(
                 context: context,
                 referenceId: siteModel.SiteId,
@@ -5409,6 +5413,7 @@ namespace Implem.Pleasanter.Models
             if (csv != null && count > 0)
             {
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                // TODO ここでキーを置き換える
                 var idColumn = columnHash
                     .Where(o => o.Value.Column.ColumnName == "ResultId")
                     .Select(o => new { Id = o.Key })
