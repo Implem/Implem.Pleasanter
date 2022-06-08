@@ -5697,9 +5697,13 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary> // TODO Fixed消す
+        /// Fixed:
+        /// </summary>
         public static string Import(Context context, SiteModel siteModel)
         {
             var updatableImport = context.Forms.Bool("UpdatableImport");
+            var importKey = context.Forms.Data("ImportKey");
             var ss = siteModel.IssuesSiteSettings(
                 context: context,
                 referenceId: siteModel.SiteId,

@@ -3,6 +3,8 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlImports
@@ -41,6 +43,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: ss.UpdatableImport == true,
                         controlCss: " always-send",
                         _using: context.Controller == "items")
+                    .FieldDropDown( //TODO まだ途中
+                        context: context,
+                        controlId: "ImportKey",
+                        fieldCss: "field-wide",
+                        labelText: Displays.ImportKey(context: context),
+                        optionCollection: ss.Columns?
+                            .Where(o => o.UseImportKey == true)
+                            .OrderBy(o => o.No)
+                            .ToDictionary(
+                                o => o.ColumnName,
+                                o => o.LabelText),
+                        selectedValue: ss.DefaultImportKey)
+                    //TODO  UpdatableImportがチェックされたら表示
                     .FieldCheckBox(
                         controlId: "ReplaceAllGroupMembers",
                         fieldCss: "field-wide",

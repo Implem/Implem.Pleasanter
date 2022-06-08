@@ -6367,6 +6367,12 @@ namespace Implem.Pleasanter.Models
                                                         labelText: Displays.DefaultInput(context: context),
                                                         text: column.DefaultInput,
                                                         _using: column.ColumnName != "Comments"
+                                                            && !column.NotUpdate)
+                                                    .FieldCheckBox(
+                                                        controlId: "UseImportKey",
+                                                        labelText: Displays.UseImportKey(context: context),
+                                                        _checked: column.UseImportKey == true,
+                                                        _using: column.ColumnName != "Comments"
                                                             && !column.NotUpdate);
                                                 break;
                                         }
@@ -10741,7 +10747,22 @@ namespace Implem.Pleasanter.Models
                     controlId: "UpdatableImport",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UpdatableImport(context: context),
-                    _checked: ss.UpdatableImport == true));
+                    _checked: ss.UpdatableImport == true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "DefaultImportKey",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DefaultImportKey(context: context),
+                    optionCollection: ss.Columns?
+                        .Where(o => o.UseImportKey == true)
+                        .OrderBy(o => o.No)
+                        .ToDictionary(
+                            o => o.ColumnName,
+                            o => o.LabelText),
+                    selectedValue: ss.DefaultImportKey,
+                    _using: ss.Columns?
+                        .Any(o => o.UseImportKey == true && o.ControlType != "Id") == true));
+            //TODO 最初はIDはデフォルトになっているように。
         }
 
         /// <summary>
