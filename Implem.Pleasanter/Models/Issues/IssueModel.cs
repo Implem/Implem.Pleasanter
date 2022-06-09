@@ -2785,7 +2785,8 @@ namespace Implem.Pleasanter.Models
                 .Where(link => link.Lookups?.Any() == true)
                 .Where(link => PropertyUpdated(
                     context: context,
-                    name: link.ColumnName))
+                    name: link.ColumnName)
+                        || context.Forms.ContainsKey($"{ss.ReferenceType}_{link.ColumnName}"))
                 .ForEach(link => link.Lookups?.LookupData(
                     context: context,
                     ss: ss,
