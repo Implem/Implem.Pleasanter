@@ -58,7 +58,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         columnName: lookup.To)?.CopyByDefault == true)
                 .Where(lookup => lookup.Overwrite != false
-                    || blankColumns.Contains(lookup.To))
+                    || blankColumns.Contains(lookup.To)
+                    || context.Forms.Get($"{ss.ReferenceType}_{lookup.To}") == string.Empty)
                 .ToList();
             var formData = lookups.ToDictionary(
                 lookup => $"{ss.ReferenceType}_{lookup.To}",
