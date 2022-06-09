@@ -1003,6 +1003,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.UpdatableImport = UpdatableImport;
             }
+            if (!DefaultImportKey.IsNullOrEmpty())
+            {
+                ss.DefaultImportKey = DefaultImportKey;
+            }
             Exports?.ForEach(exportSetting =>
             {
                 if (ss.Exports == null)
@@ -3376,6 +3380,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "SwitchCommandButtonsAutoPostBack": SwitchCommandButtonsAutoPostBack = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
+                case "DefaultImportKey": DefaultImportKey = value; break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;

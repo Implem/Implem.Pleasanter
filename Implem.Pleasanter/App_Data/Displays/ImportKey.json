@@ -3,7 +3,7 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Default value"
+            "Body": "key"
         },
         {
             "Language": "zh",
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "インポートKey"
+            "Body": "キー"
         },
         {
             "Language": "de",

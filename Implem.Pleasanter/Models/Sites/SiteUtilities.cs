@@ -10759,10 +10759,7 @@ namespace Implem.Pleasanter.Models
                         .ToDictionary(
                             o => o.ColumnName,
                             o => o.LabelText),
-                    selectedValue: ss.DefaultImportKey,
-                    _using: ss.Columns?
-                        .Any(o => o.UseImportKey == true && o.ControlType != "Id") == true));
-            //TODO 最初はIDはデフォルトになっているように。
+                    selectedValue: ss.DefaultImportKey));
         }
 
         /// <summary>

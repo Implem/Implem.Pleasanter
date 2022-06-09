@@ -43,8 +43,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _checked: ss.UpdatableImport == true,
                         controlCss: " always-send",
                         _using: context.Controller == "items")
-                    .FieldDropDown( //TODO まだ途中
+                    .FieldDropDown(
                         context: context,
+                        fieldId: "ImportKeyField",
                         controlId: "ImportKey",
                         fieldCss: "field-wide",
                         labelText: Displays.ImportKey(context: context),
@@ -55,7 +56,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 o => o.ColumnName,
                                 o => o.LabelText),
                         selectedValue: ss.DefaultImportKey)
-                    //TODO  UpdatableImportがチェックされたら表示
                     .FieldCheckBox(
                         controlId: "ReplaceAllGroupMembers",
                         fieldCss: "field-wide",

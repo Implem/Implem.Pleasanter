@@ -18,3 +18,9 @@ $p.import = function ($control) {
         data,
         $control);
 }
+
+$(function () {
+    $(document).on('change', '#UpdatableImport', function () {
+        $('#ImportKeyField').toggle($(this).prop('checked'));
+    });
+});
