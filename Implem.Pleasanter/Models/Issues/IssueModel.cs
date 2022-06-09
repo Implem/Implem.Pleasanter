@@ -2803,7 +2803,7 @@ namespace Implem.Pleasanter.Models
                         .ToList(),
                     copyByDefaultOnly: copyByDefaultOnly)
                         .Where(data => requestFormData == null
-                            || !requestFormData.ContainsKey(data.Key))
+                            || requestFormData.Get(data.Key).IsNullOrEmpty())
                         .ForEach(data =>
                             formData.AddOrUpdate(data.Key, data.Value)));
             if (formData.Any())
