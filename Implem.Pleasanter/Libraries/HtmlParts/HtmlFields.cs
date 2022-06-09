@@ -55,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool _using = true)
         {
             if (column.Type == Column.Types.User
+                && (!column.MultipleSelections ?? false)
                 && SiteInfo.User(
                     context: context,
                     userId: value.ToInt()).Anonymous())
