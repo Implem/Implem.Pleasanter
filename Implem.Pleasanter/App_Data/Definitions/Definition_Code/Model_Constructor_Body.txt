@@ -35,6 +35,7 @@ public #ModelName#Model(
 
     <!--Model_SiteSettingsParameter-->
     <!--Model_IdentityParameters-->
+    <!--Model_ViewParameter-->
     <!--Model_FormDataParameter-->
     <!--Model_SetByApiParameter-->
 

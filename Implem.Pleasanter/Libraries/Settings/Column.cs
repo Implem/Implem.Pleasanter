@@ -1245,6 +1245,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Join(" ");
         }
 
+        public bool BlankValue(string value)
+        {
+            switch (TypeName)
+            {
+                case "bit":
+                    return !value.ToBool();
+                case "decimal":
+                    return Nullable == true
+                        ? value.IsNullOrEmpty()
+                        : value.IsNullOrEmpty() || value == "0";
+                case "datetime":
+                    return value?.ToDateTime().InRange() != true;
+                default:
+                    return value.IsNullOrEmpty();
+            }
+        }
+
         public bool CanCreate(
             Context context,
             SiteSettings ss,

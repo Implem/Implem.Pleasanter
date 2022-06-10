@@ -379,6 +379,47 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SavedPropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "TenantId": return SavedTenantId.ToString();
+                case "SiteId": return SavedSiteId.ToString();
+                case "UpdatedTime": return SavedUpdatedTime.ToString();
+                case "Ver": return SavedVer.ToString();
+                case "Title": return SavedTitle;
+                case "Body": return SavedBody;
+                case "SiteName": return SavedSiteName;
+                case "SiteGroupName": return SavedSiteGroupName;
+                case "GridGuide": return SavedGridGuide;
+                case "EditorGuide": return SavedEditorGuide;
+                case "CalendarGuide": return SavedCalendarGuide;
+                case "CrosstabGuide": return SavedCrosstabGuide;
+                case "GanttGuide": return SavedGanttGuide;
+                case "BurnDownGuide": return SavedBurnDownGuide;
+                case "TimeSeriesGuide": return SavedTimeSeriesGuide;
+                case "KambanGuide": return SavedKambanGuide;
+                case "ImageLibGuide": return SavedImageLibGuide;
+                case "ReferenceType": return SavedReferenceType;
+                case "ParentId": return SavedParentId.ToString();
+                case "InheritPermission": return SavedInheritPermission.ToString();
+                case "SiteSettings": return SavedSiteSettings;
+                case "Publish": return SavedPublish.ToString();
+                case "DisableCrossSearch": return SavedDisableCrossSearch.ToString();
+                case "LockedTime": return SavedLockedTime.ToString();
+                case "LockedUser": return SavedLockedUser.ToString();
+                case "ApiCountDate": return SavedApiCountDate.ToString();
+                case "ApiCount": return SavedApiCount.ToString();
+                case "Comments": return SavedComments;
+                case "Creator": return SavedCreator.ToString();
+                case "Updator": return SavedUpdator.ToString();
+                case "CreatedTime": return SavedCreatedTime.ToString();
+                default: return GetSavedValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();

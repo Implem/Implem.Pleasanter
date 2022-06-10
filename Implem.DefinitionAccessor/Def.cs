@@ -554,6 +554,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Restore_Item": Code.Model_Restore_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Restore_Item, definitionRow, CodeXls); break;
                     case "Model_RestoreCases": Code.Model_RestoreCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreCases, definitionRow, CodeXls); break;
                     case "Model_RestoreFromHistoryCases": Code.Model_RestoreFromHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_RestoreFromHistoryCases, definitionRow, CodeXls); break;
+                    case "Model_SavedPropertyValue_ColumnCases": Code.Model_SavedPropertyValue_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SavedPropertyValue_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SelectedIds": Code.Model_SelectedIds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectedIds, definitionRow, CodeXls); break;
                     case "Model_SelectIdentity": Code.Model_SelectIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SelectIdentity, definitionRow, CodeXls); break;
                     case "Model_SeparateCases": Code.Model_SeparateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SeparateCases, definitionRow, CodeXls); break;
@@ -682,6 +683,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateStatus": Code.Model_UpdateStatus = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateStatus, definitionRow, CodeXls); break;
                     case "Model_UpdateTitles": Code.Model_UpdateTitles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateTitles, definitionRow, CodeXls); break;
                     case "Model_UpdateWikiTitle": Code.Model_UpdateWikiTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateWikiTitle, definitionRow, CodeXls); break;
+                    case "Model_UpsertByApiCases": Code.Model_UpsertByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByApiCases, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiDuplicatedMessage": Code.Model_Utilities_ApiDuplicatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiDuplicatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkDelete": Code.Model_Utilities_BulkDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDelete, definitionRow, CodeXls); break;
@@ -845,6 +847,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateItems_Sites": Code.Model_Utilities_UpdateItems_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateItems_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateNotItems": Code.Model_Utilities_UpdateNotItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateNotItems, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpsertByApi": Code.Model_Utilities_UpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
@@ -869,6 +872,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_ShowProfilesAndHasPrivilege": Code.Model_Validator_ShowProfilesAndHasPrivilege = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfilesAndHasPrivilege, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
+                    case "Model_ViewBeforeComma": Code.Model_ViewBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ViewBeforeComma, definitionRow, CodeXls); break;
+                    case "Model_ViewParameter": Code.Model_ViewParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ViewParameter, definitionRow, CodeXls); break;
+                    case "Model_WhereDefault": Code.Model_WhereDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereDefault, definitionRow, CodeXls); break;
+                    case "Model_WhereSiteIdOrDefault": Code.Model_WhereSiteIdOrDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereSiteIdOrDefault, definitionRow, CodeXls); break;
                     case "Model_WriteAttachmentsExecute": Code.Model_WriteAttachmentsExecute = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WriteAttachmentsExecute, definitionRow, CodeXls); break;
                     case "Rds": Code.Rds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds, definitionRow, CodeXls); break;
                     case "Rds_AggregationAverageCases": Code.Rds_AggregationAverageCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_AggregationAverageCases, definitionRow, CodeXls); break;
@@ -6722,6 +6729,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Restore_Item;
         public string Model_RestoreCases;
         public string Model_RestoreFromHistoryCases;
+        public string Model_SavedPropertyValue_ColumnCases;
         public string Model_SelectedIds;
         public string Model_SelectIdentity;
         public string Model_SeparateCases;
@@ -6850,6 +6858,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateStatus;
         public string Model_UpdateTitles;
         public string Model_UpdateWikiTitle;
+        public string Model_UpsertByApiCases;
         public string Model_Utilities;
         public string Model_Utilities_ApiDuplicatedMessage;
         public string Model_Utilities_BulkDelete;
@@ -7013,6 +7022,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateItems_Sites;
         public string Model_Utilities_UpdateNotItems;
         public string Model_Utilities_UpdateParameters_Sites;
+        public string Model_Utilities_UpsertByApi;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
         public string Model_Utilities_WhereTenantId;
@@ -7037,6 +7047,10 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_ShowProfilesAndHasPrivilege;
         public string Model_ValidatorMethods;
         public string Model_ValidatorMethods_Binaries;
+        public string Model_ViewBeforeComma;
+        public string Model_ViewParameter;
+        public string Model_WhereDefault;
+        public string Model_WhereSiteIdOrDefault;
         public string Model_WriteAttachmentsExecute;
         public string Rds;
         public string Rds_AggregationAverageCases;
@@ -7451,6 +7465,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Restore_Item = new CodeDefinition();
         public CodeDefinition Model_RestoreCases = new CodeDefinition();
         public CodeDefinition Model_RestoreFromHistoryCases = new CodeDefinition();
+        public CodeDefinition Model_SavedPropertyValue_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SelectedIds = new CodeDefinition();
         public CodeDefinition Model_SelectIdentity = new CodeDefinition();
         public CodeDefinition Model_SeparateCases = new CodeDefinition();
@@ -7579,6 +7594,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateStatus = new CodeDefinition();
         public CodeDefinition Model_UpdateTitles = new CodeDefinition();
         public CodeDefinition Model_UpdateWikiTitle = new CodeDefinition();
+        public CodeDefinition Model_UpsertByApiCases = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiDuplicatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkDelete = new CodeDefinition();
@@ -7742,6 +7758,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateItems_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateNotItems = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpsertByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
@@ -7766,6 +7783,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_ShowProfilesAndHasPrivilege = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
+        public CodeDefinition Model_ViewBeforeComma = new CodeDefinition();
+        public CodeDefinition Model_ViewParameter = new CodeDefinition();
+        public CodeDefinition Model_WhereDefault = new CodeDefinition();
+        public CodeDefinition Model_WhereSiteIdOrDefault = new CodeDefinition();
         public CodeDefinition Model_WriteAttachmentsExecute = new CodeDefinition();
         public CodeDefinition Rds = new CodeDefinition();
         public CodeDefinition Rds_AggregationAverageCases = new CodeDefinition();
