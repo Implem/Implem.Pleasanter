@@ -3,31 +3,31 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "key"
+            "Body": "Import Key"
         },
         {
             "Language": "zh",
-            "Body": "默认值"
+            "Body": "一般"
         },
         {
             "Language": "ja",
-            "Body": "キー"
+            "Body": "インポートのキー"
         },
         {
             "Language": "de",
-            "Body": "Standardwert"
+            "Body": "Allgemeines"
         },
         {
             "Language": "ko",
-            "Body": "기본값"
+            "Body": "일반"
         },
         {
             "Language": "es",
-            "Body": "Valor predeterminado"
+            "Body": "General"
         },
         {
             "Language": "vn",
-            "Body": "Giá trị mặc định"
+            "Body": "Thông thường"
         }
     ]
 }

@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "UseImportKey",
+    "Id": "Key",
     "Type": 110,
     "Languages": [
         {
-            "Body": "General"
+            "Body": "key"
         },
         {
             "Language": "zh",
-            "Body": "一般"
+            "Body": "默认值"
         },
         {
             "Language": "ja",
-            "Body": "インポートキー候補"
+            "Body": "キー"
         },
         {
             "Language": "de",
-            "Body": "Allgemeines"
+            "Body": "Standardwert"
         },
         {
             "Language": "ko",
-            "Body": "일반"
+            "Body": "기본값"
         },
         {
             "Language": "es",
-            "Body": "General"
+            "Body": "Valor predeterminado"
         },
         {
             "Language": "vn",
-            "Body": "Thông thường"
+            "Body": "Giá trị mặc định"
         }
     ]
 }

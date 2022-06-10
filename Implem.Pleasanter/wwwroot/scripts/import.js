@@ -11,7 +11,7 @@ $p.import = function ($control) {
     data.append('file', $('#Import').prop('files')[0]);
     data.append('Encoding', $('#Encoding').val());
     data.append('UpdatableImport', $('#UpdatableImport').prop('checked'));
-    data.append('ImportKey', $('#ImportKey').val());
+    data.append('Key', $('#Key').val());
     data.append('ReplaceAllGroupMembers', $('#ReplaceAllGroupMembers').prop('checked'));
     $p.multiUpload(
         $('.main-form').attr('action').replace('_action_', $control.attr('data-action')),
@@ -21,6 +21,6 @@ $p.import = function ($control) {
 
 $(function () {
     $(document).on('change', '#UpdatableImport', function () {
-        $('#ImportKeyField').toggle($(this).prop('checked'));
+        $('#KeyField').toggle($(this).prop('checked'));
     });
 });

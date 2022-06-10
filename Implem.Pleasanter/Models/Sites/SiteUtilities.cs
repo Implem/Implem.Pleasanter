@@ -6341,6 +6341,12 @@ namespace Implem.Pleasanter.Models
                                             default:
                                                 hb
                                                     .FieldCheckBox(
+                                                        controlId: "ImportKey",
+                                                        labelText: Displays.ImportKey(context: context),
+                                                        _checked: column.ImportKey == true,
+                                                        _using: column.ColumnName != "Comments"
+                                                            && !column.NotUpdate)
+                                                    .FieldCheckBox(
                                                         controlId: "AllowImage",
                                                         labelText: Displays.AllowImage(context: context),
                                                         _checked: column.AllowImage == true,
@@ -6366,12 +6372,6 @@ namespace Implem.Pleasanter.Models
                                                         fieldCss: "field-wide",
                                                         labelText: Displays.DefaultInput(context: context),
                                                         text: column.DefaultInput,
-                                                        _using: column.ColumnName != "Comments"
-                                                            && !column.NotUpdate)
-                                                    .FieldCheckBox(
-                                                        controlId: "UseImportKey",
-                                                        labelText: Displays.UseImportKey(context: context),
-                                                        _checked: column.UseImportKey == true,
                                                         _using: column.ColumnName != "Comments"
                                                             && !column.NotUpdate);
                                                 break;
@@ -10754,7 +10754,7 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-auto-thin",
                     labelText: Displays.DefaultImportKey(context: context),
                     optionCollection: ss.Columns?
-                        .Where(o => o.UseImportKey == true)
+                        .Where(o => o.ImportKey == true)
                         .OrderBy(o => o.No)
                         .ToDictionary(
                             o => o.ColumnName,

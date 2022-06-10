@@ -1178,10 +1178,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.DefaultInput = column.DefaultInput;
                     }
-                    if (column.UseImportKey != columnDefinition.UseImportKey)
+                    if (column.ImportKey != columnDefinition.ImportKey)
                     {
                         enabled = true;
-                        newColumn.UseImportKey = column.UseImportKey;
+                        newColumn.ImportKey = column.ImportKey;
                     }
                     if (column.MaxLength.ToDecimal() > 0)
                     {
@@ -1768,7 +1768,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.MultipleSelections = column.MultipleSelections ?? false;
                 column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
-                column.UseImportKey = column.UseImportKey ?? columnDefinition.UseImportKey;
+                column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
@@ -3620,7 +3620,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
                 case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
-                case "UseImportKey": column.UseImportKey = value.ToBool(); break;
+                case "ImportKey": column.ImportKey = value.ToBool(); break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;

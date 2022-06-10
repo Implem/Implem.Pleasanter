@@ -45,12 +45,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: context.Controller == "items")
                     .FieldDropDown(
                         context: context,
-                        fieldId: "ImportKeyField",
-                        controlId: "ImportKey",
+                        fieldId: "KeyField",
+                        controlId: "Key",
                         fieldCss: "field-wide",
-                        labelText: Displays.ImportKey(context: context),
+                        labelText: Displays.Key(context: context),
                         optionCollection: ss.Columns?
-                            .Where(o => o.UseImportKey == true)
+                            .Where(o => o.ImportKey == true)
                             .OrderBy(o => o.No)
                             .ToDictionary(
                                 o => o.ColumnName,

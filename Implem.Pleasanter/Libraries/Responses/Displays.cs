@@ -4499,6 +4499,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Key(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Key",
+                data: data);
+        }
+
         public static string Latest(
             Context context,
             params string[] data)
@@ -8526,16 +8536,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseHalf",
-                data: data);
-        }
-
-        public static string UseImportKey(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "UseImportKey",
                 data: data);
         }
 
