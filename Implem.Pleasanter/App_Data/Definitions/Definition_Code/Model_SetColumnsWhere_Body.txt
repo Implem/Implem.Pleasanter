@@ -1,4 +1,4 @@
-﻿var view = new View();
+﻿view = view ?? new View();
 view.SetColumnsWhere(
     context: context,
     ss: ss,
