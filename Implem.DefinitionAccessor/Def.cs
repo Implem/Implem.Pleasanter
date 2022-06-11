@@ -488,9 +488,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_ItemProperties_Sites": Code.Model_ItemProperties_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ItemProperties_Sites, definitionRow, CodeXls); break;
                     case "Model_KambanCases": Code.Model_KambanCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanCases, definitionRow, CodeXls); break;
                     case "Model_KambanJsonCases": Code.Model_KambanJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanJsonCases, definitionRow, CodeXls); break;
-                    case "Model_LinkedSsDataSetHash": Code.Model_LinkedSsDataSetHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHash, definitionRow, CodeXls); break;
-                    case "Model_LinkedSsDataSetHashBeforeComma": Code.Model_LinkedSsDataSetHashBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashBeforeComma, definitionRow, CodeXls); break;
-                    case "Model_LinkedSsDataSetHashParameter": Code.Model_LinkedSsDataSetHashParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LinkedSsDataSetHashParameter, definitionRow, CodeXls); break;
                     case "Model_LockCases": Code.Model_LockCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LockCases, definitionRow, CodeXls); break;
                     case "Model_Matched": Code.Model_Matched = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched, definitionRow, CodeXls); break;
                     case "Model_Matched_ColumnCases": Code.Model_Matched_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases, definitionRow, CodeXls); break;
@@ -6656,9 +6653,6 @@ namespace Implem.DefinitionAccessor
         public string Model_ItemProperties_Sites;
         public string Model_KambanCases;
         public string Model_KambanJsonCases;
-        public string Model_LinkedSsDataSetHash;
-        public string Model_LinkedSsDataSetHashBeforeComma;
-        public string Model_LinkedSsDataSetHashParameter;
         public string Model_LockCases;
         public string Model_Matched;
         public string Model_Matched_ColumnCases;
@@ -7392,9 +7386,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ItemProperties_Sites = new CodeDefinition();
         public CodeDefinition Model_KambanCases = new CodeDefinition();
         public CodeDefinition Model_KambanJsonCases = new CodeDefinition();
-        public CodeDefinition Model_LinkedSsDataSetHash = new CodeDefinition();
-        public CodeDefinition Model_LinkedSsDataSetHashBeforeComma = new CodeDefinition();
-        public CodeDefinition Model_LinkedSsDataSetHashParameter = new CodeDefinition();
         public CodeDefinition Model_LockCases = new CodeDefinition();
         public CodeDefinition Model_Matched = new CodeDefinition();
         public CodeDefinition Model_Matched_ColumnCases = new CodeDefinition();

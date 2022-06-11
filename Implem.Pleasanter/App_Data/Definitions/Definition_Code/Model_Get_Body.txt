@@ -10,9 +10,6 @@
     SqlWhereCollection where = null,
     SqlOrderByCollection orderBy = null,
     SqlParamCollection param = null,
-
-    <!--Model_LinkedSsDataSetHashParameter-->
-
     bool distinct = false,
     int top = 0)
 {
