@@ -30,5 +30,33 @@ namespace Implem.Pleasanter.Models
         public TenantApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "TenantId": return TenantId;
+                case "Ver": return Ver;
+                case "TenantName": return TenantName;
+                case "Title": return Title;
+                case "Body": return Body;
+                case "ContractSettings": return ContractSettings;
+                case "ContractDeadline": return ContractDeadline;
+                case "DisableAllUsersPermission": return DisableAllUsersPermission;
+                case "DisableStartGuide": return DisableStartGuide;
+                case "LogoType": return LogoType;
+                case "HtmlTitleTop": return HtmlTitleTop;
+                case "HtmlTitleSite": return HtmlTitleSite;
+                case "HtmlTitleRecord": return HtmlTitleRecord;
+                case "TopStyle": return TopStyle;
+                case "TopScript": return TopScript;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                case "UpdatedTime": return UpdatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }
