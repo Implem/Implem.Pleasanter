@@ -91,6 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_CreateStatementsParams_GroupMembersUsing.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SavedPropertyValue_ColumnCases.json" />
   </ItemGroup>
 

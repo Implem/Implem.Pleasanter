@@ -395,7 +395,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CreateParams_Wikis": Code.Model_CreateParams_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateParams_Wikis, definitionRow, CodeXls); break;
                     case "Model_CreatePermissions": Code.Model_CreatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreatePermissions, definitionRow, CodeXls); break;
                     case "Model_CreateStatementsParams_GroupMembers": Code.Model_CreateStatementsParams_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateStatementsParams_GroupMembers, definitionRow, CodeXls); break;
-                    case "Model_CreateStatementsParams_GroupMembesUsing": Code.Model_CreateStatementsParams_GroupMembesUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateStatementsParams_GroupMembesUsing, definitionRow, CodeXls); break;
+                    case "Model_CreateStatementsParams_GroupMembersUsing": Code.Model_CreateStatementsParams_GroupMembersUsing = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CreateStatementsParams_GroupMembersUsing, definitionRow, CodeXls); break;
                     case "Model_CrosstabCases": Code.Model_CrosstabCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabCases, definitionRow, CodeXls); break;
                     case "Model_CrosstabJsonCases": Code.Model_CrosstabJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabJsonCases, definitionRow, CodeXls); break;
                     case "Model_CsvData": Code.Model_CsvData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvData, definitionRow, CodeXls); break;
@@ -6560,7 +6560,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CreateParams_Wikis;
         public string Model_CreatePermissions;
         public string Model_CreateStatementsParams_GroupMembers;
-        public string Model_CreateStatementsParams_GroupMembesUsing;
+        public string Model_CreateStatementsParams_GroupMembersUsing;
         public string Model_CrosstabCases;
         public string Model_CrosstabJsonCases;
         public string Model_CsvData;
@@ -7293,7 +7293,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CreateParams_Wikis = new CodeDefinition();
         public CodeDefinition Model_CreatePermissions = new CodeDefinition();
         public CodeDefinition Model_CreateStatementsParams_GroupMembers = new CodeDefinition();
-        public CodeDefinition Model_CreateStatementsParams_GroupMembesUsing = new CodeDefinition();
+        public CodeDefinition Model_CreateStatementsParams_GroupMembersUsing = new CodeDefinition();
         public CodeDefinition Model_CrosstabCases = new CodeDefinition();
         public CodeDefinition Model_CrosstabJsonCases = new CodeDefinition();
         public CodeDefinition Model_CsvData = new CodeDefinition();
