@@ -1022,7 +1022,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Process process = null;
             var errorData = siteModel.Create(context: context);
             switch (errorData.Type)
             {

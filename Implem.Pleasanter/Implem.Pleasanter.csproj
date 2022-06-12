@@ -91,12 +91,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_ApiValueCases.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_CreateStatementsParams_GroupMembersUsing.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_SavedPropertyValue_ColumnCases.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase0_FileUpload.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase10_ToIssuesCrosstab.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase11_ToIssuesGantt.json.ignore" />
