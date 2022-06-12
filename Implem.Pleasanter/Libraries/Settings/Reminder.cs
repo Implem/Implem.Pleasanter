@@ -24,11 +24,13 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         const string BodyPlaceholder = "[[Records]]";
         public int Id { get; set; }
+        public ReminderTypes ReminderType;
         public string Subject;
         public string Body;
         public string Line;
         public string From;
         public string To;
+        public string Token;
         public string Column;
         public DateTime StartDateTime;
         public Times.RepeatTypes Type;
@@ -39,6 +41,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? ExcludeOverdue;
         public int Condition;
         public bool? Disabled;
+
+        public enum ReminderTypes : int
+        {
+            Mail = 1,
+            Slack = 2,
+            ChatWork = 3,
+            Line = 4,
+            LineGroup = 5,
+            Teams = 6,
+            RocketChat = 7,
+            InCircle = 8
+        }
 
         public Reminder()
         {
@@ -54,11 +68,13 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Reminder(
             int id,
+            ReminderTypes reminderType,
             string subject,
             string body,
             string line,
             string from,
             string to,
+            string token,
             string column,
             DateTime startDateTime,
             Times.RepeatTypes type,
@@ -71,11 +87,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool disabled)
         {
             Id = id;
+            ReminderType = reminderType;
             Subject = subject;
             Body = body;
             Line = line;
             From = from;
             To = to;
+            Token = token;
             Column = column;
             StartDateTime = startDateTime;
             Type = type;
@@ -89,11 +107,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         public void Update(
+            ReminderTypes reminderType,
             string subject,
             string body,
             string line,
             string from,
             string to,
+            string token,
             string column,
             DateTime startDateTime,
             Times.RepeatTypes type,
@@ -105,11 +125,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             int condition,
             bool disabled)
         {
+            ReminderType = reminderType;
             Subject = subject;
             Body = body;
             Line = line;
             From = from;
             To = to;
+            Token = token;
             Column = column;
             StartDateTime = startDateTime;
             Type = type;
@@ -145,37 +167,128 @@ namespace Implem.Pleasanter.Libraries.Settings
                 var fixedTo = GetFixedTo(
                     context: context,
                     toColumns: toColumns);
-                GetDataHash(
+                var dataTable = GetDataTable(
                     context: context,
                     ss: ss,
                     toColumns: toColumns,
                     subjectColumns: subjectColumns,
-                    bodyColumns: bodyColumns,
-                    fixedTo: fixedTo)
-                        .Where(data => !data.Key.IsNullOrEmpty())
-                        .Where(data => data.Value.Count > 0
-                            || NotSendIfNotApplicable != true)
-                        .ForEach(data =>
+                    bodyColumns: bodyColumns);
+                var title = ReminderType != ReminderTypes.Mail
+                    ? GetSubject(
+                        context: context,
+                        ss: ss,
+                        dataRows: dataTable.AsEnumerable().ToList(),
+                        test: test)
+                    : null;
+                var body = ReminderType != ReminderTypes.Mail
+                    ? GetBody(
+                        context: context,
+                        ss: ss,
+                        dataRows: dataTable.AsEnumerable().ToList())
+                    : null;
+                switch (ReminderType)
+                {
+                    case ReminderTypes.Mail:
+                        if (Parameters.Reminder.Mail)
                         {
-                            new OutgoingMailModel()
-                            {
-                                Title = GetSubject(
-                                    context: context,
-                                    ss: ss,
-                                    dataRows: data.Value.Values.ToList(),
-                                    test: test),
-                                Body = GetBody(
-                                    context: context,
-                                    ss: ss,
-                                    dataRows: data.Value.Values.ToList()),
-                                From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(
-                                    Parameters.Mail.FixedFrom,
-                                    From)),
-                                To = data.Key
-                            }.Send(
+                            GetDataHash(
                                 context: context,
-                                ss: ss);
-                        });
+                                ss: ss,
+                                dataTable: dataTable,
+                                toColumns: toColumns,
+                                fixedTo: fixedTo)
+                                    .Where(data => !data.Key.IsNullOrEmpty())
+                                    .Where(data => data.Value.Count > 0
+                                        || NotSendIfNotApplicable != true)
+                                    .ForEach(data =>
+                                    {
+                                        new OutgoingMailModel()
+                                        {
+                                            Title = GetSubject(
+                                                context: context,
+                                                ss: ss,
+                                                dataRows: data.Value.Values.ToList(),
+                                                test: test),
+                                            Body = GetBody(
+                                                context: context,
+                                                ss: ss,
+                                                dataRows: data.Value.Values.ToList()),
+                                            From = MimeKit.MailboxAddress.Parse(Strings.CoalesceEmpty(
+                                                Parameters.Mail.FixedFrom,
+                                                From)),
+                                            To = data.Key
+                                        }.Send(
+                                            context: context,
+                                            ss: ss);
+                                    });
+                        }
+                        break;
+                    case ReminderTypes.Slack:
+                        if (Parameters.Reminder.Slack)
+                        {
+                            new Slack(
+                                _context: context,
+                                _text: $"*{title}*\n{body}",
+                                _username: From)
+                                    .Send(To);
+                        }
+                        break;
+                    case ReminderTypes.ChatWork:
+                        if (Parameters.Reminder.ChatWork)
+                        {
+                            new ChatWork(
+                                _context: context,
+                                _text: $"*{title}*\n{body}",
+                                _username: From,
+                                _token: Token)
+                                    .Send(To);
+                        }
+                        break;
+                    case ReminderTypes.Line:
+                    case ReminderTypes.LineGroup:
+                        if (Parameters.Reminder.Line)
+                        {
+                            new Line(
+                                _context: context,
+                                _text: $"*{title}*\n{body}",
+                                _username: From,
+                                _token: Token)
+                                    .Send(To, ReminderType == ReminderTypes.LineGroup);
+                        }
+                        break;
+                    case ReminderTypes.Teams:
+                        if (Parameters.Reminder.Teams)
+                        {
+                            new Teams(
+                                _context: context,
+                                _text: $"*{title}*\n{body}")
+                                    .Send(To);
+                        }
+                        break;
+                    case ReminderTypes.RocketChat:
+                        if (Parameters.Reminder.RocketChat)
+                        {
+                            new RocketChat(
+                                _context: context,
+                                _text: $"*{title}*\n{body}",
+                                _username: From)
+                                    .Send(To);
+                        }
+                        break;
+                    case ReminderTypes.InCircle:
+                        if (Parameters.Reminder.InCircle)
+                        {
+                            new InCircle(
+                                _context: context,
+                                _text: $"*{title}*\n{body}",
+                                _username: From,
+                                _token: Token)
+                                    .Send(To);
+                        }
+                        break;
+                    default:
+                        break;
+                }
                 if (!test)
                 {
                     Repository.ExecuteNonQuery(
@@ -256,9 +369,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<string, Dictionary<long, DataRow>> GetDataHash(
             Context context,
             SiteSettings ss,
+            DataTable dataTable,
             List<Column> toColumns,
-            List<Column> subjectColumns,
-            List<Column> bodyColumns,
             string fixedTo)
         {
             var hash = new Dictionary<string, Dictionary<long, DataRow>>()
@@ -268,34 +380,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new Dictionary<long, DataRow>()
                 }
             };
-            GetDataSet(
-                context: context,
-                ss: ss,
-                toColumns: toColumns,
-                subjectColumns: subjectColumns,
-                bodyColumns: bodyColumns)
-                    .AsEnumerable()
-                    .ForEach(dataRow =>
-                    {
-                        var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
-                        hash[fixedTo].AddIfNotConainsKey(id, dataRow);
-                        toColumns.ForEach(toColumn =>
-                            Addresses.Get(
+            dataTable
+                .AsEnumerable()
+                .ForEach(dataRow =>
+                {
+                    var id = dataRow.Long(Rds.IdColumn(ss.ReferenceType));
+                    hash[fixedTo].AddIfNotConainsKey(id, dataRow);
+                    toColumns.ForEach(toColumn =>
+                        Addresses.Get(
+                            context: context,
+                            addresses: Addresses.ReplacedAddress(
                                 context: context,
-                                addresses: toColumn.Type == Settings.Column.Types.User
-                                    ? $"[User{dataRow.String(toColumn.ColumnName)}]"
-                                    : dataRow.String(toColumn.ColumnName))
-                                        .ForEach(mailAddress =>
+                                column: toColumn,
+                                value: dataRow.String(toColumn.ColumnName)))
+                                    .ForEach(mailAddress =>
+                                    {
+                                        if (!hash.ContainsKey(mailAddress))
                                         {
-                                            if (!hash.ContainsKey(mailAddress))
-                                            {
-                                                hash.Add(
-                                                    mailAddress,
-                                                    new Dictionary<long, DataRow>());
-                                            }
-                                            hash[mailAddress].AddIfNotConainsKey(id, dataRow);
-                                        }));
-                    });
+                                            hash.Add(
+                                                mailAddress,
+                                                new Dictionary<long, DataRow>());
+                                        }
+                                        hash[mailAddress].AddIfNotConainsKey(id, dataRow);
+                                    }));
+                });
             return hash;
         }
 
@@ -312,7 +420,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     + subject);
         }
 
-        private string GetBody(Context context, SiteSettings ss, List<DataRow> dataRows)
+        private string GetBody(
+            Context context,
+            SiteSettings ss,
+            List<DataRow> dataRows)
         {
             var sb = new StringBuilder();
             var timeGroups = dataRows
@@ -374,7 +485,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : body + "\n" + sb.ToString();
         }
 
-        private DataTable GetDataSet(
+        private DataTable GetDataTable(
             Context context,
             SiteSettings ss,
             List<Column> toColumns,
@@ -497,11 +608,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var reminder = new Reminder(context: context);
             reminder.Id = Id;
+            reminder.ReminderType = ReminderType;
             reminder.Subject = Subject;
             reminder.Body = Body;
             reminder.Line = Line;
             reminder.From = From;
             reminder.To = To;
+            reminder.Token = Token;
             reminder.Column = Column;
             reminder.StartDateTime = StartDateTime;
             reminder.Type = Type;

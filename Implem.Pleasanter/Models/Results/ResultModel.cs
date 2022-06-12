@@ -114,6 +114,30 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SavedPropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "SiteId": return SavedSiteId.ToString();
+                case "UpdatedTime": return SavedUpdatedTime.ToString();
+                case "ResultId": return SavedResultId.ToString();
+                case "Ver": return SavedVer.ToString();
+                case "Title": return SavedTitle;
+                case "Body": return SavedBody;
+                case "Status": return SavedStatus.ToString();
+                case "Manager": return SavedManager.ToString();
+                case "Owner": return SavedOwner.ToString();
+                case "Locked": return SavedLocked.ToString();
+                case "Comments": return SavedComments;
+                case "Creator": return SavedCreator.ToString();
+                case "Updator": return SavedUpdator.ToString();
+                case "CreatedTime": return SavedCreatedTime.ToString();
+                default: return GetSavedValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();
@@ -499,14 +523,9 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
             }
-            if (encloseDoubleQuotes != false)
-            {
-                return "\"" + value?.Replace("\"", "\"\"") + "\"";
-            }
-            else
-            {
-                return value;
-            }
+            return CsvUtilities.EncloseDoubleQuotes(
+                value: value,
+                encloseDoubleQuotes: encloseDoubleQuotes);
         }
 
         public List<long> SwitchTargets;
@@ -549,6 +568,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long resultId,
+            View view = null,
             Dictionary<string, string> formData = null,
             bool setByApi = false,
             bool clearSessions = false,
@@ -570,7 +590,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(context: context, ss: ss, view: view);
             }
             if (clearSessions) ClearSessions(context: context);
             if (ResultId == 0) SetDefault(context: context, ss: ss);
@@ -650,6 +670,7 @@ namespace Implem.Pleasanter.Models
         public ResultModel Get(
             Context context,
             SiteSettings ss,
+            View view = null,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -659,10 +680,12 @@ namespace Implem.Pleasanter.Models
             bool distinct = false,
             int top = 0)
         {
-            where = where ?? Rds.ResultsWhereDefault(
-                context: context,
-                resultModel: this);
-            var view = new View();
+            where = (view != null)
+                ? Rds.ResultsWhere().SiteId(SiteId)
+                : where ?? Rds.ResultsWhereDefault(
+                    context: context,
+                    resultModel: this);
+            view = view ?? new View();
             view.SetColumnsWhere(
                 context: context,
                 ss: ss,
@@ -2488,18 +2511,27 @@ namespace Implem.Pleasanter.Models
                 .Where(link => link.Lookups?.Any() == true)
                 .Where(link => PropertyUpdated(
                     context: context,
-                    name: link.ColumnName))
-                .ForEach(link => link.Lookups
-                    .LookupData(
-                        context: context,
-                        ss: ss,
-                        link: link,
-                        id: GetClass(link.ColumnName).ToLong(),
-                        copyByDefaultOnly: copyByDefaultOnly)
-                            .Where(data => requestFormData == null
-                                || !requestFormData.ContainsKey(data.Key))
-                            .ForEach(data =>
-                                formData.AddOrUpdate(data.Key, data.Value)));
+                    name: link.ColumnName)
+                        || context.Forms.ContainsKey($"{ss.ReferenceType}_{link.ColumnName}"))
+                .ForEach(link => link.Lookups?.LookupData(
+                    context: context,
+                    ss: ss,
+                    link: link,
+                    id: GetClass(link.ColumnName).ToLong(),
+                    blankColumns: link.Lookups
+                        ?.Select(lookup => ss.GetColumn(
+                            context: context,
+                            columnName: lookup.To))
+                        .Where(column => column?.BlankValue(value: SavedPropertyValue(
+                            context: context,
+                            column: column)) == true)
+                        .Select(column => column.ColumnName)
+                        .ToList(),
+                    copyByDefaultOnly: copyByDefaultOnly)
+                        .Where(data => requestFormData == null
+                            || requestFormData.Get(data.Key).IsNullOrEmpty())
+                        .ForEach(data =>
+                            formData.AddOrUpdate(data.Key, data.Value)));
             if (formData.Any())
             {
                 SetByForm(

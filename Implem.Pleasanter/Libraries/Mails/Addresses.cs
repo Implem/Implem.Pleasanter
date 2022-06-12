@@ -2,7 +2,10 @@
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
 using MimeKit;
 using System.Collections.Generic;
 using System.Data;
@@ -69,9 +72,36 @@ namespace Implem.Pleasanter.Libraries.Mails
         private static IEnumerable<string> ConvertedMailAddresses(
             Context context, string address)
         {
-            var userId = address?.RegexFirst(@"(?<=\[User)[0-9]+(?=\])").ToInt();
-            return userId > 0
-                ? Repository.ExecuteTable(
+            var users = new List<User>();
+            var deptId = address?.RegexFirst(@"(?<=\[Dept)[0-9]+(?=\])").ToInt() ?? 0;
+            var groupId = address?.RegexFirst(@"(?<=\[Group)[0-9]+(?=\])").ToInt() ?? 0;
+            var userId = address?.RegexFirst(@"(?<=\[User)[0-9]+(?=\])").ToInt() ?? 0;
+            if (deptId > 0)
+            {
+                users.AddRange(SiteInfo.DeptUsers(
+                    context: context,
+                    dept: SiteInfo.Dept(
+                        tenantId: context.TenantId,
+                        deptId: deptId)));
+            }
+            else if (groupId > 0)
+            {
+                users.AddRange(SiteInfo.GroupUsers(
+                    context: context,
+                    group: SiteInfo.Group(
+                        tenantId: context.TenantId,
+                        groupId: groupId)));
+            }
+            else if (userId > 0)
+            {
+                users.Add(SiteInfo.User(
+                    context: context,
+                    userId: userId));
+            }
+            if (users.Any())
+            {
+                var mailAddresses = new List<string>();
+                users.ForEach(user => Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectMailAddresses(
                         column: Rds.MailAddressesColumn()
@@ -83,12 +113,19 @@ namespace Implem.Pleasanter.Libraries.Mails
                                 joinExpression: "\"MailAddresses\".\"OwnerId\"=\"Users\".\"UserId\"")),
                         where: Rds.MailAddressesWhere()
                             .OwnerType("Users")
-                            .OwnerId(userId)
-                            .Users_TenantId(context.TenantId)))
+                            .OwnerId(user.Id)
+                            .Users_TenantId(context.TenantId)
+                            .Users_Disabled(false)))
                                 .AsEnumerable()
-                                .Select(o => o.String("MailAddress"))
-                                .ToList()
-                : address?.ToSingleList();
+                                .Select(dataRow => dataRow.String("MailAddress"))
+                                .ForEach(mailAddress =>
+                                    mailAddresses.Add(mailAddress)));
+                return mailAddresses.Distinct();
+            }
+            else
+            {
+                return address?.ToSingleList();
+            }
         }
 
         public static string BadAddress(string addresses)
@@ -165,6 +202,63 @@ namespace Implem.Pleasanter.Libraries.Mails
             return
                 !Parameters.Mail.FixedFrom.IsNullOrEmpty() &&
                 Parameters.Mail.AllowedFrom?.Contains(from.Address) != true;
+        }
+
+        public static string ReplacedAddress(Context context, Column column, string value)
+        {
+            var users = new List<User>();
+            switch (column.Type)
+            {
+                case Column.Types.Dept:
+                    users.AddRange(column.MultipleSelections == true
+                        ? value.Deserialize<List<int>>()
+                            ?.Select(deptId => SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: deptId))
+                            .SelectMany(dept => SiteInfo.DeptUsers(
+                                context: context,
+                                dept: dept))
+                        : SiteInfo.DeptUsers(
+                            context: context,
+                            dept: SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptId: value.ToInt())));
+                    break;
+                case Column.Types.Group:
+                    users.AddRange(column.MultipleSelections == true
+                        ? value.Deserialize<List<int>>()
+                            ?.Select(groupId => SiteInfo.Group(
+                                tenantId: context.TenantId,
+                                groupId: groupId))
+                            .SelectMany(group => SiteInfo.GroupUsers(
+                                context: context,
+                                group: group))
+                        : SiteInfo.GroupUsers(
+                            context: context,
+                            group: SiteInfo.Group(
+                                tenantId: context.TenantId,
+                                groupId: value.ToInt())));
+                    break;
+                case Column.Types.User:
+                    users.AddRange(column.MultipleSelections == true
+                        ? value.Deserialize<List<int>>()
+                            ?.Select(userId => SiteInfo.User(
+                                context: context,
+                                userId: userId))
+                        : SiteInfo.User(
+                            context: context,
+                            userId: value.ToInt()).ToSingleList());
+                    break;
+                default:
+                    return column.MultipleSelections == true
+                        ? value.Deserialize<List<string>>()?.Join()
+                        : value;
+            }
+            return users
+                .Where(user => !user.Anonymous())
+                .Where(user => !user.Disabled)
+                .Select(user => $"[User{user.Id}]")
+                .Join();
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ReminderType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Reminder type"
+        },
+        {
+            "Language": "zh",
+            "Body": "提醒类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "リマインダー種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Erinnerungstyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "알림 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de recordatorio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại lời nhắc"
+        }
+    ]
+}

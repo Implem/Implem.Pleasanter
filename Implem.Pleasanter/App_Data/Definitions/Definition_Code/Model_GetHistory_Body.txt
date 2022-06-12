@@ -9,5 +9,5 @@
 }
 else
 {
-    Get(context: context<!--Model_SiteSettingsBeforeComma-->);
+    Get(context: context<!--Model_SiteSettingsBeforeComma--><!--Model_ViewBeforeComma-->);
 }

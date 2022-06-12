@@ -22,5 +22,24 @@ namespace Implem.Pleasanter.Models
         public WikiApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "SiteId": return SiteId;
+                case "UpdatedTime": return UpdatedTime;
+                case "WikiId": return WikiId;
+                case "Ver": return Ver;
+                case "Title": return Title;
+                case "Body": return Body;
+                case "Locked": return Locked;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

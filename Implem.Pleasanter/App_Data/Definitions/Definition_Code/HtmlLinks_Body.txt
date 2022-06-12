@@ -209,8 +209,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Where(p => p.StartsWith("_Links-"))
                     .Select(p => p.Split_2nd('-').ToLong()))
                 .ToList();
-            var cache = ss.LinkedSsDataSetHash
-                ?? ItemModel.LinkedSsDataSetHash(context, ss.SiteId);
             var statements = new List<SqlStatement>();
 
 <!--HtmlLinks_DataSetTableCases-->

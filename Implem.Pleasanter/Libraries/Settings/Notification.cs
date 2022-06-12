@@ -187,7 +187,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 : Parameters.Mail.SupportFrom);
                         values?.ForEach(data => Address = Address.Replace(
                             $"[{data.Key.ColumnName}]",
-                            ReplacedAddress(context, data)));
+                            Addresses.ReplacedAddress(
+                                context: context,
+                                column: data.Key,
+                                value: data.Value)));
                         var to = Addresses.Get(
                             context: context,
                             addresses: Address).Join(",");
@@ -269,63 +272,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     break;
             }
-        }
-
-        private static string ReplacedAddress(Context context, KeyValuePair<Column, string> data)
-        {
-            var users = new List<User>();
-            switch (data.Key.Type)
-            {
-                case Column.Types.Dept:
-                    users.AddRange(data.Key.MultipleSelections == true
-                        ? data.Value.Deserialize<List<int>>()
-                            ?.Select(deptId => SiteInfo.Dept(
-                                tenantId: context.TenantId,
-                                deptId: deptId))
-                            .SelectMany(dept => SiteInfo.DeptUsers(
-                                context: context,
-                                dept: dept))
-                        : SiteInfo.DeptUsers(
-                            context: context,
-                            dept: SiteInfo.Dept(
-                                tenantId: context.TenantId,
-                                deptId: data.Value.ToInt())));
-                    break;
-                case Column.Types.Group:
-                    users.AddRange(data.Key.MultipleSelections == true
-                        ? data.Value.Deserialize<List<int>>()
-                            ?.Select(groupId => SiteInfo.Group(
-                                tenantId: context.TenantId,
-                                groupId: groupId))
-                            .SelectMany(group => SiteInfo.GroupUsers(
-                                context: context,
-                                group: group))
-                        : SiteInfo.GroupUsers(
-                            context: context,
-                            group: SiteInfo.Group(
-                                tenantId: context.TenantId,
-                                groupId: data.Value.ToInt())));
-                    break;
-                case Column.Types.User:
-                    users.AddRange(data.Key.MultipleSelections == true
-                        ? data.Value.Deserialize<List<int>>()
-                            ?.Select(userId => SiteInfo.User(
-                                context: context,
-                                userId: userId))
-                        : SiteInfo.User(
-                            context: context,
-                            userId: data.Value.ToInt()).ToSingleList());
-                    break;
-                default:
-                    return data.Key.MultipleSelections == true
-                        ? data.Value.Deserialize<List<string>>()?.Join()
-                        : data.Value;
-            }
-            return users
-                .Where(user => !user.Anonymous())
-                .Where(user => !user.Disabled)
-                .Select(user => $"[User{user.Id}]")
-                .Join();
         }
 
         public IEnumerable<Column> ColumnCollection(Context context, SiteSettings ss, bool update)

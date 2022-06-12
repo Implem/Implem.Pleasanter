@@ -25,5 +25,27 @@ namespace Implem.Pleasanter.Models
         public ResultApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "SiteId": return SiteId;
+                case "UpdatedTime": return UpdatedTime;
+                case "ResultId": return ResultId;
+                case "Ver": return Ver;
+                case "Title": return Title;
+                case "Body": return Body;
+                case "Status": return Status;
+                case "Manager": return Manager;
+                case "Owner": return Owner;
+                case "Locked": return Locked;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

@@ -12,8 +12,7 @@
                 ss: currentSs,
                 direction: "Source")),
         id: id,
-        direction: "Source",
-        cache: cache)));
+        direction: "Source")));
 statements.AddRange(ss.Destinations
     .Values
     .Where(o => !targets.Any() || targets.Contains(o.SiteId))
@@ -28,5 +27,4 @@ statements.AddRange(ss.Destinations
                 ss: currentSs,
                 direction: "Destination")),
         id: id,
-        direction: "Destination",
-        cache: cache)));
+        direction: "Destination")));

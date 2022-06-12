@@ -2371,6 +2371,27 @@ namespace Implem.Pleasanter.Models.Shared
             }
         }
 
+        public virtual object ObjectValue(string columnName)
+        {
+            switch (Def.ExtendedColumnTypes.Get(columnName))
+            {
+                case "Class":
+                    return Class(columnName: columnName);
+                case "Num":
+                    return Num(columnName: columnName);
+                case "Date":
+                    return Date(columnName: columnName);
+                case "Description":
+                    return Description(columnName: columnName);
+                case "Check":
+                    return Check(columnName: columnName);
+                case "Attachments":
+                    return Attachments(columnName: columnName);
+                default:
+                    return null;
+            }
+        }
+
         public string Value(
             Context context,
             Column column,

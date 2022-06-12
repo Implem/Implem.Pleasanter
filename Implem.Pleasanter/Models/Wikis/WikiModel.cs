@@ -72,6 +72,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SavedPropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "SiteId": return SavedSiteId.ToString();
+                case "UpdatedTime": return SavedUpdatedTime.ToString();
+                case "WikiId": return SavedWikiId.ToString();
+                case "Ver": return SavedVer.ToString();
+                case "Title": return SavedTitle;
+                case "Body": return SavedBody;
+                case "Locked": return SavedLocked.ToString();
+                case "Comments": return SavedComments;
+                case "Creator": return SavedCreator.ToString();
+                case "Updator": return SavedUpdator.ToString();
+                case "CreatedTime": return SavedCreatedTime.ToString();
+                default: return GetSavedValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();

@@ -2,6 +2,7 @@
     Context context,
 
     <!--Model_SiteSettingsParameter-->
+    <!--Model_ViewParameter-->
 
     Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
     SqlColumnCollection column = null,
@@ -9,15 +10,12 @@
     SqlWhereCollection where = null,
     SqlOrderByCollection orderBy = null,
     SqlParamCollection param = null,
-
-    <!--Model_LinkedSsDataSetHashParameter-->
-
     bool distinct = false,
     int top = 0)
 {
-    where = where ?? Rds.#TableName#WhereDefault(
-        context: context,
-        #modelName#Model: this);
+
+<!--Model_WhereDefault-->
+<!--Model_WhereSiteIdOrDefault-->
 
 <!--Model_SetColumnsWhere-->
 
