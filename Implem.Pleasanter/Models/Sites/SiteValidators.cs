@@ -416,6 +416,23 @@ namespace Implem.Pleasanter.Models
                 var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
                 ss.IncludedColumns(value: to).ForEach(column =>
                     to = to.Replace($"[{column.ColumnName}]", string.Empty));
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Dept[0-9]+\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Group[0-9]+\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[User[0-9]+\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                to = to
+                    .Split(',')
+                    .Where(o => !o.IsNullOrEmpty())
+                    .Select(o => o.Trim())
+                    .Join();
                 var badFrom = MailAddressValidators.BadMailAddress(
                     addresses: context.Forms.Data("ReminderFrom"));
                 if (badFrom.Type != Error.Types.None) return badFrom;
