@@ -35,7 +35,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public string ConvertToBase64String(string s, string encoding = "utf-8")
         {
-            var bytes= Encoding.GetEncoding(encoding).GetBytes(s);
+            var bytes = Encoding.GetEncoding(encoding).GetBytes(s);
             return Convert.ToBase64String(bytes);
         }
     }
