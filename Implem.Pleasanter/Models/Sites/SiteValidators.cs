@@ -411,18 +411,21 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData SetReminder(Context context, SiteSettings ss)
         {
-            var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
-            ss.IncludedColumns(value: to).ForEach(column =>
-                to = to.Replace($"[{column.ColumnName}]", string.Empty));
-            var badFrom = MailAddressValidators.BadMailAddress(
-                addresses: context.Forms.Data("ReminderFrom"));
-            if (badFrom.Type != Error.Types.None) return badFrom;
-            var badTo = MailAddressValidators.BadMailAddress(
-                addresses: to);
-            if (badTo.Type != Error.Types.None) return badTo;
-            var externalTo = MailAddressValidators.ExternalMailAddress(
-                addresses: to);
-            if (externalTo.Type != Error.Types.None) return externalTo;
+            if ((Reminder.ReminderTypes)context.Forms.Int("ReminderType") == Reminder.ReminderTypes.Mail)
+            {
+                var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
+                ss.IncludedColumns(value: to).ForEach(column =>
+                    to = to.Replace($"[{column.ColumnName}]", string.Empty));
+                var badFrom = MailAddressValidators.BadMailAddress(
+                    addresses: context.Forms.Data("ReminderFrom"));
+                if (badFrom.Type != Error.Types.None) return badFrom;
+                var badTo = MailAddressValidators.BadMailAddress(
+                    addresses: to);
+                if (badTo.Type != Error.Types.None) return badTo;
+                var externalTo = MailAddressValidators.ExternalMailAddress(
+                    addresses: to);
+                if (externalTo.Type != Error.Types.None) return externalTo;
+            }
             return new ErrorData(type: Error.Types.None);
         }
 

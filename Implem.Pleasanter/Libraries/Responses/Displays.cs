@@ -6799,6 +6799,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ReminderType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReminderType",
+                data: data);
+        }
+
         public static string ReplaceAllGroupMembers(
             Context context,
             params string[] data)

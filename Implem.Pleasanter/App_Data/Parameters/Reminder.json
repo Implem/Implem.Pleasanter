@@ -1,5 +1,12 @@
 ﻿{
     "Enabled": true,
+    "Mail": false,
+    "Slack": false,
+    "ChatWork": false,
+    "Line": false,
+    "Teams": false,
+    "RocketChat": false,
+    "InCircle": false,
     "Interval": 500,
     "Span": 30,
     "Limit": 1000,
@@ -7,5 +14,6 @@
     "MinRange": 1,
     "MaxRange": 1000,
     "DefaultRange": 30,
-    "CopyWithReminders": "On"
+    "CopyWithReminders": "On",
+    "ListOrder": null
 }

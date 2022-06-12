@@ -10431,6 +10431,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ReminderType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Subject(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Body(context: context)))
@@ -10487,6 +10489,10 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: reminder.Id.ToString()))
                             .Td(action: () => hb
+                                .Text(text: Displays.Get(
+                                    context: context,
+                                    id: reminder.ReminderType.ToString())))
+                            .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Subject)))
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Body)))
@@ -10540,7 +10546,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder ReminderDialog(
-            Context context, SiteSettings ss, string controlId, Reminder reminder)
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Reminder reminder)
         {
             var hb = new HtmlBuilder();
             var conditions = ss.ViewSelectableOptions();
@@ -10557,6 +10566,13 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Id(context: context),
                         text: reminder.Id.ToString(),
                         _using: controlId == "EditReminder")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ReminderType",
+                        controlCss: " always-send",
+                        labelText: Displays.ReminderType(context: context),
+                        optionCollection: ReminderUtilities.Types(context: context),
+                        selectedValue: reminder.ReminderType.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ReminderSubject",
                         fieldCss: "field-wide",
@@ -10580,13 +10596,15 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(reminder.Line),
                         validateRequired: true)
                     .FieldTextBox(
+                        fieldId: "ReminderFromField",
                         controlId: "ReminderFrom",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (!ReminderUtilities.RequireFrom(reminder)
+                            ? " hidden"
+                            : string.Empty),
                         controlCss: " always-send",
                         labelText: Displays.From(context: context),
                         text: reminder.From,
-                        validateRequired: true,
-                        _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
+                        validateRequired: true)
                     .FieldTextBox(
                         controlId: "ReminderTo",
                         fieldCss: "field-wide",
@@ -10594,6 +10612,21 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.To(context: context),
                         text: ss.ColumnNameToLabelText(reminder.To),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "ReminderTokenField",
+                        controlId: "ReminderToken",
+                        fieldCss: "field-wide" + (!ReminderUtilities.RequireToken(reminder)
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Token(context: context),
+                        text: reminder.Token)
+                    .Hidden(
+                        controlId: "ReminderFromEnableList",
+                        value: ReminderUtilities.FromList())
+                    .Hidden(
+                        controlId: "ReminderTokenEnableList",
+                        value: ReminderUtilities.TokenList())
                     .FieldDropDown(
                         context: context,
                         controlId: "ReminderColumn",
@@ -10616,7 +10649,7 @@ namespace Implem.Pleasanter.Models
                         validateDate: true)
                     .FieldDropDown(
                         context: context,
-                        controlId: "ReminderType",
+                        controlId: "ReminderRepeatType",
                         controlCss: " always-send",
                         labelText: Displays.PeriodType(context: context),
                         optionCollection: new Dictionary<string, string>

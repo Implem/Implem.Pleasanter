@@ -4864,7 +4864,13 @@ namespace Implem.Pleasanter.Models
                 OpenReminderDialog(
                     context: context,
                     res: res,
-                    reminder: new Reminder(context: context) { Subject = Title.Value });
+                    reminder: new Reminder(context: context)
+                    {
+                        ReminderType = ReminderUtilities.Types(context: context)
+                            .Select(o => (Reminder.ReminderTypes)o.Key.ToInt())
+                            .FirstOrDefault(),
+                        Subject = Title.Value
+                    });
             }
             else
             {
@@ -4876,7 +4882,9 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettingsUtilities.Get(
-                        context: context, siteModel: this, referenceId: SiteId);
+                        context: context,
+                        siteModel: this,
+                        referenceId: SiteId);
                     OpenReminderDialog(
                         context: context,
                         res: res,
@@ -4924,6 +4932,7 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.None:
                         SiteSettings.Reminders.Add(new Reminder(
                             id: SiteSettings.Reminders.MaxOrDefault(o => o.Id) + 1,
+                            reminderType: (Reminder.ReminderTypes)context.Forms.Int("ReminderType"),
                             subject: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderSubject")),
                             body: SiteSettings.LabelTextToColumnName(
@@ -4933,9 +4942,10 @@ namespace Implem.Pleasanter.Models
                             from: context.Forms.Data("ReminderFrom"),
                             to: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderTo")),
+                            token: context.Forms.Data("ReminderToken"),
                             column: context.Forms.Data("ReminderColumn"),
                             startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
-                            type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
+                            type: (Times.RepeatTypes)context.Forms.Int("ReminderRepeatType"),
                             range: context.Forms.Int("ReminderRange"),
                             sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                             notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),
@@ -4977,6 +4987,7 @@ namespace Implem.Pleasanter.Models
                     {
                         case Error.Types.None:
                             reminder.Update(
+                                reminderType: (Reminder.ReminderTypes)context.Forms.Int("ReminderType"),
                                 subject: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderSubject")),
                                 body: SiteSettings.LabelTextToColumnName(
@@ -4986,9 +4997,10 @@ namespace Implem.Pleasanter.Models
                                 from: context.Forms.Data("ReminderFrom"),
                                 to: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderTo")),
+                                token: context.Forms.Data("ReminderToken"),
                                 column: context.Forms.Data("ReminderColumn"),
                                 startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
-                                type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
+                                type: (Times.RepeatTypes)context.Forms.Int("ReminderRepeatType"),
                                 range: context.Forms.Int("ReminderRange"),
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                                 notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),
