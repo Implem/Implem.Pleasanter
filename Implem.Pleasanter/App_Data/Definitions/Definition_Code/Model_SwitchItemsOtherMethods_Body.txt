@@ -30,8 +30,7 @@ public void SetSite(
     bool initSiteSettings = false,
     bool setSiteIntegration = false,
     bool setAllChoices = false,
-    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-    Dictionary<long, DataSet> linkedSsDataSetHash = null)
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
 {
     Site = GetSite(
         context: context,
@@ -39,8 +38,7 @@ public void SetSite(
         initSiteSettings: initSiteSettings,
         setSiteIntegration: setSiteIntegration,
         setAllChoices: setAllChoices,
-        tableType: tableType,
-        linkedSsDataSetHash: linkedSsDataSetHash);
+        tableType: tableType);
     SetByWhenloadingSiteSettingsServerScript(
         context: context,
         ss: Site.SiteSettings);
@@ -52,8 +50,7 @@ public SiteModel GetSite(
     bool initSiteSettings = false,
     bool setSiteIntegration = false,
     bool setAllChoices = false,
-    Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
-    Dictionary<long, DataSet> linkedSsDataSetHash = null)
+    Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
 {
     SiteModel siteModel;
     if (ReferenceType == "Sites" && context.Forms.Exists("Ver"))
@@ -75,14 +72,12 @@ public SiteModel GetSite(
         siteModel = siteOnly
             ? new SiteModel(
                 context: context,
-                siteId: ReferenceId,
-                linkedSsDataSetHash: linkedSsDataSetHash)
+                siteId: ReferenceId)
             : new SiteModel(
                 context: context,
                 siteId: ReferenceType == "Sites"
                     ? ReferenceId
-                    : SiteId,
-                linkedSsDataSetHash: linkedSsDataSetHash);
+                    : SiteId);
     }
     if (initSiteSettings)
     {

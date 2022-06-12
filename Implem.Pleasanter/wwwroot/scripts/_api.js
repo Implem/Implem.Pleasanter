@@ -22,6 +22,10 @@ $p.apiUpdate = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'update'), args);
 }
 
+$p.apiUpsert = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'upsert'), args);
+}
+
 $p.apiDelete = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'delete'), args);
 }

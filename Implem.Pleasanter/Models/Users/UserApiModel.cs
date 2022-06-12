@@ -57,5 +57,60 @@ namespace Implem.Pleasanter.Models
         public UserApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "TenantId": return TenantId;
+                case "UserId": return UserId;
+                case "Ver": return Ver;
+                case "LoginId": return LoginId;
+                case "GlobalId": return GlobalId;
+                case "Name": return Name;
+                case "UserCode": return UserCode;
+                case "Password": return Password;
+                case "LastName": return LastName;
+                case "FirstName": return FirstName;
+                case "Birthday": return Birthday;
+                case "Gender": return Gender;
+                case "Language": return Language;
+                case "TimeZone": return TimeZone;
+                case "DeptCode": return DeptCode;
+                case "DeptId": return DeptId;
+                case "Theme": return Theme;
+                case "FirstAndLastNameOrder": return FirstAndLastNameOrder;
+                case "Body": return Body;
+                case "LastLoginTime": return LastLoginTime;
+                case "PasswordExpirationTime": return PasswordExpirationTime;
+                case "PasswordChangeTime": return PasswordChangeTime;
+                case "NumberOfLogins": return NumberOfLogins;
+                case "NumberOfDenial": return NumberOfDenial;
+                case "TenantManager": return TenantManager;
+                case "ServiceManager": return ServiceManager;
+                case "AllowCreationAtTopSite": return AllowCreationAtTopSite;
+                case "AllowGroupAdministration": return AllowGroupAdministration;
+                case "AllowGroupCreation": return AllowGroupCreation;
+                case "AllowApi": return AllowApi;
+                case "EnableSecondaryAuthentication": return EnableSecondaryAuthentication;
+                case "DisableSecondaryAuthentication": return DisableSecondaryAuthentication;
+                case "Disabled": return Disabled;
+                case "Lockout": return Lockout;
+                case "LockoutCounter": return LockoutCounter;
+                case "Developer": return Developer;
+                case "UserSettings": return UserSettings;
+                case "PasswordHistries": return PasswordHistries;
+                case "SecondaryAuthenticationCode": return SecondaryAuthenticationCode;
+                case "SecondaryAuthenticationCodeExpirationTime": return SecondaryAuthenticationCodeExpirationTime;
+                case "LdapSearchRoot": return LdapSearchRoot;
+                case "SynchronizedTime": return SynchronizedTime;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                case "UpdatedTime": return UpdatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

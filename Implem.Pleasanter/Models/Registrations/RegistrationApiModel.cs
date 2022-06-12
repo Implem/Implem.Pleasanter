@@ -30,5 +30,33 @@ namespace Implem.Pleasanter.Models
         public RegistrationApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "TenantId": return TenantId;
+                case "RegistrationId": return RegistrationId;
+                case "Ver": return Ver;
+                case "MailAddress": return MailAddress;
+                case "Invitee": return Invitee;
+                case "InviteeName": return InviteeName;
+                case "LoginId": return LoginId;
+                case "Name": return Name;
+                case "Password": return Password;
+                case "Language": return Language;
+                case "Passphrase": return Passphrase;
+                case "Invitingflg": return Invitingflg;
+                case "UserId": return UserId;
+                case "DeptId": return DeptId;
+                case "GroupId": return GroupId;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                case "UpdatedTime": return UpdatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

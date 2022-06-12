@@ -209,8 +209,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Where(p => p.StartsWith("_Links-"))
                     .Select(p => p.Split_2nd('-').ToLong()))
                 .ToList();
-            var cache = ss.LinkedSsDataSetHash
-                ?? ItemModel.LinkedSsDataSetHash(context, ss.SiteId);
             var statements = new List<SqlStatement>();
             statements.AddRange(ss.Sources
                 .Values
@@ -226,8 +224,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: currentSs,
                             direction: "Source")),
                     id: id,
-                    direction: "Source",
-                    cache: cache)));
+                    direction: "Source")));
             statements.AddRange(ss.Destinations
                 .Values
                 .Where(o => !targets.Any() || targets.Contains(o.SiteId))
@@ -242,8 +239,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: currentSs,
                             direction: "Destination")),
                     id: id,
-                    direction: "Destination",
-                    cache: cache)));
+                    direction: "Destination")));
             statements.AddRange(ss.Sources
                 .Values
                 .Where(o => !targets.Any() || targets.Contains(o.SiteId))
@@ -258,8 +254,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: currentSs,
                             direction: "Source")),
                     id: id,
-                    direction: "Source",
-                    cache: cache)));
+                    direction: "Source")));
             statements.AddRange(ss.Destinations
                 .Values
                 .Where(o => !targets.Any() || targets.Contains(o.SiteId))
@@ -274,8 +269,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: currentSs,
                             direction: "Destination")),
                     id: id,
-                    direction: "Destination",
-                    cache: cache)));
+                    direction: "Destination")));
             return statements.Any()
                 ? Repository.ExecuteDataSet(
                     context: context,
@@ -288,15 +282,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view,
             long id,
-            string direction,
-            Dictionary<long, DataSet> cache = null)
+            string direction)
         {
             var column = IssuesLinkColumns(
                 context: context,
                 ss: ss,
                 view: view,
-                direction: direction,
-                cache: cache);
+                direction: direction);
             var where = view.Where(
                 context: context,
                 ss: ss,
@@ -338,16 +330,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             View view,
-            string direction,
-            Dictionary<long, DataSet> cache = null)
+            string direction)
         {
             if (ss?.Links
                 ?.Where(o => o.SiteId > 0)
                 .Any() == true)
             {
-                ss.SetLinkedSiteSettings(
-                    context: context,
-                    cache: cache);
+                ss.SetLinkedSiteSettings(context: context);
             }
             var column = ColumnUtilities.SqlColumnCollection(
                 context: context,
@@ -368,15 +357,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view,
             long id,
-            string direction,
-            Dictionary<long, DataSet> cache = null)
+            string direction)
         {
             var column = ResultsLinkColumns(
                 context: context,
                 ss: ss,
                 view: view,
-                direction: direction,
-                cache: cache);
+                direction: direction);
             var where = view.Where(
                 context: context,
                 ss: ss,
@@ -418,16 +405,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             View view,
-            string direction,
-            Dictionary<long, DataSet> cache = null)
+            string direction)
         {
             if (ss?.Links
                 ?.Where(o => o.SiteId > 0)
                 .Any() == true)
             {
-                ss.SetLinkedSiteSettings(
-                    context: context,
-                    cache: cache);
+                ss.SetLinkedSiteSettings(context: context);
             }
             var column = ColumnUtilities.SqlColumnCollection(
                 context: context,

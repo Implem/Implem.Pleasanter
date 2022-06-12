@@ -13,8 +13,7 @@
     SetSite(
         context: context,
         initSiteSettings: true,
-        setSiteIntegration: true,
-        linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+        setSiteIntegration: true);
     ViewModes.Set(context: context, siteId: Site.SiteId);
     switch (Site.ReferenceType)
     {
@@ -391,8 +390,7 @@ public string New(Context context)
     SetSite(
         context: context,
         siteOnly: true,
-        initSiteSettings: true,
-        linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+        initSiteSettings: true);
     switch (Site.ReferenceType)
     {
 
@@ -482,8 +480,7 @@ public string Editor(Context context)
 {
     SetSite(
         context: context,
-        initSiteSettings: true,
-        linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+        initSiteSettings: true);
     switch (ReferenceType)
     {
         case "Sites":

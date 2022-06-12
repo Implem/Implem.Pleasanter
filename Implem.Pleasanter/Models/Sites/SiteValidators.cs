@@ -411,18 +411,38 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData SetReminder(Context context, SiteSettings ss)
         {
-            var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
-            ss.IncludedColumns(value: to).ForEach(column =>
-                to = to.Replace($"[{column.ColumnName}]", string.Empty));
-            var badFrom = MailAddressValidators.BadMailAddress(
-                addresses: context.Forms.Data("ReminderFrom"));
-            if (badFrom.Type != Error.Types.None) return badFrom;
-            var badTo = MailAddressValidators.BadMailAddress(
-                addresses: to);
-            if (badTo.Type != Error.Types.None) return badTo;
-            var externalTo = MailAddressValidators.ExternalMailAddress(
-                addresses: to);
-            if (externalTo.Type != Error.Types.None) return externalTo;
+            if ((Reminder.ReminderTypes)context.Forms.Int("ReminderType") == Reminder.ReminderTypes.Mail)
+            {
+                var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
+                ss.IncludedColumns(value: to).ForEach(column =>
+                    to = to.Replace($"[{column.ColumnName}]", string.Empty));
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Dept[0-9]+\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Group[0-9]+\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[User[0-9]+\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
+                to = to
+                    .Split(',')
+                    .Where(o => !o.IsNullOrEmpty())
+                    .Select(o => o.Trim())
+                    .Join();
+                var badFrom = MailAddressValidators.BadMailAddress(
+                    addresses: context.Forms.Data("ReminderFrom"));
+                if (badFrom.Type != Error.Types.None) return badFrom;
+                var badTo = MailAddressValidators.BadMailAddress(
+                    addresses: to);
+                if (badTo.Type != Error.Types.None) return badTo;
+                var externalTo = MailAddressValidators.ExternalMailAddress(
+                    addresses: to);
+                if (externalTo.Type != Error.Types.None) return externalTo;
+            }
             return new ErrorData(type: Error.Types.None);
         }
 

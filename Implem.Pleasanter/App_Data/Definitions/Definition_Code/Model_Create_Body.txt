@@ -27,7 +27,9 @@
         ss: ss,
         tableType: tableType,
         param: param,
+
 <!--Model_CreateStatementsParams_GroupMembers-->
+
         otherInitValue: otherInitValue));
 
 <!--Model_Insert-->
@@ -58,7 +60,9 @@ public List<SqlStatement> CreateStatements(
     string dataTableName = null,
     Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
     SqlParamCollection param = null,
-<!--Model_CreateStatementsParams_GroupMembesUsing-->
+
+<!--Model_CreateStatementsParams_GroupMembersUsing-->
+
     bool otherInitValue = false)
 {
     var statements = new List<SqlStatement>();

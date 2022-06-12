@@ -6179,6 +6179,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Overlap(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Overlap",
+                data: data);
+        }
+
         public static string OverLimitApi(
             Context context,
             params string[] data)
@@ -6786,6 +6796,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Reminders",
+                data: data);
+        }
+
+        public static string ReminderType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ReminderType",
                 data: data);
         }
 

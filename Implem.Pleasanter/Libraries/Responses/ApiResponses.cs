@@ -108,6 +108,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.NotFound(context: context));
         }
 
+        public static ApiResponse Overlap(Context context)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 400,
+                message: Displays.Overlap(context: context));
+        }
+
         public static ApiResponse Forbidden(Context context)
         {
             return new ApiResponse(
