@@ -88,7 +88,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             var elements = new List<Element>();
             var choices = groupBy
                 ?.ChoiceHash
-                .ToDictionary(o => o.Key, o => new ControlData(o.Value.Text))
+                ?.ToDictionary(o => o.Key, o => new ControlData(o.Value.Text))
                 .Reverse()
                 .Where(o => this.Select(p => p.Index).Contains(o.Key))
                 .ToDictionary(o => o.Key, o => o.Value)

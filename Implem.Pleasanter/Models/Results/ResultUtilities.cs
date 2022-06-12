@@ -3908,6 +3908,108 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance UpsertByApi(
+            Context context,
+            SiteSettings ss,
+            string previousTitle)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            var data = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (api?.Keys?.Any() != true || data == null)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            api.View = api.View ?? new View();
+            api.Keys.ForEach(columnName =>
+            {
+                var objectValue = data.ObjectValue(columnName: columnName);
+                if (objectValue != null)
+                {
+                    api.View.AddColumnFilterHash(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        objectValue: objectValue);
+                    api.View.AddColumnFilterSearchTypes(
+                        columnName: columnName,
+                        searchType: Column.SearchTypes.ExactMatch);
+                }
+            });
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                view: api.View,
+                setByApi: true);
+            switch (resultModel.AccessStatus)
+            {
+                case Databases.AccessStatuses.Selected:
+                    break;
+                case Databases.AccessStatuses.NotFound:
+                    return CreateByApi(context: context, ss: ss);
+                case Databases.AccessStatuses.Overlap:
+                    return ApiResults.Get(ApiResponses.Overlap(context: context));
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = ResultValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                context: context,
+                errorData: invalid);
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            resultModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: resultModel);
+            var errorData = resultModel.Update(
+                context: context,
+                ss: ss,
+                notice: true,
+                previousTitle: previousTitle);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        resultModel.ResultId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: resultModel.Title.MessageDisplay(context: context)));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: errorData.ColumnName)?.LabelText);
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
         public static string Copy(Context context, SiteSettings ss, long resultId)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))

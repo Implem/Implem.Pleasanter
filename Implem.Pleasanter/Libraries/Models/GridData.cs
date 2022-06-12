@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.Models
 {
     public class GridData
@@ -411,63 +412,101 @@ namespace Implem.Pleasanter.Libraries.Models
                 var issues = new Dictionary<string, IssueModel>();
                 var results = new Dictionary<string, ResultModel>();
                 var wikis = new Dictionary<string, WikiModel>();
+                ServerScriptModelRow serverScriptModelRow = null;
+                switch (ss.ReferenceType)
+                {
+                    case "Issues":
+                        var issueModel = new IssueModel(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow);
+                        ss.ClearColumnAccessControlCaches(baseModel: issueModel);
+                        serverScriptModelRow = issueModel?.SetByBeforeOpeningRowServerScript(
+                            context: context,
+                            ss: ss);
+                        issues.Add("Issues", issueModel);
+                        break;
+                    case "Results":
+                        var resultModel = new ResultModel(
+                            context: context,
+                            ss: ss,
+                            dataRow: dataRow);
+                        ss.ClearColumnAccessControlCaches(baseModel: resultModel);
+                        serverScriptModelRow = resultModel?.SetByBeforeOpeningRowServerScript(
+                            context: context,
+                            ss: ss);
+                        results.Add("Results", resultModel);
+                        break;
+                };
                 exportColumns.ForEach(exportColumn =>
                 {
                     var column = exportColumn.Column;
                     var key = column.TableName();
-                    switch (column.SiteSettings?.ReferenceType)
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns
+                        ?.Get(column?.ColumnName);
+                    if (serverScriptModelColumn?.RawText.IsNullOrEmpty() == false)
                     {
-                        case "Users":
-                            if (!users.ContainsKey(key))
-                            {
-                                users.Add(key, new UserModel(
+                        data.Add(CsvUtilities.EncloseDoubleQuotes(
+                            value: serverScriptModelColumn.RawText,
+                            encloseDoubleQuotes: encloseDoubleQuotes));                        
+                    }
+                    else
+                    {
+                        switch (column.SiteSettings?.ReferenceType)
+                        {
+                            case "Users":
+                                if (!users.ContainsKey(key))
+                                {
+                                    users.Add(key, new UserModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias));
+                                }
+                                data.Add(users.Get(key).CsvData(
                                     context: context,
                                     ss: column.SiteSettings,
-                                    dataRow: dataRow,
-                                    tableAlias: column.TableAlias));
-                            }
-                            data.Add(users.Get(key).CsvData(
-                                context: context,
-                                ss: column.SiteSettings,
-                                column: column,
-                                exportColumn: exportColumn,
-                                mine: users.Get(key).Mine(context: context),
-                                encloseDoubleQuotes: encloseDoubleQuotes));
-                            break;
-                        case "Issues":
-                            if (!issues.ContainsKey(key))
-                            {
-                                issues.Add(key, new IssueModel(
+                                    column: column,
+                                    exportColumn: exportColumn,
+                                    mine: users.Get(key).Mine(context: context),
+                                    encloseDoubleQuotes: encloseDoubleQuotes));
+                                break;
+                            case "Issues":
+                                if (!issues.ContainsKey(key))
+                                {
+                                    issues.Add(key, new IssueModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias));
+                                }
+                                data.Add(issues.Get(key).CsvData(
                                     context: context,
                                     ss: column.SiteSettings,
-                                    dataRow: dataRow,
-                                    tableAlias: column.TableAlias));
-                            }
-                            data.Add(issues.Get(key).CsvData(
-                                context: context,
-                                ss: column.SiteSettings,
-                                column: column,
-                                exportColumn: exportColumn,
-                                mine: issues.Get(key).Mine(context: context),
-                                encloseDoubleQuotes: encloseDoubleQuotes));
-                            break;
-                        case "Results":
-                            if (!results.ContainsKey(key))
-                            {
-                                results.Add(key, new ResultModel(
+                                    column: column,
+                                    exportColumn: exportColumn,
+                                    mine: issues.Get(key).Mine(context: context),
+                                    encloseDoubleQuotes: encloseDoubleQuotes));
+                                break;
+                            case "Results":
+                                if (!results.ContainsKey(key))
+                                {
+                                    results.Add(key, new ResultModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias));
+                                }
+                                data.Add(results.Get(key).CsvData(
                                     context: context,
                                     ss: column.SiteSettings,
-                                    dataRow: dataRow,
-                                    tableAlias: column.TableAlias));
-                            }
-                            data.Add(results.Get(key).CsvData(
-                                context: context,
-                                ss: column.SiteSettings,
-                                column: column,
-                                exportColumn: exportColumn,
-                                mine: results.Get(key).Mine(context: context),
-                                encloseDoubleQuotes: encloseDoubleQuotes));
-                            break;
+                                    column: column,
+                                    exportColumn: exportColumn,
+                                    mine: results.Get(key).Mine(context: context),
+                                    encloseDoubleQuotes: encloseDoubleQuotes));
+                                break;
+                        }
                     }
                 });
                 csv.Append(data.Join(delimiter), "\n");

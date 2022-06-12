@@ -3,15 +3,13 @@
     SiteSettings ss,
     View view,
     long id,
-    string direction,
-    Dictionary<long, DataSet> cache = null)
+    string direction)
 {
     var column = #TableName#LinkColumns(
         context: context,
         ss: ss,
         view: view,
-        direction: direction,
-        cache: cache);
+        direction: direction);
     var where = view.Where(
         context: context,
         ss: ss,
@@ -53,16 +51,13 @@ public static SqlColumnCollection #TableName#LinkColumns(
     Context context,
     SiteSettings ss,
     View view,
-    string direction,
-    Dictionary<long, DataSet> cache = null)
+    string direction)
 {
     if (ss?.Links
         ?.Where(o => o.SiteId > 0)
         .Any() == true)
     {
-        ss.SetLinkedSiteSettings(
-            context: context,
-            cache: cache);
+        ss.SetLinkedSiteSettings(context: context);
     }
     var column = ColumnUtilities.SqlColumnCollection(
         context: context,

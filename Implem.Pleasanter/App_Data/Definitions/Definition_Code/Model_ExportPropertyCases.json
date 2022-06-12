@@ -5,7 +5,6 @@
     "Separator": "\\r\\n",
     "NotCalc": "1",
     "Select": "1",
-    "Exclude": "SiteId",
     "ExcludeTypeCs": "Attachments",
     "NotClass": "1"
 }

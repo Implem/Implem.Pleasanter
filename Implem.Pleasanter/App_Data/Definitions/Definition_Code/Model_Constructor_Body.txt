@@ -35,13 +35,13 @@ public #ModelName#Model(
 
     <!--Model_SiteSettingsParameter-->
     <!--Model_IdentityParameters-->
+    <!--Model_ViewParameter-->
     <!--Model_FormDataParameter-->
     <!--Model_SetByApiParameter-->
 
     bool clearSessions = false,
 
     <!--Model_SwitchTargetsParameter-->
-    <!--Model_LinkedSsDataSetHashParameter-->
 
     MethodTypes methodType = MethodTypes.NotSet)
 {

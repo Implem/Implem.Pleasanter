@@ -22,5 +22,24 @@ namespace Implem.Pleasanter.Models
         public GroupApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "TenantId": return TenantId;
+                case "GroupId": return GroupId;
+                case "Ver": return Ver;
+                case "GroupName": return GroupName;
+                case "Body": return Body;
+                case "Disabled": return Disabled;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                case "UpdatedTime": return UpdatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

@@ -384,6 +384,7 @@
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_007.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_006.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_005.cs" />
+    <Compile Include="Libraries\Models\CsvUtilities.cs" />
     <Compile Include="Libraries\Models\DropDowns.cs" />
     <Compile Include="Libraries\Models\GridData.cs" />
     <Compile Include="Libraries\Models\ImageLibData.cs" />
@@ -458,6 +459,7 @@
     <Compile Include="Libraries\Settings\Lookups.cs" />
     <Compile Include="Libraries\Settings\BulkUpdateColumn.cs" />
     <Compile Include="Libraries\Settings\PasswordHistory.cs" />
+    <Compile Include="Libraries\Settings\ReminderUtilities.cs" />
     <Compile Include="Libraries\Settings\ValidateInput.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
@@ -824,6 +826,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_ApiItemTitle_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ApiPropertyCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ApiPropertyNullType_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ApiValueCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Api_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_BulkDeleteByApiCases_Body.txt" />
@@ -947,9 +950,6 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_ItemProperties_Sites_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_KambanCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_KambanJsonCases_Body.txt" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_LinkedSsDataSetHashBeforeComma_Body.txt" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_LinkedSsDataSetHashParameter_Body.txt" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_LinkedSsDataSetHash_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_LockCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Matched_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Matched_ColumnCases_Body.txt" />
@@ -1013,6 +1013,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_RestoreFromHistoryCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Restore_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Restore_Item_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SavedPropertyValue_ColumnCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SelectedIds_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SelectIdentity_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SeparateCases_Body.txt" />
@@ -1141,6 +1142,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_UpdateTitles_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_UpdateWikiTitle_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Update_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_UpsertByApiCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_ApiDuplicatedMessage_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_BulkDeleteByApi_Body.txt" />
@@ -1167,6 +1169,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Create_JoeAccountCheck_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Create_Models_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Create_PasswordPolicies_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetProcess_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Create_Tables_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Crosstab_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_DeleteByApi_Body.txt" />
@@ -1267,7 +1270,6 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetNoticeParam_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetNumericRangeDialog_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetProcessMatchConditions_Body.txt" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetProcess_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetProcess_Tables_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetSiteSettings_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetSwitchTargets_Body.txt" />
@@ -1304,6 +1306,8 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Update_NewModel_Sites_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Update_Response_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Update_Response_Tables_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Update_SetProcess_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_UpsertByApi_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_ViewSelectorFieldWithShowHistory_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_ViewSelectorField_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_WhereTenantId_Body.txt" />
@@ -1328,6 +1332,10 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_Validator_RecordPermissions_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Validator_ShowProfilesAndHasPrivilege_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Validator_ShowProfiles_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ViewBeforeComma_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ViewParameter_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_WhereDefault_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_WhereSiteIdOrDefault_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_WriteAttachmentsExecute_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Rds_AggregationAverageCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Rds_AggregationGroupByCases_Body.txt" />
@@ -3633,9 +3641,6 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_ItemProperties_Sites.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_KambanCases.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_KambanJsonCases.json" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_LinkedSsDataSetHash.json" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_LinkedSsDataSetHashBeforeComma.json" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_LinkedSsDataSetHashParameter.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_LockCases.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Matched.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Matched_ColumnCases.json" />
@@ -3952,7 +3957,6 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetNewRowParameters.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetNoticeParam.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetNumericRangeDialog.json" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetProcess.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetProcessMatchConditions.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetProcess_Tables.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_SetSiteSettings.json" />
@@ -6191,6 +6195,19 @@
     <Content Include="App_Data\Definitions\Definition_Demo\WriteUserDocuments.json" />
     <Content Include="App_Data\Definitions\Definition_Demo\WriteUserDocuments_en.json" />
     <Content Include="App_Data\Definitions\Definition_Demo\__ColumnSettings.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SavedPropertyValue_ColumnCases.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_UpsertByApiCases.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_UpsertByApi.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ViewBeforeComma.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ViewParameter.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_WhereDefault.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_WhereSiteIdOrDefault.json" />
+    <Content Include="App_Data\Displays\MessageWhenDuplicated.json" />
+    <Content Include="App_Data\Displays\Overlap.json" />
+    <Content Include="App_Data\Displays\ReminderType.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ApiValueCases.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetProcess.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Update_SetProcess.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

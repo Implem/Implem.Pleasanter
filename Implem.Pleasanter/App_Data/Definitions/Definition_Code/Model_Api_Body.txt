@@ -14,5 +14,16 @@ namespace Implem.Pleasanter.Models
         public #ModelName#ApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+
+<!--Model_ApiValueCases-->
+
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

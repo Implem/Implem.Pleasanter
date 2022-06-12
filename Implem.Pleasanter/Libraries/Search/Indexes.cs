@@ -418,7 +418,6 @@ namespace Implem.Pleasanter.Libraries.Search
             SiteSettings ss,
             string searchText)
         {
-
             if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
             {
                 return where.SqlWhereLike(

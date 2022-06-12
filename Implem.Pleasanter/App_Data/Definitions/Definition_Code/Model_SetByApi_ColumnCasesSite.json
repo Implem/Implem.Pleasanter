@@ -7,7 +7,5 @@
     "NotCalc": "1",
     "Form": "1",
     "Select": "1",
-    "Include": "Sites",
-    "ExcludeTypeName": "image",
-    "ExcludeTypeCs": "Attachments"
+    "Include": "Sites"
 }

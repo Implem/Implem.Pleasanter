@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Requests
 {
     [Serializable]
@@ -9,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public decimal ApiVersion { get; set; } = 1.000M;
         public string ApiKey { get; set; }
         public View View { get; set; }
+        public List<string> Keys { get; set; }
         public int Offset { get; set; }
         public Sqls.TableTypes TableType { get; set; }
         public string Token { get; set; }

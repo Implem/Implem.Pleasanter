@@ -1,0 +1,5 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.UpsertByApi(
+        context: context,
+        ss: Site.SiteSettings,
+        previousTitle: Title);

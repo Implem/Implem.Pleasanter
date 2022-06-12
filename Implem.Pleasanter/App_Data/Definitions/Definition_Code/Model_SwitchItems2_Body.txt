@@ -286,8 +286,7 @@ public string Update(Context context)
 {
     SetSite(
         context: context,
-        initSiteSettings: true,
-        linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+        initSiteSettings: true);
     switch (ReferenceType)
     {
         case "Sites":
@@ -385,6 +384,28 @@ public ContentResultInheritance UpdateByApi(Context context, string referenceTyp
                 siteModel: Site,
                 siteId: ReferenceId);
 <!--Model_UpdateByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public ContentResultInheritance UpsertByApi(Context context, string referenceType = null)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (referenceType ?? Site.ReferenceType)
+    {
+
+<!--Model_UpsertByApiCases-->
 
         default:
             return ApiResults.Get(ApiResponses.NotFound(context: context));

@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public Dictionary<long, SiteSettings> JoinedSsHash;
         [NonSerialized]
-        public Dictionary<long, DataSet> LinkedSsDataSetHash;
-        [NonSerialized]
         public Dictionary<string, Dictionary<string, Choice>> ChoiceHashCache = new Dictionary<string, Dictionary<string, Choice>>();
         [NonSerialized]
         public long SiteId;
@@ -383,14 +381,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<long, SiteSettings> joinedSsHash = null,
             bool destinations = true,
             bool sources = true,
-            List<long> previously = null,
-            Dictionary<long, DataSet> cache = null)
+            List<long> previously = null)
         {
             if ((!destinations || Destinations != null) && (!sources || Sources != null))
             {
                 return;
             }
-            cache = cache ?? LinkedSsDataSetHash;
             if (joinedSsHash == null)
             {
                 joinedSsHash = new Dictionary<long, SiteSettings>()
@@ -407,8 +403,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously,
-                    cache: cache);
+                    previously: previously);
             }
             if (sources)
             {
@@ -418,8 +413,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously,
-                    cache: cache);
+                    previously: previously);
             }
             if (destinations && sources)
             {
@@ -487,8 +481,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously,
-                                cache: cache);
+                                previously: previously);
                             break;
                         case "Sources":
                             ss.Links
@@ -508,8 +501,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously,
-                                cache: cache);
+                                previously: previously);
                             break;
                     }
                     hash.Add(ss.SiteId, ss);

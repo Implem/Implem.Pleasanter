@@ -857,6 +857,55 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public void AddColumnFilterHash(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            object objectValue)
+        {
+            string value = null;
+            switch (column?.TypeName)
+            {
+                case "bit":
+                    value = objectValue.ToBool().ToOneOrZeroString();
+                    break;
+                case "int":
+                case "long":
+                case "nvarchar":
+                    value = column.HasChoices()
+                        ? $"[\"{objectValue}\"]"
+                        : objectValue.ToString();
+                    break;
+                case "decimal":
+                    var num = objectValue.ToString();
+                    value = $"[\"{num},{num}\"]";
+                    break;
+                case "datetime":
+                    var dt = objectValue.ToDateTime().ToString("yyyy/MM/dd HH:mm:ss.fff");
+                    value = $"[\"{dt},{dt}\"]";
+                    break;
+                default:
+                    break;
+            }
+            if (value != null)
+            {
+                AddColumnFilterHash(
+                    context: context,
+                    ss: ss,
+                    columnName: column.ColumnName,
+                    value: value);
+            }
+        }
+
+        public void AddColumnFilterSearchTypes(string columnName, Column.SearchTypes searchType)
+        {
+            if (ColumnFilterSearchTypes == null)
+            {
+                ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();
+            }
+            ColumnFilterSearchTypes.AddOrUpdate(columnName, searchType);
+        }
+
         private void AddColumnSorterHash(
             Context context, SiteSettings ss, string columnName, SqlOrderBy.Types value)
         {
@@ -2036,7 +2085,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case Column.SearchTypes.ForwardMatchMultiple:
                             if (param?.Count() == 1 && param.FirstOrDefault() == "\t")
                             {
-                                where.Add(CsStringColumnsWhereNull(column: column));
+                                where.Add(CsStringColumnsWhereNull(
+                                    context: context,
+                                    column: column));
                             }
                             else
                             {
@@ -2108,7 +2159,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (value == " " || value == "　")
                 {
-                    where.Add(CsStringColumnsWhereNull(column: column));
+                    where.Add(CsStringColumnsWhereNull(
+                        context: context,
+                        column: column));
                 }
                 else
                 {
@@ -2202,7 +2255,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (nullable)
             {
-                or.Add(CsStringColumnsWhereNull(column: column));
+                or.Add(CsStringColumnsWhereNull(
+                    context: context,
+                    column: column));
             }
             or.RemoveAll(o => o == null);
             if (or.Any())
@@ -2219,7 +2274,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool like)
         {
             return new SqlWhere(
-                tableName: column.TableItemTitleCases(),
+                tableName: column.TableItemTitleCases(context: context),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: Strings.NewGuid(),
                 value: param
@@ -2236,19 +2291,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 multiParamOperator: " or ");
         }
 
-        private SqlWhere CsStringColumnsWhereNull(Column column)
+        private SqlWhere CsStringColumnsWhereNull(Context context, Column column)
         {
             return new SqlWhere(or: new SqlWhereCollection(
                 new SqlWhere(
-                    tableName: column.TableItemTitleCases(),
+                    tableName: column.TableItemTitleCases(context: context),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     _operator: " is null"),
                 new SqlWhere(
-                    tableName: column.TableItemTitleCases(),
+                    tableName: column.TableItemTitleCases(context: context),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     _operator: "=''"),
                 new SqlWhere(
-                    tableName: column.TableItemTitleCases(),
+                    tableName: column.TableItemTitleCases(context: context),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     _operator: "='[]'",
                     _using: column.MultipleSelections == true)));
@@ -2261,7 +2316,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             string query)
         {
-            var tableName = column.TableItemTitleCases();
+            var tableName = column.TableItemTitleCases(context: context);
             var name = Strings.NewGuid();
             where.SqlWhereLike(
                 tableName: tableName,
