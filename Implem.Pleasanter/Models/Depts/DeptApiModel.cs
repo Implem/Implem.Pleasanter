@@ -22,5 +22,25 @@ namespace Implem.Pleasanter.Models
         public DeptApiModel()
         {
         }
+
+        public override object ObjectValue(string columnName)
+        {
+            switch (columnName)
+            {
+                case "TenantId": return TenantId;
+                case "DeptId": return DeptId;
+                case "Ver": return Ver;
+                case "DeptCode": return DeptCode;
+                case "DeptName": return DeptName;
+                case "Body": return Body;
+                case "Disabled": return Disabled;
+                case "Comments": return Comments;
+                case "Creator": return Creator;
+                case "Updator": return Updator;
+                case "CreatedTime": return CreatedTime;
+                case "UpdatedTime": return UpdatedTime;
+                default: return base.ObjectValue(columnName: columnName);
+            }
+        }
     }
 }

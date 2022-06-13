@@ -1,0 +1,9 @@
+﻿{
+    "Id": "Model_ApiValueCases",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "NotCalc": "1",
+    "Select": "1",
+    "Exclude": "ApiKey"
+}

@@ -286,8 +286,7 @@ public string Update(Context context)
 {
     SetSite(
         context: context,
-        initSiteSettings: true,
-        linkedSsDataSetHash: LinkedSsDataSetHash(context: context));
+        initSiteSettings: true);
     switch (ReferenceType)
     {
         case "Sites":

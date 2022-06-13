@@ -1182,15 +1182,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
         }
 
-        public string TableItemTitleCases()
+        public string TableItemTitleCases(Context context)
         {
-            switch (Name)
+            switch (context.Action)
             {
-                case "Title":
-                    var tableName = Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
-                    return tableName + "_Items";
-                default:
+                // Upsertの場合にはItemTitleではなくModelのTitleで検索を行う。
+                // 結合されたタイトルをAPIリクエストのTitleにセットすると結合されたタイトルでタイトルカラムの更新が行われるため、これを防ぐ。
+                case "upsert":
                     return TableName();
+                default:
+                    switch (Name)
+                    {
+                        case "Title":
+                            var tableName = Strings.CoalesceEmpty(TableAlias, JoinTableName, SiteSettings?.ReferenceType);
+                            return tableName + "_Items";
+                        default:
+                            return TableName();
+                    }
             }
         }
 

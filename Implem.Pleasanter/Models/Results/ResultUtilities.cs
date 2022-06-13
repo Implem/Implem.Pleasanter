@@ -3918,17 +3918,36 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            if (api == null && !context.RequestDataString.IsNullOrEmpty())
+            var data = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (api?.Keys?.Any() != true || data == null)
             {
                 return ApiResults.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.InvalidJsonData));
             }
+            api.View = api.View ?? new View();
+            api.Keys.ForEach(columnName =>
+            {
+                var objectValue = data.ObjectValue(columnName: columnName);
+                if (objectValue != null)
+                {
+                    api.View.AddColumnFilterHash(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        objectValue: objectValue);
+                    api.View.AddColumnFilterSearchTypes(
+                        columnName: columnName,
+                        searchType: Column.SearchTypes.ExactMatch);
+                }
+            });
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
-                view: api?.View,
+                view: api.View,
                 setByApi: true);
             switch (resultModel.AccessStatus)
             {

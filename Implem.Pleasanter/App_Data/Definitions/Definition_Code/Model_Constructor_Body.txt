@@ -42,7 +42,6 @@ public #ModelName#Model(
     bool clearSessions = false,
 
     <!--Model_SwitchTargetsParameter-->
-    <!--Model_LinkedSsDataSetHashParameter-->
 
     MethodTypes methodType = MethodTypes.NotSet)
 {
