@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OverlapCsvImport",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "There are multiple records that match the condition."
+        },
+        {
+            "Language": "zh",
+            "Body": "存在多于一条符合条件的记录。"
+        },
+        {
+            "Language": "ja",
+            "Body": "条件に一致するレコードが複数存在します。CSVファイル{0}レコード目、列名:{1}、値:{2}。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es gibt mehr als einen Datensatz, der die Bedingung erfüllt."
+        },
+        {
+            "Language": "ko",
+            "Body": "조건과 일치하는 여러 레코드가 있습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Existe más de un registro que coincide con la condición."
+        },
+        {
+            "Language": "vn",
+            "Body": "Có nhiều bản ghi phù hợp với các điều kiện."
+        }
+    ]
+}

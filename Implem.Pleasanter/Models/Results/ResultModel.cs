@@ -1501,9 +1501,11 @@ namespace Implem.Pleasanter.Models
                         }
                     }));
         }
-
+        /// <summary> // TODO Fixed消す
+        /// Fixed:
+        /// </summary>
         public ErrorData Update(
-            Context context,
+        Context context,
             SiteSettings ss,
             Process process = null,
             bool extendedSqls = true,
@@ -1515,7 +1517,8 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
             bool setBySession = true,
-            bool get = true)
+            bool get = true,
+            bool ignoreConflict = false)
         {
             SetByBeforeUpdateServerScript(
                 context: context,
@@ -1547,7 +1550,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
-                additionalStatements: additionalStatements));
+                additionalStatements: additionalStatements,
+                ignoreConflict: ignoreConflict));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1626,13 +1630,17 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
+        /// <summary> // TODO Fixed消す
+        /// Fixed:
+        /// </summary>
         public List<SqlStatement> UpdateStatements(
             Context context,
             SiteSettings ss,
             string dataTableName = null,
             SqlParamCollection param = null,
             bool otherInitValue = false,
-            List<SqlStatement> additionalStatements = null)
+            List<SqlStatement> additionalStatements = null,
+            bool ignoreConflict = false)
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
@@ -1642,7 +1650,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ResultsWhereDefault(
                 context: context,
                 resultModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange());
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && !ignoreConflict);
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (Versions.VerUp(
                 context: context,

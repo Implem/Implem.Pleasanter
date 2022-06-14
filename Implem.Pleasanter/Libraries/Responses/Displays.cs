@@ -6219,6 +6219,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OverlapCsvImport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OverlapCsvImport",
+                data: data);
+        }
+
         public static string OverLimitApi(
             Context context,
             params string[] data)
