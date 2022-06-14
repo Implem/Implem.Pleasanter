@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DeleteImageWhenDeleting",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Delete image when deleting"
+        },
+        {
+            "Language": "zh",
+            "Body": "删除时删除图像"
+        },
+        {
+            "Language": "ja",
+            "Body":"削除時に画像を削除"
+        },
+        {
+            "Language": "de",
+            "Body": "löschen Bilder beim Löschen "
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제 시 이미지 삭제"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminar imágenes al eliminar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Xóa hình ảnh khi xóa"
+        }
+    ]
+}

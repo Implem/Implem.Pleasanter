@@ -5236,7 +5236,11 @@ namespace Implem.Pleasanter.Models
                 factory: context,
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
-                    .ReferenceId_In(sub: sub)));
+                    .ReferenceId_In(sub: sub)
+                    .BinaryType(
+                        value: "Images",
+                        _operator: "<>",
+                        _using: ss.DeleteImageWhenDeleting == false)));
             statements.Add(Rds.DeleteIssues(
                 factory: context,
                 where: Rds.IssuesWhere()
@@ -5262,11 +5266,28 @@ namespace Implem.Pleasanter.Models
             statements.OnBulkDeletedExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
-            return Repository.ExecuteScalar_response(
+            var ids = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().ReferenceId(),
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId_In(sub: sub)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("ReferenceId"))
+                            .ToList();
+            var affectedRows = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
-                statements: statements.ToArray())
-                    .Count.ToInt();
+                statements: statements.ToArray()).Count.ToInt();
+            if (ss.DeleteImageWhenDeleting == false)
+            {
+                ids.ForEach(referenceId => BinaryUtilities.UpdateImageReferenceId(
+                    context: context,
+                    siteId: ss.SiteId,
+                    referenceId: referenceId));
+            }
+            return affectedRows;
         }
 
         public static ContentResultInheritance BulkDeleteByApi(

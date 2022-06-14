@@ -411,6 +411,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_DeleteCases": Code.Model_DeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCases, definitionRow, CodeXls); break;
                     case "Model_DeleteCommentCases": Code.Model_DeleteCommentCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCommentCases, definitionRow, CodeXls); break;
                     case "Model_DeleteHistoryCases": Code.Model_DeleteHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteHistoryCases, definitionRow, CodeXls); break;
+                    case "Model_DeleteImageWhenDeleting": Code.Model_DeleteImageWhenDeleting = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteImageWhenDeleting, definitionRow, CodeXls); break;
                     case "Model_DeleteParams": Code.Model_DeleteParams = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteParams, definitionRow, CodeXls); break;
                     case "Model_DeleteWithLinks": Code.Model_DeleteWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteWithLinks, definitionRow, CodeXls); break;
                     case "Model_EditorCases": Code.Model_EditorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorCases, definitionRow, CodeXls); break;
@@ -6578,6 +6579,7 @@ namespace Implem.DefinitionAccessor
         public string Model_DeleteCases;
         public string Model_DeleteCommentCases;
         public string Model_DeleteHistoryCases;
+        public string Model_DeleteImageWhenDeleting;
         public string Model_DeleteParams;
         public string Model_DeleteWithLinks;
         public string Model_EditorCases;
@@ -7313,6 +7315,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_DeleteCases = new CodeDefinition();
         public CodeDefinition Model_DeleteCommentCases = new CodeDefinition();
         public CodeDefinition Model_DeleteHistoryCases = new CodeDefinition();
+        public CodeDefinition Model_DeleteImageWhenDeleting = new CodeDefinition();
         public CodeDefinition Model_DeleteParams = new CodeDefinition();
         public CodeDefinition Model_DeleteWithLinks = new CodeDefinition();
         public CodeDefinition Model_EditorCases = new CodeDefinition();

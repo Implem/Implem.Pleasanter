@@ -5540,7 +5540,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "SwitchCommandButtonsAutoPostBack",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.SwitchCommandButtonsAutoPostBack(context: context),
-                    _checked: ss.SwitchCommandButtonsAutoPostBack == true));
+                    _checked: ss.SwitchCommandButtonsAutoPostBack == true)
+                .FieldCheckBox(
+                    controlId: "DeleteImageWhenDeleting",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DeleteImageWhenDeleting(context: context),
+                    _checked: ss.DeleteImageWhenDeleting == true));
         }
 
         /// <summary>
