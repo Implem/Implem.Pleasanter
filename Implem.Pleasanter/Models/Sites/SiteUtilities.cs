@@ -10823,7 +10823,12 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "delete",
                         confirm: Displays.ConfirmDelete(context: context)))
-                .EditExport(context: context, ss: ss));
+                .EditExport(context: context, ss: ss)
+                .FieldCheckBox(
+                    controlId: "AllowStandardExport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowStandardExport(context: context),
+                    _checked: ss.AllowStandardExport == true));
         }
 
         /// <summary>
