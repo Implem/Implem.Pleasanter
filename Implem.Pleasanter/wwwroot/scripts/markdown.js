@@ -10,7 +10,7 @@
 
 $p.editMarkdown = function ($control) {
     if ($control.is(':visible')) {
-        if ($control.has('.control-markdown.manual')) {
+        if ($control.hasClass('manual')) {
             $p.showMarkDownViewer($control);
         } else {
             $p.toggleEditor($control, false);
