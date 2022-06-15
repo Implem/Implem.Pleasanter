@@ -1501,11 +1501,9 @@ namespace Implem.Pleasanter.Models
                         }
                     }));
         }
-        /// <summary> // TODO Fixed消す
-        /// Fixed:
-        /// </summary>
+
         public ErrorData Update(
-        Context context,
+            Context context,
             SiteSettings ss,
             Process process = null,
             bool extendedSqls = true,
@@ -1630,9 +1628,6 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        /// <summary> // TODO Fixed消す
-        /// Fixed:
-        /// </summary>
         public List<SqlStatement> UpdateStatements(
             Context context,
             SiteSettings ss,

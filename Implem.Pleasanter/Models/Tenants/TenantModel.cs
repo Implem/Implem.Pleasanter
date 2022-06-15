@@ -520,7 +520,8 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
             bool setBySession = true,
-            bool get = true)
+            bool get = true,
+            bool ignoreConflict = false)
         {
             if (setBySession)
             {
@@ -532,7 +533,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
-                additionalStatements: additionalStatements));
+                additionalStatements: additionalStatements,
+                ignoreConflict: ignoreConflict));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -556,14 +558,15 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             SqlParamCollection param = null,
             bool otherInitValue = false,
-            List<SqlStatement> additionalStatements = null)
+            List<SqlStatement> additionalStatements = null,
+            bool ignoreConflict = false)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.TenantsWhereDefault(
                 context: context,
                 tenantModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange());
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && !ignoreConflict);
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
