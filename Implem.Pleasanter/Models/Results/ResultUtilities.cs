@@ -5545,7 +5545,6 @@ namespace Implem.Pleasanter.Models
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
-                ErrorData importKeyError = null;
                 var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
                 foreach (var data in csvRows)
                 {
@@ -5650,10 +5649,6 @@ namespace Implem.Pleasanter.Models
                             }
                         });
                     resultHash.Add(data.Index, resultModel);
-                }
-                if (importKeyError != null)
-                {
-                    return importKeyError.MessageJson(context: context);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
                     context: context,
