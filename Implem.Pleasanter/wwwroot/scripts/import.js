@@ -20,6 +20,7 @@ $p.import = function ($control) {
 }
 
 $(function () {
+    $('#KeyField').toggle($(this).prop('checked'));
     $(document).on('change', '#UpdatableImport', function () {
         $('#KeyField').toggle($(this).prop('checked'));
     });
