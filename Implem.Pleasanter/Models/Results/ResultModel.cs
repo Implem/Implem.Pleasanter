@@ -1945,7 +1945,11 @@ namespace Implem.Pleasanter.Models
                     factory: context,
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
-                        .ReferenceId(ResultId)),
+                        .ReferenceId(ResultId)
+                        .BinaryType(
+                            value: "Images",
+                            _operator: "<>",
+                            _using: ss.DeleteImageWhenDeleting == false)),
                 Rds.DeleteResults(
                     factory: context,
                     where: where)
@@ -1976,6 +1980,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 transactional: true,
                 statements: statements.ToArray());
+            if (ss.DeleteImageWhenDeleting == false)
+            {
+                BinaryUtilities.UpdateImageReferenceId(
+                    context: context,
+                    siteId: SiteId,
+                    referenceId: ResultId);
+            }
             WriteAttachments(
                 context: context,
                 ss: ss);

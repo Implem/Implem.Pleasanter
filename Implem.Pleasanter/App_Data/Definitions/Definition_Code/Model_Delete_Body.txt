@@ -30,6 +30,7 @@
         transactional: true,
         statements: statements.ToArray());
 
+<!--Model_DeleteImageWhenDeleting-->
 <!--Model_WriteAttachmentsExecute-->
 <!--Model_SynchronizeSummaryExecute-->
 <!--Model_OnDeleted_SetSiteInfo-->

@@ -262,6 +262,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             ss.GetFilterColumns(
                 context: context,
+                view: view,
                 checkPermission: true).ForEach(column =>
                     Column(
                         hb: hb,

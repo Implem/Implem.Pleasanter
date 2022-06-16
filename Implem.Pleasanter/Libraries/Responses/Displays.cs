@@ -449,6 +449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllowStandardExport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowStandardExport",
+                data: data);
+        }
+
         public static string AllowViewReset(
             Context context,
             params string[] data)
@@ -2616,6 +2626,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DeleteHistory",
+                data: data);
+        }
+
+        public static string DeleteImageWhenDeleting(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DeleteImageWhenDeleting",
                 data: data);
         }
 
