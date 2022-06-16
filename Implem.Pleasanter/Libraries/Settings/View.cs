@@ -872,7 +872,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     value = objectValue.ToBool().ToOneOrZeroString();
                     break;
                 case "int":
-                case "long":
+                case "bigint":
                 case "nvarchar":
                     value = column.HasChoices()
                         ? $"[\"{objectValue}\"]"
