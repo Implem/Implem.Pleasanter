@@ -240,7 +240,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         id = o.Id,
                         mailNotify = o.ExecutionType == Settings.Export.ExecutionTypes.MailNotify
                     }.ToJson(),
-                    o => o.Name);
+                    o => o.Name) ?? new Dictionary<string, string>();
             if (ss.AllowStandardExport == true)
             {
                 optionCollection.Add("{\"id\":0, \"mailNotify\":false}", Displays.Standard(context: context));
@@ -252,7 +252,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             SiteSettings ss)
         {
-            return GetAccessibleTemplates(context, ss).Count() > 0;
+            return GetAccessibleTemplates(
+                context:context,
+                ss:ss)
+                    .Any();
         }
     }
 }
