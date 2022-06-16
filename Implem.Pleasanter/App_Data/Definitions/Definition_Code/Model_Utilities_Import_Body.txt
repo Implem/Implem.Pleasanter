@@ -71,22 +71,45 @@
                         .ToArray());
         var #modelName#Hash = new Dictionary<int, #ModelName#Model>();
         var previousTitle = string.Empty;
-        csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+        var importKeyColumnName = context.Forms.Data("Key");
+        var importKeyColumn = columnHash
+            .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+        var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+        foreach (var data in csvRows)
         {
             var #modelName#Model = new #ModelName#Model(
                 context: context,
                 ss: ss);
             if (updatableImport && idColumn > -1)
             {
+                var view = new View();
+                view.AddColumnFilterHash(
+                    context: context,
+                    ss: ss,
+                    column: importKeyColumn.Value.Column,
+                    objectValue: data.Row[importKeyColumn.Key]);
+                view.AddColumnFilterSearchTypes(
+                    columnName: importKeyColumnName,
+                    searchType: Column.SearchTypes.ExactMatch);
                 var model = new #ModelName#Model(
                     context: context,
                     ss: ss,
-                    #modelName#Id: data.Row.Count > idColumn
-                        ? data.Row[idColumn].ToLong()
-                        : 0);
+                    #modelName#Id: 0,
+                    view: view);
                 if (model.AccessStatus == Databases.AccessStatuses.Selected)
                 {
                     #modelName#Model = model;
+                }
+                else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                {
+                    return new ErrorData(
+                        type: Error.Types.OverlapCsvImport,
+                        data: new string[] {
+                            (data.Index + 1).ToString(),
+                            importKeyColumn.Value.Column.GridLabelText,
+                            data.Row[importKeyColumn.Key]
+                        })
+                        .MessageJson(context: context);
                 }
             }
             previousTitle = #modelName#Model.Title.DisplayValue;
@@ -137,7 +160,7 @@
                     }
                 });
             #modelName#Hash.Add(data.Index, #modelName#Model);
-        });
+        }
 
 <!--Model_Utilities_ImportValidatorCases-->
 <!--Model_Utilities_InputValidator-->
@@ -168,7 +191,9 @@
                         ss: ss,
                         extendedSqls: false,
                         previousTitle: previousTitle,
-                        get: false);
+                        get: false,
+                        // ignoreConflictしないと、CSVにキー重複で連続してUpdateするとConflictedエラーになる。
+                        ignoreConflict: true);
                     switch (errorData.Type)
                     {
                         case Error.Types.None:
