@@ -2473,6 +2473,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "ViewFiltersFilterJoin":
+                    SetFilterColumnsSelectable(
+                        context: context,
+                        res: res,
+                        prefix: "ViewFilters");
+                    break;
                 case "MoveUpNotifications":
                 case "MoveDownNotifications":
                     SetNotificationsOrder(
@@ -2967,18 +2973,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetFilterColumnsSelectable(Context context, ResponseCollection res)
+        private void SetFilterColumnsSelectable(
+            Context context,
+            ResponseCollection res,
+            string prefix = "")
         {
-            SiteSettings.FilterColumns = context.Forms.List("FilterColumnsAll");
+            SiteSettings.FilterColumns = context.Forms.List($"{prefix}FilterColumnsAll");
             var listItemCollection = SiteSettings.FilterSelectableOptions(
-                context: context, enabled: false, join: context.Forms.Data("FilterJoin"));
+                context: context, enabled: false, join: context.Forms.Data($"{prefix}FilterJoin"));
             if (!listItemCollection.Any())
             {
                 res.Message(Messages.NotFound(context: context));
             }
             else
             {
-                res.Html("#FilterSourceColumns", new HtmlBuilder()
+                res.Html($"#{prefix}FilterSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: listItemCollection));
             }
         }
