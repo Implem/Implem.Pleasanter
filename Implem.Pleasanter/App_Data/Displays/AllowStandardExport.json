@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllowStandardExport",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow standard export"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许标准导出"
+        },
+        {
+            "Language": "ja",
+            "Body": "標準エクスポートを許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardexport zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "표준 내보내기 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir exportación estándar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép xuất tiêu chuẩn"
+        }
+    ]
+}

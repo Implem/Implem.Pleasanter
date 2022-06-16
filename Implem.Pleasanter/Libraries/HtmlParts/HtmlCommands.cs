@@ -327,7 +327,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     icon: "ui-icon-arrowreturnthick-1-w",
                                                     action: "OpenExportSelectorDialog",
                                                     method: "post",
-                                                    _using: context.CanExport(ss: ss))
+                                                    _using: context.CanExport(ss: ss)
+                                                        && ExportUtilities.HasExportableTemplates(
+                                                            context:context,
+                                                            ss:ss))
                                                 .Button(
                                                     serverScriptModelRow: serverScriptModelRow,
                                                     commandDisplayTypes: view?.OpenBulkUpdateSelectorDialogCommand,

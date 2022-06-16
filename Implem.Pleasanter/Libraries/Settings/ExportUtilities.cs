@@ -227,5 +227,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                     format: Displays.YmdhmsFormat(context: context)))
                         + "." + extension);
         }
+
+        public static Dictionary<string, string> GetAccessibleTemplates(
+            Context context,
+            SiteSettings ss)
+        {
+            var optionCollection = ss.Exports
+                ?.Where(o => o.Accessable(context: context))
+                .ToDictionary(
+                    o => new
+                    {
+                        id = o.Id,
+                        mailNotify = o.ExecutionType == Settings.Export.ExecutionTypes.MailNotify
+                    }.ToJson(),
+                    o => o.Name) ?? new Dictionary<string, string>();
+            if (ss.AllowStandardExport == true)
+            {
+                optionCollection.Add("{\"id\":0, \"mailNotify\":false}", Displays.Standard(context: context));
+            }
+            return optionCollection;
+        }
+
+        public static bool HasExportableTemplates(
+            Context context,
+            SiteSettings ss)
+        {
+            return GetAccessibleTemplates(
+                context:context,
+                ss:ss)
+                    .Any();
+        }
     }
 }
