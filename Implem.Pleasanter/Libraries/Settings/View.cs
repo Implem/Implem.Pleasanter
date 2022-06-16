@@ -43,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Name;
         public string DefaultMode;
         public List<string> GridColumns;
+        public List<string> FilterColumns;
         public DisplayTypes? FiltersDisplayType;
         public bool? FiltersReduced;
         public DisplayTypes? AggregationsDisplayType;
@@ -410,6 +411,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "ViewGridColumnsAll":
                                 GridColumns = String(
+                                    context: context,
+                                    controlId: controlId).Deserialize<List<string>>();
+                                break;
+                            case "ViewFiltersFilterColumnsAll":
+                                FilterColumns = String(
                                     context: context,
                                     controlId: controlId).Deserialize<List<string>>();
                                 break;
@@ -1069,6 +1075,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (GridColumns != null && GridColumns.Join() != ss.GridColumns?.Join())
             {
                 view.GridColumns = GridColumns;
+            }
+            if (FilterColumns != null && FilterColumns.Join() != ss.FilterColumns?.Join())
+            {
+                view.FilterColumns = FilterColumns;
             }
             if (FiltersDisplayType != DisplayTypes.Displayed)
             {

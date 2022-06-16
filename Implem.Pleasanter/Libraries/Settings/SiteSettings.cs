@@ -2184,9 +2184,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public List<Column> GetFilterColumns(Context context, bool checkPermission = false)
+        public List<Column> GetFilterColumns(
+            Context context,
+            View view,
+            bool checkPermission = false)
         {
-            var columns = FilterColumns
+            var columns = (view?.FilterColumns ?? FilterColumns)
                 .Select(columnName => GetColumn(
                     context: context,
                     columnName: columnName))
@@ -2578,6 +2581,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => !gridColumns.Contains(o)),
                     labelType: "Grid",
                     order: currentSs?.ColumnDefinitionHash?.GridDefinitions(context: context)?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList());
+        }
+
+        public Dictionary<string, ControlData> ViewFilterSelectableOptions(
+            Context context, List<string> filterColumns, bool enabled = true, string join = null)
+        {
+            var currentSs = GetJoinedSs(join);
+            return enabled
+                ? ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: currentSs,
+                    columns: filterColumns,
+                    order: currentSs?.ColumnDefinitionHash?.FilterDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList())
+                : ColumnUtilities.SelectableSourceOptions(
+                    context: context,
+                    ss: currentSs,
+                    columns: currentSs.ColumnDefinitionHash.FilterDefinitions()
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName)
+                        .Where(o => !filterColumns.Contains(o)),
+                    order: currentSs?.ColumnDefinitionHash?.FilterDefinitions()?
                         .OrderBy(o => o.No)
                         .Select(o => join.IsNullOrEmpty()
                             ? o.ColumnName
