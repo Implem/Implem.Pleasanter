@@ -181,6 +181,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ImportEncoding;
         public bool? UpdatableImport;
         public SettingList<Export> Exports;
+        public bool? AllowStandardExport;
         public SettingList<Style> Styles;
         public bool? Responsive;
         public SettingList<Script> Scripts;
@@ -336,6 +337,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ImportEncoding = ImportEncoding ?? Parameters.General.ImportEncoding;
             UpdatableImport = UpdatableImport ?? Parameters.General.UpdatableImport;
             if (Exports == null) Exports = new SettingList<Export>();
+            AllowStandardExport = AllowStandardExport ?? Parameters.General.AllowStandardExport;
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
             if (Scripts == null) Scripts = new SettingList<Script>();
@@ -1008,6 +1010,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Exports.Add(exportSetting.GetRecordingData());
             });
+            if (AllowStandardExport != Parameters.General.AllowStandardExport)
+            {
+                ss.AllowStandardExport = AllowStandardExport;
+            }
             Styles?.ForEach(style =>
             {
                 if (ss.Styles == null)
@@ -3401,6 +3407,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DeleteImageWhenDeleting": DeleteImageWhenDeleting = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
+                case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;

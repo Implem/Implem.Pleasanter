@@ -12,16 +12,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder ExportSelectorDialog(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var optionCollection = ss.Exports
-                ?.Where(o => o.Accessable(context: context))
-                .ToDictionary(
-                    o => new
-                    {
-                        id = o.Id,
-                        mailNotify = o.ExecutionType == Export.ExecutionTypes.MailNotify
-                    }.ToJson(),
-                    o => o.Name);
-            optionCollection.Add("{\"id\":0, \"mailNotify\":false}", Displays.Standard(context: context));
+            var optionCollection = ExportUtilities.GetAccessibleTemplates(
+                context:context,
+                ss:ss);
             return hb
                 .FieldDropDown(
                     context: context,
