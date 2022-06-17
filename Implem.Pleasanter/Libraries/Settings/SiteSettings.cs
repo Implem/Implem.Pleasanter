@@ -180,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Reminder> Reminders;
         public string ImportEncoding;
         public bool? UpdatableImport;
+        public string DefaultImportKey;
         public SettingList<Export> Exports;
         public bool? AllowStandardExport;
         public SettingList<Style> Styles;
@@ -1002,6 +1003,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.UpdatableImport = UpdatableImport;
             }
+            if (!DefaultImportKey.IsNullOrEmpty())
+            {
+                ss.DefaultImportKey = DefaultImportKey;
+            }
             Exports?.ForEach(exportSetting =>
             {
                 if (ss.Exports == null)
@@ -1176,6 +1181,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.DefaultInput = column.DefaultInput;
+                    }
+                    if (column.ImportKey != columnDefinition.ImportKey)
+                    {
+                        enabled = true;
+                        newColumn.ImportKey = column.ImportKey;
                     }
                     if (column.MaxLength.ToDecimal() > 0)
                     {
@@ -1762,6 +1772,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.MultipleSelections = column.MultipleSelections ?? false;
                 column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
+                column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
@@ -3407,6 +3418,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DeleteImageWhenDeleting": DeleteImageWhenDeleting = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
+                case "DefaultImportKey": DefaultImportKey = value; break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
@@ -3647,6 +3659,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
                 case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
+                case "ImportKey": column.ImportKey = value.ToBool(); break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;

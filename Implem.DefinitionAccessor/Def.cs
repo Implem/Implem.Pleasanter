@@ -2550,6 +2550,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedDefaultInput = newColumnDefinition.DefaultInput;
                             break;
+                        case "ImportKey":
+                            newColumnDefinition.ImportKey = customDefinitionRow.Get("ImportKey")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedImportKey = newColumnDefinition.ImportKey;
+                            break;
                         case "Own":
                             newColumnDefinition.Own = customDefinitionRow.Get("Own")?.ToBool() ??
                                 data.ToBool();
@@ -2813,6 +2818,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ChoicesText")) { definition.ChoicesText = definitionRow["ChoicesText"].ToString(); definition.SavedChoicesText = definition.ChoicesText; }
             if (definitionRow.ContainsKey("UseSearch")) { definition.UseSearch = definitionRow["UseSearch"].ToBool(); definition.SavedUseSearch = definition.UseSearch; }
             if (definitionRow.ContainsKey("DefaultInput")) { definition.DefaultInput = definitionRow["DefaultInput"].ToString(); definition.SavedDefaultInput = definition.DefaultInput; }
+            if (definitionRow.ContainsKey("ImportKey")) { definition.ImportKey = definitionRow["ImportKey"].ToBool(); definition.SavedImportKey = definition.ImportKey; }
             if (definitionRow.ContainsKey("Own")) { definition.Own = definitionRow["Own"].ToBool(); definition.SavedOwn = definition.Own; }
             if (definitionRow.ContainsKey("FormName")) { definition.FormName = definitionRow["FormName"].ToString(); definition.SavedFormName = definition.FormName; }
             if (definitionRow.ContainsKey("ValidateRequired")) { definition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); definition.SavedValidateRequired = definition.ValidateRequired; }
@@ -5540,6 +5546,7 @@ namespace Implem.DefinitionAccessor
                         case "ChoicesText": columnDefinition.ChoicesText = optionValue.ToString(); break;
                         case "UseSearch": columnDefinition.UseSearch = optionValue.ToBool(); break;
                         case "DefaultInput": columnDefinition.DefaultInput = optionValue.ToString(); break;
+                        case "ImportKey": columnDefinition.ImportKey = optionValue.ToBool(); break;
                         case "Own": columnDefinition.Own = optionValue.ToBool(); break;
                         case "FormName": columnDefinition.FormName = optionValue.ToString(); break;
                         case "ValidateRequired": columnDefinition.ValidateRequired = optionValue.ToBool(); break;
@@ -7998,6 +8005,7 @@ namespace Implem.DefinitionAccessor
         public string ChoicesText; public string SavedChoicesText;
         public bool UseSearch; public bool SavedUseSearch;
         public string DefaultInput; public string SavedDefaultInput;
+        public bool ImportKey; public bool SavedImportKey;
         public bool Own; public bool SavedOwn;
         public string FormName; public string SavedFormName;
         public bool ValidateRequired; public bool SavedValidateRequired;
@@ -8131,6 +8139,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ChoicesText")) ChoicesText = propertyCollection["ChoicesText"].ToString(); else ChoicesText = string.Empty;
             if (propertyCollection.ContainsKey("UseSearch")) UseSearch = propertyCollection["UseSearch"].ToBool(); else UseSearch = false;
             if (propertyCollection.ContainsKey("DefaultInput")) DefaultInput = propertyCollection["DefaultInput"].ToString(); else DefaultInput = string.Empty;
+            if (propertyCollection.ContainsKey("ImportKey")) ImportKey = propertyCollection["ImportKey"].ToBool(); else ImportKey = false;
             if (propertyCollection.ContainsKey("Own")) Own = propertyCollection["Own"].ToBool(); else Own = false;
             if (propertyCollection.ContainsKey("FormName")) FormName = propertyCollection["FormName"].ToString(); else FormName = string.Empty;
             if (propertyCollection.ContainsKey("ValidateRequired")) ValidateRequired = propertyCollection["ValidateRequired"].ToBool(); else ValidateRequired = false;
@@ -8264,6 +8273,7 @@ namespace Implem.DefinitionAccessor
                     case "ChoicesText": return ChoicesText;
                     case "UseSearch": return UseSearch;
                     case "DefaultInput": return DefaultInput;
+                    case "ImportKey": return ImportKey;
                     case "Own": return Own;
                     case "FormName": return FormName;
                     case "ValidateRequired": return ValidateRequired;
@@ -8397,6 +8407,7 @@ namespace Implem.DefinitionAccessor
             ChoicesText = SavedChoicesText;
             UseSearch = SavedUseSearch;
             DefaultInput = SavedDefaultInput;
+            ImportKey = SavedImportKey;
             Own = SavedOwn;
             FormName = SavedFormName;
             ValidateRequired = SavedValidateRequired;

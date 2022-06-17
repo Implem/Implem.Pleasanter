@@ -65,6 +65,7 @@ namespace Implem.Pleasanter.Libraries.General
             NotMatchRegex,
             NotRequiredColumn,
             Overlap,
+            OverlapCsvImport,
             OverLimitApi,
             OverLimitQuantity,
             OverLimitSize,
@@ -336,6 +337,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.Overlap:
                     return Messages.Overlap(
+                        context: context,
+                        data: data);
+                case Types.OverlapCsvImport:
+                    return Messages.OverlapCsvImport(
                         context: context,
                         data: data);
                 case Types.OverLimitApi:

@@ -5893,22 +5893,45 @@ namespace Implem.Pleasanter.Models
                                 .ToArray());
                 var issueHash = new Dictionary<int, IssueModel>();
                 var previousTitle = string.Empty;
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                var importKeyColumnName = context.Forms.Data("Key");
+                var importKeyColumn = columnHash
+                    .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+                foreach (var data in csvRows)
                 {
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
                     if (updatableImport && idColumn > -1)
                     {
+                        var view = new View();
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: importKeyColumn.Value.Column,
+                            objectValue: data.Row[importKeyColumn.Key]);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new IssueModel(
                             context: context,
                             ss: ss,
-                            issueId: data.Row.Count > idColumn
-                                ? data.Row[idColumn].ToLong()
-                                : 0);
+                            issueId: 0,
+                            view: view);
                         if (model.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             issueModel = model;
+                        }
+                        else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        {
+                            return new ErrorData(
+                                type: Error.Types.OverlapCsvImport,
+                                data: new string[] {
+                                    (data.Index + 1).ToString(),
+                                    importKeyColumn.Value.Column.GridLabelText,
+                                    data.Row[importKeyColumn.Key]
+                                })
+                                .MessageJson(context: context);
                         }
                     }
                     previousTitle = issueModel.Title.DisplayValue;
@@ -5989,7 +6012,7 @@ namespace Implem.Pleasanter.Models
                             }
                         });
                     issueHash.Add(data.Index, issueModel);
-                });
+                }
                 var errorCompletionTime = Imports.Validate(
                     context: context,
                     hash: issueHash.ToDictionary(
@@ -6032,7 +6055,9 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 extendedSqls: false,
                                 previousTitle: previousTitle,
-                                get: false);
+                                get: false,
+                                // checkConflict:falseしないと、CSVにキー重複があり連続してUpdateするとConflictedエラーになる。
+                                checkConflict: false);
                             switch (errorData.Type)
                             {
                                 case Error.Types.None:

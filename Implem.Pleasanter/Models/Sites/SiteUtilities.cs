@@ -6345,6 +6345,12 @@ namespace Implem.Pleasanter.Models
                                             default:
                                                 hb
                                                     .FieldCheckBox(
+                                                        controlId: "ImportKey",
+                                                        labelText: Displays.ImportKey(context: context),
+                                                        _checked: column.ImportKey == true,
+                                                        _using: column.ColumnName != "Comments"
+                                                            && !column.NotUpdate)
+                                                    .FieldCheckBox(
                                                         controlId: "AllowImage",
                                                         labelText: Displays.AllowImage(context: context),
                                                         _checked: column.AllowImage == true,
@@ -10850,7 +10856,19 @@ namespace Implem.Pleasanter.Models
                     controlId: "UpdatableImport",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UpdatableImport(context: context),
-                    _checked: ss.UpdatableImport == true));
+                    _checked: ss.UpdatableImport == true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "DefaultImportKey",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DefaultImportKey(context: context),
+                    optionCollection: ss.Columns?
+                        .Where(o => o.ImportKey == true)
+                        .OrderBy(o => o.No)
+                        .ToDictionary(
+                            o => o.ColumnName,
+                            o => o.LabelText),
+                    selectedValue: ss.DefaultImportKey));
         }
 
         /// <summary>
