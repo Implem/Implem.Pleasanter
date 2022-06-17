@@ -8613,6 +8613,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.NotificationType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Address(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Subject(context: context)))));
@@ -8645,6 +8647,10 @@ namespace Implem.Pleasanter.Models
                         .Td(action: () => hb
                             .Text(text: notification.Id.ToString()))
                         .Td(action: () => hb
+                            .Text(text: Displays.Get(
+                                context: context,
+                                id: notification.Type.ToString())))
+                        .Td(action: () => hb
                             .Text(text: ss.ColumnNameToLabelText(notification.Address)))
                         .Td(action: () => hb
                             .Text(text: ss.ColumnNameToLabelText(notification.Subject))));
@@ -8674,6 +8680,15 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Id(context: context),
                         text: notification.Id.ToString(),
                         _using: controlId == "EditProcessNotification")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessNotificationType",
+                        controlCss: " always-send",
+                        labelText: Displays.NotificationType(context: context),
+                        optionCollection: Parameters.Notification.ListOrder == null
+                            ? NotificationUtilities.Types(context: context)
+                            : NotificationUtilities.OrderTypes(context: context),
+                        selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ProcessNotificationSubject",
                         fieldCss: "field-wide",
@@ -8688,6 +8703,18 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(context: context),
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "ProcessNotificationTokenField",
+                        controlId: "ProcessNotificationToken",
+                        fieldCss: "field-wide" + (!NotificationUtilities.RequireToken(notification)
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Token(context: context),
+                        text: notification.Token)
+                    .Hidden(
+                        controlId: "ProcessNotificationTokenEnableList",
+                        value: NotificationUtilities.Tokens())
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
                         fieldId: "ProcessNotificationBody",

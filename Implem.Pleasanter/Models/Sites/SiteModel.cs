@@ -4390,9 +4390,10 @@ namespace Implem.Pleasanter.Models
             notifications.Add(new Notification()
             {
                 Id = notifications.MaxOrDefault(o => o.Id) + 1,
-                Type = Notification.Types.Mail,
-                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
                 Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
+                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Token = context.Forms.Data("ProcessNotificationToken"),
                 Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
             });
             res
@@ -4414,8 +4415,10 @@ namespace Implem.Pleasanter.Models
         {
             var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
             var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
-            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
             notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
+            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Token = context.Forms.Data("ProcessNotificationToken");
             notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
             res
                 .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
