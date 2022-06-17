@@ -1516,7 +1516,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool ignoreConflict = false)
+            bool checkConflict = true) 
         {
             SetByBeforeUpdateServerScript(
                 context: context,
@@ -1549,7 +1549,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                ignoreConflict: ignoreConflict));
+                checkConflict: checkConflict));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1635,7 +1635,7 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool ignoreConflict = false)
+            bool checkConflict = true)
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
@@ -1645,7 +1645,7 @@ namespace Implem.Pleasanter.Models
             var where = Rds.ResultsWhereDefault(
                 context: context,
                 resultModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange() && !ignoreConflict);
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             statements.AddRange(IfDuplicatedStatements(ss: ss));
             if (Versions.VerUp(
                 context: context,
