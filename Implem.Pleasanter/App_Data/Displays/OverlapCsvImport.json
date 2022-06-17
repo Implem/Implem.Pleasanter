@@ -3,11 +3,11 @@
     "Type": 240,
     "Languages": [
         {
-            "Body": "There are multiple records that match the condition."
+            "Body": "There are multiple records that match the conditions. CSV file {0} record, column name: {1}, value: {2}."
         },
         {
             "Language": "zh",
-            "Body": "存在多于一条符合条件的记录。"
+            "Body": "有多个符合条件的记录。 CSV 文件 {0} 记录，列名：{1}，值：{2}。"
         },
         {
             "Language": "ja",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "Es gibt mehr als einen Datensatz, der die Bedingung erfüllt."
+            "Body": "Es gibt mehrere Datensätze, die den Bedingungen entsprechen. CSV-Datei {0} Datensatz, Spaltenname: {1}, Wert: {2}."
         },
         {
             "Language": "ko",
-            "Body": "조건과 일치하는 여러 레코드가 있습니다."
+            "Body": "조건과 일치하는 여러 레코드가 있습니다. CSV 파일 {0} 레코드, 열 이름: {1}, 값: {2}."
         },
         {
             "Language": "es",
-            "Body": "Existe más de un registro que coincide con la condición."
+            "Body": "Hay varios registros que coinciden con las condiciones. Archivo CSV {0} registro, nombre de columna: {1}, valor: {2}."
         },
         {
             "Language": "vn",
-            "Body": "Có nhiều bản ghi phù hợp với các điều kiện."
+            "Body": "Có nhiều bản ghi phù hợp với các điều kiện. Tệp CSV {0} bản ghi, tên cột: {1}, giá trị: {2}."
         }
     ]
 }

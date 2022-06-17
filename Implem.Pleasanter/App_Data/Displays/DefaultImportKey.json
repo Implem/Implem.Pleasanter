@@ -7,7 +7,7 @@
         },
         {
             "Language": "zh",
-            "Body": "默认值"
+            "Body": "默认导入密钥"
         },
         {
             "Language": "ja",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "Standardwert"
+            "Body": "Standardimportschlüssel"
         },
         {
             "Language": "ko",
-            "Body": "기본값"
+            "Body": "기본 가져오기 키"
         },
         {
             "Language": "es",
-            "Body": "Valor predeterminado"
+            "Body": "Clave de importación predeterminada"
         },
         {
             "Language": "vn",
-            "Body": "Giá trị mặc định"
+            "Body": "Khóa nhập mặc định"
         }
     ]
 }

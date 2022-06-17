@@ -3,11 +3,11 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "key"
+            "Body": "Key"
         },
         {
             "Language": "zh",
-            "Body": "默认值"
+            "Body": "钥匙"
         },
         {
             "Language": "ja",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "Standardwert"
+            "Body": "Taste"
         },
         {
             "Language": "ko",
-            "Body": "기본값"
+            "Body": "열쇠"
         },
         {
             "Language": "es",
-            "Body": "Valor predeterminado"
+            "Body": "Llave"
         },
         {
             "Language": "vn",
-            "Body": "Giá trị mặc định"
+            "Body": "Chìa khóa"
         }
     ]
 }
