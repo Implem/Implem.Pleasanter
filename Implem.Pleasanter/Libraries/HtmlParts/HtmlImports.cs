@@ -47,7 +47,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         fieldId: "KeyField",
                         controlId: "Key",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (ss.UpdatableImport == true
+                                ? string.Empty
+                                : " hidden"),
                         labelText: Displays.Key(context: context),
                         optionCollection: ss.Columns?
                             .Where(o => o.ImportKey == true)
