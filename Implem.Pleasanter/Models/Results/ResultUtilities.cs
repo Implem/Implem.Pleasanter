@@ -5704,8 +5704,8 @@ namespace Implem.Pleasanter.Models
                                 extendedSqls: false,
                                 previousTitle: previousTitle,
                                 get: false,
-                                // ignoreConflictしないと、CSVにキー重複で連続してUpdateするとConflictedエラーになる。
-                                ignoreConflict: true);
+                                // checkConflict:falseしないと、CSVにキー重複があり連続してUpdateするとConflictedエラーになる。
+                                checkConflict: false);
                             switch (errorData.Type)
                             {
                                 case Error.Types.None:

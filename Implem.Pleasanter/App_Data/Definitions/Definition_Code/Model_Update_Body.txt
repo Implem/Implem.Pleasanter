@@ -13,7 +13,7 @@
     bool otherInitValue = false,
     bool setBySession = true,
     bool get = true,
-    bool ignoreConflict = false)
+    bool checkConflict = true) 
 {
 <!--Model_OnUpdating_ServerScript-->
 <!--Model_CheckNotificationConditions-->
@@ -32,7 +32,7 @@
         param: param,
         otherInitValue: otherInitValue,
         additionalStatements: additionalStatements,
-        ignoreConflict: ignoreConflict));
+        checkConflict: checkConflict));
 
 <!--Model_UpdateReminders-->
 <!--Model_UpdateExecute-->
@@ -65,7 +65,7 @@ public List<SqlStatement> UpdateStatements(
     SqlParamCollection param = null,
     bool otherInitValue = false,
     List<SqlStatement> additionalStatements = null,
-    bool ignoreConflict = false)
+    bool checkConflict = true)
 {
 
 <!--Model_SetAttachmentsData-->
@@ -75,7 +75,7 @@ public List<SqlStatement> UpdateStatements(
     var where = Rds.#TableName#WhereDefault(
         context: context,
         #modelName#Model: this)
-            .UpdatedTime(timestamp, _using: timestamp.InRange() && !ignoreConflict);
+            .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
 
 <!--Model_IfDuplicated-->
 

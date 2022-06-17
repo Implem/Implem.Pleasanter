@@ -696,7 +696,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool ignoreConflict = false)
+            bool checkConflict = true) 
         {
             var notifications = GetNotifications(
                 context: context,
@@ -722,7 +722,7 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                ignoreConflict: ignoreConflict));
+                checkConflict: checkConflict));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -804,14 +804,14 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool ignoreConflict = false)
+            bool checkConflict = true)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.WikisWhereDefault(
                 context: context,
                 wikiModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange() && !ignoreConflict);
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
