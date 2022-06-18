@@ -2881,7 +2881,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !o.Id_Ver)
                 .Where(o => !o.Joined)
                 .Where(o => !o.RecordedTime)
-                .Where(o => o.TypeName != "bit")
                 .Where(o => o.ColumnName != "SiteId")
                 .Where(o => o.ColumnName != "Creator")
                 .Where(o => o.ColumnName != "Updator")

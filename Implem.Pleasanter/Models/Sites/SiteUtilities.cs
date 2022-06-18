@@ -6092,6 +6092,12 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.ReadOnly(context: context),
                                             _checked: column.EditorReadOnly == true)
                                         .FieldCheckBox(
+                                            controlId: "ValidateRequired",
+                                            labelText: Displays.Required(context: context),
+                                            _checked: column.ValidateRequired ?? false,
+                                            disabled: column.Required,
+                                            _using: column.TypeName == "bit")
+                                        .FieldCheckBox(
                                             controlId: "AllowBulkUpdate",
                                             labelText: Displays.AllowBulkUpdate(context: context),
                                             _checked: column.AllowBulkUpdate == true,
