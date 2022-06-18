@@ -13,7 +13,6 @@
     "HistoryColumn": "101",
     "TypeName": "bit",
     "Default": "1",
-    "Required": "1",
     "Session": "1",
     "LabelText_en": "Add header",
     "LabelText_zh": "添加标题",
