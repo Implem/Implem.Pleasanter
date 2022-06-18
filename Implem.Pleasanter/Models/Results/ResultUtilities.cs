@@ -4903,7 +4903,11 @@ namespace Implem.Pleasanter.Models
                 factory: context,
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
-                    .ReferenceId_In(sub: sub)));
+                    .ReferenceId_In(sub: sub)
+                    .BinaryType(
+                        value: "Images",
+                        _operator: "<>",
+                        _using: ss.DeleteImageWhenDeleting == false)));
             statements.Add(Rds.DeleteResults(
                 factory: context,
                 where: Rds.ResultsWhere()
@@ -4929,11 +4933,28 @@ namespace Implem.Pleasanter.Models
             statements.OnBulkDeletedExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
-            return Repository.ExecuteScalar_response(
+            var ids = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().ReferenceId(),
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId_In(sub: sub)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("ReferenceId"))
+                            .ToList();
+            var affectedRows = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
-                statements: statements.ToArray())
-                    .Count.ToInt();
+                statements: statements.ToArray()).Count.ToInt();
+            if (ss.DeleteImageWhenDeleting == false)
+            {
+                ids.ForEach(referenceId => BinaryUtilities.UpdateImageReferenceId(
+                    context: context,
+                    siteId: ss.SiteId,
+                    referenceId: referenceId));
+            }
+            return affectedRows;
         }
 
         public static ContentResultInheritance BulkDeleteByApi(
@@ -5539,22 +5560,45 @@ namespace Implem.Pleasanter.Models
                                 .ToArray());
                 var resultHash = new Dictionary<int, ResultModel>();
                 var previousTitle = string.Empty;
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                var importKeyColumnName = context.Forms.Data("Key");
+                var importKeyColumn = columnHash
+                    .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+                foreach (var data in csvRows)
                 {
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
                     if (updatableImport && idColumn > -1)
                     {
+                        var view = new View();
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: importKeyColumn.Value.Column,
+                            objectValue: data.Row[importKeyColumn.Key]);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new ResultModel(
                             context: context,
                             ss: ss,
-                            resultId: data.Row.Count > idColumn
-                                ? data.Row[idColumn].ToLong()
-                                : 0);
+                            resultId: 0,
+                            view: view);
                         if (model.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             resultModel = model;
+                        }
+                        else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        {
+                            return new ErrorData(
+                                type: Error.Types.OverlapCsvImport,
+                                data: new string[] {
+                                    (data.Index + 1).ToString(),
+                                    importKeyColumn.Value.Column.GridLabelText,
+                                    data.Row[importKeyColumn.Key]
+                                })
+                                .MessageJson(context: context);
                         }
                     }
                     previousTitle = resultModel.Title.DisplayValue;
@@ -5623,7 +5667,7 @@ namespace Implem.Pleasanter.Models
                             }
                         });
                     resultHash.Add(data.Index, resultModel);
-                });
+                }
                 var inputErrorData = ResultValidators.OnInputValidating(
                     context: context,
                     ss: ss,
@@ -5659,7 +5703,8 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 extendedSqls: false,
                                 previousTitle: previousTitle,
-                                get: false);
+                                get: false,
+                                checkConflict: false);
                             switch (errorData.Type)
                             {
                                 case Error.Types.None:

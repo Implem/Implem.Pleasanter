@@ -3,31 +3,31 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Update record with the same ID."
+            "Body": "Update record with the same key."
         },
         {
             "Language": "zh",
-            "Body": "更新相同ID的记录。"
+            "Body": "使用匹配的键更新记录。"
         },
         {
             "Language": "ja",
-            "Body": "IDが一致するレコードを更新する"
+            "Body": "キーが一致するレコードを更新する"
         },
         {
             "Language": "de",
-            "Body": "Aktualisieren Sie den Datensatz mit der dieselben ID."
+            "Body": "Aktualisieren Sie den Datensatz mit dem übereinstimmenden Schlüssel."
         },
         {
             "Language": "ko",
-            "Body": "같은 ID를 가진 레코드를 업데이트하십시오."
+            "Body": "키가 일치하는 레코드를 업데이트합니다."
         },
         {
             "Language": "es",
-            "Body": "Actualizar registro con el mismo ID."
+            "Body": "Actualizar registros con claves coincidentes"
         },
         {
             "Language": "vn",
-            "Body": "Cập nhật bản ghi có cùng ID."
+            "Body": "Cập nhật bản ghi bằng khóa phù hợp."
         }
     ]
 }

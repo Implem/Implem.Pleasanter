@@ -312,10 +312,12 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SamlLogin()
         {
             var context = new Context();
-            if (!Authentications.SAML() 
+            var log = new SysLogModel(context: context);
+            if (!Authentications.SAML()
                 || HttpContext.User?.Identity?.AuthenticationType != "Federation"
                 || HttpContext.User?.Identity?.IsAuthenticated != true)
             {
+                log.Finish(context: context);
                 return new RedirectResult(Locations.SamlLoginFailed(context: context));
             }
             Authentications.SignOut(context: context);
@@ -327,6 +329,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 if (string.IsNullOrEmpty(name))
                 {
+                    log.Finish(context: context);
                     return new RedirectResult(Locations.EmptyUserName(context: context));
                 }
                 var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
@@ -378,6 +381,7 @@ namespace Implem.Pleasanter.Controllers
             {
                 if (e.Number == 2601)
                 {
+                    log.Finish(context: context);
                     return new RedirectResult(Locations.LoginIdAlreadyUse(context: context));
                 }
                 throw;
@@ -392,17 +396,21 @@ namespace Implem.Pleasanter.Controllers
             {
                 if (user.Disabled)
                 {
+                    log.Finish(context: context);
                     return new RedirectResult(Locations.UserDisabled(context: context));
                 }
                 if (user.Lockout)
                 {
+                    log.Finish(context: context);
                     return new RedirectResult(Locations.UserLockout(context: context));
                 }
                 user.Allow(context: context, returnUrl: Locations.Top(context), createPersistentCookie: true);
+                log.Finish(context: context);
                 return new RedirectResult(Locations.Top(context));
             }
             else
             {
+                log.Finish(context: context);
                 return new RedirectResult(Locations.SamlLoginFailed(context: context));
             }
         }

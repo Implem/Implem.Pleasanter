@@ -10,7 +10,6 @@
     "LinkColumn": "106",
     "HistoryColumn": "106",
     "TypeName": "bit",
-    "Required": "1",
     "LabelText_en": "Initialized",
     "LabelText_zh": "已初始化",
     "LabelText_de": "Initialisiert",

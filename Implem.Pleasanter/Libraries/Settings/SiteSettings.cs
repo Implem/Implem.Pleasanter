@@ -180,7 +180,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Reminder> Reminders;
         public string ImportEncoding;
         public bool? UpdatableImport;
+        public string DefaultImportKey;
         public SettingList<Export> Exports;
+        public bool? AllowStandardExport;
         public SettingList<Style> Styles;
         public bool? Responsive;
         public SettingList<Script> Scripts;
@@ -200,6 +202,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? HideLink;
         public bool? SwitchRecordWithAjax;
         public bool? SwitchCommandButtonsAutoPostBack;
+        public bool? DeleteImageWhenDeleting;
         public bool? EnableCalendar;
         public bool? EnableCrosstab;
         public bool? NoDisplayCrosstabGraph;
@@ -328,6 +331,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ImportEncoding = ImportEncoding ?? Parameters.General.ImportEncoding;
             UpdatableImport = UpdatableImport ?? Parameters.General.UpdatableImport;
             if (Exports == null) Exports = new SettingList<Export>();
+            AllowStandardExport = AllowStandardExport ?? Parameters.General.AllowStandardExport;
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
             if (Scripts == null) Scripts = new SettingList<Script>();
@@ -346,6 +350,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             HideLink = HideLink ?? false;
             SwitchRecordWithAjax = SwitchRecordWithAjax ?? false;
             SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
+            DeleteImageWhenDeleting = DeleteImageWhenDeleting ?? true;
             EnableCalendar = EnableCalendar ?? true;
             EnableCrosstab = EnableCrosstab ?? true;
             NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
@@ -779,6 +784,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack;
             }
+            if (DeleteImageWhenDeleting == false)
+            {
+                ss.DeleteImageWhenDeleting = DeleteImageWhenDeleting;
+            }
             if (EnableCalendar == false)
             {
                 ss.EnableCalendar = EnableCalendar;
@@ -987,6 +996,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.UpdatableImport = UpdatableImport;
             }
+            if (!DefaultImportKey.IsNullOrEmpty())
+            {
+                ss.DefaultImportKey = DefaultImportKey;
+            }
             Exports?.ForEach(exportSetting =>
             {
                 if (ss.Exports == null)
@@ -995,6 +1008,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.Exports.Add(exportSetting.GetRecordingData());
             });
+            if (AllowStandardExport != Parameters.General.AllowStandardExport)
+            {
+                ss.AllowStandardExport = AllowStandardExport;
+            }
             Styles?.ForEach(style =>
             {
                 if (ss.Styles == null)
@@ -1157,6 +1174,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.DefaultInput = column.DefaultInput;
+                    }
+                    if (column.ImportKey != columnDefinition.ImportKey)
+                    {
+                        enabled = true;
+                        newColumn.ImportKey = column.ImportKey;
                     }
                     if (column.MaxLength.ToDecimal() > 0)
                     {
@@ -1743,6 +1765,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.MultipleSelections = column.MultipleSelections ?? false;
                 column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
+                column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
@@ -2171,9 +2194,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        public List<Column> GetFilterColumns(Context context, bool checkPermission = false)
+        public List<Column> GetFilterColumns(
+            Context context,
+            View view,
+            bool checkPermission = false)
         {
-            var columns = FilterColumns
+            var columns = (view?.FilterColumns ?? FilterColumns)
                 .Select(columnName => GetColumn(
                     context: context,
                     columnName: columnName))
@@ -2571,6 +2597,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                             : join + "," + o.ColumnName).ToList());
         }
 
+        public Dictionary<string, ControlData> ViewFilterSelectableOptions(
+            Context context, List<string> filterColumns, bool enabled = true, string join = null)
+        {
+            var currentSs = GetJoinedSs(join);
+            return enabled
+                ? ColumnUtilities.SelectableOptions(
+                    context: context,
+                    ss: currentSs,
+                    columns: filterColumns,
+                    order: currentSs?.ColumnDefinitionHash?.FilterDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList())
+                : ColumnUtilities.SelectableSourceOptions(
+                    context: context,
+                    ss: currentSs,
+                    columns: currentSs.ColumnDefinitionHash.FilterDefinitions()
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName)
+                        .Where(o => !filterColumns.Contains(o)),
+                    order: currentSs?.ColumnDefinitionHash?.FilterDefinitions()?
+                        .OrderBy(o => o.No)
+                        .Select(o => join.IsNullOrEmpty()
+                            ? o.ColumnName
+                            : join + "," + o.ColumnName).ToList());
+        }
+
         public Dictionary<string, string> ViewFilterOptions(Context context, View view)
         {
             var hash = new Dictionary<string, string>();
@@ -2818,7 +2874,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => !o.Id_Ver)
                 .Where(o => !o.Joined)
                 .Where(o => !o.RecordedTime)
-                .Where(o => o.TypeName != "bit")
                 .Where(o => o.ColumnName != "SiteId")
                 .Where(o => o.ColumnName != "Creator")
                 .Where(o => o.ColumnName != "Updator")
@@ -3352,8 +3407,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "HideLink": HideLink = value.ToBool(); break;
                 case "SwitchRecordWithAjax": SwitchRecordWithAjax = value.ToBool(); break;
                 case "SwitchCommandButtonsAutoPostBack": SwitchCommandButtonsAutoPostBack = value.ToBool(); break;
+                case "DeleteImageWhenDeleting": DeleteImageWhenDeleting = value.ToBool(); break;
                 case "ImportEncoding": ImportEncoding = value; break;
                 case "UpdatableImport": UpdatableImport = value.ToBool(); break;
+                case "DefaultImportKey": DefaultImportKey = value; break;
+                case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;
@@ -3593,6 +3651,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "MultipleSelections": column.MultipleSelections = value.ToBool(); break;
                 case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
+                case "ImportKey": column.ImportKey = value.ToBool(); break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;

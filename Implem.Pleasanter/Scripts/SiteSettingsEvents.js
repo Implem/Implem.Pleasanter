@@ -47,6 +47,12 @@
                 .split(',')
                 .indexOf($('#NotificationType').val()) !== -1);
     });
+    $(document).on('change', '#ProcessNotificationType', function () {
+        $('#ProcessNotificationTokenField').toggle(
+            $('#ProcessNotificationTokenEnableList').val()
+                .split(',')
+                .indexOf($('#ProcessNotificationType').val()) !== -1);
+    });
     $(document).on('change', '#ReminderType', function () {
         $('#ReminderFromField').toggle(
             $('#ReminderFromEnableList').val()

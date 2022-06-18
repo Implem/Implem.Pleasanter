@@ -10,7 +10,11 @@
 
 $p.editMarkdown = function ($control) {
     if ($control.is(':visible')) {
-        $p.toggleEditor($control, false);
+        if ($control.hasClass('manual')) {
+            $p.showMarkDownViewer($control);
+        } else {
+            $p.toggleEditor($control, false);
+        }
     } else {
         $p.toggleEditor($control, true);
         $($control).focus();

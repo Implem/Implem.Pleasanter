@@ -120,7 +120,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss)
                         .ExtendedStyles(context: context)
                         .Title(action: () => hb
-                            .Text(text: HtmlTitle(
+                            .Text(text: HtmlTitle.TitleText(
                                 context: context,
                                 ss: ss)))
                         .ExtendedHeader(ss: ss)
@@ -146,56 +146,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Select(o => o.Trim())
                     .Where(o => !o.IsNullOrEmpty())
                     .Join(" "));
-        }
-
-        private static string HtmlTitle(Context context, SiteSettings ss)
-        {
-            switch (context.Controller)
-            {
-                case "items":
-                case "publishes":
-                    if (context.Id == 0)
-                    {
-                        return FormattedHtmlTitle(
-                            context: context,
-                            ss: ss,
-                            format: context.HtmlTitleTop);
-                    }
-                    else if (context.Id == context.SiteId)
-                    {
-                        return FormattedHtmlTitle(
-                            context: context,
-                            ss: ss,
-                            format: context.HtmlTitleSite);
-                    }
-                    else
-                    {
-                        return FormattedHtmlTitle(
-                            context: context,
-                            ss: ss,
-                            format: context.HtmlTitleRecord);
-                    }
-                default:
-                    return FormattedHtmlTitle(
-                        context: context,
-                        ss: ss,
-                        format: context.HtmlTitleTop);
-            }
-        }
-
-        private static string FormattedHtmlTitle(
-            Context context, SiteSettings ss, string format, bool publishes = false)
-        {
-            return context.CanRead(ss: ss)
-                ? Strings.CoalesceEmpty(
-                    format?
-                        .Replace("[ProductName]", Displays.ProductName(context: context))
-                        .Replace("[TenantTitle]", context.TenantTitle)
-                        .Replace("[SiteTitle]", context.SiteTitle)
-                        .Replace("[RecordTitle]", context.RecordTitle),
-                    context.TenantTitle,
-                    Displays.ProductName(context: context))
-                : Displays.ProductName(context: context);
         }
 
         private static HtmlBuilder ExtendedHeader(this HtmlBuilder hb, SiteSettings ss)
