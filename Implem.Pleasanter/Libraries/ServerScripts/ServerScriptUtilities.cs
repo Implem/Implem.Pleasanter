@@ -411,10 +411,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             View view,
             ExpandoObject columnFilterHash)
         {
-            if (view == null)
-            {
-                return;
-            }
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -430,10 +426,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             View view,
             ExpandoObject columnSorterHash)
         {
-            if (view == null)
-            {
-                return;
-            }
             columnSorterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnSorterHash == null)
@@ -679,15 +671,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.OnSelectingWhere = data.View.OnSelectingWhere;
                 view.OnSelectingOrderBy = data.View.OnSelectingOrderBy;
                 view.ColumnPlaceholders = data.View.ColumnPlaceholders;
+                SetColumnFilterHashValues(
+                    context: context,
+                    view: view,
+                    columnFilterHash: data.View.Filters);
+                SetColumnSorterHashValues(
+                    context: context,
+                    view: view,
+                    columnSorterHash: data.View.Sorters);
             }
-            SetColumnFilterHashValues(
-                context: context,
-                view: view,
-                columnFilterHash: data.View.Filters);
-            SetColumnSorterHashValues(
-                context: context,
-                view: view,
-                columnSorterHash: data.View.Sorters);
             model.ReadOnly = Bool(
                 data: data.Model,
                 name: "ReadOnly");
@@ -794,7 +786,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     model: itemModel,
-                    view: view,
+                    // ビュー処理時以外はViewの値を変更しない
+                    view: condition == "WhenViewProcessing"
+                        ? view
+                        : null,
                     data: model);
             }
             return scriptValues;

@@ -994,7 +994,8 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
             bool setBySession = true,
-            bool get = true)
+            bool get = true,
+            bool checkConflict = true) 
         {
             if (setBySession)
             {
@@ -1006,7 +1007,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
-                additionalStatements: additionalStatements));
+                additionalStatements: additionalStatements,
+                checkConflict: checkConflict));
             statements.Add(Rds.PhysicalDeleteReminderSchedules(
                 where: Rds.ReminderSchedulesWhere()
                     .SiteId(SiteId)));
@@ -1051,14 +1053,15 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             SqlParamCollection param = null,
             bool otherInitValue = false,
-            List<SqlStatement> additionalStatements = null)
+            List<SqlStatement> additionalStatements = null,
+            bool checkConflict = true)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.SitesWhereDefault(
                 context: context,
                 siteModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange());
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -2473,6 +2476,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "ViewFiltersFilterJoin":
+                    SetFilterColumnsSelectable(
+                        context: context,
+                        res: res,
+                        prefix: "ViewFilters");
+                    break;
                 case "MoveUpNotifications":
                 case "MoveDownNotifications":
                     SetNotificationsOrder(
@@ -2967,18 +2976,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetFilterColumnsSelectable(Context context, ResponseCollection res)
+        private void SetFilterColumnsSelectable(
+            Context context,
+            ResponseCollection res,
+            string prefix = "")
         {
-            SiteSettings.FilterColumns = context.Forms.List("FilterColumnsAll");
+            SiteSettings.FilterColumns = context.Forms.List($"{prefix}FilterColumnsAll");
             var listItemCollection = SiteSettings.FilterSelectableOptions(
-                context: context, enabled: false, join: context.Forms.Data("FilterJoin"));
+                context: context, enabled: false, join: context.Forms.Data($"{prefix}FilterJoin"));
             if (!listItemCollection.Any())
             {
                 res.Message(Messages.NotFound(context: context));
             }
             else
             {
-                res.Html("#FilterSourceColumns", new HtmlBuilder()
+                res.Html($"#{prefix}FilterSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: listItemCollection));
             }
         }
@@ -4378,9 +4390,10 @@ namespace Implem.Pleasanter.Models
             notifications.Add(new Notification()
             {
                 Id = notifications.MaxOrDefault(o => o.Id) + 1,
-                Type = Notification.Types.Mail,
-                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
                 Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
+                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Token = context.Forms.Data("ProcessNotificationToken"),
                 Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
             });
             res
@@ -4402,8 +4415,10 @@ namespace Implem.Pleasanter.Models
         {
             var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
             var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
-            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
             notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
+            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Token = context.Forms.Data("ProcessNotificationToken");
             notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
             res
                 .ReplaceAll("#EditProcessNotification", new HtmlBuilder()

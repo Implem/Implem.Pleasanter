@@ -93,6 +93,7 @@
     "ChoicesText": "string",
     "UseSearch": "bool",
     "DefaultInput": "string",
+    "ImportKey": "bool",
     "Own": "bool",
     "FormName": "string",
     "ValidateRequired": "bool",

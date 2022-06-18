@@ -5,4 +5,8 @@ Rds.DeleteBinaries(
     factory: context,
     where: Rds.BinariesWhere()
         .TenantId(context.TenantId)
-        .ReferenceId(#ModelName#Id)),
+        .ReferenceId(#ModelName#Id)
+        .BinaryType(
+            value: "Images",
+            _operator: "<>",
+            _using: ss.DeleteImageWhenDeleting == false)),

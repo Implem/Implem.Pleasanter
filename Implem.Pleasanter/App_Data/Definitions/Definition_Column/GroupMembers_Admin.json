@@ -11,7 +11,6 @@
     "HistoryColumn": "101",
     "TypeName": "bit",
     "Default": "0",
-    "Required": "1",
     "LabelText_en": "Admin",
     "LabelText_zh": "管理员",
     "LabelText_de": "Administrator",

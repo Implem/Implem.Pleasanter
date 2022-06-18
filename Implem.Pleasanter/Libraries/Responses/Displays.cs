@@ -449,6 +449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllowStandardExport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowStandardExport",
+                data: data);
+        }
+
         public static string AllowViewReset(
             Context context,
             params string[] data)
@@ -2489,6 +2499,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DefaultImportKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DefaultImportKey",
+                data: data);
+        }
+
         public static string DefaultInput(
             Context context,
             params string[] data)
@@ -2606,6 +2626,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DeleteHistory",
+                data: data);
+        }
+
+        public static string DeleteImageWhenDeleting(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DeleteImageWhenDeleting",
                 data: data);
         }
 
@@ -4029,6 +4059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ImportKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ImportKey",
+                data: data);
+        }
+
         public static string ImportMax(
             Context context,
             params string[] data)
@@ -4476,6 +4516,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "KambanSettings",
+                data: data);
+        }
+
+        public static string Key(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Key",
                 data: data);
         }
 
@@ -6186,6 +6236,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Overlap",
+                data: data);
+        }
+
+        public static string OverlapCsvImport(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OverlapCsvImport",
                 data: data);
         }
 

@@ -11,7 +11,6 @@
     "HistoryColumn": "139",
     "TypeName": "bit",
     "Default": "0",
-    "Required": "1",
     "ReadAccessControl": "ManageService",
     "CreateAccessControl": "ManageService",
     "UpdateAccessControl": "ManageService",
