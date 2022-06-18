@@ -270,12 +270,15 @@ namespace Implem.Pleasanter.Controllers
         [HttpGet]
         public ActionResult Challenge(string idp = "")
         {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
             if (!Authentications.SAML())
             {
-                var context = new Context();
+                log.Finish(context: context);
                 return new RedirectResult(
                     Locations.Login(context: context));
             }
+            log.Finish(context: context);
             return new ChallengeResult(Saml2Defaults.Scheme,
                 new AuthenticationProperties(
                     items: string.IsNullOrEmpty(idp)
@@ -294,6 +297,7 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult Login(string returnUrl, string ssocode = "")
         {
             var context = new Context();
+            var log = new SysLogModel(context: context);
             if (Parameters.Authentication.Provider == "SAML-MultiTenant" && ssocode != string.Empty)
             {
                 return ChallengeBySsoCode(ssocode, context);
@@ -304,6 +308,7 @@ namespace Implem.Pleasanter.Controllers
                 isLocalUrl: Url.IsLocalUrl(returnUrl));
             if (!string.IsNullOrEmpty(redirectUrl)) return base.Redirect(redirectUrl);
             ViewBag.HtmlBody = html;
+            log.Finish(context: context, responseSize: html.Length);
             return View();
         }
 
@@ -313,8 +318,10 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SamlLogin()
         {
             var context = new Context();
+            var log = new SysLogModel(context: context);
             var result = Saml.SamlLogin(context: context);
             var redirectResult = new RedirectResult(result.redirectResultUrl);
+            log.Finish(context: context);
             return redirectResult;
         }
 

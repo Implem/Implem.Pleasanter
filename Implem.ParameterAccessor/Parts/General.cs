@@ -38,6 +38,7 @@ namespace Implem.ParameterAccessor.Parts
         public int ExportOutputColumnMax;
         public string ImportEncoding;
         public bool UpdatableImport;
+        public bool AllowStandardExport;
         public int ImportMax;
         public int ViewerSwitchingType;
         public bool AllowCopy;

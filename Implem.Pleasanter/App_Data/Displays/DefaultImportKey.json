@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DefaultImportKey",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Default import key"
+        },
+        {
+            "Language": "zh",
+            "Body": "默认导入密钥"
+        },
+        {
+            "Language": "ja",
+            "Body": "既定のインポートキー"
+        },
+        {
+            "Language": "de",
+            "Body": "Standardimportschlüssel"
+        },
+        {
+            "Language": "ko",
+            "Body": "기본 가져오기 키"
+        },
+        {
+            "Language": "es",
+            "Body": "Clave de importación predeterminada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Khóa nhập mặc định"
+        }
+    ]
+}

@@ -1080,5 +1080,47 @@ namespace Implem.Pleasanter.Models
             }
             return attachment.Create(context: context);
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void UpdateImageReferenceId(
+            Context context,
+            long siteId,
+            long referenceId)
+        {
+            Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                column: Rds.BinariesColumn().Guid(),
+                where: Rds.BinariesWhere()
+                    .ReferenceId(referenceId)
+                    .BinaryType("Images")))
+                    .AsEnumerable()
+                    .ForEach(dataRow =>
+                    {
+                        var guid = dataRow.String("Guid");
+                        var id = Rds.ExecuteScalar_long(
+                            context: context,
+                            statements: Rds.SelectItems(
+                            column: Rds.ItemsColumn().ReferenceId(),
+                            where: Rds.ItemsWhere()
+                                .SiteId(siteId)
+                                .FullText($"%/{guid}/%", _operator: context.Sqls.Like),
+                            top: 1));
+                        if (id != 0)
+                        {
+                            Rds.ExecuteNonQuery(
+                                context: context,
+                                statements: Rds.UpdateBinaries(
+                                where: Rds.BinariesWhere()
+                                    .TenantId(context.TenantId)
+                                    .ReferenceId(referenceId)
+                                    .BinaryType("Images")
+                                    .Guid(guid),
+                                param: Rds.BinariesParam().ReferenceId(id)));
+                        }
+                    });
+        }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Key",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Key"
+        },
+        {
+            "Language": "zh",
+            "Body": "钥匙"
+        },
+        {
+            "Language": "ja",
+            "Body": "キー"
+        },
+        {
+            "Language": "de",
+            "Body": "Taste"
+        },
+        {
+            "Language": "ko",
+            "Body": "열쇠"
+        },
+        {
+            "Language": "es",
+            "Body": "Llave"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chìa khóa"
+        }
+    ]
+}

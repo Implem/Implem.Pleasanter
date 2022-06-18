@@ -77,7 +77,8 @@ namespace Implem.PleasanterFilters
                 }
                 return;
             }
-            if (!context.LoginId.IsNullOrEmpty())
+            if (context.IsAuthenticated == true
+                && context.Action != "samllogin")
             {
                 if (!context.Authenticated)
                 {
