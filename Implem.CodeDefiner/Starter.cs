@@ -77,6 +77,9 @@ namespace Implem.CodeDefiner
                         ConfigureDatabase(factory: factory);
                         MigrateDatabase();
                         break;
+                    case "ConvertTime":
+                        ConvertTime(factory: factory);
+                        break;
                     default:
                         WriteErrorToConsole(args);
                         break;
@@ -182,6 +185,15 @@ namespace Implem.CodeDefiner
             Functions.AspNetMvc.CSharp.Migrator.MigrateDatabaseAsync();
             Consoles.Write(
                 DisplayAccessor.Displays.Get("CodeDefinerMigrationCompleted"),
+                Consoles.Types.Success);
+        }
+
+        private static void ConvertTime(ISqlObjectFactory factory)
+        {
+            TryOpenConnections(factory);
+            Functions.Rds.TimeConverter.Convert(factory: factory);
+            Consoles.Write(
+                DisplayAccessor.Displays.Get("CodeDefinerRdsCompleted"),
                 Consoles.Types.Success);
         }
 
