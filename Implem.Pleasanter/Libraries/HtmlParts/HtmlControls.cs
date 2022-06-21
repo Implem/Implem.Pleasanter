@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string dataId = null,
             string onChange = null,
             string autoComplete = null,
+            string anchorFormat = null,
             bool validateRequired = false,
             bool validateNumber = false,
             decimal validateMinNumber = 0,
@@ -46,7 +47,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (textType)
             {
                 case HtmlTypes.TextTypes.Normal:
-                    return hb.Input(attributes: new HtmlAttributes()
+                    // TODO ここに.viewerと.editor相当のものを入れる。
+                    var htmlAttributes = new HtmlAttributes()
                         .Id(controlId)
                         .Name(controlId)
                         .Class(Css.Class("control-textbox", controlCss))
@@ -72,7 +74,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                         .DataAction(action)
                         .DataMethod(method)
-                        .Add(attributes));
+                        .Add(attributes);
+                    if (anchorFormat.IsNullOrEmpty())
+                    {
+                        return hb.Input(attributes: htmlAttributes);
+                    }
+                    else
+                    {
+                        var s = anchorFormat.Replace("{Value}", text); // TODO あとで消す
+                        return hb
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id(controlId + ".viewer"),
+                                action: () => hb
+                                    .Anchor(text: text, href: anchorFormat.Replace("{Value}", text)))
+                            .Div(
+                                attributes: new HtmlAttributes()
+                                    .Id(controlId + ".editor")
+                                    .Class("ui-icon ui-icon-pencil")
+                                    .OnClick($"$p.toggleAnchor($('#{controlId}'));"))
+                            .Input(attributes: htmlAttributes);
+                    }
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)

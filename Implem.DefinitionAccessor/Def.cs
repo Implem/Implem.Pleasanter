@@ -2555,6 +2555,16 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newColumnDefinition.SavedImportKey = newColumnDefinition.ImportKey;
                             break;
+                        case "Anchor":
+                            newColumnDefinition.Anchor = customDefinitionRow.Get("Anchor")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedAnchor = newColumnDefinition.Anchor;
+                            break;
+                        case "AnchorFromat":
+                            newColumnDefinition.AnchorFromat = customDefinitionRow.Get("AnchorFromat")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedAnchorFromat = newColumnDefinition.AnchorFromat;
+                            break;
                         case "Own":
                             newColumnDefinition.Own = customDefinitionRow.Get("Own")?.ToBool() ??
                                 data.ToBool();
@@ -2819,6 +2829,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("UseSearch")) { definition.UseSearch = definitionRow["UseSearch"].ToBool(); definition.SavedUseSearch = definition.UseSearch; }
             if (definitionRow.ContainsKey("DefaultInput")) { definition.DefaultInput = definitionRow["DefaultInput"].ToString(); definition.SavedDefaultInput = definition.DefaultInput; }
             if (definitionRow.ContainsKey("ImportKey")) { definition.ImportKey = definitionRow["ImportKey"].ToBool(); definition.SavedImportKey = definition.ImportKey; }
+            if (definitionRow.ContainsKey("Anchor")) { definition.Anchor = definitionRow["Anchor"].ToBool(); definition.SavedAnchor = definition.Anchor; }
+            if (definitionRow.ContainsKey("AnchorFromat")) { definition.AnchorFromat = definitionRow["AnchorFromat"].ToString(); definition.SavedAnchorFromat = definition.AnchorFromat; }
             if (definitionRow.ContainsKey("Own")) { definition.Own = definitionRow["Own"].ToBool(); definition.SavedOwn = definition.Own; }
             if (definitionRow.ContainsKey("FormName")) { definition.FormName = definitionRow["FormName"].ToString(); definition.SavedFormName = definition.FormName; }
             if (definitionRow.ContainsKey("ValidateRequired")) { definition.ValidateRequired = definitionRow["ValidateRequired"].ToBool(); definition.SavedValidateRequired = definition.ValidateRequired; }
@@ -5547,6 +5559,8 @@ namespace Implem.DefinitionAccessor
                         case "UseSearch": columnDefinition.UseSearch = optionValue.ToBool(); break;
                         case "DefaultInput": columnDefinition.DefaultInput = optionValue.ToString(); break;
                         case "ImportKey": columnDefinition.ImportKey = optionValue.ToBool(); break;
+                        case "Anchor": columnDefinition.Anchor = optionValue.ToBool(); break;
+                        case "AnchorFromat": columnDefinition.AnchorFromat = optionValue.ToString(); break;
                         case "Own": columnDefinition.Own = optionValue.ToBool(); break;
                         case "FormName": columnDefinition.FormName = optionValue.ToString(); break;
                         case "ValidateRequired": columnDefinition.ValidateRequired = optionValue.ToBool(); break;
@@ -8006,6 +8020,8 @@ namespace Implem.DefinitionAccessor
         public bool UseSearch; public bool SavedUseSearch;
         public string DefaultInput; public string SavedDefaultInput;
         public bool ImportKey; public bool SavedImportKey;
+        public bool Anchor; public bool SavedAnchor;
+        public string AnchorFromat; public string SavedAnchorFromat;
         public bool Own; public bool SavedOwn;
         public string FormName; public string SavedFormName;
         public bool ValidateRequired; public bool SavedValidateRequired;
@@ -8140,6 +8156,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("UseSearch")) UseSearch = propertyCollection["UseSearch"].ToBool(); else UseSearch = false;
             if (propertyCollection.ContainsKey("DefaultInput")) DefaultInput = propertyCollection["DefaultInput"].ToString(); else DefaultInput = string.Empty;
             if (propertyCollection.ContainsKey("ImportKey")) ImportKey = propertyCollection["ImportKey"].ToBool(); else ImportKey = false;
+            if (propertyCollection.ContainsKey("Anchor")) Anchor = propertyCollection["Anchor"].ToBool(); else Anchor = false;
+            if (propertyCollection.ContainsKey("AnchorFromat")) AnchorFromat = propertyCollection["AnchorFromat"].ToString(); else AnchorFromat = string.Empty;
             if (propertyCollection.ContainsKey("Own")) Own = propertyCollection["Own"].ToBool(); else Own = false;
             if (propertyCollection.ContainsKey("FormName")) FormName = propertyCollection["FormName"].ToString(); else FormName = string.Empty;
             if (propertyCollection.ContainsKey("ValidateRequired")) ValidateRequired = propertyCollection["ValidateRequired"].ToBool(); else ValidateRequired = false;
@@ -8274,6 +8292,8 @@ namespace Implem.DefinitionAccessor
                     case "UseSearch": return UseSearch;
                     case "DefaultInput": return DefaultInput;
                     case "ImportKey": return ImportKey;
+                    case "Anchor": return Anchor;
+                    case "AnchorFromat": return AnchorFromat;
                     case "Own": return Own;
                     case "FormName": return FormName;
                     case "ValidateRequired": return ValidateRequired;
@@ -8408,6 +8428,8 @@ namespace Implem.DefinitionAccessor
             UseSearch = SavedUseSearch;
             DefaultInput = SavedDefaultInput;
             ImportKey = SavedImportKey;
+            Anchor = SavedAnchor;
+            AnchorFromat = SavedAnchorFromat;
             Own = SavedOwn;
             FormName = SavedFormName;
             ValidateRequired = SavedValidateRequired;

@@ -6,6 +6,10 @@
         var visibility = $(this).prop('checked');
         $('#MessageWhenDuplicatedField').toggle(visibility);
     });
+    $(document).on('change', '#Anchor', function () {
+        var visibility = $(this).prop('checked');
+        $('#AnchorFormatField').toggle(visibility);
+    });
     $(document).on('change', '#AutoPostBack', function () {
         var visibility = $(this).prop('checked');
         $('#ColumnsReturnedWhenAutomaticPostbackField').toggle(visibility);

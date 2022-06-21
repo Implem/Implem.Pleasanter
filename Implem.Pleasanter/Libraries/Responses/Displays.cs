@@ -539,6 +539,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Anchor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Anchor",
+                data: data);
+        }
+
+        public static string AnchorFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnchorFormat",
+                data: data);
+        }
+
         public static string And(
             Context context,
             params string[] data)

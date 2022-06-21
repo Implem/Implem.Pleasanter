@@ -94,6 +94,8 @@
     "UseSearch": "bool",
     "DefaultInput": "string",
     "ImportKey": "bool",
+    "Anchor": "bool",
+    "AnchorFromat": "string",
     "Own": "bool",
     "FormName": "string",
     "ValidateRequired": "bool",

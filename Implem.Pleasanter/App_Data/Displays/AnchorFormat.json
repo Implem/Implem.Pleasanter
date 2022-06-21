@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AnchorFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Anchor format"
+        },
+        {
+            "Language": "zh",
+            "Body": "导入密钥"
+        },
+        {
+            "Language": "ja",
+            "Body": "アンカーフォーマット"
+        },
+        {
+            "Language": "de",
+            "Body": "Schlüssel importieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "키 가져오기"
+        },
+        {
+            "Language": "es",
+            "Body": "Clave de importación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhập khóa"
+        }
+    ]
+}
