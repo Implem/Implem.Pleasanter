@@ -1017,6 +1017,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         tag: tagControlContainer,
                         id: null,
                         css: Css.Class("container-normal", controlContainerCss),
+                        style: null,
                         attributes: null,
                         action: () =>
                             controlAction()));

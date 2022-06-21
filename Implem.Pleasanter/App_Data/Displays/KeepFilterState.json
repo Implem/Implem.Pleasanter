@@ -1,0 +1,33 @@
+﻿{
+    "Id": "KeepFilterState",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Keep filter state"
+        },
+        {
+            "Language": "zh",
+            "Body": "保持過濾狀態"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルターの状態を保持する"
+        },
+        {
+            "Language": "de",
+            "Body": "Behalten Sie den Filterzustand bei"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터 상태 유지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mantener el estado del filtro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giữ trạng thái bộ lọc"
+        }
+    ]
+}

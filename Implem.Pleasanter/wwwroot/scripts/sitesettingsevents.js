@@ -133,4 +133,20 @@
             $('#UseGridHeaderFilters').prop('disabled', false);
         }
     });
+    $(document).on('change', '#ViewFilters_KeepFilterState', function () {
+        if ($(this).prop('checked')) {
+            $('#ViewFiltersFilterConditionSettingsEditor').hide();
+        }
+        else {
+            $('#ViewFiltersFilterConditionSettingsEditor').show();
+        }
+    });
+    $(document).on('change', '#KeepSorterState', function () {
+        if ($(this).prop('checked')) {
+            $('#ViewFiltersSorterConditionSettingsEditor').hide();
+        }
+        else {
+            $('#ViewFiltersSorterConditionSettingsEditor').show();
+        }
+    });
 });

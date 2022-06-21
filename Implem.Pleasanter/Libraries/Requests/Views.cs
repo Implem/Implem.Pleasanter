@@ -25,12 +25,10 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
             if (context.Forms.ControlId() == "ViewSelector")
             {
-                view = ss.Views
-                    ?.Where(o => o.Accessable(context:context))
-                    .FirstOrDefault(o => o.Id == context.Forms.Int("ViewSelector"))
-                        ?? new View(
-                            context: context,
-                            ss: ss);
+                view = SetSessionView(
+                    context: context,
+                    ss: ss,
+                    useUsersView: useUsersView);
                 SetSession(
                     context: context,
                     ss: ss,
@@ -39,10 +37,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                     useUsersView: useUsersView);
                 return view;
             }
-            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
-            view = sessionData.Get("View")?.Deserialize<View>()
-                ?? ss.Views?.Get(ss.GridView)
-                ?? new View();
+            view = SetSessionView(
+                context: context,
+                ss: ss,
+                useUsersView: useUsersView);
             view.SetByForm(
                 context: context,
                 ss: ss);
@@ -61,6 +59,54 @@ namespace Implem.Pleasanter.Libraries.Requests
                     break;
             }
             return view;
+        }
+
+        private static View SetSessionView(
+            Context context,
+            SiteSettings ss,
+            bool useUsersView)
+        {
+            View view;
+            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
+            var sessionView = sessionData.Get("View")?.Deserialize<View>();
+            view = sessionView != null
+                ? MergeView(
+                    context: context,
+                    selectedView: ss.Views
+                        ?.Where(o => o.Accessable(context: context))
+                        .FirstOrDefault(o => o.Id == context.Forms.Int("ViewSelector"))
+                            ?? new View(
+                                context: context,
+                                ss: ss),
+                    sessionView: sessionView)
+                : ss.Views?.Get(ss.GridView) ?? new View();
+            return view;
+        }
+
+        private static View MergeView(
+            Context context,
+            View selectedView,
+            View sessionView)
+        {
+            View mergedView;
+            if (context.Forms.ControlId() == "ViewSelector")
+            {
+                mergedView = selectedView;
+                mergedView.Id = selectedView.Id;
+                if (selectedView?.KeepFilterState == true)
+                {
+                    mergedView.ColumnFilterHash = sessionView.ColumnFilterHash;
+                }
+                if (selectedView?.KeepSorterState == true)
+                {
+                    mergedView.ColumnSorterHash = sessionView.ColumnSorterHash;
+                }
+            }
+            else
+            {
+                mergedView = sessionView;
+            }
+            return mergedView;
         }
 
         public static View GetBySession(

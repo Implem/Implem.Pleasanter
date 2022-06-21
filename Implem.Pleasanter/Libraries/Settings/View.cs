@@ -48,11 +48,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? FiltersReduced;
         public DisplayTypes? AggregationsDisplayType;
         public bool? AggregationsReduced;
+        public bool? KeepFilterState;
         public bool? Incomplete;
         public bool? Own;
         public bool? NearCompletionTime;
         public bool? Delay;
         public bool? Overdue;
+        public bool? KeepSorterState;
         public CommandDisplayTypes? BulkMoveTargetsCommand;
         public CommandDisplayTypes? BulkDeleteCommand;
         public CommandDisplayTypes? EditImportSettings;
@@ -459,6 +461,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "ViewFilters_KeepFilterState":
+                                KeepFilterState = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
                             case "ViewFilters_Incomplete":
                                 Incomplete = Bool(
                                     context: context,
@@ -495,6 +502,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "ViewFilters_Search":
                                 Search = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KeepSorterState":
+                                KeepSorterState = Bool(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -1096,6 +1108,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.AggregationsReduced = AggregationsReduced;
             }
+            if (KeepFilterState == true)
+            {
+                view.KeepFilterState = KeepFilterState;
+            }
             if (Incomplete == true)
             {
                 view.Incomplete = true;
@@ -1115,6 +1131,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Overdue == true)
             {
                 view.Overdue = true;
+            }
+            if (KeepSorterState == true)
+            {
+                view.KeepSorterState = KeepSorterState;
             }
             if (BulkMoveTargetsCommand != CommandDisplayTypes.Displayed)
             {
