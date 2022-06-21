@@ -36,7 +36,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "rect",
                     id: null,
                     css: null,
-                    style: null,
                     attributes: new HtmlAttributes()
                         .Add("x", x.ToString(), _using: x != null)
                         .Add("y", y.ToString(), _using: y != null)
@@ -59,7 +58,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "text",
                     id: null,
                     css: null,
-                    style: null,
                     attributes: new HtmlAttributes()
                         .Add("x", x.ToString(), _using: x != null)
                         .Add("y", y.ToString(), _using: y != null),

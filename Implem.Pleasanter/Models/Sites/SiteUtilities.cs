@@ -73,8 +73,8 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return HtmlTemplates.Error(
-                   context: context,
-                   errorData: invalid);
+                    context: context,
+                    errorData: invalid);
             }
             return hb.Template(
                 context: context,
@@ -2852,10 +2852,10 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return SiteMenuError(
-                   context: context,
-                   id: siteId,
-                   siteModel: siteModel,
-                   invalid: invalid);
+                    context: context,
+                    id: siteId,
+                    siteModel: siteModel,
+                    invalid: invalid);
             }
             var ownerId = siteModel.SiteId == 0
                 ? Parameters.Site.TopOrderBy > 0
@@ -9247,7 +9247,6 @@ namespace Implem.Pleasanter.Models
                         labelPositionIsRight: true)
                     .FieldSet(
                         id: "ViewFiltersFilterConditionSettingsEditor",
-                        style: "clear: both; margin: 10px;",
                         css: (view.KeepFilterState == true
                             ? "hidden"
                             : string.Empty),
@@ -9528,7 +9527,6 @@ namespace Implem.Pleasanter.Models
                     labelPositionIsRight: true)
                 .FieldSet(
                     id: "ViewFiltersSorterConditionSettingsEditor",
-                    style: "clear: both; margin: 10px;",
                     css: (view.KeepSorterState == true
                         ? "hidden"
                         : string.Empty),
@@ -9567,7 +9565,6 @@ namespace Implem.Pleasanter.Models
                             .Button(
                                 controlId: "AddViewSorter",
                                 controlCss: "button-icon",
-                                style: "float: left",
                                 text: Displays.Add(context: context),
                                 icon: "ui-icon-plus"))));
         }

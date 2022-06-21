@@ -108,7 +108,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "header",
                     id: id,
                     css: css,
-                    style: null,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -118,7 +117,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -128,7 +126,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "footer",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -138,7 +135,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -148,7 +144,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "nav",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -158,7 +153,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -168,7 +162,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "table",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -179,7 +172,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string caption,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true)
         {
@@ -188,7 +180,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "caption",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: () => hb
                         .Text(text: caption))
@@ -199,7 +190,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -209,7 +199,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "caption",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -219,7 +208,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -229,7 +217,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "thead",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -239,7 +226,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -249,7 +235,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "tbody",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -259,7 +244,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -269,7 +253,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "th",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -279,7 +262,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -289,7 +271,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "tr",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -299,7 +280,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -309,7 +289,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "td",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -320,7 +299,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             int number,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -330,7 +308,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "h" + number,
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -340,7 +317,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -350,7 +326,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "section",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -360,7 +335,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -370,7 +344,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "div",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -380,7 +353,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -390,7 +362,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "p",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -400,7 +371,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -410,7 +380,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "label",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -462,7 +431,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -472,7 +440,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "button",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -502,7 +469,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -512,7 +478,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "option",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -522,7 +487,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -532,7 +496,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "span",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -542,7 +505,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -552,7 +514,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "em",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -562,7 +523,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -572,7 +532,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "ul",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -582,7 +541,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -592,7 +550,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "ol",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -602,7 +559,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -612,7 +568,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "li",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -622,7 +577,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             string href = null,
             string target = null,
             HtmlAttributes attributes = null,
@@ -635,11 +589,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "a",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: (attributes ?? new HtmlAttributes())
                         .Id(id)
                         .Class(css)
-                        .Style(style)
                         .Href(href)
                         .Target(target),
                     action: action != null
@@ -668,7 +620,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             HtmlAttributes attributes = null,
             bool _using = true,
             Action action = null)
@@ -678,7 +629,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "time",
                     id: id,
                     css: css,
-                    style: style,
                     attributes: attributes,
                     action: action)
                 : hb;
@@ -688,7 +638,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             string id = null,
             string css = null,
-            string style = null,
             string legendText = null,
             HtmlAttributes attributes = null,
             bool _using = true,
@@ -699,7 +648,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "fieldset",
                     id: id,
                     css: Css.Class("fieldset cf", css),
-                    style: style,
                     attributes: attributes,
                     action: () =>
                     {
@@ -709,7 +657,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 tag: "legend",
                                 id: null,
                                 css: "legend",
-                                style: null,
                                 attributes: null,
                                 action: () => hb.Text(legendText));
                         }
@@ -802,7 +749,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     tag: "script",
                     id: id,
                     css: null,
-                    style: null,
                     attributes: new HtmlAttributes().Src(src),
                     action: () => hb
                         .Raw(text: script))

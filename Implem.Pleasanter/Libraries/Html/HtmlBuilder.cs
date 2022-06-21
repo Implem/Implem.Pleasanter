@@ -72,7 +72,6 @@ namespace Implem.Pleasanter.Libraries.Html
                 tag: tag,
                 id: null,
                 css: null,
-                style: null,
                 attributes: null,
                 action: action);
         }
@@ -83,7 +82,6 @@ namespace Implem.Pleasanter.Libraries.Html
                 tag: tag,
                 id: null,
                 css: null,
-                style: null,
                 attributes: attributes,
                 action: action);
         }
@@ -92,14 +90,12 @@ namespace Implem.Pleasanter.Libraries.Html
             string tag,
             string id,
             string css,
-            string style,
             HtmlAttributes attributes,
             Action action)
         {
             Append(tag: tag, attributes: (attributes ?? new HtmlAttributes())
                 .Id(id)
-                .Class(css)
-                .Style(style));
+                .Class(css));
             action?.Invoke();
             AppendClose();
             return this;
