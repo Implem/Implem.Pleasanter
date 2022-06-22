@@ -95,7 +95,7 @@
     "DefaultInput": "string",
     "ImportKey": "bool",
     "Anchor": "bool",
-    "AnchorFromat": "string",
+    "AnchorFormat": "string",
     "Own": "bool",
     "FormName": "string",
     "ValidateRequired": "bool",

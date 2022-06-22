@@ -14,3 +14,14 @@ $p.toggleInput = function ($control, edit) {
         $('[id="' + id + '"]').toggle(edit);
     }
 }
+
+$p.showAnchorViewer = function ($control) {
+    var $viewer = $('[id="' + $control.attr('id') + '.viewer"]');
+    if ($viewer.length === 1) {
+        var anchorTag = $viewer.children('a')[0];
+        var anchorFormat = $viewer.attr('data-format')
+        anchorTag.href = anchorFormat.replace('{Value}', $control.val());
+        anchorTag.text = $control.val();
+        $p.toggleInput($control, false);
+    }
+}

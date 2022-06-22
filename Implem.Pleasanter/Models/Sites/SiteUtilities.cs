@@ -6357,21 +6357,6 @@ namespace Implem.Pleasanter.Models
                                                         _using: column.ColumnName != "Comments"
                                                             && !column.NotUpdate)
                                                     .FieldCheckBox(
-                                                        controlId: "Anchor",
-                                                        labelText: Displays.Anchor(context: context),
-                                                        _checked: column.Anchor == true,
-                                                        _using: column.ColumnName != "Comments"
-                                                            && !column.NotUpdate)
-                                                    .FieldTextBox(
-                                                        fieldId: "AnchorFormatField",
-                                                        controlId: "AnchorFormat",
-                                                        fieldCss: "field-wide"
-                                                            + (column.Anchor != true
-                                                                ? " hidden"
-                                                                : string.Empty),
-                                                        labelText: Displays.AnchorFormat(context: context),
-                                                        text: column.AnchorFormat)
-                                                    .FieldCheckBox(
                                                         controlId: "AllowImage",
                                                         labelText: Displays.AllowImage(context: context),
                                                         _checked: column.AllowImage == true,
@@ -6430,7 +6415,22 @@ namespace Implem.Pleasanter.Models
                                             .FieldCheckBox(
                                                 controlId: "NotInsertBlankChoice",
                                                 labelText: Displays.NotInsertBlankChoice(context: context),
-                                                _checked: column.NotInsertBlankChoice == true);
+                                                _checked: column.NotInsertBlankChoice == true)
+                                            .FieldCheckBox(
+                                                controlId: "Anchor",
+                                                labelText: Displays.Anchor(context: context),
+                                                _checked: column.Anchor == true,
+                                                _using: column.ColumnName != "Comments"
+                                                    && !column.NotUpdate)
+                                            .FieldTextBox(
+                                                fieldId: "AnchorFormatField",
+                                                controlId: "AnchorFormat",
+                                                fieldCss: "field-wide"
+                                                    + (column.Anchor != true
+                                                        ? " hidden"
+                                                        : string.Empty),
+                                                labelText: Displays.AnchorFormat(context: context),
+                                                text: column.AnchorFormat);
                                         break;
                                     default:
                                         break;

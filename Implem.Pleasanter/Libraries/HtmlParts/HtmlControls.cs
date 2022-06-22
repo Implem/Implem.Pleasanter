@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -47,53 +48,61 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (textType)
             {
                 case HtmlTypes.TextTypes.Normal:
-                    // TODO ここに.viewerと.editor相当のものを入れる。
-                    var htmlAttributes = new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class("control-textbox", controlCss))
-                        .Type("text")
-                        .Value(text)
-                        .Placeholder(placeholder)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataId(dataId)
-                        .OnChange(onChange)
-                        .AutoComplete(autoComplete)
-                        .DataValidateRequired(validateRequired)
-                        .DataValidateNumber(validateNumber)
-                        .DataValidateMinNumber(
-                            validateMinNumber, _using: validateMinNumber != validateMaxNumber)
-                        .DataValidateMaxNumber(
-                            validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
-                        .DataValidateDate(validateDate)
-                        .DataValidateEmail(validateEmail)
-                        .DataValidateEqualTo(validateEqualTo)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .DataValidateRegex(validateRegex)
-                        .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                        .DataAction(action)
-                        .DataMethod(method)
-                        .Add(attributes);
+                    HtmlAttributes CreateHtmlAttribute(string cssClass)
+                    {
+                        return new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(Css.Class(cssClass, controlCss))
+                            .Type("text")
+                            .Value(text)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateMinNumber(
+                                validateMinNumber, _using: validateMinNumber != validateMaxNumber)
+                            .DataValidateMaxNumber(
+                                validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .DataValidateRegex(validateRegex)
+                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                            .DataAction(action)
+                            .DataMethod(method)
+                            .Add(attributes);
+                    };
                     if (anchorFormat.IsNullOrEmpty())
                     {
-                        return hb.Input(attributes: htmlAttributes);
+                        return hb.Input(attributes: CreateHtmlAttribute(cssClass: "control-textbox"));
                     }
                     else
                     {
-                        var s = anchorFormat.Replace("{Value}", text); // TODO あとで消す
                         return hb
                             .Div(
                                 attributes: new HtmlAttributes()
-                                    .Id(controlId + ".viewer"),
+                                    .Id(controlId + ".viewer")
+                                    .Class("control-text not-send")
+                                    .DataFormat(anchorFormat),
                                 action: () => hb
-                                    .Anchor(text: text, href: anchorFormat.Replace("{Value}", text)))
+                                    .Anchor(
+                                        text: text,
+                                        href: anchorFormat.Replace("{Value}", text)))
                             .Div(
                                 attributes: new HtmlAttributes()
                                     .Id(controlId + ".editor")
-                                    .Class("ui-icon ui-icon-pencil")
+                                    .Class("ui-icon ui-icon-pencil button-edit-markdown")
                                     .OnClick($"$p.toggleAnchor($('#{controlId}'));"))
-                            .Input(attributes: htmlAttributes);
+                            .Input(
+                                attributes:
+                                    CreateHtmlAttribute(cssClass: "control-textbox anchor")
+                                    .Style("display: none; "));
                     }
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Input(attributes: new HtmlAttributes()

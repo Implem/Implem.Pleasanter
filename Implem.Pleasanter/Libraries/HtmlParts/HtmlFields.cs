@@ -477,6 +477,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 dataValue: column.HasChoices()
                                     ? value
                                     : null,
+                                anchorFormat: column.AnchorFormat,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -1039,6 +1040,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string dataValue = null,
             bool alwaysSend = false,
+            string anchorFormat = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
@@ -1065,8 +1067,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataValue(dataValue)
                                 .DataReadOnly(true)
                                 .DataAlwaysSend(alwaysSend),
-                            action: () => hb
-                                .Text(text: text)),
+                            action: () =>
+                            {
+                                if (anchorFormat.IsNullOrEmpty())
+                                {
+                                    hb.Text(text: text);
+                                }
+                                else
+                                {
+                                    hb.A(
+                                        text: text,
+                                        href: anchorFormat.Replace(
+                                            "{Value}",
+                                            text));
+                                }
+                            }),
                     controlContainerCss: controlContainerCss)
                 : hb;
         }
