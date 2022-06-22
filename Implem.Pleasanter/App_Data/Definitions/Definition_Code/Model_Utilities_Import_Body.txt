@@ -80,7 +80,9 @@
             var #modelName#Model = new #ModelName#Model(
                 context: context,
                 ss: ss);
-            if (updatableImport && idColumn > -1)
+            if (updatableImport
+                && idColumn > -1
+                && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
             {
                 var view = new View();
                 view.AddColumnFilterHash(

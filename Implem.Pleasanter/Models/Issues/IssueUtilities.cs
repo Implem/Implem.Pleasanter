@@ -5902,7 +5902,9 @@ namespace Implem.Pleasanter.Models
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
-                    if (updatableImport && idColumn > -1)
+                    if (updatableImport
+                        && idColumn > -1
+                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
                         view.AddColumnFilterHash(
