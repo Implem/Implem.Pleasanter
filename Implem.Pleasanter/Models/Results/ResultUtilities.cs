@@ -2709,13 +2709,12 @@ namespace Implem.Pleasanter.Models
 
         public static ResultModel[] GetByServerScript(
             Context context,
-            SiteSettings ss,
-            bool internalRequest)
+            SiteSettings ss)
         {
             var invalid = ResultValidators.OnEntry(
                 context: context,
                 ss: ss,
-                api: !internalRequest);
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -2747,8 +2746,7 @@ namespace Implem.Pleasanter.Models
         public static ResultModel GetByServerScript(
             Context context,
             SiteSettings ss,
-            long resultId,
-            bool internalRequest)
+            long resultId)
         {
             var resultModel = new ResultModel(
                 context: context,
@@ -2763,7 +2761,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 resultModel: resultModel,
-                api: !internalRequest);
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
