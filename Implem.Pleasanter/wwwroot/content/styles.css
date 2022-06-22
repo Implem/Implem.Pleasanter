@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 
 *{
     box-sizing: border-box;
@@ -2643,6 +2643,10 @@ label.error{
     z-index:2;
 }
 
+.ui-spinner>label.error{
+    margin-top:3px;
+}
+
 .error{
     border:solid 1px red;
 }
@@ -3014,6 +3018,7 @@ h3.title-header{
     display:block;
     float:left;
     background:white;
+    max-height:46px;
 }
 
 .ui-widget.ui-state-default.ui-multiselect{

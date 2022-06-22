@@ -515,6 +515,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             bool allowBalnk = false,
             string onChange = null,
+            bool validateRequired = false,
             string action = null,
             string method = null,
             bool _using = true)
@@ -537,6 +538,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataWidth(width, _using: width != -1)
                     .DataAlwaysSend(alwaysSend)
                     .OnChange(onChange)
+                    .DataValidateRequired(validateRequired)
                     .DataAction(action)
                     .DataMethod(method))
                 : hb;
