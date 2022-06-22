@@ -5569,7 +5569,9 @@ namespace Implem.Pleasanter.Models
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
-                    if (updatableImport && idColumn > -1)
+                    if (updatableImport
+                        && idColumn > -1
+                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
                         view.AddColumnFilterHash(
