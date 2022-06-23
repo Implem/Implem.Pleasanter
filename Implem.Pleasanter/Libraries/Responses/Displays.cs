@@ -4319,6 +4319,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputValidationTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputValidationTypes",
+                data: data);
+        }
+
         public static string InternalServerError(
             Context context,
             params string[] data)
@@ -5396,6 +5406,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MenuGuide",
+                data: data);
+        }
+
+        public static string Merge(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Merge",
                 data: data);
         }
 
@@ -6926,6 +6946,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ReplaceAllGroupMembers",
+                data: data);
+        }
+
+        public static string Replacement(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Replacement",
                 data: data);
         }
 

@@ -8178,49 +8178,72 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
-            return hb.FieldSet(id: "ProcessValidateInputsTab", action: () => hb
-                .Div(css: "command-left", action: () => hb
-                    .Button(
-                        controlId: "MoveUpProcessValidateInputs",
-                        controlCss: "button-icon",
-                        text: Displays.MoveUp(context: context),
-                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
-                        icon: "ui-icon-circle-triangle-n",
-                        action: "SetSiteSettings",
-                        method: "post")
-                    .Button(
-                        controlId: "MoveDownProcessValidateInputs",
-                        controlCss: "button-icon",
-                        text: Displays.MoveDown(context: context),
-                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
-                        icon: "ui-icon-circle-triangle-s",
-                        action: "SetSiteSettings",
-                        method: "post")
-                    .Button(
-                        controlId: "NewProcessValidateInput",
-                        text: Displays.New(context: context),
-                        controlCss: "button-icon",
-                        onClick: "$p.openProcessValidateInputDialog($(this));",
-                        icon: "ui-icon-gear",
-                        action: "SetSiteSettings",
-                        method: "put")
-                    .Button(
-                        controlId: "DeleteProcessValidateInputs",
-                        text: Displays.Delete(context: context),
-                        controlCss: "button-icon",
-                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
-                        icon: "ui-icon-trash",
-                        action: "SetSiteSettings",
-                        method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
-                .EditProcessValidateInput(
-                    context: context,
-                    ss: ss,
-                    validateInputs: process.ValidateInputs)
-                .Hidden(
-                    controlId: "ProcessValidateInputs",
-                    css: "always-send",
-                    value: process.ValidateInputs?.ToJson()));
+            return hb.FieldSet(
+                id: "ProcessValidateInputsTab",
+                action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessValidationType",
+                        controlCss: " always-send",
+                        labelText: Displays.InputValidationTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ValidationTypes.Merge.ToInt().ToString(),
+                                Displays.Merge(context: context)
+                            },
+                            {
+                                Process.ValidationTypes.Replacement.ToInt().ToString(),
+                                Displays.Replacement(context: context)
+                            },
+                            {
+                                Process.ValidationTypes.None.ToInt().ToString(),
+                                Displays.None(context: context)
+                            }
+                        },
+                        selectedValue: process.ValidationType.ToInt().ToString())
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "MoveUpProcessValidateInputs",
+                            controlCss: "button-icon",
+                            text: Displays.MoveUp(context: context),
+                            onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                            icon: "ui-icon-circle-triangle-n",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "MoveDownProcessValidateInputs",
+                            controlCss: "button-icon",
+                            text: Displays.MoveDown(context: context),
+                            onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                            icon: "ui-icon-circle-triangle-s",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "NewProcessValidateInput",
+                            text: Displays.New(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openProcessValidateInputDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "put")
+                        .Button(
+                            controlId: "DeleteProcessValidateInputs",
+                            text: Displays.Delete(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "delete",
+                            confirm: Displays.ConfirmDelete(context: context)))
+                    .EditProcessValidateInput(
+                        context: context,
+                        ss: ss,
+                        validateInputs: process.ValidateInputs)
+                    .Hidden(
+                        controlId: "ProcessValidateInputs",
+                        css: "always-send",
+                        value: process.ValidateInputs?.ToJson()));
         }
 
         /// <summary>
