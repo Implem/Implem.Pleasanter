@@ -30,14 +30,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlCss: "button-icon validate",
                         icon: "ui-icon-disk",
                         validations: process.ValidateInputs?.ToJson() ?? "[]",
-                        action: context.IsNew
-                            ? "Create"
-                            : "Update",
-                        method: context.IsNew
-                            ? "post"
-                            : "put",
+                        action: Action(
+                            context: context,
+                            process: process),
+                        method: Method(
+                            context: context,
+                            process: process),
                         confirm: process.ConfirmationMessage));
             return hb;
+        }
+
+        private static string Action(Context context, Process process)
+        {
+            switch (process.ActionType ?? Process.ActionTypes.Save)
+            {
+                case Process.ActionTypes.Save:
+                    return context.IsNew
+                        ? "Create"
+                        : "Update";
+                case Process.ActionTypes.PostBack:
+                    return "Edit";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        private static string Method(Context context, Process process)
+        {
+            switch (process.ActionType ?? Process.ActionTypes.Save)
+            {
+                case Process.ActionTypes.Save:
+                    return context.IsNew
+                        ? "post"
+                        : "put";
+                case Process.ActionTypes.PostBack:
+                    return "post";
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

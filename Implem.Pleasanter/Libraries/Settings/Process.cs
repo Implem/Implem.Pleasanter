@@ -16,6 +16,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             New = 10,
             Edit = 20
         }
+
+        public enum ActionTypes
+        {
+            Save = 0,
+            PostBack = 10,
+            None = 90
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
@@ -27,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ConfirmationMessage { get; set; }
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }
+        public ActionTypes? ActionType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }
         public List<int> Depts { get; set; }
         public List<int> Groups { get; set; }
@@ -53,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string confirmationMessage,
             string successMessage,
             string onClick,
+            ActionTypes? actionType,
             SettingList<ValidateInput> validateInputs,
             List<Permission> permissions,
             View view,
@@ -70,6 +80,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ConfirmationMessage = confirmationMessage;
             SuccessMessage = successMessage;
             OnClick = onClick;
+            ActionType = actionType;
             ValidateInputs = validateInputs;
             SetPermissions(permissions: permissions);
             View = view;
@@ -88,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string confirmationMessage,
             string successMessage,
             string onClick,
+            ActionTypes? actionType,
             SettingList<ValidateInput> validateInputs,
             List<Permission> permissions,
             View view,
@@ -104,6 +116,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ConfirmationMessage = confirmationMessage;
             SuccessMessage = successMessage;
             OnClick = onClick;
+            ActionType = actionType;
             ValidateInputs = validateInputs;
             SetPermissions(permissions: permissions);
             View = view;
@@ -208,6 +221,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!OnClick.IsNullOrEmpty())
             {
                 process.OnClick = OnClick;
+            }
+            if (ActionType != ActionTypes.Save)
+            {
+                process.ActionType = ActionType;
             }
             ValidateInputs?.ForEach(validateInput =>
             {

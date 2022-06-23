@@ -100,7 +100,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField",
+                                id: "ViewSelectorField", 
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -348,7 +348,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns,
+                            columns: columns, 
                             view: view,
                             sort: false,
                             checkRow: checkRow,
@@ -1741,9 +1741,9 @@ namespace Implem.Pleasanter.Models
         }
 
         private static int PhysicalBulkDelete(
-            Context context,
-            SiteSettings ss,
-            List<long> selected,
+            Context context, 
+            SiteSettings ss, 
+            List<long> selected, 
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
@@ -1819,7 +1819,7 @@ namespace Implem.Pleasanter.Models
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
-            }
+            }            
             var invalid = SiteValidators.OnEntry(
                 context: context,
                 ss: ss,
@@ -7885,7 +7885,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.SuccessMessage(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.OnClick(context: context)))));
+                        .Text(text: Displays.OnClick(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ActionTypes(context: context)))));
         }
 
         /// <summary>
@@ -7943,7 +7945,12 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: ss.ColumnNameToLabelText(process.SuccessMessage)))
                                 .Td(action: () => hb
-                                    .Text(text: process.OnClick)));
+                                    .Text(text: process.OnClick))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: process.ActionType?.ToString()
+                                            ?? Process.ActionTypes.Save.ToString()))));
                     });
                 });
             }
@@ -8138,7 +8145,28 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.OnClick(context: context),
-                        text: process.OnClick)));
+                        text: process.OnClick)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessActionType",
+                        controlCss: " always-send",
+                        labelText: Displays.ActionTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ActionTypes.Save.ToInt().ToString(),
+                                Displays.Save(context: context)
+                            },
+                            {
+                                Process.ActionTypes.PostBack.ToInt().ToString(),
+                                Displays.PostBack(context: context)
+                            },
+                            {
+                                Process.ActionTypes.None.ToInt().ToString(),
+                                Displays.None(context: context)
+                            }
+                        },
+                        selectedValue: process.ActionType.ToInt().ToString())));
         }
 
         /// <summary>
@@ -9251,80 +9279,80 @@ namespace Implem.Pleasanter.Models
                             ? " hidden"
                             : string.Empty),
                         action: () => hb
-                            .FieldSet(
-                                css: " enclosed-thin",
-                                legendText: Displays.FilterCondition(context: context),
-                                action: () => hb
-                                    .Div(css: "items", action: () => hb
-                                        .FieldCheckBox(
-                                            controlId: $"{prefix}ViewFilters_Incomplete",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.Incomplete(context: context),
-                                            _checked: view.Incomplete == true,
-                                            labelPositionIsRight: true,
-                                            _using: view.HasIncompleteColumns(context: context, ss: ss))
-                                        .FieldCheckBox(
-                                            controlId: $"{prefix}ViewFilters_Own",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.Own(context: context),
-                                            _checked: view.Own == true,
-                                            labelPositionIsRight: true,
-                                            _using: view.HasOwnColumns(context: context, ss: ss))
-                                        .FieldCheckBox(
-                                            controlId: $"{prefix}ViewFilters_NearCompletionTime",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.NearCompletionTime(context: context),
-                                            _checked: view.NearCompletionTime == true,
-                                            labelPositionIsRight: true,
-                                            _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
-                                        .FieldCheckBox(
-                                            controlId: $"{prefix}ViewFilters_Delay",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.Delay(context: context),
-                                            _checked: view.Delay == true,
-                                            labelPositionIsRight: true,
-                                            _using: view.HasDelayColumns(context: context, ss: ss))
-                                        .FieldCheckBox(
-                                            controlId: $"{prefix}ViewFilters_Overdue",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.Overdue(context: context),
-                                            _checked: view.Overdue == true,
-                                            labelPositionIsRight: true,
-                                            _using: view.HasOverdueColumns(context: context, ss: ss))
-                                        .FieldTextBox(
-                                            controlId: $"{prefix}ViewFilters_Search",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.Search(context: context),
-                                            text: view.Search)
-                                        .ViewColumnFilters(
-                                            context: context,
-                                            ss: ss,
-                                            view: view,
-                                            prefix: prefix))
+                        .FieldSet(
+                            css: " enclosed-thin",
+                            legendText: Displays.FilterCondition(context: context),
+                            action: () => hb
+                                .Div(css: "items", action: () => hb
                                     .FieldCheckBox(
-                                            controlId: $"{prefix}ViewFilters_ShowHistory",
-                                            fieldCss: "field-auto-thin",
-                                            labelText: Displays.ShowHistory(context: context),
-                                            _checked: view.ShowHistory == true,
-                                            labelPositionIsRight: true,
-                                            _using: ss.HistoryOnGrid == true)
-                                    .Div(css: "both", action: () => hb
-                                        .FieldDropDown(
+                                        controlId: $"{prefix}ViewFilters_Incomplete",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Incomplete(context: context),
+                                        _checked: view.Incomplete == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasIncompleteColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Own",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Own(context: context),
+                                        _checked: view.Own == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasOwnColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_NearCompletionTime",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.NearCompletionTime(context: context),
+                                        _checked: view.NearCompletionTime == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Delay",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Delay(context: context),
+                                        _checked: view.Delay == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasDelayColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Overdue",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Overdue(context: context),
+                                        _checked: view.Overdue == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasOverdueColumns(context: context, ss: ss))
+                                    .FieldTextBox(
+                                        controlId: $"{prefix}ViewFilters_Search",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Search(context: context),
+                                        text: view.Search)
+                                    .ViewColumnFilters(
+                                        context: context,
+                                        ss: ss,
+                                        view: view,
+                                        prefix: prefix))
+                                .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_ShowHistory",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.ShowHistory(context: context),
+                                        _checked: view.ShowHistory == true,
+                                        labelPositionIsRight: true,
+                                        _using: ss.HistoryOnGrid == true)
+                                .Div(css: "both", action: () => hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: $"{prefix}ViewFilterSelector",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        optionCollection: ss.ViewFilterOptions(
                                             context: context,
-                                            controlId: $"{prefix}ViewFilterSelector",
-                                            fieldCss: "field-auto-thin",
-                                            controlCss: " always-send",
-                                            optionCollection: ss.ViewFilterOptions(
-                                                context: context,
-                                                view: view))
-                                        .Button(
-                                            controlId: $"Add{prefix}ViewFilter",
-                                            controlCss: "button-icon",
-                                            text: Displays.Add(context: context),
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-plus",
-                                            action: "SetSiteSettings",
-                                            method: "post"))));
+                                            view: view))
+                                    .Button(
+                                        controlId: $"Add{prefix}ViewFilter",
+                                        controlCss: "button-icon",
+                                        text: Displays.Add(context: context),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-plus",
+                                        action: "SetSiteSettings",
+                                        method: "post"))));
                 action?.Invoke();
             });
         }
@@ -9535,38 +9563,38 @@ namespace Implem.Pleasanter.Models
                         css: " enclosed-thin",
                         legendText: Displays.SortCondition(context: context),
                         action: () => hb
-                            .FieldBasket(
-                                controlId: "ViewSorters",
-                                fieldCss: "field-wide",
-                                controlCss: "control-basket cf",
-                                listItemCollection: view.ColumnSorterHash?.ToDictionary(
-                                    o => $"{o.Key}&{o.Value}",
-                                    o => new ControlData(
-                                        $"{ss.LabelTitle(context: context, columnName: o.Key)}" +
-                                        $"({DisplayOrder(context: context, type: o)})")),
-                                labelAction: () => hb
-                                    .Text(text: Displays.Sorters(context: context)))
-                            .FieldDropDown(
-                                context: context,
-                                controlId: "ViewSorterSelector",
-                                fieldCss: "field-auto-thin",
-                                controlCss: " always-send",
-                                optionCollection: ss.ViewSorterOptions(context: context))
-                            .FieldDropDown(
-                                context: context,
-                                controlId: "ViewSorterOrderTypes",
-                                fieldCss: "field-auto-thin",
-                                controlCss: " always-send",
-                                optionCollection: new Dictionary<string, string>
-                                {
-                                    { "asc", Displays.OrderAsc(context: context) },
-                                    { "desc", Displays.OrderDesc(context: context) }
-                                })
-                            .Button(
-                                controlId: "AddViewSorter",
-                                controlCss: "button-icon",
-                                text: Displays.Add(context: context),
-                                icon: "ui-icon-plus"))));
+                .FieldBasket(
+                    controlId: "ViewSorters",
+                    fieldCss: "field-wide",
+                    controlCss: "control-basket cf",
+                    listItemCollection: view.ColumnSorterHash?.ToDictionary(
+                        o => $"{o.Key}&{o.Value}",
+                        o => new ControlData(
+                            $"{ss.LabelTitle(context: context, columnName: o.Key)}" +
+                            $"({DisplayOrder(context: context, type: o)})")),
+                    labelAction: () => hb
+                        .Text(text: Displays.Sorters(context: context)))
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ViewSorterSelector",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " always-send",
+                    optionCollection: ss.ViewSorterOptions(context: context))
+                .FieldDropDown(
+                    context: context,
+                    controlId: "ViewSorterOrderTypes",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " always-send",
+                    optionCollection: new Dictionary<string, string>
+                    {
+                        { "asc", Displays.OrderAsc(context: context) },
+                        { "desc", Displays.OrderDesc(context: context) }
+                    })
+                .Button(
+                    controlId: "AddViewSorter",
+                    controlCss: "button-icon",
+                    text: Displays.Add(context: context),
+                    icon: "ui-icon-plus"))));
         }
 
         /// <summary>

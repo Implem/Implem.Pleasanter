@@ -89,6 +89,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ActionTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ActionTypes",
+                data: data);
+        }
+
         public static string Add(
             Context context,
             params string[] data)
@@ -3449,13 +3459,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string FilterCondition(
+        public static string SortCondition(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "FilterCondition",
+                id: "SortCondition",
                 data: data);
         }
 
@@ -6569,6 +6579,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string PostBack(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PostBack",
+                data: data);
+        }
+
         public static string Prefix(
             Context context,
             params string[] data)
@@ -7689,13 +7709,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string SortCondition(
+        public static string FilterCondition(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "SortCondition",
+                id: "FilterCondition",
                 data: data);
         }
 
