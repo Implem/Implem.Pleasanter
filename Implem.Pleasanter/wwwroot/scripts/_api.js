@@ -116,10 +116,42 @@ $p.apiGroupsGet = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'get', 'groups'), args);
 }
 
+$p.apiCreateGroup = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'create', 'groups'), args);
+}
+
+$p.apiUpdateGroup = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'update', 'groups'), args);
+}
+
+$p.apiDeleteGroup = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'delete', 'groups'), args);
+}
+
 $p.apiSendMailUrl = function (id) {
     return $('#ApplicationPath').val() + 'api/items/' + id + '/OutgoingMails/Send';
 }
 
 $p.apiSendMail = function (args) {
     return $p.apiExec($p.apiSendMailUrl(args.id), args);
+}
+
+$p.apiCopySitePackage = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'copysitepackage'), args);
+}
+
+$p.apiGetSite = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'getsite'), args);
+}
+
+$p.apiCreateSite = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'createsite'), args);
+}
+
+$p.apiUpdateSite = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'updatesite'), args);
+}
+
+$p.apiDeleteSite = function (args) {
+    return $p.apiExec($p.apiUrl(args.id, 'deletesite'), args);
 }
