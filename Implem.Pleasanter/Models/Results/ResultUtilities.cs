@@ -5570,7 +5570,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss);
                     if (updatableImport
-                          && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
+                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
                         view.AddColumnFilterHash(
