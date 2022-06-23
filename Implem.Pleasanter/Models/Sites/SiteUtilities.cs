@@ -9247,8 +9247,8 @@ namespace Implem.Pleasanter.Models
                         labelPositionIsRight: true)
                     .FieldSet(
                         id: "ViewFiltersFilterConditionSettingsEditor",
-                        css: (view.KeepFilterState == true
-                            ? "hidden"
+                        css: "fieldset cf both" + (view.KeepFilterState == true
+                            ? " hidden"
                             : string.Empty),
                         action: () => hb
                             .FieldSet(
@@ -9527,8 +9527,8 @@ namespace Implem.Pleasanter.Models
                     labelPositionIsRight: true)
                 .FieldSet(
                     id: "ViewFiltersSorterConditionSettingsEditor",
-                    css: (view.KeepSorterState == true
-                        ? "hidden"
+                    css: "both" + (view.KeepSorterState == true
+                        ? " hidden"
                         : string.Empty),
                     action: () => hb
                      .FieldSet(
