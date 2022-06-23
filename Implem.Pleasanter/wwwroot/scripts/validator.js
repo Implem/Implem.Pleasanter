@@ -79,7 +79,7 @@
         $('input, select, textarea').each(function () {
             $(this).rules('remove');
         });
-        if ($control.hasClass('merge-validations')) {
+        if (!$control.data('validations') || $control.hasClass('merge-validations')) {
             $p.applyValidator();
         }
         if ($control.data('validations')) {
