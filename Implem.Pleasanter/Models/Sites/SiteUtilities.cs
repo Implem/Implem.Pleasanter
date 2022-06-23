@@ -1022,7 +1022,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Process process = null;
             var errorData = siteModel.Create(context: context);
             switch (errorData.Type)
             {
@@ -5541,7 +5540,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "SwitchCommandButtonsAutoPostBack",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.SwitchCommandButtonsAutoPostBack(context: context),
-                    _checked: ss.SwitchCommandButtonsAutoPostBack == true));
+                    _checked: ss.SwitchCommandButtonsAutoPostBack == true)
+                .FieldCheckBox(
+                    controlId: "DeleteImageWhenDeleting",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DeleteImageWhenDeleting(context: context),
+                    _checked: ss.DeleteImageWhenDeleting == true));
         }
 
         /// <summary>
@@ -6088,6 +6092,12 @@ namespace Implem.Pleasanter.Models
                                             labelText: Displays.ReadOnly(context: context),
                                             _checked: column.EditorReadOnly == true)
                                         .FieldCheckBox(
+                                            controlId: "ValidateRequired",
+                                            labelText: Displays.Required(context: context),
+                                            _checked: column.ValidateRequired ?? false,
+                                            disabled: column.Required,
+                                            _using: column.TypeName == "bit")
+                                        .FieldCheckBox(
                                             controlId: "AllowBulkUpdate",
                                             labelText: Displays.AllowBulkUpdate(context: context),
                                             _checked: column.AllowBulkUpdate == true,
@@ -6340,6 +6350,12 @@ namespace Implem.Pleasanter.Models
                                                 break;
                                             default:
                                                 hb
+                                                    .FieldCheckBox(
+                                                        controlId: "ImportKey",
+                                                        labelText: Displays.ImportKey(context: context),
+                                                        _checked: column.ImportKey == true,
+                                                        _using: column.ColumnName != "Comments"
+                                                            && !column.NotUpdate)
                                                     .FieldCheckBox(
                                                         controlId: "AllowImage",
                                                         labelText: Displays.AllowImage(context: context),
@@ -8603,6 +8619,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.NotificationType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Address(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Subject(context: context)))));
@@ -8635,6 +8653,10 @@ namespace Implem.Pleasanter.Models
                         .Td(action: () => hb
                             .Text(text: notification.Id.ToString()))
                         .Td(action: () => hb
+                            .Text(text: Displays.Get(
+                                context: context,
+                                id: notification.Type.ToString())))
+                        .Td(action: () => hb
                             .Text(text: ss.ColumnNameToLabelText(notification.Address)))
                         .Td(action: () => hb
                             .Text(text: ss.ColumnNameToLabelText(notification.Subject))));
@@ -8664,6 +8686,15 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Id(context: context),
                         text: notification.Id.ToString(),
                         _using: controlId == "EditProcessNotification")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessNotificationType",
+                        controlCss: " always-send",
+                        labelText: Displays.NotificationType(context: context),
+                        optionCollection: Parameters.Notification.ListOrder == null
+                            ? NotificationUtilities.Types(context: context)
+                            : NotificationUtilities.OrderTypes(context: context),
+                        selectedValue: notification.Type.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ProcessNotificationSubject",
                         fieldCss: "field-wide",
@@ -8678,6 +8709,18 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Address(context: context),
                         text: ss.ColumnNameToLabelText(notification.Address),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "ProcessNotificationTokenField",
+                        controlId: "ProcessNotificationToken",
+                        fieldCss: "field-wide" + (!NotificationUtilities.RequireToken(notification)
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Token(context: context),
+                        text: notification.Token)
+                    .Hidden(
+                        controlId: "ProcessNotificationTokenEnableList",
+                        value: NotificationUtilities.Tokens())
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
                         fieldId: "ProcessNotificationBody",
@@ -9129,76 +9172,148 @@ namespace Implem.Pleasanter.Models
             return hb.FieldSet(id: $"{prefix}ViewFiltersTab", action: () =>
             {
                 hb
-                    .Div(css: "items", action: () => hb
-                        .FieldCheckBox(
-                            controlId: $"{prefix}ViewFilters_Incomplete",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.Incomplete(context: context),
-                            _checked: view.Incomplete == true,
-                            labelPositionIsRight: true,
-                            _using: view.HasIncompleteColumns(context: context, ss: ss))
-                        .FieldCheckBox(
-                            controlId: $"{prefix}ViewFilters_Own",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.Own(context: context),
-                            _checked: view.Own == true,
-                            labelPositionIsRight: true,
-                            _using: view.HasOwnColumns(context: context, ss: ss))
-                        .FieldCheckBox(
-                            controlId: $"{prefix}ViewFilters_NearCompletionTime",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.NearCompletionTime(context: context),
-                            _checked: view.NearCompletionTime == true,
-                            labelPositionIsRight: true,
-                            _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
-                        .FieldCheckBox(
-                            controlId: $"{prefix}ViewFilters_Delay",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.Delay(context: context),
-                            _checked: view.Delay == true,
-                            labelPositionIsRight: true,
-                            _using: view.HasDelayColumns(context: context, ss: ss))
-                        .FieldCheckBox(
-                            controlId: $"{prefix}ViewFilters_Overdue",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.Overdue(context: context),
-                            _checked: view.Overdue == true,
-                            labelPositionIsRight: true,
-                            _using: view.HasOverdueColumns(context: context, ss: ss))
-                        .FieldTextBox(
-                            controlId: $"{prefix}ViewFilters_Search",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.Search(context: context),
-                            text: view.Search)
-                        .ViewColumnFilters(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            prefix: prefix))
-                    .FieldCheckBox(
-                            controlId: $"{prefix}ViewFilters_ShowHistory",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.ShowHistory(context: context),
-                            _checked: view.ShowHistory == true,
-                            labelPositionIsRight: true,
-                            _using: ss.HistoryOnGrid == true)
-                    .Div(css: "both", action: () => hb
-                        .FieldDropDown(
-                            context: context,
-                            controlId: $"{prefix}ViewFilterSelector",
-                            fieldCss: "field-auto-thin",
-                            controlCss: " always-send",
-                            optionCollection: ss.ViewFilterOptions(
-                                context: context,
-                                view: view))
-                        .Button(
-                            controlId: $"Add{prefix}ViewFilter",
-                            controlCss: "button-icon",
-                            text: Displays.Add(context: context),
-                            onClick: "$p.send($(this));",
-                            icon: "ui-icon-plus",
-                            action: "SetSiteSettings",
-                            method: "post"));
+                    .FieldSet(
+                        id: "ViewFiltersFilterSettingsEditor",
+                        action: () => hb.FieldSet(
+                            css: " enclosed-thin",
+                            legendText: Displays.FilterSettings(context: context),
+                            action: () => hb
+                                .FieldSelectable(
+                                    controlId: "ViewFiltersFilterColumns",
+                                    fieldCss: "field-vertical",
+                                    controlContainerCss: "container-selectable",
+                                    controlWrapperCss: " h350",
+                                    controlCss: " always-send send-all",
+                                    labelText: Displays.CurrentSettings(context: context),
+                                    listItemCollection: ss.ViewFilterSelectableOptions(
+                                        context: context,
+                                        filterColumns: view.FilterColumns ?? ss.FilterColumns),
+                                    selectedValueCollection: new List<string>(),
+                                    commandOptionPositionIsTop: true,
+                                    commandOptionAction: () => hb
+                                        .Div(css: "command-center", action: () => hb
+                                            .Button(
+                                                controlId: "MoveUpViewFiltersFilterColumns",
+                                                controlCss: "button-icon",
+                                                text: Displays.MoveUp(context: context),
+                                                onClick: "$p.moveColumns($(this),'ViewFiltersFilter',false,true);",
+                                                icon: "ui-icon-circle-triangle-n")
+                                            .Button(
+                                                controlId: "MoveDownViewFiltersFilterColumns",
+                                                controlCss: "button-icon",
+                                                text: Displays.MoveDown(context: context),
+                                                onClick: "$p.moveColumns($(this),'ViewFiltersFilter',false,true);",
+                                                icon: "ui-icon-circle-triangle-s")
+                                            .Button(
+                                                controlId: "ToDisableViewFiltersFilterColumns",
+                                                controlCss: "button-icon",
+                                                text: Displays.ToDisable(context: context),
+                                                onClick: "$p.moveColumns($(this),'ViewFiltersFilter',false,true);",
+                                                icon: "ui-icon-circle-triangle-e")))
+                                .FieldSelectable(
+                                    controlId: "ViewFiltersFilterSourceColumns",
+                                    fieldCss: "field-vertical",
+                                    controlContainerCss: "container-selectable",
+                                    controlWrapperCss: " h350",
+                                    labelText: Displays.OptionList(context: context),
+                                    listItemCollection: ss.ViewFilterSelectableOptions(
+                                        context: context,
+                                        filterColumns: view.FilterColumns ?? ss.FilterColumns,
+                                        enabled: false),
+                                    commandOptionPositionIsTop: true,
+                                    commandOptionAction: () => hb
+                                        .Div(css: "command-left", action: () => hb
+                                            .Button(
+                                                controlId: "ToEnableViewFiltersFilterColumns",
+                                                text: Displays.ToEnable(context: context),
+                                                controlCss: "button-icon",
+                                                onClick: "$p.moveColumns($(this),'ViewFiltersFilter',false,true);",
+                                                icon: "ui-icon-circle-triangle-w")
+                                            .FieldDropDown(
+                                                context: context,
+                                                controlId: "ViewFiltersFilterJoin",
+                                                fieldCss: "w150",
+                                                controlCss: " auto-postback always-send",
+                                                optionCollection: ss.JoinOptions(),
+                                                addSelectedValue: false,
+                                                action: "SetSiteSettings",
+                                                method: "post")))),
+                        _using: prefix.IsNullOrEmpty())
+                    .FieldSet(id: "ViewFiltersFilterConditionSettingsEditor", action: () => hb
+                        .FieldSet(
+                            css: " enclosed-thin",
+                            legendText: Displays.Condition(context: context),
+                            action: () => hb
+                                .Div(css: "items", action: () => hb
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Incomplete",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Incomplete(context: context),
+                                        _checked: view.Incomplete == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasIncompleteColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Own",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Own(context: context),
+                                        _checked: view.Own == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasOwnColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_NearCompletionTime",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.NearCompletionTime(context: context),
+                                        _checked: view.NearCompletionTime == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasNearCompletionTimeColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Delay",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Delay(context: context),
+                                        _checked: view.Delay == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasDelayColumns(context: context, ss: ss))
+                                    .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_Overdue",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Overdue(context: context),
+                                        _checked: view.Overdue == true,
+                                        labelPositionIsRight: true,
+                                        _using: view.HasOverdueColumns(context: context, ss: ss))
+                                    .FieldTextBox(
+                                        controlId: $"{prefix}ViewFilters_Search",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.Search(context: context),
+                                        text: view.Search)
+                                    .ViewColumnFilters(
+                                        context: context,
+                                        ss: ss,
+                                        view: view,
+                                        prefix: prefix))
+                                .FieldCheckBox(
+                                        controlId: $"{prefix}ViewFilters_ShowHistory",
+                                        fieldCss: "field-auto-thin",
+                                        labelText: Displays.ShowHistory(context: context),
+                                        _checked: view.ShowHistory == true,
+                                        labelPositionIsRight: true,
+                                        _using: ss.HistoryOnGrid == true)
+                                .Div(css: "both", action: () => hb
+                                    .FieldDropDown(
+                                        context: context,
+                                        controlId: $"{prefix}ViewFilterSelector",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        optionCollection: ss.ViewFilterOptions(
+                                            context: context,
+                                            view: view))
+                                    .Button(
+                                        controlId: $"Add{prefix}ViewFilter",
+                                        controlCss: "button-icon",
+                                        text: Displays.Add(context: context),
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-plus",
+                                        action: "SetSiteSettings",
+                                        method: "post"))));
                 action?.Invoke();
             });
         }
@@ -10431,6 +10546,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Id(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ReminderType(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Subject(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Body(context: context)))
@@ -10487,6 +10604,10 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: reminder.Id.ToString()))
                             .Td(action: () => hb
+                                .Text(text: Displays.Get(
+                                    context: context,
+                                    id: reminder.ReminderType.ToString())))
+                            .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Subject)))
                             .Td(action: () => hb
                                 .Text(text: ss.ColumnNameToLabelText(reminder.Body)))
@@ -10540,7 +10661,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder ReminderDialog(
-            Context context, SiteSettings ss, string controlId, Reminder reminder)
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            Reminder reminder)
         {
             var hb = new HtmlBuilder();
             var conditions = ss.ViewSelectableOptions();
@@ -10557,6 +10681,13 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Id(context: context),
                         text: reminder.Id.ToString(),
                         _using: controlId == "EditReminder")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ReminderType",
+                        controlCss: " always-send",
+                        labelText: Displays.ReminderType(context: context),
+                        optionCollection: ReminderUtilities.Types(context: context),
+                        selectedValue: reminder.ReminderType.ToInt().ToString())
                     .FieldTextBox(
                         controlId: "ReminderSubject",
                         fieldCss: "field-wide",
@@ -10580,13 +10711,15 @@ namespace Implem.Pleasanter.Models
                         text: ss.ColumnNameToLabelText(reminder.Line),
                         validateRequired: true)
                     .FieldTextBox(
+                        fieldId: "ReminderFromField",
                         controlId: "ReminderFrom",
-                        fieldCss: "field-wide",
+                        fieldCss: "field-wide" + (!ReminderUtilities.RequireFrom(reminder)
+                            ? " hidden"
+                            : string.Empty),
                         controlCss: " always-send",
                         labelText: Displays.From(context: context),
                         text: reminder.From,
-                        validateRequired: true,
-                        _using: Parameters.Mail.FixedFrom.IsNullOrEmpty())
+                        validateRequired: true)
                     .FieldTextBox(
                         controlId: "ReminderTo",
                         fieldCss: "field-wide",
@@ -10594,6 +10727,21 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.To(context: context),
                         text: ss.ColumnNameToLabelText(reminder.To),
                         validateRequired: true)
+                    .FieldTextBox(
+                        fieldId: "ReminderTokenField",
+                        controlId: "ReminderToken",
+                        fieldCss: "field-wide" + (!ReminderUtilities.RequireToken(reminder)
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Token(context: context),
+                        text: reminder.Token)
+                    .Hidden(
+                        controlId: "ReminderFromEnableList",
+                        value: ReminderUtilities.FromList())
+                    .Hidden(
+                        controlId: "ReminderTokenEnableList",
+                        value: ReminderUtilities.TokenList())
                     .FieldDropDown(
                         context: context,
                         controlId: "ReminderColumn",
@@ -10616,7 +10764,7 @@ namespace Implem.Pleasanter.Models
                         validateDate: true)
                     .FieldDropDown(
                         context: context,
-                        controlId: "ReminderType",
+                        controlId: "ReminderRepeatType",
                         controlCss: " always-send",
                         labelText: Displays.PeriodType(context: context),
                         optionCollection: new Dictionary<string, string>
@@ -10741,7 +10889,19 @@ namespace Implem.Pleasanter.Models
                     controlId: "UpdatableImport",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UpdatableImport(context: context),
-                    _checked: ss.UpdatableImport == true));
+                    _checked: ss.UpdatableImport == true)
+                .FieldDropDown(
+                    context: context,
+                    controlId: "DefaultImportKey",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DefaultImportKey(context: context),
+                    optionCollection: ss.Columns?
+                        .Where(o => o.ImportKey == true)
+                        .OrderBy(o => o.No)
+                        .ToDictionary(
+                            o => o.ColumnName,
+                            o => o.LabelText),
+                    selectedValue: ss.DefaultImportKey));
         }
 
         /// <summary>
@@ -10786,7 +10946,12 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "delete",
                         confirm: Displays.ConfirmDelete(context: context)))
-                .EditExport(context: context, ss: ss));
+                .EditExport(context: context, ss: ss)
+                .FieldCheckBox(
+                    controlId: "AllowStandardExport",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.AllowStandardExport(context: context),
+                    _checked: ss.AllowStandardExport == true));
         }
 
         /// <summary>

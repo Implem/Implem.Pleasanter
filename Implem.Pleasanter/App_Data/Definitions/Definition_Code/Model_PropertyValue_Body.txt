@@ -11,6 +11,19 @@
     }
 }
 
+public string SavedPropertyValue(Context context, Column column)
+{
+    switch (column?.ColumnName)
+    {
+
+<!--Model_SavedPropertyValue_ColumnCases-->
+
+        default: return GetSavedValue(
+            context: context,
+            column: column);
+    }
+}
+
 public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
 {
     var hash = new Dictionary<string, string>();

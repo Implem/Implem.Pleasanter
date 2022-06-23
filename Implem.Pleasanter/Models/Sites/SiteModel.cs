@@ -379,6 +379,47 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SavedPropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "TenantId": return SavedTenantId.ToString();
+                case "SiteId": return SavedSiteId.ToString();
+                case "UpdatedTime": return SavedUpdatedTime.ToString();
+                case "Ver": return SavedVer.ToString();
+                case "Title": return SavedTitle;
+                case "Body": return SavedBody;
+                case "SiteName": return SavedSiteName;
+                case "SiteGroupName": return SavedSiteGroupName;
+                case "GridGuide": return SavedGridGuide;
+                case "EditorGuide": return SavedEditorGuide;
+                case "CalendarGuide": return SavedCalendarGuide;
+                case "CrosstabGuide": return SavedCrosstabGuide;
+                case "GanttGuide": return SavedGanttGuide;
+                case "BurnDownGuide": return SavedBurnDownGuide;
+                case "TimeSeriesGuide": return SavedTimeSeriesGuide;
+                case "KambanGuide": return SavedKambanGuide;
+                case "ImageLibGuide": return SavedImageLibGuide;
+                case "ReferenceType": return SavedReferenceType;
+                case "ParentId": return SavedParentId.ToString();
+                case "InheritPermission": return SavedInheritPermission.ToString();
+                case "SiteSettings": return SavedSiteSettings;
+                case "Publish": return SavedPublish.ToString();
+                case "DisableCrossSearch": return SavedDisableCrossSearch.ToString();
+                case "LockedTime": return SavedLockedTime.ToString();
+                case "LockedUser": return SavedLockedUser.ToString();
+                case "ApiCountDate": return SavedApiCountDate.ToString();
+                case "ApiCount": return SavedApiCount.ToString();
+                case "Comments": return SavedComments;
+                case "Creator": return SavedCreator.ToString();
+                case "Updator": return SavedUpdator.ToString();
+                case "CreatedTime": return SavedCreatedTime.ToString();
+                default: return GetSavedValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();
@@ -599,14 +640,13 @@ namespace Implem.Pleasanter.Models
             bool setByApi = false,
             bool clearSessions = false,
             List<long> switchTargets = null,
-            Dictionary<long, DataSet> linkedSsDataSetHash = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
             Context = context;
             TenantId = context.TenantId;
             SiteId = siteId;
-            Get(context: context, linkedSsDataSetHash: linkedSsDataSetHash);
+            Get(context: context);
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)
             {
@@ -668,7 +708,6 @@ namespace Implem.Pleasanter.Models
             SqlWhereCollection where = null,
             SqlOrderByCollection orderBy = null,
             SqlParamCollection param = null,
-            Dictionary<long, DataSet> linkedSsDataSetHash = null,
             bool distinct = false,
             int top = 0)
         {
@@ -688,7 +727,7 @@ namespace Implem.Pleasanter.Models
                     param: param,
                     distinct: distinct,
                     top: top)));
-            SetSiteSettingsProperties(context: context, linkedSsDataSetHash: linkedSsDataSetHash);
+            SetSiteSettingsProperties(context: context);
             return this;
         }
 
@@ -955,7 +994,8 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
             bool setBySession = true,
-            bool get = true)
+            bool get = true,
+            bool checkConflict = true) 
         {
             if (setBySession)
             {
@@ -967,7 +1007,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
-                additionalStatements: additionalStatements));
+                additionalStatements: additionalStatements,
+                checkConflict: checkConflict));
             statements.Add(Rds.PhysicalDeleteReminderSchedules(
                 where: Rds.ReminderSchedulesWhere()
                     .SiteId(SiteId)));
@@ -1012,14 +1053,15 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             SqlParamCollection param = null,
             bool otherInitValue = false,
-            List<SqlStatement> additionalStatements = null)
+            List<SqlStatement> additionalStatements = null,
+            bool checkConflict = true)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.SitesWhereDefault(
                 context: context,
                 siteModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange());
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             if (Versions.VerUp(
                 context: context,
                 ss: ss,
@@ -2042,9 +2084,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public void SetSiteSettingsProperties(
-            Context context,
-            Dictionary<long, DataSet> linkedSsDataSetHash = null)
+        public void SetSiteSettingsProperties(Context context)
         {
             if (SiteSettings == null)
             {
@@ -2057,7 +2097,6 @@ namespace Implem.Pleasanter.Models
             SiteSettings.ParentId = ParentId;
             SiteSettings.InheritPermission = InheritPermission;
             SiteSettings.AccessStatus = AccessStatus;
-            SiteSettings.LinkedSsDataSetHash = linkedSsDataSetHash;
             SiteSettings.SetLinkedSiteSettings(context: context);
             SiteSettings.SetPermissions(
                 context: context,
@@ -2436,6 +2475,12 @@ namespace Implem.Pleasanter.Models
                     SetViewGridColumnsSelectable(
                         context: context,
                         res: res);
+                    break;
+                case "ViewFiltersFilterJoin":
+                    SetFilterColumnsSelectable(
+                        context: context,
+                        res: res,
+                        prefix: "ViewFilters");
                     break;
                 case "MoveUpNotifications":
                 case "MoveDownNotifications":
@@ -2931,18 +2976,21 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetFilterColumnsSelectable(Context context, ResponseCollection res)
+        private void SetFilterColumnsSelectable(
+            Context context,
+            ResponseCollection res,
+            string prefix = "")
         {
-            SiteSettings.FilterColumns = context.Forms.List("FilterColumnsAll");
+            SiteSettings.FilterColumns = context.Forms.List($"{prefix}FilterColumnsAll");
             var listItemCollection = SiteSettings.FilterSelectableOptions(
-                context: context, enabled: false, join: context.Forms.Data("FilterJoin"));
+                context: context, enabled: false, join: context.Forms.Data($"{prefix}FilterJoin"));
             if (!listItemCollection.Any())
             {
                 res.Message(Messages.NotFound(context: context));
             }
             else
             {
-                res.Html("#FilterSourceColumns", new HtmlBuilder()
+                res.Html($"#{prefix}FilterSourceColumns", new HtmlBuilder()
                     .SelectableItems(listItemCollection: listItemCollection));
             }
         }
@@ -4342,9 +4390,10 @@ namespace Implem.Pleasanter.Models
             notifications.Add(new Notification()
             {
                 Id = notifications.MaxOrDefault(o => o.Id) + 1,
-                Type = Notification.Types.Mail,
-                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
                 Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
+                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                Token = context.Forms.Data("ProcessNotificationToken"),
                 Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
             });
             res
@@ -4366,8 +4415,10 @@ namespace Implem.Pleasanter.Models
         {
             var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
             var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
-            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
             notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
+            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+            notification.Token = context.Forms.Data("ProcessNotificationToken");
             notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
             res
                 .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
@@ -4828,7 +4879,13 @@ namespace Implem.Pleasanter.Models
                 OpenReminderDialog(
                     context: context,
                     res: res,
-                    reminder: new Reminder(context: context) { Subject = Title.Value });
+                    reminder: new Reminder(context: context)
+                    {
+                        ReminderType = ReminderUtilities.Types(context: context)
+                            .Select(o => (Reminder.ReminderTypes)o.Key.ToInt())
+                            .FirstOrDefault(),
+                        Subject = Title.Value
+                    });
             }
             else
             {
@@ -4840,7 +4897,9 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     SiteSettingsUtilities.Get(
-                        context: context, siteModel: this, referenceId: SiteId);
+                        context: context,
+                        siteModel: this,
+                        referenceId: SiteId);
                     OpenReminderDialog(
                         context: context,
                         res: res,
@@ -4888,6 +4947,7 @@ namespace Implem.Pleasanter.Models
                     case Error.Types.None:
                         SiteSettings.Reminders.Add(new Reminder(
                             id: SiteSettings.Reminders.MaxOrDefault(o => o.Id) + 1,
+                            reminderType: (Reminder.ReminderTypes)context.Forms.Int("ReminderType"),
                             subject: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderSubject")),
                             body: SiteSettings.LabelTextToColumnName(
@@ -4897,9 +4957,10 @@ namespace Implem.Pleasanter.Models
                             from: context.Forms.Data("ReminderFrom"),
                             to: SiteSettings.LabelTextToColumnName(
                                 context.Forms.Data("ReminderTo")),
+                            token: context.Forms.Data("ReminderToken"),
                             column: context.Forms.Data("ReminderColumn"),
                             startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
-                            type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
+                            type: (Times.RepeatTypes)context.Forms.Int("ReminderRepeatType"),
                             range: context.Forms.Int("ReminderRange"),
                             sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                             notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),
@@ -4941,6 +5002,7 @@ namespace Implem.Pleasanter.Models
                     {
                         case Error.Types.None:
                             reminder.Update(
+                                reminderType: (Reminder.ReminderTypes)context.Forms.Int("ReminderType"),
                                 subject: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderSubject")),
                                 body: SiteSettings.LabelTextToColumnName(
@@ -4950,9 +5012,10 @@ namespace Implem.Pleasanter.Models
                                 from: context.Forms.Data("ReminderFrom"),
                                 to: SiteSettings.LabelTextToColumnName(
                                     context.Forms.Data("ReminderTo")),
+                                token: context.Forms.Data("ReminderToken"),
                                 column: context.Forms.Data("ReminderColumn"),
                                 startDateTime: context.Forms.DateTime("ReminderStartDateTime"),
-                                type: (Times.RepeatTypes)context.Forms.Int("ReminderType"),
+                                type: (Times.RepeatTypes)context.Forms.Int("ReminderRepeatType"),
                                 range: context.Forms.Int("ReminderRange"),
                                 sendCompletedInPast: context.Forms.Bool("ReminderSendCompletedInPast"),
                                 notSendIfNotApplicable: context.Forms.Bool("ReminderNotSendIfNotApplicable"),

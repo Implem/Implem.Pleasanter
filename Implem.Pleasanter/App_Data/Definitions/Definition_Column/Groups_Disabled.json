@@ -18,7 +18,6 @@
     "TypeName": "bit",
     "Ix1": "3",
     "Default": "0",
-    "Required": "1",
     "ReadAccessControl": "ManageTenant",
     "CreateAccessControl": "ManageTenant",
     "UpdateAccessControl": "ManageTenant",

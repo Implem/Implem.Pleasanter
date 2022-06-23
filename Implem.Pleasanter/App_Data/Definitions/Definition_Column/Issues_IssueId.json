@@ -31,6 +31,7 @@
     "ControlCss": " not-send",
     "ControlType": "Id",
     "EditorReadOnly": "1",
+    "ImportKey": "1",
     "FullTextType": "1",
     "SettingEnable": "1",
     "LabelText_en": "ID",

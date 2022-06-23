@@ -17,7 +17,6 @@
     "HistoryColumn": "136",
     "TypeName": "bit",
     "Default": "0",
-    "Required": "1",
     "ReadAccessControl": "ManageTenant",
     "CreateAccessControl": "ManageTenant",
     "UpdateAccessControl": "ManageTenant",

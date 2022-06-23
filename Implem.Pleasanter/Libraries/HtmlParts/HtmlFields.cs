@@ -400,6 +400,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _checked: value.ToBool(),
                                 disabled: true,
                                 alwaysSend: alwaysSend,
+                                validateRequired: required,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -719,6 +720,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _checked: value.ToBool(),
                                 disabled: column.GetEditorReadOnly(),
                                 alwaysSend: alwaysSend,
+                                validateRequired: required,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -765,6 +767,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 unit: column.Unit,
                                 alwaysSend: alwaysSend,
                                 allowBlank: true,
+                                validateRequired: required,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -1473,6 +1476,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysSend: alwaysSend,
                             dataId: dataId,
                             onChange: onChange,
+                            validateRequired: validateRequired,
                             action: action,
                             method: method));
             }
@@ -1501,6 +1505,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             disabled: disabled,
                             alwaysSend: alwaysSend,
                             onChange: onChange,
+                            validateRequired: validateRequired,
                             action: action,
                             method: method));
             }
@@ -1610,6 +1615,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysSend: alwaysSend,
                             allowBalnk: allowBlank,
                             onChange: onChange,
+                            validateRequired: validateRequired,
                             action: action,
                             method: method);
                         if (unit != string.Empty)

@@ -1011,6 +1011,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message Overlap(Context context, params string[] data)
+        {
+            return Get(
+                id: "Overlap",
+                text: Displays.Overlap(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
+        public static Message OverlapCsvImport(Context context, params string[] data)
+        {
+            return Get(
+                id: "OverlapCsvImport",
+                text: Displays.OverlapCsvImport(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message OverLimitApi(Context context, params string[] data)
         {
             return Get(
@@ -2476,6 +2496,26 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: NotRequiredColumn(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseOverlap(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: Overlap(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseOverlapCsvImport(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: OverlapCsvImport(
                     context: context,
                     data: data),
                 target: target);

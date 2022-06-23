@@ -1,0 +1,7 @@
+﻿if (ss.DeleteImageWhenDeleting == false)
+{
+    BinaryUtilities.UpdateImageReferenceId(
+        context: context,
+        siteId: SiteId,
+        referenceId: #ModelName#Id);
+}

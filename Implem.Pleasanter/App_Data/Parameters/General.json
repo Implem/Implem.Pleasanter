@@ -34,6 +34,7 @@
     "ExportOutputColumnMax": 100,
     "ImportEncoding": "Shift-JIS",
     "UpdatableImport": false,
+    "AllowStandardExport": true,
     "ImportMax": 0,
     "ViewerSwitchingType": 1,
     "AllowCopy": true,

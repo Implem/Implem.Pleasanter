@@ -411,10 +411,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             View view,
             ExpandoObject columnFilterHash)
         {
-            if (view == null)
-            {
-                return;
-            }
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -430,10 +426,6 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             View view,
             ExpandoObject columnSorterHash)
         {
-            if (view == null)
-            {
-                return;
-            }
             columnSorterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnSorterHash == null)
@@ -679,15 +671,15 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.OnSelectingWhere = data.View.OnSelectingWhere;
                 view.OnSelectingOrderBy = data.View.OnSelectingOrderBy;
                 view.ColumnPlaceholders = data.View.ColumnPlaceholders;
+                SetColumnFilterHashValues(
+                    context: context,
+                    view: view,
+                    columnFilterHash: data.View.Filters);
+                SetColumnSorterHashValues(
+                    context: context,
+                    view: view,
+                    columnSorterHash: data.View.Sorters);
             }
-            SetColumnFilterHashValues(
-                context: context,
-                view: view,
-                columnFilterHash: data.View.Filters);
-            SetColumnSorterHashValues(
-                context: context,
-                view: view,
-                columnSorterHash: data.View.Sorters);
             model.ReadOnly = Bool(
                 data: data.Model,
                 name: "ReadOnly");
@@ -794,7 +786,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     model: itemModel,
-                    view: view,
+                    // ビュー処理時以外はViewの値を変更しない
+                    view: condition == "WhenViewProcessing"
+                        ? view
+                        : null,
                     data: model);
             }
             return scriptValues;
@@ -900,15 +895,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string view,
             bool onTesting)
         {
-            var itemModels = new ItemModel(context: context, referenceId: id).GetByServerScript(
+            var apiContext = CreateContext(
                 context: context,
-                apiContext: CreateContext(
-                    context: context,
-                    action: "Get",
-                    id: id,
-                    apiRequestBody: view)) ?? new BaseItemModel[0];
+                action: "Get",
+                id: id,
+                apiRequestBody: view);
+            var itemModels = new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .GetByServerScript(context: apiContext)
+                        ?? new BaseItemModel[0];
             var items = itemModels.Select(model => new ServerScriptModelApiModel(
-                context: context,
+                context: apiContext,
                 model: model,
                 onTesting: onTesting)).ToArray();
             return items;
@@ -916,48 +914,58 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static bool Create(Context context, long id, object model)
         {
-            return new ItemModel(context: context, referenceId: id).CreateByServerScript(
+            var apiContext = CreateContext(
                 context: context,
-                apiContext: CreateContext(
-                    context: context,
-                    action: "Create",
-                    id: id,
-                    apiRequestBody: string.Empty),
-                model: model);
+                action: "Create",
+                id: id,
+                apiRequestBody: string.Empty);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .CreateByServerScript(
+                        context: apiContext,
+                        model: model);
         }
 
         public static bool Update(Context context, long id, object model)
         {
-            return new ItemModel(context: context, referenceId: id).UpdateByServerScript(
+            var apiContext = CreateContext(
                 context: context,
-                apiContext: CreateContext(
-                    context: context,
-                    action: "Update",
-                    id: id,
-                    apiRequestBody: GetApiRequestBody(model: model)),
-                model: model);
+                action: "Update",
+                id: id,
+                apiRequestBody: GetApiRequestBody(model: model));
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .UpdateByServerScript(
+                        context: apiContext,
+                        model: model);
         }
 
         public static bool Delete(Context context, long id)
         {
-            return new ItemModel(context: context, referenceId: id).DeleteByServerScript(
+            var apiContext = CreateContext(
                 context: context,
-                apiContext: CreateContext(
-                    context: context,
-                    action: "Delete",
-                    id: id,
-                    apiRequestBody: string.Empty));
+                action: "Delete",
+                id: id,
+                apiRequestBody: string.Empty);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .DeleteByServerScript(context: apiContext);
         }
 
         public static long BulkDelete(Context context, long id, string apiRequestBody)
         {
-            return new ItemModel(context: context, referenceId: id).BulkDeleteByServerScript(
+            var apiContext = CreateContext(
                 context: context,
-                apiContext: CreateContext(
-                    context: context,
-                    action: "BulkDelete",
-                    id: id,
-                    apiRequestBody: apiRequestBody));
+                action: "BulkDelete",
+                id: id,
+                apiRequestBody: apiRequestBody);
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .BulkDeleteByServerScript(context: apiContext);
         }
 
         public static decimal Aggregate(
@@ -989,7 +997,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 && column?.TypeName == "decimal"
                 && apiContext.CanRead(ss: ss)
                 && column.CanRead(
-                    context: context,
+                    context: apiContext,
                     ss: ss,
                     mine: null,
                     noCache: true))
@@ -1044,13 +1052,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     case "Issues":
                         return Repository.ExecuteScalar_long(
-                            context: context,
+                            context: apiContext,
                             statements: Rds.SelectCount(
                                 tableName: "Issues",
                                 where: where));
                     case "Results":
                         return Repository.ExecuteScalar_long(
-                            context: context,
+                            context: apiContext,
                             statements: Rds.SelectCount(
                                 tableName: "Results",
                                 where: where));

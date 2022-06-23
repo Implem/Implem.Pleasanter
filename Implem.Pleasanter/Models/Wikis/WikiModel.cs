@@ -72,6 +72,27 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string SavedPropertyValue(Context context, Column column)
+        {
+            switch (column?.ColumnName)
+            {
+                case "SiteId": return SavedSiteId.ToString();
+                case "UpdatedTime": return SavedUpdatedTime.ToString();
+                case "WikiId": return SavedWikiId.ToString();
+                case "Ver": return SavedVer.ToString();
+                case "Title": return SavedTitle;
+                case "Body": return SavedBody;
+                case "Locked": return SavedLocked.ToString();
+                case "Comments": return SavedComments;
+                case "Creator": return SavedCreator.ToString();
+                case "Updator": return SavedUpdator.ToString();
+                case "CreatedTime": return SavedCreatedTime.ToString();
+                default: return GetSavedValue(
+                    context: context,
+                    column: column);
+            }
+        }
+
         public Dictionary<string, string> PropertyValues(Context context, List<Column> columns)
         {
             var hash = new Dictionary<string, string>();
@@ -674,7 +695,8 @@ namespace Implem.Pleasanter.Models
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
             bool setBySession = true,
-            bool get = true)
+            bool get = true,
+            bool checkConflict = true) 
         {
             var notifications = GetNotifications(
                 context: context,
@@ -699,7 +721,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
-                additionalStatements: additionalStatements));
+                additionalStatements: additionalStatements,
+                checkConflict: checkConflict));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -780,14 +803,15 @@ namespace Implem.Pleasanter.Models
             string dataTableName = null,
             SqlParamCollection param = null,
             bool otherInitValue = false,
-            List<SqlStatement> additionalStatements = null)
+            List<SqlStatement> additionalStatements = null,
+            bool checkConflict = true)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
             var where = Rds.WikisWhereDefault(
                 context: context,
                 wikiModel: this)
-                    .UpdatedTime(timestamp, _using: timestamp.InRange());
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             if (Versions.VerUp(
                 context: context,
                 ss: ss,

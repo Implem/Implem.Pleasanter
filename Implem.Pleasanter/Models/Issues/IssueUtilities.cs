@@ -2890,13 +2890,12 @@ namespace Implem.Pleasanter.Models
 
         public static IssueModel[] GetByServerScript(
             Context context,
-            SiteSettings ss,
-            bool internalRequest)
+            SiteSettings ss)
         {
             var invalid = IssueValidators.OnEntry(
                 context: context,
                 ss: ss,
-                api: !internalRequest);
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -2928,8 +2927,7 @@ namespace Implem.Pleasanter.Models
         public static IssueModel GetByServerScript(
             Context context,
             SiteSettings ss,
-            long issueId,
-            bool internalRequest)
+            long issueId)
         {
             var issueModel = new IssueModel(
                 context: context,
@@ -2944,7 +2942,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: !internalRequest);
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -4096,6 +4094,108 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance UpsertByApi(
+            Context context,
+            SiteSettings ss,
+            string previousTitle)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            var data = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (api?.Keys?.Any() != true || data == null)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            api.View = api.View ?? new View();
+            api.Keys.ForEach(columnName =>
+            {
+                var objectValue = data.ObjectValue(columnName: columnName);
+                if (objectValue != null)
+                {
+                    api.View.AddColumnFilterHash(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        objectValue: objectValue);
+                    api.View.AddColumnFilterSearchTypes(
+                        columnName: columnName,
+                        searchType: Column.SearchTypes.ExactMatch);
+                }
+            });
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: 0,
+                view: api.View,
+                setByApi: true);
+            switch (issueModel.AccessStatus)
+            {
+                case Databases.AccessStatuses.Selected:
+                    break;
+                case Databases.AccessStatuses.NotFound:
+                    return CreateByApi(context: context, ss: ss);
+                case Databases.AccessStatuses.Overlap:
+                    return ApiResults.Get(ApiResponses.Overlap(context: context));
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = IssueValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                issueModel: issueModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                context: context,
+                errorData: invalid);
+            }
+            issueModel.SiteId = ss.SiteId;
+            issueModel.SetTitle(
+                context: context,
+                ss: ss);
+            issueModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: issueModel);
+            var errorData = issueModel.Update(
+                context: context,
+                ss: ss,
+                notice: true,
+                previousTitle: previousTitle);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        issueModel.IssueId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: issueModel.Title.MessageDisplay(context: context)));
+                case Error.Types.Duplicated:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: errorData.ColumnName)?.LabelText);
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
         public static string Copy(Context context, SiteSettings ss, long issueId)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
@@ -5134,7 +5234,11 @@ namespace Implem.Pleasanter.Models
                 factory: context,
                 where: Rds.BinariesWhere()
                     .TenantId(context.TenantId)
-                    .ReferenceId_In(sub: sub)));
+                    .ReferenceId_In(sub: sub)
+                    .BinaryType(
+                        value: "Images",
+                        _operator: "<>",
+                        _using: ss.DeleteImageWhenDeleting == false)));
             statements.Add(Rds.DeleteIssues(
                 factory: context,
                 where: Rds.IssuesWhere()
@@ -5160,11 +5264,28 @@ namespace Implem.Pleasanter.Models
             statements.OnBulkDeletedExtendedSqls(
                 context: context,
                 siteId: ss.SiteId);
-            return Repository.ExecuteScalar_response(
+            var ids = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().ReferenceId(),
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId_In(sub: sub)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("ReferenceId"))
+                            .ToList();
+            var affectedRows = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
-                statements: statements.ToArray())
-                    .Count.ToInt();
+                statements: statements.ToArray()).Count.ToInt();
+            if (ss.DeleteImageWhenDeleting == false)
+            {
+                ids.ForEach(referenceId => BinaryUtilities.UpdateImageReferenceId(
+                    context: context,
+                    siteId: ss.SiteId,
+                    referenceId: referenceId));
+            }
+            return affectedRows;
         }
 
         public static ContentResultInheritance BulkDeleteByApi(
@@ -5770,22 +5891,46 @@ namespace Implem.Pleasanter.Models
                                 .ToArray());
                 var issueHash = new Dictionary<int, IssueModel>();
                 var previousTitle = string.Empty;
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                var importKeyColumnName = context.Forms.Data("Key");
+                var importKeyColumn = columnHash
+                    .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+                foreach (var data in csvRows)
                 {
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
-                    if (updatableImport && idColumn > -1)
+                    if (updatableImport
+                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
                     {
+                        var view = new View();
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: importKeyColumn.Value.Column,
+                            objectValue: data.Row[importKeyColumn.Key]);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
                         var model = new IssueModel(
                             context: context,
                             ss: ss,
-                            issueId: data.Row.Count > idColumn
-                                ? data.Row[idColumn].ToLong()
-                                : 0);
+                            issueId: 0,
+                            view: view);
                         if (model.AccessStatus == Databases.AccessStatuses.Selected)
                         {
                             issueModel = model;
+                        }
+                        else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        {
+                            return new ErrorData(
+                                type: Error.Types.OverlapCsvImport,
+                                data: new string[] {
+                                    (data.Index + 1).ToString(),
+                                    importKeyColumn.Value.Column.GridLabelText,
+                                    data.Row[importKeyColumn.Key]
+                                })
+                                .MessageJson(context: context);
                         }
                     }
                     previousTitle = issueModel.Title.DisplayValue;
@@ -5866,7 +6011,7 @@ namespace Implem.Pleasanter.Models
                             }
                         });
                     issueHash.Add(data.Index, issueModel);
-                });
+                }
                 var errorCompletionTime = Imports.Validate(
                     context: context,
                     hash: issueHash.ToDictionary(
@@ -5909,7 +6054,9 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 extendedSqls: false,
                                 previousTitle: previousTitle,
-                                get: false);
+                                get: false,
+                                // checkConflict:falseしないと、CSVにキー重複があり連続してUpdateするとConflictedエラーになる。
+                                checkConflict: false);
                             switch (errorData.Type)
                             {
                                 case Error.Types.None:

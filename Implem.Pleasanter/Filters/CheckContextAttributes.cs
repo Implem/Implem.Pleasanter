@@ -77,17 +77,23 @@ namespace Implem.PleasanterFilters
                 }
                 return;
             }
-            if (!context.LoginId.IsNullOrEmpty())
+            // ASP.NETによる認証が行われてセッションがログイン状態となっているかチェック
+            // SamlLoginが要求されている場合にはユーザが作成されていないためチェックをスキップ
+            if (context.IsAuthenticated == true
+                && context.Action != "samllogin")
             {
+                // データベースからユーザが取得できていない場合（無効、存在しない場合等）のチェック
                 if (!context.Authenticated)
                 {
                     if (Authentications.Windows(context: context))
                     {
+                        // 統合Windows認証の場合は何もしない
                         filterContext.Result = new EmptyResult();
                         return;
                     }
                     else
                     {
+                        // 通常の認証の場合にはサインアウトさせる
                         Authentications.SignOut(context: context);
                         filterContext.Result = new RedirectResult(
                             Locations.Login(context: context));

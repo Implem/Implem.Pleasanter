@@ -1,0 +1,5 @@
+﻿where = (view != null)
+    ? Rds.#TableName#Where().SiteId(SiteId)
+    : where ?? Rds.#TableName#WhereDefault(
+        context: context,
+        #modelName#Model: this);
