@@ -3449,6 +3449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FilterCondition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FilterCondition",
+                data: data);
+        }
+
         public static string Filters(
             Context context,
             params string[] data)
@@ -4516,6 +4526,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "KambanSettings",
+                data: data);
+        }
+
+        public static string KeepFilterState(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "KeepFilterState",
+                data: data);
+        }
+
+        public static string KeepSorterState(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "KeepSorterState",
                 data: data);
         }
 
@@ -7656,6 +7686,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SortBy",
+                data: data);
+        }
+
+        public static string SortCondition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SortCondition",
                 data: data);
         }
 
