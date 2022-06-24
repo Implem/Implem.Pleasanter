@@ -70,7 +70,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Class(Css.Class(
                                 anchorFormat.IsNullOrEmpty()
                                     ? "control-textbox"
-                                    : "control-textbox anchor", controlCss))
+                                    : "control-textbox anchor hidden", controlCss))
                             .Type("text")
                             .Value(text)
                             .Placeholder(placeholder)
@@ -93,10 +93,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                             .DataAction(action)
                             .DataMethod(method)
-                            .Add(attributes)
-                            .Style(anchorFormat.IsNullOrEmpty()
-                                ? ""
-                                : "display: none; "));
+                            .Add(attributes));
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)

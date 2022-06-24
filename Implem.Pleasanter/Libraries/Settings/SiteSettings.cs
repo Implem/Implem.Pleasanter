@@ -1191,11 +1191,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.Anchor = column.Anchor;
-                    }
-                    if (!column.AnchorFormat.IsNullOrEmpty())
-                    {
-                        enabled = true;
-                        newColumn.AnchorFormat = column.AnchorFormat;
+                        if (!column.AnchorFormat.IsNullOrEmpty())
+                        {
+                            newColumn.AnchorFormat = column.AnchorFormat;
+                        }
                     }
                     if (column.MaxLength.ToDecimal() > 0)
                     {

@@ -479,7 +479,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : null,
                                 anchorFormat: column.Anchor == true
                                     ? column.AnchorFormat
-                                    : "",
+                                    : string.Empty,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -622,7 +622,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 alwaysSend: alwaysSend,
                                 anchorFormat: column.Anchor == true
                                     ? column.AnchorFormat
-                                    : "",
+                                    : string.Empty,
                                 validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
