@@ -7,7 +7,7 @@
         },
         {
             "Language": "zh",
-            "Body": "导入密钥"
+            "Body": "锚"
         },
         {
             "Language": "ja",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "Schlüssel importieren"
+            "Body": "Anker"
         },
         {
             "Language": "ko",
-            "Body": "키 가져오기"
+            "Body": "앵커"
         },
         {
             "Language": "es",
-            "Body": "Clave de importación"
+            "Body": "ancla"
         },
         {
             "Language": "vn",
-            "Body": "Nhập khóa"
+            "Body": "mỏ neo"
         }
     ]
 }
