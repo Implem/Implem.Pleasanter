@@ -3977,6 +3977,8 @@ namespace Implem.Pleasanter.Models
                 confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                 successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                 onClick: context.Forms.Data("ProcessOnClick"),
+                actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
+                validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                 validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
                 permissions: ProcessPermissions(context: context),
                 view: new View(
@@ -4023,6 +4025,8 @@ namespace Implem.Pleasanter.Models
                     confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                     successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                     onClick: context.Forms.Data("ProcessOnClick"),
+                    actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
+                    validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                     validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
                     permissions: ProcessPermissions(context: context),
                     view: view,

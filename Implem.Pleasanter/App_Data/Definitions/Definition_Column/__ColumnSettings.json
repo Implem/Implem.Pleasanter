@@ -40,6 +40,8 @@
     "Ix3OrderBy": "string",
     "Ix4": "int",
     "Ix4OrderBy": "string",
+    "Ix5": "int",
+    "Ix5OrderBy": "string",
     "Nullable": "bool",
     "Default": "string",
     "DefaultCs": "string",

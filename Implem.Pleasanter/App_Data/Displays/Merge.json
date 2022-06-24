@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Merge",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Merge"
+        },
+        {
+            "Language": "zh",
+            "Body": "合并"
+        },
+        {
+            "Language": "ja",
+            "Body": "マージ"
+        },
+        {
+            "Language": "de",
+            "Body": "verschmelzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "병합"
+        },
+        {
+            "Language": "es",
+            "Body": "unir"
+        },
+        {
+            "Language": "vn",
+            "Body": "hợp nhất"
+        }
+    ]
+}

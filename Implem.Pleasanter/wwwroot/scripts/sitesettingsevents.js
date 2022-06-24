@@ -137,4 +137,10 @@
             $('#UseGridHeaderFilters').prop('disabled', false);
         }
     });
+    $(document).on('change', '#ViewFilters_KeepFilterState', function () {
+        $('#ViewFiltersFilterConditionSettingsEditor').toggle();
+    });
+    $(document).on('change', '#KeepSorterState', function () {
+        $('#ViewFiltersSorterConditionSettingsEditor').toggle();
+    });
 });

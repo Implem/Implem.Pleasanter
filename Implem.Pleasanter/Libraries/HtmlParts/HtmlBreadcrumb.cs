@@ -291,11 +291,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     break;
             }
-            return new System.UriBuilder(url)
+            var ub = new System.UriBuilder(url)
             {
                 Query = queryString.ToString(),
-                Port = -1
-            }.ToString();
+            };
+            if (ub.Port == 80 || ub.Port == 443)
+            {
+                ub.Port = -1;
+            }
+            return ub.ToString();
         }
     }
 }

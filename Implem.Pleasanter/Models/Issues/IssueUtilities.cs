@@ -2890,13 +2890,12 @@ namespace Implem.Pleasanter.Models
 
         public static IssueModel[] GetByServerScript(
             Context context,
-            SiteSettings ss,
-            bool internalRequest)
+            SiteSettings ss)
         {
             var invalid = IssueValidators.OnEntry(
                 context: context,
                 ss: ss,
-                api: !internalRequest);
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -2928,8 +2927,7 @@ namespace Implem.Pleasanter.Models
         public static IssueModel GetByServerScript(
             Context context,
             SiteSettings ss,
-            long issueId,
-            bool internalRequest)
+            long issueId)
         {
             var issueModel = new IssueModel(
                 context: context,
@@ -2944,7 +2942,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: !internalRequest);
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -5902,7 +5900,8 @@ namespace Implem.Pleasanter.Models
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
-                    if (updatableImport && idColumn > -1)
+                    if (updatableImport
+                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
                         view.AddColumnFilterHash(

@@ -100,13 +100,12 @@
 
 public static #ModelName#Model[] GetByServerScript(
     Context context,
-    SiteSettings ss,
-    bool internalRequest)
+    SiteSettings ss)
 {
     var invalid = #ModelName#Validators.OnEntry(
         context: context,
         ss: ss,
-        api: !internalRequest);
+        api: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;
@@ -138,8 +137,7 @@ public static #ModelName#Model[] GetByServerScript(
 public static #ModelName#Model GetByServerScript(
     Context context,
     SiteSettings ss,
-    long #modelName#Id,
-    bool internalRequest)
+    long #modelName#Id)
 {
     var #modelName#Model = new #ModelName#Model(
         context: context,
@@ -154,7 +152,7 @@ public static #ModelName#Model GetByServerScript(
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        api: !internalRequest);
+        api: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

@@ -773,6 +773,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 unit: column.Unit,
                                 alwaysSend: alwaysSend,
                                 allowBlank: true,
+                                validateRequired: required,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -1634,6 +1635,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             alwaysSend: alwaysSend,
                             allowBalnk: allowBlank,
                             onChange: onChange,
+                            validateRequired: validateRequired,
                             action: action,
                             method: method);
                         if (unit != string.Empty)

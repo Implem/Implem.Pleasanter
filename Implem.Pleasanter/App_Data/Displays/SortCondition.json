@@ -1,0 +1,33 @@
+﻿{
+    "Id": "FilterCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Filter condition"
+        },
+        {
+            "Language": "zh",
+            "Body": "過濾條件"
+        },
+        {
+            "Language": "ja",
+            "Body": "フィルター条件"
+        },
+        {
+            "Language": "de",
+            "Body": "Filterbedingung"
+        },
+        {
+            "Language": "ko",
+            "Body": "필터 조건"
+        },
+        {
+            "Language": "es",
+            "Body": "Condición del filtro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Điều kiện lọc"
+        }
+    ]
+}

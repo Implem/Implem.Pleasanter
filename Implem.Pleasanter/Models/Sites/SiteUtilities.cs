@@ -1504,7 +1504,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return  new ResponseCollection()
+                    return new ResponseCollection()
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,
@@ -7901,7 +7901,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.SuccessMessage(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.OnClick(context: context)))));
+                        .Text(text: Displays.OnClick(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ActionTypes(context: context)))));
         }
 
         /// <summary>
@@ -7959,7 +7961,12 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: ss.ColumnNameToLabelText(process.SuccessMessage)))
                                 .Td(action: () => hb
-                                    .Text(text: process.OnClick)));
+                                    .Text(text: process.OnClick))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: process.ActionType?.ToString()
+                                            ?? Process.ActionTypes.Save.ToString()))));
                     });
                 });
             }
@@ -8154,7 +8161,28 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlCss: " always-send",
                         labelText: Displays.OnClick(context: context),
-                        text: process.OnClick)));
+                        text: process.OnClick)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessActionType",
+                        controlCss: " always-send",
+                        labelText: Displays.ActionTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ActionTypes.Save.ToInt().ToString(),
+                                Displays.Save(context: context)
+                            },
+                            {
+                                Process.ActionTypes.PostBack.ToInt().ToString(),
+                                Displays.PostBack(context: context)
+                            },
+                            {
+                                Process.ActionTypes.None.ToInt().ToString(),
+                                Displays.None(context: context)
+                            }
+                        },
+                        selectedValue: process.ActionType.ToInt().ToString())));
         }
 
         /// <summary>
@@ -8166,49 +8194,72 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
-            return hb.FieldSet(id: "ProcessValidateInputsTab", action: () => hb
-                .Div(css: "command-left", action: () => hb
-                    .Button(
-                        controlId: "MoveUpProcessValidateInputs",
-                        controlCss: "button-icon",
-                        text: Displays.MoveUp(context: context),
-                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
-                        icon: "ui-icon-circle-triangle-n",
-                        action: "SetSiteSettings",
-                        method: "post")
-                    .Button(
-                        controlId: "MoveDownProcessValidateInputs",
-                        controlCss: "button-icon",
-                        text: Displays.MoveDown(context: context),
-                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
-                        icon: "ui-icon-circle-triangle-s",
-                        action: "SetSiteSettings",
-                        method: "post")
-                    .Button(
-                        controlId: "NewProcessValidateInput",
-                        text: Displays.New(context: context),
-                        controlCss: "button-icon",
-                        onClick: "$p.openProcessValidateInputDialog($(this));",
-                        icon: "ui-icon-gear",
-                        action: "SetSiteSettings",
-                        method: "put")
-                    .Button(
-                        controlId: "DeleteProcessValidateInputs",
-                        text: Displays.Delete(context: context),
-                        controlCss: "button-icon",
-                        onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
-                        icon: "ui-icon-trash",
-                        action: "SetSiteSettings",
-                        method: "delete",
-                        confirm: Displays.ConfirmDelete(context: context)))
-                .EditProcessValidateInput(
-                    context: context,
-                    ss: ss,
-                    validateInputs: process.ValidateInputs)
-                .Hidden(
-                    controlId: "ProcessValidateInputs",
-                    css: "always-send",
-                    value: process.ValidateInputs?.ToJson()));
+            return hb.FieldSet(
+                id: "ProcessValidateInputsTab",
+                action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessValidationType",
+                        controlCss: " always-send",
+                        labelText: Displays.InputValidationTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ValidationTypes.Merge.ToInt().ToString(),
+                                Displays.Merge(context: context)
+                            },
+                            {
+                                Process.ValidationTypes.Replacement.ToInt().ToString(),
+                                Displays.Replacement(context: context)
+                            },
+                            {
+                                Process.ValidationTypes.None.ToInt().ToString(),
+                                Displays.None(context: context)
+                            }
+                        },
+                        selectedValue: process.ValidationType.ToInt().ToString())
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "MoveUpProcessValidateInputs",
+                            controlCss: "button-icon",
+                            text: Displays.MoveUp(context: context),
+                            onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                            icon: "ui-icon-circle-triangle-n",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "MoveDownProcessValidateInputs",
+                            controlCss: "button-icon",
+                            text: Displays.MoveDown(context: context),
+                            onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                            icon: "ui-icon-circle-triangle-s",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
+                            controlId: "NewProcessValidateInput",
+                            text: Displays.New(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.openProcessValidateInputDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "SetSiteSettings",
+                            method: "put")
+                        .Button(
+                            controlId: "DeleteProcessValidateInputs",
+                            text: Displays.Delete(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditProcessValidateInput', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "delete",
+                            confirm: Displays.ConfirmDelete(context: context)))
+                    .EditProcessValidateInput(
+                        context: context,
+                        ss: ss,
+                        validateInputs: process.ValidateInputs)
+                    .Hidden(
+                        controlId: "ProcessValidateInputs",
+                        css: "always-send",
+                        value: process.ValidateInputs?.ToJson()));
         }
 
         /// <summary>
@@ -9255,10 +9306,21 @@ namespace Implem.Pleasanter.Models
                                                 action: "SetSiteSettings",
                                                 method: "post")))),
                         _using: prefix.IsNullOrEmpty())
-                    .FieldSet(id: "ViewFiltersFilterConditionSettingsEditor", action: () => hb
+                    .FieldCheckBox(
+                        controlId: $"{prefix}ViewFilters_KeepFilterState",
+                        fieldCss: "field-auto-thin ",
+                        labelText: Displays.KeepFilterState(context: context),
+                        _checked: view.KeepFilterState == true,
+                        labelPositionIsRight: true)
+                    .FieldSet(
+                        id: "ViewFiltersFilterConditionSettingsEditor",
+                        css: "fieldset cf both" + (view.KeepFilterState == true
+                            ? " hidden"
+                            : string.Empty),
+                        action: () => hb
                         .FieldSet(
                             css: " enclosed-thin",
-                            legendText: Displays.Condition(context: context),
+                            legendText: Displays.FilterCondition(context: context),
                             action: () => hb
                                 .Div(css: "items", action: () => hb
                                     .FieldCheckBox(
@@ -9524,6 +9586,22 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
             return hb.FieldSet(id: "ViewSortersTab", action: () => hb
+                .FieldCheckBox(
+                    controlId: "KeepSorterState",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.KeepSorterState(context: context),
+                    _checked: view.KeepSorterState == true,
+                    labelPositionIsRight: true)
+                .FieldSet(
+                    id: "ViewFiltersSorterConditionSettingsEditor",
+                    css: "both" + (view.KeepSorterState == true
+                        ? " hidden"
+                        : string.Empty),
+                    action: () => hb
+                     .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.SortCondition(context: context),
+                        action: () => hb
                 .FieldBasket(
                     controlId: "ViewSorters",
                     fieldCss: "field-wide",
@@ -9555,7 +9633,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "AddViewSorter",
                     controlCss: "button-icon",
                     text: Displays.Add(context: context),
-                    icon: "ui-icon-plus"));
+                    icon: "ui-icon-plus"))));
         }
 
         /// <summary>
