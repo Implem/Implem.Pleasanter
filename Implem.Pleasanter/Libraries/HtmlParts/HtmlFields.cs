@@ -477,7 +477,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 dataValue: column.HasChoices()
                                     ? value
                                     : null,
-                                anchorFormat: column.AnchorFormat,
+                                anchorFormat: column.Anchor == true
+                                    ? column.AnchorFormat
+                                    : "",
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -618,7 +620,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 text: value,
                                 alwaysSend: alwaysSend,
-                                anchorFormat: column.AnchorFormat,
+                                anchorFormat: column.Anchor == true
+                                    ? column.AnchorFormat
+                                    : "",
                                 validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
@@ -1077,9 +1081,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     hb.A(
                                         text: text,
-                                        href: anchorFormat.Replace(
-                                            "{Value}",
-                                            text));
+                                        href: anchorFormat.Replace("{Value}", text));
                                 }
                             }),
                     controlContainerCss: controlContainerCss)

@@ -1187,7 +1187,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ImportKey = column.ImportKey;
                     }
-                    if (column.Anchor != columnDefinition.Anchor)
+                    if (column.Anchor == true)
                     {
                         enabled = true;
                         newColumn.Anchor = column.Anchor;
@@ -1783,7 +1783,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
-                column.Anchor = column.Anchor ?? columnDefinition.Anchor;
+                column.Anchor = column.Anchor ?? false;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;

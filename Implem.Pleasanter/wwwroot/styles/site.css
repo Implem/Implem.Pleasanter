@@ -1905,21 +1905,13 @@ td > .field-normal,td > .field-wide{
     border-radius:5px;
 }
 
-.control-textbox.with-unit {
+.control-textbox.with-unit{
     width:70%;
     display:block;
     float:left;
 }
 
-control-textbox.with-unit.control-textarea{
-    width:100%;
-    height:100px;
-    padding:4px 4px 4px 6px;
-    border:solid 1px silver;
-    border-radius:5px;
-}
-
-.control-textbox.anchor {
+.control-textbox.anchor{
     width: 100%;
     height: 30px;
     padding: 4px;
@@ -1927,6 +1919,15 @@ control-textbox.with-unit.control-textarea{
     border-radius: 5px;
     z-index: 0;
 }
+
+.control-textarea{
+    width:100%;
+    height:100px;
+    padding:4px 4px 4px 6px;
+    border:solid 1px silver;
+    border-radius:5px;
+}
+
 
 .control-attachments+label.error{
     height:22px;

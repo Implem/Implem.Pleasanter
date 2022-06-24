@@ -6420,7 +6420,7 @@ namespace Implem.Pleasanter.Models
                                                 controlId: "Anchor",
                                                 labelText: Displays.Anchor(context: context),
                                                 _checked: column.Anchor == true,
-                                                _using: column.ColumnName != "Comments"
+                                                _using: column.TypeName == "nvarchar"
                                                     && !column.NotUpdate)
                                             .FieldTextBox(
                                                 fieldId: "AnchorFormatField",
@@ -6430,7 +6430,8 @@ namespace Implem.Pleasanter.Models
                                                         ? " hidden"
                                                         : string.Empty),
                                                 labelText: Displays.AnchorFormat(context: context),
-                                                text: column.AnchorFormat);
+                                                text: column.AnchorFormat,
+                                                _using: column.TypeName == "nvarchar");
                                         break;
                                     default:
                                         break;

@@ -48,12 +48,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (textType)
             {
                 case HtmlTypes.TextTypes.Normal:
-                    HtmlAttributes CreateHtmlAttribute(string cssClass)
-                    {
-                        return new HtmlAttributes()
+                    return hb
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId + ".viewer")
+                                .Class("control-text not-send")
+                                .DataFormat(anchorFormat),
+                            action: () => hb.A(
+                                text: text,
+                                href: anchorFormat?.Replace("{Value}", text)),
+                            _using: !anchorFormat.IsNullOrEmpty())
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId + ".editor")
+                                .Class("ui-icon ui-icon-pencil button-edit-markdown")
+                                .OnClick($"$p.toggleAnchor($('#{controlId}'));"),
+                            _using: !anchorFormat.IsNullOrEmpty())
+                        .Input(attributes: new HtmlAttributes()
                             .Id(controlId)
                             .Name(controlId)
-                            .Class(Css.Class(cssClass, controlCss))
+                            .Class(Css.Class(
+                                anchorFormat.IsNullOrEmpty()
+                                    ? "control-textbox"
+                                    : "control-textbox anchor", controlCss))
                             .Type("text")
                             .Value(text)
                             .Placeholder(placeholder)
@@ -76,34 +93,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .DataValidateRegexErrorMessage(validateRegexErrorMessage)
                             .DataAction(action)
                             .DataMethod(method)
-                            .Add(attributes);
-                    };
-                    if (anchorFormat.IsNullOrEmpty())
-                    {
-                        return hb.Input(attributes: CreateHtmlAttribute(cssClass: "control-textbox"));
-                    }
-                    else
-                    {
-                        return hb
-                            .Div(
-                                attributes: new HtmlAttributes()
-                                    .Id(controlId + ".viewer")
-                                    .Class("control-text not-send")
-                                    .DataFormat(anchorFormat),
-                                action: () => hb
-                                    .Anchor(
-                                        text: text,
-                                        href: anchorFormat.Replace("{Value}", text)))
-                            .Div(
-                                attributes: new HtmlAttributes()
-                                    .Id(controlId + ".editor")
-                                    .Class("ui-icon ui-icon-pencil button-edit-markdown")
-                                    .OnClick($"$p.toggleAnchor($('#{controlId}'));"))
-                            .Input(
-                                attributes:
-                                    CreateHtmlAttribute(cssClass: "control-textbox anchor")
-                                    .Style("display: none; "));
-                    }
+                            .Add(attributes)
+                            .Style(anchorFormat.IsNullOrEmpty()
+                                ? ""
+                                : "display: none; "));
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
