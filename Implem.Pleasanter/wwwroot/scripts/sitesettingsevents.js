@@ -137,6 +137,6 @@
         $('#ViewFiltersFilterConditionSettingsEditor').toggle();
     });
     $(document).on('change', '#KeepSorterState', function () {
-        $('#ViewFiltersSorterConditionSettingsEditor').toggle()
+        $('#ViewFiltersSorterConditionSettingsEditor').toggle();
     });
 });
