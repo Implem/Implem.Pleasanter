@@ -695,23 +695,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        public static HtmlBuilder Anchor(
-            this HtmlBuilder hb,
-            string controlId = null,
-            string controlCss = null,
-            string text = null,
-            string href = null,
-            bool _using = true)
-        {
-            return _using
-                ? hb.A(
-                    id: controlId,
-                    css: Css.Class("control-anchor", controlCss),
-                    href: href,
-                    text: text)
-                : hb;
-        }
-
         public static HtmlBuilder Icon(
             this HtmlBuilder hb,
             string iconCss = null,

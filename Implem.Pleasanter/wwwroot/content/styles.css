@@ -2201,13 +2201,6 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     margin:11px 0px 0px 5px;
 }
 
-.control-anchor{
-    width:100%;
-    min-height:30px;
-    display:block;
-    overflow:hidden;
-}
-
 .container-selectable .wrapper{
     width:100%;
     min-height:300px;
