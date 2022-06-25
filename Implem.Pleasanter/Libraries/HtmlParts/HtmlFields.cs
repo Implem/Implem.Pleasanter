@@ -477,6 +477,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 dataValue: column.HasChoices()
                                     ? value
                                     : null,
+                                anchorFormat: column.Anchor == true
+                                    ? column.AnchorFormat
+                                    : string.Empty,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -617,6 +620,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 text: value,
                                 alwaysSend: alwaysSend,
+                                anchorFormat: column.Anchor == true
+                                    ? column.AnchorFormat
+                                    : string.Empty,
                                 validateRequired: required,
                                 validateNumber: column.ValidateNumber ?? false,
                                 validateDate: column.ValidateDate ?? false,
@@ -1039,6 +1045,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string dataValue = null,
             bool alwaysSend = false,
+            string anchorFormat = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
@@ -1065,8 +1072,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataValue(dataValue)
                                 .DataReadOnly(true)
                                 .DataAlwaysSend(alwaysSend),
-                            action: () => hb
-                                .Text(text: text)),
+                            action: () =>
+                            {
+                                if (anchorFormat.IsNullOrEmpty())
+                                {
+                                    hb.Text(text: text);
+                                }
+                                else
+                                {
+                                    hb.A(
+                                        text: text,
+                                        href: anchorFormat.Replace("{Value}", text));
+                                }
+                            }),
                     controlContainerCss: controlContainerCss)
                 : hb;
         }
@@ -1091,6 +1109,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool timepiker = false,
             bool alwaysSend = false,
             string onChange = null,
+            string anchorFormat = null,
             bool validateRequired = false,
             bool validateNumber = false,
             decimal validateMinNumber = 0,
@@ -1141,6 +1160,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             timepicker: timepiker,
                             alwaysSend: alwaysSend,
                             onChange: onChange,
+                            anchorFormat: anchorFormat,
                             validateRequired: validateRequired,
                             validateNumber: validateNumber,
                             validateMinNumber: validateMinNumber,

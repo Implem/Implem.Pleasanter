@@ -1911,6 +1911,15 @@ td > .field-normal,td > .field-wide{
     float:left;
 }
 
+.control-textbox.anchor{
+    width:100%;
+    height:30px;
+    padding:4px;
+    border:solid 1px silver;
+    border-radius:5px;
+    z-index:0;
+}
+
 .control-textarea{
     width:100%;
     height:100px;
@@ -2190,12 +2199,6 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     width:140px;
     float:left;
     margin:11px 0px 0px 5px;
-}
-
-.control-anchor{
-    display:block;
-    float:left;
-    margin:4px;
 }
 
 .container-selectable .wrapper{

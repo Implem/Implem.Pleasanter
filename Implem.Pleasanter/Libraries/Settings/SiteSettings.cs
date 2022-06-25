@@ -1187,6 +1187,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ImportKey = column.ImportKey;
                     }
+                    if (column.Anchor == true)
+                    {
+                        enabled = true;
+                        newColumn.Anchor = column.Anchor;
+                        if (!column.AnchorFormat.IsNullOrEmpty())
+                        {
+                            newColumn.AnchorFormat = column.AnchorFormat;
+                        }
+                    }
                     if (column.MaxLength.ToDecimal() > 0)
                     {
                         enabled = true;
@@ -1773,6 +1782,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NotInsertBlankChoice = column.NotInsertBlankChoice ?? false;
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
+                column.Anchor = column.Anchor ?? false;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
@@ -3659,6 +3669,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "NotInsertBlankChoice": column.NotInsertBlankChoice = value.ToBool(); break;
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "ImportKey": column.ImportKey = value.ToBool(); break;
+                case "Anchor": column.Anchor = value.ToBool(); break;
+                case "AnchorFormat": column.AnchorFormat = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;
                 case "ExportFormat": column.ExportFormat = value; break;
