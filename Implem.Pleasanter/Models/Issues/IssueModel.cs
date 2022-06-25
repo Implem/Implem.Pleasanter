@@ -2268,11 +2268,11 @@ namespace Implem.Pleasanter.Models
         private List<SqlStatement> IfDuplicatedStatements(SiteSettings ss)
         {
             var statements = new List<SqlStatement>();
-            var param = new Rds.IssuesParamCollection();
             ss.Columns
                 .Where(column => column.NoDuplication == true)
                 .ForEach(column =>
                 {
+                    var param = new Rds.IssuesParamCollection();
                     switch (column.ColumnName)
                     {
                         case "Title":
