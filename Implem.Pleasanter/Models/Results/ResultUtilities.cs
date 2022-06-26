@@ -3006,6 +3006,53 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static (System.IO.Stream stream, string error) Print(
+            Context context,
+            SiteSettings ss,
+            long resultId)
+        {
+            var invalid = ResultValidators.OnEntry(
+               context: context,
+               ss: ss,
+               api: false);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return (null, new ResponseCollection()
+                        .Message(invalid.Message(context: context))
+                        .Messages(context.Messages).ToString());
+            }
+            var defaultView = new View();
+            if (resultId > 0)
+            {
+                if(defaultView.ColumnFilterHash == null)
+                {
+                    defaultView.ColumnFilterHash = new Dictionary<string, string>();
+                }
+                defaultView.ColumnFilterHash.Add("ResultId", resultId.ToString());
+            }
+            var host = new Libraries.Prints.PrintPluginHost(
+                context: context,
+                ss: ss,
+                defaultView: defaultView);
+            var lib = System.IO.Path.Combine(
+                Environments.CurrentDirectoryPath,
+                "App_Data",
+                "Parameters",
+                "ExtendedLibraries",
+                "PrintPlugin",
+                "PrintPluginConsole.dll");
+            var assembly = System.Reflection.Assembly.LoadFrom(lib);
+            var pluginType = assembly.GetTypes()
+                .FirstOrDefault(t => !t.IsInterface && typeof(Plugins.IPrintPlugin).IsAssignableFrom(t));
+            var plugin = (pluginType == null)
+                ? new Libraries.Prints.PrintPlugin()
+                : Activator.CreateInstance(pluginType) as Plugins.IPrintPlugin;
+            var stream = plugin.CreatePdf(host);
+            return (stream, null);
+        }
+
         public static string Update(Context context, SiteSettings ss, long resultId, string previousTitle)
         {
             var resultModel = new ResultModel(

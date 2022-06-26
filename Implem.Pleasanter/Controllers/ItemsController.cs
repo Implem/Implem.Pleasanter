@@ -40,6 +40,22 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult Print(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var (stream, error) = new ItemModel(context: context, referenceId: id)
+                .Print(context: context);
+            if (stream != null) {
+                var result = new FileStreamResult(stream, "application/pdf");
+                log.Finish(context: context, responseSize: (int)result.FileStream.Length);
+                return result;
+            }
+            ViewBag.HtmlBody = error.ToString();
+            return View();
+        }
+
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
         public ActionResult TrashBox(long id = 0)
         {
             var context = new Context();

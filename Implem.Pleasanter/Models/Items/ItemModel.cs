@@ -817,6 +817,30 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public (System.IO.Stream strean, string error) Print(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Print(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        issueId: ReferenceId);
+                case "Results":
+                    return ResultUtilities.Print(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: ReferenceId);
+                default:
+                    return (null, HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+        }
+
         public string SelectedIds(Context context)
         {
             SetSite(
