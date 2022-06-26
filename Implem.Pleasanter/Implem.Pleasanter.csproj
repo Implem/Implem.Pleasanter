@@ -36,13 +36,13 @@
     <PackageReference Include="ClosedXML" Version="0.95.4" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.16.0" />
     <PackageReference Include="MailKit" Version="3.3.0" />
-    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7">
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7">
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.9">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7">
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.9">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.ClearScript" Version="7.3.0">
@@ -54,7 +54,7 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-    <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0">
+    <PackageReference Include="Microsoft.Web.Infrastructure" Version="2.0.0">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
