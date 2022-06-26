@@ -71,7 +71,9 @@
             }
         });
         $('label.error').each(function (index, element) {
-            $(element).appendTo($(element).parent());
+            if (!$(element).prev().hasClass('control-markdown')) {
+                $(element).appendTo($(element).parent());
+            }
         });
     }
 
@@ -79,7 +81,9 @@
         $('input, select, textarea').each(function () {
             $(this).rules('remove');
         });
-        $p.applyValidator();
+        if (!$control.data('validations') || $control.hasClass('merge-validations')) {
+            $p.applyValidator();
+        }
         if ($control.data('validations')) {
             $.each($control.data('validations'), function (i, validation) {
                 var $target = $p.getControl(validation.ColumnName);

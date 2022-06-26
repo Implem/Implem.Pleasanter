@@ -55,6 +55,8 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, string> SavedAttachmentsHash = new Dictionary<string, string>();
         public bool ReadOnly;
         public List<string> MineCache;
+        [NonSerialized]
+        public Dictionary<string, StatusControl.ControlConstraintsTypes> StatusControlHash;
 
         public List<string> ColumnNames()
         {

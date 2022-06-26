@@ -25,6 +25,7 @@ public #ModelName#Model(
 <!--Model_SetByApiExec-->
 <!--Model_SetBySiteApiExec-->
 <!--Model_SetByLookupsExec-->
+<!--Model_SetByStatusControlsExec-->
 
     MethodType = methodType;
     OnConstructed(context: context);
@@ -60,6 +61,7 @@ public #ModelName#Model(
 <!--Model_SetByFormExec-->
 <!--Model_SetByApiExec-->
 <!--Model_SetByLookupsExec-->
+<!--Model_SetByStatusControlsExec-->
 <!--Model_SetLockedRecord-->
 <!--Model_SetSwitchTargets-->
 

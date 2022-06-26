@@ -1,4 +1,4 @@
-﻿public void SetByLookups(
+﻿private void SetByLookups(
     Context context,
     SiteSettings ss,
     Dictionary<string,string> requestFormData = null,

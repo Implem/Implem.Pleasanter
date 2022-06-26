@@ -1,0 +1,15 @@
+﻿public void SetBySettings(
+    Context context,
+    SiteSettings ss,
+    Dictionary<string, string> requestFormData = null,
+    bool copyByDefaultOnly = false)
+{
+    SetByLookups(
+        context: context,
+        ss: ss,
+        requestFormData: requestFormData,
+        copyByDefaultOnly: copyByDefaultOnly);
+    SetByStatusControls(
+        context: context,
+        ss: ss);
+}

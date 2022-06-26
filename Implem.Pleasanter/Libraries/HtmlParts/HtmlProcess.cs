@@ -27,17 +27,76 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         onClick: !process.OnClick.IsNullOrEmpty()
                             ? process.OnClick
                             : "$p.execProcess($(this));",
-                        controlCss: "button-icon validate",
+                        controlCss: "button-icon"
+                            + ValidateCss(
+                                context: context,
+                                process: process),
                         icon: "ui-icon-disk",
-                        validations: process.ValidateInputs?.ToJson() ?? "[]",
-                        action: context.IsNew
-                            ? "Create"
-                            : "Update",
-                        method: context.IsNew
-                            ? "post"
-                            : "put",
+                        validations: Validations(
+                            context: context,
+                            process: process),
+                        action: Action(
+                            context: context,
+                            process: process),
+                        method: Method(
+                            context: context,
+                            process: process),
                         confirm: process.ConfirmationMessage));
             return hb;
+        }
+
+        private static string ValidateCss(Context context, Process process)
+        {
+            switch (process.ValidationType ?? Process.ValidationTypes.Merge)
+            {
+                case Process.ValidationTypes.Merge:
+                    return " validate merge-validations";
+                case Process.ValidationTypes.None:
+                    return string.Empty;
+                default:
+                    return " validate";
+            }
+        }
+
+        private static string Validations(Context context, Process process)
+        {
+            switch (process.ValidationType ?? Process.ValidationTypes.Merge)
+            {
+                case Process.ValidationTypes.None:
+                    return string.Empty;
+                default:
+                    return process.ValidateInputs?.ToJson() ?? "[]";
+            }
+        }
+
+        private static string Action(Context context, Process process)
+        {
+            switch (process.ActionType ?? Process.ActionTypes.Save)
+            {
+                case Process.ActionTypes.Save:
+                    return context.IsNew
+                        ? "Create"
+                        : "Update";
+                case Process.ActionTypes.PostBack:
+                    return "Edit";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        private static string Method(Context context, Process process)
+        {
+            switch (process.ActionType ?? Process.ActionTypes.Save)
+            {
+                case Process.ActionTypes.Save:
+                    return context.IsNew
+                        ? "post"
+                        : "put";
+                case Process.ActionTypes.PostBack:
+                    return "post";
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

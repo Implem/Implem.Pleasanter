@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SortCondition",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Sort condition"
+        },
+        {
+            "Language": "zh",
+            "Body": "排序條件"
+        },
+        {
+            "Language": "ja",
+            "Body": "ソート条件"
+        },
+        {
+            "Language": "de",
+            "Body": "Bedingungen sortieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "정렬 조건"
+        },
+        {
+            "Language": "es",
+            "Body": "Condiciones de clasificación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sắp xếp điều kiện"
+        }
+    ]
+}

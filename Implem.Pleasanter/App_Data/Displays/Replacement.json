@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Replacement",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Replacement"
+        },
+        {
+            "Language": "zh",
+            "Body": "替代品"
+        },
+        {
+            "Language": "ja",
+            "Body": "置換"
+        },
+        {
+            "Language": "de",
+            "Body": "Ersatz"
+        },
+        {
+            "Language": "ko",
+            "Body": "바꿔 놓음"
+        },
+        {
+            "Language": "es",
+            "Body": "Reemplazo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sự thay thế"
+        }
+    ]
+}
