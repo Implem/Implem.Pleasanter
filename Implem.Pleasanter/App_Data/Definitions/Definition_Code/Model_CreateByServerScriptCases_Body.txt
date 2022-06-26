@@ -1,15 +1,15 @@
 ﻿case "#TableName#":
     var #modelName#Ss = Site.#TableName#SiteSettings(
-        context: apiContext,
+        context: context,
         referenceId: ReferenceId);
     if (model is string #modelName#RequestString)
     {
-        apiContext.ApiRequestBody = #modelName#RequestString;
+        context.ApiRequestBody = #modelName#RequestString;
     }
     else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
     {
-        apiContext.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
-            context: apiContext,
+        context.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
+            context: context,
             ss: #modelName#Ss);
     }
     else
@@ -17,6 +17,6 @@
         return false;
     }
     return #ModelName#Utilities.CreateByServerScript(
-        context: apiContext,
+        context: context,
         ss: #modelName#Ss,
         model: model);

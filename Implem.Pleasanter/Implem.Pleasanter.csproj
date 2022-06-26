@@ -461,6 +461,7 @@
     <Compile Include="Libraries\Settings\BulkUpdateColumn.cs" />
     <Compile Include="Libraries\Settings\PasswordHistory.cs" />
     <Compile Include="Libraries\Settings\ReminderUtilities.cs" />
+    <Compile Include="Libraries\Settings\StatusControl.cs" />
     <Compile Include="Libraries\Settings\ValidateInput.cs" />
     <Compile Include="Libraries\Settings\ServerScript.cs" />
     <Compile Include="Libraries\Settings\Section.cs" />
@@ -845,6 +846,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_ClearSessions_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Constructor_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ContextTenantId_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ControlConstraintsType_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_CopyCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_CopyRowCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_CopyWithLinks_Body.txt" />
@@ -868,6 +870,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteCommentCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteHistoryCases_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteImageWhenDeleting_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteParams_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteWithLinks_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Delete_Body.txt" />
@@ -913,6 +916,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_GetNormal_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_GetSitesDefaultColumns_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_GetSqlJoin_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_GetStatusControl_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Get_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_GridRowsCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_GroupProperties_GroupMembers_Body.txt" />
@@ -989,6 +993,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdated_Groups_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdated_ServerScript_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdated_SetSiteMenu_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdated_SetStatusControls_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdated_Users_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdatingExtendedSqls_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdating_ServerScript_Body.txt" />
@@ -1044,7 +1049,10 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByModel_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByModel_ColumnCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetBySession_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetBySettings_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetBySiteApiExec_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetByStatusControlsExec_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetByStatusControls_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByWhenloadingRecordServerScript_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetChoiceHashMethod_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetChoiceHash_Body.txt" />
@@ -2437,6 +2445,7 @@
     <Content Include="Images\logo-corp-with-title.png" />
     <Content Include="Images\logo-corp.png" />
     <Content Include="Scripts\AggregationEvents.js" />
+    <Content Include="Scripts\Anchor.js" />
     <Content Include="Scripts\AnchorEvents.js" />
     <Content Include="Scripts\Attachments.js" />
     <Content Include="Scripts\AttachmentsEvents.js" />
@@ -2450,6 +2459,7 @@
     <Content Include="Scripts\Clipboard.js" />
     <Content Include="Scripts\ProcessEvents.js" />
     <Content Include="Scripts\Process.js" />
+    <Content Include="Scripts\StatusControl.js" />
     <Content Include="Scripts\View.js" />
     <Content Include="Scripts\ColumnAccessControl.js" />
     <Content Include="Scripts\Confirm.js" />
@@ -6215,6 +6225,27 @@
     <Content Include="App_Data\Displays\ImportKey.json" />
     <Content Include="App_Data\Displays\Key.json" />
     <Content Include="App_Data\Displays\OverlapCsvImport.json" />
+    <Content Include="App_Data\Displays\KeepFilterState.json" />
+    <Content Include="App_Data\Displays\KeepSorterState.json" />
+    <Content Include="App_Data\Displays\FilterCondition.json" />
+    <Content Include="App_Data\Displays\SortCondition.json" />
+    <Content Include="App_Data\Displays\ActionTypes.json" />
+    <Content Include="App_Data\Displays\PostBack.json" />
+    <Content Include="App_Data\Displays\Anchor.json" />
+    <Content Include="App_Data\Displays\AnchorFormat.json" />
+    <Content Include="App_Data\Displays\InputValidationTypes.json" />
+    <Content Include="App_Data\Displays\Merge.json" />
+    <Content Include="App_Data\Displays\Replacement.json" />
+    <Content Include="App_Data\Displays\ColumnControl.json" />
+    <Content Include="App_Data\Displays\RecordControl.json" />
+    <Content Include="App_Data\Displays\StatusControls.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ControlConstraintsType.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_DeleteImageWhenDeleting.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_GetStatusControl.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_OnUpdated_SetStatusControls.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetBySettings.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetByStatusControls.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetByStatusControlsExec.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

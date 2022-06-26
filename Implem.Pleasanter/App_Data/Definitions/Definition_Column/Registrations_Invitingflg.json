@@ -19,7 +19,7 @@
     "MaxLength": "32",
     "ControlType": "ChoicesText",
     "EditorReadOnly": "1",
-    "ChoicesText": "0,招待中\r\n1,承認依頼\r\n2,招待済み",
+    "ChoicesText": "0,招待中\n1,承認依頼\n2,招待済み",
     "LabelText_en": "Inviting",
     "LabelText_zh": "邀请",
     "LabelText_de": "Einladend",

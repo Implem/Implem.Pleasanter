@@ -89,6 +89,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ActionTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ActionTypes",
+                data: data);
+        }
+
         public static string Add(
             Context context,
             params string[] data)
@@ -536,6 +546,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AlwaysRequestSearchCondition",
+                data: data);
+        }
+
+        public static string Anchor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Anchor",
+                data: data);
+        }
+
+        public static string AnchorFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnchorFormat",
                 data: data);
         }
 
@@ -1766,6 +1796,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ColumnAccessControl",
+                data: data);
+        }
+
+        public static string ColumnControl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ColumnControl",
                 data: data);
         }
 
@@ -3449,6 +3489,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SortCondition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SortCondition",
+                data: data);
+        }
+
         public static string Filters(
             Context context,
             params string[] data)
@@ -4299,6 +4349,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputValidationTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputValidationTypes",
+                data: data);
+        }
+
         public static string InternalServerError(
             Context context,
             params string[] data)
@@ -4516,6 +4576,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "KambanSettings",
+                data: data);
+        }
+
+        public static string KeepFilterState(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "KeepFilterState",
+                data: data);
+        }
+
+        public static string KeepSorterState(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "KeepSorterState",
                 data: data);
         }
 
@@ -5356,6 +5436,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MenuGuide",
+                data: data);
+        }
+
+        public static string Merge(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Merge",
                 data: data);
         }
 
@@ -6539,6 +6629,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string PostBack(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PostBack",
+                data: data);
+        }
+
         public static string Prefix(
             Context context,
             params string[] data)
@@ -6759,6 +6859,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RecordControl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RecordControl",
+                data: data);
+        }
+
         public static string ReCreate(
             Context context,
             params string[] data)
@@ -6876,6 +6986,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ReplaceAllGroupMembers",
+                data: data);
+        }
+
+        public static string Replacement(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Replacement",
                 data: data);
         }
 
@@ -7659,6 +7779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string FilterCondition(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "FilterCondition",
+                data: data);
+        }
+
         public static string Sorters(
             Context context,
             params string[] data)
@@ -7756,6 +7886,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Status",
+                data: data);
+        }
+
+        public static string StatusControls(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StatusControls",
                 data: data);
         }
 

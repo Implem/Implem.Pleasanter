@@ -71,6 +71,7 @@ namespace Implem.Pleasanter.Models
 
 <!--Model_SetByFormExec-->
 <!--Model_SetByLookupsExecFormDataOnly-->
+<!--Model_SetByStatusControlsExec-->
 
             OnConstructed(context: context);
         }
@@ -116,9 +117,12 @@ namespace Implem.Pleasanter.Models
 <!--Model_SetByForm ( HasIdentity = true ) -->
 <!--Model_SetByForm ( ItemOnly = true ) -->
 <!--Model_SetProcessMatchConditions-->
+<!--Model_GetStatusControl-->
 <!--Model_SetByModel-->
 <!--Model_SetByApi-->
+<!--Model_SetBySettings-->
 <!--Model_SetByLookups-->
+<!--Model_SetByStatusControls-->
 <!--Model_SynchronizeSummary-->
 <!--Model_UpdateFormulaColumns-->
 <!--Model_SwitchItems-->

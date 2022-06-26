@@ -214,7 +214,7 @@ private static int BulkUpdate(
                 context: context,
                 ss: ss,
                 formData: context.Forms);
-            #modelName#Model.SetByLookups(
+            #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss);
             #modelName#Model.VerUp = Versions.MustVerUp(

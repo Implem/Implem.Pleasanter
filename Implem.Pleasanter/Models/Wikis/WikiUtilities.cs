@@ -611,7 +611,7 @@ namespace Implem.Pleasanter.Models
             {
                 hb.Div(
                     id: "EditorTabsContainer",
-                    css: "max",
+                    css: "tab-container max",
                     attributes: new HtmlAttributes().TabActive(context: context),
                     action: () => hb
                         .EditorTabs(

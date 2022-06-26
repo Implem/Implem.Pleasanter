@@ -975,30 +975,33 @@ namespace Implem.Pleasanter.Models
                                     verType: registrationModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(
-                                context: context,
-                                registrationModel: registrationModel)
-                            .FieldSetGeneral(context: context, ss: ss, registrationModel: registrationModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: registrationModel.MethodType != BaseModel.MethodTypes.New
-                                    && !context.Publish)
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: registrationModel.VerType,
-                                updateButton: true,
-                                mailButton: true,
-                                deleteButton: true,
-                                extensions: () => hb
-                                    .MainCommandExtensions(
-                                        context: context,
-                                        registrationModel: registrationModel,
-                                        ss: ss)))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container " + tabsCss,
+                            action: () => hb
+                                .EditorTabs(
+                                    context: context,
+                                    registrationModel: registrationModel)
+                                .FieldSetGeneral(context: context, ss: ss, registrationModel: registrationModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: registrationModel.MethodType != BaseModel.MethodTypes.New
+                                        && !context.Publish)
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: registrationModel.VerType,
+                                    updateButton: true,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    extensions: () => hb
+                                        .MainCommandExtensions(
+                                            context: context,
+                                            registrationModel: registrationModel,
+                                            ss: ss)))
                         .Hidden(
                             controlId: "Registrations_Invitee",
                             value: registrationModel.Invitee.ToString())

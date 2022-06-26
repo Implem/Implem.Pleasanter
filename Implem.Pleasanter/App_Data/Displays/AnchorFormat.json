@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AnchorFormat",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Anchor format"
+        },
+        {
+            "Language": "zh",
+            "Body": "锚格式"
+        },
+        {
+            "Language": "ja",
+            "Body": "アンカー書式"
+        },
+        {
+            "Language": "de",
+            "Body": "Ankerformat"
+        },
+        {
+            "Language": "ko",
+            "Body": "앵커 형식"
+        },
+        {
+            "Language": "es",
+            "Body": "Formato de ancla"
+        },
+        {
+            "Language": "vn",
+            "Body": "Định dạng neo"
+        }
+    ]
+}

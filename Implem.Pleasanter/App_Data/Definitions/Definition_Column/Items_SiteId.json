@@ -14,6 +14,7 @@
     "TypeName": "bigint",
     "Ix2": "1",
     "Ix4": "1",
+    "Ix5": "1",
     "Default": "0",
     "Required": "1",
     "LabelText_en": "Site ID",

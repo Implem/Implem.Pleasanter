@@ -1494,33 +1494,36 @@ namespace Implem.Pleasanter.Models
                                     verType: userModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(context: context, userModel: userModel)
-                            .FieldSetGeneral(
-                                context: context,
-                                ss: ss,
-                                userModel: userModel)
-                            .FieldSetMailAddresses(
-                                context: context,
-                                userModel: userModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: userModel.MethodType != BaseModel.MethodTypes.New)
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: userModel.VerType,
-                                updateButton: true,
-                                mailButton: true,
-                                deleteButton: true,
-                                extensions: () => hb
-                                    .MainCommandExtensions(
-                                        context: context,
-                                        userModel: userModel,
-                                        ss: ss)))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container " + tabsCss,
+                            action: () => hb
+                                .EditorTabs(context: context, userModel: userModel)
+                                .FieldSetGeneral(
+                                    context: context,
+                                    ss: ss,
+                                    userModel: userModel)
+                                .FieldSetMailAddresses(
+                                    context: context,
+                                    userModel: userModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: userModel.MethodType != BaseModel.MethodTypes.New)
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: userModel.VerType,
+                                    updateButton: true,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    extensions: () => hb
+                                        .MainCommandExtensions(
+                                            context: context,
+                                            userModel: userModel,
+                                            ss: ss)))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))

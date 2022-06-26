@@ -170,7 +170,7 @@
         var updateCount = 0;
         foreach (var #modelName#Model in #modelName#Hash.Values)
         {
-            #modelName#Model.SetByLookups(
+            #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss);
             #modelName#Model.SetByFormula(

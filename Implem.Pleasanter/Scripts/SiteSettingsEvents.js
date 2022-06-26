@@ -6,6 +6,10 @@
         var visibility = $(this).prop('checked');
         $('#MessageWhenDuplicatedField').toggle(visibility);
     });
+    $(document).on('change', '#Anchor', function () {
+        var visibility = $(this).prop('checked');
+        $('#AnchorFormatField').toggle(visibility);
+    });
     $(document).on('change', '#AutoPostBack', function () {
         var visibility = $(this).prop('checked');
         $('#ColumnsReturnedWhenAutomaticPostbackField').toggle(visibility);
@@ -54,10 +58,13 @@
                 .indexOf($('#ProcessNotificationType').val()) !== -1);
     });
     $(document).on('change', '#ReminderType', function () {
-        $('#ReminderFromField').toggle(
-            $('#ReminderFromEnableList').val()
-                .split(',')
-                .indexOf($('#ReminderType').val()) !== -1);
+        var reminderFromVisible = $('#ReminderFromEnableList').val()
+            .split(',')
+            .indexOf($('#ReminderType').val()) !== -1;
+        $('#ReminderFromField').toggle(reminderFromVisible)
+        $('#ReminderFrom').attr('data-validate-required', reminderFromVisible
+            ? '1'
+            : '0');
         $('#ReminderTokenField').toggle(
             $('#ReminderTokenEnableList').val()
                 .split(',')
@@ -132,5 +139,11 @@
         } else {
             $('#UseGridHeaderFilters').prop('disabled', false);
         }
+    });
+    $(document).on('change', '#ViewFilters_KeepFilterState', function () {
+        $('#ViewFiltersFilterConditionSettingsEditor').toggle();
+    });
+    $(document).on('change', '#KeepSorterState', function () {
+        $('#ViewFiltersSorterConditionSettingsEditor').toggle();
     });
 });

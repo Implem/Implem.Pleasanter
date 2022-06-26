@@ -1,11 +1,11 @@
 ﻿private List<SqlStatement> IfDuplicatedStatements(SiteSettings ss)
 {
     var statements = new List<SqlStatement>();
-    var param = new Rds.#TableName#ParamCollection();
     ss.Columns
         .Where(column => column.NoDuplication == true)
         .ForEach(column =>
         {
+            var param = new Rds.#TableName#ParamCollection();
             switch (column.ColumnName)
             {
 

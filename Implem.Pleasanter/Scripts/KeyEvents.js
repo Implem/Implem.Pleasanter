@@ -38,6 +38,10 @@
                 $p.toggleEditor($control, true);
                 $('#' + $control.attr('id')).focus();
                 return 2;
+            } else if ($control.hasClass('control-textbox anchor')) {
+                $p.toggleAnchor($control, true);
+                $('#' + $control.attr('id')).focus();
+                return 2;
             } else if ($control.is(':hidden') ||
                 $control.hasClass('control-text') ||
                 $control.hasClass('control-markup')) {
