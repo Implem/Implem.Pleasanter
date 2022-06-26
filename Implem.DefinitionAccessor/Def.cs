@@ -383,6 +383,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ClearSessions": Code.Model_ClearSessions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ClearSessions, definitionRow, CodeXls); break;
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
                     case "Model_ContextTenantId": Code.Model_ContextTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ContextTenantId, definitionRow, CodeXls); break;
+                    case "Model_ControlConstraintsType": Code.Model_ControlConstraintsType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ControlConstraintsType, definitionRow, CodeXls); break;
                     case "Model_CopyCases": Code.Model_CopyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyCases, definitionRow, CodeXls); break;
                     case "Model_CopyRowCases": Code.Model_CopyRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyRowCases, definitionRow, CodeXls); break;
                     case "Model_CopyWithLinks": Code.Model_CopyWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyWithLinks, definitionRow, CodeXls); break;
@@ -453,6 +454,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetNormal": Code.Model_GetNormal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetNormal, definitionRow, CodeXls); break;
                     case "Model_GetSitesDefaultColumns": Code.Model_GetSitesDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSitesDefaultColumns, definitionRow, CodeXls); break;
                     case "Model_GetSqlJoin": Code.Model_GetSqlJoin = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetSqlJoin, definitionRow, CodeXls); break;
+                    case "Model_GetStatusControl": Code.Model_GetStatusControl = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetStatusControl, definitionRow, CodeXls); break;
                     case "Model_GridRowsCases": Code.Model_GridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GridRowsCases, definitionRow, CodeXls); break;
                     case "Model_GroupProperties_GroupMembers": Code.Model_GroupProperties_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GroupProperties_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_HistoriesCases": Code.Model_HistoriesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_HistoriesCases, definitionRow, CodeXls); break;
@@ -526,6 +528,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnUpdated_Groups": Code.Model_OnUpdated_Groups = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Groups, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_ServerScript": Code.Model_OnUpdated_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_ServerScript, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_SetSiteMenu": Code.Model_OnUpdated_SetSiteMenu = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_SetSiteMenu, definitionRow, CodeXls); break;
+                    case "Model_OnUpdated_SetStatusControls": Code.Model_OnUpdated_SetStatusControls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_SetStatusControls, definitionRow, CodeXls); break;
                     case "Model_OnUpdated_Users": Code.Model_OnUpdated_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdated_Users, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedExtendedSqls": Code.Model_OnUpdatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
@@ -584,7 +587,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByModel": Code.Model_SetByModel = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByModel, definitionRow, CodeXls); break;
                     case "Model_SetByModel_ColumnCases": Code.Model_SetByModel_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByModel_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetBySession": Code.Model_SetBySession = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySession, definitionRow, CodeXls); break;
+                    case "Model_SetBySettings": Code.Model_SetBySettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySettings, definitionRow, CodeXls); break;
                     case "Model_SetBySiteApiExec": Code.Model_SetBySiteApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetBySiteApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetByStatusControls": Code.Model_SetByStatusControls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByStatusControls, definitionRow, CodeXls); break;
+                    case "Model_SetByStatusControlsExec": Code.Model_SetByStatusControlsExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByStatusControlsExec, definitionRow, CodeXls); break;
                     case "Model_SetByWhenloadingRecordServerScript": Code.Model_SetByWhenloadingRecordServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByWhenloadingRecordServerScript, definitionRow, CodeXls); break;
                     case "Model_SetChoiceHash": Code.Model_SetChoiceHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetChoiceHash, definitionRow, CodeXls); break;
                     case "Model_SetChoiceHashMethod": Code.Model_SetChoiceHashMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetChoiceHashMethod, definitionRow, CodeXls); break;
@@ -2285,6 +2291,16 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedIx4OrderBy = newColumnDefinition.Ix4OrderBy;
                             break;
+                        case "Ix5":
+                            newColumnDefinition.Ix5 = customDefinitionRow.Get("Ix5")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedIx5 = newColumnDefinition.Ix5;
+                            break;
+                        case "Ix5OrderBy":
+                            newColumnDefinition.Ix5OrderBy = customDefinitionRow.Get("Ix5OrderBy")?.ToString() ??
+                                data.ToString();
+                            newColumnDefinition.SavedIx5OrderBy = newColumnDefinition.Ix5OrderBy;
+                            break;
                         case "Nullable":
                             newColumnDefinition.Nullable = customDefinitionRow.Get("Nullable")?.ToBool() ??
                                 data.ToBool();
@@ -2765,6 +2781,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Ix3OrderBy")) { definition.Ix3OrderBy = definitionRow["Ix3OrderBy"].ToString(); definition.SavedIx3OrderBy = definition.Ix3OrderBy; }
             if (definitionRow.ContainsKey("Ix4")) { definition.Ix4 = definitionRow["Ix4"].ToInt(); definition.SavedIx4 = definition.Ix4; }
             if (definitionRow.ContainsKey("Ix4OrderBy")) { definition.Ix4OrderBy = definitionRow["Ix4OrderBy"].ToString(); definition.SavedIx4OrderBy = definition.Ix4OrderBy; }
+            if (definitionRow.ContainsKey("Ix5")) { definition.Ix5 = definitionRow["Ix5"].ToInt(); definition.SavedIx5 = definition.Ix5; }
+            if (definitionRow.ContainsKey("Ix5OrderBy")) { definition.Ix5OrderBy = definitionRow["Ix5OrderBy"].ToString(); definition.SavedIx5OrderBy = definition.Ix5OrderBy; }
             if (definitionRow.ContainsKey("Nullable")) { definition.Nullable = definitionRow["Nullable"].ToBool(); definition.SavedNullable = definition.Nullable; }
             if (definitionRow.ContainsKey("Default")) { definition.Default = definitionRow["Default"].ToString(); definition.SavedDefault = definition.Default; }
             if (definitionRow.ContainsKey("DefaultCs")) { definition.DefaultCs = definitionRow["DefaultCs"].ToString(); definition.SavedDefaultCs = definition.DefaultCs; }
@@ -5493,6 +5511,8 @@ namespace Implem.DefinitionAccessor
                         case "Ix3OrderBy": columnDefinition.Ix3OrderBy = optionValue.ToString(); break;
                         case "Ix4": columnDefinition.Ix4 = optionValue.ToInt(); break;
                         case "Ix4OrderBy": columnDefinition.Ix4OrderBy = optionValue.ToString(); break;
+                        case "Ix5": columnDefinition.Ix5 = optionValue.ToInt(); break;
+                        case "Ix5OrderBy": columnDefinition.Ix5OrderBy = optionValue.ToString(); break;
                         case "Nullable": columnDefinition.Nullable = optionValue.ToBool(); break;
                         case "Default": columnDefinition.Default = optionValue.ToString(); break;
                         case "DefaultCs": columnDefinition.DefaultCs = optionValue.ToString(); break;
@@ -6558,6 +6578,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ClearSessions;
         public string Model_Constructor;
         public string Model_ContextTenantId;
+        public string Model_ControlConstraintsType;
         public string Model_CopyCases;
         public string Model_CopyRowCases;
         public string Model_CopyWithLinks;
@@ -6628,6 +6649,7 @@ namespace Implem.DefinitionAccessor
         public string Model_GetNormal;
         public string Model_GetSitesDefaultColumns;
         public string Model_GetSqlJoin;
+        public string Model_GetStatusControl;
         public string Model_GridRowsCases;
         public string Model_GroupProperties_GroupMembers;
         public string Model_HistoriesCases;
@@ -6701,6 +6723,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnUpdated_Groups;
         public string Model_OnUpdated_ServerScript;
         public string Model_OnUpdated_SetSiteMenu;
+        public string Model_OnUpdated_SetStatusControls;
         public string Model_OnUpdated_Users;
         public string Model_OnUpdatedExtendedSqls;
         public string Model_OnUpdatedNotice;
@@ -6759,7 +6782,10 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByModel;
         public string Model_SetByModel_ColumnCases;
         public string Model_SetBySession;
+        public string Model_SetBySettings;
         public string Model_SetBySiteApiExec;
+        public string Model_SetByStatusControls;
+        public string Model_SetByStatusControlsExec;
         public string Model_SetByWhenloadingRecordServerScript;
         public string Model_SetChoiceHash;
         public string Model_SetChoiceHashMethod;
@@ -7294,6 +7320,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ClearSessions = new CodeDefinition();
         public CodeDefinition Model_Constructor = new CodeDefinition();
         public CodeDefinition Model_ContextTenantId = new CodeDefinition();
+        public CodeDefinition Model_ControlConstraintsType = new CodeDefinition();
         public CodeDefinition Model_CopyCases = new CodeDefinition();
         public CodeDefinition Model_CopyRowCases = new CodeDefinition();
         public CodeDefinition Model_CopyWithLinks = new CodeDefinition();
@@ -7364,6 +7391,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetNormal = new CodeDefinition();
         public CodeDefinition Model_GetSitesDefaultColumns = new CodeDefinition();
         public CodeDefinition Model_GetSqlJoin = new CodeDefinition();
+        public CodeDefinition Model_GetStatusControl = new CodeDefinition();
         public CodeDefinition Model_GridRowsCases = new CodeDefinition();
         public CodeDefinition Model_GroupProperties_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_HistoriesCases = new CodeDefinition();
@@ -7437,6 +7465,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnUpdated_Groups = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_ServerScript = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_SetSiteMenu = new CodeDefinition();
+        public CodeDefinition Model_OnUpdated_SetStatusControls = new CodeDefinition();
         public CodeDefinition Model_OnUpdated_Users = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
@@ -7495,7 +7524,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByModel = new CodeDefinition();
         public CodeDefinition Model_SetByModel_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetBySession = new CodeDefinition();
+        public CodeDefinition Model_SetBySettings = new CodeDefinition();
         public CodeDefinition Model_SetBySiteApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetByStatusControls = new CodeDefinition();
+        public CodeDefinition Model_SetByStatusControlsExec = new CodeDefinition();
         public CodeDefinition Model_SetByWhenloadingRecordServerScript = new CodeDefinition();
         public CodeDefinition Model_SetChoiceHash = new CodeDefinition();
         public CodeDefinition Model_SetChoiceHashMethod = new CodeDefinition();
@@ -7952,6 +7984,8 @@ namespace Implem.DefinitionAccessor
         public string Ix3OrderBy; public string SavedIx3OrderBy;
         public int Ix4; public int SavedIx4;
         public string Ix4OrderBy; public string SavedIx4OrderBy;
+        public int Ix5; public int SavedIx5;
+        public string Ix5OrderBy; public string SavedIx5OrderBy;
         public bool Nullable; public bool SavedNullable;
         public string Default; public string SavedDefault;
         public string DefaultCs; public string SavedDefaultCs;
@@ -8086,6 +8120,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Ix3OrderBy")) Ix3OrderBy = propertyCollection["Ix3OrderBy"].ToString(); else Ix3OrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Ix4")) Ix4 = propertyCollection["Ix4"].ToInt(); else Ix4 = 0;
             if (propertyCollection.ContainsKey("Ix4OrderBy")) Ix4OrderBy = propertyCollection["Ix4OrderBy"].ToString(); else Ix4OrderBy = string.Empty;
+            if (propertyCollection.ContainsKey("Ix5")) Ix5 = propertyCollection["Ix5"].ToInt(); else Ix5 = 0;
+            if (propertyCollection.ContainsKey("Ix5OrderBy")) Ix5OrderBy = propertyCollection["Ix5OrderBy"].ToString(); else Ix5OrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Nullable")) Nullable = propertyCollection["Nullable"].ToBool(); else Nullable = false;
             if (propertyCollection.ContainsKey("Default")) Default = propertyCollection["Default"].ToString(); else Default = string.Empty;
             if (propertyCollection.ContainsKey("DefaultCs")) DefaultCs = propertyCollection["DefaultCs"].ToString(); else DefaultCs = string.Empty;
@@ -8220,6 +8256,8 @@ namespace Implem.DefinitionAccessor
                     case "Ix3OrderBy": return Ix3OrderBy;
                     case "Ix4": return Ix4;
                     case "Ix4OrderBy": return Ix4OrderBy;
+                    case "Ix5": return Ix5;
+                    case "Ix5OrderBy": return Ix5OrderBy;
                     case "Nullable": return Nullable;
                     case "Default": return Default;
                     case "DefaultCs": return DefaultCs;
@@ -8354,6 +8392,8 @@ namespace Implem.DefinitionAccessor
             Ix3OrderBy = SavedIx3OrderBy;
             Ix4 = SavedIx4;
             Ix4OrderBy = SavedIx4OrderBy;
+            Ix5 = SavedIx5;
+            Ix5OrderBy = SavedIx5OrderBy;
             Nullable = SavedNullable;
             Default = SavedDefault;
             DefaultCs = SavedDefaultCs;

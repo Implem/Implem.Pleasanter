@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ActionTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Action types"
+        },
+        {
+            "Language": "zh",
+            "Body": "动作类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "アクション種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktionstypen"
+        },
+        {
+            "Language": "ko",
+            "Body": "작업 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipos de acción"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các loại hành động"
+        }
+    ]
+}

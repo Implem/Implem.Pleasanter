@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Anchor",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Anchor"
+        },
+        {
+            "Language": "zh",
+            "Body": "锚"
+        },
+        {
+            "Language": "ja",
+            "Body": "アンカー"
+        },
+        {
+            "Language": "de",
+            "Body": "Anker"
+        },
+        {
+            "Language": "ko",
+            "Body": "앵커"
+        },
+        {
+            "Language": "es",
+            "Body": "ancla"
+        },
+        {
+            "Language": "vn",
+            "Body": "mỏ neo"
+        }
+    ]
+}

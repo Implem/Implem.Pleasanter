@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PostBack",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Post back"
+        },
+        {
+            "Language": "zh",
+            "Body": "回帖"
+        },
+        {
+            "Language": "ja",
+            "Body": "ポストバック"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktionstypen"
+        },
+        {
+            "Language": "ko",
+            "Body": "다시 게시"
+        },
+        {
+            "Language": "es",
+            "Body": "Publicar de vuelta"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đăng lại"
+        }
+    ]
+}

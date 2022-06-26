@@ -1,0 +1,33 @@
+﻿{
+    "Id": "KeepSorterState",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Keep sorter state"
+        },
+        {
+            "Language": "zh",
+            "Body": "保持排序狀態"
+        },
+        {
+            "Language": "ja",
+            "Body": "ソートの状態を保持"
+        },
+        {
+            "Language": "de",
+            "Body": "Sortierzustand beibehalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "정렬 상태 유지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mantener el estado de clasificación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giữ trạng thái sắp xếp"
+        }
+    ]
+}

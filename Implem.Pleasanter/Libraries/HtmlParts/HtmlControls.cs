@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Resources;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -27,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string dataId = null,
             string onChange = null,
             string autoComplete = null,
+            string anchorFormat = null,
             bool validateRequired = false,
             bool validateNumber = false,
             decimal validateMinNumber = 0,
@@ -46,33 +48,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             switch (textType)
             {
                 case HtmlTypes.TextTypes.Normal:
-                    return hb.Input(attributes: new HtmlAttributes()
-                        .Id(controlId)
-                        .Name(controlId)
-                        .Class(Css.Class("control-textbox", controlCss))
-                        .Type("text")
-                        .Value(text)
-                        .Placeholder(placeholder)
-                        .Disabled(disabled)
-                        .DataAlwaysSend(alwaysSend)
-                        .DataId(dataId)
-                        .OnChange(onChange)
-                        .AutoComplete(autoComplete)
-                        .DataValidateRequired(validateRequired)
-                        .DataValidateNumber(validateNumber)
-                        .DataValidateMinNumber(
-                            validateMinNumber, _using: validateMinNumber != validateMaxNumber)
-                        .DataValidateMaxNumber(
-                            validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
-                        .DataValidateDate(validateDate)
-                        .DataValidateEmail(validateEmail)
-                        .DataValidateEqualTo(validateEqualTo)
-                        .DataValidateMaxLength(validateMaxLength)
-                        .DataValidateRegex(validateRegex)
-                        .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                        .DataAction(action)
-                        .DataMethod(method)
-                        .Add(attributes));
+                    return hb
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId + ".viewer")
+                                .Class("control-text not-send")
+                                .DataFormat(anchorFormat),
+                            action: () => hb.A(
+                                text: text,
+                                href: anchorFormat?.Replace("{Value}", text)),
+                            _using: !anchorFormat.IsNullOrEmpty())
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id(controlId + ".editor")
+                                .Class("ui-icon ui-icon-pencil button-edit-markdown")
+                                .OnClick($"$p.toggleAnchor($('#{controlId}'));"),
+                            _using: !anchorFormat.IsNullOrEmpty())
+                        .Input(attributes: new HtmlAttributes()
+                            .Id(controlId)
+                            .Name(controlId)
+                            .Class(Css.Class(
+                                anchorFormat.IsNullOrEmpty()
+                                    ? "control-textbox"
+                                    : "control-textbox anchor hidden", controlCss))
+                            .Type("text")
+                            .Value(text)
+                            .Placeholder(placeholder)
+                            .Disabled(disabled)
+                            .DataAlwaysSend(alwaysSend)
+                            .DataId(dataId)
+                            .OnChange(onChange)
+                            .AutoComplete(autoComplete)
+                            .DataValidateRequired(validateRequired)
+                            .DataValidateNumber(validateNumber)
+                            .DataValidateMinNumber(
+                                validateMinNumber, _using: validateMinNumber != validateMaxNumber)
+                            .DataValidateMaxNumber(
+                                validateMaxNumber, _using: validateMinNumber != validateMaxNumber)
+                            .DataValidateDate(validateDate)
+                            .DataValidateEmail(validateEmail)
+                            .DataValidateEqualTo(validateEqualTo)
+                            .DataValidateMaxLength(validateMaxLength)
+                            .DataValidateRegex(validateRegex)
+                            .DataValidateRegexErrorMessage(validateRegexErrorMessage)
+                            .DataAction(action)
+                            .DataMethod(method)
+                            .Add(attributes));
                 case HtmlTypes.TextTypes.DateTime:
                     return hb.Input(attributes: new HtmlAttributes()
                         .Id(controlId)
@@ -515,6 +536,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool alwaysSend = false,
             bool allowBalnk = false,
             string onChange = null,
+            bool validateRequired = false,
             string action = null,
             string method = null,
             bool _using = true)
@@ -537,6 +559,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataWidth(width, _using: width != -1)
                     .DataAlwaysSend(alwaysSend)
                     .OnChange(onChange)
+                    .DataValidateRequired(validateRequired)
                     .DataAction(action)
                     .DataMethod(method))
                 : hb;
@@ -644,6 +667,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string method = null,
             string confirm = null,
             string type = "button",
+            string dataType = null,
             bool disabled = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
@@ -665,27 +689,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataAction(action)
                         .DataMethod(method)
                         .DataConfirm(confirm)
+                        .DataType(dataType)
                         .Disabled(disabled)
                         .Add(attributes),
                     action: () => hb
                         .Text(text: text))
-                : hb;
-        }
-
-        public static HtmlBuilder Anchor(
-            this HtmlBuilder hb,
-            string controlId = null,
-            string controlCss = null,
-            string text = null,
-            string href = null,
-            bool _using = true)
-        {
-            return _using
-                ? hb.A(
-                    id: controlId,
-                    css: Css.Class("control-anchor", controlCss),
-                    href: href,
-                    text: text)
                 : hb;
         }
 

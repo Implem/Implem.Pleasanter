@@ -23,7 +23,7 @@
     "ByForm": "value.ToBool(); if (Lockout_Updated(context: context) && !Lockout) LockoutCounter = 0",
     "CheckFilterControlType": "2",
     "ControlType": "ChoicesText",
-    "ChoicesText": "ロック\r\n－",
+    "ChoicesText": "ロック\n－",
     "LabelText_en": "Locked out",
     "LabelText_zh": "已被锁定",
     "LabelText_de": "Gesperrt",

@@ -1,0 +1,13 @@
+﻿public StatusControl.ControlConstraintsTypes GetStatusControl(
+    Context context,
+    SiteSettings ss,
+    Column column)
+{
+    if (StatusControlHash == null)
+    {
+        SetByStatusControls(
+            context: context,
+            ss: ss);
+    }
+    return StatusControlHash.Get(column.ColumnName);
+}

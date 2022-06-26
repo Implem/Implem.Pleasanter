@@ -86,6 +86,32 @@ $p.openProcessDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#ProcessDialog');
 }
 
+$p.openStatusControlDialog = function ($control) {
+    $p.data.StatusControlForm = {};
+    $p.openSiteSettingsDialog($control, '#StatusControlDialog');
+    $('#StatusControlColumnHash li').each(function () {
+        var $item = $(this);
+        var type = $item.attr('data-value').split(',')[1];
+        if (type !== 'None') {
+            $item.append('<span class="column-control-types">(' + $p.display(type) + ')</span>');
+        }
+    });
+}
+
+$p.setStatusControlColumnHash = function ($control) {
+    $('#StatusControlColumnHash').find('.ui-selected').each(function () {
+        var $item = $(this);
+        var columnName = $item.attr('data-value').split(',')[0];
+        var type = $control.attr('data-type');
+        $item.attr('data-value', columnName + ',' + type);
+        $item.find('span.column-control-types').remove();
+        if (type !== 'None') {
+            $item.append('<span class="column-control-types">(' + $p.display(type) + ')</span>');
+        }
+    });
+    $p.setData($('#SitePackagesSelectable'));
+}
+
 $p.openProcessValidateInputDialog = function ($control) {
     $p.data.ProcessValidateInputForm = {};
     $p.openSiteSettingsDialog($control, '#ProcessValidateInputDialog', '75%');
