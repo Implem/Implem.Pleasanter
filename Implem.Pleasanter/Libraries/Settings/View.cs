@@ -1054,6 +1054,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Accessable(Context context)
         {
+            if (context.HasPrivilege)
+            {
+                return true;
+            }
             if (Depts?.Any() != true
                 && Groups?.Any() != true
                 && Users?.Any() != true)
