@@ -22,7 +22,7 @@
                 context: context,
                 ss: ss,
                 formData: context.Forms);
-            #modelName#Model.SetByLookups(
+            #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss,
                 requestFormData: context.Forms);

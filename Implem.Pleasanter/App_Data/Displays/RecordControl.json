@@ -1,34 +1,33 @@
 ﻿{
-    "Id": "ReadOnly",
+    "Id": "RecordControl",
     "Type": 110,
-    "ClientScript": true,
     "Languages": [
         {
-            "Body": "Read only"
+            "Body": "Record control"
         },
         {
             "Language": "zh",
-            "Body": "只读"
+            "Body": "记录控制"
         },
         {
             "Language": "ja",
-            "Body": "読取専用"
+            "Body": "レコードの制御"
         },
         {
             "Language": "de",
-            "Body": "Nur lesen"
+            "Body": "Aufnahmekontrolle"
         },
         {
             "Language": "ko",
-            "Body": "읽기 전용"
+            "Body": "녹음 제어"
         },
         {
             "Language": "es",
-            "Body": "Solo lectura"
+            "Body": "control de registros"
         },
         {
             "Language": "vn",
-            "Body": "Chỉ được đọc"
+            "Body": "Ghi lại kiểm soát"
         }
     ]
 }

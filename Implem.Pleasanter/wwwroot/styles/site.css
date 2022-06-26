@@ -1167,9 +1167,18 @@ th.calendar-header{
     clear:both;
 }
 
-#ViewTabsContainer{
+#StatusControlTabsContainer{
     margin:0px 20px 10px 20px;
     clear:both;
+}
+
+#StatusControlColumnHash .column-control-types{
+    margin:0px 0px 0px 10px;
+}
+
+#ViewTabsContainer {
+    margin: 0px 20px 10px 20px;
+    clear: both;
 }
 
 #ExportTabsContainer{

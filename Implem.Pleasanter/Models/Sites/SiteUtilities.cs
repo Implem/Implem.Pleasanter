@@ -2102,278 +2102,281 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             return hb
-                .Div(id: "TemplateTabsContainer", css: "max", action: () => hb
-                    .Ul(id: "EditorTabs", action: () => hb
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetStandard",
-                                    text: Displays.Standard(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                .Div(
+                    id: "TemplateTabsContainer",
+                    css: "tab-container max",
+                    action: () => hb
+                        .Ul(id: "EditorTabs", action: () => hb
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetStandard",
+                                        text: Displays.Standard(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Standard > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetProject",
+                                        text: Displays.Project(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Project > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetBusinessImprovement",
+                                        text: Displays.BusinessImprovement(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.BusinessImprovement > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetSales",
+                                        text: Displays.Sales(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Sales > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetCustomer",
+                                        text: Displays.Customer(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Customer > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetStore",
+                                        text: Displays.Store(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Store > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetResearchAndDevelopment",
+                                        text: Displays.ResearchAndDevelopment(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.ResearchAndDevelopment > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetMarketing",
+                                        text: Displays.Marketing(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Marketing > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetManufacture",
+                                        text: Displays.Manufacture(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Manufacture > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetInformationSystem",
+                                        text: Displays.InformationSystem(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.InformationSystem > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetCorporatePlanning",
+                                        text: Displays.CorporatePlanning(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.CorporatePlanning > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetHumanResourcesAndGeneralAffairs",
+                                        text: Displays.HumanResourcesAndGeneralAffairs(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.HumanResourcesAndGeneralAffairs > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetEducation",
+                                        text: Displays.Education(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Education > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetPurchase",
+                                        text: Displays.Purchase(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Purchase > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetLogistics",
+                                        text: Displays.Logistics(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Logistics > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetLegalAffairs",
+                                        text: Displays.LegalAffairs(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.LegalAffairs > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetProductList",
+                                        text: Displays.ProductList(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.ProductList > 0))
+                            .Li(
+                                action: () => hb
+                                    .A(
+                                        href: "#FieldSetClassification",
+                                        text: Displays.Classification(context: context)),
+                                _using: Def.TemplateDefinitionCollection
+                                    .Where(o => o.Language == context.Language)
+                                    .Any(o => o.Classification > 0)))
+                        .TemplateTab(
+                            context: context,
+                            name: "Standard",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Standard > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetProject",
-                                    text: Displays.Project(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Standard > 0)
+                                .OrderBy(o => o.Standard))
+                        .TemplateTab(
+                            context: context,
+                            name: "Project",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Project > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetBusinessImprovement",
-                                    text: Displays.BusinessImprovement(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Project > 0)
+                                .OrderBy(o => o.Project))
+                        .TemplateTab(
+                            context: context,
+                            name: "BusinessImprovement",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.BusinessImprovement > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetSales",
-                                    text: Displays.Sales(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.BusinessImprovement > 0)
+                                .OrderBy(o => o.BusinessImprovement))
+                        .TemplateTab(
+                            context: context,
+                            name: "Sales",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Sales > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetCustomer",
-                                    text: Displays.Customer(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Sales > 0)
+                                .OrderBy(o => o.Sales))
+                        .TemplateTab(
+                            context: context,
+                            name: "Customer",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Customer > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetStore",
-                                    text: Displays.Store(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Customer > 0)
+                                .OrderBy(o => o.Customer))
+                        .TemplateTab(
+                            context: context,
+                            name: "Store",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Store > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetResearchAndDevelopment",
-                                    text: Displays.ResearchAndDevelopment(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Store > 0)
+                                .OrderBy(o => o.Store))
+                        .TemplateTab(
+                            context: context,
+                            name: "ResearchAndDevelopment",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.ResearchAndDevelopment > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetMarketing",
-                                    text: Displays.Marketing(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.ResearchAndDevelopment > 0)
+                                .OrderBy(o => o.ResearchAndDevelopment))
+                        .TemplateTab(
+                            context: context,
+                            name: "Marketing",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Marketing > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetManufacture",
-                                    text: Displays.Manufacture(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Marketing > 0)
+                                .OrderBy(o => o.Marketing))
+                        .TemplateTab(
+                            context: context,
+                            name: "Manufacture",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Manufacture > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetInformationSystem",
-                                    text: Displays.InformationSystem(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Manufacture > 0)
+                                .OrderBy(o => o.Manufacture))
+                        .TemplateTab(
+                            context: context,
+                            name: "InformationSystem",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.InformationSystem > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetCorporatePlanning",
-                                    text: Displays.CorporatePlanning(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.InformationSystem > 0)
+                                .OrderBy(o => o.InformationSystem))
+                        .TemplateTab(
+                            context: context,
+                            name: "CorporatePlanning",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.CorporatePlanning > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetHumanResourcesAndGeneralAffairs",
-                                    text: Displays.HumanResourcesAndGeneralAffairs(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.CorporatePlanning > 0)
+                                .OrderBy(o => o.CorporatePlanning))
+                        .TemplateTab(
+                            context: context,
+                            name: "HumanResourcesAndGeneralAffairs",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.HumanResourcesAndGeneralAffairs > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetEducation",
-                                    text: Displays.Education(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.HumanResourcesAndGeneralAffairs > 0)
+                                .OrderBy(o => o.HumanResourcesAndGeneralAffairs))
+                        .TemplateTab(
+                            context: context,
+                            name: "Education",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Education > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetPurchase",
-                                    text: Displays.Purchase(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Education > 0)
+                                .OrderBy(o => o.Education))
+                        .TemplateTab(
+                            context: context,
+                            name: "Purchase",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Purchase > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetLogistics",
-                                    text: Displays.Logistics(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Purchase > 0)
+                                .OrderBy(o => o.Purchase))
+                        .TemplateTab(
+                            context: context,
+                            name: "Logistics",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Logistics > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetLegalAffairs",
-                                    text: Displays.LegalAffairs(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.Logistics > 0)
+                                .OrderBy(o => o.Logistics))
+                        .TemplateTab(
+                            context: context,
+                            name: "LegalAffairs",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.LegalAffairs > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetProductList",
-                                    text: Displays.ProductList(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.LegalAffairs > 0)
+                                .OrderBy(o => o.LegalAffairs))
+                        .TemplateTab(
+                            context: context,
+                            name: "ProductList",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.ProductList > 0))
-                        .Li(
-                            action: () => hb
-                                .A(
-                                    href: "#FieldSetClassification",
-                                    text: Displays.Classification(context: context)),
-                            _using: Def.TemplateDefinitionCollection
+                                .Where(o => o.ProductList > 0)
+                                .OrderBy(o => o.ProductList))
+                        .TemplateTab(
+                            context: context,
+                            name: "Classification",
+                            templates: Def.TemplateDefinitionCollection
                                 .Where(o => o.Language == context.Language)
-                                .Any(o => o.Classification > 0)))
-                    .TemplateTab(
-                        context: context,
-                        name: "Standard",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Standard > 0)
-                            .OrderBy(o => o.Standard))
-                    .TemplateTab(
-                        context: context,
-                        name: "Project",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Project > 0)
-                            .OrderBy(o => o.Project))
-                    .TemplateTab(
-                        context: context,
-                        name: "BusinessImprovement",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.BusinessImprovement > 0)
-                            .OrderBy(o => o.BusinessImprovement))
-                    .TemplateTab(
-                        context: context,
-                        name: "Sales",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Sales > 0)
-                            .OrderBy(o => o.Sales))
-                    .TemplateTab(
-                        context: context,
-                        name: "Customer",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Customer > 0)
-                            .OrderBy(o => o.Customer))
-                    .TemplateTab(
-                        context: context,
-                        name: "Store",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Store > 0)
-                            .OrderBy(o => o.Store))
-                    .TemplateTab(
-                        context: context,
-                        name: "ResearchAndDevelopment",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.ResearchAndDevelopment > 0)
-                            .OrderBy(o => o.ResearchAndDevelopment))
-                    .TemplateTab(
-                        context: context,
-                        name: "Marketing",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Marketing > 0)
-                            .OrderBy(o => o.Marketing))
-                    .TemplateTab(
-                        context: context,
-                        name: "Manufacture",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Manufacture > 0)
-                            .OrderBy(o => o.Manufacture))
-                    .TemplateTab(
-                        context: context,
-                        name: "InformationSystem",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.InformationSystem > 0)
-                            .OrderBy(o => o.InformationSystem))
-                    .TemplateTab(
-                        context: context,
-                        name: "CorporatePlanning",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.CorporatePlanning > 0)
-                            .OrderBy(o => o.CorporatePlanning))
-                    .TemplateTab(
-                        context: context,
-                        name: "HumanResourcesAndGeneralAffairs",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.HumanResourcesAndGeneralAffairs > 0)
-                            .OrderBy(o => o.HumanResourcesAndGeneralAffairs))
-                    .TemplateTab(
-                        context: context,
-                        name: "Education",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Education > 0)
-                            .OrderBy(o => o.Education))
-                    .TemplateTab(
-                        context: context,
-                        name: "Purchase",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Purchase > 0)
-                            .OrderBy(o => o.Purchase))
-                    .TemplateTab(
-                        context: context,
-                        name: "Logistics",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Logistics > 0)
-                            .OrderBy(o => o.Logistics))
-                    .TemplateTab(
-                        context: context,
-                        name: "LegalAffairs",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.LegalAffairs > 0)
-                            .OrderBy(o => o.LegalAffairs))
-                    .TemplateTab(
-                        context: context,
-                        name: "ProductList",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.ProductList > 0)
-                            .OrderBy(o => o.ProductList))
-                    .TemplateTab(
-                        context: context,
-                        name: "Classification",
-                        templates: Def.TemplateDefinitionCollection
-                            .Where(o => o.Language == context.Language)
-                            .Where(o => o.Classification > 0)
-                            .OrderBy(o => o.Classification)));
+                                .Where(o => o.Classification > 0)
+                                .OrderBy(o => o.Classification)));
         }
 
         /// <summary>
@@ -3032,6 +3035,10 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ProcessesSettingsEditor",
                                         text: Displays.Processes(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#StatusControlsSettingsEditor",
+                                        text: Displays.StatusControls(context: context)))
                                 .Li(action: () => hb
                                     .A(
                                         href: "#ViewsSettingsEditor",
@@ -3970,44 +3977,47 @@ namespace Implem.Pleasanter.Models
                                                 "cases-banner.png"))),
                             _using: !Parameters.DisableAds()
                                 && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(context: context, siteModel: siteModel)
-                            .FieldSetGeneral(context: context, siteModel: siteModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: siteModel.MethodType != BaseModel.MethodTypes.New)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetSiteAccessControl")
-                                    .DataAction("Permissions")
-                                    .DataMethod("post"),
-                                _using: context.CanManagePermission(ss: ss))
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetRecordAccessControl")
-                                    .DataAction("PermissionForCreating")
-                                    .DataMethod("post"),
-                                _using: EnableAdvancedPermissions(
-                                    context: context, siteModel: siteModel))
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetColumnAccessControl")
-                                    .DataAction("ColumnAccessControl")
-                                    .DataMethod("post"),
-                                _using: EnableAdvancedPermissions(
-                                    context: context, siteModel: siteModel))
-                            .MainCommands(
-                                context: context,
-                                ss: siteModel.SiteSettings,
-                                verType: siteModel.VerType,
-                                updateButton: true,
-                                copyButton: siteModel.ParentId > 0
-                                    || Permissions.SiteTopPermission(context: context) == (Permissions.Types)Parameters.Permissions.Manager,
-                                mailButton: true,
-                                deleteButton: true))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container" + tabsCss,
+                            action: () => hb
+                                .EditorTabs(context: context, siteModel: siteModel)
+                                .FieldSetGeneral(context: context, siteModel: siteModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: siteModel.MethodType != BaseModel.MethodTypes.New)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetSiteAccessControl")
+                                        .DataAction("Permissions")
+                                        .DataMethod("post"),
+                                    _using: context.CanManagePermission(ss: ss))
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetRecordAccessControl")
+                                        .DataAction("PermissionForCreating")
+                                        .DataMethod("post"),
+                                    _using: EnableAdvancedPermissions(
+                                        context: context, siteModel: siteModel))
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetColumnAccessControl")
+                                        .DataAction("ColumnAccessControl")
+                                        .DataMethod("post"),
+                                    _using: EnableAdvancedPermissions(
+                                        context: context, siteModel: siteModel))
+                                .MainCommands(
+                                    context: context,
+                                    ss: siteModel.SiteSettings,
+                                    verType: siteModel.VerType,
+                                    updateButton: true,
+                                    copyButton: siteModel.ParentId > 0
+                                        || Permissions.SiteTopPermission(context: context) == (Permissions.Types)Parameters.Permissions.Manager,
+                                    mailButton: true,
+                                    deleteButton: true))
                         .Hidden(
                             controlId: "MethodType",
                             value: siteModel.MethodType.ToString().ToLower())
@@ -4075,6 +4085,10 @@ namespace Implem.Pleasanter.Models
                         .Class("dialog")
                         .Title(Displays.Notifications(context: context)),
                     _using: context.ContractSettings.Notice != false)
+                .Div(attributes: new HtmlAttributes()
+                    .Id("StatusControlDialog")
+                    .Class("dialog")
+                    .Title(Displays.AdvancedSetting(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("NotificationDialog")
@@ -4281,6 +4295,7 @@ namespace Implem.Pleasanter.Models
                             .SummariesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .FormulasSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ProcessesSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .StatusControlsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ViewsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .NotificationsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .RemindersSettingsEditor(context: context, ss: siteModel.SiteSettings)
@@ -5613,31 +5628,35 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)),
                 action: () => hb
-                    .Div(id: "EditorDetailTabsContainer", action: () => hb
-                        .Ul(id: "EditorDetailsettingTabs", action: () => hb
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#EditorColumnDialogTab",
-                                    text: Displays.General(context: context)))
-                            .Li(
-                                action: () => hb
+                    .Div(
+                        id: "EditorDetailTabsContainer",
+                        css: "tab-container",
+                        action: () => hb.Ul(
+                            id: "EditorDetailsettingTabs",
+                            action: () => hb
+                                .Li(action: () => hb
                                     .A(
-                                        href: "#AutoNumberingSettingTab",
-                                        text: Displays.AutoNumbering(context: context)),
-                                _using: column.AutoNumberingColumn())
-                            .Li(
-                                action: () => hb
-                                    .A(
-                                        href: "#EditorDetailsettingTab",
-                                        text: Displays.ValidateInput(context: context)),
-                                _using: !column.OtherColumn())
-                            .Li(
-                                action: () => hb
-                                    .A(
-                                        href: "#ExtendedHtmlSettingTab",
-                                        text: Displays.ExtendedHtml(context: context)),
-                                _using: !column.OtherColumn()
-                                    && column.ColumnName != "Comments"))
+                                        href: "#EditorColumnDialogTab",
+                                        text: Displays.General(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#AutoNumberingSettingTab",
+                                            text: Displays.AutoNumbering(context: context)),
+                                    _using: column.AutoNumberingColumn())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#EditorDetailsettingTab",
+                                            text: Displays.ValidateInput(context: context)),
+                                    _using: !column.OtherColumn())
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ExtendedHtmlSettingTab",
+                                            text: Displays.ExtendedHtml(context: context)),
+                                    _using: !column.OtherColumn()
+                                        && column.ColumnName != "Comments"))
                         .EditorColumnDialogTab(
                             context: context,
                             ss: ss,
@@ -5697,6 +5716,7 @@ namespace Implem.Pleasanter.Models
                 action: () => hb
                     .Div(
                         id: "EditorDetailTabsContainer",
+                        css: "tab-container",
                         action: () => hb
                             .Ul(id: "EditorDetailsettingTabs", action: () => hb
                                 .Li(action: () => hb
@@ -8007,28 +8027,32 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.DisplayName(context: context),
                         text: process.DisplayName)
-                    .Div(id: "ProcessTabsContainer", action: () => hb
-                        .Ul(id: "ProcessTabs", action: () => hb
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ProcessGeneralTab",
-                                    text: Displays.General(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ProcessValidateInputsTab",
-                                    text: Displays.ValidateInput(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ProcessViewFiltersTab",
-                                    text: Displays.Condition(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ProcessAccessControlsTab",
-                                    text: Displays.AccessControls(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ProcessNotificationsTab",
-                                    text: Displays.Notifications(context: context))))
+                    .Div(
+                        id: "ProcessTabsContainer",
+                        css: "tab-container",
+                        action: () => hb.Ul(
+                            id: "ProcessTabs",
+                            action: () => hb
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ProcessGeneralTab",
+                                        text: Displays.General(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ProcessValidateInputsTab",
+                                        text: Displays.ValidateInput(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ProcessViewFiltersTab",
+                                        text: Displays.Condition(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ProcessAccessControlsTab",
+                                        text: Displays.AccessControls(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ProcessNotificationsTab",
+                                        text: Displays.Notifications(context: context))))
                         .ProcessGeneralTab(
                             context: context,
                             ss: ss,
@@ -8831,6 +8855,424 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder StatusControlsSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.FieldSet(id: "StatusControlsSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpStatusControls",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditStatusControl', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownStatusControls",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditStatusControl', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewStatusControl",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openStatusControlDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteStatusControls",
+                        controlCss: "button-icon",
+                        text: Displays.Delete(context: context),
+                        onClick: "$p.setAndSend('#EditStatusControl', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditStatusControl(
+                    context: context,
+                    ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditStatusControl(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditStatusControl").Deserialize<IEnumerable<int>>();
+            return hb
+                .Table(
+                    id: "EditStatusControl",
+                    css: "grid",
+                    attributes: new HtmlAttributes()
+                        .DataName("StatusControlId")
+                        .DataFunc("openStatusControlDialog")
+                        .DataAction("SetSiteSettings")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .StatusControlsHeader(
+                            context: context,
+                            ss: ss,
+                            selected: selected)
+                        .StatusControlsBody(
+                            context: context,
+                            ss: ss,
+                            selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StatusControlsHeader(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.StatusControls?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Name(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Status(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Description(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ReadOnly(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StatusControlsBody(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            if (ss.StatusControls?.Any() == true)
+            {
+                var statusColumn = ss.GetColumn(
+                    context: context,
+                    columnName: "Status");
+                hb.TBody(action: () =>
+                {
+                    ss.StatusControls?.ForEach(statusControl =>
+                    {
+                        hb.Tr(
+                            css: "grid-row",
+                            attributes: new HtmlAttributes()
+                                .DataId(statusControl.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "select",
+                                        _checked: selected?.Contains(statusControl.Id) == true))
+                                .Td(action: () => hb
+                                    .Text(text: statusControl.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: statusControl.Name))
+                                .Td(action: () => hb
+                                    .Text(text: statusColumn?.ChoiceHash?.Get(statusControl.Status.ToString())?.Text))
+                                .Td(action: () => hb
+                                    .Text(text: statusControl.Description))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: statusControl.ReadOnly == true)));
+                    });
+                });
+            }
+            return hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder StatusControlDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            StatusControl statusControl)
+        {
+            var hb = new HtmlBuilder();
+            var status = ss.GetColumn(
+                context: context,
+                columnName: "Status");
+            var optionCollection = status.ChoicesText.SplitReturn()
+                .Select(o => new Choice(o))
+                .GroupBy(o => o.Value)
+                .ToDictionary(
+                    o => o.Key,
+                    o => new ControlData(
+                        text: o.First().Text,
+                        css: o.First().CssClass));
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("StatusControlForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "StatusControlId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: statusControl.Id.ToString(),
+                        _using: controlId == "EditStatusControl")
+                    .FieldTextBox(
+                        controlId: "StatusControlName",
+                        controlCss: " always-send",
+                        labelText: Displays.Name(context: context),
+                        text: statusControl.Name,
+                        validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "StatusControlStatus",
+                        controlCss: " always-send",
+                        labelText: Displays.Status(context: context),
+                        optionCollection: optionCollection,
+                        selectedValue: statusControl.Status.ToString())
+                    .FieldTextBox(
+                        controlId: "StatusControlDescription",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Description(context: context),
+                        text: statusControl.Description)
+                    .Div(
+                        id: "StatusControlTabsContainer",
+                        css: "tab-container",
+                        action: () => hb
+                            .Ul(id: "StatusControlTabs", action: () => hb
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#StatusControlGeneralTab",
+                                        text: Displays.General(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#StatusControlViewFiltersTab",
+                                        text: Displays.Condition(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#StatusControlAccessControlsTab",
+                                        text: Displays.AccessControls(context: context))))
+                            .StatusControlGeneralTab(
+                                context: context,
+                                ss: ss,
+                                statusControl: statusControl)
+                            .StatusControlViewFiltersTab(
+                                context: context,
+                                ss: ss,
+                                statusControl: statusControl)
+                            .StatusControlAccessControlsTab(
+                                context: context,
+                                ss: ss,
+                                statusControl: statusControl))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddStatusControl",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewStatusControl")
+                        .Button(
+                            controlId: "UpdateStatusControl",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditStatusControl")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StatusControlGeneralTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            StatusControl statusControl)
+        {
+            return hb.FieldSet(id: "StatusControlGeneralTab", action: () => hb
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.RecordControl(context: context),
+                    action: () => hb
+                        .FieldCheckBox(
+                            fieldId: "StatusControlReadOnlyField",
+                            controlId: "StatusControlReadOnly",
+                            fieldCss: "field-auto-thin",
+                            controlCss: " always-send",
+                            labelText: Displays.ReadOnly(context: context),
+                            _checked: statusControl.ReadOnly == true))
+                .FieldSet(
+                    css: " enclosed-thin",
+                    legendText: Displays.ColumnControl(context: context),
+                    action: () => hb
+                        .FieldSelectable(
+                            controlId: "StatusControlColumnHash",
+                            fieldCss: "field-vertical",
+                            controlContainerCss: "container-selectable",
+                            controlWrapperCss: " h250",
+                            controlCss: " always-send send-all",
+                            listItemCollection: ss.StatusControlColumnHashOptions(
+                                context: context,
+                                columnHash: statusControl.ColumnHash),
+                            commandOptionPositionIsTop: true,
+                            commandOptionAction: () => hb
+                                .Div(css: "command-left", action: () => hb
+                                    .Button(
+                                        controlId: "StatusControlColumnNone",
+                                        text: Displays.None(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.setStatusControlColumnHash($(this));",
+                                        icon: "ui-icon-gear",
+                                        dataType: "None")
+                                    .Button(
+                                        controlId: "StatusControlColumnRequired",
+                                        text: Displays.Required(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.setStatusControlColumnHash($(this));",
+                                        icon: "ui-icon-gear",
+                                        dataType: "Required")
+                                    .Button(
+                                        controlId: "StatusControlColumnReadOnly",
+                                        text: Displays.ReadOnly(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.setStatusControlColumnHash($(this));",
+                                        icon: "ui-icon-gear",
+                                        dataType: "ReadOnly")
+                                    .Button(
+                                        controlId: "StatusControlColumnHidden",
+                                        controlCss: "button-icon",
+                                        text: Displays.Hidden(context: context),
+                                        onClick: "$p.setStatusControlColumnHash($(this));",
+                                        icon: "ui-icon-gear",
+                                        dataType: "Hidden")))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StatusControlViewFiltersTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            StatusControl statusControl)
+        {
+            var view = statusControl.View ?? new View();
+            return hb.ViewFiltersTab(
+                context: context,
+                ss: ss,
+                view: view,
+                prefix: "StatusControl");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder StatusControlAccessControlsTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            StatusControl statusControl,
+            int totalCount = 0)
+        {
+            var currentPermissions = statusControl.GetPermissions(ss: ss);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: context.Forms.Data("SearchStatusControlAccessControlElements"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            var offset = context.Forms.Int("SourceStatusControlAccessControlOffset");
+            return hb.FieldSet(id: "StatusControlAccessControlsTab", action: () => hb
+                .Div(id: "StatusControlAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentStatusControlAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(context: context),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(context: context),
+                                    onClick: "$p.deleteStatusControlAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceStatusControlAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(context: context),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(context: context),
+                                    onClick: "$p.addStatusControlAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchStatusControlAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(context: context),
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchStatusControlAccessControl'));",
+                                    icon: "ui-icon-search")))
+                    .Hidden(
+                        controlId: "SourceStatusControlAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder ViewsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
@@ -8954,59 +9396,63 @@ namespace Implem.Pleasanter.Models
                             ss: ss),
                         selectedValue: view.DefaultMode,
                         insertBlank: true)
-                    .Div(id: "ViewTabsContainer", action: () => hb
-                        .Ul(id: "ViewTabs", action: () => hb
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ViewGridTab",
-                                    text: Displays.Grid(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ViewFiltersTab",
-                                    text: Displays.Filters(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ViewSortersTab",
-                                    text: Displays.Sorters(context: context)))
-                            .Li(
-                                action: () => hb
+                    .Div(
+                        id: "ViewTabsContainer",
+                        css: "tab-container",
+                        action: () => hb.Ul(
+                            id: "ViewTabs",
+                            action: () => hb
+                                .Li(action: () => hb
                                     .A(
-                                        href: "#ViewEditorTab",
-                                        text: Displays.Editor(context: context)))
-                            .Li(
-                                action: () => hb
+                                        href: "#ViewGridTab",
+                                        text: Displays.Grid(context: context)))
+                                .Li(action: () => hb
                                     .A(
-                                        href: "#ViewCalendarTab",
-                                        text: Displays.Calendar(context: context)),
-                                _using: hasCalendar)
-                            .Li(
-                                action: () => hb
+                                        href: "#ViewFiltersTab",
+                                        text: Displays.Filters(context: context)))
+                                .Li(action: () => hb
                                     .A(
-                                        href: "#ViewCrosstabTab",
-                                        text: Displays.Crosstab(context: context)),
-                                _using: hasCrosstab)
-                            .Li(
-                                action: () => hb
+                                        href: "#ViewSortersTab",
+                                        text: Displays.Sorters(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ViewEditorTab",
+                                            text: Displays.Editor(context: context)))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ViewCalendarTab",
+                                            text: Displays.Calendar(context: context)),
+                                    _using: hasCalendar)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ViewCrosstabTab",
+                                            text: Displays.Crosstab(context: context)),
+                                    _using: hasCrosstab)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ViewGanttTab",
+                                            text: Displays.Gantt(context: context)),
+                                    _using: hasGantt)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ViewTimeSeriesTab",
+                                            text: Displays.TimeSeries(context: context)),
+                                    _using: hasTimeSeries)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ViewKambanTab",
+                                            text: Displays.Kamban(context: context)),
+                                    _using: hasKamban)
+                                .Li(action: () => hb
                                     .A(
-                                        href: "#ViewGanttTab",
-                                        text: Displays.Gantt(context: context)),
-                                _using: hasGantt)
-                            .Li(
-                                action: () => hb
-                                    .A(
-                                        href: "#ViewTimeSeriesTab",
-                                        text: Displays.TimeSeries(context: context)),
-                                _using: hasTimeSeries)
-                            .Li(
-                                action: () => hb
-                                    .A(
-                                        href: "#ViewKambanTab",
-                                        text: Displays.Kamban(context: context)),
-                                _using: hasKamban)
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ViewAccessControlTab",
-                                    text: Displays.AccessControls(context: context))))
+                                        href: "#ViewAccessControlTab",
+                                        text: Displays.AccessControls(context: context))))
                         .ViewGridTab(
                             context: context,
                             ss: ss,
@@ -9311,7 +9757,8 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-auto-thin ",
                         labelText: Displays.KeepFilterState(context: context),
                         _checked: view.KeepFilterState == true,
-                        labelPositionIsRight: true)
+                        labelPositionIsRight: true,
+                        _using: prefix.IsNullOrEmpty())
                     .FieldSet(
                         id: "ViewFiltersFilterConditionSettingsEditor",
                         css: "fieldset cf both" + (view.KeepFilterState == true
@@ -11169,18 +11616,22 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: ss.SiteId)),
                 action: () => hb
-                    .Div(id: "ExportTabsContainer", action: () => hb
-                        .Ul(id: "ExportTabs", action: () => hb
-                            .Li(
-                                action: () => hb
-                                    .A(
-                                        href: "#ExportGeneralTab",
-                                        text: Displays.General(context: context))
-                            .Li(
-                                action: () => hb
-                                    .A(
-                                        href: "#ExportAccessControlTab",
-                                        text: Displays.AccessControls(context: context)))))
+                    .Div(
+                        id: "ExportTabsContainer",
+                        css: "tab-container",
+                        action: () => hb.Ul(
+                            id: "ExportTabs",
+                            action: () => hb
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ExportGeneralTab",
+                                            text: Displays.General(context: context))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ExportAccessControlTab",
+                                            text: Displays.AccessControls(context: context)))))
                         .ExportGeneralTab(
                             context: context,
                             ss: ss,

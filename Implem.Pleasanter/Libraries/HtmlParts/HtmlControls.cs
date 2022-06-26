@@ -667,6 +667,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string method = null,
             string confirm = null,
             string type = "button",
+            string dataType = null,
             bool disabled = false,
             Dictionary<string, string> attributes = null,
             bool _using = true)
@@ -688,6 +689,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .DataAction(action)
                         .DataMethod(method)
                         .DataConfirm(confirm)
+                        .DataType(dataType)
                         .Disabled(disabled)
                         .Add(attributes),
                     action: () => hb

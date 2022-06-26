@@ -40,8 +40,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ServerScriptModelColumn serverScriptModelColumn = null,
             BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
-            Permissions.ColumnPermissionTypes columnPermissionType =
-                Permissions.ColumnPermissionTypes.Update,
+            StatusControl.ControlConstraintsTypes controlConstraintsType = StatusControl.ControlConstraintsTypes.None,
+            Permissions.ColumnPermissionTypes columnPermissionType = Permissions.ColumnPermissionTypes.Update,
             string fieldCss = null,
             string labelCss = null,
             string controlContainerCss = null,
@@ -54,6 +54,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disableSection = false,
             bool _using = true)
         {
+            if (columnPermissionType == Permissions.ColumnPermissionTypes.Deny || !_using)
+            {
+                return hb;
+            }
             if (column.Type == Column.Types.User
                 && column.MultipleSelections != true
                 && SiteInfo.User(
@@ -62,87 +66,87 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 value = string.Empty;
             }
-            if (columnPermissionType != Permissions.ColumnPermissionTypes.Deny && _using)
+            if (column.Section != null && !controlOnly && !disableSection)
             {
-                if (column.Section != null && !controlOnly && !disableSection)
-                {
-                    hb.Div(
-                        css: "field-section",
-                        action: () => hb
-                            .Text(text: column.Section));
-                }
-                return hb
-                    .Raw(HtmlHtmls.ExtendedHtmls(
-                        context: context,
-                        id: "ColumnTop",
-                        columnName: column.ColumnName))
-                    .Raw(Strings.CoalesceEmpty(
-                        serverScriptModelColumn?.ExtendedHtmlBeforeField,
-                        column.ExtendedHtmlBeforeField))
-                    .SwitchField(
+                hb.Div(
+                    css: "field-section",
+                    action: () => hb
+                        .Text(text: column.Section));
+            }
+            return hb
+                .Raw(HtmlHtmls.ExtendedHtmls(
+                    context: context,
+                    id: "ColumnTop",
+                    columnName: column.ColumnName))
+                .Raw(Strings.CoalesceEmpty(
+                    serverScriptModelColumn?.ExtendedHtmlBeforeField,
+                    column.ExtendedHtmlBeforeField))
+                .SwitchField(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    columnPermissionType: context.Publish
+                        || column.GetEditorReadOnly()
+                        || controlConstraintsType == StatusControl.ControlConstraintsTypes.ReadOnly
+                            ? Permissions.ColumnPermissionTypes.Read
+                            : columnPermissionType,
+                    controlId: !preview
+                        ? $"{column.Id}{idSuffix}"
+                        : null,
+                    columnName: $"{column.ColumnName}{idSuffix}",
+                    fieldCss: FieldCss(
+                        column: column,
+                        serverScriptModelColumn: serverScriptModelColumn,
+                        controlConstraintsType: controlConstraintsType,
+                        fieldCss: fieldCss),
+                    labelCss: labelCss,
+                    controlContainerCss: controlContainerCss,
+                    controlCss: ControlCss(
+                        column: column,
+                        serverScriptModelColumn: serverScriptModelColumn,
+                        disableAutoPostBack: disableAutoPostBack,
+                        controlCss: controlCss),
+                    controlType: ControlType(column),
+                    labelText: Strings.CoalesceEmpty(
+                        serverScriptModelColumn?.LabelText,
+                        column.LabelText),
+                    labelRaw: serverScriptModelColumn?.LabelRaw,
+                    value: value,
+                    optionCollection: EditChoices(
                         context: context,
                         ss: ss,
                         column: column,
-                        columnPermissionType: context.Publish || column.GetEditorReadOnly()
-                            ? Permissions.ColumnPermissionTypes.Read
-                            : columnPermissionType,
-                        controlId: !preview
-                            ? $"{column.Id}{idSuffix}"
-                            : null,
-                        columnName: $"{column.ColumnName}{idSuffix}",
-                        fieldCss: FieldCss(
-                            column: column,
-                            serverScriptModelColumn: serverScriptModelColumn,
-                            fieldCss: fieldCss),
-                        labelCss: labelCss,
-                        controlContainerCss: controlContainerCss,
-                        controlCss: ControlCss(
-                            column: column,
-                            serverScriptModelColumn: serverScriptModelColumn,
-                            disableAutoPostBack: disableAutoPostBack,
-                            controlCss: controlCss),
-                        controlType: ControlType(column),
-                        labelText: Strings.CoalesceEmpty(
-                            serverScriptModelColumn?.LabelText,
-                            column.LabelText),
-                        labelRaw: serverScriptModelColumn?.LabelRaw,
-                        value: value,
-                        optionCollection: EditChoices(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            value: value),
-                        mobile: context.Mobile,
-                        controlOnly: controlOnly,
-                        alwaysSend: alwaysSend,
-                        preview: preview,
-                        extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
-                            serverScriptModelColumn?.ExtendedHtmlBeforeLabel,
-                            column.ExtendedHtmlBeforeLabel),
-                        extendedHtmlBetweenLabelAndControl: Strings.CoalesceEmpty(
-                            serverScriptModelColumn?.ExtendedHtmlBetweenLabelAndControl,
-                            column.ExtendedHtmlBetweenLabelAndControl),
-                        extendedHtmlAfterControl: Strings.CoalesceEmpty(
-                            serverScriptModelColumn?.ExtendedHtmlAfterControl,
-                            column.ExtendedHtmlAfterControl))
-                    .Raw(Strings.CoalesceEmpty(
-                        serverScriptModelColumn?.ExtendedHtmlAfterField,
-                        column.ExtendedHtmlAfterField))
-                    .Raw(HtmlHtmls.ExtendedHtmls(
-                        context: context,
-                        id: "ColumnBottom",
-                        columnName: column.ColumnName));
-            }
-            else
-            {
-                return hb;
-            }
+                        value: value),
+                    mobile: context.Mobile,
+                    controlOnly: controlOnly,
+                    alwaysSend: alwaysSend,
+                    required: column.Required
+                        || column.GetValidateRequired()
+                        || controlConstraintsType == StatusControl.ControlConstraintsTypes.Required,
+                    preview: preview,
+                    extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
+                        serverScriptModelColumn?.ExtendedHtmlBeforeLabel,
+                        column.ExtendedHtmlBeforeLabel),
+                    extendedHtmlBetweenLabelAndControl: Strings.CoalesceEmpty(
+                        serverScriptModelColumn?.ExtendedHtmlBetweenLabelAndControl,
+                        column.ExtendedHtmlBetweenLabelAndControl),
+                    extendedHtmlAfterControl: Strings.CoalesceEmpty(
+                        serverScriptModelColumn?.ExtendedHtmlAfterControl,
+                        column.ExtendedHtmlAfterControl))
+                .Raw(Strings.CoalesceEmpty(
+                    serverScriptModelColumn?.ExtendedHtmlAfterField,
+                    column.ExtendedHtmlAfterField))
+                .Raw(HtmlHtmls.ExtendedHtmls(
+                    context: context,
+                    id: "ColumnBottom",
+                    columnName: column.ColumnName));
         }
 
         private static string FieldCss(
             Column column,
             ServerScriptModelColumn serverScriptModelColumn,
-            string fieldCss)
+            StatusControl.ControlConstraintsTypes controlConstraintsType = StatusControl.ControlConstraintsTypes.None,
+            string fieldCss = null)
         {
             var extendedFieldCss = Strings.CoalesceEmpty(
                 serverScriptModelColumn?.ExtendedFieldCss,
@@ -151,7 +155,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
-                + (column.GetHide()
+                + (column.GetHide() || controlConstraintsType == StatusControl.ControlConstraintsTypes.Hidden
                     ? " hidden"
                     : string.Empty)
                 + (column.TextAlign == SiteSettings.TextAlignTypes.Right
@@ -311,8 +315,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 columnName: column.ColumnName,
                 fieldCss: FieldCss(
                     column: column,
-                    serverScriptModelColumn: null,
-                    fieldCss: null),
+                    serverScriptModelColumn: null),
                 labelCss: null,
                 controlContainerCss: null,
                 controlCss: ControlCss(
@@ -332,6 +335,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 mobile: context.Mobile,
                 controlOnly: false,
                 alwaysSend: false,
+                required: column.Required
+                    || column.GetValidateRequired(),
                 preview: false,
                 extendedHtmlBeforeLabel: Strings.CoalesceEmpty(
                     null,
@@ -365,12 +370,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool mobile,
             bool controlOnly,
             bool alwaysSend,
+            bool required,
             bool preview,
             string extendedHtmlBeforeLabel,
             string extendedHtmlBetweenLabelAndControl,
             string extendedHtmlAfterControl)
         {
-            var required = column.Required || column.GetValidateRequired();
             if (preview)
             {
                 required = false;

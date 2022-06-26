@@ -174,6 +174,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Summary> Summaries;
         public SettingList<FormulaSet> Formulas;
         public SettingList<Process> Processes;
+        public SettingList<StatusControl> StatusControls;
         public int? ViewLatestId;
         public List<View> Views;
         public SettingList<Notification> Notifications;
@@ -331,6 +332,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Summaries == null) Summaries = new SettingList<Summary>();
             if (Formulas == null) Formulas = new SettingList<FormulaSet>();
             if (Processes == null) Processes = new SettingList<Process>();
+            if (StatusControls == null) StatusControls = new SettingList<StatusControl>();
             ViewLatestId = ViewLatestId ?? 0;
             if (Views == null) Views = new List<View>();
             if (Notifications == null) Notifications = new SettingList<Notification>();
@@ -960,6 +962,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Processes = new SettingList<Process>();
                 }
                 ss.Processes.Add(process.GetRecordingData(
+                    context: context,
+                    ss: this));
+            });
+            StatusControls?.ForEach(statusControl =>
+            {
+                if (ss.StatusControls == null)
+                {
+                    ss.StatusControls = new SettingList<StatusControl>();
+                }
+                ss.StatusControls.Add(statusControl.GetRecordingData(
                     context: context,
                     ss: this));
             });
@@ -2914,12 +2926,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "numeric":
                     if (column.TypeName == "decimal")
                     {
-                        var columnDefinition = ColumnDefinitionHash.Get(column.ColumnName);
                         data.Add("data-num", "1");
                     }
                     break;
             }
             return data;
+        }
+
+        public Dictionary<string, ControlData> StatusControlColumnHashOptions(
+            Context context,
+            Dictionary<string, StatusControl.ControlConstraintsTypes> columnHash)
+        {
+            return ColumnDefinitionHash.EditorDefinitions(context: context)
+                .Where(o => o.ColumnName != "Comments"
+                    && o.ColumnName != "Creator"
+                    && o.ColumnName != "Updator"
+                    && o.ColumnName != "CreatedTime"
+                    && o.ColumnName != "UpdatedTime")
+                .OrderBy(columnDefinition => columnDefinition.EditorColumn)
+                .Select(columnDefinition => new
+                {
+                    Column = GetColumn(
+                        context: context,
+                        columnName: columnDefinition.ColumnName),
+                    ControlType = columnHash.Get(columnDefinition.ColumnName)
+                })
+                .Where(o => o.Column != null)
+                .Select(o => new
+                {
+                    Key = $"{o.Column.ColumnName},{o.ControlType}",
+                    Text = o.ControlType == StatusControl.ControlConstraintsTypes.None
+                        ? o.Column.LabelText
+                        : $"{o.Column.LabelText}"
+                })
+                .ToDictionary(
+                    o => o.Key,
+                    o => new ControlData(text: o.Text));
         }
 
         public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
@@ -5089,6 +5131,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             columns.AddRange(Columns
                 .Where(o => o.UseSearch == true)
                 .Select(o => o.ColumnName));
+            columns.AddRange(StatusControls?
+                .SelectMany(statusControl => statusControl.ColumnHash)
+                .Where(o => o.Value != StatusControl.ControlConstraintsTypes.None)
+                .Select(o => o.Key));
             return columns
                 .Distinct()
                 .ToList();

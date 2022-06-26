@@ -31,7 +31,7 @@
             #modelName#Model.Ver = 1;
             #modelName#Model.Comments = new Comments();
             #modelName#Model.AccessStatus = Databases.AccessStatuses.Initialized;
-            #modelName#Model.SetByLookups(
+            #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss,
                 copyByDefaultOnly: true);
@@ -155,7 +155,7 @@ private static HtmlBuilder EditorInDialog(
     {
         hb.Div(
             id: "EditorTabsContainer",
-            css: "max",
+            css: "tab-container max",
             attributes: new HtmlAttributes().TabActive(context: context),
             action: () => hb
                 .EditorTabs(
@@ -230,7 +230,7 @@ private static HtmlBuilder Editor(
                     _using: showComments)
                 .Div(
                     id: "EditorTabsContainer",
-                    css: tabsCss,
+                    css: "tab-container " + tabsCss,
                     attributes: new HtmlAttributes().TabActive(context: context),
                     action: () => hb
                         .EditorTabs(
@@ -463,6 +463,9 @@ public static HtmlBuilder Field(
                 ?.Columns.Get(column.ColumnName),
             methodType: #modelName#Model.MethodType,
             value: value,
+
+<!--Model_ControlConstraintsType-->
+
             columnPermissionType: Permissions.ColumnPermissionType(
                 context: context,
                 ss: ss,

@@ -1,34 +1,33 @@
 ﻿{
-    "Id": "ReadOnly",
+    "Id": "ColumnControl",
     "Type": 110,
-    "ClientScript": true,
     "Languages": [
         {
-            "Body": "Read only"
+            "Body": "Column control"
         },
         {
             "Language": "zh",
-            "Body": "只读"
+            "Body": "列控制"
         },
         {
             "Language": "ja",
-            "Body": "読取専用"
+            "Body": "項目の制御"
         },
         {
             "Language": "de",
-            "Body": "Nur lesen"
+            "Body": "Spaltensteuerung"
         },
         {
             "Language": "ko",
-            "Body": "읽기 전용"
+            "Body": "열 제어"
         },
         {
             "Language": "es",
-            "Body": "Solo lectura"
+            "Body": "control de columna"
         },
         {
             "Language": "vn",
-            "Body": "Chỉ được đọc"
+            "Body": "Kiểm soát cột"
         }
     ]
 }

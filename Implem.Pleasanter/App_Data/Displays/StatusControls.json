@@ -1,34 +1,33 @@
 ﻿{
-    "Id": "ReadOnly",
+    "Id": "StatusControls",
     "Type": 110,
-    "ClientScript": true,
     "Languages": [
         {
-            "Body": "Read only"
+            "Body": "Control by status"
         },
         {
             "Language": "zh",
-            "Body": "只读"
+            "Body": "添加"
         },
         {
             "Language": "ja",
-            "Body": "読取専用"
+            "Body": "状況による制御"
         },
         {
             "Language": "de",
-            "Body": "Nur lesen"
+            "Body": "Hinzufügen"
         },
         {
             "Language": "ko",
-            "Body": "읽기 전용"
+            "Body": "추가"
         },
         {
             "Language": "es",
-            "Body": "Solo lectura"
+            "Body": "Añadir"
         },
         {
             "Language": "vn",
-            "Body": "Chỉ được đọc"
+            "Body": "Thêm mới"
         }
     ]
 }
