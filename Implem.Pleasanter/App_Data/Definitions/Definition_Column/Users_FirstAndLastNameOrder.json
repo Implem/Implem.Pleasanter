@@ -22,7 +22,7 @@
     "UpdateAccessControl": "ManageService",
     "EnumColumn": "1",
     "ControlType": "ChoicesText",
-    "ChoicesText": "2,姓 - 名\r\n1,名 - 姓",
+    "ChoicesText": "2,姓 - 名\n1,名 - 姓",
     "LabelText_en": "First and last name order",
     "LabelText_zh": "姓氏和名字顺序",
     "LabelText_de": "Reihenfolge Vor- und Nachname",
