@@ -52,6 +52,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 : 0);
             view?.ColumnFilterHash?.ForEach(columnFilter =>
                 ((IDictionary<string, object>)View.Filters)[columnFilter.Key] = columnFilter.Value);
+            view?.ColumnFilterSearchTypes?.ForEach(columnFilterSearchType =>
+                ((IDictionary<string, object>)View.SearchTypes)[columnFilterSearchType.Key] = columnFilterSearchType.Value);
             view?.ColumnSorterHash?.ForEach(columnSorter =>
                 ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
                     typeof(SqlOrderBy.Types),

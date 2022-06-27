@@ -421,6 +421,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             });
         }
 
+        private static void SetColumnSearchTypeHashValues(
+            Context context,
+            View view,
+            ExpandoObject columnSearchTypeHash)
+        {
+            columnSearchTypeHash?.ForEach(columnFilterSearchType =>
+            {
+                if (view.ColumnFilterSearchTypes == null)
+                {
+                    view.ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();
+                }
+                view.ColumnFilterSearchTypes[columnFilterSearchType.Key] = Value(columnSearchTypeHash, columnFilterSearchType.Key).ToString().ToEnum<Column.SearchTypes>();
+            });
+        }
+
         private static void SetColumnSorterHashValues(
             Context context,
             View view,
@@ -675,6 +690,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     view: view,
                     columnFilterHash: data.View.Filters);
+                SetColumnSearchTypeHashValues(
+                    context: context,
+                    view: view,
+                    columnSearchTypeHash: data.View.SearchTypes);
                 SetColumnSorterHashValues(
                     context: context,
                     view: view,
