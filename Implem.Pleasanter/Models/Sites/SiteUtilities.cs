@@ -8982,7 +8982,9 @@ namespace Implem.Pleasanter.Models
                                 .Td(action: () => hb
                                     .Text(text: statusControl.Name))
                                 .Td(action: () => hb
-                                    .Text(text: statusColumn?.ChoiceHash?.Get(statusControl.Status.ToString())?.Text))
+                                    .Text(text: statusControl.Status != -1
+                                        ? statusColumn?.ChoiceHash?.Get(statusControl.Status.ToString())?.Text
+                                        : "*"))
                                 .Td(action: () => hb
                                     .Text(text: statusControl.Description))
                                 .Td(action: () => hb
@@ -9008,7 +9010,7 @@ namespace Implem.Pleasanter.Models
             var status = ss.GetColumn(
                 context: context,
                 columnName: "Status");
-            var optionCollection = status.ChoicesText.SplitReturn()
+            var optionCollection = $"-1,*\n{status.ChoicesText}".SplitReturn()
                 .Select(o => new Choice(o))
                 .GroupBy(o => o.Value)
                 .ToDictionary(

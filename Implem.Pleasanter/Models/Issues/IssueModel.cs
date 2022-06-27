@@ -2885,7 +2885,8 @@ namespace Implem.Pleasanter.Models
             {
                 StatusControlHash = new Dictionary<string, StatusControl.ControlConstraintsTypes>();
                 ss.StatusControls?
-                    .Where(statusControl => statusControl.Status == Status.Value)
+                    .Where(statusControl => statusControl.Status == -1
+                        || statusControl.Status == Status.Value)
                     .Where(statusControl => statusControl.Accessable(context: context))
                     .Where(statusControl => statusControl.View == null
                         || Matched(
