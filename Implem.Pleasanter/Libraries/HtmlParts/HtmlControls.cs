@@ -929,7 +929,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     added: item.Added,
                                     deleted: item.Deleted,
                                     readOnly: readOnly,
-                                    allowDelete: allowDelete)))
+                                    allowDelete: allowDelete,
+                                    _using: item.Exists(context: context))))
                     .Div(
                         id: columnName + ".status",
                         attributes: new HtmlAttributes()

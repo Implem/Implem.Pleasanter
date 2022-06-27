@@ -64,7 +64,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     context: context,
                                     guid: item.Guid),
                                 action: () => hb
-                                    .Text(text: item.Name))))));
+                                    .Text(text: item.Name),
+                                _using: item.Exists(context: context))))));
         }
 
         public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)
@@ -150,7 +151,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 {
                     if (attachment.Added == true)
                     {
-                        if (BinaryUtilities.BinaryStorageProvider(column, (decimal)attachment.Size) == "LocalFolder")
+                        if (attachment.IsStoreLocalFolder(column))
                         {
                             attachment.WriteToLocal(context: context);
                         }
