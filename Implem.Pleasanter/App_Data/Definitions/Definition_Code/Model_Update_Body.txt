@@ -54,6 +54,7 @@
 <!--Model_OnUpdated_Users-->
 <!--Model_OnUpdated_SetSiteMenu-->
 <!--Model_OnUpdated_ServerScript-->
+<!--Model_OnUpdated_SetStatusControls-->
 
     return new ErrorData(type: Error.Types.None);
 }

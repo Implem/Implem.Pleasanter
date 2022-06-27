@@ -477,7 +477,7 @@ namespace Implem.Pleasanter.Libraries.Html
             if (!value.IsNullOrEmpty() && _using)
             {
                 Add("data-format");
-                Add(value);
+                Add(HttpUtility.HtmlAttributeEncode(value));
             }
             return this;
         }

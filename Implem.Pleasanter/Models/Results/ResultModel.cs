@@ -560,6 +560,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     requestFormData: formData);
             }
+            SetByStatusControls(
+                context: context,
+                ss: ss);
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -609,6 +612,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     requestFormData: formData);
             }
+            SetByStatusControls(
+                context: context,
+                ss: ss);
             if (SavedLocked)
             {
                 ss.SetLockedRecord(
@@ -652,6 +658,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     requestFormData: formData);
             }
+            SetByStatusControls(
+                context: context,
+                ss: ss);
             OnConstructed(context: context);
         }
 
@@ -1625,6 +1634,10 @@ namespace Implem.Pleasanter.Models
             SetByAfterUpdateServerScript(
                 context: context,
                 ss: ss);
+            SetByStatusControls(
+                context: context,
+                ss: ss,
+                force: true);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2039,11 +2052,11 @@ namespace Implem.Pleasanter.Models
         private List<SqlStatement> IfDuplicatedStatements(SiteSettings ss)
         {
             var statements = new List<SqlStatement>();
-            var param = new Rds.ResultsParamCollection();
             ss.Columns
                 .Where(column => column.NoDuplication == true)
                 .ForEach(column =>
                 {
+                    var param = new Rds.ResultsParamCollection();
                     switch (column.ColumnName)
                     {
                         case "Title":
@@ -2389,6 +2402,20 @@ namespace Implem.Pleasanter.Models
                         || Status.Value == process.CurrentStatus);
         }
 
+        public StatusControl.ControlConstraintsTypes GetStatusControl(
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            if (StatusControlHash == null)
+            {
+                SetByStatusControls(
+                    context: context,
+                    ss: ss);
+            }
+            return StatusControlHash.Get(column.ColumnName);
+        }
+
         public void SetByModel(ResultModel resultModel)
         {
             SiteId = resultModel.SiteId;
@@ -2514,7 +2541,23 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
-        public void SetByLookups(
+        public void SetBySettings(
+            Context context,
+            SiteSettings ss,
+            Dictionary<string, string> requestFormData = null,
+            bool copyByDefaultOnly = false)
+        {
+            SetByLookups(
+                context: context,
+                ss: ss,
+                requestFormData: requestFormData,
+                copyByDefaultOnly: copyByDefaultOnly);
+            SetByStatusControls(
+                context: context,
+                ss: ss);
+        }
+
+        private void SetByLookups(
             Context context,
             SiteSettings ss,
             Dictionary<string,string> requestFormData = null,
@@ -2552,6 +2595,31 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     formData: formData);
+            }
+        }
+
+        private void SetByStatusControls(
+            Context context,
+            SiteSettings ss,
+            bool force = false)
+        {
+            if (StatusControlHash == null || force)
+            {
+                StatusControlHash = new Dictionary<string, StatusControl.ControlConstraintsTypes>();
+                ss.StatusControls?
+                    .Where(statusControl => statusControl.Status == Status.Value)
+                    .Where(statusControl => statusControl.Accessable(context: context))
+                    .Where(statusControl => statusControl.View == null
+                        || Matched(
+                            context: context,
+                            ss: ss,
+                            view: statusControl.View))
+                    .ForEach(statusControl =>
+                    {
+                        ReadOnly |= statusControl.ReadOnly == true;
+                        statusControl.ColumnHash?.ForEach(data =>
+                            StatusControlHash.AddIfNotConainsKey(data.Key, data.Value));
+                    });
             }
         }
 

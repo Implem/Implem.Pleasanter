@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputValidationTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input validation types"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入验证类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力検証種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Validierungstyp eingeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "Tipo de validación de entrada"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de validación de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại xác thực đầu vào"
+        }
+    ]
+}

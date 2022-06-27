@@ -26,11 +26,33 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (context.Forms.ControlId() == "ViewSelector")
             {
                 view = ss.Views
-                    ?.Where(o => o.Accessable(context:context))
+                    ?.Where(o => o.Accessable(context: context))
                     .FirstOrDefault(o => o.Id == context.Forms.Int("ViewSelector"))
                         ?? new View(
                             context: context,
                             ss: ss);
+                if (view.KeepFilterState == true || view.KeepSorterState == true)
+                {
+                    var prevView = GetSessionView(
+                        context: context,
+                        ss: ss,
+                        useUsersView: useUsersView);
+                    if (view.KeepFilterState == true)
+                    {
+                        view.FilterColumns = prevView.FilterColumns;
+                        view.Incomplete = prevView.Incomplete;
+                        view.Own = prevView.Own;
+                        view.NearCompletionTime = prevView.NearCompletionTime;
+                        view.Delay = prevView.Delay;
+                        view.Overdue = prevView.Overdue;
+                        view.ColumnFilterHash = prevView.ColumnFilterHash;
+                        view.ColumnFilterSearchTypes = prevView.ColumnFilterSearchTypes;
+                    }
+                    if (view.KeepSorterState == true)
+                    {
+                        view.ColumnSorterHash = prevView.ColumnSorterHash;
+                    }
+                }
                 SetSession(
                     context: context,
                     ss: ss,
@@ -39,10 +61,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                     useUsersView: useUsersView);
                 return view;
             }
-            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
-            view = sessionData.Get("View")?.Deserialize<View>()
-                ?? ss.Views?.Get(ss.GridView)
-                ?? new View();
+            view = GetSessionView(
+                context: context,
+                ss: ss,
+                useUsersView: useUsersView);
             view.SetByForm(
                 context: context,
                 ss: ss);
@@ -60,6 +82,16 @@ namespace Implem.Pleasanter.Libraries.Requests
                         view: view);
                     break;
             }
+            return view;
+        }
+
+        private static View GetSessionView(Context context, SiteSettings ss, bool useUsersView)
+        {
+            View view;
+            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
+            view = sessionData.Get("View")?.Deserialize<View>()
+                ?? ss.Views?.Get(ss.GridView)
+                ?? new View();
             return view;
         }
 

@@ -1,0 +1,4 @@
+﻿controlConstraintsType: #modelName#Model.GetStatusControl(
+    context: context,
+    ss: ss,
+    column: column),

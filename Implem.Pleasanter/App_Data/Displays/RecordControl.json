@@ -1,0 +1,33 @@
+﻿{
+    "Id": "RecordControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Record control"
+        },
+        {
+            "Language": "zh",
+            "Body": "记录控制"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードの制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Aufnahmekontrolle"
+        },
+        {
+            "Language": "ko",
+            "Body": "녹음 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "control de registros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ghi lại kiểm soát"
+        }
+    ]
+}

@@ -23,7 +23,7 @@
     "UpdateAccessControl": "ManageTenant",
     "CheckFilterControlType": "2",
     "ControlType": "ChoicesText",
-    "ChoicesText": "無効\r\n－",
+    "ChoicesText": "無効\n－",
     "LabelText_en": "Disabled",
     "LabelText_zh": "已禁用",
     "LabelText_de": "Deaktiviert",

@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "ReadOnly",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Read only"

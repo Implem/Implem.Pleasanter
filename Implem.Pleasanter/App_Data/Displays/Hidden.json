@@ -1,6 +1,7 @@
-{
+﻿{
     "Id": "Hidden",
     "Type": 110,
+    "ClientScript": true,
     "Languages": [
         {
             "Body": "Hidden"

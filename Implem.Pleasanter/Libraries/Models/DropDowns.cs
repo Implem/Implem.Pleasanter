@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var controlId = context.Forms.Data("DropDownSearchTarget");
             var filter = controlId.StartsWith("ViewFilters__")
                 || controlId.StartsWith("ProcessViewFilters__")
+                || controlId.StartsWith("StatusControlViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             string parentClass = context.Forms.Data("DropDownSearchParentClass");

@@ -970,35 +970,38 @@ namespace Implem.Pleasanter.Models
                                     verType: groupModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(
-                                context: context,
-                                groupModel: groupModel)
-                            .FieldSetGeneral(
-                                context: context,
-                                ss: ss,
-                                groupModel: groupModel)
-                            .FieldSetMembers(
-                                context: context,
-                                groupModel: groupModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: groupModel.MethodType != BaseModel.MethodTypes.New)
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: groupModel.VerType,
-                                updateButton: true,
-                                mailButton: true,
-                                deleteButton: true,
-                                extensions: () => hb
-                                    .MainCommandExtensions(
-                                        context: context,
-                                        groupModel: groupModel,
-                                        ss: ss)))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container " + tabsCss,
+                            action: () => hb
+                                .EditorTabs(
+                                    context: context,
+                                    groupModel: groupModel)
+                                .FieldSetGeneral(
+                                    context: context,
+                                    ss: ss,
+                                    groupModel: groupModel)
+                                .FieldSetMembers(
+                                    context: context,
+                                    groupModel: groupModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: groupModel.MethodType != BaseModel.MethodTypes.New)
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: groupModel.VerType,
+                                    updateButton: true,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    extensions: () => hb
+                                        .MainCommandExtensions(
+                                            context: context,
+                                            groupModel: groupModel,
+                                            ss: ss)))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))

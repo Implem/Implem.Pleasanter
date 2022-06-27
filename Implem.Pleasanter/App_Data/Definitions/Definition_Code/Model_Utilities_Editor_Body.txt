@@ -99,30 +99,33 @@ private static HtmlBuilder Editor(
                             verType: #modelName#Model.VerType,
                             columnPermissionType: commentsColumnPermissionType),
                     _using: showComments)
-                .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                    .EditorTabs(
-                        context: context,
-                        #modelName#Model: #modelName#Model)
-                    .FieldSetGeneral(context: context, ss: ss, #modelName#Model: #modelName#Model)
-                    .FieldSet(
-                        attributes: new HtmlAttributes()
-                            .Id("FieldSetHistories")
-                            .DataAction("Histories")
-                            .DataMethod("post"),
-                        _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
-                            && !context.Publish)
-                    .MainCommands(
-                        context: context,
-                        ss: ss,
-                        verType: #modelName#Model.VerType,
-                        updateButton: true,
-                        mailButton: true,
-                        deleteButton: true,
-                        extensions: () => hb
-                            .MainCommandExtensions(
-                                context: context,
-                                #modelName#Model: #modelName#Model,
-                                ss: ss)))
+                .Div(
+                    id: "EditorTabsContainer",
+                    css: "tab-container " + tabsCss,
+                    action: () => hb
+                        .EditorTabs(
+                            context: context,
+                            #modelName#Model: #modelName#Model)
+                        .FieldSetGeneral(context: context, ss: ss, #modelName#Model: #modelName#Model)
+                        .FieldSet(
+                            attributes: new HtmlAttributes()
+                                .Id("FieldSetHistories")
+                                .DataAction("Histories")
+                                .DataMethod("post"),
+                            _using: #modelName#Model.MethodType != BaseModel.MethodTypes.New
+                                && !context.Publish)
+                        .MainCommands(
+                            context: context,
+                            ss: ss,
+                            verType: #modelName#Model.VerType,
+                            updateButton: true,
+                            mailButton: true,
+                            deleteButton: true,
+                            extensions: () => hb
+                                .MainCommandExtensions(
+                                    context: context,
+                                    #modelName#Model: #modelName#Model,
+                                    ss: ss)))
                 .Hidden(
                     controlId: "BaseUrl",
                     value: Locations.BaseUrl(context: context))

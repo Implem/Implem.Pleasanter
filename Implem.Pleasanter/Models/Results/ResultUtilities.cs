@@ -1235,7 +1235,7 @@ namespace Implem.Pleasanter.Models
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();
                     resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
-                    resultModel.SetByLookups(
+                    resultModel.SetBySettings(
                         context: context,
                         ss: ss,
                         copyByDefaultOnly: true);
@@ -1361,7 +1361,7 @@ namespace Implem.Pleasanter.Models
             {
                 hb.Div(
                     id: "EditorTabsContainer",
-                    css: "max",
+                    css: "tab-container max",
                     attributes: new HtmlAttributes().TabActive(context: context),
                     action: () => hb
                         .EditorTabs(
@@ -1436,7 +1436,7 @@ namespace Implem.Pleasanter.Models
                             _using: showComments)
                         .Div(
                             id: "EditorTabsContainer",
-                            css: tabsCss,
+                            css: "tab-container " + tabsCss,
                             attributes: new HtmlAttributes().TabActive(context: context),
                             action: () => hb
                                 .EditorTabs(
@@ -1727,6 +1727,10 @@ namespace Implem.Pleasanter.Models
                         ?.Columns.Get(column.ColumnName),
                     methodType: resultModel.MethodType,
                     value: value,
+                    controlConstraintsType: resultModel.GetStatusControl(
+                        context: context,
+                        ss: ss,
+                        column: column),
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
                         ss: ss,
@@ -2144,7 +2148,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
-                    resultModel.SetByLookups(
+                    resultModel.SetBySettings(
                         context: context,
                         ss: ss,
                         requestFormData: context.Forms);
@@ -2232,6 +2236,11 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     resultModel: resultModel)
+                .Html("#Notes", new HtmlBuilder().Notes(
+                    context: context,
+                    ss: ss,
+                    verType: resultModel.VerType,
+                    readOnly: resultModel.ReadOnly))
                 .ReplaceAll(
                     "#MainCommandsContainer",
                     new HtmlBuilder().EditorMainCommands(
@@ -3467,7 +3476,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         formData: context.Forms);
-                    resultModel.SetByLookups(
+                    resultModel.SetBySettings(
                         context: context,
                         ss: ss);
                     resultModel.VerUp = Versions.MustVerUp(
@@ -5680,7 +5689,7 @@ namespace Implem.Pleasanter.Models
                 var updateCount = 0;
                 foreach (var resultModel in resultHash.Values)
                 {
-                    resultModel.SetByLookups(
+                    resultModel.SetBySettings(
                         context: context,
                         ss: ss);
                     resultModel.SetByFormula(
