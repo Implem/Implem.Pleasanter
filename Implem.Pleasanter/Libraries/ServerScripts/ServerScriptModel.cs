@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {
+        public readonly ServerScriptModelGrid Grid = new ServerScriptModelGrid();
         public readonly ExpandoObject Model = new ExpandoObject();
         public readonly ServerScriptModelDepts Depts;
         public readonly ServerScriptModelGroups Groups;
@@ -34,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModel(
             Context context,
             SiteSettings ss,
+            GridData gridData,
             IEnumerable<(string Name, object Value)> data,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             View view,
@@ -41,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool debug,
             bool onTesting)
         {
+            Grid.TotalCount = gridData?.TotalCount ?? 0;
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
             Depts = new ServerScriptModelDepts(context: context);
             Groups = new ServerScriptModelGroups(context: context);

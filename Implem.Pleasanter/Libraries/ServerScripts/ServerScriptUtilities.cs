@@ -736,6 +736,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
+            GridData gridData,
             BaseItemModel itemModel,
             View view,
             ServerScript[] scripts,
@@ -758,6 +759,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             using (var model = new ServerScriptModel(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 data: Values(
                     context: context,
                     ss: ss,
@@ -777,6 +779,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostObject("context", model.Context);
+                        engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
                         engine.AddHostObject("depts", model.Depts);
                         engine.AddHostObject("groups", model.Groups);
@@ -817,6 +820,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
+            GridData gridData,
             BaseItemModel itemModel,
             View view,
             Func<ServerScript, bool> where,
@@ -838,6 +842,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var scriptValues = Execute(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 itemModel: itemModel,
                 view: view,
                 scripts: scripts,

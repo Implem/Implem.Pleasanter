@@ -8,7 +8,8 @@
         siteId: ss.SiteId);
     var serverScriptModelRow = ss.GetServerScriptModelRow(
         context: context,
-        view: view);
+        view: view,
+        gridData: gridData);
     return hb.ViewModeTemplate(
         context: context,
         ss: ss,

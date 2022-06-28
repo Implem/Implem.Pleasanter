@@ -2377,6 +2377,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ServerScriptUtilities.Execute(
                     context: context,
                     ss: ss,
+                    gridData: null,
                     itemModel: null,
                     view: this,
                     where: script => script.WhenViewProcessing == true,
