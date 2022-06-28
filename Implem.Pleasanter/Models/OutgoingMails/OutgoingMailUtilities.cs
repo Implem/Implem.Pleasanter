@@ -184,41 +184,46 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             return new ResponseCollection()
                 .Html("#OutgoingMailDialog", hb
-                    .Div(id: "MailEditorTabsContainer", action: () => hb
-                        .Ul(id: "MailEditorTabs", action: () => hb
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#FieldSetMailEditor",
-                                    text: Displays.Mail(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#FieldSetAddressBook",
-                                    text: Displays.AddressBook(context: context))))
-                        .FieldSet(id: "FieldSetMailEditor", action: () => hb
-                            .Form(
-                                attributes: new HtmlAttributes()
-                                    .Id("OutgoingMailForm")
-                                    .Action(Locations.Action(
-                                        context: context,
-                                        table: reference,
-                                        id: id,
-                                        controller: "OutgoingMails")),
+                    .Div(
+                        id: "MailEditorTabsContainer",
+                        css: "tab-container",
+                        action: () => hb
+                            .Ul(
+                                id: "MailEditorTabs",
                                 action: () => hb
-                                    .Editor(
-                                        context: context,
-                                        ss: ss,
-                                        outgoingMailModel: outgoingMailModel)))
-                        .FieldSet(id: "FieldSetAddressBook", action: () => hb
-                            .Form(
-                                attributes: new HtmlAttributes()
-                                    .Id("OutgoingMailDestinationForm")
-                                    .Action(Locations.Action(
-                                        context: context,
-                                        table: reference,
-                                        id: id,
-                                        controller: "OutgoingMails")),
-                                action: () => hb
-                                    .Destinations(context: context, ss: ss)))))
+                                    .Li(action: () => hb
+                                        .A(
+                                            href: "#FieldSetMailEditor",
+                                            text: Displays.Mail(context: context)))
+                                    .Li(action: () => hb
+                                        .A(
+                                            href: "#FieldSetAddressBook",
+                                            text: Displays.AddressBook(context: context))))
+                            .FieldSet(id: "FieldSetMailEditor", action: () => hb
+                                .Form(
+                                    attributes: new HtmlAttributes()
+                                        .Id("OutgoingMailForm")
+                                        .Action(Locations.Action(
+                                            context: context,
+                                            table: reference,
+                                            id: id,
+                                            controller: "OutgoingMails")),
+                                    action: () => hb
+                                        .Editor(
+                                            context: context,
+                                            ss: ss,
+                                            outgoingMailModel: outgoingMailModel)))
+                            .FieldSet(id: "FieldSetAddressBook", action: () => hb
+                                .Form(
+                                    attributes: new HtmlAttributes()
+                                        .Id("OutgoingMailDestinationForm")
+                                        .Action(Locations.Action(
+                                            context: context,
+                                            table: reference,
+                                            id: id,
+                                            controller: "OutgoingMails")),
+                                    action: () => hb
+                                        .Destinations(context: context, ss: ss)))))
                 .Invoke("initOutgoingMailDialog")
                 .Focus("#OutgoingMails_Body")
                 .ToJson();

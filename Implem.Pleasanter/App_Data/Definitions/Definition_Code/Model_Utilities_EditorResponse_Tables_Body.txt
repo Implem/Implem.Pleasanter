@@ -69,6 +69,11 @@ private static ResponseCollection EditorFields(
             context: context,
             ss: ss,
             #modelName#Model: #modelName#Model)
+        .Html("#Notes", new HtmlBuilder().Notes(
+            context: context,
+            ss: ss,
+            verType: #modelName#Model.VerType,
+            readOnly: #modelName#Model.ReadOnly))
         .ReplaceAll(
             "#MainCommandsContainer",
             new HtmlBuilder().EditorMainCommands(

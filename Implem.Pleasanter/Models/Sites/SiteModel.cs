@@ -2439,6 +2439,46 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "MoveUpStatusControls":
+                case "MoveDownStatusControls":
+                    SetStatusControlsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewStatusControl":
+                case "EditStatusControl":
+                    OpenStatusControlDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddStatusControl":
+                    AddStatusControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateStatusControl":
+                    UpdateStatusControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "DeleteStatusControls":
+                    DeleteStatusControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "AddStatusControlViewFilter":
+                    AddViewFilter(
+                        context: context,
+                        res: res,
+                        prefix: "StatusControl");
+                    break;
+                case "SearchStatusControlAccessControl":
+                    SearchStatusControlAccessControl(
+                        context: context,
+                        res: res);
+                    break;
                 case "NewView":
                 case "EditView":
                     OpenViewDialog(
@@ -4467,6 +4507,212 @@ namespace Implem.Pleasanter.Models
                             notifications.ToJson());
                 }
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetStatusControlsOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditStatusControl");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.StatusControls.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditStatusControl", new HtmlBuilder()
+                    .EditStatusControl(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenStatusControlDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewStatusControl")
+            {
+                var statusControl = new StatusControl();
+                OpenStatusControlDialog(
+                    context: context,
+                    res: res,
+                    statusControl: statusControl);
+            }
+            else
+            {
+                var statusControl = SiteSettings.StatusControls?.Get(context.Forms.Int("StatusControlId"));
+                if (statusControl == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context,
+                        siteModel: this,
+                        referenceId: SiteId);
+                    OpenStatusControlDialog(
+                        context: context,
+                        res: res,
+                        statusControl: statusControl);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenStatusControlDialog(
+            Context context, ResponseCollection res, StatusControl statusControl)
+        {
+            res.Html("#StatusControlDialog", SiteUtilities.StatusControlDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                statusControl: statusControl));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddStatusControl(Context context, ResponseCollection res)
+        {
+            SiteSettings.SetChoiceHash(context: context);
+            var statusControl = new StatusControl(
+                id: SiteSettings.StatusControls.MaxOrDefault(o => o.Id) + 1,
+                name: context.Forms.Data("StatusControlName"),
+                description: context.Forms.Data("StatusControlDescription"),
+                status: context.Forms.Int("StatusControlStatus"),
+                readOnly: context.Forms.Bool("StatusControlReadOnly"),
+                columnHash: StatusControlColumnHash(context: context),
+                view: new View(
+                    context: context,
+                    ss: SiteSettings,
+                    prefix: "StatusControl"),
+                permissions: StatusControlPermissions(context: context));
+            SiteSettings.StatusControls.Add(statusControl);
+            res
+                .ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                    .EditStatusControl(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateStatusControl(Context context, ResponseCollection res)
+        {
+            var statusControl = SiteSettings.StatusControls.Get(context.Forms.Int("StatusControlId"));
+            if (statusControl == null)
+            {
+                res.Message(Messages.NotFound(context: context));
+            }
+            else
+            {
+                SiteSettings.SetChoiceHash(context: context);
+                var view = statusControl.View ?? new View();
+                view.SetByForm(
+                    context: context,
+                    ss: SiteSettings,
+                    prefix: "StatusControl");
+                statusControl.Update(
+                    name: context.Forms.Data("StatusControlName"),
+                    description: context.Forms.Data("StatusControlDescription"),
+                    status: context.Forms.Int("StatusControlStatus"),
+                    readOnly: context.Forms.Bool("StatusControlReadOnly"),
+                    columnHash: StatusControlColumnHash(context: context),
+                    view: view,
+                    permissions: StatusControlPermissions(context: context));
+                res
+                    .ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                        .EditStatusControl(
+                            context: context,
+                            ss: SiteSettings))
+                    .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteStatusControl(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditStatusControl");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.StatusControls.Delete(selected);
+                res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                    .EditStatusControl(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private Dictionary<string, StatusControl.ControlConstraintsTypes> StatusControlColumnHash(Context context)
+        {
+            var ret = context.Forms.List("StatusControlColumnHashAll")
+                .ToDictionary(
+                    o => o.Split_1st(),
+                    o => StatusControl.GetControlType(controlType: o.Split_2nd()))
+                .Where(o => o.Value != StatusControl.ControlConstraintsTypes.None)
+                .ToDictionary(
+                    o => o.Key,
+                    o => o.Value);
+            return ret;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<Permission> StatusControlPermissions(Context context)
+        {
+            return context.Forms.List("CurrentStatusControlAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SearchStatusControlAccessControl(Context context, ResponseCollection res)
+        {
+            var statusControl = SiteSettings.StatusControls.Get(context.Forms.Int("StatusControlId"))
+                ?? new StatusControl();
+            var currentPermissions = statusControl.GetPermissions(ss: SiteSettings);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: SiteSettings,
+                searchText: context.Forms.Data("SearchStatusControlAccessControl"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            return res
+                .Html("#SourceStatusControlAccessControl", PermissionUtilities.PermissionListItem(
+                    context: context,
+                    ss: SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: context.Forms.Data("SourceStatusControlAccessControl")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceStatusControlAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
         }
 
         /// <summary>

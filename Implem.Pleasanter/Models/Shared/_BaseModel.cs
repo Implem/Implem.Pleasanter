@@ -93,6 +93,8 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, string> SavedAttachmentsHash = new Dictionary<string, string>();
         public bool ReadOnly;
         public List<string> MineCache;
+        [NonSerialized]
+        public Dictionary<string, StatusControl.ControlConstraintsTypes> StatusControlHash;
 
         public List<string> ColumnNames()
         {
@@ -718,6 +720,7 @@ namespace Implem.Pleasanter.Models
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: null,
                 view: null,
                 where: script => script.WhenloadingSiteSettings == true,
@@ -748,11 +751,13 @@ namespace Implem.Pleasanter.Models
         public virtual ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss,
-            View view = null)
+            View view = null,
+            GridData gridData = null)
         {
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 itemModel: null,
                 view: view,
                 where: script => script.BeforeOpeningPage == true,
@@ -845,6 +850,7 @@ namespace Implem.Pleasanter.Models
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.WhenloadingRecord == true,
@@ -861,6 +867,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeFormula == true,
@@ -872,6 +879,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.AfterFormula == true,
@@ -885,6 +893,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.AfterUpdate == true,
@@ -898,6 +907,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeUpdate == true,
@@ -911,6 +921,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.AfterCreate == true,
@@ -924,6 +935,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeCreate == true,
@@ -937,6 +949,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.AfterDelete == true,
@@ -950,6 +963,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeDelete == true,
@@ -963,6 +977,7 @@ namespace Implem.Pleasanter.Models
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: null,
                 itemModel: this,
                 view: null,
                 where: script => script.BeforeOpeningRow == true,
@@ -980,18 +995,21 @@ namespace Implem.Pleasanter.Models
         public override ServerScriptModelRow SetByBeforeOpeningPageServerScript(
             Context context,
             SiteSettings ss,
-            View view = null)
+            View view = null,
+            GridData gridData = null)
         {
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 itemModel: this,
                 view: view,
                 where: script => script.BeforeOpeningPage == true,
                 condition: "BeforeOpeningPage");
             if (scriptValues != null)
             {
-                SetServerScriptModelColumns(context: context,
+                SetServerScriptModelColumns(
+                    context: context,
                     ss: ss,
                     scriptValues: scriptValues);
                 ServerScriptModelRow = scriptValues;

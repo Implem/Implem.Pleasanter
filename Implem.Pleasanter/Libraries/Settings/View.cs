@@ -1054,6 +1054,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Accessable(Context context)
         {
+            if (context.HasPrivilege)
+            {
+                return true;
+            }
             if (Depts?.Any() != true
                 && Groups?.Any() != true
                 && Users?.Any() != true)
@@ -2373,6 +2377,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ServerScriptUtilities.Execute(
                     context: context,
                     ss: ss,
+                    gridData: null,
                     itemModel: null,
                     view: this,
                     where: script => script.WhenViewProcessing == true,

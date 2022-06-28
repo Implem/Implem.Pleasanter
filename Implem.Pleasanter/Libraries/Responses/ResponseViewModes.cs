@@ -25,12 +25,21 @@ namespace Implem.Pleasanter.Libraries.Responses
             HtmlBuilder body = null)
         {
             return res
-                .Html(!bodyOnly ? "#ViewModeContainer" : bodySelector, body)
-                .View(context: context, ss: ss, view: view)
-                .Invoke("initRelatingColumnWhenViewChanged")
-                .ReplaceAll("title", HtmlTitle.Title(
+                .Html(
+                    target: !bodyOnly
+                        ? "#ViewModeContainer"
+                        : bodySelector,
+                    value: body)
+                .View(
                     context: context,
-                    ss: ss))
+                    ss: ss,
+                    view: view)
+                .Invoke("initRelatingColumnWhenViewChanged")
+                .ReplaceAll(
+                    "title",
+                    HtmlTitle.Title(
+                        context: context,
+                        ss: ss))
                 .ReplaceAll(
                     "#Breadcrumb",
                     new HtmlBuilder().Breadcrumb(

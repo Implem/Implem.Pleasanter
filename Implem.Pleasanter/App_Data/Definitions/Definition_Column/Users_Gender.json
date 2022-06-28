@@ -19,7 +19,7 @@
     "MaxLength": "2",
     "Nullable": "1",
     "ControlType": "ChoicesText",
-    "ChoicesText": "1,男性\r\n2,女性",
+    "ChoicesText": "1,男性\n2,女性",
     "OldColumnName": "Sex",
     "LabelText_en": "Gender",
     "LabelText_zh": "性别",

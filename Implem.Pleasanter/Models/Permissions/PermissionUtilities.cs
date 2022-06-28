@@ -1720,28 +1720,33 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         id: referenceId)),
                 action: () => hb
-                    .Div(id: "ColumnAccessControlTabsContainer", action: () => hb
-                        .Ul(id: "ColumnAccessControlTabs", action: () => hb
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ColumnAccessControlBasicTab",
-                                    text: Displays.Basic(context: context)))
-                            .Li(action: () => hb
-                                .A(
-                                    href: "#ColumnAccessControlOhtersTab",
-                                    text: Displays.Others(context: context))))
-                        .ColumnAccessControlBasicTab(
-                            context: context,
-                            ss: ss,
-                            type: type,
-                            columnAccessControl: columnAccessControl,
-                            referenceId: referenceId)
-                        .ColumnAccessControlOhtersTab(
-                            context: context,
-                            ss: ss,
-                            type: type,
-                            columnAccessControl: columnAccessControl,
-                            referenceId: referenceId))
+                    .Div(
+                        id: "ColumnAccessControlTabsContainer",
+                        css: "tab-container",
+                        action: () => hb
+                            .Ul(
+                                id: "ColumnAccessControlTabs",
+                                action: () => hb
+                                    .Li(action: () => hb
+                                        .A(
+                                            href: "#ColumnAccessControlBasicTab",
+                                            text: Displays.Basic(context: context)))
+                                    .Li(action: () => hb
+                                        .A(
+                                            href: "#ColumnAccessControlOhtersTab",
+                                            text: Displays.Others(context: context))))
+                            .ColumnAccessControlBasicTab(
+                                context: context,
+                                ss: ss,
+                                type: type,
+                                columnAccessControl: columnAccessControl,
+                                referenceId: referenceId)
+                            .ColumnAccessControlOhtersTab(
+                                context: context,
+                                ss: ss,
+                                type: type,
+                                columnAccessControl: columnAccessControl,
+                                referenceId: referenceId))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

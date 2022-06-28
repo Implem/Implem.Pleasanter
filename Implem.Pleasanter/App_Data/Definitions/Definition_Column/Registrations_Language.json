@@ -16,7 +16,7 @@
     "Default": "ja",
     "Required": "1",
     "ControlType": "ChoicesText",
-    "ChoicesText": "en,English\r\nzh,Chinese\r\nja,Japanese\r\nde,German\r\nko,Korean\r\nes,Spanish\r\nvn,Vietnamese",
+    "ChoicesText": "en,English\nzh,Chinese\nja,Japanese\nde,German\nko,Korean\nes,Spanish\nvn,Vietnamese",
     "LabelText_en": "Language",
     "LabelText_zh": "语言",
     "LabelText_de": "Sprache",

@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public ExpandoObject UserData { get; set; } = new ExpandoObject();
         public List<Message> Messages { get; set; } = new List<Message>();
         public ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
+        public RedirectData RedirectData { get; set; } = new RedirectData();
         public bool InvalidJsonData { get; set; }
         public bool Authenticated { get; set; }
         public bool SwitchUser { get; set; }

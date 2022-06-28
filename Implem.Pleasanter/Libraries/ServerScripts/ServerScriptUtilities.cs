@@ -421,6 +421,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             });
         }
 
+        private static void SetColumnSearchTypeHashValues(
+            Context context,
+            View view,
+            ExpandoObject columnSearchTypeHash)
+        {
+            columnSearchTypeHash?.ForEach(columnFilterSearchType =>
+            {
+                if (view.ColumnFilterSearchTypes == null)
+                {
+                    view.ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();
+                }
+                view.ColumnFilterSearchTypes[columnFilterSearchType.Key] = Value(columnSearchTypeHash, columnFilterSearchType.Key).ToString().ToEnum<Column.SearchTypes>();
+            });
+        }
+
         private static void SetColumnSorterHashValues(
             Context context,
             View view,
@@ -675,6 +690,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     view: view,
                     columnFilterHash: data.View.Filters);
+                SetColumnSearchTypeHashValues(
+                    context: context,
+                    view: view,
+                    columnSearchTypeHash: data.View.SearchTypes);
                 SetColumnSorterHashValues(
                     context: context,
                     view: view,
@@ -717,6 +736,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
+            GridData gridData,
             BaseItemModel itemModel,
             View view,
             ServerScript[] scripts,
@@ -739,6 +759,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             using (var model = new ServerScriptModel(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 data: Values(
                     context: context,
                     ss: ss,
@@ -758,6 +779,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostObject("context", model.Context);
+                        engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
                         engine.AddHostObject("depts", model.Depts);
                         engine.AddHostObject("groups", model.Groups);
@@ -798,6 +820,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public static ServerScriptModelRow Execute(
             Context context,
             SiteSettings ss,
+            GridData gridData,
             BaseItemModel itemModel,
             View view,
             Func<ServerScript, bool> where,
@@ -819,6 +842,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var scriptValues = Execute(
                 context: context,
                 ss: ss,
+                gridData: gridData,
                 itemModel: itemModel,
                 view: view,
                 scripts: scripts,

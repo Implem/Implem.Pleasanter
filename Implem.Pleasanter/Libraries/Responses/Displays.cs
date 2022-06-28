@@ -549,6 +549,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Anchor(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Anchor",
+                data: data);
+        }
+
+        public static string AnchorFormat(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnchorFormat",
+                data: data);
+        }
+
         public static string And(
             Context context,
             params string[] data)
@@ -1776,6 +1796,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ColumnAccessControl",
+                data: data);
+        }
+
+        public static string ColumnControl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ColumnControl",
                 data: data);
         }
 
@@ -6829,6 +6859,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string RecordControl(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RecordControl",
+                data: data);
+        }
+
         public static string ReCreate(
             Context context,
             params string[] data)
@@ -7846,6 +7886,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Status",
+                data: data);
+        }
+
+        public static string StatusControls(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StatusControls",
                 data: data);
         }
 

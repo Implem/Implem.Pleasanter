@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string OnSelectingOrderBy;
         public Dictionary<string, string> ColumnPlaceholders;
         public readonly ExpandoObject Filters = new ExpandoObject();
+        public readonly ExpandoObject SearchTypes = new ExpandoObject();
         public readonly ExpandoObject Sorters = new ExpandoObject();
 
         public ServerScriptModelView(int id = 0)

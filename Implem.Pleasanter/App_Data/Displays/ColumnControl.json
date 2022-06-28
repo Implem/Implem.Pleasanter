@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ColumnControl",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Column control"
+        },
+        {
+            "Language": "zh",
+            "Body": "列控制"
+        },
+        {
+            "Language": "ja",
+            "Body": "項目の制御"
+        },
+        {
+            "Language": "de",
+            "Body": "Spaltensteuerung"
+        },
+        {
+            "Language": "ko",
+            "Body": "열 제어"
+        },
+        {
+            "Language": "es",
+            "Body": "control de columna"
+        },
+        {
+            "Language": "vn",
+            "Body": "Kiểm soát cột"
+        }
+    ]
+}

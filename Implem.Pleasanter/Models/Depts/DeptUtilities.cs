@@ -50,7 +50,8 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
-                view: view);
+                view: view,
+                gridData: gridData);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -180,7 +181,8 @@ namespace Implem.Pleasanter.Models
                 view: view);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
-                view: view);
+                view: view,
+                gridData: gridData);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,
@@ -984,30 +986,33 @@ namespace Implem.Pleasanter.Models
                                     verType: deptModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(
-                                context: context,
-                                deptModel: deptModel)
-                            .FieldSetGeneral(context: context, ss: ss, deptModel: deptModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: deptModel.MethodType != BaseModel.MethodTypes.New
-                                    && !context.Publish)
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: deptModel.VerType,
-                                updateButton: true,
-                                mailButton: true,
-                                deleteButton: true,
-                                extensions: () => hb
-                                    .MainCommandExtensions(
-                                        context: context,
-                                        deptModel: deptModel,
-                                        ss: ss)))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container " + tabsCss,
+                            action: () => hb
+                                .EditorTabs(
+                                    context: context,
+                                    deptModel: deptModel)
+                                .FieldSetGeneral(context: context, ss: ss, deptModel: deptModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: deptModel.MethodType != BaseModel.MethodTypes.New
+                                        && !context.Publish)
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: deptModel.VerType,
+                                    updateButton: true,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    extensions: () => hb
+                                        .MainCommandExtensions(
+                                            context: context,
+                                            deptModel: deptModel,
+                                            ss: ss)))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))

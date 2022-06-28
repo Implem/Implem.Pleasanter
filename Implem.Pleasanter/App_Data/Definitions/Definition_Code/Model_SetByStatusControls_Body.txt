@@ -1,0 +1,25 @@
+﻿private void SetByStatusControls(
+    Context context,
+    SiteSettings ss,
+    bool force = false)
+{
+    if (StatusControlHash == null || force)
+    {
+        StatusControlHash = new Dictionary<string, StatusControl.ControlConstraintsTypes>();
+        ss.StatusControls?
+            .Where(statusControl => statusControl.Status == -1
+                || statusControl.Status == Status.Value)
+            .Where(statusControl => statusControl.Accessable(context: context))
+            .Where(statusControl => statusControl.View == null
+                || Matched(
+                    context: context,
+                    ss: ss,
+                    view: statusControl.View))
+            .ForEach(statusControl =>
+            {
+                ReadOnly |= statusControl.ReadOnly == true;
+                statusControl.ColumnHash?.ForEach(data =>
+                    StatusControlHash.AddIfNotConainsKey(data.Key, data.Value));
+            });
+    }
+}

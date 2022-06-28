@@ -71,7 +71,11 @@
             }
         });
         $('label.error').each(function (index, element) {
-            $(element).appendTo($(element).parent());
+            // 複数選択の分類項目に対応するためエラー表示の位置をフィールドの最下段に移動する
+            // マークダウン項目は画像アイコンなどがあるため、移動しない
+            if (!$(element).prev().hasClass('control-markdown')) {
+                $(element).appendTo($(element).parent());
+            }
         });
     }
 
