@@ -1333,6 +1333,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.GanttSortBy = GanttSortBy;
             }
+            view.GanttPeriod = GanttPeriod;
+            view.GanttStartDate = GanttStartDate;
             if (!TimeSeriesGroupBy.IsNullOrEmpty())
             {
                 view.TimeSeriesGroupBy = TimeSeriesGroupBy;
