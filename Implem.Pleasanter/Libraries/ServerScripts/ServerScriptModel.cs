@@ -69,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 userData: context.UserData,
                 messages: context.Messages,
                 errorData: context.ErrorData,
+                redirectData: context.RedirectData,
                 formStringRaw: context.FormStringRaw,
                 formString: context.FormString,
                 ajax: context.Ajax,

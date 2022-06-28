@@ -560,6 +560,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         serverScriptModelRow: serverScriptModelRow)
                     .ExtendedSql(context: context)
                     .Hidden(
+                        controlId: "RedirectUrl",
+                        value: context.RedirectData.Url)
+                    .Hidden(
                         controlId: "Log",
                         value: (new { Log = context.GetLog() }).ToJson())
                     .Hidden(
