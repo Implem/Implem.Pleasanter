@@ -1,7 +1,4 @@
 ﻿$(function () {
-    if ($('#RedirectUrl').val()) {
-        $p.transition($('#RedirectUrl').val());
-    }
     $(window).on('popstate', function (e) {
         if (e.originalEvent.currentTarget.location.pathname !== $('#BaseUrl').val() + $('#Id').val()
             || e.originalEvent.state === "History" || urlParams()["ver"]) {
