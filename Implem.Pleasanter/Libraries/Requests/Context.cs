@@ -360,9 +360,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 if (setData) SetData();
                 var api = RequestDataString.Deserialize<Api>();
+                ApiVersion = api?.ApiVersion ?? ApiVersion;
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
-                    ApiVersion = api.ApiVersion;
                     ApiKey = api.ApiKey;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .ApiKey(ApiKey)));
