@@ -97,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings { get; set; }
         public bool HasPrivilege { get; set; }
         public ContractSettings ContractSettings { get; set; } = new ContractSettings();
-        public decimal ApiVersion { get; set; } = 1.000M;
+        public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiRequestBody { get; set; }
         public string ApiKey { get; set; }
         public string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
