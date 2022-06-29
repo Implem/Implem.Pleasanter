@@ -79,10 +79,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="App_Data\Definitions\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -92,6 +88,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPlugin.json" />
     <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPluginConsole.deps.json" />
     <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPluginConsole.runtimeconfig.json" />
   </ItemGroup>

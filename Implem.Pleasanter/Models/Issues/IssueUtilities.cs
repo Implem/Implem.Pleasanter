@@ -3005,6 +3005,20 @@ namespace Implem.Pleasanter.Models
                         .Message(invalid.Message(context: context))
                         .Messages(context.Messages).ToString());
             }
+            var extension = Parameters.ExtendedLibraries
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedLibrary>(
+                    context: context,
+                    siteId: ss.SiteId)
+                .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.ExtendedLibrary.LibraryTypes.Print);
+            if(extension == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            };
+            
             var defaultView = new View();
             if (issueId > 0)
             {
@@ -3018,18 +3032,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 defaultView: defaultView,
-                reportId: 0);
-            var lib = System.IO.Path.Combine(
-                Environments.CurrentDirectoryPath,
-                "App_Data",
-                "Parameters",
-                "ExtendedLibraries",
-                "PrintPlugin",
-                "PrintPluginConsole.dll");
-            var assembly = System.Reflection.Assembly.LoadFrom(lib);
-            var pluginType = assembly.GetTypes()
-                .FirstOrDefault(t => !t.IsInterface && typeof(Plugins.IPrintPlugin).IsAssignableFrom(t));
-            if (pluginType == null)
+                reportId: extension.ReportId);
+            var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.LibraryName);
+            if (plugin == null)
             {
                 return (
                     null,
@@ -3037,9 +3042,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: new ErrorData(type: Error.Types.NotFound)));
             }
-            var plugin = Activator.CreateInstance(pluginType) as Plugins.IPrintPlugin;
-            var stream = plugin.CreatePdf(host);
-            return (stream, null);
+            return (plugin.CreatePdf(host), null);
         }
 
         public static string Create(Context context, SiteSettings ss)

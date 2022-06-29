@@ -1,0 +1,14 @@
+﻿{
+    "Name": "PrintPlugin",
+    "ReportId": 1,
+    "LibraryType": "Print",
+    "LibraryName": "PrintPlugin\\PrintPluginConsole.dll",
+    "Description": "Sample",
+    "DeptIdList": null,
+    "GroupIdList": null,
+    "UserIdList": null,
+    "SiteIdList": [ 10012946, 10012947, 10012948 ],
+    "IdList": null,
+    "Controllers": null,
+    "Actions": null
+}
