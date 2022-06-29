@@ -73,9 +73,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return HtmlTemplates.Error(
+               context: context,
+               errorData: invalid);
             }
             return hb.Template(
                 context: context,
@@ -101,7 +102,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -114,7 +115,7 @@ namespace Implem.Pleasanter.Models
                                         controlCss: " auto-postback",
                                         method: "post",
                                         _checked: view.ShowHistory == true,
-                                        labelText: Displays.ShowHistory(context:context),
+                                        labelText: Displays.ShowHistory(context: context),
                                         _using: ss.HistoryOnGrid == true))
                             .ViewFilters(
                                 context: context,
@@ -428,7 +429,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             editRow: editRow,
                             checkRow: checkRow,
@@ -1197,69 +1198,90 @@ namespace Implem.Pleasanter.Models
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId": value = issueModel.SiteId.GridText(
-                        context: context,
-                        column: column); break;
-                    case "UpdatedTime": value = issueModel.UpdatedTime.GridText(
-                        context: context,
-                        column: column); break;
-                    case "IssueId": value = issueModel.IssueId.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Ver": value = issueModel.Ver.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Title": value = issueModel.Title.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Body": value = issueModel.Body.GridText(
-                        context: context,
-                        column: column); break;
-                    case "TitleBody": value = issueModel.TitleBody.GridText(
-                        context: context,
-                        column: column); break;
-                    case "StartTime": value = issueModel.StartTime.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CompletionTime": value = issueModel.CompletionTime.GridText(
-                        context: context,
-                        column: column); break;
-                    case "WorkValue": value = issueModel.WorkValue.GridText(
-                        context: context,
-                        column: column); break;
-                    case "ProgressRate": value = issueModel.ProgressRate.GridText(
-                        context: context,
-                        column: column); break;
-                    case "RemainingWorkValue": value = issueModel.RemainingWorkValue.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Status": value = issueModel.Status.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Manager": value = issueModel.Manager.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Owner": value = issueModel.Owner.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Locked": value = issueModel.Locked.GridText(
-                        context: context,
-                        column: column); break;
-                    case "SiteTitle": value = issueModel.SiteTitle.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Comments": value = issueModel.Comments.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Creator": value = issueModel.Creator.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Updator": value = issueModel.Updator.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CreatedTime": value = issueModel.CreatedTime.GridText(
-                        context: context,
-                        column: column); break;
+                    case "SiteId":
+                        value = issueModel.SiteId.GridText(
+             context: context,
+             column: column); break;
+                    case "UpdatedTime":
+                        value = issueModel.UpdatedTime.GridText(
+        context: context,
+        column: column); break;
+                    case "IssueId":
+                        value = issueModel.IssueId.GridText(
+            context: context,
+            column: column); break;
+                    case "Ver":
+                        value = issueModel.Ver.GridText(
+                context: context,
+                column: column); break;
+                    case "Title":
+                        value = issueModel.Title.GridText(
+              context: context,
+              column: column); break;
+                    case "Body":
+                        value = issueModel.Body.GridText(
+               context: context,
+               column: column); break;
+                    case "TitleBody":
+                        value = issueModel.TitleBody.GridText(
+          context: context,
+          column: column); break;
+                    case "StartTime":
+                        value = issueModel.StartTime.GridText(
+          context: context,
+          column: column); break;
+                    case "CompletionTime":
+                        value = issueModel.CompletionTime.GridText(
+     context: context,
+     column: column); break;
+                    case "WorkValue":
+                        value = issueModel.WorkValue.GridText(
+          context: context,
+          column: column); break;
+                    case "ProgressRate":
+                        value = issueModel.ProgressRate.GridText(
+       context: context,
+       column: column); break;
+                    case "RemainingWorkValue":
+                        value = issueModel.RemainingWorkValue.GridText(
+ context: context,
+ column: column); break;
+                    case "Status":
+                        value = issueModel.Status.GridText(
+             context: context,
+             column: column); break;
+                    case "Manager":
+                        value = issueModel.Manager.GridText(
+            context: context,
+            column: column); break;
+                    case "Owner":
+                        value = issueModel.Owner.GridText(
+              context: context,
+              column: column); break;
+                    case "Locked":
+                        value = issueModel.Locked.GridText(
+             context: context,
+             column: column); break;
+                    case "SiteTitle":
+                        value = issueModel.SiteTitle.GridText(
+          context: context,
+          column: column); break;
+                    case "Comments":
+                        value = issueModel.Comments.GridText(
+           context: context,
+           column: column); break;
+                    case "Creator":
+                        value = issueModel.Creator.GridText(
+            context: context,
+            column: column); break;
+                    case "Updator":
+                        value = issueModel.Updator.GridText(
+            context: context,
+            column: column); break;
+                    case "CreatedTime":
+                        value = issueModel.CreatedTime.GridText(
+        context: context,
+        column: column); break;
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
@@ -1398,9 +1420,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return HtmlTemplates.Error(
+               context: context,
+               errorData: invalid);
             }
             var hb = new HtmlBuilder();
             var serverScriptModelRow = ss.GetServerScriptModelRow(
@@ -1502,7 +1525,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptModelRow serverScriptModelRow)
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
-            var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
+            var commentsColumnPermissionType = Permissions.ColumnPermissionType(
                 context: context,
                 ss: ss,
                 column: commentsColumn,
@@ -1523,7 +1546,7 @@ namespace Implem.Pleasanter.Models
                         .Class("main-form confirm-unload")
                         .Action(Locations.ItemAction(
                             context: context,
-                            id: issueModel.IssueId != 0 
+                            id: issueModel.IssueId != 0
                                 ? issueModel.IssueId
                                 : issueModel.SiteId)),
                     action: () => hb
@@ -1637,7 +1660,7 @@ namespace Implem.Pleasanter.Models
                             value: issueModel.SwitchTargets?.Join(),
                             _using: !context.Ajax)
                         .Hidden(
-                            controlId: "TriggerRelatingColumns_Editor", 
+                            controlId: "TriggerRelatingColumns_Editor",
                             value: Jsons.ToJson(ss.RelatingColumns)))
                 .OutgoingMailsForm(
                     context: context,
@@ -2817,9 +2840,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
             if (api == null && !context.RequestDataString.IsNullOrEmpty())
@@ -2982,7 +3006,7 @@ namespace Implem.Pleasanter.Models
                         .Messages(context.Messages).ToString());
             }
             var defaultView = new View();
-            if(issueId > 0)
+            if (issueId > 0)
             {
                 if (defaultView.ColumnFilterHash == null)
                 {
@@ -2993,7 +3017,8 @@ namespace Implem.Pleasanter.Models
             var host = new Libraries.Prints.PrintPluginHost(
                 context: context,
                 ss: ss,
-                defaultView: defaultView);
+                defaultView: defaultView,
+                reportId: 0);
             var lib = System.IO.Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -3004,9 +3029,15 @@ namespace Implem.Pleasanter.Models
             var assembly = System.Reflection.Assembly.LoadFrom(lib);
             var pluginType = assembly.GetTypes()
                 .FirstOrDefault(t => !t.IsInterface && typeof(Plugins.IPrintPlugin).IsAssignableFrom(t));
-            var plugin = (pluginType == null)
-                ? new Libraries.Prints.PrintPlugin()
-                : Activator.CreateInstance(pluginType) as Plugins.IPrintPlugin;
+            if (pluginType == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            var plugin = Activator.CreateInstance(pluginType) as Plugins.IPrintPlugin;
             var stream = plugin.CreatePdf(host);
             return (stream, null);
         }
@@ -3165,9 +3196,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(context: context, ss: ss);
@@ -3952,7 +3984,7 @@ namespace Implem.Pleasanter.Models
                         type: "Created");
                     issueModel.SetByAfterCreateServerScript(
                         context: context,
-                        ss: ss);                
+                        ss: ss);
                 }
                 else
                 {
@@ -4054,9 +4086,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(
@@ -4484,9 +4517,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
             }
             issueModel.SiteId = ss.SiteId;
             issueModel.SetTitle(context: context, ss: ss);
@@ -4629,12 +4663,12 @@ namespace Implem.Pleasanter.Models
                     .IssueId(tableName: "Issues_Deleted"),
                 where: where);
             var column = new Rds.IssuesColumnCollection();
-                column.IssueId();
-                ss.Columns
-                    .Where(o => o.TypeCs == "Attachments")
-                    .Select(o => o.ColumnName)
-                    .ForEach(columnName =>
-                        column.Add($"\"{columnName}\""));
+            column.IssueId();
+            ss.Columns
+                .Where(o => o.TypeCs == "Attachments")
+                .Select(o => o.ColumnName)
+                .ForEach(columnName =>
+                    column.Add($"\"{columnName}\""));
             var attachments = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectIssues(
@@ -4650,8 +4684,8 @@ namespace Implem.Pleasanter.Models
                     attachments = dataRow
                         .Columns()
                         .Where(columnName => columnName.StartsWith("Attachments"))
-                        .SelectMany(columnName => 
-                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
+                        .SelectMany(columnName =>
+                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName))
                                 ?? Enumerable.Empty<Attachment>())
                         .Where(o => o != null)
                         .Select(o => o.Guid)
@@ -4700,7 +4734,7 @@ namespace Implem.Pleasanter.Models
             attachments.ForEach(o =>
             {
                 RestoreAttachments(context, o.issueId, o.attachments);
-            });    
+            });
             return count;
         }
 
@@ -4909,9 +4943,9 @@ namespace Implem.Pleasanter.Models
                     parts: new string[]
                     {
                         "Items",
-                        issueId.ToString() 
+                        issueId.ToString()
                             + (issueModel.VerType == Versions.VerTypes.History
-                                ? "?ver=" + context.Forms.Int("Ver") 
+                                ? "?ver=" + context.Forms.Int("Ver")
                                 : string.Empty)
                     }))
                 .ToJson();
@@ -5726,12 +5760,12 @@ namespace Implem.Pleasanter.Models
                             .SiteId(ss.SiteId)
                             .ReferenceType(guid)),
                 }).Count.ToInt();
-                if (tableType == Sqls.TableTypes.Deleted)
-                {
-                    BinaryUtilities.DeleteFromLocal(
-                        context: context,
-                        dataRows: dataRows);
-                }
+            if (tableType == Sqls.TableTypes.Deleted)
+            {
+                BinaryUtilities.DeleteFromLocal(
+                    context: context,
+                    dataRows: dataRows);
+            }
             return count;
         }
 
@@ -5980,7 +6014,7 @@ namespace Implem.Pleasanter.Models
                         {
                             issueModel = model;
                         }
-                        else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
                         {
                             return new ErrorData(
                                 type: Error.Types.OverlapCsvImport,
@@ -6410,7 +6444,7 @@ namespace Implem.Pleasanter.Models
                         To = MailAddressUtilities.Get(context: context, context.UserId),
                     }.Send(context: context, ss);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     new OutgoingMailModel()
                     {
@@ -6441,9 +6475,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                default:
+                    return ApiResults.Error(
+               context: context,
+               errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<ExportApi>();
             if (api == null)
@@ -6461,19 +6496,19 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss),
                 view: api.View ?? new View());
-                return ApiResults.Get(
-                    statusCode: 200,
-                    limitPerDate: context.ContractSettings.ApiLimit(),
-                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                    response: new
-                    {
-                        Name = ExportUtilities.FileName(
-                            context: context,
-                            title: ss.Title,
-                            name: export.Name,
-                            extension: export.Type.ToString()),
-                        Content = content
-                    });
+            return ApiResults.Get(
+                statusCode: 200,
+                limitPerDate: context.ContractSettings.ApiLimit(),
+                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                response: new
+                {
+                    Name = ExportUtilities.FileName(
+                        context: context,
+                        title: ss.Title,
+                        name: export.Name,
+                        extension: export.Type.ToString()),
+                    Content = content
+                });
         }
 
         public static ResponseFile ExportCrosstab(
@@ -6698,7 +6733,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 date: date,
                 timePeriod: timePeriod);
-            var dataRows = inRangeY 
+            var dataRows = inRangeY
                 ? CalendarDataRows(
                     context: context,
                     ss: ss,
@@ -6708,7 +6743,7 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     begin: begin,
                     end: end)
-                :null;
+                : null;
             var inRange = inRangeY
                 && Libraries.ViewModes
                     .CalendarUtilities.InRange(
@@ -8068,7 +8103,7 @@ namespace Implem.Pleasanter.Models
         }
 
         private static IEnumerable<Libraries.ViewModes.KambanElement> KambanData(
-            Context context, 
+            Context context,
             SiteSettings ss,
             View view,
             Column groupByX,
@@ -8251,7 +8286,7 @@ namespace Implem.Pleasanter.Models
 
         private static HtmlBuilder ImageLib(
             this HtmlBuilder hb,
-            Context context, 
+            Context context,
             SiteSettings ss,
             View view,
             bool bodyOnly,
@@ -8372,7 +8407,7 @@ namespace Implem.Pleasanter.Models
                     return new ErrorData(type: Error.Types.None);
                 }
                 else
-                {    
+                {
                     lockedRecordWhere.Issues_Updator(
                         value: context.UserId,
                         _operator: "<>");

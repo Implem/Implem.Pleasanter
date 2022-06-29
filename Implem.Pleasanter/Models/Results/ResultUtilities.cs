@@ -3047,7 +3047,8 @@ namespace Implem.Pleasanter.Models
             var host = new Libraries.Prints.PrintPluginHost(
                 context: context,
                 ss: ss,
-                defaultView: defaultView);
+                defaultView: defaultView,
+                reportId: 0);
             var lib = System.IO.Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
@@ -3058,9 +3059,15 @@ namespace Implem.Pleasanter.Models
             var assembly = System.Reflection.Assembly.LoadFrom(lib);
             var pluginType = assembly.GetTypes()
                 .FirstOrDefault(t => !t.IsInterface && typeof(Plugins.IPrintPlugin).IsAssignableFrom(t));
-            var plugin = (pluginType == null)
-                ? new Libraries.Prints.PrintPlugin()
-                : Activator.CreateInstance(pluginType) as Plugins.IPrintPlugin;
+            if (pluginType == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            var plugin = Activator.CreateInstance(pluginType) as Plugins.IPrintPlugin;
             var stream = plugin.CreatePdf(host);
             return (stream, null);
         }

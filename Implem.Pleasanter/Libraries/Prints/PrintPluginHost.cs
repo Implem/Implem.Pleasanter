@@ -9,14 +9,17 @@ namespace Implem.Pleasanter.Libraries.Prints
 {
     public class PrintPluginHost : IPrintPluginHost
     {
-        public Context Context { get; }
-        public SiteSettings SiteSettings { get; }
-        public View DefaultView { get; }
-        public PrintPluginHost(Context context, SiteSettings ss, View defaultView)
+        public int ReportId { get; }
+        private Context Context { get; }
+        private SiteSettings SiteSettings { get; }
+        private View DefaultView { get; }
+        
+        public PrintPluginHost(Context context, SiteSettings ss, View defaultView, int reportId)
         {
             Context = context;
             SiteSettings = ss;
             DefaultView = defaultView;
+            ReportId = reportId;
         }
 
         public List<Dictionary<string, object>> GetGridData(string viewJson , int offset = 0, int pagesize = 0)
