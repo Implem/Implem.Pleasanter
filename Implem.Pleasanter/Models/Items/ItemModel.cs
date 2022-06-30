@@ -817,23 +817,29 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public (System.IO.Stream strean, string error) Print(Context context)
+        public (System.IO.Stream strean, string error) Print(Context context, int reportId)
         {
             SetSite(
                 context: context,
                 initSiteSettings: true);
-            switch (ReferenceType)
+            switch (Site.ReferenceType)
             {
                 case "Issues":
                     return IssueUtilities.Print(
                         context: context,
                         ss: Site.SiteSettings,
-                        issueId: ReferenceId);
+                        issueId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        reportId: reportId);
                 case "Results":
                     return ResultUtilities.Print(
                         context: context,
                         ss: Site.SiteSettings,
-                        resultId: ReferenceId);
+                        resultId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        reportId: reportId);
                 default:
                     return (null, HtmlTemplates.Error(
                         context: context,

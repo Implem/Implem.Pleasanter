@@ -3021,7 +3021,8 @@ namespace Implem.Pleasanter.Models
         public static (System.IO.Stream stream, string error) Print(
             Context context,
             SiteSettings ss,
-            long resultId)
+            long resultId,
+            int reportId)
         {
             var invalid = IssueValidators.OnEntry(
                context: context,
@@ -3062,7 +3063,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 defaultView: defaultView,
-                reportId: extension.ReportId);
+                reportId: reportId > 0
+                    ? reportId
+                    : extension.ReportId);
             var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.LibraryName);
             if (plugin == null)
             {
