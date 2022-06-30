@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelView View;
         public readonly ServerScriptModelApiItems Items;
         public ServerScriptModelHidden Hidden;
+        public ServerScriptModelResponses Responses;
         public ServerScriptElements Elements;
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
@@ -110,6 +111,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 onTesting: onTesting);
             Hidden = new ServerScriptModelHidden();
+            Responses = new ServerScriptModelResponses();
             Elements = new ServerScriptElements();
             ExtendedSql = new ServerScriptModelExtendedSql(
                 context: context,
@@ -296,6 +298,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedRowData { get; set; }
             public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
             public Dictionary<string, string> Hidden { get; set; }
+            public ServerScriptModelResponses Responses { get; set; }
             public ServerScriptElements Elements { get; set; }
             private List<string> ReplaceFieldColumnsCache { get; set; }
 
