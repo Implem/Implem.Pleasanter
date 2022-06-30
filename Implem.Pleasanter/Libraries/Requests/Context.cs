@@ -360,7 +360,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 if (setData) SetData();
                 var api = RequestDataString.Deserialize<Api>();
-                ApiVersion = api?.ApiVersion ?? ApiVersion;
+                SetApiVersion(api: api);
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
                     ApiKey = api.ApiKey;
@@ -387,6 +387,24 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: this,
                     includeUserArea: Controller == "sessions",
                     sessionGuid: "@" + UserId);
+            }
+        }
+
+        private void SetApiVersion(Api api)
+        {
+            
+            if (Parameters.Api.Compatibility_1_3_12)
+            {
+                // ApiKeyを指定しない場合にAPIバージョンがセットできない不具合のある状態で
+                // 開発されたコードの動きを変えないよう 1.3.12 互換で動作させる
+                if (api?.ApiKey.IsNullOrEmpty() == false)
+                {
+                    ApiVersion = api.ApiVersion;
+                }
+            }
+            else
+            {
+                ApiVersion = api?.ApiVersion ?? ApiVersion;
             }
         }
 
