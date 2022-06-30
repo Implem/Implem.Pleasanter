@@ -409,8 +409,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static void SetColumnFilterHashValues(
             Context context,
             View view,
-            ExpandoObject columnFilterHash)
+            ExpandoObject columnFilterHash,
+            bool filtersCleared)
         {
+            if (filtersCleared)
+            {
+                view.Incomplete = false;
+                view.Own = false;
+                view.NearCompletionTime = false;
+                view.Delay = false;
+                view.Overdue = false;
+                view.Search = string.Empty;
+                view.ColumnFilterHash?.Clear();
+            } 
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -689,7 +700,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 SetColumnFilterHashValues(
                     context: context,
                     view: view,
-                    columnFilterHash: data.View.Filters);
+                    columnFilterHash: data.View.Filters,
+                    filtersCleared: data.View.FiltersCleared);
                 SetColumnSearchTypeHashValues(
                     context: context,
                     view: view,
