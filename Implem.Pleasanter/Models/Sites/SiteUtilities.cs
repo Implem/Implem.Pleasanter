@@ -11265,7 +11265,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.From(context: context),
                         text: reminder.From,
-                        validateRequired: true)
+                        validateRequired: ReminderUtilities.RequireFrom(reminder))
                     .FieldTextBox(
                         controlId: "ReminderTo",
                         fieldCss: "field-wide",
