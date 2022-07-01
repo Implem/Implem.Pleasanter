@@ -4016,6 +4016,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     searchIndexes: null,
                     selectedValues: null,
                     linkHash: linkHash));
+                // 自己参照リンクしたテーブルのSetChoiceHashを行う
+                Destinations.Get(SiteId)?.SetChoiceHash(
+                    context: context,
+                    columnName: null,
+                    searchIndexes: null,
+                    selectedValues: null,
+                    linkHash: linkHash);
             }
         }
 
