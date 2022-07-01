@@ -13,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ExpandoObject Filters = new ExpandoObject();
         public readonly ExpandoObject SearchTypes = new ExpandoObject();
         public readonly ExpandoObject Sorters = new ExpandoObject();
+        // ClearFilters()呼んだ時trueになる。サーバスクリプトからは変更禁止にしたいのでprivate setにしてある。
         public bool FiltersCleared { private set; get; }
 
         public ServerScriptModelView(int id = 0)

@@ -410,9 +410,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Context context,
             View view,
             ExpandoObject columnFilterHash,
-            bool filtersCleared)
+            bool noMerge)
         {
-            if (filtersCleared)
+            // サーバスクリプトでview.ClearFilters()が呼ばれた後はnoMerge=tureで渡されてくる。
+            // フィルタは既にクリアされているので、ここでフィルタをマージしないようにする。
+            if (noMerge)
             {
                 view.Incomplete = false;
                 view.Own = false;
@@ -701,7 +703,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     view: view,
                     columnFilterHash: data.View.Filters,
-                    filtersCleared: data.View.FiltersCleared);
+                    noMerge: data.View.FiltersCleared);
                 SetColumnSearchTypeHashValues(
                     context: context,
                     view: view,
