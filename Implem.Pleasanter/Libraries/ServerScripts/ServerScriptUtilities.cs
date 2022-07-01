@@ -411,8 +411,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static void SetColumnFilterHashValues(
             Context context,
             View view,
-            ExpandoObject columnFilterHash)
+            ExpandoObject columnFilterHash,
+            bool noMerge)
         {
+            // サーバスクリプトでview.ClearFilters()が呼ばれた後はnoMerge=tureで渡されてくる。
+            // フィルタは既にクリアされているので、ここでフィルタをマージしないようにする。
+            if (noMerge)
+            {
+                view.Incomplete = false;
+                view.Own = false;
+                view.NearCompletionTime = false;
+                view.Delay = false;
+                view.Overdue = false;
+                view.Search = string.Empty;
+                view.ColumnFilterHash?.Clear();
+            } 
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -692,7 +705,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 SetColumnFilterHashValues(
                     context: context,
                     view: view,
-                    columnFilterHash: data.View.Filters);
+                    columnFilterHash: data.View.Filters,
+                    noMerge: data.View.FiltersCleared);
                 SetColumnSearchTypeHashValues(
                     context: context,
                     view: view,
