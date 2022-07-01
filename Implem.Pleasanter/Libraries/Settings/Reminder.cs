@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net.Mail;
+using System.Runtime.Serialization;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -142,6 +142,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             ExcludeOverdue = excludeOverdue;
             Condition = condition;
             Disabled = disabled;
+        }
+
+        [OnDeserialized]
+        void OnDeserialized(StreamingContext context)
+        {
+            if (ReminderType == 0)
+            {
+                ReminderType = ReminderTypes.Mail;
+            }
         }
 
         public string GetColumn(SiteSettings ss)
