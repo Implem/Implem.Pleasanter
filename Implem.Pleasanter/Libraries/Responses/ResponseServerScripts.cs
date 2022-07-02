@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             View view,
             ServerScriptModelResponses responses)
         {
-            responses.ForEach(response =>
+            responses?.ForEach(response =>
             {
                 switch (response.Type)
                 {
