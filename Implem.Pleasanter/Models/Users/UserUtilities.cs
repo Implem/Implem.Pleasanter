@@ -4094,8 +4094,10 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ApiEditor(
             this HtmlBuilder hb, Context context, UserModel userModel)
         {
-            return hb
-                .Div(id: "EditorTabsContainer", css: "max", action: () => hb
+            return hb.Div(
+                id: "EditorTabsContainer",
+                css: "tab-container max",
+                action: () => hb
                     .Ul(id: "EditorTabs", action: () => hb
                         .Li(action: () => hb
                             .A(
