@@ -1,0 +1,21 @@
+﻿{
+    "Id": "TestNetworks",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "ネットワークのテスト",
+    "WorkValue": "12",
+    "ProgressRate": "22",
+    "Status": "200",
+    "ClassA": "テスト",
+    "ClassB": "作業[定型]",
+    "ClassC": "ネットワーク・セキュリティ",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "StartTime": "36657",
+    "CompletionTime": "36658",
+    "CreatedTime": "36642.752083333333",
+    "UpdatedTime": "36640.752083333333"
+}

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigApplications",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "業務アプリケーションの構築",
+    "WorkValue": "60",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "構築",
+    "ClassB": "作業[非定型]",
+    "ClassC": "業務",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "StartTime": "36668",
+    "CompletionTime": "36672",
+    "CreatedTime": "36641.460416666669",
+    "UpdatedTime": "36648.460416666669"
+}
