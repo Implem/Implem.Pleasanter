@@ -768,6 +768,21 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            return PropertyValue(
+                context: context,
+                column: column);
+        }
+
         public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
         {
             if (!ss.ReadColumnAccessControls.Allowed(
@@ -817,6 +832,31 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Timestamp":
                     return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2539,6 +2579,73 @@ namespace Implem.Pleasanter.Models
             RecordPermissions = data.RecordPermissions;
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
+        }
+
+        public void SetByProcess(
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            if (process.ChangedStatus != -1)
+            {
+                Status.Value = process.ChangedStatus;
+            }
+            process.DataChanges?.ForEach(dataChange =>
+            {
+                var key = $"Results_{dataChange.ColumnName}";
+                var formData = new Dictionary<string, string>();
+                switch (dataChange.Type)
+                {
+                    case DataChange.Types.CopyValue:
+                        formData[key] = ToValue(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: dataChange.Value),
+                            mine: Mine(context: context));
+                        break;
+                    case DataChange.Types.CopyDisplayValue:
+                        formData[key] = ToDisplay(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: dataChange.Value),
+                            mine: Mine(context: context));
+                        break;
+                    case DataChange.Types.InputValue:
+                        formData[key] = dataChange.ValueData(ss
+                            .IncludedColumns(value: dataChange.Value)
+                            .ToDictionary(
+                                column => column.ColumnName,
+                                column => ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: Mine(context: context))));
+                        break;
+                    case DataChange.Types.InputDate:
+                    case DataChange.Types.InputDateTime:
+                        formData[key] = dataChange.DateTimeValue(context: context).ToString();
+                        break;
+                    case DataChange.Types.InputUser:
+                        formData[key] = context.UserId.ToString();
+                        break;
+                    case DataChange.Types.InputDept:
+                        formData[key] = context.DeptId.ToString();
+                        break;
+                    default:
+                        break;
+                }
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
+                SetByLookups(
+                    context: context,
+                    ss: ss);
+            });
         }
 
         public void SetBySettings(

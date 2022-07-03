@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Years",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Years"
+        },
+        {
+            "Language": "zh",
+            "Body": "年"
+        },
+        {
+            "Language": "ja",
+            "Body": "年"
+        },
+        {
+            "Language": "de",
+            "Body": "Jahre"
+        },
+        {
+            "Language": "ko",
+            "Body": "연령"
+        },
+        {
+            "Language": "es",
+            "Body": "Años"
+        },
+        {
+            "Language": "vn",
+            "Body": "Năm"
+        }
+    ]
+}

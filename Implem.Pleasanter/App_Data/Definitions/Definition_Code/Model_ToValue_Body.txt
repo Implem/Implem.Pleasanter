@@ -1,0 +1,14 @@
+﻿public string ToValue(Context context, SiteSettings ss, Column column, List<string> mine)
+{
+    if (!ss.ReadColumnAccessControls.Allowed(
+        context: context,
+        ss: ss,
+        column: column,
+        mine: mine))
+    {
+        return string.Empty;
+    }
+    return PropertyValue(
+        context: context,
+        column: column);
+}

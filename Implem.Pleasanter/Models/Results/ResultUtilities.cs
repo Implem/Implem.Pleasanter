@@ -2813,10 +2813,10 @@ namespace Implem.Pleasanter.Models
                     process: process);
                 if (process.MatchConditions && process.Accessable(context: context))
                 {
-                    if (process.ChangedStatus != -1)
-                    {
-                        resultModel.Status.Value = process.ChangedStatus;
-                    }
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
                 }
                 else
                 {
@@ -3048,10 +3048,10 @@ namespace Implem.Pleasanter.Models
                     process: process);
                 if (process.MatchConditions && process.Accessable(context: context))
                 {
-                    if (process.ChangedStatus != -1)
-                    {
-                        resultModel.Status.Value = process.ChangedStatus;
-                    }
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
                 }
                 else
                 {
