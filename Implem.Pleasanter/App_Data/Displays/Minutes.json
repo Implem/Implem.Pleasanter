@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Minutes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Minutes"
+        },
+        {
+            "Language": "zh",
+            "Body": "分钟"
+        },
+        {
+            "Language": "ja",
+            "Body": "分"
+        },
+        {
+            "Language": "de",
+            "Body": "Protokoll"
+        },
+        {
+            "Language": "ko",
+            "Body": "분"
+        },
+        {
+            "Language": "es",
+            "Body": "Minutos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phút"
+        }
+    ]
+}

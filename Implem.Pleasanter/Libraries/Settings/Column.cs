@@ -595,6 +595,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void AddToChoiceHash(Context context, string value)
         {
+            if (ChoiceHash == null)
+            {
+                ChoiceHash = new Dictionary<string, Choice>();
+            }
             if (!value.IsNullOrEmpty()
                 && ChoiceHash?.ContainsKey(value) == false)
             {

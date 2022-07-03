@@ -1333,6 +1333,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.GanttSortBy = GanttSortBy;
             }
+            view.GanttPeriod = GanttPeriod;
+            view.GanttStartDate = GanttStartDate;
             if (!TimeSeriesGroupBy.IsNullOrEmpty())
             {
                 view.TimeSeriesGroupBy = TimeSeriesGroupBy;
@@ -2377,6 +2379,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ServerScriptUtilities.Execute(
                     context: context,
                     ss: ss,
+                    gridData: null,
                     itemModel: null,
                     view: this,
                     where: script => script.WhenViewProcessing == true,

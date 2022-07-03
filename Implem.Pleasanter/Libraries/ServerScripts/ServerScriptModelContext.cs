@@ -12,8 +12,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         public StringBuilder LogBuilder;
         public ExpandoObject UserData;
-        public ErrorData ErrorData;
         public List<Message> Messages;
+        public ErrorData ErrorData;
+        public RedirectData RedirectData;
         public readonly ServerScriptModelContextServerScript ServerScript;
         public readonly Forms Forms;
         public readonly string FormStringRaw;
@@ -54,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject userData,
             List<Message> messages,
             ErrorData errorData,
+            RedirectData redirectData,
             string formStringRaw,
             string formString,
             bool ajax,
@@ -92,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             UserData = userData;
             Messages = messages;
             ErrorData = errorData;
+            RedirectData = redirectData;
             ServerScript = new ServerScriptModelContextServerScript(
                 onTesting: onTesting,
                 scriptDepth: scriptDepth);
@@ -147,6 +150,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 Text = text,
                 Css = css
             });
+        }
+
+        public void Redirect(string url)
+        {
+            RedirectData.Url = url;
         }
     }
 }

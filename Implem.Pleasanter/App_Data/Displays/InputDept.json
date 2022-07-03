@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputDept",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input department"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入部门"
+        },
+        {
+            "Language": "ja",
+            "Body": "組織の入力"
+        },
+        {
+            "Language": "de",
+            "Body": "Eingangsabteilung"
+        },
+        {
+            "Language": "ko",
+            "Body": "입력부서"
+        },
+        {
+            "Language": "es",
+            "Body": "departamento de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bộ phận đầu vào"
+        }
+    ]
+}

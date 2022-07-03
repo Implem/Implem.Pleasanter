@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Users { get; set; }
         public View View { get; set; }
         public string ErrorMessage { get; set; }
+        public SettingList<DataChange> DataChanges { get; set; }
         public SettingList<Notification> Notifications { get; set; }
         [NonSerialized]
         public bool MatchConditions;
@@ -76,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<Permission> permissions,
             View view,
             string errorMessage,
+            SettingList<DataChange> dataChanges,
             SettingList<Notification> notifications)
         {
             Id = id;
@@ -95,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetPermissions(permissions: permissions);
             View = view;
             ErrorMessage = errorMessage;
+            DataChanges = dataChanges;
             Notifications = notifications;
         }
 
@@ -115,6 +118,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             List<Permission> permissions,
             View view,
             string errorMessage,
+            SettingList<DataChange> dataChanges,
             SettingList<Notification> notifications)
         {
             Name = name;
@@ -133,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetPermissions(permissions: permissions);
             View = view;
             ErrorMessage = errorMessage;
+            DataChanges = dataChanges;
             Notifications = notifications;
         }
 
@@ -269,6 +274,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 process.ErrorMessage = ErrorMessage;
             }
+            DataChanges?.ForEach(dataChange =>
+            {
+                if (process.DataChanges == null)
+                {
+                    process.DataChanges = new SettingList<DataChange>();
+                }
+                process.DataChanges.Add(dataChange.GetRecordingData(
+                    context: context,
+                    ss: ss));
+            });
             Notifications?.ForEach(notification =>
             {
                 if (process.Notifications == null)

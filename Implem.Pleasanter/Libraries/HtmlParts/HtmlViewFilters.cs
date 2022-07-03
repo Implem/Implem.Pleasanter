@@ -290,7 +290,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return hb;
         }
 
-        private static void Column(
+        public static void Column(
             HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -319,6 +319,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if (column.DateFilterSetMode == ColumnUtilities.DateFilterSetMode.Default)
                         {
                             hb.FieldTextBox(
+                                fieldId: idPrefix + column.ColumnName + "Field",
                                 controlId: idPrefix + column.ColumnName,
                                 fieldCss: "field-auto-thin",
                                 controlCss: ss.UseFilterButton != true
@@ -385,6 +386,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     else
                     {
                         hb.FieldTextBox(
+                            fieldId: idPrefix + column.ColumnName + "_DateRangeField",
                             controlId: idPrefix + column.ColumnName + "_DateRange",
                             fieldCss: "field-auto-thin",
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
@@ -440,6 +442,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     else
                     {
                         hb.FieldTextBox(
+                            fieldId: idPrefix + column.ColumnName + "Field",
                             controlId: idPrefix + column.ColumnName,
                             fieldCss: "field-auto-thin",
                             controlCss: ss.UseFilterButton != true
@@ -469,6 +472,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             hb
                 .FieldTextBox(
+                    fieldId: idPrefix + column.ColumnName + "_NumericRangeField",
                     controlId: idPrefix + column.ColumnName + "_NumericRange",
                     fieldCss: "field-auto-thin",
                     controlCss: (column.UseSearch == true ? " search" : string.Empty),
@@ -505,6 +509,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case ColumnUtilities.CheckFilterControlTypes.OnAndOff:
                     return hb.FieldDropDown(
                         context: context,
+                        fieldId: idPrefix + column.ColumnName + "Field",
                         controlId: idPrefix + column.ColumnName,
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
@@ -522,6 +527,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: "post");
                 default:
                     return hb.FieldCheckBox(
+                        fieldId: idPrefix + column.ColumnName + "Field",
                         controlId: idPrefix + column.ColumnName,
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
@@ -581,6 +587,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             return hb.FieldDropDown(
                 context: context,
+                fieldId: idPrefix + column.ColumnName + "Field",
                 controlId: idPrefix + column.ColumnName,
                 fieldCss: "field-auto-thin",
                 controlCss: (ss.UseFilterButton != true

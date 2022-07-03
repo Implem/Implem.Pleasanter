@@ -51,6 +51,28 @@
                 .split(',')
                 .indexOf($('#NotificationType').val()) !== -1);
     });
+    $(document).on('change', '#ProcessDataChangeType', function () {
+        $('#ProcessDataChangeValueField').toggle(false);
+        $('#ProcessDataChangeValueDateTimeField').toggle(false);
+        $('#ProcessDataChangeValueColumnNamePeriodField').toggle(false);
+        $('#ProcessDataChangeValueColumnNameField').toggle(false);
+        switch ($(this).val()) {
+            case 'CopyValue':
+            case 'CopyDisplayValue':
+                $('#ProcessDataChangeValueColumnNameField').toggle(true);
+                break;
+            case 'InputValue':
+                $('#ProcessDataChangeValueField').toggle(true);
+                break;
+            case 'InputDate':
+            case 'InputDateTime':
+                $('#ProcessDataChangeValueDateTimeField').toggle(true);
+                $('#ProcessDataChangeValueColumnNamePeriodField').toggle(true);
+                break;
+            default:
+                break;
+        }
+    });
     $(document).on('change', '#ProcessNotificationType', function () {
         $('#ProcessNotificationTokenField').toggle(
             $('#ProcessNotificationTokenEnableList').val()
