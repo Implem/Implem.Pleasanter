@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input value"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入值"
+        },
+        {
+            "Language": "ja",
+            "Body": "値の入力"
+        },
+        {
+            "Language": "de",
+            "Body": "Eingegebener Wert"
+        },
+        {
+            "Language": "ko",
+            "Body": "입력 값"
+        },
+        {
+            "Language": "es",
+            "Body": "Valor de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giá trị đầu vào"
+        }
+    ]
+}

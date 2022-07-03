@@ -11,7 +11,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string OnSelectingOrderBy;
         public Dictionary<string, string> ColumnPlaceholders;
         public readonly ExpandoObject Filters = new ExpandoObject();
+        public readonly ExpandoObject SearchTypes = new ExpandoObject();
         public readonly ExpandoObject Sorters = new ExpandoObject();
+        public bool FiltersCleared { private set; get; }
 
         public ServerScriptModelView(int id = 0)
         {
@@ -25,6 +27,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ColumnPlaceholders = new Dictionary<string, string>();
             }
             ColumnPlaceholders.AddOrUpdate(key, value);
+        }
+
+        public void ClearFilters()
+        {
+            ((IDictionary<string, object>)Filters).Clear();
+            FiltersCleared = true;
         }
     }
 }

@@ -433,7 +433,7 @@ namespace Implem.Pleasanter.Libraries.Search
             {
                 case SiteSettings.SearchTypes.FullText:
                     var words = Words(searchText.SearchIndexes().Join(" "));
-                    if (words?.Any() != true) return null;
+                    if (words?.Any() != true) return where;
                     return where.FullTextWhere(
                         context: context,
                         words: words);

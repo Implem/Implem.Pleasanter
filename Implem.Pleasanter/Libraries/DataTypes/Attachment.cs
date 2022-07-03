@@ -229,6 +229,33 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return BinaryUtilities.BinaryStorageProvider(column, Size.GetValueOrDefault()) == "LocalFolder";
         }
 
+        public bool Exists(Context context)
+        {
+            var path = Path.Combine(Directories.BinaryStorage(),
+                "Attachments",
+                Guid);
+            var temp = Path.Combine(Directories.Temp(),
+                Guid,
+                Name);
+            if (Files.Exists(path) || Files.Exists(temp))
+            {
+                return true;
+            }
+            else
+            {
+                if (Guid.IsNullOrEmpty()) return false;
+                return Repository.ExecuteScalar_int(
+                    context: context,
+                    transactional: false,
+                    statements: Rds.SelectCount(
+                        tableName: "Binaries",
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .Guid(Guid)
+                            .Add(raw: $"(\"Bin\" is not null)"))) == 1;
+            }
+        }
+
         internal void AttachmentAction(Context context, Column column, Attachments oldAttachments)
         {
             switch (Action)

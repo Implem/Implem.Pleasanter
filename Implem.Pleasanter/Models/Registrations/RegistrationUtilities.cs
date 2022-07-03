@@ -42,7 +42,8 @@ namespace Implem.Pleasanter.Models
                 siteId: ss.SiteId);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
-                view: view);
+                view: view,
+                gridData: gridData);
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -168,7 +169,8 @@ namespace Implem.Pleasanter.Models
                 view: view);
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
-                view: view);
+                view: view,
+                gridData: gridData);
             return new ResponseCollection()
                 .ViewMode(
                     context: context,

@@ -1,5 +1,7 @@
 ﻿{
+    "Version": 1.1,
     "Enabled": true,
     "PageSize": 200,
-    "LimitPerSite": 0
+    "LimitPerSite": 0,
+    "Compatibility_1_3_12": false
 }

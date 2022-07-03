@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public ExpandoObject UserData { get; set; } = new ExpandoObject();
         public List<Message> Messages { get; set; } = new List<Message>();
         public ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
+        public RedirectData RedirectData { get; set; } = new RedirectData();
         public bool InvalidJsonData { get; set; }
         public bool Authenticated { get; set; }
         public bool SwitchUser { get; set; }
@@ -96,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings { get; set; }
         public bool HasPrivilege { get; set; }
         public ContractSettings ContractSettings { get; set; } = new ContractSettings();
-        public decimal ApiVersion { get; set; } = 1.000M;
+        public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiRequestBody { get; set; }
         public string ApiKey { get; set; }
         public string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
@@ -358,9 +359,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 if (setData) SetData();
                 var api = RequestDataString.Deserialize<Api>();
+                SetApiVersion(api: api);
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
-                    ApiVersion = api.ApiVersion;
                     ApiKey = api.ApiKey;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .ApiKey(ApiKey)));
@@ -385,6 +386,22 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: this,
                     includeUserArea: Controller == "sessions",
                     sessionGuid: "@" + UserId);
+            }
+        }
+
+        private void SetApiVersion(Api api)
+        {
+            
+            if (Parameters.Api.Compatibility_1_3_12)
+            {
+                if (api?.ApiKey.IsNullOrEmpty() == false)
+                {
+                    ApiVersion = api.ApiVersion;
+                }
+            }
+            else
+            {
+                ApiVersion = api?.ApiVersion ?? ApiVersion;
             }
         }
 

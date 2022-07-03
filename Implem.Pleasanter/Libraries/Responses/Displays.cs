@@ -1579,6 +1579,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChangeTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChangeTypes",
+                data: data);
+        }
+
         public static string ChangingPasswordComplete(
             Context context,
             params string[] data)
@@ -2119,6 +2129,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CopyDisplayValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CopyDisplayValue",
+                data: data);
+        }
+
+        public static string CopyFrom(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CopyFrom",
+                data: data);
+        }
+
         public static string CopySettings(
             Context context,
             params string[] data)
@@ -2136,6 +2166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CopyToNew",
+                data: data);
+        }
+
+        public static string CopyValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CopyValue",
                 data: data);
         }
 
@@ -2389,6 +2429,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DataChanges(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DataChanges",
+                data: data);
+        }
+
         public static string DataStorageDestination(
             Context context,
             params string[] data)
@@ -2486,6 +2536,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DayOfWeek",
+                data: data);
+        }
+
+        public static string Days(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Days",
                 data: data);
         }
 
@@ -3999,6 +4059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Hours(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Hours",
+                data: data);
+        }
+
         public static string HoursAgo(
             Context context,
             params string[] data)
@@ -4339,6 +4409,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputDate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputDate",
+                data: data);
+        }
+
+        public static string InputDateTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputDateTime",
+                data: data);
+        }
+
+        public static string InputDept(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputDept",
+                data: data);
+        }
+
         public static string InputMailAddress(
             Context context,
             params string[] data)
@@ -4349,6 +4449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputUser(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputUser",
+                data: data);
+        }
+
         public static string InputValidationTypes(
             Context context,
             params string[] data)
@@ -4356,6 +4466,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "InputValidationTypes",
+                data: data);
+        }
+
+        public static string InputValue(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputValue",
                 data: data);
         }
 
@@ -5479,6 +5599,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Minutes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Minutes",
+                data: data);
+        }
+
         public static string MinutesAgo(
             Context context,
             params string[] data)
@@ -5556,6 +5686,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Monthly",
+                data: data);
+        }
+
+        public static string Months(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Months",
                 data: data);
         }
 
@@ -7379,6 +7519,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Seconds(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Seconds",
+                data: data);
+        }
+
         public static string SecondsAgo(
             Context context,
             params string[] data)
@@ -9176,6 +9326,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Yearly",
+                data: data);
+        }
+
+        public static string Years(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Years",
                 data: data);
         }
 

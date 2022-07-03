@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CopyValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy value"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制值"
+        },
+        {
+            "Language": "ja",
+            "Body": "値のコピー"
+        },
+        {
+            "Language": "de",
+            "Body": "Wert kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "값 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar valor"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép giá trị"
+        }
+    ]
+}

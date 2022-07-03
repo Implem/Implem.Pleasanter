@@ -241,7 +241,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         mailNotify = o.ExecutionType == Settings.Export.ExecutionTypes.MailNotify
                     }.ToJson(),
                     o => o.Name) ?? new Dictionary<string, string>();
-            if (ss.AllowStandardExport == true)
+            if (context.HasPrivilege || ss.AllowStandardExport != false)
             {
                 optionCollection.Add("{\"id\":0, \"mailNotify\":false}", Displays.Standard(context: context));
             }

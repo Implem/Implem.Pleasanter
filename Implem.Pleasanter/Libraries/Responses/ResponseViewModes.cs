@@ -77,6 +77,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     ss: ss,
                     editOnGrid: editOnGrid)
+                .ServerScriptResponses(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    responses: serverScriptModelRow?.Responses)
                 .Log(context.GetLog());
         }
 

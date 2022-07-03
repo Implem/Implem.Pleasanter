@@ -848,6 +848,7 @@ namespace Implem.Pleasanter.Models
 
         public string LinkTable(Context context)
         {
+            SetSite(context: context);
             var dataTableName = context.Forms.Data("TableId");
             return new ResponseCollection()
                 .ReplaceAll("#" + dataTableName, new HtmlBuilder()

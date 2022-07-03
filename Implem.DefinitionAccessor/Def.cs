@@ -570,6 +570,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
+                    case "Model_SetByDataChanges": Code.Model_SetByDataChanges = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByDataChanges, definitionRow, CodeXls); break;
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
                     case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByForm_RecordPermissions": Code.Model_SetByForm_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_RecordPermissions, definitionRow, CodeXls); break;
@@ -655,6 +656,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ToDisplayColumnCases_Dept": Code.Model_ToDisplayColumnCases_Dept = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases_Dept, definitionRow, CodeXls); break;
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
+                    case "Model_ToValue": Code.Model_ToValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToValue, definitionRow, CodeXls); break;
                     case "Model_TrashBoxCases": Code.Model_TrashBoxCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxCases, definitionRow, CodeXls); break;
                     case "Model_TrashBoxGridRowsCases": Code.Model_TrashBoxGridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxGridRowsCases, definitionRow, CodeXls); break;
                     case "Model_TrashBoxJsonCases": Code.Model_TrashBoxJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxJsonCases, definitionRow, CodeXls); break;
@@ -6765,6 +6767,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_RecordPermissions;
         public string Model_SetByApiExec;
         public string Model_SetByApiParameter;
+        public string Model_SetByDataChanges;
         public string Model_SetByForm;
         public string Model_SetByForm_ColumnCases;
         public string Model_SetByForm_RecordPermissions;
@@ -6850,6 +6853,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ToDisplayColumnCases_Dept;
         public string Model_ToLocal;
         public string Model_ToUniversal;
+        public string Model_ToValue;
         public string Model_TrashBoxCases;
         public string Model_TrashBoxGridRowsCases;
         public string Model_TrashBoxJsonCases;
@@ -7507,6 +7511,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
+        public CodeDefinition Model_SetByDataChanges = new CodeDefinition();
         public CodeDefinition Model_SetByForm = new CodeDefinition();
         public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByForm_RecordPermissions = new CodeDefinition();
@@ -7592,6 +7597,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ToDisplayColumnCases_Dept = new CodeDefinition();
         public CodeDefinition Model_ToLocal = new CodeDefinition();
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
+        public CodeDefinition Model_ToValue = new CodeDefinition();
         public CodeDefinition Model_TrashBoxCases = new CodeDefinition();
         public CodeDefinition Model_TrashBoxGridRowsCases = new CodeDefinition();
         public CodeDefinition Model_TrashBoxJsonCases = new CodeDefinition();

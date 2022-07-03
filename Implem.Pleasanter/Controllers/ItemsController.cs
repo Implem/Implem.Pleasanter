@@ -28,7 +28,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).Index(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -49,7 +51,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).TrashBox(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -70,7 +74,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).Calendar(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -91,7 +97,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).Crosstab(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -112,7 +120,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).Gantt(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -133,7 +143,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).BurnDown(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -154,7 +166,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).TimeSeries(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -175,7 +189,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).Kamban(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -196,7 +212,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).ImageLib(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -217,7 +235,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).New(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -268,7 +288,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = new ItemModel(context: context, referenceId: id).Editor(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {
@@ -415,7 +437,9 @@ namespace Implem.Pleasanter.Controllers
                 var html = Indexes.Search(context: context);
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
-                return View();
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : (ActionResult)Redirect(context.RedirectData.Url);
             }
             else
             {

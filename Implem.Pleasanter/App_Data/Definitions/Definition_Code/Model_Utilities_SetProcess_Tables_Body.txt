@@ -8,10 +8,10 @@ if (process != null)
         process: process);
     if (process.MatchConditions && process.Accessable(context: context))
     {
-        if (process.ChangedStatus != -1)
-        {
-            #modelName#Model.Status.Value = process.ChangedStatus;
-        }
+        #modelName#Model.SetByProcess(
+            context: context,
+            ss: ss,
+            process: process);
     }
     else
     {

@@ -5279,7 +5279,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public ServerScriptModelRow GetServerScriptModelRow(
             Context context,
             BaseItemModel itemModel = null,
-            View view = null)
+            View view = null,
+            GridData gridData = null)
         {
             if (ServerScriptModelRowCache == null)
             {
@@ -5287,11 +5288,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? itemModel.SetByBeforeOpeningPageServerScript(
                         context: context,
                         ss: this,
-                        view: view)
+                        view: view,
+                        gridData: gridData)
                     : new ItemModel().SetByBeforeOpeningPageServerScript(
                         context: context,
                         ss: this,
-                        view: view);
+                        view: view,
+                        gridData: gridData);
             }
             return ServerScriptModelRowCache;
         }

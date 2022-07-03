@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ChangeTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Change types"
+        },
+        {
+            "Language": "zh",
+            "Body": "更改类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "変更種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Typ ändern"
+        },
+        {
+            "Language": "ko",
+            "Body": "유형 변경"
+        },
+        {
+            "Language": "es",
+            "Body": "Cambiar tipo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đổi loại"
+        }
+    ]
+}
