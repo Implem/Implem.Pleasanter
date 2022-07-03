@@ -1,6 +1,7 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -12,6 +13,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {
+        public readonly ServerScriptModelGrid Grid = new ServerScriptModelGrid();
         public readonly ExpandoObject Model = new ExpandoObject();
         public readonly ServerScriptModelDepts Depts;
         public readonly ServerScriptModelGroups Groups;
@@ -22,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public readonly ServerScriptModelView View;
         public readonly ServerScriptModelApiItems Items;
         public ServerScriptModelHidden Hidden;
+        public ServerScriptModelResponses Responses;
         public ServerScriptElements Elements;
         public ServerScriptModelExtendedSql ExtendedSql;
         public ServerScriptModelNotification Notification;
@@ -34,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ServerScriptModel(
             Context context,
             SiteSettings ss,
+            GridData gridData,
             IEnumerable<(string Name, object Value)> data,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             View view,
@@ -41,6 +45,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool debug,
             bool onTesting)
         {
+            Grid.TotalCount = gridData?.TotalCount ?? 0;
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
             Depts = new ServerScriptModelDepts(context: context);
             Groups = new ServerScriptModelGroups(context: context);
@@ -52,6 +57,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 : 0);
             view?.ColumnFilterHash?.ForEach(columnFilter =>
                 ((IDictionary<string, object>)View.Filters)[columnFilter.Key] = columnFilter.Value);
+            view?.ColumnFilterSearchTypes?.ForEach(columnFilterSearchType =>
+                ((IDictionary<string, object>)View.SearchTypes)[columnFilterSearchType.Key] = columnFilterSearchType.Value);
             view?.ColumnSorterHash?.ForEach(columnSorter =>
                 ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
                     typeof(SqlOrderBy.Types),
@@ -63,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 userData: context.UserData,
                 messages: context.Messages,
                 errorData: context.ErrorData,
+                redirectData: context.RedirectData,
                 formStringRaw: context.FormStringRaw,
                 formString: context.FormString,
                 ajax: context.Ajax,
@@ -103,6 +111,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 onTesting: onTesting);
             Hidden = new ServerScriptModelHidden();
+            Responses = new ServerScriptModelResponses();
             Elements = new ServerScriptElements();
             ExtendedSql = new ServerScriptModelExtendedSql(
                 context: context,
@@ -289,6 +298,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             public string ExtendedRowData { get; set; }
             public Dictionary<string, ServerScriptModelColumn> Columns { get; set; }
             public Dictionary<string, string> Hidden { get; set; }
+            public ServerScriptModelResponses Responses { get; set; }
             public ServerScriptElements Elements { get; set; }
             private List<string> ReplaceFieldColumnsCache { get; set; }
 

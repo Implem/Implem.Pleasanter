@@ -117,6 +117,11 @@ $p.openProcessValidateInputDialog = function ($control) {
     $p.openSiteSettingsDialog($control, '#ProcessValidateInputDialog', '75%');
 }
 
+$p.openProcessDataChangeDialog = function ($control) {
+    $p.data.ProcessDataChangeForm = {};
+    $p.openSiteSettingsDialog($control, '#ProcessDataChangeDialog', '75%');
+}
+
 $p.openProcessNotificationDialog = function ($control) {
     $p.data.ProcessNotificationForm = {};
     $p.openSiteSettingsDialog($control, '#ProcessNotificationDialog', '75%');

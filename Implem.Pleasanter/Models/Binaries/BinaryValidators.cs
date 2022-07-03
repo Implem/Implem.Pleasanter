@@ -149,7 +149,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploading(
             Context context,
             Column column,
-            Libraries.DataTypes.Attachments attachments)
+            Attachments attachments)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -218,7 +218,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploading(
             Context context,
             SiteSettings ss,
-            Dictionary<string, Libraries.DataTypes.Attachments> attachmentsHash)
+            Dictionary<string, Attachments> attachmentsHash)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -346,7 +346,7 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploading(
             Context context,
             Column column,
-            Libraries.DataTypes.Attachments attachments,
+            Attachments attachments,
             System.Web.HttpPostedFileBase[] files,
             System.Collections.Generic.IEnumerable<System.Net.Http.Headers.ContentRangeHeaderValue> contentRanges)
         {
@@ -432,7 +432,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverLimitQuantity(
-            Libraries.DataTypes.Attachments attachments, decimal? limitQuantity)
+            Attachments attachments, decimal? limitQuantity)
         {
             return attachments
                 .Where(o => o.Deleted != true)
@@ -444,7 +444,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverLimitQuantity(
-            Libraries.DataTypes.Attachments attachments, decimal? limitQuantity, decimal newFileCount = 0)
+            Attachments attachments, decimal? limitQuantity, decimal newFileCount = 0)
         {
             return attachments
                 .Where(o => o.Deleted != true)
@@ -456,12 +456,12 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Error.Types OverLimitSize(
-            Libraries.DataTypes.Attachments attachments, Column column)
+            Attachments attachments, Column column)
         {
             foreach (var attachment in attachments
                 .Where(o => o.Added == true && o.Deleted != true))
             {
-                if (BinaryUtilities.BinaryStorageProvider(column, attachment.Size ?? 0) == "LocalFolder")
+                if (attachment.IsStoreLocalFolder(column))
                 {
                     if (attachment.Size > column.LocalFolderLimitSize * 1024 * 1024)
                     {
@@ -492,7 +492,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            Libraries.DataTypes.Attachments attachments,
+            Attachments attachments,
             decimal? totalLimitSize)
         {
             return attachments
@@ -506,7 +506,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            Libraries.DataTypes.Attachments attachments,
+            Attachments attachments,
             System.Func<Attachment,bool> storageSelector,
             decimal? totalLimitSize)
         {
@@ -522,7 +522,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static bool OverTotalLimitSize(
-            Libraries.DataTypes.Attachments attachments,
+            Attachments attachments,
             decimal? totalLimitSize,
             decimal newFileTotalSize = 0)
         {
@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Error.Types OverTotalLimitSize(
-            Libraries.DataTypes.Attachments attachments, Column column, long rdsLength, long localLength)
+            Attachments attachments, Column column, long rdsLength, long localLength)
         {
             long limitSize = (long)(column.LimitSize ?? 0);
             if (attachments.Where(o => o.Deleted != true)
@@ -553,7 +553,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static Error.Types OverTotalLimitSize(
-            Libraries.DataTypes.Attachments attachments, Column column)
+            Attachments attachments, Column column)
         {
             long limitSize = (long)(column.LimitSize ?? 0);
             if (attachments.Where(o => o.Deleted != true)

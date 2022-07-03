@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputDateTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input date time"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入日期时间"
+        },
+        {
+            "Language": "ja",
+            "Body": "日時の入力"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum Uhrzeit eingeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "날짜 시간 입력"
+        },
+        {
+            "Language": "es",
+            "Body": "Hora de fecha de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nhập ngày giờ"
+        }
+    ]
+}

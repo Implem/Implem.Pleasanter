@@ -13,7 +13,8 @@
         siteId: ss.SiteId);
     var serverScriptModelRow = ss.GetServerScriptModelRow(
         context: context,
-        view: view);
+        view: view,
+        gridData: gridData);
     return hb.ViewModeTemplate(
         context: context,
         ss: ss,
@@ -145,7 +146,8 @@ public static string IndexJson(Context context, SiteSettings ss)
         view: view);
     var serverScriptModelRow = ss.GetServerScriptModelRow(
         context: context,
-        view: view);
+        view: view,
+        gridData: gridData);
     return new ResponseCollection()
         .ViewMode(
             context: context,

@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Models.Shared
     [Serializable]
     public class _BaseApiModel
     {
-        public decimal ApiVersion { get; set; } = 1.000M;
+        public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public Dictionary<string, string> ClassHash { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, decimal?> NumHash { get; set; } = new Dictionary<string, decimal?>();
         public Dictionary<string, DateTime> DateHash { get; set; } = new Dictionary<string, DateTime>();

@@ -1666,6 +1666,31 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Ver":
+                    return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {

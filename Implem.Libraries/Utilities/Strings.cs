@@ -131,6 +131,16 @@ namespace Implem.Libraries.Utilities
                 : self + number;
         }
 
+        public static T ToEnum<T>(this string self, T defaultValue = default(T), bool ignoreCase = true) where T : struct, Enum
+        {
+            T result;
+            if (!Enum.TryParse(self, ignoreCase, out result))
+            {
+                result = defaultValue;
+            }
+            return result;
+        }
+
         public static string StringInJson(this string self)
         {
             if (self.IsNullOrEmpty()) return string.Empty;

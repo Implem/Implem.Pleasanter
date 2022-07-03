@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputUser",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input user"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入用户"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザの入力"
+        },
+        {
+            "Language": "de",
+            "Body": "Benutzer eingeben"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 입력"
+        },
+        {
+            "Language": "es",
+            "Body": "Usuario de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "Người dùng đầu vào"
+        }
+    ]
+}
