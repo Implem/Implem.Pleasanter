@@ -2988,11 +2988,12 @@ namespace Implem.Pleasanter.Models
             return issueModel;
         }
 
-        public static (System.IO.Stream stream, string error) Print(
+        public static (Implem.Plugins.PdfData pdfData, string error) Print(
             Context context,
             SiteSettings ss,
             long issueId,
-            int reportId)
+            int reportId,
+            int viewId)
         {
             var invalid = IssueValidators.OnEntry(
                context: context,
@@ -3011,32 +3012,49 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     siteId: ss.SiteId)
                 .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.ExtendedLibrary.LibraryTypes.Print);
-            if(extension == null)
+            if (extension == null)
             {
                 return (
                     null,
                     HtmlTemplates.Error(
                         context: context,
                         errorData: new ErrorData(type: Error.Types.NotFound)));
-            };
-            
-            var defaultView = new View();
+            }
+            View defaultView = (viewId > 0)
+                ? ss.Views?
+                    .Where(o => o.Accessable(context: context))
+                    .FirstOrDefault(o => o.Id == viewId)
+                : null;
+            SqlWhereCollection selectingWhere = null;
             if (issueId > 0)
             {
+                if (defaultView == null)
+                {
+                    defaultView = new View();
+                }
                 if (defaultView.ColumnFilterHash == null)
                 {
                     defaultView.ColumnFilterHash = new Dictionary<string, string>();
                 }
                 defaultView.ColumnFilterHash.Add("IssueId", issueId.ToString());
             }
+            else
+            {
+                defaultView = defaultView ??
+                    Views.GetBySession(
+                        context: context,
+                        ss: ss);
+                selectingWhere = SelectedWhere(
+                    context: context,
+                    ss: ss);
+            }
             var host = new Libraries.Prints.PrintPluginHost(
                 context: context,
                 ss: ss,
                 defaultView: defaultView,
-                reportId: reportId > 0
-                    ? reportId
-                    : extension.ReportId);
-            var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.LibraryName);
+                selectingWhere: selectingWhere,
+                reportId: reportId);
+            var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.FileName);
             if (plugin == null)
             {
                 return (

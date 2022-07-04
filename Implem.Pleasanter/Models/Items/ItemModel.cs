@@ -817,7 +817,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public (System.IO.Stream strean, string error) Print(Context context, int reportId)
+        public (Implem.Plugins.PdfData pdfData, string error) Print(Context context, int reportId, int viewId)
         {
             SetSite(
                 context: context,
@@ -831,7 +831,8 @@ namespace Implem.Pleasanter.Models
                         issueId: SiteId != ReferenceId
                             ? ReferenceId
                             : 0,
-                        reportId: reportId);
+                        reportId: reportId,
+                        viewId: viewId);
                 case "Results":
                     return ResultUtilities.Print(
                         context: context,
@@ -839,7 +840,8 @@ namespace Implem.Pleasanter.Models
                         resultId: SiteId != ReferenceId
                             ? ReferenceId
                             : 0,
-                        reportId: reportId);
+                        reportId: reportId,
+                        viewId: viewId);
                 default:
                     return (null, HtmlTemplates.Error(
                         context: context,

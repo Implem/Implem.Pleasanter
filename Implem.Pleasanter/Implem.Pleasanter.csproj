@@ -88,9 +88,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPlugin.json" />
+    <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPlugin1.json" />
     <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPluginConsole.deps.json" />
     <Content Remove="App_Data\Parameters\ExtendedLibraries\PrintPluginConsole.runtimeconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\ICSharpCode.SharpZipLib.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\Implem.Plugins.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\Microsoft.Win32.SystemEvents.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\PdfSharpCore.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\PrintPluginConsole.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\SixLabors.Fonts.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\SixLabors.ImageSharp.dll" />
+    <None Remove="App_Data\Parameters\ExtendedLibraries\Print\System.Drawing.Common.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -104,6 +115,17 @@
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase4_User.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase8_ToIssuesIndex.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase9_ToIssuesCalendar.json.ignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\ICSharpCode.SharpZipLib.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\Implem.Plugins.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\Microsoft.Win32.SystemEvents.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\PdfSharpCore.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\PrintPluginConsole.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\SixLabors.Fonts.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\SixLabors.ImageSharp.dll" />
+    <EmbeddedResource Include="App_Data\Parameters\ExtendedLibraries\Print\System.Drawing.Common.dll" />
   </ItemGroup>
 
   <ItemGroup>

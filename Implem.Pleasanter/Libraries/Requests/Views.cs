@@ -23,11 +23,13 @@ namespace Implem.Pleasanter.Libraries.Requests
                     useUsersView: useUsersView);
                 return view;
             }
-            if (context.Forms.ControlId() == "ViewSelector")
+            var viewId = context.QueryStrings.Int("ViewSelector");
+            if (context.Forms.ControlId() == "ViewSelector" || viewId > 0)
             {
+                viewId = (viewId > 0) ? viewId : context.Forms.Int("ViewSelector");
                 view = ss.Views
                     ?.Where(o => o.Accessable(context: context))
-                    .FirstOrDefault(o => o.Id == context.Forms.Int("ViewSelector"))
+                    .FirstOrDefault(o => o.Id == viewId)
                         ?? new View(
                             context: context,
                             ss: ss);

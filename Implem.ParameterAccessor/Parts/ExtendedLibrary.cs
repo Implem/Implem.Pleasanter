@@ -1,10 +1,11 @@
-﻿namespace Implem.ParameterAccessor.Parts
+﻿using System.Collections.Generic;
+
+namespace Implem.ParameterAccessor.Parts
 {
     public class ExtendedLibrary : ExtendedBase
     {
-        public int ReportId;
         public LibraryTypes LibraryType;
-        public string LibraryName;
+        public string FileName;
 
         public enum LibraryTypes
         {

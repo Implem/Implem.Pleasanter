@@ -3018,11 +3018,12 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static (System.IO.Stream stream, string error) Print(
+        public static (Plugins.PdfData pdfData, string error) Print(
             Context context,
             SiteSettings ss,
             long resultId,
-            int reportId)
+            int reportId,
+            int viewId)
         {
             var invalid = IssueValidators.OnEntry(
                context: context,
@@ -3048,25 +3049,37 @@ namespace Implem.Pleasanter.Models
                     HtmlTemplates.Error(
                         context: context,
                         errorData: new ErrorData(type: Error.Types.NotFound)));
-            };
-
-            var defaultView = new View();
+            }
+            View defaultView = null;
+            SqlWhereCollection selectingWhere = null;
             if (resultId > 0)
             {
+                defaultView = ss.Views?
+                    .Where(o => o.Accessable(context: context))
+                    .FirstOrDefault(o => o.Id == viewId) ?? new View();
                 if (defaultView.ColumnFilterHash == null)
                 {
                     defaultView.ColumnFilterHash = new Dictionary<string, string>();
                 }
-                defaultView.ColumnFilterHash.Add("ResultId", resultId.ToString());
+                defaultView.ColumnFilterHash.Add("resultId", resultId.ToString());
+            }
+            else
+            {
+                defaultView = Views.GetBySession(
+                    context: context,
+                    ss: ss,
+                    setSession: false);
+                selectingWhere = SelectedWhere(
+                    context: context,
+                    ss: ss);
             }
             var host = new Libraries.Prints.PrintPluginHost(
                 context: context,
                 ss: ss,
                 defaultView: defaultView,
-                reportId: reportId > 0
-                    ? reportId
-                    : extension.ReportId);
-            var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.LibraryName);
+                selectingWhere: selectingWhere,
+                reportId: reportId);
+            var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.FileName);
             if (plugin == null)
             {
                 return (

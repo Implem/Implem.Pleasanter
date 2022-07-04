@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Prints
                 "App_Data",
                 "Parameters",
                 "ExtendedLibraries",
+                "Print",
                 libraryName);
             var assembly = System.Reflection.Assembly.LoadFrom(lib);
             var pluginType = assembly.GetTypes()

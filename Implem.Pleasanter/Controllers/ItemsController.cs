@@ -42,25 +42,28 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
-        public ActionResult Print(long id, int reportId = 0, string fileName = null)
+        public ActionResult Print(long id, int reportId = 0, bool download = false, int viewId = 0)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var (stream, error) = new ItemModel(context: context, referenceId: id)
+            var (pdfData, error) = new ItemModel(context: context, referenceId: id)
                 .Print(
                     context: context,
-                    reportId: reportId);
-            if (stream != null)
+                    reportId: reportId,
+                    viewId: viewId);
+            if (pdfData.Stream != null)
             {
-                var result = new FileStreamResult(stream, "application/pdf");
-                if (!string.IsNullOrEmpty(fileName))
+                var result = new FileStreamResult(pdfData.Stream, "application/pdf");
+                if (download)
                 {
-                    result.FileDownloadName = fileName;
+                    result.FileDownloadName = pdfData.FileName;
                 }
                 log.Finish(context: context, responseSize: (int)result.FileStream.Length);
                 return result;
             }
-            ViewBag.HtmlBody = error.ToString();
+            var html = error.ToString();
+            ViewBag.HtmlBody = html;
+            log.Finish(context: context, responseSize: html.Length);
             return View();
         }
 

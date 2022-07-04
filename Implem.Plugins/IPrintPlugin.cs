@@ -2,6 +2,6 @@
 {
     public interface IPrintPlugin
     {
-        Stream CreatePdf(IPrintPluginHost host);
+        PdfData CreatePdf(IPrintPluginHost host);
     }
 }
