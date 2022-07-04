@@ -45,12 +45,12 @@
     <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.9">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript" Version="7.3.0">
+    <PackageReference Include="Microsoft.ClearScript" Version="7.3.1">
       <NoWarn></NoWarn>
     </PackageReference>
-    <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.3.0" />
-    <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.3.0" />
-    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.3.0">
+    <PackageReference Include="Microsoft.ClearScript.linux-arm64" Version="7.3.1" />
+    <PackageReference Include="Microsoft.ClearScript.linux-x64" Version="7.3.1" />
+    <PackageReference Include="Microsoft.ClearScript.Windows" Version="7.3.1">
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.16.1" />
