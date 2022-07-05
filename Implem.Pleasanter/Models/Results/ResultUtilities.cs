@@ -3928,7 +3928,7 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            var data = context.RequestDataString.Deserialize<IssueApiModel>();
+            var data = context.RequestDataString.Deserialize<ResultApiModel>();
             if (api?.Keys?.Any() != true || data == null)
             {
                 return ApiResults.Error(
