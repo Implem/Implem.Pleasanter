@@ -682,37 +682,40 @@ namespace Implem.Pleasanter.Models
                                     verType: wikiModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(
-                                context: context,
-                                ss: ss,
-                                wikiModel: wikiModel)
-                            .FieldSetGeneral(
-                                context: context,
-                                ss: ss,
-                                wikiModel: wikiModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetRecordAccessControl")
-                                    .DataAction("Permissions")
-                                    .DataMethod("post"),
-                                _using: context.CanManagePermission(ss: ss))
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: wikiModel.VerType,
-                                updateButton: true,
-                                copyButton: false,
-                                moveButton: false,
-                                mailButton: true,
-                                deleteButton: true,
-                                serverScriptModelRow: serverScriptModelRow))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container " + tabsCss,
+                            action: () => hb
+                                .EditorTabs(
+                                    context: context,
+                                    ss: ss,
+                                    wikiModel: wikiModel)
+                                .FieldSetGeneral(
+                                    context: context,
+                                    ss: ss,
+                                    wikiModel: wikiModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetRecordAccessControl")
+                                        .DataAction("Permissions")
+                                        .DataMethod("post"),
+                                    _using: context.CanManagePermission(ss: ss))
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: wikiModel.VerType,
+                                    updateButton: true,
+                                    copyButton: false,
+                                    moveButton: false,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    serverScriptModelRow: serverScriptModelRow))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
