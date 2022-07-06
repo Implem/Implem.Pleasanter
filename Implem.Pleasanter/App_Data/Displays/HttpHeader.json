@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HttpHeader",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Http header"
+        },
+        {
+            "Language": "zh",
+            "Body": "Http 标头"
+        },
+        {
+            "Language": "ja",
+            "Body": "HTTPヘッダ"
+        },
+        {
+            "Language": "de",
+            "Body": "HTTP-Header"
+        },
+        {
+            "Language": "ko",
+            "Body": "HTTP 헤더"
+        },
+        {
+            "Language": "es",
+            "Body": "Encabezado HTTP"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tiêu đề htp"
+        }
+    ]
+}

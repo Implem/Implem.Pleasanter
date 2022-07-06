@@ -11097,6 +11097,13 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
                         value: NotificationUtilities.Tokens())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "NotificationMethodType",
+                        controlCss: " always-send",
+                        labelText: Displays.NotificationMethodType(context: context),
+                        optionCollection: NotificationUtilities.MethodTypes(),
+                        selectedValue: notification.MethodType?.ToInt().ToString())
                     .FieldCheckBox(
                         controlId: "NotificationUseCustomFormat",
                         controlCss: " always-send",

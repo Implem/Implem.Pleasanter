@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Subject;
         public string Address;
         public string Token;
+        public MethodTypes? MethodType;
         public bool? UseCustomFormat;
         public string Format;
         public string Body;
@@ -50,13 +51,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             LineGroup = 5,
             Teams = 6,
             RocketChat = 7,
-            InCircle = 8
+            InCircle = 8,
+            HttpClient = 9
         }
 
         public enum Expressions : int
         {
             Or = 1,
             And = 2
+        }
+
+        public enum MethodTypes : int
+        {
+            Get = 1,
+            Post = 2,
+            Put = 3,
+            Delete = 4
         }
 
         public Notification()
@@ -75,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
+            MethodTypes methodType,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -95,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
+            MethodType = methodType;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -114,6 +126,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
+            MethodType = MethodType ?? MethodTypes.Get;
         }
 
         [OnSerializing]
@@ -126,6 +139,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
+            MethodTypes methodType,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -145,6 +159,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
+            MethodType = methodType;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -369,6 +384,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Address.IsNullOrEmpty())
             {
                 notification.Address = Address;
+            }
+            if (MethodType != MethodTypes.Get)
+            {
+                notification.MethodType = MethodType;
             }
             if (!Token.IsNullOrEmpty())
             {

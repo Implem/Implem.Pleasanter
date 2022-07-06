@@ -57,6 +57,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.InCircle.ToInt().ToString(),
                     Displays.InCircle(context: context));
             }
+            if (Parameters.Notification.HttpClient)
+            {
+                notificationTypes.Add(
+                    Notification.Types.HttpClient.ToInt().ToString(),
+                    Displays.HttpClient(context: context));
+            }
             return notificationTypes;
         }
 
@@ -140,9 +146,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 Displays.InCircle(context: context));
                         }
                         break;
+                    case Notification.Types.HttpClient:
+                        if (Parameters.Notification.HttpClient)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.HttpClient(context: context));
+                        }
+                        break;
                 }
             }
             return notificationTypes;
+        }
+
+        public static Dictionary<string, string> MethodTypes()
+        {
+            var methodTypes = new Dictionary<string, string>();
+
+            var types = System.Enum.GetValues(typeof(Notification.MethodTypes));
+            foreach(Notification.MethodTypes t in types)
+            {
+                methodTypes.Add(t.ToInt().ToString(), t.ToString());
+            }
+
+            return methodTypes;
         }
 
         public static bool RequireToken(Notification notification)

@@ -7,6 +7,7 @@
     "Teams": false,
     "RocketChat": false,
     "InCircle": false,
+    "HttpClient": false,
     "CopyWithNotifications": "On",
     "ListOrder": null
 }
