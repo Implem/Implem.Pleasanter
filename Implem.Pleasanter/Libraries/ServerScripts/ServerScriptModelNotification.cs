@@ -15,19 +15,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public ServerScriptModelNotificationModel New()
         {
-            var norification = new ServerScriptModelNotificationModel(
+            var notification = new ServerScriptModelNotificationModel(
                 context: Context,
                 ss: SiteSettings);
-            return norification;
+            return notification;
         }
 
         public ServerScriptModelNotificationModel Get(int Id)
         {
-            var norification = new ServerScriptModelNotificationModel(
+            var notification = new ServerScriptModelNotificationModel(
                 context: Context,
                 ss: SiteSettings,
                 Id: Id);
-            return norification;
+            return notification;
         }
     }
 }
