@@ -1,5 +1,5 @@
 ﻿{
-    "Id": "NotificationMethodType",
+    "Id": "HttpClientMethodType",
     "Type": 110,
     "Languages": [
         {
