@@ -11101,7 +11101,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "NotificationMethodType",
                         controlCss: " always-send",
-                        labelText: Displays.NotificationMethodType(context: context),
+                        labelText: Displays.HttpClientMethodType(context: context),
                         optionCollection: NotificationUtilities.MethodTypes(),
                         selectedValue: notification.MethodType?.ToInt().ToString())
                     .FieldTextBox(
@@ -11114,6 +11114,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.HttpClientContent(context: context),
                         text: notification.Content)
+                    .FieldTextBox(
+                        fieldId: "NotificationMediaTypeField",
+                        controlId: "NotificationMediaType",
+                        controlCss: " always-send",
+                        labelText: Displays.HttpClientMediaType(context: context),
+                        text: notification.MediaType)
                     .FieldCheckBox(
                         controlId: "NotificationUseCustomFormat",
                         controlCss: " always-send",

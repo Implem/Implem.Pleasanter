@@ -4109,6 +4109,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HttpClientMediaType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HttpClientMediaType",
+                data: data);
+        }
+
+        public static string HttpClientMethodType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HttpClientMethodType",
+                data: data);
+        }
+
         public static string HttpHeader(
             Context context,
             params string[] data)
@@ -6016,16 +6036,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NotFound",
-                data: data);
-        }
-
-        public static string NotificationMethodType(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "NotificationMethodType",
                 data: data);
         }
 

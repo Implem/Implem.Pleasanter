@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Address;
         public string Token;
         public MethodTypes? MethodType;
-        public string Content; 
+        public string Content;
+        public string MediaType;
         public bool? UseCustomFormat;
         public string Format;
         public string Body;
@@ -88,6 +89,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string token,
             MethodTypes methodType,
             string content,
+            string mediaType,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -110,6 +112,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Token = token;
             MethodType = methodType;
             Content = content;
+            MediaType = mediaType;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -144,6 +147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string token,
             MethodTypes methodType,
             string content,
+            string mediaType,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -165,6 +169,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Token = token;
             MethodType = methodType;
             Content = content;
+            MediaType = mediaType;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -397,6 +402,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Content.IsNullOrEmpty())
             {
                 notification.Content = Content;
+            }
+            if (!MediaType.IsNullOrEmpty())
+            {
+                notification.MediaType = MediaType;
             }
             if (!Token.IsNullOrEmpty())
             {
