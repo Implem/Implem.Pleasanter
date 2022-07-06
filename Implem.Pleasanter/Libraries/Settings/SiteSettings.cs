@@ -4010,6 +4010,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         all: all,
                         searchIndexes: null)
                     : null;
+                // 自己参照の際にカレントテーブルのSetChoiceHashが実行されない問題へ対応
+                if (Destinations.ContainsKey(SiteId))
+                {
+                    SetChoiceHash(
+                        context: context,
+                        columnName: null,
+                        searchIndexes: null,
+                        selectedValues: null,
+                        linkHash: linkHash);
+                }
                 // リンクのツリーを再帰的にJoinedSsHashに追加していくと現在のサイトの直接のリンク先が
                 // JoinedSsHashに含まれないケースがあるため、Destinationsのインスタンスで置き換える
                 // 処理を追加した。DestinationsのサイトはSearchFormatを表示するためにSetChoiceHashが
