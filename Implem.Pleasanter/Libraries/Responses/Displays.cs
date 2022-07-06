@@ -4099,6 +4099,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HttpClientContent(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HttpClientContent",
+                data: data);
+        }
+
         public static string HttpHeader(
             Context context,
             params string[] data)

@@ -11104,6 +11104,16 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.NotificationMethodType(context: context),
                         optionCollection: NotificationUtilities.MethodTypes(),
                         selectedValue: notification.MethodType?.ToInt().ToString())
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "NotificationContentField",
+                        controlId: "NotificationContent",
+                        fieldCss: "field-wide" + (notification.Type != Notification.Types.HttpClient  // TODO レクチャ必要
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.HttpClientContent(context: context),
+                        text: notification.Content)
                     .FieldCheckBox(
                         controlId: "NotificationUseCustomFormat",
                         controlCss: " always-send",

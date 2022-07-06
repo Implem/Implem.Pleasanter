@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HttpClientContent",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Content"
+        },
+        {
+            "Language": "zh",
+            "Body": "内容"
+        },
+        {
+            "Language": "ja",
+            "Body": "送信データ"
+        },
+        {
+            "Language": "de",
+            "Body": "Inhalt"
+        },
+        {
+            "Language": "ko",
+            "Body": "콘텐츠"
+        },
+        {
+            "Language": "es",
+            "Body": "Contenido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nội dung"
+        }
+    ]
+}
