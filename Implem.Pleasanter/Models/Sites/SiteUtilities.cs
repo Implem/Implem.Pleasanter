@@ -11102,7 +11102,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "NotificationMethodType",
                         controlCss: " always-send",
                         labelText: Displays.HttpClientMethodType(context: context),
-                        optionCollection: NotificationUtilities.MethodTypes(),
+                        optionCollection: NotificationUtilities.MethodTypes(context: context),
                         selectedValue: notification.MethodType?.ToInt().ToString())
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
@@ -11114,12 +11114,29 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.HttpClientContent(context: context),
                         text: notification.Content)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "NotificationEncoding",
+                        controlCss: " always-send",
+                        labelText: Displays.HttpClientEncoding(context: context),
+                        optionCollection: NotificationUtilities.Encodings(context: context),
+                        selectedValue: notification.Encoding)
                     .FieldTextBox(
                         fieldId: "NotificationMediaTypeField",
                         controlId: "NotificationMediaType",
                         controlCss: " always-send",
                         labelText: Displays.HttpClientMediaType(context: context),
                         text: notification.MediaType)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "NotificationRequestHeadersField",
+                        controlId: "NotificationRequestHeaders",
+                        fieldCss: "field-wide" + (false
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.HttpHeader(context: context),
+                        text: notification.Headers)
                     .FieldCheckBox(
                         controlId: "NotificationUseCustomFormat",
                         controlCss: " always-send",

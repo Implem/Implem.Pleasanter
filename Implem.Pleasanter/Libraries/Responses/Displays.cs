@@ -4109,6 +4109,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HttpClientEncoding(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HttpClientEncoding",
+                data: data);
+        }
+
         public static string HttpClientMediaType(
             Context context,
             params string[] data)

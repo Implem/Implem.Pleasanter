@@ -25,7 +25,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Token;
         public MethodTypes? MethodType;
         public string Content;
+        public string Encoding;
         public string MediaType;
+        public string Headers;
         public bool? UseCustomFormat;
         public string Format;
         public string Body;
@@ -89,7 +91,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             string token,
             MethodTypes methodType,
             string content,
+            string encoding,
             string mediaType,
+            string headers,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -112,7 +116,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             Token = token;
             MethodType = methodType;
             Content = content;
+            Encoding = encoding;
             MediaType = mediaType;
+            Headers = headers;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -147,7 +153,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             string token,
             MethodTypes methodType,
             string content,
+            string encoding,
             string mediaType,
+            string headers,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -169,7 +177,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             Token = token;
             MethodType = methodType;
             Content = content;
+            Encoding = encoding;
             MediaType = mediaType;
+            Headers = headers;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -406,6 +416,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!MediaType.IsNullOrEmpty())
             {
                 notification.MediaType = MediaType;
+            }
+            if (!Encoding.IsNullOrEmpty())
+            {
+                notification.Encoding = Encoding;
+            }
+            if (!Headers.IsNullOrEmpty())
+            {
+                notification.Headers = Headers;
             }
             if (!Token.IsNullOrEmpty())
             {

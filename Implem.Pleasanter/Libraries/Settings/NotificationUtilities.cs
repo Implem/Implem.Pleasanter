@@ -159,17 +159,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             return notificationTypes;
         }
 
-        public static Dictionary<string, string> MethodTypes()
+        public static Dictionary<string, string> MethodTypes(Context context)
         {
             var methodTypes = new Dictionary<string, string>();
 
             var types = System.Enum.GetValues(typeof(Notification.MethodTypes));
-            foreach(Notification.MethodTypes t in types)
+            foreach (var t in types)
             {
                 methodTypes.Add(t.ToInt().ToString(), t.ToString());
             }
 
             return methodTypes;
+        }
+
+        public static Dictionary<string,string> Encodings(Context context)
+        {
+            return Parameters.Notification.HttpClientEncodings?
+                .ToDictionary(k => k, v => v);
         }
 
         public static bool RequireToken(Notification notification)

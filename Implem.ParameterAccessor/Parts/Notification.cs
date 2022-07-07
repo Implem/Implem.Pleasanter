@@ -15,5 +15,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool HttpClient;
         public OptionTypes CopyWithNotifications;
         public List<string> ListOrder;
+        public List<string> HttpClientEncodings;
     }
 }

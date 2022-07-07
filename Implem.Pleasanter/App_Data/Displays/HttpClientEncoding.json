@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HttpClientEncoding",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Encoding"
+        },
+        {
+            "Language": "zh",
+            "Body": "编码"
+        },
+        {
+            "Language": "ja",
+            "Body": "エンコーディング"
+        },
+        {
+            "Language": "de",
+            "Body": "Codierung"
+        },
+        {
+            "Language": "ko",
+            "Body": "부호화"
+        },
+        {
+            "Language": "es",
+            "Body": "Codificación"
+        },
+        {
+            "Language": "vn",
+            "Body": "Mã hóa"
+        }
+    ]
+}
