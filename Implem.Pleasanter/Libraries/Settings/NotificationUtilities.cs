@@ -178,6 +178,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(k => k, v => v);
         }
 
+        public static bool NotificationType(Notification notification)
+        {
+            return notification.Type == Notification.Types.HttpClient;
+        }
+
         public static bool RequireToken(Notification notification)
         {
             return TokenList().Contains(notification.Type);

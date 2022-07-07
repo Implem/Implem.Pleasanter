@@ -11099,6 +11099,10 @@ namespace Implem.Pleasanter.Models
                         value: NotificationUtilities.Tokens())
                     .FieldDropDown(
                         context: context,
+                        fieldId: "NotificationMethodTypeField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
                         controlId: "NotificationMethodType",
                         controlCss: " always-send",
                         labelText: Displays.HttpClientMethodType(context: context),
@@ -11108,7 +11112,7 @@ namespace Implem.Pleasanter.Models
                         textType: HtmlTypes.TextTypes.MultiLine,
                         fieldId: "NotificationContentField",
                         controlId: "NotificationContent",
-                        fieldCss: "field-wide" + (notification.Type != Notification.Types.HttpClient  // TODO レクチャ必要
+                        fieldCss: "field-wide" + (!NotificationUtilities.NotificationType(notification)
                             ? " hidden"
                             : string.Empty),
                         controlCss: " always-send",
@@ -11116,6 +11120,10 @@ namespace Implem.Pleasanter.Models
                         text: notification.Content)
                     .FieldDropDown(
                         context: context,
+                        fieldId: "NotificationEncodingField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
                         controlId: "NotificationEncoding",
                         controlCss: " always-send",
                         labelText: Displays.HttpClientEncoding(context: context),
@@ -11123,6 +11131,9 @@ namespace Implem.Pleasanter.Models
                         selectedValue: notification.Encoding)
                     .FieldTextBox(
                         fieldId: "NotificationMediaTypeField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
                         controlId: "NotificationMediaType",
                         controlCss: " always-send",
                         labelText: Displays.HttpClientMediaType(context: context),
@@ -11131,7 +11142,7 @@ namespace Implem.Pleasanter.Models
                         textType: HtmlTypes.TextTypes.MultiLine,
                         fieldId: "NotificationRequestHeadersField",
                         controlId: "NotificationRequestHeaders",
-                        fieldCss: "field-wide" + (false
+                        fieldCss: "field-wide" + (!NotificationUtilities.NotificationType(notification)
                             ? " hidden"
                             : string.Empty),
                         controlCss: " always-send",
