@@ -1,0 +1,13 @@
+﻿{
+    "Name": "Pdf",
+    "LibraryType": "Pdf",
+    "FileName": "PrintPluginConsole.dll",
+    "Description": "Pdf出力",
+    "DeptIdList": null,
+    "GroupIdList": null,
+    "UserIdList": null,
+    "SiteIdList": [ 10012946, 10012948, 10012948 ],
+    "IdList": null,
+    "Controllers": null,
+    "Actions": null
+}

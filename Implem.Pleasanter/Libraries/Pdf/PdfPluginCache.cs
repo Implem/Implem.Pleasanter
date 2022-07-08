@@ -20,8 +20,7 @@ namespace Implem.Pleasanter.Libraries.Pdf
             var lib = System.IO.Path.Combine(
                 Environments.CurrentDirectoryPath,
                 "App_Data",
-                "Parameters",
-                "UserPlugin",
+                "UserPlugins",
                 "Pdf",
                 libraryName);
             var assembly = System.Reflection.Assembly.LoadFrom(lib);

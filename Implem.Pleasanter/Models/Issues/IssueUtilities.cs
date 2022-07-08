@@ -3006,11 +3006,11 @@ namespace Implem.Pleasanter.Models
                         .Message(invalid.Message(context: context))
                         .Messages(context.Messages).ToString());
             }
-            var extension = Parameters.UserPlugin
-                .ExtensionWhere<ParameterAccessor.Parts.UserPlugin>(
+            var extension = Parameters.ExtendedPlugins
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
                     context: context,
                     siteId: ss.SiteId)
-                .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.UserPlugin.LibraryTypes.Pdf);
+                .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.ExtendedPlugin.LibraryTypes.Pdf);
             if (extension == null)
             {
                 return (

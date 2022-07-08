@@ -1,6 +1,6 @@
 ﻿{
     "SecurityProtocolType": "Tls12",
-    "Mail": false,
+    "Mail": true,
     "Slack": false,
     "ChatWork": false,
     "Line": false,
