@@ -88,7 +88,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="App_Data\Parameters\UserPlugin\pdf.json" />
     <Content Remove="App_Data\Parameters\UserPlugin\PrintPluginConsole.deps.json" />
     <Content Remove="App_Data\Parameters\UserPlugin\PrintPluginConsole.runtimeconfig.json" />
   </ItemGroup>
@@ -110,30 +109,10 @@
     <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\ICSharpCode.SharpZipLib.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\Implem.Plugins.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\Microsoft.Win32.SystemEvents.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\PdfSharpCore.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\PrintPluginConsole.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\SixLabors.Fonts.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\SixLabors.ImageSharp.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="App_Data\Parameters\UserPlugin\Pdf\System.Drawing.Common.dll">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\Parameters\UserPlugin\Pdf\" />
   </ItemGroup>
 
 </Project>
