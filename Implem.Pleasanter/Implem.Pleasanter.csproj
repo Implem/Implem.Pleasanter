@@ -88,8 +88,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="App_Data\Parameters\UserPlugin\PrintPluginConsole.deps.json" />
-    <Content Remove="App_Data\Parameters\UserPlugin\PrintPluginConsole.runtimeconfig.json" />
+    <Content Remove="App_Data\UserPlugins\PrintPluginConsole.deps.json" />
+    <Content Remove="App_Data\UserPlugins\PrintPluginConsole.runtimeconfig.json" />
+    <Content Remove="App_Data\UserPlugins\sample.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -109,10 +110,6 @@
     <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="App_Data\Parameters\UserPlugin\Pdf\" />
   </ItemGroup>
 
 </Project>
