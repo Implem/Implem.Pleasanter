@@ -101,7 +101,7 @@ namespace Implem.DefinitionAccessor
             Parameters.ExtendedServerScripts = ExtendedServerScripts();
             Parameters.ExtendedSqls = ExtendedSqls();
             Parameters.ExtendedStyles = ExtendedStyles();
-            Parameters.ExtendedLibraries = ExtendedLibraries();
+            Parameters.UserPlugin = UserPlugin();
             Parameters.ExtendedTags = ExtendedTags();
             Parameters.General = Read<General>();
             Parameters.GroupMembers = Read<GroupMembers>();
@@ -534,17 +534,17 @@ namespace Implem.DefinitionAccessor
             return list;
         }
 
-        private static List<ExtendedLibrary> ExtendedLibraries(
-            string path = null, List<ExtendedLibrary> list = null)
+        private static List<UserPlugin> UserPlugin(
+            string path = null, List<UserPlugin> list = null)
         {
-            list = list ?? new List<ExtendedLibrary>();
+            list = list ?? new List<UserPlugin>();
             path = path ?? Path.Combine(
                 ParametersPath,
-                "ExtendedLibraries");
+                "UserPlugin");
             foreach (var file in new DirectoryInfo(path).GetFiles("*.json"))
             {
                 var extendedLib = Files.Read(file.FullName)
-                    .Deserialize<ExtendedLibrary>();
+                    .Deserialize<UserPlugin>();
                 if (extendedLib != null)
                 {
                     extendedLib.Path = file.FullName;
@@ -557,7 +557,7 @@ namespace Implem.DefinitionAccessor
             }
             foreach (var dir in new DirectoryInfo(path).GetDirectories())
             {
-                list = ExtendedLibraries(dir.FullName, list);
+                list = UserPlugin(dir.FullName, list);
             }
             return list;
         }

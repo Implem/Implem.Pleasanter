@@ -817,7 +817,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public (Implem.Plugins.PdfData pdfData, string error) Print(Context context, int reportId, int viewId)
+        public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId)
         {
             SetSite(
                 context: context,
@@ -825,23 +825,21 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues":
-                    return IssueUtilities.Print(
+                    return IssueUtilities.Pdf(
                         context: context,
                         ss: Site.SiteSettings,
                         issueId: SiteId != ReferenceId
                             ? ReferenceId
                             : 0,
-                        reportId: reportId,
-                        viewId: viewId);
+                        reportId: reportId);
                 case "Results":
-                    return ResultUtilities.Print(
+                    return ResultUtilities.Pdf(
                         context: context,
                         ss: Site.SiteSettings,
                         resultId: SiteId != ReferenceId
                             ? ReferenceId
                             : 0,
-                        reportId: reportId,
-                        viewId: viewId);
+                        reportId: reportId);
                 default:
                     return (null, HtmlTemplates.Error(
                         context: context,

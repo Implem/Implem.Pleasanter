@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Parameters.ExtendedServerScripts = Parameters.ExtendedServerScripts ?? new List<ExtendedServerScript>();
                 Parameters.ExtendedSqls = Parameters.ExtendedSqls ?? new List<ExtendedSql>();
                 Parameters.ExtendedStyles = Parameters.ExtendedStyles ?? new List<ExtendedStyle>();
-                Parameters.ExtendedLibraries = Parameters.ExtendedLibraries ?? new List<ExtendedLibrary>();
+                Parameters.UserPlugin = Parameters.UserPlugin ?? new List<UserPlugin>();
                 extensions.ForEach(extension =>
                 {
                     switch (extension.ExtensionType)
@@ -135,14 +135,14 @@ namespace Implem.Pleasanter.Libraries.Initializers
                             }
                             break;
                         case "Library":
-                            var extendedLibrary = extension.ExtensionSettings.Deserialize<ExtendedLibrary>();
+                            var extendedLibrary = extension.ExtensionSettings.Deserialize<UserPlugin>();
                             if (extendedLibrary != null)
                             {
                                 extendedLibrary.Name = Strings.CoalesceEmpty(
                                     extension.ExtensionName,
                                     extendedLibrary.Name);
                                 
-                                Parameters.ExtendedLibraries.Add(extendedLibrary);
+                                Parameters.UserPlugin.Add(extendedLibrary);
                             }
                             break;
                         default:

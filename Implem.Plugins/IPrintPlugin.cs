@@ -1,7 +1,7 @@
 ﻿namespace Implem.Plugins
 {
-    public interface IPrintPlugin
+    public interface IPdfPlugin
     {
-        PdfData CreatePdf(IPrintPluginHost host);
+        PdfData CreatePdf(IPdfPluginHost host);
     }
 }

@@ -2988,12 +2988,11 @@ namespace Implem.Pleasanter.Models
             return issueModel;
         }
 
-        public static (Implem.Plugins.PdfData pdfData, string error) Print(
+        public static (Plugins.PdfData pdfData, string error) Pdf(
             Context context,
             SiteSettings ss,
             long issueId,
-            int reportId,
-            int viewId)
+            int reportId)
         {
             var invalid = IssueValidators.OnEntry(
                context: context,
@@ -3007,11 +3006,11 @@ namespace Implem.Pleasanter.Models
                         .Message(invalid.Message(context: context))
                         .Messages(context.Messages).ToString());
             }
-            var extension = Parameters.ExtendedLibraries
-                .ExtensionWhere<ParameterAccessor.Parts.ExtendedLibrary>(
+            var extension = Parameters.UserPlugin
+                .ExtensionWhere<ParameterAccessor.Parts.UserPlugin>(
                     context: context,
                     siteId: ss.SiteId)
-                .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.ExtendedLibrary.LibraryTypes.Print);
+                .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.UserPlugin.LibraryTypes.Pdf);
             if (extension == null)
             {
                 return (
@@ -3020,41 +3019,35 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: new ErrorData(type: Error.Types.NotFound)));
             }
-            View defaultView = (viewId > 0)
-                ? ss.Views?
-                    .Where(o => o.Accessable(context: context))
-                    .FirstOrDefault(o => o.Id == viewId)
-                : null;
+            View defaultView = Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: false) ?? new View();
             SqlWhereCollection selectingWhere = null;
             if (issueId > 0)
             {
-                if (defaultView == null)
+                defaultView = new View()
                 {
-                    defaultView = new View();
-                }
-                if (defaultView.ColumnFilterHash == null)
-                {
-                    defaultView.ColumnFilterHash = new Dictionary<string, string>();
-                }
-                defaultView.ColumnFilterHash.Add("IssueId", issueId.ToString());
+                    GridColumns = defaultView.GridColumns.ToList(),
+                    ColumnFilterHash = new Dictionary<string, string>()
+                    {
+                        ["IssueId"] = issueId.ToString()
+                    }
+                };
             }
             else
             {
-                defaultView = defaultView ??
-                    Views.GetBySession(
-                        context: context,
-                        ss: ss);
                 selectingWhere = SelectedWhere(
                     context: context,
                     ss: ss);
             }
-            var host = new Libraries.Prints.PrintPluginHost(
+            var host = new Libraries.Pdf.PdfPluginHost(
                 context: context,
                 ss: ss,
                 defaultView: defaultView,
                 selectingWhere: selectingWhere,
                 reportId: reportId);
-            var plugin = Libraries.Prints.PrintPluginCache.LoadPrintPlugin(extension.FileName);
+            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.FileName);
             if (plugin == null)
             {
                 return (
