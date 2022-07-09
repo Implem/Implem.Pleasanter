@@ -189,18 +189,12 @@ namespace Implem.Pleasanter.Libraries.Security
                         }
                         else
                         {
-                            where.Add(or: new SqlWhereCollection()
-                                .Add(
-                                    tableName: ss.ReferenceType,
-                                    raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({ss.AllowedIntegratedSites.Join()})")
-                                .Add(and: new SqlWhereCollection()
-                                    .Add(
-                                        tableName: ss.ReferenceType,
-                                        raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({denySites.Join()})")
-                                    .CheckRecordPermission(
-                                        context: context,
-                                        ss: ss,
-                                        siteIdList: integratedSites)));
+                            // サイト統合で一部のサイトにサイトの読み取り権限が無い場合、下記の条件を加える
+                            // (1) サイトの読み取り権限があるレコード
+                            // (2) レコードの読み取り権限があるレコード
+                            where.Add(raw: context.Sqls.IntegratedSitesPermissionsWhere(
+                                tableName: ss.ReferenceType,
+                                sites: integratedSites));
                         }
                     }
                 }
