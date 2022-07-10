@@ -682,37 +682,40 @@ namespace Implem.Pleasanter.Models
                                     verType: wikiModel.VerType,
                                     columnPermissionType: commentsColumnPermissionType),
                             _using: showComments)
-                        .Div(id: "EditorTabsContainer", css: tabsCss, action: () => hb
-                            .EditorTabs(
-                                context: context,
-                                ss: ss,
-                                wikiModel: wikiModel)
-                            .FieldSetGeneral(
-                                context: context,
-                                ss: ss,
-                                wikiModel: wikiModel)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetHistories")
-                                    .DataAction("Histories")
-                                    .DataMethod("post"),
-                                _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
-                            .FieldSet(
-                                attributes: new HtmlAttributes()
-                                    .Id("FieldSetRecordAccessControl")
-                                    .DataAction("Permissions")
-                                    .DataMethod("post"),
-                                _using: context.CanManagePermission(ss: ss))
-                            .MainCommands(
-                                context: context,
-                                ss: ss,
-                                verType: wikiModel.VerType,
-                                updateButton: true,
-                                copyButton: false,
-                                moveButton: false,
-                                mailButton: true,
-                                deleteButton: true,
-                                serverScriptModelRow: serverScriptModelRow))
+                        .Div(
+                            id: "EditorTabsContainer",
+                            css: "tab-container " + tabsCss,
+                            action: () => hb
+                                .EditorTabs(
+                                    context: context,
+                                    ss: ss,
+                                    wikiModel: wikiModel)
+                                .FieldSetGeneral(
+                                    context: context,
+                                    ss: ss,
+                                    wikiModel: wikiModel)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetHistories")
+                                        .DataAction("Histories")
+                                        .DataMethod("post"),
+                                    _using: wikiModel.MethodType != BaseModel.MethodTypes.New)
+                                .FieldSet(
+                                    attributes: new HtmlAttributes()
+                                        .Id("FieldSetRecordAccessControl")
+                                        .DataAction("Permissions")
+                                        .DataMethod("post"),
+                                    _using: context.CanManagePermission(ss: ss))
+                                .MainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    verType: wikiModel.VerType,
+                                    updateButton: true,
+                                    copyButton: false,
+                                    moveButton: false,
+                                    mailButton: true,
+                                    deleteButton: true,
+                                    serverScriptModelRow: serverScriptModelRow))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
@@ -1451,11 +1454,11 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = wikiModel.Update(
                 context: context,
                 ss: ss,
-                process: process,
+                processes: processes,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -1464,7 +1467,7 @@ namespace Implem.Pleasanter.Models
                     var res = new WikisResponseCollection(wikiModel);
                     res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                         .Breadcrumb(context: context, ss: ss));
-                    return ResponseByUpdate(res, context, ss, wikiModel, process)
+                    return ResponseByUpdate(res, context, ss, wikiModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1487,7 +1490,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
-            Process process)
+            List<Process> processes)
         {
             ss.ClearColumnAccessControlCaches(baseModel: wikiModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1519,7 +1522,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         wikiModel: wikiModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else if (wikiModel.Locked)
@@ -1537,7 +1540,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             wikiModel: wikiModel,
-                            process: process))
+                            processes: processes))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -1587,8 +1590,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(

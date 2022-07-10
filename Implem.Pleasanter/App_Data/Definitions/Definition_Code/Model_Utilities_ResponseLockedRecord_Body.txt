@@ -13,7 +13,7 @@
                 context: context,
                 ss: ss,
                 #modelName#Model: #modelName#Model,
-                process: process))
+                processes: processes))
             .Messages(context.Messages)
             .ClearFormData();
 }

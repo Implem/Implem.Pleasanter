@@ -1,6 +1,5 @@
 ﻿using Implem.Pleasanter.Filters;
 using Implem.Pleasanter.Libraries.Requests;
-using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Web.Mvc;
 using System.Web.UI;
@@ -44,23 +43,6 @@ namespace Implem.Pleasanter.Controllers
             {
                 return null;
             }
-        }
-
-        [HttpGet]
-        [OutputCache(Duration = int.MaxValue, VaryByParam = "*", Location = OutputCacheLocation.Client)]
-        public ActionResult TenantImageLogo()
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var (bytes,contentType) = BinaryUtilities.TenantImageLogo(
-                context: context,
-                tenantModel: new TenantModel(
-                    context: context,
-                    ss: SiteSettingsUtilities.TenantsSiteSettings(context)));
-            log.Finish(
-                context: context,
-                responseSize: bytes.Length);
-            return new FileContentResult(bytes, contentType);
         }
 
         [HttpGet]

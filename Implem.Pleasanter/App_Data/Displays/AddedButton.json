@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AddedButton",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Added button"
+        },
+        {
+            "Language": "zh",
+            "Body": "添加按钮"
+        },
+        {
+            "Language": "ja",
+            "Body": "追加したボタン"
+        },
+        {
+            "Language": "de",
+            "Body": "Schaltfläche hinzugefügt"
+        },
+        {
+            "Language": "ko",
+            "Body": "추가된 버튼"
+        },
+        {
+            "Language": "es",
+            "Body": "Botón agregado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã thêm nút"
+        }
+    ]
+}

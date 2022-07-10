@@ -2984,9 +2984,10 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var process = ss.Processes?.FirstOrDefault(o =>
-                $"Process_{o.Id}" == context.Forms.ControlId());
-            if (process != null)
+            var processes = ss.Processes
+                ?.Where(process => process.IsTarget(context: context))
+                .ToList() ?? new List<Process>();
+            foreach (var process in processes)
             {
                 process.MatchConditions = issueModel.GetProcessMatchConditions(
                     context: context,
@@ -2999,7 +3000,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         process: process);
                 }
-                else
+                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
                 {
                     var message = process.GetErrorMessage(context: context);
                     message.Text = issueModel.ReplacedDisplayValues(
@@ -3014,7 +3015,7 @@ namespace Implem.Pleasanter.Models
             var errorData = issueModel.Create(
                 context: context,
                 ss: ss,
-                process: process,
+                processes: processes,
                 copyFrom: context.Forms.Long("CopyFrom"),
                 notice: true);
             switch (errorData.Type)
@@ -3026,7 +3027,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            process: process));
+                            process: processes.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", issueModel.IssueId.ToString())
                         .SetMemory("formChanged", false)
@@ -3219,9 +3220,10 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            var process = ss.Processes?.FirstOrDefault(o =>
-                $"Process_{o.Id}" == context.Forms.ControlId());
-            if (process != null)
+            var processes = ss.Processes
+                ?.Where(process => process.IsTarget(context: context))
+                .ToList() ?? new List<Process>();
+            foreach (var process in processes)
             {
                 process.MatchConditions = issueModel.GetProcessMatchConditions(
                     context: context,
@@ -3234,7 +3236,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         process: process);
                 }
-                else
+                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
                 {
                     var message = process.GetErrorMessage(context: context);
                     message.Text = issueModel.ReplacedDisplayValues(
@@ -3249,7 +3251,7 @@ namespace Implem.Pleasanter.Models
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
-                process: process,
+                processes: processes,
                 notice: true,
                 previousTitle: previousTitle);
             switch (errorData.Type)
@@ -3266,7 +3268,7 @@ namespace Implem.Pleasanter.Models
                     switch (Parameters.General.UpdateResponseType)
                     {
                         case 1:
-                            return ResponseByUpdate(res, context, ss, issueModel, process)
+                            return ResponseByUpdate(res, context, ss, issueModel, processes)
                                 .PrependComment(
                                     context: context,
                                     ss: ss,
@@ -3275,7 +3277,7 @@ namespace Implem.Pleasanter.Models
                                     verType: issueModel.VerType)
                                 .ToJson();
                         default:
-                            return ResponseByUpdate(res, context, ss, issueModel, process)
+                            return ResponseByUpdate(res, context, ss, issueModel, processes)
                                 .ToJson();
                     }
                 case Error.Types.Duplicated:
@@ -3316,7 +3318,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             IssueModel issueModel,
-            Process process)
+            List<Process> processes)
         {
             ss.ClearColumnAccessControlCaches(baseModel: issueModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -3348,7 +3350,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         issueModel: issueModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else if (issueModel.Locked)
@@ -3366,7 +3368,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            process: process))
+                            processes: processes))
                         .Messages(context.Messages)
                         .ClearFormData();
             }
@@ -3405,7 +3407,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 issueModel: issueModel,
-                                process: process))
+                                processes: processes))
                             .Messages(context.Messages)
                             .Comment(
                                 context: context,
@@ -3423,7 +3425,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 issueModel: issueModel,
-                                process: process));
+                                processes: processes));
                 }
             }
         }
@@ -3432,8 +3434,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             IssueModel issueModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(

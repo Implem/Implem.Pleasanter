@@ -9,27 +9,39 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         private readonly Context Context;
         private readonly SiteSettings SiteSettings;
-        private readonly Notification Notification;
-        private string Title;
-        private string Body;
+        public int Id;
+        public Notification.Types Type;
+        public string Prefix;
+        public string Address;
+        public string Token;
+        public bool? UseCustomFormat;
+        public string Format;
+        public bool? Disabled;
+        public string Title;
+        public string Body;
 
         public ServerScriptModelNotificationModel(Context context, SiteSettings ss)
         {
             Context = context;
             SiteSettings = ss;
-            Notification = new Notification()
-            {
-                Type = Notification.Types.Mail
-            };
+            Type = Notification.Types.Mail;
         }
 
         public ServerScriptModelNotificationModel(Context context, SiteSettings ss, int Id)
         {
             Context = context;
             SiteSettings = ss;
-            Notification = NotificationUtilities.Get(context: Context, ss: SiteSettings)
+            var notification = NotificationUtilities.Get(context: Context, ss: SiteSettings)
                 ?.Where(o => o.Id == Id)
                 .FirstOrDefault();
+            this.Id = notification.Id;
+            Type = notification.Type;
+            Prefix = notification.Prefix;
+            Address = notification.Address;
+            UseCustomFormat = notification.UseCustomFormat;
+            Format = notification.Format;
+            Title = notification.Subject;
+            Body = notification.Body;
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -42,34 +54,34 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             string name = binder.Name;
             switch (name)
             {
-                case nameof(Settings.Notification.Id):
-                    Notification.Id = value.ToInt();
+                case nameof(Notification.Id):
+                    Id = value.ToInt();
                     return true;
-                case nameof(Settings.Notification.Type):
-                    Notification.Type = (Notification.Types)value.ToInt();
+                case nameof(Notification.Type):
+                    Type = (Notification.Types)value.ToInt();
                     return true;
-                case nameof(Settings.Notification.Prefix):
-                    Notification.Prefix = value.ToStr();
+                case nameof(Notification.Prefix):
+                    Prefix = value.ToStr();
                     return true;
-                case nameof(Settings.Notification.Address):
-                    Notification.Address = value.ToStr();
+                case nameof(Notification.Address):
+                    Address = value.ToStr();
                     return true;
-                case nameof(Settings.Notification.Token):
-                    Notification.Token = value.ToStr();
+                case nameof(Notification.Token):
+                    Token = value.ToStr();
                     return true;
-                case nameof(Settings.Notification.UseCustomFormat):
-                    Notification.UseCustomFormat = value.ToBool();
+                case nameof(Notification.UseCustomFormat):
+                    UseCustomFormat = value.ToBool();
                     return true;
-                case nameof(Settings.Notification.Format):
-                    Notification.Format = value.ToStr();
+                case nameof(Notification.Format):
+                    Format = value.ToStr();
                     return true;
-                case nameof(Settings.Notification.Disabled):
-                    Notification.Disabled = value.ToBool();
+                case nameof(Notification.Disabled):
+                    Disabled = value.ToBool();
                     return true;
                 case "Title":
                     Title = value.ToStr();
                     return true;
-                case "Body":
+                case nameof(Notification.Body):
                     Body = value.ToStr();
                     return true;
             }
@@ -78,7 +90,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public bool Send()
         {
-            Notification?.Send(
+            var notification = new Notification()
+            {
+                Id = Id,
+                Type = Type,
+                Prefix = Prefix,
+                Address = Address,
+                Token = Token,
+                UseCustomFormat = UseCustomFormat,
+                Format = Format,
+                Disabled = Disabled,
+                Body = Body
+            };
+            notification?.Send(
                 context: Context,
                 ss: SiteSettings,
                 title: Title,

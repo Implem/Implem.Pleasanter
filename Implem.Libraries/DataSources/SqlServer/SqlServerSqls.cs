@@ -1,4 +1,7 @@
-﻿namespace Implem.Libraries.DataSources.SqlServer
+﻿using Implem.Libraries.Utilities;
+using System.Collections.Generic;
+
+namespace Implem.Libraries.DataSources.SqlServer
 {
     public class SqlServerSqls
     {
@@ -350,5 +353,29 @@
                         and ""Permissions"".""UserId""=-1
                 )
             )";
+
+        public string IntegratedSitesPermissionsWhere(string tableName, List<long> sites)
+        {
+            return $@"
+                ""{tableName}_Items"".""SiteId"" in ({sites.Join()})
+                and exists(
+                    select ""Permissions"".""ReferenceId""
+                    from ""Permissions""
+                    where ""Permissions"".""ReferenceId""=
+                        (
+                            select ""Sites"".""InheritPermission""
+                            from ""Sites""
+                            where ""Sites"".""SiteId""=""{tableName}_Items"".""SiteId""
+                        )
+                        and ""Permissions"".""PermissionType"" & 1 = 1
+                        and {PermissionsWhere}
+                    union
+                    select ""Permissions"".""ReferenceId""
+                    from ""Permissions""
+                    where ""Permissions"".""ReferenceId""=""{tableName}_Items"".""ReferenceId""
+                        and ""Permissions"".""PermissionType"" & 1 = 1
+                        and {PermissionsWhere}
+                )";
+        }
     }
 }

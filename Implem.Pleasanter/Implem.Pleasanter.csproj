@@ -6273,6 +6273,9 @@
     <Content Include="App_Data\Displays\Years.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByDataChanges.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ToValue.json" />
+    <Content Include="App_Data\Displays\AddedButton.json" />
+    <Content Include="App_Data\Displays\CreateOrUpdate.json" />
+    <Content Include="App_Data\Displays\ExecutionTypes.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />
