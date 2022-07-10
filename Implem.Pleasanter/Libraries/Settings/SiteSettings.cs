@@ -4003,6 +4003,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                         all: all,
                         searchIndexes: null)
                     : null;
+                if (Destinations.ContainsKey(SiteId))
+                {
+                    SetChoiceHash(
+                        context: context,
+                        columnName: null,
+                        searchIndexes: null,
+                        selectedValues: null,
+                        linkHash: linkHash);
+                }
+                Destinations.ForEach(data =>
+                    JoinedSsHash[data.Key] = data.Value);
                 JoinedSsHash.ForEach(data => data.Value.SetChoiceHash(
                     context: context,
                     columnName: null,

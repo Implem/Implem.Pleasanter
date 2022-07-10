@@ -5,6 +5,7 @@ namespace Implem.Libraries.Utilities
     public static class Environments
     {
         public static bool CodeDefiner;
+        public static bool PleasanterTest;
         public static string CurrentDirectoryPath;
         public static string ServiceName;
         public static string Guid = Strings.NewGuid();

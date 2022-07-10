@@ -1494,7 +1494,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = deptModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -1505,7 +1505,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             deptModel: deptModel,
-                            process: process));
+                            process: processes.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", deptModel.DeptId.ToString())
                         .SetMemory("formChanged", false)
@@ -1569,13 +1569,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = deptModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new DeptsResponseCollection(deptModel);
-                    return ResponseByUpdate(res, context, ss, deptModel, process)
+                    return ResponseByUpdate(res, context, ss, deptModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1598,7 +1598,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DeptModel deptModel,
-            Process process)
+            List<Process> processes)
         {
             ss.ClearColumnAccessControlCaches(baseModel: deptModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1630,7 +1630,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         deptModel: deptModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else
@@ -1670,8 +1670,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DeptModel deptModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(

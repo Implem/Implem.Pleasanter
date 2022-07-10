@@ -189,18 +189,9 @@ namespace Implem.Pleasanter.Libraries.Security
                         }
                         else
                         {
-                            where.Add(or: new SqlWhereCollection()
-                                .Add(
-                                    tableName: ss.ReferenceType,
-                                    raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({ss.AllowedIntegratedSites.Join()})")
-                                .Add(and: new SqlWhereCollection()
-                                    .Add(
-                                        tableName: ss.ReferenceType,
-                                        raw: $"\"{ss.ReferenceType}\".\"SiteId\" in ({denySites.Join()})")
-                                    .CheckRecordPermission(
-                                        context: context,
-                                        ss: ss,
-                                        siteIdList: integratedSites)));
+                            where.Add(raw: context.Sqls.IntegratedSitesPermissionsWhere(
+                                tableName: ss.ReferenceType,
+                                sites: integratedSites));
                         }
                     }
                 }
@@ -588,7 +579,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "depts":
                     return CanManageTenant(context: context);
                 case "groups":
-                    return CanEditGroup(context: context);
+                    return CanManageTenant(context: context);
                 case "users":
                     return CanManageTenant(context: context);
                 default:
@@ -606,7 +597,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "depts":
                     return CanManageTenant(context: context);
                 case "groups":
-                    return CanEditGroup(context: context);
+                    return CanManageTenant(context: context);
                 case "users":
                     return CanManageTenant(context: context);
                 default:

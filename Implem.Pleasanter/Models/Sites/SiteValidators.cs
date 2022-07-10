@@ -132,7 +132,17 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            foreach(var controlId in context.Forms.Keys)
+            if (siteModel.InheritPermission_Updated(context: context)
+                && !context.CanManagePermission(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
+            if (siteModel.RecordPermissions != null
+                && !context.CanManagePermission(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
+            foreach (var controlId in context.Forms.Keys)
             {
                 switch (controlId)
                 {

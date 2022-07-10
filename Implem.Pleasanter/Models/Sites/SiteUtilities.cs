@@ -1099,7 +1099,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             if (context.Forms.Exists("InheritPermission"))
             {
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
@@ -1135,7 +1135,7 @@ namespace Implem.Pleasanter.Models
                         .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                             context: context,
                             ss: ss));
-                    return ResponseByUpdate(res, context, siteModel, process)
+                    return ResponseByUpdate(res, context, siteModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1157,7 +1157,7 @@ namespace Implem.Pleasanter.Models
             SitesResponseCollection res,
             Context context,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
             var ss = siteModel.SiteSettings;
             ss.ClearColumnAccessControlCaches(baseModel: siteModel);
@@ -1190,7 +1190,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         siteModel: siteModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else
@@ -1229,8 +1229,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(
@@ -7930,6 +7931,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.OnClick(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ExecutionTypes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ActionTypes(context: context)))));
         }
 
@@ -7989,6 +7992,11 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: ss.ColumnNameToLabelText(process.SuccessMessage)))
                                 .Td(action: () => hb
                                     .Text(text: process.OnClick))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: process.ExecutionType?.ToString()
+                                            ?? Process.ExecutionTypes.AddedButton.ToString())))
                                 .Td(action: () => hb
                                     .Text(text: Displays.Get(
                                         context: context,
@@ -8201,6 +8209,23 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.OnClick(context: context),
                         text: process.OnClick)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessExecutionType",
+                        controlCss: " always-send",
+                        labelText: Displays.ExecutionTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ExecutionTypes.AddedButton.ToInt().ToString(),
+                                Displays.AddedButton(context: context)
+                            },
+                            {
+                                Process.ExecutionTypes.CreateOrUpdate.ToInt().ToString(),
+                                Displays.CreateOrUpdate(context: context)
+                            }
+                        },
+                        selectedValue: process.ExecutionType.ToInt().ToString())
                     .FieldDropDown(
                         context: context,
                         controlId: "ProcessActionType",

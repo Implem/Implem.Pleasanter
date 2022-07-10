@@ -1,4 +1,6 @@
-﻿namespace Implem.IRds
+﻿using System.Collections.Generic;
+
+namespace Implem.IRds
 {
     public interface ISqls
     {
@@ -30,5 +32,6 @@
         string SiteDeptWhere { get; }
         string SiteGroupWhere { get; }
         string SiteUserWhere { get; }
+        public string IntegratedSitesPermissionsWhere(string tableName, List<long> sites);
     }
 }
