@@ -17,6 +17,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Edit = 20
         }
 
+        public enum ExecutionTypes
+        {
+            AddedButton = 0,
+            CreateOrUpdate = 10
+        }
+
         public enum ActionTypes
         {
             Save = 0,
@@ -42,6 +48,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string ConfirmationMessage { get; set; }
         public string SuccessMessage { get; set; }
         public string OnClick { get; set; }
+        public ExecutionTypes? ExecutionType { get; set; }
         public ActionTypes? ActionType { get; set; }
         public ValidationTypes? ValidationType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }
@@ -71,6 +78,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string confirmationMessage,
             string successMessage,
             string onClick,
+            ExecutionTypes? executionType,
             ActionTypes? actionType,
             ValidationTypes? validationType,
             SettingList<ValidateInput> validateInputs,
@@ -91,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ConfirmationMessage = confirmationMessage;
             SuccessMessage = successMessage;
             OnClick = onClick;
+            ExecutionType = executionType;
             ActionType = actionType;
             ValidationType = validationType;
             ValidateInputs = validateInputs;
@@ -112,6 +121,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string confirmationMessage,
             string successMessage,
             string onClick,
+            ExecutionTypes? executionType,
             ActionTypes? actionType,
             ValidationTypes? validationType,
             SettingList<ValidateInput> validateInputs,
@@ -131,6 +141,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ConfirmationMessage = confirmationMessage;
             SuccessMessage = successMessage;
             OnClick = onClick;
+            ExecutionType = executionType;
             ActionType = actionType;
             ValidationType = validationType;
             ValidateInputs = validateInputs;
@@ -239,6 +250,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 process.OnClick = OnClick;
             }
+            if (ExecutionType != ExecutionTypes.AddedButton)
+            {
+                process.ExecutionType = ExecutionType;
+            }
             if (ActionType != ActionTypes.Save)
             {
                 process.ActionType = ActionType;
@@ -303,6 +318,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                 DisplayName,
                 Name);
             return displayName;
+        }
+
+        public bool IsTarget(Context context)
+        {
+            switch (ExecutionType ?? ExecutionTypes.AddedButton)
+            {
+                case ExecutionTypes.AddedButton:
+                    return context.Forms.ControlId() == $"Process_{Id}";
+                default:
+                    // ExecutionTypes.CreateOrUpdate
+                    switch (context.Forms.ControlId())
+                    {
+                        case "CreateCommand":
+                        case "UpdateCommand":
+                            return true;
+                        default:
+                            return false;
+                    }
+            }
         }
 
         public bool Accessable(Context context)

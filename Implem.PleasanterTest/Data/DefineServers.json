@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineServers",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "サーバ要件の確認",
+    "WorkValue": "16",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "要件定義",
+    "ClassB": "作業[非定型]",
+    "ClassC": "サーバ",
+    "Manager": "User2",
+    "Owner": "User2",
+    "Creator": "User2",
+    "Updator": "User2",
+    "StartTime": "36644",
+    "CompletionTime": "36648",
+    "CreatedTime": "36640.501388888886",
+    "UpdatedTime": "36650.396527777775"
+}

@@ -109,6 +109,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AddedButton(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AddedButton",
+                data: data);
+        }
+
         public static string AddPermission(
             Context context,
             params string[] data)
@@ -2269,6 +2279,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CreateOrUpdate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CreateOrUpdate",
+                data: data);
+        }
+
         public static string Crosstab(
             Context context,
             params string[] data)
@@ -3206,6 +3226,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ChangedStatus",
+                data: data);
+        }
+
+        public static string ExecutionTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ExecutionTypes",
                 data: data);
         }
 

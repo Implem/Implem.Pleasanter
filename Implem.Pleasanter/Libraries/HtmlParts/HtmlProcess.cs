@@ -17,6 +17,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Where(process => process.MatchConditions)
                 .Where(process => (context.IsNew && process.ScreenType == Process.ScreenTypes.New)
                     || (!context.IsNew && process.ScreenType != Process.ScreenTypes.New))
+                .Where(process => process.ExecutionType == null
+                    || process.ExecutionType == Process.ExecutionTypes.AddedButton)
                 .ForEach(process =>
                     hb.Button(
                         controlId: $"Process_{process.Id}",

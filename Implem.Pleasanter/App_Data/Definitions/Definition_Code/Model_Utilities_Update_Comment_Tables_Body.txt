@@ -1,7 +1,7 @@
 ﻿switch (Parameters.General.UpdateResponseType)
 {
     case 1:
-        return ResponseByUpdate(res, context, ss, #modelName#Model, process)
+        return ResponseByUpdate(res, context, ss, #modelName#Model, processes)
             .PrependComment(
                 context: context,
                 ss: ss,

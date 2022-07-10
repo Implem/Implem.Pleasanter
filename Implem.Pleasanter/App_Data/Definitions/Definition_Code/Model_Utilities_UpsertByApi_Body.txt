@@ -8,7 +8,7 @@
         return ApiResults.BadRequest(context: context);
     }
     var api = context.RequestDataString.Deserialize<Api>();
-    var data = context.RequestDataString.Deserialize<IssueApiModel>();
+    var data = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
     if (api?.Keys?.Any() != true || data == null)
     {
         return ApiResults.Error(

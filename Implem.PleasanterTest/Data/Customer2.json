@@ -1,0 +1,15 @@
+﻿{
+    "Id": "Customer2",
+    "Language": "ja",
+    "Type": "Results",
+    "ParentId": "Site6",
+    "Title": "株式会社オープンソーステクノロジー",
+    "ClassA": "東京都豊島区",
+    "ClassB": "555-555-555",
+    "Manager": "User7",
+    "Owner": "User7",
+    "Creator": "User7",
+    "Updator": "User7",
+    "CreatedTime": "36640.59097222222",
+    "UpdatedTime": "36656.547222222223"
+}

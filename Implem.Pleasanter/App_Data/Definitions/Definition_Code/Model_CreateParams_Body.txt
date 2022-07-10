@@ -1,4 +1,4 @@
-﻿Process process = null,
+﻿List<Process> processes = null,
 long copyFrom = 0,
 bool extendedSqls = true,
 bool synchronizeSummary = true,

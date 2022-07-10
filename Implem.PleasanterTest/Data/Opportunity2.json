@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity2",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "グループウェアのクラウド環境への移行",
+    "Status": "150",
+    "ClassA": "#Customer8#",
+    "ClassB": "システム開発",
+    "ClassC": "90%",
+    "NumA": "4200000",
+    "NumB": "0",
+    "NumC": "4200000",
+    "NumD": "100",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "StartTime": "36644",
+    "CompletionTime": "36672",
+    "CreatedTime": "36641.705555555556",
+    "UpdatedTime": "36656.890972222223"
+}

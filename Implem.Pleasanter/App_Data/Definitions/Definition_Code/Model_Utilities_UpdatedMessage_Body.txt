@@ -2,8 +2,9 @@
     Context context,
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
-    Process process)
+    List<Process> processes)
 {
+    var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
     if (process == null)
     {
         return Messages.Updated(

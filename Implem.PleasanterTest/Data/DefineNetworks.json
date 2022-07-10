@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineNetworks",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "ネットワーク要件の確認",
+    "WorkValue": "18",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "要件定義",
+    "ClassB": "作業[非定型]",
+    "ClassC": "ネットワーク・セキュリティ",
+    "Manager": "User13",
+    "Owner": "User13",
+    "Creator": "User13",
+    "Updator": "User13",
+    "StartTime": "36642",
+    "CompletionTime": "36647",
+    "CreatedTime": "36640.39166666667",
+    "UpdatedTime": "36649.697916666664"
+}

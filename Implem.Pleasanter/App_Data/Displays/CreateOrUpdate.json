@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CreateOrUpdate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Create or update"
+        },
+        {
+            "Language": "zh",
+            "Body": "创建或更新"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成または更新"
+        },
+        {
+            "Language": "de",
+            "Body": "Erstellen oder aktualisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "생성 또는 업데이트"
+        },
+        {
+            "Language": "es",
+            "Body": "Crear o actualizar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tạo hoặc cập nhật"
+        }
+    ]
+}
