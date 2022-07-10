@@ -1825,13 +1825,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = registrationModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new RegistrationsResponseCollection(registrationModel);
-                    return ResponseByUpdate(res, context, ss, registrationModel, process)
+                    return ResponseByUpdate(res, context, ss, registrationModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1854,7 +1854,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             RegistrationModel registrationModel,
-            Process process)
+            List<Process> processes)
         {
             ss.ClearColumnAccessControlCaches(baseModel: registrationModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1886,7 +1886,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         registrationModel: registrationModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else
@@ -1926,8 +1926,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             RegistrationModel registrationModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(

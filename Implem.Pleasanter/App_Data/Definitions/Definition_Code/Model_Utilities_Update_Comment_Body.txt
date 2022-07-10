@@ -1,4 +1,4 @@
-﻿return ResponseByUpdate(res, context, <!--Model_SiteSettings-->#modelName#Model, process)
+﻿return ResponseByUpdate(res, context, <!--Model_SiteSettings-->#modelName#Model, processes)
     .PrependComment(
         context: context,
         ss: ss,

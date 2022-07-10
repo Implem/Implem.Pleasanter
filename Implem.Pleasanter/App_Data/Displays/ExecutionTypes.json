@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ExecutionTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Execution types"
+        },
+        {
+            "Language": "zh",
+            "Body": "执行类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "実行種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausführungsart"
+        },
+        {
+            "Language": "ko",
+            "Body": "실행 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "tipo de ejecución"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại thực thi"
+        }
+    ]
+}

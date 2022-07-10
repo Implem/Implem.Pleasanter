@@ -1,1 +1,1 @@
-﻿Process process = null;
+﻿List<Process> processes = null;
