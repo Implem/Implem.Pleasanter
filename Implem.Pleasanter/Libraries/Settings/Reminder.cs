@@ -531,7 +531,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var where = view.Where(
                 context: context,
                 ss: ss,
-                checkPermission: false)
+                checkPermission: false,
+                requestSearchCondition: false)
                     .Add(
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
