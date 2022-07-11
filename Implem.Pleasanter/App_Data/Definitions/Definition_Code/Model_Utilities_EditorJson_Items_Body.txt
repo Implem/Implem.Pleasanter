@@ -25,7 +25,7 @@
             #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss,
-                requestFormData: context.Forms);
+                formData: context.Forms);
             #modelName#Model.#ModelName#Id = 0;
             #modelName#Model.Ver = 1;
             #modelName#Model.Comments = new Comments();

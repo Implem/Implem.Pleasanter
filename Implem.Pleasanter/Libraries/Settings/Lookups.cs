@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             Link link,
             long id,
+            Dictionary<string, string> formData,
             List<string> blankColumns,
             bool copyByDefaultOnly = false)
         {
@@ -59,9 +60,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         columnName: lookup.To)?.CopyByDefault == true)
                 .Where(lookup => lookup.Overwrite != false
                     || blankColumns.Contains(lookup.To)
-                    || context.Forms.Get($"{ss.ReferenceType}_{lookup.To}") == string.Empty)
+                    || formData.Get($"{ss.ReferenceType}_{lookup.To}") == string.Empty)
+                .Where(lookup => lookup.OverwriteForm == true
+                    || formData == null
+                    || formData.Get($"{ss.ReferenceType}_{lookup.To}").IsNullOrEmpty())
                 .ToList();
-            var formData = lookups.ToDictionary(
+            var changedFormData = lookups.ToDictionary(
                 lookup => $"{ss.ReferenceType}_{lookup.To}",
                 lookup => string.Empty);
             if (id > 0
@@ -70,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 lookups.ForEach(lookup =>
                 {
-                    formData.AddOrUpdate(
+                    changedFormData.AddOrUpdate(
                         $"{ss.ReferenceType}_{lookup.To}",
                         string.Empty);
                 });
@@ -82,7 +86,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: currentSs,
                             issueId: id);
                         lookups.ForEach(lookup =>
-                            formData.AddOrUpdate(
+                            changedFormData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
@@ -95,7 +99,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: currentSs,
                             resultId: id);
                         lookups.ForEach(lookup =>
-                            formData.AddOrUpdate(
+                            changedFormData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
@@ -108,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: currentSs,
                             deptId: id.ToInt());
                         lookups.ForEach(lookup =>
-                            formData.AddOrUpdate(
+                            changedFormData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
@@ -121,7 +125,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: currentSs,
                             userId: id.ToInt());
                         lookups.ForEach(lookup =>
-                            formData.AddOrUpdate(
+                            changedFormData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
@@ -134,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: currentSs,
                             groupId: id.ToInt());
                         lookups.ForEach(lookup =>
-                            formData.AddOrUpdate(
+                            changedFormData.AddOrUpdate(
                                 $"{ss.ReferenceType}_{lookup.To}",
                                 lookup.Data(
                                     context: context,
@@ -143,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
             }
-            return formData;
+            return changedFormData;
         }
     }
 }

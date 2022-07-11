@@ -688,7 +688,7 @@ namespace Implem.Pleasanter.Models
                 SetByLookups(
                     context: context,
                     ss: ss,
-                    requestFormData: formData);
+                    formData: formData);
             }
             SetByStatusControls(
                 context: context,
@@ -740,7 +740,7 @@ namespace Implem.Pleasanter.Models
                 SetByLookups(
                     context: context,
                     ss: ss,
-                    requestFormData: formData);
+                    formData: formData);
             }
             SetByStatusControls(
                 context: context,
@@ -786,7 +786,7 @@ namespace Implem.Pleasanter.Models
                 SetByLookups(
                     context: context,
                     ss: ss,
-                    requestFormData: formData);
+                    formData: formData);
             }
             SetByStatusControls(
                 context: context,
@@ -2931,13 +2931,13 @@ namespace Implem.Pleasanter.Models
         public void SetBySettings(
             Context context,
             SiteSettings ss,
-            Dictionary<string, string> requestFormData = null,
+            Dictionary<string, string> formData = null,
             bool copyByDefaultOnly = false)
         {
             SetByLookups(
                 context: context,
                 ss: ss,
-                requestFormData: requestFormData,
+                formData: formData,
                 copyByDefaultOnly: copyByDefaultOnly);
             SetByStatusControls(
                 context: context,
@@ -2947,21 +2947,21 @@ namespace Implem.Pleasanter.Models
         private void SetByLookups(
             Context context,
             SiteSettings ss,
-            Dictionary<string,string> requestFormData = null,
+            Dictionary<string,string> formData = null,
             bool copyByDefaultOnly = false)
         {
-            var formData = new Dictionary<string, string>();
-            ss.Links
+            var changedFormData = ss.Links
                 .Where(link => link.Lookups?.Any() == true)
                 .Where(link => PropertyUpdated(
                     context: context,
                     name: link.ColumnName)
                         || context.Forms.ContainsKey($"{ss.ReferenceType}_{link.ColumnName}"))
-                .ForEach(link => link.Lookups?.LookupData(
+                .SelectMany(link => link.Lookups?.LookupData(
                     context: context,
                     ss: ss,
                     link: link,
                     id: GetClass(link.ColumnName).ToLong(),
+                    formData: formData,
                     blankColumns: link.Lookups
                         ?.Select(lookup => ss.GetColumn(
                             context: context,
@@ -2971,17 +2971,14 @@ namespace Implem.Pleasanter.Models
                             column: column)) == true)
                         .Select(column => column.ColumnName)
                         .ToList(),
-                    copyByDefaultOnly: copyByDefaultOnly)
-                        .Where(data => requestFormData == null
-                            || requestFormData.Get(data.Key).IsNullOrEmpty())
-                        .ForEach(data =>
-                            formData.AddOrUpdate(data.Key, data.Value)));
-            if (formData.Any())
+                    copyByDefaultOnly: copyByDefaultOnly))
+                .ToDictionary(o => o.Key, o => o.Value);
+            if (changedFormData.Any())
             {
                 SetByForm(
                     context: context,
                     ss: ss,
-                    formData: formData);
+                    formData: changedFormData);
             }
         }
 
