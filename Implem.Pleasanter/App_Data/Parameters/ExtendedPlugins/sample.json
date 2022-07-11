@@ -1,7 +1,7 @@
 ﻿{
     "Name": "Pdf",
-    "LibraryType": "Pdf",
-    "FileName": "PrintPluginConsole.dll",
+    "PluginType": "Pdf",
+    "LibraryPath": "Pdf\\PrintPluginConsole.dll",
     "Description": "Pdf出力",
     "DeptIdList": null,
     "GroupIdList": null,

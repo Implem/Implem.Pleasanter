@@ -3010,7 +3010,7 @@ namespace Implem.Pleasanter.Models
                 .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
                     context: context,
                     siteId: ss.SiteId)
-                .FirstOrDefault(o => o.LibraryType == ParameterAccessor.Parts.ExtendedPlugin.LibraryTypes.Pdf);
+                .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
             if (extension == null)
             {
                 return (
@@ -3047,7 +3047,7 @@ namespace Implem.Pleasanter.Models
                 defaultView: defaultView,
                 selectingWhere: selectingWhere,
                 reportId: reportId);
-            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.FileName);
+            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.LibraryPath);
             if (plugin == null)
             {
                 return (

@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
-        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Pdf(long id, int reportId = 0, bool download = false)
         {
             var context = new Context();

@@ -4,10 +4,10 @@ namespace Implem.ParameterAccessor.Parts
 {
     public class ExtendedPlugin : ExtendedBase
     {
-        public LibraryTypes LibraryType;
-        public string FileName;
+        public PluginTypes PluginType;
+        public string LibraryPath;
 
-        public enum LibraryTypes
+        public enum PluginTypes
         {
             Pdf
         }
