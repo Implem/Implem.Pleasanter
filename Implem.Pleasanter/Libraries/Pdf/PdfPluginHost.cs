@@ -10,6 +10,7 @@ namespace Implem.Pleasanter.Libraries.Pdf
 {
     public class PdfPluginHost : IPdfPluginHost
     {
+        public string SiteTitle { get; }
         public int ReportId { get; }
         private Context Context { get; }
         private SiteSettings SiteSettings { get; }
@@ -23,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.Pdf
             DefaultView = defaultView;
             ReportId = reportId;
             SelectingWhere = selectingWhere;
+            SiteTitle = ss.Title;
         }
 
         public List<Dictionary<string, object>> GetGridData(string viewJson)
