@@ -24,3 +24,7 @@
 .control-selectable .ui-selected {
     background: #4ca20b;
 }
+
+div.field-control .ui-multiselect {
+    color: black;
+}

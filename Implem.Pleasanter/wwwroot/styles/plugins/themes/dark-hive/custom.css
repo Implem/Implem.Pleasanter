@@ -25,3 +25,7 @@
     color: white;
     background: #0b93d5;
 }
+
+div.field-control .ui-multiselect {
+    color: black;
+}
