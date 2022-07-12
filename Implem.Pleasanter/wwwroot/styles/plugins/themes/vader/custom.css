@@ -30,3 +30,7 @@
 div.field-control .ui-multiselect {
     color: black;
 }
+
+.grid-row .ui-icon {
+    background-image: url("images/ui-icons_666666_256x240.png");
+}
