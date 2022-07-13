@@ -11108,16 +11108,6 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.HttpClientMethodType(context: context),
                         optionCollection: NotificationUtilities.MethodTypes(context: context),
                         selectedValue: notification.MethodType?.ToInt().ToString())
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.MultiLine,
-                        fieldId: "NotificationContentField",
-                        controlId: "NotificationContent",
-                        fieldCss: "field-wide" + (!NotificationUtilities.NotificationType(notification)
-                            ? " hidden"
-                            : string.Empty),
-                        controlCss: " always-send",
-                        labelText: Displays.HttpClientContent(context: context),
-                        text: notification.Content)
                     .FieldDropDown(
                         context: context,
                         fieldId: "NotificationEncodingField",

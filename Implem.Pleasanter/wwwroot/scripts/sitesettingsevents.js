@@ -53,14 +53,12 @@
         switch ($(this).val()) {
             case '9':
                 $('#NotificationMethodTypeField').toggle(true);
-                $('#NotificationContentField').toggle(true);
                 $('#NotificationEncodingField').toggle(true);
                 $('#NotificationMediaTypeField').toggle(true);
                 $('#NotificationRequestHeadersField').toggle(true);
                 break;
             default:
                 $('#NotificationMethodTypeField').toggle(false);
-                $('#NotificationContentField').toggle(false);
                 $('#NotificationEncodingField').toggle(false);
                 $('#NotificationMediaTypeField').toggle(false);
                 $('#NotificationRequestHeadersField').toggle(false);

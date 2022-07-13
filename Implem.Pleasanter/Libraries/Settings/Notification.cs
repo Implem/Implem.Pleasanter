@@ -24,7 +24,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Address;
         public string Token;
         public MethodTypes? MethodType;
-        public string Content;
         public string Encoding;
         public string MediaType;
         public string Headers;
@@ -90,7 +89,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string address,
             string token,
             MethodTypes methodType,
-            string content,
             string encoding,
             string mediaType,
             string headers,
@@ -115,7 +113,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Address = address;
             Token = token;
             MethodType = methodType;
-            Content = content;
             Encoding = encoding;
             MediaType = mediaType;
             Headers = headers;
@@ -152,7 +149,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string address,
             string token,
             MethodTypes methodType,
-            string content,
             string encoding,
             string mediaType,
             string headers,
@@ -176,7 +172,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             Address = address;
             Token = token;
             MethodType = methodType;
-            Content = content;
             Encoding = encoding;
             MediaType = mediaType;
             Headers = headers;
@@ -304,6 +299,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Send(Address);
                     }
                     break;
+                case Types.HttpClient:
+                    if (Parameters.Notification.HttpClient)
+                    {
+                        new HttpClient(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}")
+                        {
+                            MethodType = MethodType,
+                            Encoding = Encoding,
+                            MediaType = MediaType,
+                            Headers = Headers
+                        }
+                        .Send(Address);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -408,10 +418,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (MethodType != MethodTypes.Get)
             {
                 notification.MethodType = MethodType;
-            }
-            if (!Content.IsNullOrEmpty())
-            {
-                notification.Content = Content;
             }
             if (!MediaType.IsNullOrEmpty())
             {
