@@ -50,7 +50,7 @@ namespace Implem.Pleasanter.Controllers
                 .Pdf(
                     context: context,
                     reportId: reportId);
-            if (pdfData.Stream != null)
+            if (pdfData?.Stream != null)
             {
                 var result = new FileStreamResult(pdfData.Stream, "application/pdf");
                 if (download)
