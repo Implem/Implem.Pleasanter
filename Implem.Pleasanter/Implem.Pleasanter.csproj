@@ -104,12 +104,17 @@
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase4_User.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase8_ToIssuesIndex.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase9_ToIssuesCalendar.json.ignore" />
+    <Content Include="App_Data\Parameters\ExtendedPlugins\sample.json.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 
 </Project>
