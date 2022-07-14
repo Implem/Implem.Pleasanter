@@ -134,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 Parameters.ExtendedStyles.Add(extendedStyle);
                             }
                             break;
-                        case "Library":
+                        case "Plugin":
                             var extendedPlugin = extension.ExtensionSettings.Deserialize<ExtendedPlugin>();
                             if (extendedPlugin != null)
                             {
