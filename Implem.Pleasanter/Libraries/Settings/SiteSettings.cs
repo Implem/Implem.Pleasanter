@@ -1409,7 +1409,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.MessageWhenDuplicated = column.MessageWhenDuplicated;
                     }
-                    if (column.CopyByDefault == true)
+                    if (column.CopyByDefault == columnDefinition.CopyByDefault)
                     {
                         enabled = true;
                         newColumn.CopyByDefault = column.CopyByDefault;
@@ -1821,7 +1821,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultMinValue = column.DefaultMinValue ?? columnDefinition.DefaultMinValue;
                 column.DefaultMaxValue = column.DefaultMaxValue ?? columnDefinition.DefaultMaxValue;
                 column.NoDuplication = column.NoDuplication ?? false;
-                column.CopyByDefault = column.CopyByDefault ?? false;
+                column.CopyByDefault = column.CopyByDefault ?? columnDefinition.CopyByDefault;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AutoPostBack = column.AutoPostBack ?? false;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
