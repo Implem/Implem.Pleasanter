@@ -3716,6 +3716,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 where: Rds.UsersWhere()
+                    .TenantId(tenantId, _using: tenantId > 0)
                     .LoginId(
                         value: context.Sqls.EscapeValue(loginId),
                         _operator: context.Sqls.LikeWithEscape)
