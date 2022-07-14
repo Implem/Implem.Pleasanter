@@ -82,6 +82,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Utilities_TimeSeries-->
 <!--Model_Utilities_Kamban-->
 <!--Model_Utilities_UpdateByKamban-->
+<!--Model_Utilities_Pdf-->
 <!--Model_Utilities_UnlockRecord-->
 <!--Model_Utilities_ImageLib-->
 <!--Model_Utilities_SearchIndexes-->

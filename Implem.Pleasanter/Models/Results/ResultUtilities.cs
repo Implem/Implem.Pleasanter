@@ -2629,7 +2629,7 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var invalid = ResultValidators.OnGet(
+            var invalid = ResultValidators.OnEntry(
                 context: context,
                 ss: ss,
                 api: !internalRequest);
@@ -3017,77 +3017,6 @@ namespace Implem.Pleasanter.Models
                 default:
                     return false;
             }
-        }
-
-        public static (Plugins.PdfData pdfData, string error) Pdf(
-            Context context,
-            SiteSettings ss,
-            long resultId,
-            int reportId)
-        {
-            var invalid = IssueValidators.OnEntry(
-               context: context,
-               ss: ss,
-               api: false);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default:
-                    return (null, new ResponseCollection()
-                        .Message(invalid.Message(context: context))
-                        .Messages(context.Messages).ToString());
-            }
-            var extension = Parameters.ExtendedPlugins
-                .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
-                    context: context,
-                    siteId: ss.SiteId)
-                .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
-            if (extension == null)
-            {
-                return (
-                    null,
-                    HtmlTemplates.Error(
-                        context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound)));
-            }
-            View defaultView = Views.GetBySession(
-                context: context,
-                ss: ss,
-                setSession: false) ?? new View();
-            SqlWhereCollection selectingWhere = null;
-            if (resultId > 0)
-            {
-                defaultView = new View()
-                {
-                    GridColumns = defaultView.GridColumns?.ToList(),
-                    ColumnFilterHash = new Dictionary<string, string>()
-                    {
-                        { "ResultId", resultId.ToString() }
-                    }
-                };
-            }
-            else
-            {
-                selectingWhere = SelectedWhere(
-                    context: context,
-                    ss: ss);
-            }
-            var host = new Libraries.Pdf.PdfPluginHost(
-                context: context,
-                ss: ss,
-                defaultView: defaultView,
-                selectingWhere: selectingWhere,
-                reportId: reportId);
-            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.LibraryPath);
-            if (plugin == null)
-            {
-                return (
-                    null,
-                    HtmlTemplates.Error(
-                        context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound)));
-            }
-            return (plugin.CreatePdf(host), null);
         }
 
         public static string Update(Context context, SiteSettings ss, long resultId, string previousTitle)
@@ -7388,6 +7317,77 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 notice: true);
             return KambanJson(context: context, ss: ss);
+        }
+
+        public static (Plugins.PdfData pdfData, string error) Pdf(
+            Context context,
+            SiteSettings ss,
+            long resultId,
+            int reportId)
+        {
+            var invalid = ResultValidators.OnGet(
+                context: context,
+                ss: ss,
+                api: false);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return (null, new ResponseCollection()
+                        .Message(invalid.Message(context: context))
+                        .Messages(context.Messages).ToString());
+            }
+            var extension = Parameters.ExtendedPlugins
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
+                    context: context,
+                    siteId: ss.SiteId)
+                .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
+            if (extension == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            View defaultView = Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: false) ?? new View();
+            SqlWhereCollection selectingWhere = null;
+            if (resultId > 0)
+            {
+                defaultView = new View()
+                {
+                    GridColumns = defaultView.GridColumns?.ToList(),
+                    ColumnFilterHash = new Dictionary<string, string>()
+                    {
+                        { "ResultId", resultId.ToString() }
+                    }
+                };
+            }
+            else
+            {
+                selectingWhere = SelectedWhere(
+                    context: context,
+                    ss: ss);
+            }
+            var host = new Libraries.Pdf.PdfPluginHost(
+                context: context,
+                ss: ss,
+                defaultView: defaultView,
+                selectingWhere: selectingWhere,
+                reportId: reportId);
+            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.LibraryPath);
+            if (plugin == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            return (plugin.CreatePdf(host), null);
         }
 
         public static string UnlockRecord(

@@ -787,6 +787,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_OnUpdated_Breadcrumb_Sites": Code.Model_Utilities_OnUpdated_Breadcrumb_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_OnUpdated_Breadcrumb_Wikis": Code.Model_Utilities_OnUpdated_Breadcrumb_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Breadcrumb_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_OnUpdated_Issues": Code.Model_Utilities_OnUpdated_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_OnUpdated_Issues, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Pdf": Code.Model_Utilities_Pdf = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Pdf, definitionRow, CodeXls); break;
                     case "Model_Utilities_PhysicalBulkDelete_Items": Code.Model_Utilities_PhysicalBulkDelete_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDelete_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_PhysicalBulkDelete_Sites": Code.Model_Utilities_PhysicalBulkDelete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDelete_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_PhysicalBulkDeleteByApi_Items": Code.Model_Utilities_PhysicalBulkDeleteByApi_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_PhysicalBulkDeleteByApi_Items, definitionRow, CodeXls); break;
@@ -6984,6 +6985,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_OnUpdated_Breadcrumb_Sites;
         public string Model_Utilities_OnUpdated_Breadcrumb_Wikis;
         public string Model_Utilities_OnUpdated_Issues;
+        public string Model_Utilities_Pdf;
         public string Model_Utilities_PhysicalBulkDelete_Items;
         public string Model_Utilities_PhysicalBulkDelete_Sites;
         public string Model_Utilities_PhysicalBulkDeleteByApi_Items;
@@ -7728,6 +7730,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_OnUpdated_Breadcrumb_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_OnUpdated_Issues = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Pdf = new CodeDefinition();
         public CodeDefinition Model_Utilities_PhysicalBulkDelete_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_PhysicalBulkDelete_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_PhysicalBulkDeleteByApi_Items = new CodeDefinition();

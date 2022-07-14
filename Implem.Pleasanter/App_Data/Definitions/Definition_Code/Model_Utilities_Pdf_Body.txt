@@ -1,0 +1,70 @@
+﻿public static (Plugins.PdfData pdfData, string error) Pdf(
+    Context context,
+    SiteSettings ss,
+    long #modelName#Id,
+    int reportId)
+{
+    var invalid = #ModelName#Validators.OnGet(
+        context: context,
+        ss: ss,
+        api: false);
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default:
+            return (null, new ResponseCollection()
+                .Message(invalid.Message(context: context))
+                .Messages(context.Messages).ToString());
+    }
+    var extension = Parameters.ExtendedPlugins
+        .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
+            context: context,
+            siteId: ss.SiteId)
+        .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
+    if (extension == null)
+    {
+        return (
+            null,
+            HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.NotFound)));
+    }
+    View defaultView = Views.GetBySession(
+        context: context,
+        ss: ss,
+        setSession: false) ?? new View();
+    SqlWhereCollection selectingWhere = null;
+    if (#modelName#Id > 0)
+    {
+        defaultView = new View()
+        {
+            GridColumns = defaultView.GridColumns?.ToList(),
+            ColumnFilterHash = new Dictionary<string, string>()
+            {
+                { "#ModelName#Id", #modelName#Id.ToString() }
+            }
+        };
+    }
+    else
+    {
+        selectingWhere = SelectedWhere(
+            context: context,
+            ss: ss);
+    }
+    var host = new Libraries.Pdf.PdfPluginHost(
+        context: context,
+        ss: ss,
+        defaultView: defaultView,
+        selectingWhere: selectingWhere,
+        reportId: reportId);
+    var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.LibraryPath);
+    if (plugin == null)
+    {
+        return (
+            null,
+            HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.NotFound)));
+    }
+    return (plugin.CreatePdf(host), null);
+}
