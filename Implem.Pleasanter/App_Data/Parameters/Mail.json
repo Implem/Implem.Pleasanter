@@ -1,5 +1,5 @@
 ﻿{
-    "SmtpHost": "localhost",
+    "SmtpHost": null,
     "SmtpPort": 25,
     "SmtpUserName": null,
     "SmtpPassword": null,
