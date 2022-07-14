@@ -20,10 +20,12 @@ namespace Implem.DefinitionAccessor
             string path,
             string assemblyVersion,
             bool codeDefiner = false,
+            bool pleasanterTest = false,
             bool setSaPassword = false,
             bool setRandomPassword = false)
         {
             Environments.CodeDefiner = codeDefiner;
+            Environments.PleasanterTest = pleasanterTest;
             Environments.CurrentDirectoryPath = path != null
                 ? path
                 : GetSourcePath();
@@ -659,8 +661,12 @@ namespace Implem.DefinitionAccessor
 
         public static XlsIo DefinitionFile(string name)
         {
-            var path = Path.Combine(Directories.Definitions(), $"Definition_{name}");
-            var xlsIo = new XlsIo(path);
+            var path = name == "Demo" && Environments.PleasanterTest
+                ? Path.Combine(Directories.PleasanterTest(), "Data")
+                : Path.Combine(Directories.Definitions(), $"Definition_{name}");
+            var xlsIo = new XlsIo(
+                path: path,
+                name: name);
             if (name == "Column")
             {
                 SetColumnDefinitionAdditional(xlsIo);

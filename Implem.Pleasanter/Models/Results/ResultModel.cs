@@ -558,7 +558,7 @@ namespace Implem.Pleasanter.Models
                 SetByLookups(
                     context: context,
                     ss: ss,
-                    requestFormData: formData);
+                    formData: formData);
             }
             SetByStatusControls(
                 context: context,
@@ -610,7 +610,7 @@ namespace Implem.Pleasanter.Models
                 SetByLookups(
                     context: context,
                     ss: ss,
-                    requestFormData: formData);
+                    formData: formData);
             }
             SetByStatusControls(
                 context: context,
@@ -656,7 +656,7 @@ namespace Implem.Pleasanter.Models
                 SetByLookups(
                     context: context,
                     ss: ss,
-                    requestFormData: formData);
+                    formData: formData);
             }
             SetByStatusControls(
                 context: context,
@@ -768,6 +768,21 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            return PropertyValue(
+                context: context,
+                column: column);
+        }
+
         public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
         {
             if (!ss.ReadColumnAccessControls.Allowed(
@@ -817,6 +832,31 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Timestamp":
                     return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1279,7 +1319,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            Process process = null,
+            List<Process> processes = null,
             long copyFrom = 0,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
@@ -1348,24 +1388,25 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         notice: notice),
                     type: noticeType);
-                process?.Notifications?.ForEach(notification =>
-                    notification.Send(
-                        context: context,
-                        ss: ss,
-                        title: ReplacedDisplayValues(
+                processes?.ForEach(process =>
+                    process?.Notifications?.ForEach(notification =>
+                        notification.Send(
                             context: context,
                             ss: ss,
-                            value: notification.Subject),
-                        body: ReplacedDisplayValues(
-                            context: context,
-                            ss: ss,
-                            value: notification.Body),
-                        values: ss.IncludedColumns(notification.Address)
-                            .ToDictionary(
-                                column => column,
-                                column => PropertyValue(
-                                    context: context,
-                                    column: column))));
+                            title: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Subject),
+                            body: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Body),
+                            values: ss.IncludedColumns(notification.Address)
+                                .ToDictionary(
+                                    column => column,
+                                    column => PropertyValue(
+                                        context: context,
+                                        column: column)))));
             }
             if (get) Get(context: context, ss: ss);
             if (ss.PermissionForCreating != null)
@@ -1514,7 +1555,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            Process process = null,
+            List<Process> processes = null,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -1599,24 +1640,25 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             notice: notice)),
                     type: "Updated");
-                process?.Notifications?.ForEach(notification =>
-                    notification.Send(
-                        context: context,
-                        ss: ss,
-                        title: ReplacedDisplayValues(
+                processes?.ForEach(process =>
+                    process?.Notifications?.ForEach(notification =>
+                        notification.Send(
                             context: context,
                             ss: ss,
-                            value: notification.Subject),
-                        body: ReplacedDisplayValues(
-                            context: context,
-                            ss: ss,
-                            value: notification.Body),
-                        values: ss.IncludedColumns(notification.Address)
-                            .ToDictionary(
-                                column => column,
-                                column => PropertyValue(
-                                    context: context,
-                                    column: column))));
+                            title: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Subject),
+                            body: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Body),
+                            values: ss.IncludedColumns(notification.Address)
+                                .ToDictionary(
+                                    column => column,
+                                    column => PropertyValue(
+                                        context: context,
+                                        column: column)))));
             }
             if (get)
             {
@@ -2541,16 +2583,83 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
+        public void SetByProcess(
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            if (process.ChangedStatus != -1)
+            {
+                Status.Value = process.ChangedStatus;
+            }
+            process.DataChanges?.ForEach(dataChange =>
+            {
+                var key = $"Results_{dataChange.ColumnName}";
+                var formData = new Dictionary<string, string>();
+                switch (dataChange.Type)
+                {
+                    case DataChange.Types.CopyValue:
+                        formData[key] = ToValue(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: dataChange.Value),
+                            mine: Mine(context: context));
+                        break;
+                    case DataChange.Types.CopyDisplayValue:
+                        formData[key] = ToDisplay(
+                            context: context,
+                            ss: ss,
+                            column: ss.GetColumn(
+                                context: context,
+                                columnName: dataChange.Value),
+                            mine: Mine(context: context));
+                        break;
+                    case DataChange.Types.InputValue:
+                        formData[key] = dataChange.ValueData(ss
+                            .IncludedColumns(value: dataChange.Value)
+                            .ToDictionary(
+                                column => column.ColumnName,
+                                column => ToDisplay(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                    mine: Mine(context: context))));
+                        break;
+                    case DataChange.Types.InputDate:
+                    case DataChange.Types.InputDateTime:
+                        formData[key] = dataChange.DateTimeValue(context: context).ToString();
+                        break;
+                    case DataChange.Types.InputUser:
+                        formData[key] = context.UserId.ToString();
+                        break;
+                    case DataChange.Types.InputDept:
+                        formData[key] = context.DeptId.ToString();
+                        break;
+                    default:
+                        break;
+                }
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
+                SetByLookups(
+                    context: context,
+                    ss: ss);
+            });
+        }
+
         public void SetBySettings(
             Context context,
             SiteSettings ss,
-            Dictionary<string, string> requestFormData = null,
+            Dictionary<string, string> formData = null,
             bool copyByDefaultOnly = false)
         {
             SetByLookups(
                 context: context,
                 ss: ss,
-                requestFormData: requestFormData,
+                formData: formData,
                 copyByDefaultOnly: copyByDefaultOnly);
             SetByStatusControls(
                 context: context,
@@ -2560,21 +2669,21 @@ namespace Implem.Pleasanter.Models
         private void SetByLookups(
             Context context,
             SiteSettings ss,
-            Dictionary<string,string> requestFormData = null,
+            Dictionary<string,string> formData = null,
             bool copyByDefaultOnly = false)
         {
-            var formData = new Dictionary<string, string>();
-            ss.Links
+            var changedFormData = ss.Links
                 .Where(link => link.Lookups?.Any() == true)
                 .Where(link => PropertyUpdated(
                     context: context,
                     name: link.ColumnName)
                         || context.Forms.ContainsKey($"{ss.ReferenceType}_{link.ColumnName}"))
-                .ForEach(link => link.Lookups?.LookupData(
+                .SelectMany(link => link.Lookups?.LookupData(
                     context: context,
                     ss: ss,
                     link: link,
                     id: GetClass(link.ColumnName).ToLong(),
+                    formData: formData,
                     blankColumns: link.Lookups
                         ?.Select(lookup => ss.GetColumn(
                             context: context,
@@ -2584,17 +2693,14 @@ namespace Implem.Pleasanter.Models
                             column: column)) == true)
                         .Select(column => column.ColumnName)
                         .ToList(),
-                    copyByDefaultOnly: copyByDefaultOnly)
-                        .Where(data => requestFormData == null
-                            || requestFormData.Get(data.Key).IsNullOrEmpty())
-                        .ForEach(data =>
-                            formData.AddOrUpdate(data.Key, data.Value)));
-            if (formData.Any())
+                    copyByDefaultOnly: copyByDefaultOnly))
+                .ToDictionary(o => o.Key, o => o.Value);
+            if (changedFormData.Any())
             {
                 SetByForm(
                     context: context,
                     ss: ss,
-                    formData: formData);
+                    formData: changedFormData);
             }
         }
 

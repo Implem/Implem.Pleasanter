@@ -9,6 +9,7 @@ namespace Implem.DefinitionAccessor
         private const string CodeDefinerDirectoryName = "Implem.CodeDefiner";
         private const string DefinitionAccessorDirectoryName = "Implem.DefinitionAccessor";
         private const string LibrariesDirectoryName = "Implem.Libraries";
+        private const string PleasanterTestDirectoryName = "Implem.PleasanterTest";
 
         public static string ServicePath()
         {
@@ -28,6 +29,11 @@ namespace Implem.DefinitionAccessor
         public static string Libraries(params string[] pathes)
         {
             return CurrentPath(LibrariesDirectoryName, pathes.ToList());
+        }
+
+        public static string PleasanterTest(params string[] pathes)
+        {
+            return CurrentPath(PleasanterTestDirectoryName, pathes.ToList());
         }
 
         public static string Outputs(params string[] pathes)

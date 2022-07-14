@@ -97,7 +97,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings { get; set; }
         public bool HasPrivilege { get; set; }
         public ContractSettings ContractSettings { get; set; } = new ContractSettings();
-        public decimal ApiVersion { get; set; } = 1.000M;
+        public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiRequestBody { get; set; }
         public string ApiKey { get; set; }
         public string RequestDataString { get => !string.IsNullOrEmpty(ApiRequestBody) ? ApiRequestBody : FormString; }
@@ -360,9 +360,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 if (setData) SetData();
                 var api = RequestDataString.Deserialize<Api>();
+                SetApiVersion(api: api);
                 if (api?.ApiKey.IsNullOrEmpty() == false)
                 {
-                    ApiVersion = api.ApiVersion;
                     ApiKey = api.ApiKey;
                     SetUser(userModel: GetUser(where: Rds.UsersWhere()
                         .ApiKey(ApiKey)));
@@ -387,6 +387,24 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: this,
                     includeUserArea: Controller == "sessions",
                     sessionGuid: "@" + UserId);
+            }
+        }
+
+        private void SetApiVersion(Api api)
+        {
+            
+            if (Parameters.Api.Compatibility_1_3_12)
+            {
+                // ApiKeyを指定しない場合にAPIバージョンがセットできない不具合のある状態で
+                // 開発されたコードの動きを変えないよう 1.3.12 互換で動作させる
+                if (api?.ApiKey.IsNullOrEmpty() == false)
+                {
+                    ApiVersion = api.ApiVersion;
+                }
+            }
+            else
+            {
+                ApiVersion = api?.ApiVersion ?? ApiVersion;
             }
         }
 

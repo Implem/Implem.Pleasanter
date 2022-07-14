@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Months",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Months"
+        },
+        {
+            "Language": "zh",
+            "Body": "几个月"
+        },
+        {
+            "Language": "ja",
+            "Body": "月"
+        },
+        {
+            "Language": "de",
+            "Body": "Monate"
+        },
+        {
+            "Language": "ko",
+            "Body": "개월"
+        },
+        {
+            "Language": "es",
+            "Body": "Meses"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tháng"
+        }
+    ]
+}

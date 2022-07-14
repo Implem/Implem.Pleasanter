@@ -359,6 +359,21 @@ namespace Implem.Pleasanter.Models
             return data;
         }
 
+        public string ToValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            return PropertyValue(
+                context: context,
+                column: column);
+        }
+
         public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
         {
             if (!ss.ReadColumnAccessControls.Allowed(
@@ -393,6 +408,31 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Timestamp":
                     return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -555,7 +595,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            Process process = null,
+            List<Process> processes = null,
             bool extendedSqls = true,
             bool notice = false,
             string noticeType = "Created",
@@ -594,24 +634,25 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         notice: notice),
                     type: noticeType);
-                process?.Notifications?.ForEach(notification =>
-                    notification.Send(
-                        context: context,
-                        ss: ss,
-                        title: ReplacedDisplayValues(
+                processes?.ForEach(process =>
+                    process?.Notifications?.ForEach(notification =>
+                        notification.Send(
                             context: context,
                             ss: ss,
-                            value: notification.Subject),
-                        body: ReplacedDisplayValues(
-                            context: context,
-                            ss: ss,
-                            value: notification.Body),
-                        values: ss.IncludedColumns(notification.Address)
-                            .ToDictionary(
-                                column => column,
-                                column => PropertyValue(
-                                    context: context,
-                                    column: column))));
+                            title: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Subject),
+                            body: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Body),
+                            values: ss.IncludedColumns(notification.Address)
+                                .ToDictionary(
+                                    column => column,
+                                    column => PropertyValue(
+                                        context: context,
+                                        column: column)))));
             }
             if (get) Get(context: context, ss: ss);
             var fullText = FullText(context, ss: ss, onCreating: true);
@@ -685,7 +726,7 @@ namespace Implem.Pleasanter.Models
         public ErrorData Update(
             Context context,
             SiteSettings ss,
-            Process process = null,
+            List<Process> processes = null,
             bool extendedSqls = true,
             bool synchronizeSummary = true,
             bool forceSynchronizeSourceSummary = false,
@@ -761,24 +802,25 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             notice: notice)),
                     type: "Updated");
-                process?.Notifications?.ForEach(notification =>
-                    notification.Send(
-                        context: context,
-                        ss: ss,
-                        title: ReplacedDisplayValues(
+                processes?.ForEach(process =>
+                    process?.Notifications?.ForEach(notification =>
+                        notification.Send(
                             context: context,
                             ss: ss,
-                            value: notification.Subject),
-                        body: ReplacedDisplayValues(
-                            context: context,
-                            ss: ss,
-                            value: notification.Body),
-                        values: ss.IncludedColumns(notification.Address)
-                            .ToDictionary(
-                                column => column,
-                                column => PropertyValue(
-                                    context: context,
-                                    column: column))));
+                            title: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Subject),
+                            body: ReplacedDisplayValues(
+                                context: context,
+                                ss: ss,
+                                value: notification.Body),
+                            values: ss.IncludedColumns(notification.Address)
+                                .ToDictionary(
+                                    column => column,
+                                    column => PropertyValue(
+                                        context: context,
+                                        column: column)))));
             }
             if (get)
             {

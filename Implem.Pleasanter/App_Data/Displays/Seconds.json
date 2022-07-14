@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Seconds",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Seconds"
+        },
+        {
+            "Language": "zh",
+            "Body": "秒"
+        },
+        {
+            "Language": "ja",
+            "Body": "秒"
+        },
+        {
+            "Language": "de",
+            "Body": "Sekunden"
+        },
+        {
+            "Language": "ko",
+            "Body": "초"
+        },
+        {
+            "Language": "es",
+            "Body": "Segundos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Giây"
+        }
+    ]
+}

@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DefineOperationSystems",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "運用管理システム要件の確認",
+    "WorkValue": "18",
+    "ProgressRate": "100",
+    "Status": "900",
+    "ClassA": "要件定義",
+    "ClassB": "作業[非定型]",
+    "ClassC": "運用",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "StartTime": "36641",
+    "CompletionTime": "36647",
+    "CreatedTime": "36640.752083333333",
+    "UpdatedTime": "36649.422222222223"
+}

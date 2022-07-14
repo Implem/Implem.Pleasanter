@@ -1,0 +1,66 @@
+﻿public void SetByProcess(
+    Context context,
+    SiteSettings ss,
+    Process process)
+{
+    if (process.ChangedStatus != -1)
+    {
+        Status.Value = process.ChangedStatus;
+    }
+    process.DataChanges?.ForEach(dataChange =>
+    {
+        var key = $"#TableName#_{dataChange.ColumnName}";
+        var formData = new Dictionary<string, string>();
+        switch (dataChange.Type)
+        {
+            case DataChange.Types.CopyValue:
+                formData[key] = ToValue(
+                    context: context,
+                    ss: ss,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: dataChange.Value),
+                    mine: Mine(context: context));
+                break;
+            case DataChange.Types.CopyDisplayValue:
+                formData[key] = ToDisplay(
+                    context: context,
+                    ss: ss,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: dataChange.Value),
+                    mine: Mine(context: context));
+                break;
+            case DataChange.Types.InputValue:
+                formData[key] = dataChange.ValueData(ss
+                    .IncludedColumns(value: dataChange.Value)
+                    .ToDictionary(
+                        column => column.ColumnName,
+                        column => ToDisplay(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            mine: Mine(context: context))));
+                break;
+            case DataChange.Types.InputDate:
+            case DataChange.Types.InputDateTime:
+                formData[key] = dataChange.DateTimeValue(context: context).ToString();
+                break;
+            case DataChange.Types.InputUser:
+                formData[key] = context.UserId.ToString();
+                break;
+            case DataChange.Types.InputDept:
+                formData[key] = context.DeptId.ToString();
+                break;
+            default:
+                break;
+        }
+        SetByForm(
+            context: context,
+            ss: ss,
+            formData: formData);
+        SetByLookups(
+            context: context,
+            ss: ss);
+    });
+}

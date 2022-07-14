@@ -1,0 +1,21 @@
+﻿{
+    "Id": "ConfigOperationSystems",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "運用管理システムの構築",
+    "WorkValue": "50",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "構築",
+    "ClassB": "作業[定型]",
+    "ClassC": "運用",
+    "Manager": "User6",
+    "Owner": "User6",
+    "Creator": "User6",
+    "Updator": "User6",
+    "StartTime": "36661",
+    "CompletionTime": "36665",
+    "CreatedTime": "36641.390277777777",
+    "UpdatedTime": "36647.390277777777"
+}

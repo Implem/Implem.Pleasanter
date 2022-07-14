@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CopyDisplayValue",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy display value"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制显示值"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示名のコピー"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzeigewert kopieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "표시 값 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiar valor de visualización"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép giá trị hiển thị"
+        }
+    ]
+}

@@ -1133,7 +1133,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = tenantModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -1144,7 +1144,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             tenantModel: tenantModel,
-                            process: process));
+                            process: processes.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", tenantModel.TenantId.ToString())
                         .SetMemory("formChanged", false)
@@ -1208,13 +1208,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = tenantModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new TenantsResponseCollection(tenantModel);
-                    return ResponseByUpdate(res, context, ss, tenantModel, process)
+                    return ResponseByUpdate(res, context, ss, tenantModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1237,7 +1237,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             TenantModel tenantModel,
-            Process process)
+            List<Process> processes)
         {
             ss.ClearColumnAccessControlCaches(baseModel: tenantModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -1269,7 +1269,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         tenantModel: tenantModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else
@@ -1309,8 +1309,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             TenantModel tenantModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(

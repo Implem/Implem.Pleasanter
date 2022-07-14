@@ -160,8 +160,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static string FromList()
         {
             return FromListItems()
-                .Where(o => Parameters.Mail.FixedFrom.IsNullOrEmpty()
-                    || o != Reminder.ReminderTypes.Mail)
                 .Select(o => o.ToInt()
                 .ToString())
                 .Join();
@@ -176,7 +174,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Reminder.ReminderTypes.ChatWork,
                 Reminder.ReminderTypes.RocketChat,
                 Reminder.ReminderTypes.InCircle
-            };
+            }
+                .Where(o => Parameters.Mail.FixedFrom.IsNullOrEmpty()
+                    || o != Reminder.ReminderTypes.Mail)
+                .ToList();
         }
 
         public static bool RequireToken(Reminder reminder)

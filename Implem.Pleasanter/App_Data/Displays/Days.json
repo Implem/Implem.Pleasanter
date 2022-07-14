@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Days",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Days"
+        },
+        {
+            "Language": "zh",
+            "Body": "天"
+        },
+        {
+            "Language": "ja",
+            "Body": "日"
+        },
+        {
+            "Language": "de",
+            "Body": "Tage"
+        },
+        {
+            "Language": "ko",
+            "Body": "날"
+        },
+        {
+            "Language": "es",
+            "Body": "Días"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày"
+        }
+    ]
+}

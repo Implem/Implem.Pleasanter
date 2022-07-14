@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CopyFrom",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Copy from"
+        },
+        {
+            "Language": "zh",
+            "Body": "复制自"
+        },
+        {
+            "Language": "ja",
+            "Body": "コピー元"
+        },
+        {
+            "Language": "de",
+            "Body": "Kopie von"
+        },
+        {
+            "Language": "ko",
+            "Body": "다음에서 복사"
+        },
+        {
+            "Language": "es",
+            "Body": "Copiado de"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sao chép từ"
+        }
+    ]
+}

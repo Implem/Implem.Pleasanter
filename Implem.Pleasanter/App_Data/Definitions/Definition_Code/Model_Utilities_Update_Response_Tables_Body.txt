@@ -31,7 +31,7 @@
                 context: context,
                 ss: ss,
                 #modelName#Model: #modelName#Model,
-                process: process))
+                processes: processes))
             .Messages(context.Messages)
             .Comment(
                 context: context,
@@ -49,5 +49,5 @@
                 context: context,
                 ss: ss,
                 #modelName#Model: #modelName#Model,
-                process: process));
+                processes: processes));
 }

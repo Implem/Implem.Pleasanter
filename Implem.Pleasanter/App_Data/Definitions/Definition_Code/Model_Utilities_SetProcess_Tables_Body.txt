@@ -1,6 +1,7 @@
-﻿var process = ss.Processes?.FirstOrDefault(o =>
-    $"Process_{o.Id}" == context.Forms.ControlId());
-if (process != null)
+﻿var processes = ss.Processes
+    ?.Where(process => process.IsTarget(context: context))
+    .ToList() ?? new List<Process>();
+foreach (var process in processes)
 {
     process.MatchConditions = #modelName#Model.GetProcessMatchConditions(
         context: context,
@@ -8,12 +9,12 @@ if (process != null)
         process: process);
     if (process.MatchConditions && process.Accessable(context: context))
     {
-        if (process.ChangedStatus != -1)
-        {
-            #modelName#Model.Status.Value = process.ChangedStatus;
-        }
+        #modelName#Model.SetByProcess(
+            context: context,
+            ss: ss,
+            process: process);
     }
-    else
+    else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
     {
         var message = process.GetErrorMessage(context: context);
         message.Text = #modelName#Model.ReplacedDisplayValues(

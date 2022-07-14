@@ -29,7 +29,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             DefinitionAccessor.Initializer.Initialize(
                 path: null,
-                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                pleasanterTest: true);
             Context context = ContextData.Get(
                 httpMethod: "post",
                 absolutePath: "/demos/register",

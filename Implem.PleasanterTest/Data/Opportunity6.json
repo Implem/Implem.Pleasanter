@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Opportunity6",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site7",
+    "Title": "営業支援ツールの追加機能開発",
+    "Status": "200",
+    "ClassA": "#Customer5#",
+    "ClassB": "システム開発",
+    "ClassC": "90%",
+    "NumA": "540000",
+    "NumB": "440000",
+    "NumC": "100000",
+    "NumD": "18.5",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "StartTime": "36650",
+    "CompletionTime": "36674",
+    "CreatedTime": "36642.445138888892",
+    "UpdatedTime": "36640.634027777778"
+}

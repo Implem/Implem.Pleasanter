@@ -731,6 +731,21 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public string ToValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            return PropertyValue(
+                context: context,
+                column: column);
+        }
+
         public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
         {
             if (!ss.ReadColumnAccessControls.Allowed(
@@ -835,6 +850,31 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Timestamp":
                     return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2405,6 +2445,37 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SearchProcessAccessControl":
                     SearchProcessAccessControl(
+                        context: context,
+                        res: res);
+                    break;
+                case "MoveUpProcessDataChanges":
+                case "MoveDownProcessDataChanges":
+                    SetProcessDataChangesOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewProcessDataChange":
+                case "EditProcessDataChange":
+                    OpenProcessDataChangeDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddProcessDataChange":
+                    AddProcessDataChange(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateProcessDataChange":
+                    UpdateProcessDataChange(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "DeleteProcessDataChanges":
+                    DeleteProcessDataChanges(
                         context: context,
                         res: res);
                     break;
@@ -4017,6 +4088,7 @@ namespace Implem.Pleasanter.Models
                 confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                 successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                 onClick: context.Forms.Data("ProcessOnClick"),
+                executionType: (Process.ExecutionTypes)context.Forms.Int("ProcessExecutionType"),
                 actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
                 validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                 validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
@@ -4026,6 +4098,7 @@ namespace Implem.Pleasanter.Models
                     ss: SiteSettings,
                     prefix: "Process"),
                 errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
+                dataChanges: context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>(),
                 notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
             SiteSettings.Processes.Add(process);
             res
@@ -4065,12 +4138,14 @@ namespace Implem.Pleasanter.Models
                     confirmationMessage: context.Forms.Data("ProcessConfirmationMessage"),
                     successMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessSuccessMessage")),
                     onClick: context.Forms.Data("ProcessOnClick"),
+                    executionType: (Process.ExecutionTypes)context.Forms.Int("ProcessExecutionType"),
                     actionType: (Process.ActionTypes)context.Forms.Int("ProcessActionType"),
                     validationType: (Process.ValidationTypes)context.Forms.Int("ProcessValidationType"),
                     validateInputs: context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>(),
                     permissions: ProcessPermissions(context: context),
                     view: view,
                     errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
+                    dataChanges: context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>(),
                     notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
                 res
                     .ReplaceAll("#EditProcess", new HtmlBuilder()
@@ -4107,31 +4182,24 @@ namespace Implem.Pleasanter.Models
         private void SetProcessValidateInputsOrder(
             Context context, ResponseCollection res, string controlId)
         {
-            if (context.ContractSettings.Notice == false)
+            var selected = context.Forms.IntList("EditProcessValidateInput");
+            if (selected?.Any() != true)
             {
-                res.Message(Messages.Restricted(context: context));
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
             }
             else
             {
-                var selected = context.Forms.IntList("EditProcessValidateInput");
-                if (selected?.Any() != true)
-                {
-                    res.Message(Messages.SelectTargets(context: context)).ToJson();
-                }
-                else
-                {
-                    var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
-                    validateInputs.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
-                    res
-                        .Html("#EditProcessValidateInput", new HtmlBuilder()
-                            .EditProcessValidateInput(
-                                context: context,
-                                ss: SiteSettings,
-                                validateInputs: validateInputs))
-                        .Val(
-                            "#ProcessValidateInputs",
-                            validateInputs.ToJson());
-                }
+                var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
+                validateInputs.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
+                res
+                    .Html("#EditProcessValidateInput", new HtmlBuilder()
+                        .EditProcessValidateInput(
+                            context: context,
+                            ss: SiteSettings,
+                            validateInputs: validateInputs))
+                    .Val(
+                        "#ProcessValidateInputs",
+                        validateInputs.ToJson());
             }
         }
 
@@ -4173,20 +4241,13 @@ namespace Implem.Pleasanter.Models
         private void OpenProcessValidateInputDialog(
             Context context, ResponseCollection res, ValidateInput validateInput)
         {
-            if (context.ContractSettings.Notice == false)
-            {
-                res.Message(Messages.Restricted(context: context));
-            }
-            else
-            {
-                res
-                    .Html("#ProcessValidateInputDialog", SiteUtilities.ProcessValidateInputDialog(
-                        context: context,
-                        ss: SiteSettings,
-                        controlId: context.Forms.ControlId(),
-                        validateInput: validateInput))
-                    .Invoke(methodName: "setProcessValidateInputDialog");
-            }
+            res
+                .Html("#ProcessValidateInputDialog", SiteUtilities.ProcessValidateInputDialog(
+                    context: context,
+                    ss: SiteSettings,
+                    controlId: context.Forms.ControlId(),
+                    validateInput: validateInput))
+                .Invoke(methodName: "setProcessValidateInputDialog");
         }
 
         /// <summary>
@@ -4262,31 +4323,24 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void DeleteProcessValidateInputs(Context context, ResponseCollection res)
         {
-            if (context.ContractSettings.Notice == false)
+            var selected = context.Forms.IntList("EditProcessValidateInput");
+            if (selected?.Any() != true)
             {
-                res.Message(Messages.Restricted(context: context));
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
             }
             else
             {
-                var selected = context.Forms.IntList("EditProcessValidateInput");
-                if (selected?.Any() != true)
-                {
-                    res.Message(Messages.SelectTargets(context: context)).ToJson();
-                }
-                else
-                {
-                    var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
-                    validateInputs.Delete(selected);
-                    res
-                        .Html("#EditProcessValidateInput", new HtmlBuilder()
-                            .EditProcessValidateInput(
-                                context: context,
-                                ss: SiteSettings,
-                                validateInputs: validateInputs))
-                        .Val(
-                            "#ProcessValidateInputs",
-                            validateInputs.ToJson());
-                }
+                var validateInputs = context.Forms.Data("ProcessValidateInputs").Deserialize<SettingList<ValidateInput>>();
+                validateInputs.Delete(selected);
+                res
+                    .Html("#EditProcessValidateInput", new HtmlBuilder()
+                        .EditProcessValidateInput(
+                            context: context,
+                            ss: SiteSettings,
+                            validateInputs: validateInputs))
+                    .Val(
+                        "#ProcessValidateInputs",
+                        validateInputs.ToJson());
             }
         }
 
@@ -4328,6 +4382,180 @@ namespace Implem.Pleasanter.Models
                     withType: false))
                 .Val("#SourceProcessAccessControlOffset", Parameters.Permissions.PageSize)
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetProcessDataChangesOrder(
+            Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditProcessDataChange");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
+                dataChanges.MoveUpOrDown(ColumnUtilities.ChangeCommand(controlId), selected);
+                res
+                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                        .EditProcessDataChange(
+                            context: context,
+                            ss: SiteSettings,
+                            dataChanges: dataChanges))
+                    .Val(
+                        "#ProcessDataChanges",
+                        dataChanges.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessDataChangeDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewProcessDataChange")
+            {
+                OpenProcessDataChangeDialog(
+                    context: context,
+                    res: res,
+                    dataChange: new DataChange());
+            }
+            else
+            {
+                var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
+                var dataChange = dataChanges?.Get(context.Forms.Int("ProcessDataChangeId"));
+                if (dataChange == null)
+                {
+                    OpenDialogError(res, Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenProcessDataChangeDialog(
+                        context: context,
+                        res: res,
+                        dataChange: dataChange);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenProcessDataChangeDialog(
+            Context context, ResponseCollection res, DataChange dataChange)
+        {
+            res.Html("#ProcessDataChangeDialog", SiteUtilities.ProcessDataChangeDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                dataChange: dataChange));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddProcessDataChange(Context context, ResponseCollection res, string controlId)
+        {
+            var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>()
+                ?? new SettingList<DataChange>();
+            dataChanges.Add(new DataChange()
+            {
+                Id = dataChanges.MaxOrDefault(o => o.Id) + 1,
+                Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
+                ColumnName = context.Forms.Data("ProcessDataChangeColumnName"),
+                Value = ProcessDataChangeValue(context: context)
+            });
+            res
+                .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
+                    .EditProcessDataChange(
+                        context: context,
+                        ss: SiteSettings,
+                        dataChanges: dataChanges))
+                .Val(
+                    "#ProcessDataChanges",
+                    dataChanges.ToJson())
+                .CloseDialog(target: "#ProcessDataChangeDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateProcessDataChange(Context context, ResponseCollection res, string controlId)
+        {
+            var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>();
+            var dataChange = dataChanges?.Get(context.Forms.Int("ProcessDataChangeIdTemp"));
+            dataChange.Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>();
+            dataChange.ColumnName = context.Forms.Data("ProcessDataChangeColumnName");
+            dataChange.Value = ProcessDataChangeValue(context: context);
+            res
+                .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
+                    .EditProcessDataChange(
+                        context: context,
+                        ss: SiteSettings,
+                        dataChanges: dataChanges))
+                .Val(
+                    "#ProcessDataChanges",
+                    dataChanges.ToJson())
+                .CloseDialog(target: "#ProcessDataChangeDialog");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string ProcessDataChangeValue(Context context)
+        {
+            var dataChange = new DataChange()
+            {
+                Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>()
+            };
+            if (dataChange.Visible(type: "Column"))
+            {
+                return context.Forms.Data("ProcessDataChangeValueColumnName");
+            }
+            else if (dataChange.Visible(type: "Value"))
+            {
+                return SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessDataChangeValue"));
+            }
+            else if (dataChange.Visible(type: "DateTime"))
+            {
+                return context.Forms.Int("ProcessDataChangeValueDateTime")
+                    + "," + context.Forms.Data("ProcessDataChangeValueDateTimePeriod");
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteProcessDataChanges(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditProcessDataChange");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
+                dataChanges.Delete(selected);
+                res
+                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                        .EditProcessDataChange(
+                            context: context,
+                            ss: SiteSettings,
+                            dataChanges: dataChanges))
+                    .Val(
+                        "#ProcessDataChanges",
+                        dataChanges.ToJson());
+            }
         }
 
         /// <summary>

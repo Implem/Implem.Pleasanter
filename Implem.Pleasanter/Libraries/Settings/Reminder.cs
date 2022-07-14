@@ -15,7 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net.Mail;
+using System.Runtime.Serialization;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -144,6 +144,15 @@ namespace Implem.Pleasanter.Libraries.Settings
             Disabled = disabled;
         }
 
+        [OnDeserialized]
+        void OnDeserialized(StreamingContext context)
+        {
+            if (ReminderType == 0)
+            {
+                ReminderType = ReminderTypes.Mail;
+            }
+        }
+
         public string GetColumn(SiteSettings ss)
         {
             return Column
@@ -173,20 +182,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     toColumns: toColumns,
                     subjectColumns: subjectColumns,
                     bodyColumns: bodyColumns);
-                var title = ReminderType != ReminderTypes.Mail
+                var reminderType = ReminderType.ToInt() == 0
+                    ? ReminderTypes.Mail
+                    : ReminderType;
+                var title = reminderType != ReminderTypes.Mail
                     ? GetSubject(
                         context: context,
                         ss: ss,
                         dataRows: dataTable.AsEnumerable().ToList(),
                         test: test)
                     : null;
-                var body = ReminderType != ReminderTypes.Mail
+                var body = reminderType != ReminderTypes.Mail
                     ? GetBody(
                         context: context,
                         ss: ss,
                         dataRows: dataTable.AsEnumerable().ToList())
                     : null;
-                switch (ReminderType)
+                switch (reminderType)
                 {
                     case ReminderTypes.Mail:
                         if (Parameters.Reminder.Mail)
@@ -519,7 +531,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var where = view.Where(
                 context: context,
                 ss: ss,
-                checkPermission: false)
+                checkPermission: false,
+                requestSearchCondition: false)
                     .Add(
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]

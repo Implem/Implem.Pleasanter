@@ -1099,7 +1099,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             if (context.Forms.Exists("InheritPermission"))
             {
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
@@ -1135,7 +1135,7 @@ namespace Implem.Pleasanter.Models
                         .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                             context: context,
                             ss: ss));
-                    return ResponseByUpdate(res, context, siteModel, process)
+                    return ResponseByUpdate(res, context, siteModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -1157,7 +1157,7 @@ namespace Implem.Pleasanter.Models
             SitesResponseCollection res,
             Context context,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
             var ss = siteModel.SiteSettings;
             ss.ClearColumnAccessControlCaches(baseModel: siteModel);
@@ -1190,7 +1190,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         siteModel: siteModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else
@@ -1229,8 +1229,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SiteModel siteModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(
@@ -4082,6 +4083,10 @@ namespace Implem.Pleasanter.Models
                     .Id("ViewDialog")
                     .Class("dialog")
                     .Title(Displays.DataView(context: context)))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ProcessDataChangeDialog")
+                    .Class("dialog")
+                    .Title(Displays.DataChanges(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ProcessNotificationDialog")
@@ -7926,6 +7931,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.OnClick(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.ExecutionTypes(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.ActionTypes(context: context)))));
         }
 
@@ -7985,6 +7992,11 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: ss.ColumnNameToLabelText(process.SuccessMessage)))
                                 .Td(action: () => hb
                                     .Text(text: process.OnClick))
+                                .Td(action: () => hb
+                                    .Text(text: Displays.Get(
+                                        context: context,
+                                        id: process.ExecutionType?.ToString()
+                                            ?? Process.ExecutionTypes.AddedButton.ToString())))
                                 .Td(action: () => hb
                                     .Text(text: Displays.Get(
                                         context: context,
@@ -8054,6 +8066,10 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.AccessControls(context: context)))
                                 .Li(action: () => hb
                                     .A(
+                                        href: "#ProcessDataChangesTab",
+                                        text: Displays.DataChanges(context: context)))
+                                .Li(action: () => hb
+                                    .A(
                                         href: "#ProcessNotificationsTab",
                                         text: Displays.Notifications(context: context))))
                         .ProcessGeneralTab(
@@ -8069,6 +8085,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             process: process)
                         .ProcessAccessControlsTab(
+                            context: context,
+                            ss: ss,
+                            process: process)
+                        .ProcessDataChangesTab(
                             context: context,
                             ss: ss,
                             process: process)
@@ -8189,6 +8209,23 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.OnClick(context: context),
                         text: process.OnClick)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessExecutionType",
+                        controlCss: " always-send",
+                        labelText: Displays.ExecutionTypes(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Process.ExecutionTypes.AddedButton.ToInt().ToString(),
+                                Displays.AddedButton(context: context)
+                            },
+                            {
+                                Process.ExecutionTypes.CreateOrUpdate.ToInt().ToString(),
+                                Displays.CreateOrUpdate(context: context)
+                            }
+                        },
+                        selectedValue: process.ExecutionType.ToInt().ToString())
                     .FieldDropDown(
                         context: context,
                         controlId: "ProcessActionType",
@@ -8608,6 +8645,278 @@ namespace Implem.Pleasanter.Models
                             totalCount: sourcePermissions.Count(),
                             pageSize: Parameters.Permissions.PageSize)
                                 .ToString())));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessDataChangesTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            return hb.FieldSet(id: "ProcessDataChangesTab", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpProcessDataChanges",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditProcessDataChange', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownProcessDataChanges",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditProcessDataChange', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewProcessDataChange",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openProcessDataChangeDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "DeleteProcessDataChanges",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditProcessDataChange', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditProcessDataChange(
+                    context: context,
+                    ss: ss,
+                    dataChanges: process.DataChanges)
+                .Hidden(
+                    controlId: "ProcessDataChanges",
+                    css: "always-send",
+                    value: process.DataChanges?.ToJson()));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcessDataChange(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SettingList<DataChange> dataChanges)
+        {
+            var selected = context.Forms.Data("EditProcessDataChange").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditProcessDataChange",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("ProcessDataChangeId")
+                    .DataFunc("openProcessDataChangeDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditProcessDataChangeHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditProcessDataChangeBody(
+                        context: context,
+                        ss: ss,
+                        dataChanges: dataChanges,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditProcessDataChangeHeader(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Summaries?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.ChangeTypes(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Column(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.CopyFrom(context: context)
+                            + "/" + Displays.Value(context: context)))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditProcessDataChangeBody(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            SettingList<DataChange> dataChanges,
+            IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => dataChanges?.ForEach(dataChange =>
+            {
+                hb.Tr(
+                    css: "grid-row",
+                    attributes: new HtmlAttributes()
+                        .DataId(dataChange.Id.ToString()),
+                    action: () => hb
+                        .Td(action: () => hb
+                            .CheckBox(
+                                controlCss: "select",
+                                _checked: selected?
+                                    .Contains(dataChange.Id) == true))
+                        .Td(action: () => hb
+                            .Text(text: dataChange.Id.ToString()))
+                        .Td(action: () => hb
+                            .Text(text: Displays.Get(
+                                context: context,
+                                id: dataChange.Type.ToString())))
+                        .Td(action: () => hb
+                            .Text(text: ss.GetColumn(
+                                context: context,
+                                columnName: dataChange.ColumnName)?.LabelText))
+                        .Td(action: () => hb
+                            .Text(text: dataChange.DisplayValue(
+                                context: context,
+                                ss: ss))));
+            }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder ProcessDataChangeDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            DataChange dataChange)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("ProcessDataChangeForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "ProcessDataChangeIdTemp",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: dataChange.Id.ToString(),
+                        _using: controlId == "EditProcessDataChange")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessDataChangeType",
+                        controlCss: " always-send",
+                        labelText: Displays.ChangeTypes(context: context),
+                        optionCollection: DataChangeUtilities.Types(context: context),
+                        selectedValue: dataChange.Type.ToString())
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessDataChangeColumnName",
+                        controlCss: " always-send",
+                        labelText: Displays.Column(context: context),
+                        optionCollection: DataChangeUtilities.ColumnSelectableOptions(
+                            context: context,
+                            ss: ss),
+                        selectedValue: dataChange.ColumnName)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "ProcessDataChangeValueColumnNameField",
+                        controlId: "ProcessDataChangeValueColumnName",
+                        fieldCss: "field-normal" + (!dataChange.Visible(type: "Column")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.CopyFrom(context: context),
+                        optionCollection: DataChangeUtilities.ColumnSelectableOptions(
+                            context: context,
+                            ss: ss),
+                        selectedValue: dataChange.Visible(type: "Column")
+                            ? dataChange.Value
+                            : string.Empty)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "ProcessDataChangeValueField",
+                        controlId: "ProcessDataChangeValue",
+                        fieldCss: "field-wide" + (!dataChange.Visible(type: "Value")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Value(context: context),
+                        text: dataChange.Visible(type: "Value")
+                            ? ss.ColumnNameToLabelText(dataChange.Value)
+                            : string.Empty)
+                    .FieldTextBox(
+                        fieldId: "ProcessDataChangeValueDateTimeField",
+                        controlId: "ProcessDataChangeValueDateTime",
+                        fieldCss: "field-normal" + (!dataChange.Visible(type: "DateTime")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Value(context: context),
+                        text: dataChange.Visible(type: "DateTime")
+                            ? dataChange.DateTimeNumber().ToString()
+                            : "0",
+                        validateNumber: true)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "ProcessDataChangeValueColumnNamePeriodField",
+                        controlId: "ProcessDataChangeValueDateTimePeriod",
+                        fieldCss: "field-normal" + (!dataChange.Visible(type: "DateTime")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.Period(context: context),
+                        optionCollection: DataChangeUtilities.PeriodOptions(context: context),
+                        selectedValue: dataChange.Visible(type: "DateTime")
+                            ? dataChange.DateTimePeriod()
+                            : string.Empty)
+                    .Hidden(
+                        controlId: "ProcessDataChangesTemp",
+                        css: "always-send",
+                        value: context.Forms.Data("ProcessDataChanges"))
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddProcessDataChange",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.send($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewProcessDataChange")
+                        .Button(
+                            controlId: "UpdateProcessDataChange",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditProcessDataChange")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
         }
 
         /// <summary>
@@ -11265,7 +11574,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.From(context: context),
                         text: reminder.From,
-                        validateRequired: true)
+                        validateRequired: ReminderUtilities.RequireFrom(reminder))
                     .FieldTextBox(
                         controlId: "ReminderTo",
                         fieldCss: "field-wide",

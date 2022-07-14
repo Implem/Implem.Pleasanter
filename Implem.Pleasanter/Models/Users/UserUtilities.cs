@@ -2466,7 +2466,7 @@ namespace Implem.Pleasanter.Models
                     return policy.ResponseMessage(context: context).ToJson();
                 }
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = userModel.Create(context: context, ss: ss);
             switch (errorData.Type)
             {
@@ -2477,7 +2477,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             userModel: userModel,
-                            process: process));
+                            process: processes.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
@@ -2546,13 +2546,13 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            Process process = null;
+            List<Process> processes = null;
             var errorData = userModel.Update(context: context, ss: ss);
             switch (errorData.Type)
             {
                 case Error.Types.None:
                     var res = new UsersResponseCollection(userModel);
-                    return ResponseByUpdate(res, context, ss, userModel, process)
+                    return ResponseByUpdate(res, context, ss, userModel, processes)
                         .PrependComment(
                             context: context,
                             ss: ss,
@@ -2575,7 +2575,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             UserModel userModel,
-            Process process)
+            List<Process> processes)
         {
             ss.ClearColumnAccessControlCaches(baseModel: userModel);
             if (context.Forms.Bool("IsDialogEditorForm"))
@@ -2607,7 +2607,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         userModel: userModel,
-                        process: process))
+                        processes: processes))
                     .Messages(context.Messages);
             }
             else
@@ -2647,8 +2647,9 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             UserModel userModel,
-            Process process)
+            List<Process> processes)
         {
+            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
             if (process == null)
             {
                 return Messages.Updated(
@@ -4094,8 +4095,10 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder ApiEditor(
             this HtmlBuilder hb, Context context, UserModel userModel)
         {
-            return hb
-                .Div(id: "EditorTabsContainer", css: "max", action: () => hb
+            return hb.Div(
+                id: "EditorTabsContainer",
+                css: "tab-container max",
+                action: () => hb
                     .Ul(id: "EditorTabs", action: () => hb
                         .Li(action: () => hb
                             .A(

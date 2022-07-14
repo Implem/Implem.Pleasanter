@@ -374,6 +374,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject model,
             ExpandoObject columns,
             ServerScriptModelHidden hidden,
+            ServerScriptModelResponses responses,
             ServerScriptElements elements,
             BaseItemModel itemModel)
         {
@@ -387,6 +388,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columns: columns,
                     model: itemModel),
                 Hidden = hidden.GetAll(),
+                Responses = responses,
                 Elements = elements
             };
             return row;
@@ -409,8 +411,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static void SetColumnFilterHashValues(
             Context context,
             View view,
-            ExpandoObject columnFilterHash)
+            ExpandoObject columnFilterHash,
+            bool noMerge)
         {
+            // サーバスクリプトでview.ClearFilters()が呼ばれた後はnoMerge=tureで渡されてくる。
+            // フィルタは既にクリアされているので、ここでフィルタをマージしないようにする。
+            if (noMerge)
+            {
+                view.Incomplete = false;
+                view.Own = false;
+                view.NearCompletionTime = false;
+                view.Delay = false;
+                view.Overdue = false;
+                view.Search = string.Empty;
+                view.ColumnFilterHash?.Clear();
+            } 
             columnFilterHash?.ForEach(columnFilter =>
             {
                 if (view.ColumnFilterHash == null)
@@ -674,6 +689,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 columns: data.Columns,
                 hidden: data.Hidden,
                 elements: data.Elements,
+                responses: data.Responses,
                 itemModel: model);
             SetExtendedColumnValues(
                 context: context,
@@ -689,7 +705,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 SetColumnFilterHashValues(
                     context: context,
                     view: view,
-                    columnFilterHash: data.View.Filters);
+                    columnFilterHash: data.View.Filters,
+                    noMerge: data.View.FiltersCleared);
                 SetColumnSearchTypeHashValues(
                     context: context,
                     view: view,
@@ -789,6 +806,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("view", model.View);
                         engine.AddHostObject("items", model.Items);
                         engine.AddHostObject("hidden", model.Hidden);
+                        engine.AddHostObject("responses", model.Responses);
                         engine.AddHostObject("elements", model.Elements);
                         engine.AddHostObject("extendedSql", model.ExtendedSql);
                         engine.AddHostObject("notifications", model.Notification);

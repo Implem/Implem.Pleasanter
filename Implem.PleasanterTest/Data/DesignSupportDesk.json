@@ -1,0 +1,21 @@
+﻿{
+    "Id": "DesignSupportDesk",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site2",
+    "Title": "サポート体制の確立",
+    "WorkValue": "22",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "リリース・展開",
+    "ClassB": "打ち合わせ",
+    "ClassC": "業務",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36651.439583333333"
+}
