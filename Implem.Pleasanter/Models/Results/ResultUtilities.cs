@@ -2629,7 +2629,7 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var invalid = ResultValidators.OnEntry(
+            var invalid = ResultValidators.OnGet(
                 context: context,
                 ss: ss,
                 api: !internalRequest);
@@ -3061,7 +3061,7 @@ namespace Implem.Pleasanter.Models
                     GridColumns = defaultView.GridColumns?.ToList(),
                     ColumnFilterHash = new Dictionary<string, string>()
                     {
-                        ["ResultId"] = resultId.ToString()
+                        { "ResultId", resultId.ToString() }
                     }
                 };
             }

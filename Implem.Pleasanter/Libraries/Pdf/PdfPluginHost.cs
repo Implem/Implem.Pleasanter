@@ -30,7 +30,6 @@ namespace Implem.Pleasanter.Libraries.Pdf
         public List<Dictionary<string, object>> GetGridData(string viewJson)
         {
             var view = viewJson.Deserialize<View>() ?? DefaultView;
-            view.ApiDataType = View.ApiDataTypes.KeyValues;
             var gridData = new GridData(
                 context: Context,
                 ss: SiteSettings,

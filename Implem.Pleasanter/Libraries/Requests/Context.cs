@@ -691,11 +691,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             return (n > 0) ? address.Substring(0, n) : address;
         }
 
-        public string RequestData(string name)
+        public string RequestData(string name, bool either = false)
         {
-            return HttpMethod == "GET"
-                ? QueryStrings.Data(name)
-                : Forms.Data(name);
+            return either
+                ? Strings.CoalesceEmpty(
+                    QueryStrings.Data(name),
+                    Forms.Data(name))
+                : HttpMethod == "GET"
+                    ? QueryStrings.Data(name)
+                    : Forms.Data(name);
         }
 
         public bool TrashboxActions()
