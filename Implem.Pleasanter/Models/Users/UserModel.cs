@@ -3733,6 +3733,9 @@ namespace Implem.Pleasanter.Models
             return authenticated;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public void UpdateLockout(Context context, string loginId, bool authenticated)
         {
             if (Parameters.Security.LockoutCount > 0)
