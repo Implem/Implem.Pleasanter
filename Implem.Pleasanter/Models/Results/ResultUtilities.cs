@@ -7333,9 +7333,11 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default:
-                    return (null, new ResponseCollection()
-                        .Message(invalid.Message(context: context))
-                        .Messages(context.Messages).ToString());
+                    return (
+                        null,
+                        HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: invalid.Type)));
             }
             var extension = Parameters.ExtendedPlugins
                 .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
