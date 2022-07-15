@@ -1,0 +1,3 @@
+﻿SetSiteSettings(
+    context: context,
+    setSiteSettingsPropertiesBySession: false);
