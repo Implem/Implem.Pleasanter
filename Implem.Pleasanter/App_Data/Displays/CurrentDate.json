@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CurrentDate",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current date"
+        },
+        {
+            "Language": "zh",
+            "Body": "当前的日期"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在の日付"
+        },
+        {
+            "Language": "de",
+            "Body": "aktuelles Datum"
+        },
+        {
+            "Language": "ko",
+            "Body": "현재 날짜"
+        },
+        {
+            "Language": "es",
+            "Body": "fecha actual"
+        },
+        {
+            "Language": "vn",
+            "Body": "ngay hiện tại"
+        }
+    ]
+}

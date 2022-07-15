@@ -8863,6 +8863,23 @@ namespace Implem.Pleasanter.Models
                         text: dataChange.Visible(type: "Value")
                             ? ss.ColumnNameToLabelText(dataChange.Value)
                             : string.Empty)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "ProcessDataChangeBaseDateTimeField",
+                        controlId: "ProcessDataChangeBaseDateTime",
+                        fieldCss: "field-normal" + (!dataChange.Visible(type: "DateTime")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.BaseDateTime(context: context),
+                        optionCollection: DataChangeUtilities.BaseDateTimeOptions(
+                            context: context,
+                            ss: ss),
+                        selectedValue: dataChange.Visible(type: "DateTime")
+                            ? dataChange.BaseDateTime ?? (dataChange.Type == DataChange.Types.InputDate
+                                ? "CurrentDate"
+                                : "CurrentTime")
+                            : string.Empty)
                     .FieldTextBox(
                         fieldId: "ProcessDataChangeValueDateTimeField",
                         controlId: "ProcessDataChangeValueDateTime",

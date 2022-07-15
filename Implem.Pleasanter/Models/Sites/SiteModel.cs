@@ -4463,13 +4463,12 @@ namespace Implem.Pleasanter.Models
         {
             var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>()
                 ?? new SettingList<DataChange>();
-            dataChanges.Add(new DataChange()
-            {
-                Id = dataChanges.MaxOrDefault(o => o.Id) + 1,
-                Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
-                ColumnName = context.Forms.Data("ProcessDataChangeColumnName"),
-                Value = ProcessDataChangeValue(context: context)
-            });
+            dataChanges.Add(new DataChange(
+                id: dataChanges.MaxOrDefault(o => o.Id) + 1,
+                type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
+                columnName: context.Forms.Data("ProcessDataChangeColumnName"),
+                baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
+                value: ProcessDataChangeValue(context: context)));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -4489,9 +4488,11 @@ namespace Implem.Pleasanter.Models
         {
             var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>();
             var dataChange = dataChanges?.Get(context.Forms.Int("ProcessDataChangeIdTemp"));
-            dataChange.Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>();
-            dataChange.ColumnName = context.Forms.Data("ProcessDataChangeColumnName");
-            dataChange.Value = ProcessDataChangeValue(context: context);
+            dataChange.Update(
+                type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
+                columnName: context.Forms.Data("ProcessDataChangeColumnName"),
+                baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
+                value: ProcessDataChangeValue(context: context));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(

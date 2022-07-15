@@ -2907,7 +2907,19 @@ namespace Implem.Pleasanter.Models
                         break;
                     case DataChange.Types.InputDate:
                     case DataChange.Types.InputDateTime:
-                        formData[key] = dataChange.DateTimeValue(context: context).ToString();
+                        var baseDateTimeColumn = ss.GetColumn(
+                            context: context,
+                            columnName: dataChange.BaseDateTime);
+                        var baseDateTime = baseDateTimeColumn != null
+                            ? ToValue(
+                                context: context,
+                                ss: ss,
+                                column: baseDateTimeColumn,
+                                mine: Mine(context: context)).ToDateTime()
+                            : DateTime.MinValue;
+                        formData[key] = dataChange.DateTimeValue(
+                            context: context,
+                            baseDateTime: baseDateTime);
                         break;
                     case DataChange.Types.InputUser:
                         formData[key] = context.UserId.ToString();
