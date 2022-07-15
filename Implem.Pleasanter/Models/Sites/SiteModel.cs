@@ -1604,7 +1604,9 @@ namespace Implem.Pleasanter.Models
                 }
                 GetAttachments(columnName: columnName, value: newAttachments);
             });
-            SetSiteSettings(context: context);
+            SetSiteSettings(
+                context: context,
+                setSiteSettingsPropertiesBySession: false);
         }
 
         private bool Matched(Context context, SiteSettings ss, View view)
@@ -2004,15 +2006,15 @@ namespace Implem.Pleasanter.Models
             data.Body = SiteSettings.Body;
             data.SiteName = SiteName;
             data.SiteGroupName = SiteGroupName;
-            data.GridGuide = SiteSettings.GridGuide;
-            data.EditorGuide = SiteSettings.EditorGuide;
-            data.CalendarGuide = SiteSettings.CalendarGuide;
-            data.CrosstabGuide = SiteSettings.CrosstabGuide;
-            data.GanttGuide = SiteSettings.GanttGuide;
-            data.BurnDownGuide = SiteSettings.BurnDownGuide;
-            data.TimeSeriesGuide = SiteSettings.TimeSeriesGuide;
-            data.KambanGuide = SiteSettings.KambanGuide;
-            data.ImageLibGuide = SiteSettings.ImageLibGuide;
+            data.GridGuide = GridGuide;
+            data.EditorGuide = EditorGuide;
+            data.CalendarGuide = CalendarGuide;
+            data.CrosstabGuide = CrosstabGuide;
+            data.GanttGuide = GanttGuide;
+            data.BurnDownGuide = BurnDownGuide;
+            data.TimeSeriesGuide = TimeSeriesGuide;
+            data.KambanGuide = KambanGuide;
+            data.ImageLibGuide = ImageLibGuide;
             data.ReferenceType = SiteSettings.ReferenceType;
             data.ParentId = SiteSettings.ParentId;
             data.InheritPermission = SiteSettings.InheritPermission;
@@ -2146,7 +2148,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SetSiteSettings(Context context)
+        public string SetSiteSettings(
+            Context context,
+            bool setSiteSettingsPropertiesBySession = true)
         {
             var invalidFormat = string.Empty;
             var invalid = SiteValidators.OnSetSiteSettings(
@@ -2164,7 +2168,10 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var res = new SitesResponseCollection(this);
-            SetSiteSettingsPropertiesBySession(context: context);
+            if (setSiteSettingsPropertiesBySession)
+            {
+                SetSiteSettingsPropertiesBySession(context: context);
+            }
             SetSiteSettings(context: context, res: res);
             Session_SiteSettings(
                 context: context,
