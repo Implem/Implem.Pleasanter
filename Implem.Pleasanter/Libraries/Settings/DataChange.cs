@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Id { get; set; }
         public Types Type { get; set; }
         public string ColumnName { get; set; }
+        public string BaseDateTime { get; set; }
         public string Value { get; set; }
 
         public DataChange()
@@ -38,21 +39,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             int id,
             Types type,
             string columnName,
+            string baseDateTime,
             string value)
         {
             Id = id;
             Type = type;
             ColumnName = columnName;
+            BaseDateTime = baseDateTime;
             Value = value;
         }
 
         public void Update(
             Types type,
             string columnName,
+            string baseDateTime,
             string value)
         {
             Type = type;
             ColumnName = columnName;
+            BaseDateTime = baseDateTime;
             Value = value;
         }
 
@@ -63,7 +68,37 @@ namespace Implem.Pleasanter.Libraries.Settings
             var dataChange = new DataChange();
             dataChange.Id = Id;
             dataChange.Type = Type;
-            dataChange.ColumnName = ColumnName;
+            if (!ColumnName.IsNullOrEmpty()) dataChange.ColumnName = ColumnName;
+            switch (Type)
+            {
+                case Types.CopyValue:
+                    break;
+                case Types.CopyDisplayValue:
+                    break;
+                case Types.InputValue:
+                    break;
+                case Types.InputDate:
+                    if (BaseDateTime != "CurrentDate")
+                    {
+                        dataChange.BaseDateTime = BaseDateTime;
+                    }
+                    break;
+                case Types.InputDateTime:
+                    if (BaseDateTime != "CurrentDateTime")
+                    {
+                        dataChange.BaseDateTime = BaseDateTime;
+                    }
+                    break;
+                case Types.InputUser:
+                    break;
+                case Types.InputDept:
+                    break;
+                default:
+                    break;
+            }
+
+
+
             dataChange.Value = Value;
             return dataChange;
         }
@@ -139,16 +174,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ret;
         }
 
-        public DateTime DateTimeValue(Context context)
+        public string DateTimeValue(Context context, DateTime baseDateTime)
         {
-            var ret = DateTime.Now;
-            switch (Type)
+            var ret = baseDateTime;
+            switch (BaseDateTime ?? (Type == Types.InputDate
+                ? "CurrentDate"
+                : "CurrentTime"))
             {
-                case Types.InputDate:
-                    ret = ret.ToLocal(context: context).Date;
+                case "CurrentDate":
+                    ret = DateTime.Now.ToLocal(context: context).Date;
                     break;
-                case Types.InputDateTime:
-                    ret = ret.ToLocal(context: context);
+                case "CurrentTime":
+                    ret = Type == Types.InputDate
+                        ? DateTime.Now.ToLocal(context: context).Date
+                        : DateTime.Now.ToLocal(context: context);
+                    break;
+                default:
+                    if (!ret.InRange())
+                    {
+                        return string.Empty;
+                    }
                     break;
             }
             var number = DateTimeNumber();
@@ -177,7 +222,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
             }
-            return ret;
+            switch (Type)
+            {
+                case Types.InputDate:
+                    return ret.ToString("d", context.CultureInfo());
+                default:
+                    return ret.ToString("G", context.CultureInfo());
+            }
         }
     }
 }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CurrentTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Current time"
+        },
+        {
+            "Language": "zh",
+            "Body": "当前时间"
+        },
+        {
+            "Language": "ja",
+            "Body": "現在の時刻"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktuelle Uhrzeit"
+        },
+        {
+            "Language": "ko",
+            "Body": "현재 시간"
+        },
+        {
+            "Language": "es",
+            "Body": "Tiempo actual"
+        },
+        {
+            "Language": "vn",
+            "Body": "Thời điểm hiện tại"
+        }
+    ]
+}

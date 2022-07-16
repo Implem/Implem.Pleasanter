@@ -1189,6 +1189,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BaseDateTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BaseDateTime",
+                data: data);
+        }
+
         public static string Basic(
             Context context,
             params string[] data)
@@ -2339,6 +2349,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CurrentDate(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CurrentDate",
+                data: data);
+        }
+
         public static string CurrentMembers(
             Context context,
             params string[] data)
@@ -2376,6 +2396,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CurrentStatus",
+                data: data);
+        }
+
+        public static string CurrentTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CurrentTime",
                 data: data);
         }
 

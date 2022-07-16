@@ -24,3 +24,11 @@
 .control-selectable .ui-selected {
     background: #4ca20b;
 }
+
+div.field-control .ui-multiselect {
+    color: black;
+}
+
+div.field-control .ui-icon.ui-icon-triangle-1-s {
+    background-image: url("images/ui-icons_72b42d_256x240.png");
+}

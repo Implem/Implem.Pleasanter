@@ -24,8 +24,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             View view,
-            Versions.VerTypes verType,
-            BaseModel.MethodTypes methodType,
             long siteId = 0,
             long parentId = 0,
             string referenceType = null,
@@ -54,8 +52,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         view: view,
-                        verType: verType,
-                        methodType: methodType,
                         siteId: siteId,
                         parentId: parentId,
                         referenceType: referenceType,
@@ -166,8 +162,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             View view,
-            Versions.VerTypes verType,
-            BaseModel.MethodTypes methodType,
             long siteId,
             long parentId,
             string referenceType,
@@ -620,7 +614,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static string Error(
-            Context context, ErrorData errorData, string[] messageData = null)
+            Context context,
+            ErrorData errorData,
+            string[] messageData = null)
         {
             var hb = new HtmlBuilder();
             var ss = new SiteSettings();
@@ -633,8 +629,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         view: null,
-                        verType: Versions.VerTypes.Latest,
-                        methodType: BaseModel.MethodTypes.NotSet,
                         messageData: messageData,
                         siteId: 0,
                         parentId: 0,

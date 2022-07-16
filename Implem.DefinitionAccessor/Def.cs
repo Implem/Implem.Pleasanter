@@ -554,6 +554,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_ColumnCasesGroupMembers": Code.Model_SetByApi_ColumnCasesGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesGroupMembers, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesSite": Code.Model_SetByApi_ColumnCasesSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesSite, definitionRow, CodeXls); break;
                     case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_Site": Code.Model_SetByApi_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Site, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
                     case "Model_SetByDataChanges": Code.Model_SetByDataChanges = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByDataChanges, definitionRow, CodeXls); break;
@@ -2507,6 +2508,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToString();
                             newColumnDefinition.SavedControlType = newColumnDefinition.ControlType;
                             break;
+                        case "CopyByDefault":
+                            newColumnDefinition.CopyByDefault = customDefinitionRow.Get("CopyByDefault")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedCopyByDefault = newColumnDefinition.CopyByDefault;
+                            break;
                         case "EditorReadOnly":
                             newColumnDefinition.EditorReadOnly = customDefinitionRow.Get("EditorReadOnly")?.ToBool() ??
                                 data.ToBool();
@@ -2813,6 +2819,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("EnumColumn")) { definition.EnumColumn = definitionRow["EnumColumn"].ToBool(); definition.SavedEnumColumn = definition.EnumColumn; }
             if (definitionRow.ContainsKey("NotEditorSettings")) { definition.NotEditorSettings = definitionRow["NotEditorSettings"].ToBool(); definition.SavedNotEditorSettings = definition.NotEditorSettings; }
             if (definitionRow.ContainsKey("ControlType")) { definition.ControlType = definitionRow["ControlType"].ToString(); definition.SavedControlType = definition.ControlType; }
+            if (definitionRow.ContainsKey("CopyByDefault")) { definition.CopyByDefault = definitionRow["CopyByDefault"].ToBool(); definition.SavedCopyByDefault = definition.CopyByDefault; }
             if (definitionRow.ContainsKey("EditorReadOnly")) { definition.EditorReadOnly = definitionRow["EditorReadOnly"].ToBool(); definition.SavedEditorReadOnly = definition.EditorReadOnly; }
             if (definitionRow.ContainsKey("GridFormat")) { definition.GridFormat = definitionRow["GridFormat"].ToString(); definition.SavedGridFormat = definition.GridFormat; }
             if (definitionRow.ContainsKey("EditorFormat")) { definition.EditorFormat = definitionRow["EditorFormat"].ToString(); definition.SavedEditorFormat = definition.EditorFormat; }
@@ -5586,6 +5593,7 @@ namespace Implem.DefinitionAccessor
                         case "EnumColumn": columnDefinition.EnumColumn = optionValue.ToBool(); break;
                         case "NotEditorSettings": columnDefinition.NotEditorSettings = optionValue.ToBool(); break;
                         case "ControlType": columnDefinition.ControlType = optionValue.ToString(); break;
+                        case "CopyByDefault": columnDefinition.CopyByDefault = optionValue.ToBool(); break;
                         case "EditorReadOnly": columnDefinition.EditorReadOnly = optionValue.ToBool(); break;
                         case "GridFormat": columnDefinition.GridFormat = optionValue.ToString(); break;
                         case "EditorFormat": columnDefinition.EditorFormat = optionValue.ToString(); break;
@@ -6685,6 +6693,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_ColumnCasesGroupMembers;
         public string Model_SetByApi_ColumnCasesSite;
         public string Model_SetByApi_RecordPermissions;
+        public string Model_SetByApi_Site;
         public string Model_SetByApiExec;
         public string Model_SetByApiParameter;
         public string Model_SetByDataChanges;
@@ -7426,6 +7435,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_ColumnCasesGroupMembers = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesSite = new CodeDefinition();
         public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_Site = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
         public CodeDefinition Model_SetByDataChanges = new CodeDefinition();
@@ -7951,6 +7961,7 @@ namespace Implem.DefinitionAccessor
         public bool EnumColumn; public bool SavedEnumColumn;
         public bool NotEditorSettings; public bool SavedNotEditorSettings;
         public string ControlType; public string SavedControlType;
+        public bool CopyByDefault; public bool SavedCopyByDefault;
         public bool EditorReadOnly; public bool SavedEditorReadOnly;
         public string GridFormat; public string SavedGridFormat;
         public string EditorFormat; public string SavedEditorFormat;
@@ -8087,6 +8098,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("EnumColumn")) EnumColumn = propertyCollection["EnumColumn"].ToBool(); else EnumColumn = false;
             if (propertyCollection.ContainsKey("NotEditorSettings")) NotEditorSettings = propertyCollection["NotEditorSettings"].ToBool(); else NotEditorSettings = false;
             if (propertyCollection.ContainsKey("ControlType")) ControlType = propertyCollection["ControlType"].ToString(); else ControlType = string.Empty;
+            if (propertyCollection.ContainsKey("CopyByDefault")) CopyByDefault = propertyCollection["CopyByDefault"].ToBool(); else CopyByDefault = false;
             if (propertyCollection.ContainsKey("EditorReadOnly")) EditorReadOnly = propertyCollection["EditorReadOnly"].ToBool(); else EditorReadOnly = false;
             if (propertyCollection.ContainsKey("GridFormat")) GridFormat = propertyCollection["GridFormat"].ToString(); else GridFormat = string.Empty;
             if (propertyCollection.ContainsKey("EditorFormat")) EditorFormat = propertyCollection["EditorFormat"].ToString(); else EditorFormat = string.Empty;
@@ -8223,6 +8235,7 @@ namespace Implem.DefinitionAccessor
                     case "EnumColumn": return EnumColumn;
                     case "NotEditorSettings": return NotEditorSettings;
                     case "ControlType": return ControlType;
+                    case "CopyByDefault": return CopyByDefault;
                     case "EditorReadOnly": return EditorReadOnly;
                     case "GridFormat": return GridFormat;
                     case "EditorFormat": return EditorFormat;
@@ -8359,6 +8372,7 @@ namespace Implem.DefinitionAccessor
             EnumColumn = SavedEnumColumn;
             NotEditorSettings = SavedNotEditorSettings;
             ControlType = SavedControlType;
+            CopyByDefault = SavedCopyByDefault;
             EditorReadOnly = SavedEditorReadOnly;
             GridFormat = SavedGridFormat;
             EditorFormat = SavedEditorFormat;

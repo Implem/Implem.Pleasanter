@@ -3569,16 +3569,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public bool Authenticate(Context context)
         {
-            bool ret;
+            bool authenticated;
             switch (Parameters.Authentication.Provider)
             {
                 case "LDAP":
                 case "Windows":
-                    ret = Ldap.Authenticate(
+                    authenticated = Ldap.Authenticate(
                         context: context,
                         loginId: LoginId,
                         password: context.Forms.Data("Users_Password"));
-                    if (ret)
+                    if (authenticated)
                     {
                         Get(
                             context: context,
@@ -3587,11 +3587,11 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
                 case "LDAP+Local":
-                    ret = Ldap.Authenticate(
+                    authenticated = Ldap.Authenticate(
                         context: context,
                         loginId: LoginId,
                         password: context.Forms.Data("Users_Password"));
-                    if (ret)
+                    if (authenticated)
                     {
                         Get(
                             context: context,
@@ -3600,7 +3600,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        ret = GetByCredentials(
+                        authenticated = GetByCredentials(
                             context: context,
                             loginId: LoginId,
                             password: Password,
@@ -3608,7 +3608,7 @@ namespace Implem.Pleasanter.Models
                     }
                     break;
                 case "Extension":
-                    ret = Extension.Authenticate(
+                    authenticated = Extension.Authenticate(
                         context: context,
                         loginId: LoginId,
                         password: Password,
@@ -3616,29 +3616,33 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "SAML":
                 case "SAML-MultiTenant":
-                    ret = GetByCredentials(
+                    authenticated = GetByCredentials(
                         context: context,
                         loginId: LoginId,
                         password: Password,
                         tenantId: context.Forms.Int("SelectedTenantId"));
-                    if (ret)
+                    if (authenticated)
                     {
                         context = new Context(tenantId: TenantId);
                         if (context.ContractSettings?.AllowOriginalLogin == 0 && TenantManager == false)
                         {
-                            ret = false;
+                            authenticated = false;
                         }
                     }
                     break;
                 default:
-                    ret = GetByCredentials(
+                    authenticated = GetByCredentials(
                         context: context,
                         loginId: LoginId,
                         password: Password,
                         tenantId: context.Forms.Int("SelectedTenantId"));
                     break;
             }
-            return ret;
+            UpdateLockout(
+                context: context,
+                loginId: LoginId,
+                authenticated: authenticated);
+            return authenticated;
         }
 
         /// <summary>
@@ -3683,25 +3687,50 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public bool GetByCredentials(
-            Context context, string loginId, string password, int tenantId = 0)
+            Context context,
+            string loginId,
+            string password,
+            int tenantId = 0,
+            bool updateLockout = false)
         {
             Get(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
                 where: Rds.UsersWhere()
-                    .LoginId(loginId)
+                    .TenantId(tenantId, _using: tenantId > 0)
+                    .LoginId(
+                        value: context.Sqls.EscapeValue(loginId),
+                        _operator: context.Sqls.LikeWithEscape)
                     .Password(password)
                     .Disabled(false));
+            var authenticated = AccessStatus == Databases.AccessStatuses.Selected;
+            if (updateLockout)
+            {
+                UpdateLockout(
+                    context: context,
+                    loginId: loginId,
+                    authenticated: authenticated);
+            }
+            return authenticated;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void UpdateLockout(Context context, string loginId, bool authenticated)
+        {
             if (Parameters.Security.LockoutCount > 0)
             {
-                if (AccessStatus == Databases.AccessStatuses.Selected)
+                if (authenticated)
                 {
                     if (!Lockout)
                     {
                         Repository.ExecuteNonQuery(
                             context: context,
                             statements: Rds.UpdateUsers(
-                                where: Rds.UsersWhere().LoginId(LoginId),
+                                where: Rds.UsersWhere().LoginId(
+                                    value: context.Sqls.EscapeValue(loginId),
+                                    _operator: context.Sqls.LikeWithEscape),
                                 param: Rds.UsersParam().LockoutCounter(0),
                                 addUpdatorParam: false,
                                 addUpdatedTimeParam: false));
@@ -3712,16 +3741,20 @@ namespace Implem.Pleasanter.Models
                     Repository.ExecuteNonQuery(
                         context: context,
                         statements: Rds.UpdateUsers(
-                            where: Rds.UsersWhere().LoginId(LoginId),
+                            where: Rds.UsersWhere().LoginId(
+                                value: context.Sqls.EscapeValue(loginId),
+                                _operator: context.Sqls.LikeWithEscape),
                             param: Rds.UsersParam()
-                                .Lockout(raw: "case when [Users].[LockoutCounter]+1>={0} then 1 else 0 end"
-                                    .Params(Parameters.Security.LockoutCount))
-                                .LockoutCounter(raw: "[Users].[LockoutCounter]+1"),
+                                .LockoutCounter(raw: "\"Users\".\"LockoutCounter\"+1")
+                                .Lockout(raw: "case when \"Users\".\"LockoutCounter\"+1>={0} then {1} else {2} end"
+                                    .Params(
+                                        Parameters.Security.LockoutCount,
+                                        context.Sqls.TrueString,
+                                        context.Sqls.FalseString)),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
                 }
             }
-            return AccessStatus == Databases.AccessStatuses.Selected;
         }
 
         /// <summary>

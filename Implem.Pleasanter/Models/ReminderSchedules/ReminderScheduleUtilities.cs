@@ -41,6 +41,7 @@ namespace Implem.Pleasanter.Models
                         column: Rds.ReminderSchedulesColumn()
                             .SiteId()
                             .Id()
+                            .ScheduledTime()
                             .Sites_Updator()
                             .Sites_TenantId()
                             .Users_DeptId()
@@ -77,7 +78,9 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        Remind(context: context, dataRow: dataRow);
+                        Remind(
+                            context: context,
+                            dataRow: dataRow);
                         System.Threading.Thread.Sleep(Parameters.Reminder.Interval);
                     }
                 });
@@ -100,10 +103,11 @@ namespace Implem.Pleasanter.Models
             SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dataRow.Long("SiteId"),
-                setSiteIntegration: true)?
-                    .Remind(
+                setSiteIntegration: true)
+                    ?.Remind(
                         context: context,
-                        idList: dataRow.Int("Id").ToSingleList());
+                        idList: dataRow.Int("Id").ToSingleList(),
+                        scheduledTime: dataRow.DateTime("ScheduledTime"));
         }
     }
 }

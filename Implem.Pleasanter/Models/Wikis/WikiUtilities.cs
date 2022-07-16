@@ -565,8 +565,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: null,
-                    verType: wikiModel.VerType,
-                    methodType: wikiModel.MethodType,
                     siteId: wikiModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Wikis",

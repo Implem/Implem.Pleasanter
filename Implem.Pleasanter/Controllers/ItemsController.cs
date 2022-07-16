@@ -812,8 +812,9 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new SiteModel(context: context, siteId: id)
-                .SetSiteSettings(context: context);
+            var json = SiteUtilities.SetSiteSettings(
+                context: context,
+                siteId: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public ErrorData ErrorData;
         public RedirectData RedirectData;
         public readonly ServerScriptModelContextServerScript ServerScript;
+        public readonly QueryStrings QueryStrings;
         public readonly Forms Forms;
         public readonly string FormStringRaw;
         public readonly string FormString;
@@ -98,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ServerScript = new ServerScriptModelContextServerScript(
                 onTesting: onTesting,
                 scriptDepth: scriptDepth);
+            QueryStrings = context.QueryStrings;
             Forms = context.Forms;
             FormStringRaw = formStringRaw;
             FormString = formString;

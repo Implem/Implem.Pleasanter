@@ -8,6 +8,8 @@
 }
 
 $p.openSiteSettingsDialog = function ($control, selector, width) {
+    var data = $p.getData($control);
+    data.Ver = $p.ver();
     var error = $p.syncSend($control);
     if (error === 0) {
         $(selector).dialog({

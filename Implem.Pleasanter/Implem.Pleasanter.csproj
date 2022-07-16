@@ -1039,6 +1039,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByApi_ColumnCasesSite_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByApi_ColumnCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByApi_RecordPermissions_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetByApi_Site_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByFormExec_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByFormula_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_SetByFormula_ColumnCases_Body.txt" />
@@ -6276,6 +6277,10 @@
     <Content Include="App_Data\Displays\AddedButton.json" />
     <Content Include="App_Data\Displays\CreateOrUpdate.json" />
     <Content Include="App_Data\Displays\ExecutionTypes.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_SetByApi_Site.json" />
+    <Content Include="App_Data\Displays\BaseDateTime.json" />
+    <Content Include="App_Data\Displays\CurrentDate.json" />
+    <Content Include="App_Data\Displays\CurrentTime.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

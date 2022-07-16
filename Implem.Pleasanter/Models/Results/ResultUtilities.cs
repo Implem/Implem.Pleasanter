@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Results",
@@ -1318,8 +1316,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: null,
-                    verType: resultModel.VerType,
-                    methodType: resultModel.MethodType,
                     siteId: resultModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Results",
@@ -2154,7 +2150,7 @@ namespace Implem.Pleasanter.Models
                     resultModel.SetBySettings(
                         context: context,
                         ss: ss,
-                        requestFormData: context.Forms);
+                        formData: context.Forms);
                     resultModel.ResultId = 0;
                     resultModel.Ver = 1;
                     resultModel.Comments = new Comments();

@@ -53,6 +53,7 @@
     });
     $(document).on('change', '#ProcessDataChangeType', function () {
         $('#ProcessDataChangeValueField').toggle(false);
+        $('#ProcessDataChangeBaseDateTimeField').toggle(false);
         $('#ProcessDataChangeValueDateTimeField').toggle(false);
         $('#ProcessDataChangeValueColumnNamePeriodField').toggle(false);
         $('#ProcessDataChangeValueColumnNameField').toggle(false);
@@ -65,9 +66,16 @@
                 $('#ProcessDataChangeValueField').toggle(true);
                 break;
             case 'InputDate':
-            case 'InputDateTime':
+                $('#ProcessDataChangeBaseDateTimeField').toggle(true);
                 $('#ProcessDataChangeValueDateTimeField').toggle(true);
                 $('#ProcessDataChangeValueColumnNamePeriodField').toggle(true);
+                $('#ProcessDataChangeBaseDateTime').val('CurrentDate');
+                break;
+            case 'InputDateTime':
+                $('#ProcessDataChangeBaseDateTimeField').toggle(true);
+                $('#ProcessDataChangeValueDateTimeField').toggle(true);
+                $('#ProcessDataChangeValueColumnNamePeriodField').toggle(true);
+                $('#ProcessDataChangeBaseDateTime').val('CurrentTime');
                 break;
             default:
                 break;

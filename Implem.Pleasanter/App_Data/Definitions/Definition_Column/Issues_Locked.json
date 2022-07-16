@@ -18,6 +18,7 @@
     "TypeName": "bit",
     "Ix3": "2",
     "Nullable": "1",
+    "CopyByDefault": "1",
     "SettingEnable": "1",
     "LabelText_en": "Locked",
     "LabelText_zh": "已锁定",
