@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +62,29 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     columnName: o.ColumnName))
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public static Dictionary<string, string> BaseDateTimeOptions(
+            Context context, SiteSettings ss)
+        {
+            var ret = new Dictionary<string, string>()
+            {
+                { "CurrentDate", Displays.CurrentDate(context: context) },
+                { "CurrentTime", Displays.CurrentTime(context: context) }
+            };
+            return ret
+                .Concat(Def.ColumnDefinitionCollection
+                    .Where(o => o.TableName == ss.ReferenceType)
+                    .Where(o => o.TypeName == "datetime" || o.TypeName == "nvarchar")
+                    .Where(o => o.ColumnName != "Comments")
+                    .Where(o => o.ColumnName != "Timestamp")
+                    .Where(o => o.ExtendedColumnType != "Attachments")
+                    .OrderBy(o => o.EditorColumn)
+                    .Select(o => ss.GetColumn(
+                        context: context,
+                        columnName: o.ColumnName))
+                    .ToDictionary(o => o.ColumnName, o => o.LabelText))
+                .ToDictionary(o => o.Key, o => o.Value);
         }
 
         public static Dictionary<string, string> PeriodOptions(Context context)

@@ -52,8 +52,6 @@ private static string ViewModeTemplate(
         context: context,
         ss: ss,
         view: view,
-        verType: Versions.VerTypes.Latest,
-        methodType: BaseModel.MethodTypes.Index,
         siteId: ss.SiteId,
         parentId: ss.ParentId,
         referenceType: "#TableName#",

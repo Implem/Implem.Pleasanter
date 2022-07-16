@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BaseDateTime",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Base date and time"
+        },
+        {
+            "Language": "zh",
+            "Body": "基准日期和时间"
+        },
+        {
+            "Language": "ja",
+            "Body": "基準日時"
+        },
+        {
+            "Language": "de",
+            "Body": "Datum und Uhrzeit der Basis"
+        },
+        {
+            "Language": "ko",
+            "Body": "기준 날짜 및 시간"
+        },
+        {
+            "Language": "es",
+            "Body": "Fecha y hora base"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngày và giờ cơ sở"
+        }
+    ]
+}

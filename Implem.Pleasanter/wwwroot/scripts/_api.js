@@ -116,15 +116,15 @@ $p.apiGroupsGet = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'get', 'groups'), args);
 }
 
-$p.apiCreateGroup = function (args) {
+$p.apiGroupsCreate = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'create', 'groups'), args);
 }
 
-$p.apiUpdateGroup = function (args) {
+$p.apiGroupsUpdate = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'update', 'groups'), args);
 }
 
-$p.apiDeleteGroup = function (args) {
+$p.apiGroupsDelete = function (args) {
     return $p.apiExec($p.apiUrl(args.id, 'delete', 'groups'), args);
 }
 

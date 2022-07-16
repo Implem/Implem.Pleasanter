@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Sites",
@@ -2047,6 +2045,36 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string SetSiteSettings(Context context, long siteId)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: siteId);
+            if (context.Forms.ContainsKey("Ver")
+                && context.Forms.Int("Ver") != siteModel.Ver)
+            {
+                siteModel = new SiteModel();
+                siteModel.Get(
+                    context: context,
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(context.Id)
+                        .Ver(context.Forms.Int("Ver")),
+                    tableType: Sqls.TableTypes.NormalAndHistory);
+                siteModel.VerType = Versions.VerTypes.History;
+                return siteModel.SetSiteSettings(
+                    context: context,
+                    setSiteSettingsPropertiesBySession: false);
+            }
+            else
+            {
+                return siteModel.SetSiteSettings(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
@@ -3216,8 +3244,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: verType,
-                methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Sites",
                 script: (Parameters.Site.TopOrderBy <= 0
                     || context.UserId == Parameters.Site.TopOrderBy
@@ -3285,8 +3311,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
@@ -3889,8 +3913,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: siteModel.SiteSettings,
                 view: null,
-                verType: siteModel.VerType,
-                methodType: siteModel.MethodType,
                 siteId: siteModel.SiteId,
                 parentId: siteModel.ParentId,
                 referenceType: "Sites",
@@ -8068,10 +8090,12 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ProcessDataChangesTab",
                                         text: Displays.DataChanges(context: context)))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#ProcessNotificationsTab",
-                                        text: Displays.Notifications(context: context))))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ProcessNotificationsTab",
+                                            text: Displays.Notifications(context: context)),
+                                    _using: context.ContractSettings.Notice != false))
                         .ProcessGeneralTab(
                             context: context,
                             ss: ss,
@@ -8863,6 +8887,23 @@ namespace Implem.Pleasanter.Models
                         text: dataChange.Visible(type: "Value")
                             ? ss.ColumnNameToLabelText(dataChange.Value)
                             : string.Empty)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "ProcessDataChangeBaseDateTimeField",
+                        controlId: "ProcessDataChangeBaseDateTime",
+                        fieldCss: "field-normal" + (!dataChange.Visible(type: "DateTime")
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.BaseDateTime(context: context),
+                        optionCollection: DataChangeUtilities.BaseDateTimeOptions(
+                            context: context,
+                            ss: ss),
+                        selectedValue: dataChange.Visible(type: "DateTime")
+                            ? dataChange.BaseDateTime ?? (dataChange.Type == DataChange.Types.InputDate
+                                ? "CurrentDate"
+                                : "CurrentTime")
+                            : string.Empty)
                     .FieldTextBox(
                         fieldId: "ProcessDataChangeValueDateTimeField",
                         controlId: "ProcessDataChangeValueDateTime",
@@ -8928,6 +8969,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
+            if (context.ContractSettings.Notice == false) return hb;
             return hb.FieldSet(id: "ProcessNotificationsTab", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(

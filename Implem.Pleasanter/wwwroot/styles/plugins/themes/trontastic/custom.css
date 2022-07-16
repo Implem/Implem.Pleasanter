@@ -26,3 +26,11 @@
     color: black;
     background: #9fda58;
 }
+
+div.field-control .ui-multiselect {
+    color: black;
+}
+
+div.field-control .ui-icon.ui-icon-triangle-1-s {
+    background-image: url("images/ui-icons_000000_256x240.png");
+}

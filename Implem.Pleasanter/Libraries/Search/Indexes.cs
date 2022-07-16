@@ -303,8 +303,6 @@ namespace Implem.Pleasanter.Libraries.Search
                 context: context,
                 ss: new SiteSettings(),
                 view: null,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.NotSet,
                 referenceType: "SearchIndexes",
                 title: string.Empty,
                 useNavigationMenu: true,

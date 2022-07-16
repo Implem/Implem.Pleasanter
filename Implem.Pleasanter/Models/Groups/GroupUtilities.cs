@@ -91,8 +91,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Groups",
@@ -916,8 +914,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: groupModel.VerType,
-                methodType: groupModel.MethodType,
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)

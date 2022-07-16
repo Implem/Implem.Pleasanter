@@ -161,7 +161,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : null);
         }
 
-        public void Remind(Context context, SiteSettings ss, bool test = false)
+        public void Remind(
+            Context context,
+            SiteSettings ss,
+            DateTime scheduledTime,
+            bool test = false)
         {
             if (Disabled == true && !test) return;
             try
@@ -181,7 +185,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss: ss,
                     toColumns: toColumns,
                     subjectColumns: subjectColumns,
-                    bodyColumns: bodyColumns);
+                    bodyColumns: bodyColumns,
+                    scheduledTime: scheduledTime);
                 var reminderType = ReminderType.ToInt() == 0
                     ? ReminderTypes.Mail
                     : ReminderType;
@@ -502,7 +507,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             SiteSettings ss,
             List<Column> toColumns,
             List<Column> subjectColumns,
-            List<Column> bodyColumns)
+            List<Column> bodyColumns,
+            DateTime scheduledTime)
         {
             var orderByColumn = ss.GetColumn(
                 context: context,
@@ -531,7 +537,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             var where = view.Where(
                 context: context,
                 ss: ss,
-                checkPermission: false)
+                checkPermission: false,
+                requestSearchCondition: false)
                     .Add(
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
@@ -546,7 +553,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             "\"" + orderByColumn.ColumnName + "\""
                         },
-                        _operator: $">{context.Sqls.CurrentDateTime}",
+                        _operator: $">'{scheduledTime.ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff")}'",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(

@@ -22,6 +22,7 @@ $p.apply = function () {
     }).addClass('applied');
     $('.button-icon.hidden').toggle(false);
     $('select[multiple]:not(.applied)').multiselect({
+        buttonWidth: 'auto',
         selectedList: 100,
         linkInfo: {
             checkAll: {

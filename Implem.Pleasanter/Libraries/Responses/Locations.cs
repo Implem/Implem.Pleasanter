@@ -167,13 +167,13 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string ItemEditAbsoluteUri(Context context, long id)
         {
+            var itemEdit = ItemEdit(
+                context: context,
+                id: id);
             return Parameters.Service.AbsoluteUri != null
                 ? Parameters.Service.AbsoluteUri + "/items/" + id
-                : context.AbsoluteUri.Replace(
-                    context.AbsolutePath,
-                    ItemEdit(
-                        context: context,
-                        id: id));
+                : context.AbsoluteUri?.Replace(context.AbsolutePath, itemEdit)
+                    ?? itemEdit;
         }
 
         public static string DemoUri(Context context)

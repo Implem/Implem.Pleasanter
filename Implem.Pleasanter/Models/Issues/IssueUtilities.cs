@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Issues",
@@ -1423,8 +1421,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: null,
-                    verType: issueModel.VerType,
-                    methodType: issueModel.MethodType,
                     siteId: issueModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Issues",
@@ -2311,7 +2307,7 @@ namespace Implem.Pleasanter.Models
                     issueModel.SetBySettings(
                         context: context,
                         ss: ss,
-                        requestFormData: context.Forms);
+                        formData: context.Forms);
                     issueModel.IssueId = 0;
                     issueModel.Ver = 1;
                     issueModel.Comments = new Comments();

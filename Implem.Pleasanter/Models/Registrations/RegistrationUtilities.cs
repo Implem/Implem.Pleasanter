@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Registrations",
@@ -921,8 +919,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: registrationModel.VerType,
-                methodType: registrationModel.MethodType,
                 referenceType: "Registrations",
                 title: registrationModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Registrations(context: context) + " - " + Displays.New(context: context)

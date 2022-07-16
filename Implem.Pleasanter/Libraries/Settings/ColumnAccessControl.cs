@@ -137,7 +137,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 name: "User",
                 id: userId)));
-            return permissions;
+            return permissions
+                .GroupBy(o => o.Key())
+                .Select(o => o.FirstOrDefault())
+                .ToList();
         }
 
         public ColumnAccessControl RecordingData()
