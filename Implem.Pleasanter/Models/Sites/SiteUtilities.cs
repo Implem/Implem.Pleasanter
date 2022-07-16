@@ -2047,6 +2047,42 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        /// <returns></returns>
+        public static string SetSiteSettings(Context context, long siteId)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: siteId);
+            if (context.Forms.ContainsKey("Ver")
+                && context.Forms.Int("Ver") != siteModel.Ver)
+            {
+                // $p.openSiteSettingsDialogでバージョンを受け渡しする
+                // 旧バージョンの場合はSiteModelを再取得してダイアログを表示
+                // ダイアログを開く処理以外はここに入らない
+                siteModel = new SiteModel();
+                siteModel.Get(
+                    context: context,
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId)
+                        .SiteId(context.Id)
+                        .Ver(context.Forms.Int("Ver")),
+                    tableType: Sqls.TableTypes.NormalAndHistory);
+                siteModel.VerType = Versions.VerTypes.History;
+                return siteModel.SetSiteSettings(
+                    context: context,
+                    setSiteSettingsPropertiesBySession: false);
+            }
+            else
+            {
+                // バージョン指定が無い場合、最新バージョンを指定された場合は
+                // 最新のSiteModelで処理
+                return siteModel.SetSiteSettings(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Templates(Context context, long parentId, long inheritPermission)
         {
             var siteModel = new SiteModel(
