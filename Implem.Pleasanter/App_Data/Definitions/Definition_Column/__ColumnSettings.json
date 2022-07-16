@@ -86,6 +86,7 @@
     "EnumColumn": "bool",
     "NotEditorSettings": "bool",
     "ControlType": "string",
+    "CopyByDefault": "bool",
     "EditorReadOnly": "bool",
     "GridFormat": "string",
     "EditorFormat": "string",

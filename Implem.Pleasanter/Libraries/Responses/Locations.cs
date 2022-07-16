@@ -167,13 +167,16 @@ namespace Implem.Pleasanter.Libraries.Responses
 
         public static string ItemEditAbsoluteUri(Context context, long id)
         {
+            var itemEdit = ItemEdit(
+                context: context,
+                id: id);
             return Parameters.Service.AbsoluteUri != null
                 ? Parameters.Service.AbsoluteUri + "/items/" + id
-                : context.AbsoluteUri.Replace(
-                    context.AbsolutePath,
-                    ItemEdit(
-                        context: context,
-                        id: id));
+                // BackgroundServiceでリマインダーを動作させている場合にはcontext.AbsoluteUriがnullになる
+                // その場合にURLを生成できないため /items/{id}/edit をリマインダーに記載する
+                // BackgroundServiceでリマインダーを動作させている場合にはParameters.Service.AbsoluteUriの設定を推奨する
+                : context.AbsoluteUri?.Replace(context.AbsolutePath, itemEdit)
+                    ?? itemEdit;
         }
 
         public static string DemoUri(Context context)

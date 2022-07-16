@@ -8,6 +8,9 @@
 }
 
 $p.openSiteSettingsDialog = function ($control, selector, width) {
+    // ダイアログを表示する際に旧バージョンのデータが表示できるよう$p.ver()を渡す
+    var data = $p.getData($control);
+    data.Ver = $p.ver();
     var error = $p.syncSend($control);
     if (error === 0) {
         $(selector).dialog({

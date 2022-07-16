@@ -428,8 +428,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: tenantModel.VerType,
-                methodType: tenantModel.MethodType,
                 referenceType: "Tenants",
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants(context: context) + " - " + Displays.New(context: context)

@@ -1409,7 +1409,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.MessageWhenDuplicated = column.MessageWhenDuplicated;
                     }
-                    if (column.CopyByDefault == true)
+                    if (column.CopyByDefault == columnDefinition.CopyByDefault)
                     {
                         enabled = true;
                         newColumn.CopyByDefault = column.CopyByDefault;
@@ -1821,7 +1821,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultMinValue = column.DefaultMinValue ?? columnDefinition.DefaultMinValue;
                 column.DefaultMaxValue = column.DefaultMaxValue ?? columnDefinition.DefaultMaxValue;
                 column.NoDuplication = column.NoDuplication ?? false;
-                column.CopyByDefault = column.CopyByDefault ?? false;
+                column.CopyByDefault = column.CopyByDefault ?? columnDefinition.CopyByDefault;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AutoPostBack = column.AutoPostBack ?? false;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
@@ -4426,11 +4426,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             Views.Add(view);
         }
 
-        public void Remind(Context context, List<int> idList, bool test = false)
+        public void Remind(
+            Context context,
+            List<int> idList,
+            DateTime scheduledTime,
+            bool test = false)
         {
             Reminders?
                 .Where(o => idList.Contains(o.Id))
-                .ForEach(reminder => reminder.Remind(context: context, ss: this, test: test));
+                .ForEach(reminder => reminder.Remind(
+                    context: context,
+                    ss: this,
+                    scheduledTime: scheduledTime,
+                    test: test));
         }
 
         public Export GetExport(Context context, int id = 0)
