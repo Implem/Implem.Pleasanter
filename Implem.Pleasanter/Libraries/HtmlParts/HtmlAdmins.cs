@@ -23,9 +23,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 view: null,
-                methodType: Pleasanter.Models.BaseModel.MethodTypes.NotSet,
                 title: Displays.Admin(context: context),
-                verType: Versions.VerTypes.Latest,
                 useNavigationMenu: false,
                 action: () => hb
                     .Nav(css: "cf", action: () => hb
