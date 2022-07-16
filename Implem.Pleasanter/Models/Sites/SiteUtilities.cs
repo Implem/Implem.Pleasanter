@@ -8096,10 +8096,12 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ProcessDataChangesTab",
                                         text: Displays.DataChanges(context: context)))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#ProcessNotificationsTab",
-                                        text: Displays.Notifications(context: context))))
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ProcessNotificationsTab",
+                                            text: Displays.Notifications(context: context)),
+                                    _using: context.ContractSettings.Notice != false))
                         .ProcessGeneralTab(
                             context: context,
                             ss: ss,
@@ -8973,6 +8975,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Process process)
         {
+            if (context.ContractSettings.Notice == false) return hb;
             return hb.FieldSet(id: "ProcessNotificationsTab", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
