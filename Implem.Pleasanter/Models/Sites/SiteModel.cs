@@ -5607,7 +5607,11 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     context.ServerScriptDisabled = true;
-                    SiteSettings.Remind(context: context, idList: selected, test: true);
+                    SiteSettings.Remind(
+                        context: context,
+                        idList: selected,
+                        scheduledTime: DateTime.Now,
+                        test: true);
                     res.ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings));
                 }

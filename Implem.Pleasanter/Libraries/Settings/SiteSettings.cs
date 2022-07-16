@@ -4426,11 +4426,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             Views.Add(view);
         }
 
-        public void Remind(Context context, List<int> idList, bool test = false)
+        public void Remind(
+            Context context,
+            List<int> idList,
+            DateTime scheduledTime,
+            bool test = false)
         {
             Reminders?
                 .Where(o => idList.Contains(o.Id))
-                .ForEach(reminder => reminder.Remind(context: context, ss: this, test: test));
+                .ForEach(reminder => reminder.Remind(
+                    context: context,
+                    ss: this,
+                    scheduledTime: scheduledTime,
+                    test: test));
         }
 
         public Export GetExport(Context context, int id = 0)
