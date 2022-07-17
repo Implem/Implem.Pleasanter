@@ -63,6 +63,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             String = 90
         }
 
+        public enum OutputTypes
+        {
+            DisplayValue,
+            Value
+        }
+
         public string Id;
         public string ColumnName;
         public string LabelText;
@@ -248,6 +254,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string After;
         [NonSerialized]
         public bool SqlParam;
+        [NonSerialized]
+        public OutputTypes OutputType;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -831,6 +839,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : ChoiceValueHash.Get(value) ?? value;
             }
             return recordingData ?? string.Empty;
+        }
+
+        public string ExpressionColumnName()
+        {
+            switch (OutputType)
+            {
+                case OutputTypes.DisplayValue:
+                    return ColumnName;
+                default:
+                    return "@" + ColumnName;
+            }
         }
 
         public string Display(

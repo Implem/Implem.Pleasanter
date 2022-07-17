@@ -585,7 +585,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: titleColumn,
-                    methodType: tenantModel.MethodType,
                     value: tenantModel.Title
                         .ToControl(context: context, ss: ss, column: titleColumn),
                     columnPermissionType: Permissions.ColumnPermissionType(
@@ -630,7 +629,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: htmlTitleTopColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleTop.ToControl(
                                 context: context,
                                 ss: ss,
@@ -644,7 +642,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: htmlTitleSiteColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleSite.ToControl(
                                 context: context,
                                 ss: ss,
@@ -658,7 +655,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: htmlTitleRecordColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleRecord.ToControl(
                                 context: context,
                                 ss: ss,
@@ -696,7 +692,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: topStyleColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.TopStyle.ToControl(
                                 context: context,
                                 ss: ss,
@@ -715,7 +710,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: topScriptColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.TopScript.ToControl(
                                 context: context,
                                 ss: ss,
@@ -749,7 +743,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: tenantModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,

@@ -809,6 +809,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SearchIndexes_TableCases": Code.Model_Utilities_SearchIndexes_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SearchIndexes_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SelectedIds": Code.Model_Utilities_SelectedIds = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SelectedIds, definitionRow, CodeXls); break;
                     case "Model_Utilities_Separate": Code.Model_Utilities_Separate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Separate, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetChoiceHashByFilterExpressions": Code.Model_Utilities_SetChoiceHashByFilterExpressions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetChoiceHashByFilterExpressions, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetChoiceHashByFilterExpressions_Items": Code.Model_Utilities_SetChoiceHashByFilterExpressions_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetChoiceHashByFilterExpressions_Items, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases": Code.Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetDateRangeDialog": Code.Model_Utilities_SetDateRangeDialog = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetDateRangeDialog, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetEditRowParameter": Code.Model_Utilities_SetEditRowParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetEditRowParameter, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetEditRowParameterByContext": Code.Model_Utilities_SetEditRowParameterByContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetEditRowParameterByContext, definitionRow, CodeXls); break;
@@ -7014,6 +7017,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SearchIndexes_TableCases;
         public string Model_Utilities_SelectedIds;
         public string Model_Utilities_Separate;
+        public string Model_Utilities_SetChoiceHashByFilterExpressions;
+        public string Model_Utilities_SetChoiceHashByFilterExpressions_Items;
+        public string Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases;
         public string Model_Utilities_SetDateRangeDialog;
         public string Model_Utilities_SetEditRowParameter;
         public string Model_Utilities_SetEditRowParameterByContext;
@@ -7759,6 +7765,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SearchIndexes_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SelectedIds = new CodeDefinition();
         public CodeDefinition Model_Utilities_Separate = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetChoiceHashByFilterExpressions = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetChoiceHashByFilterExpressions_Items = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetDateRangeDialog = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetEditRowParameter = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetEditRowParameterByContext = new CodeDefinition();

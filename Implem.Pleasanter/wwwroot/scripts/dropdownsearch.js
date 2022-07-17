@@ -14,6 +14,22 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
+    // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
+    $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
+    var referenceId = $p.id();
+    // 一覧編集の場合にはtrからreferenceIdを取得
+    var $tr = $control.closest('tr');
+    if ($tr.length) {
+        referenceId = $tr.data('id');
+    }
+    // ダイアログ編集の場合にはEditorInDialogRecordIdからreferenceIdを取得
+    // ダイアログ編集の場合には$p.data.DialogEditorFormから入力データを取得
+    var $dialogId = $('#EditorInDialogRecordId');
+    if ($dialogId.length) {
+        $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.DialogEditorForm);
+        referenceId = $dialogId.val();
+    }
+    $('#DropDownSearchReferenceId').val(referenceId);
     var id = $control.attr('id');
     var $target = $('#DropDownSearchTarget');
     var multiple = $control.attr('multiple') === 'multiple';

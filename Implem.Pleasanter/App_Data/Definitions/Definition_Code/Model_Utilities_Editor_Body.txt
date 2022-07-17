@@ -235,7 +235,6 @@ public static HtmlBuilder Field(
             context: context,
             ss: ss,
             column: column,
-            methodType: #modelName#Model.MethodType,
             value: value,
             columnPermissionType: Permissions.ColumnPermissionType(
                 context: context,

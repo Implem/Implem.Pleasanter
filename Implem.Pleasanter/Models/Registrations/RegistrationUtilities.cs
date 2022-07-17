@@ -1087,7 +1087,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            methodType: registrationModel.MethodType,
                             value: registrationModel.Ver
                                 .ToControl(context: context, ss: ss, column: column),
                             columnPermissionType: Permissions.ColumnPermissionType(
@@ -1103,25 +1102,23 @@ namespace Implem.Pleasanter.Models
                             column.EditorReadOnly = true;
                         }
                         hb.Field(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        methodType: registrationModel.MethodType,
-                        value: registrationModel.MailAddress
-                            .ToControl(context: context, ss: ss, column: column),
-                            columnPermissionType: Permissions.ColumnPermissionType(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                            baseModel: registrationModel),
-                        preview: preview);
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            value: registrationModel.MailAddress
+                                .ToControl(context: context, ss: ss, column: column),
+                                columnPermissionType: Permissions.ColumnPermissionType(
+                                    context: context,
+                                    ss: ss,
+                                    column: column,
+                                baseModel: registrationModel),
+                            preview: preview);
                         break;
                     case "InviteeName":
                         hb.Field(
                             context: context,
                             ss: ss,
                             column: column,
-                            methodType: registrationModel.MethodType,
                             value: registrationModel.InviteeName
                                 .ToControl(context: context, ss: ss, column: column),
                             columnPermissionType: Permissions.ColumnPermissionType(
@@ -1138,7 +1135,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                methodType: registrationModel.MethodType,
                                 value: registrationModel.LoginId
                                     .ToControl(context: context, ss: ss, column: column),
                                 columnPermissionType: Permissions.ColumnPermissionType(
@@ -1160,7 +1156,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                methodType: registrationModel.MethodType,
                                 value: registrationModel.Name
                                     .ToControl(context: context, ss: ss, column: column),
                                 columnPermissionType: Permissions.ColumnPermissionType(
@@ -1178,7 +1173,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                methodType: registrationModel.MethodType,
                                 value: registrationModel.Password
                                     .ToControl(context: context, ss: ss, column: column),
                                 columnPermissionType: Permissions.ColumnPermissionType(
@@ -1196,7 +1190,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                methodType: registrationModel.MethodType,
                                 value: registrationModel.PasswordValidate
                                     .ToControl(context: context, ss: ss, column: column),
                                 columnPermissionType: Permissions.ColumnPermissionType(
@@ -1214,7 +1207,6 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: column,
-                                methodType: registrationModel.MethodType,
                                 value: registrationModel.Language
                                     .ToControl(context: context, ss: ss, column: column),
                                 columnPermissionType: Permissions.ColumnPermissionType(
@@ -1230,7 +1222,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column,
-                            methodType: registrationModel.MethodType,
                             value: registrationModel.Invitingflg
                                 .ToControl(context: context, ss: ss, column: column),
                             columnPermissionType: Permissions.ColumnPermissionType(
@@ -1274,7 +1265,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: registrationModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,

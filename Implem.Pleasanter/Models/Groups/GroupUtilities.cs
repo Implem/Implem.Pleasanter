@@ -1118,7 +1118,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: groupModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,

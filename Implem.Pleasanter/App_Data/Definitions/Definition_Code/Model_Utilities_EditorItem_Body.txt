@@ -452,6 +452,11 @@ public static HtmlBuilder Field(
         column: column);
     if (value != null)
     {
+        SetChoiceHashByFilterExpressions(
+            context: context,
+            ss: ss,
+            column: column,
+            #modelName#Model: #modelName#Model);
         hb.Field(
             context: context,
             ss: ss,
@@ -459,7 +464,6 @@ public static HtmlBuilder Field(
             serverScriptModelColumn: #modelName#Model
                 ?.ServerScriptModelRow
                 ?.Columns.Get(column.ColumnName),
-            methodType: #modelName#Model.MethodType,
             value: value,
 
 <!--Model_ControlConstraintsType-->

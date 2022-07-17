@@ -1640,7 +1640,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: userModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
