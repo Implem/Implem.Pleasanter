@@ -299,7 +299,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetItemProperties()
+        public void SetItemProperties()
         {
             if (HasRoute)
             {
@@ -666,7 +666,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return AspNetCoreHttpContext.Current?.Request?.GetTypedHeaders()?.AcceptLanguage?.FirstOrDefault()?.Value.ToString();
         }
 
-        private void SetPermissions()
+        public void SetPermissions()
         {
             PermissionHash = Permissions.Get(context: this);
             Groups = PermissionUtilities.Groups(context: this);

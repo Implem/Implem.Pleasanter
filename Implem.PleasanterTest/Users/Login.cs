@@ -72,6 +72,7 @@ namespace Implem.PleasanterTest.Users
         private static Context GetContext()
         {
             return ContextData.Get(
+                userType: ContextData.UserTypes.Anonymous,
                 httpMethod: "get",
                 absolutePath: "/users/login");
         }
