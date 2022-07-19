@@ -2680,8 +2680,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                     case Types.CsNumeric:
                         ColumnFilterHash[columnName] = targetColumn.HasChoices()
-                            ? expression.ToSingleList().ToJson()
-                            : expression;
+                            || targetColumn.TypeName == "decimal"
+                                ? expression.ToSingleList().ToJson()
+                                : expression;
                         break;
                     case Types.CsDateTime:
                         ColumnFilterHash[columnName] = $"[\"{expression},{expression}\"]";
