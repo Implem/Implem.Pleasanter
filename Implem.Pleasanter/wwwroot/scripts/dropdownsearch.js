@@ -14,6 +14,14 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
+    // 新規作成画面の場合にはメインフォームの内容を$p.data.MainFormに転記
+    if ($('#IsNew').val() === '1') {
+        $('#MainForm').find('[class*="control-"]').each(function () {
+            $p.setData($(this));
+        });
+        // IsNewのプロパティを$p.data.MainFormに転記
+        $p.data.MainForm.IsNew = '1';
+    }
     // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
     $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
     var referenceId = $p.id();
