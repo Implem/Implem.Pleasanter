@@ -183,7 +183,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (formData != null)
             {
@@ -208,7 +207,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             RegistrationId = registrationId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -246,7 +244,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (dataRow != null)
             {

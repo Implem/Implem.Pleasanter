@@ -83,7 +83,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (dataRow != null)
             {

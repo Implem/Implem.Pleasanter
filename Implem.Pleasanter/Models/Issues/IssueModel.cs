@@ -672,7 +672,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             SiteId = ss.SiteId;
             if (IssueId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
@@ -709,7 +708,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             IssueId = issueId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -765,7 +763,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             if (dataRow != null)
             {
                 Set(

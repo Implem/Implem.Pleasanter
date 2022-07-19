@@ -14,7 +14,6 @@ public #ModelName#Model(
     MethodTypes methodType = MethodTypes.NotSet)
 {
     OnConstructing(context: context);
-    Context = context;
 
 <!--Model_SetTenantId-->
 <!--Model_SetSiteId-->
@@ -47,7 +46,6 @@ public #ModelName#Model(
     MethodTypes methodType = MethodTypes.NotSet)
 {
     OnConstructing(context: context);
-    Context = context;
 
 <!--Model_SetTenantId-->
 <!--Model_SetId-->
