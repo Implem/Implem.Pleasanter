@@ -1500,7 +1500,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             deptModel: deptModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", deptModel.DeptId.ToString())
                         .SetMemory("formChanged", false)
