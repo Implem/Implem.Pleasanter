@@ -2473,7 +2473,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             userModel: userModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
