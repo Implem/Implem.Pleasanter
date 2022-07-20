@@ -1493,7 +1493,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             groupModel: groupModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", groupModel.GroupId.ToString())
                         .SetMemory("formChanged", false)

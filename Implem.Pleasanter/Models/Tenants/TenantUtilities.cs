@@ -1142,7 +1142,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             tenantModel: tenantModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", tenantModel.TenantId.ToString())
                         .SetMemory("formChanged", false)
