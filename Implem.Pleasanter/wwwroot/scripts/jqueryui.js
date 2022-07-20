@@ -23,6 +23,10 @@ $p.apply = function () {
     $('.button-icon.hidden').toggle(false);
     $('select[multiple]:not(.applied)').multiselect({
         buttonWidth: 'auto',
+        //案1
+        menuWidth: 225,
+        //案2
+        //menuWidth: 'auto',
         selectedList: 100,
         linkInfo: {
             checkAll: {
