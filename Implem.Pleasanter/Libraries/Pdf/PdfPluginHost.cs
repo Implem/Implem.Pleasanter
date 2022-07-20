@@ -12,26 +12,24 @@ namespace Implem.Pleasanter.Libraries.Pdf
     {
         public string SiteTitle { get; }
         public int ReportId { get; }
-        public string DefaultView { get; }
         private Context Context { get; }
         private SiteSettings SiteSettings { get; }
-        private View DefaultViewObj { get; }
+        private View DefaultView { get; }
         private SqlWhereCollection SelectingWhere { get; }
 
         public PdfPluginHost(Context context, SiteSettings ss, View defaultView, SqlWhereCollection selectingWhere, int reportId)
         {
             Context = context;
             SiteSettings = ss;
-            DefaultViewObj = defaultView;
+            DefaultView = defaultView;
             ReportId = reportId;
             SelectingWhere = selectingWhere;
             SiteTitle = ss.Title;
-            DefaultView = defaultView.ToJson();
         }
 
         public List<Dictionary<string, object>> GetGridData(string viewJson)
         {
-            var view = viewJson.Deserialize<View>() ?? DefaultViewObj;
+            var view = viewJson.Deserialize<View>() ?? DefaultView;
             var gridData = new GridData(
                 context: Context,
                 ss: SiteSettings,

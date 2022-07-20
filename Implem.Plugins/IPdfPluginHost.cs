@@ -4,8 +4,7 @@
     {
         string SiteTitle { get; }
         int ReportId { get; }
-        string DefaultView { get; }
-
+        
         List<Dictionary<string, object>> GetGridData(string viewJson);
     }
 }

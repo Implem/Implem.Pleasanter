@@ -7374,6 +7374,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss);
             }
+            defaultView.ApiColumnValueDisplayType = ApiColumn.ValueDisplayTypes.Text;
             var host = new Libraries.Pdf.PdfPluginHost(
                 context: context,
                 ss: ss,
