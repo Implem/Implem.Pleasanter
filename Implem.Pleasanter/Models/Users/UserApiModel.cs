@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Models
         public int? Updator { get; set; }
         public DateTime? CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
+        public List<string> MailAddresses { get; set; }
 
         public UserApiModel()
         {

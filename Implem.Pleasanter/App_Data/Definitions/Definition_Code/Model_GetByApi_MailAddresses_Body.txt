@@ -1,0 +1,7 @@
+﻿if (getMailAddresses == true)
+{
+    data.MailAddresses = GetMailAddresses(
+        context: context,
+        siteSettings: ss,
+        userId: data.UserId);
+}

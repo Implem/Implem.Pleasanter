@@ -1,0 +1,5 @@
+﻿case "MailAddresses":
+    return GetMailAddresses(
+        context: context,
+        siteSettings: ss,
+        userId: UserId);

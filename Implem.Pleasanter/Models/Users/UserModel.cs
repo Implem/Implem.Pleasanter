@@ -1348,7 +1348,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public UserApiModel GetByApi(Context context, SiteSettings ss)
+        public UserApiModel GetByApi(Context context, SiteSettings ss, bool? getMailAddresses)
         {
             var data = new UserApiModel()
             {
@@ -1416,6 +1416,13 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            if (getMailAddresses == true)
+            {
+                data.MailAddresses = GetMailAddresses(
+                    context: context,
+                    siteSettings: ss,
+                    userId: data.UserId);
+            }
             return data;
         }
 
@@ -2047,6 +2054,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "MailAddresses":
+                    return GetMailAddresses(
+                        context: context,
+                        siteSettings: ss,
+                        userId: UserId);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
@@ -3451,6 +3463,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private List<string> GetMailAddresses(Context context, SiteSettings siteSettings, int? userId)
+        {
+            var mailAddresses = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectMailAddresses(
+                    column: Rds.MailAddressesColumn()
+                        .MailAddressId()
+                        .MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(userId)
+                        .OwnerType("Users")))
+                            .AsEnumerable()
+                            .Select(o => o["MailAddress"].ToString())
+                            .ToList();
+            return mailAddresses;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void PasswordExpirationPeriod(Context context)
         {
             PasswordExpirationTime = Parameters.Security.PasswordExpirationPeriod != 0
@@ -4090,7 +4122,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void LoginSuccessLog(Context context)
         {
-            if (Parameters.SysLog.LoginSuccess )
+            if (Parameters.SysLog.LoginSuccess)
             {
                 new SysLogModel(
                     context: context,
@@ -4510,7 +4542,7 @@ namespace Implem.Pleasanter.Models
                 return Error.Types.AlreadyAdded;
             }
             else
-            { 
+            {
                 MailAddresses.Add(mailAddress);
                 Session_MailAddresses(
                     context: context,
