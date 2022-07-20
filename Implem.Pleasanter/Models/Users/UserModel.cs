@@ -1676,6 +1676,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Comments":
+                    return Comments.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Creator":
                     return Creator.ToDisplay(
                         context: context,

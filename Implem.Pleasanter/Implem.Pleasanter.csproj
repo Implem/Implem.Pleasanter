@@ -91,6 +91,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_ToDisplayColumnCases_TitleBody.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SetChoiceHashByFilterExpressions.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SetChoiceHashByFilterExpressions_Items.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases.json" />

@@ -408,8 +408,18 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "TitleBody":
+                    return TitleBody.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Ver":
                     return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
