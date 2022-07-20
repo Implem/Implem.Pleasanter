@@ -2927,7 +2927,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             resultModel: resultModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", resultModel.ResultId.ToString())
                         .SetMemory("formChanged", false)
