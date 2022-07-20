@@ -1409,7 +1409,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.MessageWhenDuplicated = column.MessageWhenDuplicated;
                     }
-                    if (column.CopyByDefault == columnDefinition.CopyByDefault)
+                    if (column.CopyByDefault != columnDefinition.CopyByDefault)
                     {
                         enabled = true;
                         newColumn.CopyByDefault = column.CopyByDefault;

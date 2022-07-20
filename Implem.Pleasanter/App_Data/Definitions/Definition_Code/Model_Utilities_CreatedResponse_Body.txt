@@ -4,7 +4,7 @@
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        process: processes.FirstOrDefault()));
+        process: processes?.FirstOrDefault()));
 return new ResponseCollection()
     .Response("id", #modelName#Model.#ModelName#Id.ToString())
     .SetMemory("formChanged", false)
