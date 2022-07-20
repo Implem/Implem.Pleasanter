@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Users",
@@ -1438,8 +1436,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: userModel.VerType,
-                methodType: userModel.MethodType,
                 referenceType: "Users",
                 title: userModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Users(context: context) + " - " + Displays.New(context: context)
@@ -1644,7 +1640,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: userModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
@@ -2477,7 +2472,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             userModel: userModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
@@ -3790,12 +3785,10 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: Versions.VerTypes.Latest,
                 useBreadcrumb: false,
                 useTitle: false,
                 useSearch: false,
                 useNavigationMenu: false,
-                methodType: BaseModel.MethodTypes.Edit,
                 referenceType: "Users",
                 title: string.Empty,
                 action: () => hb
@@ -4065,8 +4058,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 referenceType: "Users",
                 title: Displays.ApiSettings(context: context),
                 action: () => hb

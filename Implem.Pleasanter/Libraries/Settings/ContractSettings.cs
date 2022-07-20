@@ -96,7 +96,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     statements: Rds.SelectItems(
                         column: Rds.ItemsColumn().ItemsCount(),
-                        where: Rds.ItemsWhere().SiteId(siteId))) + number > Items;
+                        where: Rds.ItemsWhere()
+                            .SiteId(siteId)
+                            .ReferenceType("Sites", _operator: "<>"))) + number > Items;
         }
 
         public bool OverTenantStorageSize(

@@ -91,8 +91,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Groups",
@@ -916,8 +914,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: groupModel.VerType,
-                methodType: groupModel.MethodType,
                 referenceType: "Groups",
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
@@ -1122,7 +1118,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: groupModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
@@ -1497,7 +1492,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             groupModel: groupModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", groupModel.GroupId.ToString())
                         .SetMemory("formChanged", false)

@@ -542,7 +542,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             SiteId = ss.SiteId;
             if (ResultId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
@@ -579,7 +578,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             ResultId = resultId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -635,7 +633,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             if (dataRow != null)
             {
                 Set(
@@ -2629,7 +2626,19 @@ namespace Implem.Pleasanter.Models
                         break;
                     case DataChange.Types.InputDate:
                     case DataChange.Types.InputDateTime:
-                        formData[key] = dataChange.DateTimeValue(context: context).ToString();
+                        var baseDateTimeColumn = ss.GetColumn(
+                            context: context,
+                            columnName: dataChange.BaseDateTime);
+                        var baseDateTime = baseDateTimeColumn != null
+                            ? ToValue(
+                                context: context,
+                                ss: ss,
+                                column: baseDateTimeColumn,
+                                mine: Mine(context: context)).ToDateTime()
+                            : DateTime.MinValue;
+                        formData[key] = dataChange.DateTimeValue(
+                            context: context,
+                            baseDateTime: baseDateTime);
                         break;
                     case DataChange.Types.InputUser:
                         formData[key] = context.UserId.ToString();

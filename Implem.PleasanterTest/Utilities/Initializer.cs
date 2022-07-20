@@ -16,14 +16,14 @@ namespace Implem.PleasanterTest.Utilities
     {
         public static int TenantId;
         public static TenantModel Tenant;
-        public static List<DeptModel> Depts;
-        public static List<GroupModel> Groups;
-        public static List<UserModel> Users;
-        public static List<ItemModel> Items;
-        public static List<SiteModel> Sites;
-        public static Dictionary<long, List<IssueModel>> IssueHash;
-        public static Dictionary<long, List<ResultModel>> ResultHash;
-        public static Dictionary<long, List<WikiModel>> WikiHash;
+        public static Dictionary<string, DeptModel> Depts;
+        public static Dictionary<string, GroupModel> Groups;
+        public static Dictionary<string, UserModel> Users;
+        public static Dictionary<string, ItemModel> Items;
+        public static Dictionary<string, SiteModel> Sites;
+        public static Dictionary<string, Dictionary<string, IssueModel>> Issues;
+        public static Dictionary<string, Dictionary<string, ResultModel>> Results;
+        public static Dictionary<string, Dictionary<string, WikiModel>> Wikis;
 
         public static void Initialize()
         {
@@ -32,6 +32,7 @@ namespace Implem.PleasanterTest.Utilities
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
                 pleasanterTest: true);
             Context context = ContextData.Get(
+                userType: ContextData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/demos/register",
                 forms: new Forms()
@@ -56,45 +57,59 @@ namespace Implem.PleasanterTest.Utilities
             Depts = new DeptCollection(
                 context: context,
                 ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
-                where: Rds.DeptsWhere().TenantId(TenantId));
+                where: Rds.DeptsWhere().TenantId(TenantId))
+                    .ToDictionary(o => o.DeptName, o => o);
             Groups = new GroupCollection(
                 context: context,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
-                where: Rds.GroupsWhere().TenantId(TenantId));
+                where: Rds.GroupsWhere().TenantId(TenantId))
+                    .ToDictionary(o => o.GroupName, o => o);
             Users = new UserCollection(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                where: Rds.UsersWhere().TenantId(TenantId));
+                where: Rds.UsersWhere().TenantId(TenantId))
+                    .ToDictionary(o => o.Name, o => o);
             Sites = new SiteCollection(
                 context: context,
-                where: Rds.SitesWhere().TenantId(TenantId));
+                where: Rds.SitesWhere().TenantId(TenantId))
+                    .ToDictionary(o => o.Title.Value, o => o);
             Items = new ItemCollection(
                 context: context,
-                where: Rds.ItemsWhere().SiteId_In(Sites.Select(o => o.SiteId)));
-            IssueHash = new Dictionary<long, List<IssueModel>>();
-            ResultHash = new Dictionary<long, List<ResultModel>>();
-            WikiHash = new Dictionary<long, List<WikiModel>>();
-            Sites.ForEach(siteModel =>
+                where: Rds.ItemsWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                    .ToDictionary(o => o.Title, o => o);
+            Issues = new Dictionary<string, Dictionary<string, IssueModel>>();
+            Results = new Dictionary<string, Dictionary<string, ResultModel>>();
+            Wikis = new Dictionary<string, Dictionary<string, WikiModel>>();
+            Sites.Values.ForEach(siteModel =>
             {
                 switch (siteModel.ReferenceType)
                 {
                     case "Issues":
-                        IssueHash.Add(siteModel.SiteId, new IssueCollection(
+                        Issues.Add(siteModel.Title.Value, new IssueCollection(
                             context: context,
-                            ss: SiteSettingsUtilities.Get(context: context, siteId: siteModel.SiteId),
-                            where: Rds.IssuesWhere().SiteId_In(Sites.Select(o => o.SiteId))));
+                            ss: SiteSettingsUtilities.Get(
+                                context: context,
+                                siteId: siteModel.SiteId),
+                            where: Rds.IssuesWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                                .ToDictionary(o => o.Title.Value, o => o));
                         break;
                     case "Results":
-                        ResultHash.Add(siteModel.SiteId, new ResultCollection(
+                        Results.Add(siteModel.Title.Value, new ResultCollection(
                             context: context,
-                            ss: SiteSettingsUtilities.Get(context: context, siteId: siteModel.SiteId),
-                            where: Rds.ResultsWhere().SiteId_In(Sites.Select(o => o.SiteId))));
+                            ss: SiteSettingsUtilities.Get(
+                                context: context,
+                                siteId: siteModel.SiteId),
+                            where: Rds.ResultsWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                                .ToDictionary(o => o.Title.Value, o => o));
                         break;
                     case "Wikis":
-                        WikiHash.Add(siteModel.SiteId, new WikiCollection(
+                        Wikis.Add(siteModel.Title.Value, new WikiCollection(
                             context: context,
-                            ss: SiteSettingsUtilities.Get(context: context, siteId: siteModel.SiteId),
-                            where: Rds.WikisWhere().SiteId_In(Sites.Select(o => o.SiteId))));
+                            ss: SiteSettingsUtilities.Get(
+                                context: context,
+                                siteId: siteModel.SiteId),
+                            where: Rds.WikisWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                                .ToDictionary(o => o.Title.Value, o => o));
                         break;
                 }
             });

@@ -46,8 +46,6 @@ public static string Editor(
         context: context,
         ss: ss,
         view: null,
-        verType: #modelName#Model.VerType,
-        methodType: #modelName#Model.MethodType,
         referenceType: "#TableName#",
         title: #modelName#Model.MethodType == BaseModel.MethodTypes.New
             ? Displays.#TableName#(context: context) + " - " + Displays.New(context: context)
@@ -237,7 +235,6 @@ public static HtmlBuilder Field(
             context: context,
             ss: ss,
             column: column,
-            methodType: #modelName#Model.MethodType,
             value: value,
             columnPermissionType: Permissions.ColumnPermissionType(
                 context: context,

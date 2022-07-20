@@ -81,8 +81,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                verType: Versions.VerTypes.Latest,
-                methodType: BaseModel.MethodTypes.Index,
                 siteId: ss.SiteId,
                 parentId: ss.ParentId,
                 referenceType: "Issues",
@@ -1423,8 +1421,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     view: null,
-                    verType: issueModel.VerType,
-                    methodType: issueModel.MethodType,
                     siteId: issueModel.SiteId,
                     parentId: ss.ParentId,
                     referenceType: "Issues",
@@ -1826,6 +1822,11 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                SetChoiceHashByFilterExpressions(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    issueModel: issueModel);
                 hb.Field(
                     context: context,
                     ss: ss,
@@ -1833,7 +1834,6 @@ namespace Implem.Pleasanter.Models
                     serverScriptModelColumn: issueModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
-                    methodType: issueModel.MethodType,
                     value: value,
                     controlConstraintsType: issueModel.GetStatusControl(
                         context: context,
@@ -2684,6 +2684,87 @@ namespace Implem.Pleasanter.Models
             return res;
         }
 
+        public static void SetChoiceHashByFilterExpressions(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            IssueModel issueModel,
+            string searchText = null,
+            int offset = 0,
+            bool search = false,
+            bool searchFormat = false)
+        {
+            var link = ss.ColumnFilterExpressionsLink(
+                context: context,
+                column: column);
+            if (link != null)
+            {
+                var view = link.View;
+                var targetSs = ss.JoinedSsHash.Get(link.SiteId);
+                if (targetSs != null)
+                {
+                    if (view.ColumnFilterHash == null)
+                    {
+                        view.ColumnFilterHash = new Dictionary<string, string>();
+                    }
+                    view.ColumnFilterExpressions.ForEach(data =>
+                    {
+                        var columnName = data.Key;
+                        var targetColumn = targetSs?.GetColumn(
+                            context: context,
+                            columnName: columnName);
+                        if (targetColumn != null)
+                        {
+                            var expression = data.Value;
+                            var raw = expression.StartsWith("=");
+                            var hash = new Dictionary<string, Column>();
+                            ss.IncludedColumns(value: data.Value).ForEach(includedColumn =>
+                            {
+                                var guid = Strings.NewGuid();
+                                expression = expression.Replace(
+                                    $"[{includedColumn.ExpressionColumnName()}]",
+                                    guid);
+                                hash.Add(guid, includedColumn);
+                            });
+                            hash.ForEach(hashData =>
+                            {
+                                var guid = hashData.Key;
+                                var includedColumn = hashData.Value;
+                                expression = expression.Replace(
+                                    guid,
+                                    includedColumn.OutputType == Column.OutputTypes.DisplayValue
+                                        ? issueModel.ToDisplay(
+                                            context: context,
+                                            ss: ss,
+                                            column: includedColumn,
+                                            mine: issueModel.Mine(context: context))
+                                        : issueModel.ToValue(
+                                            context: context,
+                                            ss: ss,
+                                            column: includedColumn,
+                                            mine: issueModel.Mine(context: context)));
+                            });
+                            view.SetColumnFilterHashByExpression(
+                                ss: targetSs,
+                                targetColumn: targetColumn,
+                                columnName: columnName,
+                                expression: expression,
+                                raw: raw);
+                        }
+                    });
+                    column.SetChoiceHash(
+                        context: context,
+                        ss: ss,
+                        link: link,
+                        searchText: searchText,
+                        offset: offset,
+                        search: search,
+                        searchFormat: searchFormat,
+                        setChoices: true);
+                }
+            }
+        }
+
         public static HtmlBuilder NewOnGrid(
             this HtmlBuilder hb,
             Context context,
@@ -3027,7 +3108,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", issueModel.IssueId.ToString())
                         .SetMemory("formChanged", false)

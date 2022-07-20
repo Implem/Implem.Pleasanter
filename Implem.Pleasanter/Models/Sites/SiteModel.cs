@@ -618,7 +618,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             ParentId = parentId;
             InheritPermission = inheritPermission;
@@ -643,7 +642,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             SiteId = siteId;
             Get(context: context);
@@ -666,7 +664,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (dataRow != null)
             {
@@ -1604,7 +1601,9 @@ namespace Implem.Pleasanter.Models
                 }
                 GetAttachments(columnName: columnName, value: newAttachments);
             });
-            SetSiteSettings(context: context);
+            SetSiteSettings(
+                context: context,
+                setSiteSettingsPropertiesBySession: false);
         }
 
         private bool Matched(Context context, SiteSettings ss, View view)
@@ -2004,15 +2003,15 @@ namespace Implem.Pleasanter.Models
             data.Body = SiteSettings.Body;
             data.SiteName = SiteName;
             data.SiteGroupName = SiteGroupName;
-            data.GridGuide = SiteSettings.GridGuide;
-            data.EditorGuide = SiteSettings.EditorGuide;
-            data.CalendarGuide = SiteSettings.CalendarGuide;
-            data.CrosstabGuide = SiteSettings.CrosstabGuide;
-            data.GanttGuide = SiteSettings.GanttGuide;
-            data.BurnDownGuide = SiteSettings.BurnDownGuide;
-            data.TimeSeriesGuide = SiteSettings.TimeSeriesGuide;
-            data.KambanGuide = SiteSettings.KambanGuide;
-            data.ImageLibGuide = SiteSettings.ImageLibGuide;
+            data.GridGuide = GridGuide;
+            data.EditorGuide = EditorGuide;
+            data.CalendarGuide = CalendarGuide;
+            data.CrosstabGuide = CrosstabGuide;
+            data.GanttGuide = GanttGuide;
+            data.BurnDownGuide = BurnDownGuide;
+            data.TimeSeriesGuide = TimeSeriesGuide;
+            data.KambanGuide = KambanGuide;
+            data.ImageLibGuide = ImageLibGuide;
             data.ReferenceType = SiteSettings.ReferenceType;
             data.ParentId = SiteSettings.ParentId;
             data.InheritPermission = SiteSettings.InheritPermission;
@@ -2146,7 +2145,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string SetSiteSettings(Context context)
+        public string SetSiteSettings(
+            Context context,
+            bool setSiteSettingsPropertiesBySession = true)
         {
             var invalidFormat = string.Empty;
             var invalid = SiteValidators.OnSetSiteSettings(
@@ -2164,7 +2165,10 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var res = new SitesResponseCollection(this);
-            SetSiteSettingsPropertiesBySession(context: context);
+            if (setSiteSettingsPropertiesBySession)
+            {
+                SetSiteSettingsPropertiesBySession(context: context);
+            }
             SetSiteSettings(context: context, res: res);
             Session_SiteSettings(
                 context: context,
@@ -4463,13 +4467,12 @@ namespace Implem.Pleasanter.Models
         {
             var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>()
                 ?? new SettingList<DataChange>();
-            dataChanges.Add(new DataChange()
-            {
-                Id = dataChanges.MaxOrDefault(o => o.Id) + 1,
-                Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
-                ColumnName = context.Forms.Data("ProcessDataChangeColumnName"),
-                Value = ProcessDataChangeValue(context: context)
-            });
+            dataChanges.Add(new DataChange(
+                id: dataChanges.MaxOrDefault(o => o.Id) + 1,
+                type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
+                columnName: context.Forms.Data("ProcessDataChangeColumnName"),
+                baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
+                value: ProcessDataChangeValue(context: context)));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -4489,9 +4492,11 @@ namespace Implem.Pleasanter.Models
         {
             var dataChanges = context.Forms.Data("ProcessDataChangesTemp").Deserialize<SettingList<DataChange>>();
             var dataChange = dataChanges?.Get(context.Forms.Int("ProcessDataChangeIdTemp"));
-            dataChange.Type = context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>();
-            dataChange.ColumnName = context.Forms.Data("ProcessDataChangeColumnName");
-            dataChange.Value = ProcessDataChangeValue(context: context);
+            dataChange.Update(
+                type: context.Forms.Data("ProcessDataChangeType").ToEnum<DataChange.Types>(),
+                columnName: context.Forms.Data("ProcessDataChangeColumnName"),
+                baseDateTime: context.Forms.Data("ProcessDataChangeBaseDateTime"),
+                value: ProcessDataChangeValue(context: context));
             res
                 .ReplaceAll("#EditProcessDataChange", new HtmlBuilder()
                     .EditProcessDataChange(
@@ -5599,7 +5604,11 @@ namespace Implem.Pleasanter.Models
                 else
                 {
                     context.ServerScriptDisabled = true;
-                    SiteSettings.Remind(context: context, idList: selected, test: true);
+                    SiteSettings.Remind(
+                        context: context,
+                        idList: selected,
+                        scheduledTime: DateTime.Now,
+                        test: true);
                     res.ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings));
                 }

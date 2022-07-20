@@ -1409,7 +1409,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.MessageWhenDuplicated = column.MessageWhenDuplicated;
                     }
-                    if (column.CopyByDefault == true)
+                    if (column.CopyByDefault != columnDefinition.CopyByDefault)
                     {
                         enabled = true;
                         newColumn.CopyByDefault = column.CopyByDefault;
@@ -1821,7 +1821,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultMinValue = column.DefaultMinValue ?? columnDefinition.DefaultMinValue;
                 column.DefaultMaxValue = column.DefaultMaxValue ?? columnDefinition.DefaultMaxValue;
                 column.NoDuplication = column.NoDuplication ?? false;
-                column.CopyByDefault = column.CopyByDefault ?? false;
+                column.CopyByDefault = column.CopyByDefault ?? columnDefinition.CopyByDefault;
                 column.EditorReadOnly = column.EditorReadOnly ?? columnDefinition.EditorReadOnly;
                 column.AutoPostBack = column.AutoPostBack ?? false;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
@@ -3804,13 +3804,24 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 foreach (Match match in value.RegexMatches(@"(?<=\[).+?(?=\])"))
                 {
+                    var isValue = false;
+                    var columnName = match.Value;
+                    // 値の要求(Column.OutputTypes.Value)があるかチェック
+                    if (!labelText && columnName.StartsWith("@"))
+                    {
+                        isValue = true;
+                        columnName = columnName.Substring(1);
+                    }
                     var column = labelText
                         ? Columns.FirstOrDefault(o =>
-                            o.LabelText == match.Value)
+                            o.LabelText == columnName)
                         : Columns.FirstOrDefault(o =>
-                            o.ColumnName == match.Value);
+                            o.ColumnName == columnName);
                     if (column != null)
                     {
+                        column.OutputType = isValue
+                            ? Column.OutputTypes.Value
+                            : Column.OutputTypes.DisplayValue;
                         columns.Add(column);
                     }
                 }
@@ -4331,6 +4342,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .ToList();
         }
 
+        public Link ColumnFilterExpressionsLink(Context context, Column column)
+        {
+            if (column.Linked(
+                context: context,
+                withoutWiki: true))
+            {
+                return Links
+                    ?.Where(o => o.ColumnName == column.ColumnName)
+                    .Where(o => o.JsonFormat == true)
+                    .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
+                    .FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public Tab AddTab(Tab tab)
         {
             TabLatestId = TabLatestId ?? 0;
@@ -4426,11 +4455,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             Views.Add(view);
         }
 
-        public void Remind(Context context, List<int> idList, bool test = false)
+        public void Remind(
+            Context context,
+            List<int> idList,
+            DateTime scheduledTime,
+            bool test = false)
         {
             Reminders?
                 .Where(o => idList.Contains(o.Id))
-                .ForEach(reminder => reminder.Remind(context: context, ss: this, test: test));
+                .ForEach(reminder => reminder.Remind(
+                    context: context,
+                    ss: this,
+                    scheduledTime: scheduledTime,
+                    test: test));
         }
 
         public Export GetExport(Context context, int id = 0)
@@ -5139,12 +5176,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             ServerScriptModelRow serverScriptModelRow)
         {
+            var controlId = context.Forms.ControlId();
             var columns = serverScriptModelRow?.ReplaceFieldColumns(context: context)
                 ?? new List<string>();
             columns.AddRange(Links?
-                .Where(o => $"{ReferenceType}_{o.ColumnName}" == context.Forms.ControlId())
+                .Where(o => $"{ReferenceType}_{o.ColumnName}" == controlId)
                 .Where(o => o.Lookups != null)
                 .SelectMany(o => o.Lookups.Select(p => p.To)));
+            columns.AddRange(Links?
+                .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
+                .Select(o => o.ColumnName));
             columns.AddRange(Columns
                 .Where(o => o.UseSearch == true)
                 .Select(o => o.ColumnName));

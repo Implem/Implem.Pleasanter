@@ -7,6 +7,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss)
         {
             var controlId = context.Forms.Data("DropDownSearchTarget");
+            var referenceId = context.Forms.Long("DropDownSearchReferenceId");
             var filter = controlId.StartsWith("ViewFilters__")
                 || controlId.StartsWith("ProcessViewFilters__")
                 || controlId.StartsWith("StatusControlViewFilters__")
@@ -34,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         context: context,
                         ss: ss,
                         controlId: controlId,
+                        referenceId: referenceId,
                         searchText: searchText,
                         filter: filter,
                         parentClass: parentClass,
@@ -44,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         context: context,
                         ss: ss,
                         controlId: controlId,
+                        referenceId: referenceId,
                         searchText: searchText,
                         filter: filter,
                         parentClass: parentClass,
@@ -53,6 +57,7 @@ namespace Implem.Pleasanter.Libraries.Models
                         context: context,
                         ss: ss,
                         controlId: controlId,
+                        referenceId: referenceId,
                         filter: filter,
                         parentClass: parentClass,
                         parentIds: parentIds);
@@ -63,6 +68,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             string controlId,
+            long referenceId,
             bool filter,
             string parentClass = "",
             List<long> parentIds = null)
@@ -71,6 +77,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 controlId: controlId,
+                referenceId: referenceId,
                 searchText: string.Empty,
                 parentClass: parentClass,
                 parentIds: parentIds);
@@ -95,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             string controlId,
+            long referenceId,
             string searchText,
             bool filter,
             string parentClass = "",
@@ -104,6 +112,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 controlId: controlId,
+                referenceId: referenceId,
                 searchText: searchText,
                 parentClass: parentClass,
                 parentIds: parentIds);
@@ -135,6 +144,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             string controlId,
+            long referenceId,
             string searchText,
             bool filter,
             string parentClass = "",
@@ -145,6 +155,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 controlId: controlId,
+                referenceId: referenceId,
                 searchText: searchText,
                 offset: offset,
                 parentClass: parentClass,
@@ -174,6 +185,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss)
         {
             var controlId = context.Forms.Data("RelatingDropDownControlId");
+            var referenceId = context.Forms.Long("DropDownSearchReferenceId");
             var filter = controlId.StartsWith("ViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             string parentClass = context.Forms.Data("RelatingDropDownParentClass");
@@ -184,6 +196,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 controlId: controlId,
+                referenceId: referenceId,
                 selectedValue: selectedValue,
                 searchText: string.Empty,
                 filter: filter,
@@ -195,6 +208,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             string controlId,
+            long referenceId,
             string searchText,
             string selectedValue,
             bool filter,
@@ -205,6 +219,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 controlId: controlId,
+                referenceId: referenceId,
                 searchText: searchText,
                 parentClass: parentClass,
                 parentIds: parentIds,
@@ -246,6 +261,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss)
         {
             var controlId = context.Forms.Data("DropDownSearchTarget");
+            var referenceId = context.Forms.Long("DropDownSearchReferenceId");
             var filter = controlId.StartsWith("ViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
@@ -253,6 +269,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context,
                 ss: ss,
                 controlId: controlId,
+                referenceId: referenceId,
                 searchText: searchText,
                 searchFormat: false);
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
@@ -291,6 +308,7 @@ namespace Implem.Pleasanter.Libraries.Models
             Context context,
             SiteSettings ss,
             string controlId,
+            long referenceId,
             string searchText,
             int offset = 0,
             string parentClass = "",
@@ -298,7 +316,7 @@ namespace Implem.Pleasanter.Libraries.Models
             bool searchColumnOnly = true,
             bool searchFormat = true)
         {
-            var columnName = controlId.Split('_').Last();
+            var columnName = controlId.Split_2nd('_');
             var column = ss.GetColumn(
                 context: context,
                 columnName: columnName);
@@ -308,18 +326,37 @@ namespace Implem.Pleasanter.Libraries.Models
                 .FirstOrDefault(o => o.ColumnName == column.Name);
             if (link != null)
             {
-                column.SetChoiceHash(
-                    context: context,
-                    ss: ss,
-                    link: link,
-                    searchText: searchText,
-                    parentColumn: ss.GetColumn(
+                // 新規作成画面または、編集画面かつColumnFilterExpressionsの指定がある場合
+                // SetChoiceHashByFilterExpressionsを実行する
+                if ((context.Forms.Bool("IsNew")
+                    || ss.SiteId != referenceId)
+                        && link.View?.ColumnFilterExpressions?.Any() == true)
+                {
+                    ItemUtilities.SetChoiceHashByFilterExpressions(
                         context: context,
-                        columnName: parentClass),
-                    parentIds: parentIds,
-                    offset: offset,
-                    search: true,
-                    searchFormat: searchFormat);
+                        ss: ss,
+                        column: column,
+                        referenceId: referenceId,
+                        searchText: searchText,
+                        offset: offset,
+                        search: true,
+                        searchFormat: searchFormat);
+                }
+                else
+                {
+                    column.SetChoiceHash(
+                        context: context,
+                        ss: ss,
+                        link: link,
+                        searchText: searchText,
+                        parentColumn: ss.GetColumn(
+                            context: context,
+                            columnName: parentClass),
+                        parentIds: parentIds,
+                        offset: offset,
+                        search: true,
+                        searchFormat: searchFormat);
+                }
             }
             else if (column?.Linked(context: context) == true)
             {

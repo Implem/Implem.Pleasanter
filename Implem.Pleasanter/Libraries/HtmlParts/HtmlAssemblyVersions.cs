@@ -25,8 +25,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     context: context,
                     ss: ss,
                     view: null,
-                    verType: Versions.VerTypes.Latest,
-                    methodType: BaseModel.MethodTypes.NotSet,
                     useBreadcrumb: false,
                     useTitle: false,
                     useNavigationMenu: true,

@@ -1,29 +1,152 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Implem.PleasanterTest.Utilities
 {
     public static class ContextData
     {
-        public static Context Get(
-            string httpMethod,
-            string absolutePath,
-            Forms forms = null)
+        public enum UserTypes
         {
+            Anonymous,
+            TenantManager,
+            General1,
+            General2,
+            General3,
+            General4,
+            General5
+        }
+
+        public static Context Get(
+            UserTypes userType = UserTypes.General1,
+            bool hasRoute = true,
+            string formStringRaw = "",
+            string formString = "",
+            string httpMethod = "GET",
+            bool ajax = false,
+            bool mobile = false,
+            Dictionary<string, string> routeData = null,
+            string server = "http://localhost:59802",
+            string applicationPath = "/",
+            string absoluteUri = "http://localhost:59802/",
+            string absolutePath = "",
+            string url = "",
+            string urlReferrer = "",
+            string query = "",
+            string userHostName = "::1",
+            string userHostAddress = "::1",
+            string userAgent = "Implem.PleasanterTest",
+            QueryStrings queryStrings = null,
+            Forms forms = null,
+            bool setItemProperties = true,
+            bool setPermissions = true)
+        {
+            var userModel = GetUser(userType: userType);
             var context = new Context(
                 request: false,
                 sessionStatus: false,
                 sessionData: false,
                 user: false,
                 item: false);
+            if (userModel != null)
+            {
+                context.Authenticated = true;
+                context.TenantId = userModel.TenantId;
+                context.LoginId = userModel.LoginId;
+                context.DeptId = userModel.DeptId;
+                context.UserId = userModel.UserId;
+                context.Dept = SiteInfo.Dept(
+                    tenantId: context.TenantId,
+                    deptId: context.DeptId);
+                context.User = SiteInfo.User(
+                    context: context,
+                    userId: context.UserId);
+                context.Language = userModel.Language;
+                context.Theme = Strings.CoalesceEmpty(
+                    userModel.Theme,
+                    Parameters.User.Theme,
+                    "sunny");
+                context.Developer = userModel.Developer;
+                context.TimeZoneInfo = userModel.TimeZoneInfo;
+                context.UserSettings = userModel.UserSettings;
+                context.HasPrivilege = Permissions.PrivilegedUsers(userModel.LoginId);
+            }
+            context.HasRoute = hasRoute;
+            context.FormStringRaw = formStringRaw;
+            context.FormString = formString;
             context.HttpMethod = httpMethod;
-            context.Forms = forms ?? new Forms();
-            context.Server = "http://localhost:59802";
-            context.ApplicationPath = "/";
-            context.AbsoluteUri = $"http://localhost:59802{absolutePath}";
+            context.Ajax = ajax;
+            context.Mobile = mobile;
+            context.RouteData = routeData;
+            context.Server = server;
+            context.ApplicationPath = applicationPath;
+            context.AbsoluteUri = absoluteUri;
             context.AbsolutePath = absolutePath;
-            context.UserHostName = "::1";
-            context.UserHostAddress = "::1";
-            context.UserAgent = "Implem.PleasanterTest";
+            context.Url = url;
+            context.UrlReferrer = urlReferrer;
+            context.Query = query;
+            context.Controller = context.RouteData.Get("controller")?.ToLower() ?? string.Empty;
+            context.Action = context.RouteData.Get("action")?.ToLower() ?? string.Empty;
+            context.Id = context.RouteData.Get("id")?.ToLong() ?? 0;
+            context.Guid = context.RouteData.Get("guid")?.ToUpper();
+            context.UserHostName = userHostName;
+            context.UserHostAddress = userHostAddress;
+            context.UserAgent = userAgent;
+            context.QueryStrings = queryStrings ?? new QueryStrings();
+            context.Forms = forms ?? new Forms();
+            if (setItemProperties) context.SetItemProperties();
+            if (setPermissions) context.SetPermissions();
             return context;
+        }
+
+        private static UserModel GetUser(UserTypes userType)
+        {
+            UserModel userModel = null;
+            switch (userType)
+            {
+                case UserTypes.TenantManager:
+                    userModel = Initializer.Users
+                        .Values
+                        .Where(o => o.TenantManager)
+                        .FirstOrDefault();
+                    break;
+                case UserTypes.General1:
+                    userModel = Initializer.Users
+                        .Values
+                        .Where(o => o.LoginId.EndsWith("User2"))
+                        .FirstOrDefault();
+                    break;
+                case UserTypes.General2:
+                    userModel = Initializer.Users
+                        .Values
+                        .Where(o => o.LoginId.EndsWith("User3"))
+                        .FirstOrDefault();
+                    break;
+                case UserTypes.General3:
+                    userModel = Initializer.Users
+                        .Values
+                        .Where(o => o.LoginId.EndsWith("User4"))
+                        .FirstOrDefault();
+                    break;
+                case UserTypes.General4:
+                    userModel = Initializer.Users
+                        .Values
+                        .Where(o => o.LoginId.EndsWith("User5"))
+                        .FirstOrDefault();
+                    break;
+                case UserTypes.General5:
+                    userModel = Initializer.Users
+                        .Values
+                        .Where(o => o.LoginId.EndsWith("User6"))
+                        .FirstOrDefault();
+                    break;
+            }
+            return userModel;
         }
     }
 }

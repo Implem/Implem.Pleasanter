@@ -874,7 +874,8 @@ namespace Implem.Pleasanter.Models
                 if (!userModel.GetByCredentials(
                     context: context,
                     loginId: userModel.LoginId,
-                    password: userModel.OldPassword))
+                    password: userModel.OldPassword,
+                    updateLockout: true))
                 {
                     return new ErrorData(type: Error.Types.IncorrectCurrentPassword);
                 }
@@ -904,7 +905,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 loginId: userModel.LoginId,
                 password: userModel.Password,
-                tenantId: context.Forms.Int("SelectedTenantId")))
+                tenantId: context.Forms.Int("SelectedTenantId"),
+                updateLockout: true))
             {
                 return new ErrorData(type: Error.Types.IncorrectCurrentPassword);
             }

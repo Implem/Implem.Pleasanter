@@ -57,17 +57,26 @@
         if ($p.disableAutPostback) return;
         var fieldSetTab = $('li[role="tab"][aria-selected=true][aria-controls^=FieldSetTab]');
         var selectedTabIndex = fieldSetTab.parent().children().index(fieldSetTab);
-        var $mainForm = $('#MainForm');
-        var data = $p.getData($mainForm);
-        $p.setMustData($mainForm);
+        var $form = $('#MainForm');
+        var id = $p.id();
+        var action = $p.action();
+        // ダイアログ編集の場合にはフォームとidとactionを差し替え
+        if ($control.closest('#DialogEditorForm').length) {
+            $form = $('#DialogEditorForm');
+            id = $('#EditorInDialogRecordId').val();
+            action = 'edit';
+        }
+        var url = $('#BaseUrl').val()
+            + id
+            + '/'
+            + action
+            + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex;
+        var data = $p.getData($form);
+        $p.setMustData($form);
         data.ControlId = $control.attr('id');
         data.ReplaceFieldColumns = $('#ReplaceFieldColumns').val();
         return $p.ajax(
-            $('#BaseUrl').val()
-            + $p.id()
-            + '/'
-            + $p.action()
-            + '/?control-auto-postback=1&TabIndex=' + selectedTabIndex,
+            url,
             'post',
             data,
             $control,

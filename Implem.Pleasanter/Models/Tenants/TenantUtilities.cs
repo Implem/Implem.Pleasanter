@@ -428,8 +428,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: null,
-                verType: tenantModel.VerType,
-                methodType: tenantModel.MethodType,
                 referenceType: "Tenants",
                 title: tenantModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Tenants(context: context) + " - " + Displays.New(context: context)
@@ -587,7 +585,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: titleColumn,
-                    methodType: tenantModel.MethodType,
                     value: tenantModel.Title
                         .ToControl(context: context, ss: ss, column: titleColumn),
                     columnPermissionType: Permissions.ColumnPermissionType(
@@ -632,7 +629,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: htmlTitleTopColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleTop.ToControl(
                                 context: context,
                                 ss: ss,
@@ -646,7 +642,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: htmlTitleSiteColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleSite.ToControl(
                                 context: context,
                                 ss: ss,
@@ -660,7 +655,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: htmlTitleRecordColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.HtmlTitleRecord.ToControl(
                                 context: context,
                                 ss: ss,
@@ -698,7 +692,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: topStyleColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.TopStyle.ToControl(
                                 context: context,
                                 ss: ss,
@@ -717,7 +710,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: topScriptColumn,
-                            methodType: tenantModel.MethodType,
                             value: tenantModel.TopScript.ToControl(
                                 context: context,
                                 ss: ss,
@@ -751,7 +743,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: tenantModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
@@ -1144,7 +1135,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             tenantModel: tenantModel,
-                            process: processes.FirstOrDefault()));
+                            process: processes?.FirstOrDefault()));
                     return new ResponseCollection()
                         .Response("id", tenantModel.TenantId.ToString())
                         .SetMemory("formChanged", false)
