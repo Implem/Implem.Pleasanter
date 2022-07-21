@@ -2665,7 +2665,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             if (raw)
             {
-                ColumnFilterHash[columnName] = expression.Substring(1);
+                if (expression == "=")
+                {
+                    ColumnFilterHash[Rds.IdColumn(ss.ReferenceType)] = "-1";
+                }
+                else
+                {
+                    ColumnFilterHash[columnName] = expression.Substring(1);
+                }
             }
             else if (expression.IsNullOrEmpty())
             {
