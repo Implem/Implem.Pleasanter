@@ -82,5 +82,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
         {
             return ToString();
         }
+
+        public override string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return $"{DisplayValue}\n{Body}";
+        }
     }
 }

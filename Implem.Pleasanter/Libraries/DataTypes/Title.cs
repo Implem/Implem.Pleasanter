@@ -249,7 +249,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return Value;
         }
 
-        public string ToDisplay(Context context, SiteSettings ss, Column column)
+        public virtual string ToDisplay(Context context, SiteSettings ss, Column column)
         {
             return DisplayValue;
         }
