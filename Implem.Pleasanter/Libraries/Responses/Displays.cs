@@ -6749,6 +6749,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string PermissionForUpdating(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PermissionForUpdating",
+                data: data);
+        }
+
         public static string PermissionNotSelfChange(
             Context context,
             params string[] data)

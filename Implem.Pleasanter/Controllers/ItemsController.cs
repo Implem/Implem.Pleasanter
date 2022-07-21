@@ -976,7 +976,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = PermissionUtilities.PermissionForCreating(
+            var json = PermissionUtilities.PermissionForRecord(
                 context: context, referenceId: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;
@@ -999,6 +999,28 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = PermissionUtilities.OpenPermissionForCreatingDialog(
+                context: context, referenceId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [AcceptVerbs(HttpVerbs.Post, HttpVerbs.Delete)]
+        public string SetPermissionForUpdating(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = PermissionUtilities.SetPermissionForUpdating(
+                context: context, referenceId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
+        public string OpenPermissionForUpdatingDialog(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = PermissionUtilities.OpenPermissionForUpdatingDialog(
                 context: context, referenceId: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;

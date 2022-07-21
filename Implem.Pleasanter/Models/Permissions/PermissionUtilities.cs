@@ -1108,7 +1108,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string PermissionForCreating(Context context, long referenceId)
+        public static string PermissionForRecord(Context context, long referenceId)
         {
             var ss = SiteSettingsUtilities.Get(
                 context: context,
@@ -1124,7 +1124,7 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection()
                 .Html(
                     "#FieldSetRecordAccessControl",
-                    new HtmlBuilder().PermissionForCreating(
+                    new HtmlBuilder().FieldSetRecordAccessControl(
                         context: context,
                         ss: ss))
                 .RemoveAttr("#FieldSetRecordAccessControl", "data-action")
@@ -1134,26 +1134,45 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder PermissionForCreating(
+        private static HtmlBuilder FieldSetRecordAccessControl(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var permissions = PermissionForCreating(ss);
-            return hb.FieldSet(
-                id: "FieldSetRecordAccessControl",
-                css: " enclosed",
-                legendText: Displays.PermissionForCreating(context: context),
-                action: () => hb
-                    .Div(
-                        id: "PermissionForCreating",
-                        action: () => hb
-                            .CurrentPermissionForCreating(
-                                context: context,
-                                ss: ss,
-                                permissions: permissions.Where(o => !o.Source))
-                            .SourcePermissionForCreating(
-                                context: context,
-                                ss: ss,
-                                permissions: permissions.Where(o => o.Source))));
+            var permissionsForCreating = PermissionForCreating(ss);
+            var permissionsForUpdating = PermissionForUpdating(ss);
+
+            return hb
+                .FieldSet(
+                    id: "FieldSetRecordAccessControlForCreating",
+                    css: " enclosed",
+                    legendText: Displays.PermissionForCreating(context: context),
+                    action: () => hb
+                        .Div(
+                            id: "PermissionForCreating",
+                            action: () => hb
+                                .CurrentPermissionForCreating(
+                                    context: context,
+                                    ss: ss,
+                                    permissions: permissionsForCreating.Where(o => !o.Source))
+                                .SourcePermissionForCreating(
+                                    context: context,
+                                    ss: ss,
+                                    permissions: permissionsForCreating.Where(o => o.Source))))
+                .FieldSet(
+                    id: "FieldSetRecordAccessControlForUpdating",
+                    css: " enclosed",
+                    legendText: Displays.PermissionForUpdating(context: context),
+                    action: () => hb
+                        .Div(
+                            id: "PermissionForUpdating",
+                            action: () => hb
+                                .CurrentPermissionForUpdating(
+                                    context: context,
+                                    ss: ss,
+                                    permissions: permissionsForUpdating.Where(o => !o.Source))
+                                .SourcePermissionForUpdating(
+                                    context: context,
+                                    ss: ss,
+                                    permissions: permissionsForUpdating.Where(o => o.Source))));
         }
 
         /// <summary>
@@ -1195,6 +1214,41 @@ namespace Implem.Pleasanter.Models
                             method: "delete")));
         }
 
+        private static HtmlBuilder CurrentPermissionForUpdating(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<Permission> permissions)
+        {
+            return hb.FieldSelectable(
+                controlId: "CurrentPermissionForUpdating",
+                fieldCss: "field-vertical both",
+                controlContainerCss: "container-selectable",
+                controlCss: " send-all",
+                labelText: Displays.CurrentSettings(context: context),
+                listItemCollection: permissions.ToDictionary(
+                    o => o.Key(),
+                    o => o.ControlData(context: context, ss: ss)),
+                commandOptionPositionIsTop: true,
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "OpenPermissionForUpdatingDialog",
+                            controlCss: "button-icon post",
+                            text: Displays.AdvancedSetting(context: context),
+                            onClick: "$p.openPermissionForUpdatingDialog($(this));",
+                            icon: "ui-icon-gear",
+                            action: "OpenPermissionForUpdatingDialog",
+                            method: "post")
+                        .Button(
+                            controlId: "DeletePermissionForUpdating",
+                            controlCss: "button-icon post",
+                            text: Displays.ToDisable(context: context),
+                            onClick: "$p.setPermissionForUpdating($(this));",
+                            icon: "ui-icon-circle-triangle-e",
+                            action: "SetPermissionForUpdating",
+                            method: "delete")));
+        }
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -1228,6 +1282,36 @@ namespace Implem.Pleasanter.Models
                             method: "post")));
         }
 
+        private static HtmlBuilder SourcePermissionForUpdating(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<Permission> permissions)
+        {
+            return hb.FieldSelectable(
+                controlId: "SourcePermissionForUpdating",
+                fieldCss: "field-vertical",
+                controlContainerCss: "container-selectable",
+                controlWrapperCss: " h300",
+                labelText: Displays.OptionList(context: context),
+                listItemCollection: permissions.ToDictionary(
+                    o => o.Key(), o => o.ControlData(
+                        context: context,
+                        ss: ss,
+                        withType: false)),
+                commandOptionPositionIsTop: true,
+                commandOptionAction: () => hb
+                    .Div(css: "command-left", action: () => hb
+                        .Button(
+                            controlId: "AddPermissionForUpdating",
+                            controlCss: "button-icon post",
+                            text: Displays.ToEnable(context: context),
+                            onClick: "$p.setPermissionForUpdating($(this));",
+                            icon: "ui-icon-circle-triangle-w",
+                            action: "SetPermissionForUpdating",
+                            method: "post")));
+        }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -1244,6 +1328,25 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Type == Column.Types.User)
                 .Where(o => o.ColumnName != "Creator" && o.ColumnName != "Updator")
                 .Select(o => ss.GetPermissionForCreating(o.ColumnName)));
+            return permissions;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static List<Permission> PermissionForUpdating(SiteSettings ss)
+        {
+            var type = (Permissions.Types)Parameters.Permissions.General;
+            var permissions = new List<Permission>
+            {
+                ss.GetPermissionForUpdating("Dept"),
+                ss.GetPermissionForUpdating("Group"),
+                ss.GetPermissionForUpdating("User")
+            };
+            permissions.AddRange(ss.Columns
+                .Where(o => o.Type == Column.Types.User)
+                .Where(o => o.ColumnName != "Creator" && o.ColumnName != "Updator")
+                .Select(o => ss.GetPermissionForUpdating(o.ColumnName)));
             return permissions;
         }
 
@@ -1438,6 +1541,202 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.changePermissionForCreating($(this));",
                             icon: "ui-icon-disk",
                             action: "SetPermissionForCreating",
+                            method: "post")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        public static string SetPermissionForUpdating(Context context, long referenceId)
+        {
+            var itemModel = new ItemModel(
+                context: context,
+                referenceId: referenceId);
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: itemModel.SiteId,
+                formData: context.Forms);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: referenceId);
+            var invalid = PermissionValidators.OnUpdating(
+                context: context,
+                ss: siteModel.SiteSettings);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            var res = new ResponseCollection();
+            var selectedCurrentPermissionForUpdating = context.Forms.List("CurrentPermissionForUpdating");
+            var selectedSourcePermissionForUpdating = context.Forms.List("SourcePermissionForUpdating");
+            if (context.Forms.ControlId() != "AddPermissionForUpdating" &&
+                selectedCurrentPermissionForUpdating.Any(o =>
+                    o.StartsWith($"User,{context.UserId},")))
+            {
+                res.Message(Messages.PermissionNotSelfChange(context: context));
+            }
+            else
+            {
+                var permissionForUpdating = PermissionForUpdating(siteModel.SiteSettings);
+                var currentPermissionForUpdating = context.Forms.Exists("CurrentPermissionForUpdatingAll")
+                    ? Permissions.Get(context.Forms.List("CurrentPermissionForUpdatingAll"))
+                    : permissionForUpdating.Where(o => !o.Source).ToList();
+                var sourcePermissionForUpdating = permissionForUpdating
+                    .Where(o => !currentPermissionForUpdating.Any(p =>
+                        p.NameAndId() == o.NameAndId()))
+                    .ToList();
+                switch (context.Forms.ControlId())
+                {
+                    case "AddPermissionForUpdating":
+                        currentPermissionForUpdating.AddRange(
+                            Permissions.Get(selectedSourcePermissionForUpdating,
+                                Permissions.General()));
+                        sourcePermissionForUpdating.RemoveAll(o =>
+                            selectedSourcePermissionForUpdating.Any(p =>
+                                Same(p, o.Key())));
+                        res
+                            .Html("#CurrentPermissionForUpdating", PermissionListItem(
+                                context: context,
+                                ss: siteModel.SiteSettings,
+                                permissions: currentPermissionForUpdating,
+                                selectedValueTextCollection: selectedSourcePermissionForUpdating))
+                            .Html("#SourcePermissionForUpdating", PermissionListItem(
+                                context: context,
+                                ss: siteModel.SiteSettings,
+                                permissions: sourcePermissionForUpdating,
+                                withType: false))
+                            .SetData("#CurrentPermissionForUpdating")
+                            .SetData("#SourcePermissionForUpdating");
+                        break;
+                    case "PermissionForUpdatingPattern":
+                        res.ReplaceAll(
+                            "#PermissionForUpdatingParts",
+                            new HtmlBuilder().PermissionParts(
+                                context: context,
+                                controlId: "PermissionForUpdatingParts",
+                                labelText: Displays.Permissions(context: context),
+                                permissionType: (Permissions.Types)context.Forms.Long(
+                                    "PermissionForUpdatingPattern")));
+                        break;
+                    case "ChangePermissionForUpdating":
+                        res.ChangePermissions(
+                            context: context,
+                            ss: siteModel.SiteSettings,
+                            selector: "#CurrentPermissionForUpdating",
+                            currentPermissions: currentPermissionForUpdating,
+                            selectedCurrentPermissions: selectedCurrentPermissionForUpdating,
+                            permissionType: GetPermissionTypeByForm(context: context));
+                        break;
+                    case "DeletePermissionForUpdating":
+                        sourcePermissionForUpdating.AddRange(
+                            currentPermissionForUpdating.Where(o =>
+                                selectedCurrentPermissionForUpdating.Any(p =>
+                                    Same(p, o.Key()))));
+                        currentPermissionForUpdating.RemoveAll(o =>
+                            selectedCurrentPermissionForUpdating.Any(p =>
+                                Same(p, o.Key())));
+                        res
+                            .Html("#CurrentPermissionForUpdating", PermissionListItem(
+                                context: context,
+                                ss: siteModel.SiteSettings,
+                                permissions: currentPermissionForUpdating))
+                            .Html("#SourcePermissionForUpdating", PermissionListItem(
+                                context: context,
+                                ss: siteModel.SiteSettings,
+                                permissions: sourcePermissionForUpdating,
+                                selectedValueTextCollection: selectedCurrentPermissionForUpdating,
+                                withType: false))
+                            .SetData("#CurrentPermissionForUpdating")
+                            .SetData("#SourcePermissionForUpdating");
+                        break;
+                }
+            }
+            return res
+                .SetMemory("formChanged", true)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string OpenPermissionForUpdatingDialog(Context context, long referenceId)
+        {
+            var res = new ResponseCollection();
+            var selected = context.Forms.List("CurrentPermissionForUpdating");
+            if (!selected.Any())
+            {
+                return res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                return res.Html("#PermissionForUpdatingDialog", PermissionForUpdatingDialog(
+                    context: context,
+                    permissionType: (Permissions.Types)selected
+                        .FirstOrDefault()
+                        .Split_3rd()
+                        .ToLong(),
+                    referenceId: referenceId)).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder PermissionForUpdatingDialog(this HtmlBuilder hb, Context context)
+        {
+            return hb.Div(attributes: new HtmlAttributes()
+                .Id("PermissionForUpdatingDialog")
+                .Class("dialog")
+                .Title(Displays.AdvancedSetting(context: context)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder PermissionForUpdatingDialog(
+            Context context, Permissions.Types permissionType, long referenceId)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("PermissionForUpdatingForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: referenceId)),
+                action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "PermissionForUpdatingPattern",
+                        controlCss: " auto-postback",
+                        labelText: Displays.Pattern(context: context),
+                        optionCollection: Parameters.Permissions.Pattern
+                            .ToDictionary(
+                                o => o.Value.ToString(),
+                                o => new ControlData(Displays.Get(
+                                    context: context,
+                                    id: o.Key))),
+                        selectedValue: permissionType.ToLong().ToString(),
+                        addSelectedValue: false,
+                        action: "SetPermissionForUpdating",
+                        method: "post")
+                    .PermissionParts(
+                        context: context,
+                        controlId: "PermissionForUpdatingParts",
+                        labelText: Displays.Permissions(context: context),
+                        permissionType: permissionType)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "ChangePermissionForUpdating",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.changePermissionForUpdating($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetPermissionForUpdating",
                             method: "post")
                         .Button(
                             text: Displays.Cancel(context: context),
