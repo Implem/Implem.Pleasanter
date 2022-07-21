@@ -365,6 +365,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
                     case "Model_ApiGroupMembers": Code.Model_ApiGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiGroupMembers, definitionRow, CodeXls); break;
                     case "Model_ApiItemTitle": Code.Model_ApiItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiItemTitle, definitionRow, CodeXls); break;
+                    case "Model_ApiMailAddresses": Code.Model_ApiMailAddresses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiMailAddresses, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyCases": Code.Model_ApiPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyCases, definitionRow, CodeXls); break;
                     case "Model_ApiPropertyNullType": Code.Model_ApiPropertyNullType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiPropertyNullType, definitionRow, CodeXls); break;
                     case "Model_ApiValueCases": Code.Model_ApiValueCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiValueCases, definitionRow, CodeXls); break;
@@ -444,8 +445,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_GetByApi": Code.Model_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ColumnCases": Code.Model_GetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_GetByApi_CompletionTimeColumnCases": Code.Model_GetByApi_CompletionTimeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_CompletionTimeColumnCases, definitionRow, CodeXls); break;
+                    case "Model_GetByApi_GetMailAddressesParameter": Code.Model_GetByApi_GetMailAddressesParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_GetMailAddressesParameter, definitionRow, CodeXls); break;
                     case "Model_GetByApi_GroupMembers": Code.Model_GetByApi_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_GetByApi_ItemTitle": Code.Model_GetByApi_ItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_ItemTitle, definitionRow, CodeXls); break;
+                    case "Model_GetByApi_MailAddresses": Code.Model_GetByApi_MailAddresses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApi_MailAddresses, definitionRow, CodeXls); break;
                     case "Model_GetByApiCases": Code.Model_GetByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetByApiCases, definitionRow, CodeXls); break;
                     case "Model_GetCases": Code.Model_GetCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetCases, definitionRow, CodeXls); break;
                     case "Model_GetDefaultColumns": Code.Model_GetDefaultColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_GetDefaultColumns, definitionRow, CodeXls); break;
@@ -650,6 +653,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_TimeSeriesJsonCases": Code.Model_TimeSeriesJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TimeSeriesJsonCases, definitionRow, CodeXls); break;
                     case "Model_ToApiDisplayValue": Code.Model_ToApiDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiDisplayValue, definitionRow, CodeXls); break;
                     case "Model_ToApiDisplayValueColumnCases": Code.Model_ToApiDisplayValueColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiDisplayValueColumnCases, definitionRow, CodeXls); break;
+                    case "Model_ToApiDisplayValueMailAddresses": Code.Model_ToApiDisplayValueMailAddresses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiDisplayValueMailAddresses, definitionRow, CodeXls); break;
                     case "Model_ToApiValue": Code.Model_ToApiValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiValue, definitionRow, CodeXls); break;
                     case "Model_ToApiValueColumnCases": Code.Model_ToApiValueColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToApiValueColumnCases, definitionRow, CodeXls); break;
                     case "Model_ToDisplay": Code.Model_ToDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplay, definitionRow, CodeXls); break;
@@ -6574,6 +6578,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Api;
         public string Model_ApiGroupMembers;
         public string Model_ApiItemTitle;
+        public string Model_ApiMailAddresses;
         public string Model_ApiPropertyCases;
         public string Model_ApiPropertyNullType;
         public string Model_ApiValueCases;
@@ -6653,8 +6658,10 @@ namespace Implem.DefinitionAccessor
         public string Model_GetByApi;
         public string Model_GetByApi_ColumnCases;
         public string Model_GetByApi_CompletionTimeColumnCases;
+        public string Model_GetByApi_GetMailAddressesParameter;
         public string Model_GetByApi_GroupMembers;
         public string Model_GetByApi_ItemTitle;
+        public string Model_GetByApi_MailAddresses;
         public string Model_GetByApiCases;
         public string Model_GetCases;
         public string Model_GetDefaultColumns;
@@ -6859,6 +6866,7 @@ namespace Implem.DefinitionAccessor
         public string Model_TimeSeriesJsonCases;
         public string Model_ToApiDisplayValue;
         public string Model_ToApiDisplayValueColumnCases;
+        public string Model_ToApiDisplayValueMailAddresses;
         public string Model_ToApiValue;
         public string Model_ToApiValueColumnCases;
         public string Model_ToDisplay;
@@ -7323,6 +7331,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Api = new CodeDefinition();
         public CodeDefinition Model_ApiGroupMembers = new CodeDefinition();
         public CodeDefinition Model_ApiItemTitle = new CodeDefinition();
+        public CodeDefinition Model_ApiMailAddresses = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyCases = new CodeDefinition();
         public CodeDefinition Model_ApiPropertyNullType = new CodeDefinition();
         public CodeDefinition Model_ApiValueCases = new CodeDefinition();
@@ -7402,8 +7411,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_GetByApi = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_GetByApi_CompletionTimeColumnCases = new CodeDefinition();
+        public CodeDefinition Model_GetByApi_GetMailAddressesParameter = new CodeDefinition();
         public CodeDefinition Model_GetByApi_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_GetByApi_ItemTitle = new CodeDefinition();
+        public CodeDefinition Model_GetByApi_MailAddresses = new CodeDefinition();
         public CodeDefinition Model_GetByApiCases = new CodeDefinition();
         public CodeDefinition Model_GetCases = new CodeDefinition();
         public CodeDefinition Model_GetDefaultColumns = new CodeDefinition();
@@ -7608,6 +7619,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_TimeSeriesJsonCases = new CodeDefinition();
         public CodeDefinition Model_ToApiDisplayValue = new CodeDefinition();
         public CodeDefinition Model_ToApiDisplayValueColumnCases = new CodeDefinition();
+        public CodeDefinition Model_ToApiDisplayValueMailAddresses = new CodeDefinition();
         public CodeDefinition Model_ToApiValue = new CodeDefinition();
         public CodeDefinition Model_ToApiValueColumnCases = new CodeDefinition();
         public CodeDefinition Model_ToDisplay = new CodeDefinition();

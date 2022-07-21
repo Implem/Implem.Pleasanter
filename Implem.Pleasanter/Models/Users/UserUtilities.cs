@@ -4326,7 +4326,8 @@ namespace Implem.Pleasanter.Models
                             TotalCount = users.Count(),
                             Data = users.Select(o => o.GetByApi(
                                 context: context,
-                                ss: ss))
+                                ss: ss,
+                                getMailAddresses: view.ApiGetMailAddresses))
                         }
                     }.ToJson());
             }

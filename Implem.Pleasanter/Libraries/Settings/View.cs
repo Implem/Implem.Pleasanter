@@ -106,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Groups;
         public List<int> Users;
         public ApiDataTypes ApiDataType;
+        public bool? ApiGetMailAddresses;
         [NonSerialized]
         public SqlWhereCollection AdditionalWhere;
         [NonSerialized]
