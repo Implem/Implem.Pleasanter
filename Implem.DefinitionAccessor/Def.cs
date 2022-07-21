@@ -655,6 +655,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ToDisplay": Code.Model_ToDisplay = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplay, definitionRow, CodeXls); break;
                     case "Model_ToDisplayColumnCases": Code.Model_ToDisplayColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases, definitionRow, CodeXls); break;
                     case "Model_ToDisplayColumnCases_Dept": Code.Model_ToDisplayColumnCases_Dept = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases_Dept, definitionRow, CodeXls); break;
+                    case "Model_ToDisplayColumnCases_TitleBody": Code.Model_ToDisplayColumnCases_TitleBody = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToDisplayColumnCases_TitleBody, definitionRow, CodeXls); break;
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
                     case "Model_ToValue": Code.Model_ToValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToValue, definitionRow, CodeXls); break;
@@ -6864,6 +6865,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ToDisplay;
         public string Model_ToDisplayColumnCases;
         public string Model_ToDisplayColumnCases_Dept;
+        public string Model_ToDisplayColumnCases_TitleBody;
         public string Model_ToLocal;
         public string Model_ToUniversal;
         public string Model_ToValue;
@@ -7613,6 +7615,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ToDisplay = new CodeDefinition();
         public CodeDefinition Model_ToDisplayColumnCases = new CodeDefinition();
         public CodeDefinition Model_ToDisplayColumnCases_Dept = new CodeDefinition();
+        public CodeDefinition Model_ToDisplayColumnCases_TitleBody = new CodeDefinition();
         public CodeDefinition Model_ToLocal = new CodeDefinition();
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
         public CodeDefinition Model_ToValue = new CodeDefinition();

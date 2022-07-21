@@ -12,10 +12,16 @@
     {
 
 <!--Model_ToDisplayColumnCases-->
+<!--Model_ToDisplayColumnCases_TitleBody-->
 <!--Model_ToDisplayColumnCases_Dept-->
 
         case "Ver":
             return Ver.ToDisplay(
+                context: context,
+                ss: ss,
+                column: column);
+        case "Comments":
+            return Comments.ToDisplay(
                 context: context,
                 ss: ss,
                 column: column);
