@@ -79,7 +79,7 @@
   </ItemGroup>
     
   <ItemGroup>
-      <Folder Include="Views\" />
+    <Folder Include="Views\" />
   </ItemGroup>
     
   <ItemGroup>
