@@ -1420,7 +1420,7 @@ namespace Implem.Pleasanter.Models
             {
                 data.MailAddresses = GetMailAddresses(
                     context: context,
-                    siteSettings: ss,
+                    ss: ss,
                     userId: data.UserId);
             }
             return data;
@@ -2057,7 +2057,7 @@ namespace Implem.Pleasanter.Models
                 case "MailAddresses":
                     return GetMailAddresses(
                         context: context,
-                        siteSettings: ss,
+                        ss: ss,
                         userId: UserId);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
@@ -3463,7 +3463,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private List<string> GetMailAddresses(Context context, SiteSettings siteSettings, int? userId)
+        private List<string> GetMailAddresses(Context context, SiteSettings ss, int? userId)
         {
             var mailAddresses = Repository.ExecuteTable(
                 context: context,
