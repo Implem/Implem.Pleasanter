@@ -2,6 +2,6 @@
 {
     data.MailAddresses = GetMailAddresses(
         context: context,
-        siteSettings: ss,
+        ss: ss,
         userId: data.UserId);
 }
