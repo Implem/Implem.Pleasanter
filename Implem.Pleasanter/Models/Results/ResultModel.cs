@@ -2692,6 +2692,10 @@ namespace Implem.Pleasanter.Models
             bool copyByDefaultOnly = false)
         {
             var changedFormData = ss.Links
+                // TOの競合対策のため直近で操作されたコントロールの順番に並び替え
+                .OrderBy(link => context.ControlledOrder?.Contains($"{ss.ReferenceType}_{link.ColumnName}") == true
+                    ? context.ControlledOrder.IndexOf($"{ss.ReferenceType}_{link.ColumnName}")
+                    : int.MaxValue)
                 .Where(link => link.Lookups?.Any() == true)
                 .Where(link => PropertyUpdated(
                     context: context,
@@ -2713,6 +2717,9 @@ namespace Implem.Pleasanter.Models
                         .Select(column => column.ColumnName)
                         .ToList(),
                     copyByDefaultOnly: copyByDefaultOnly))
+                // TOの競合対策のためキーでグループ化して競合しているものは先頭を使用
+                .GroupBy(o => o.Key)
+                .Select(o => o.FirstOrDefault())
                 .ToDictionary(o => o.Key, o => o.Value);
             if (changedFormData.Any())
             {

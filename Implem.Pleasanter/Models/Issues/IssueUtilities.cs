@@ -1617,6 +1617,10 @@ namespace Implem.Pleasanter.Models
                             value: context.QueryStrings.Data("FromTabIndex"),
                             _using: context.QueryStrings.Long("FromTabIndex") > 0)
                         .Hidden(
+                            controlId: "ControlledOrder",
+                            css: "control-hidden always-send",
+                            value: string.Empty)
+                        .Hidden(
                             controlId: "MethodType",
                             value: issueModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -2409,6 +2413,7 @@ namespace Implem.Pleasanter.Models
                         issueModel: issueModel,
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
+                .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
                 .Messages(context.Messages)
                 .Log(context.GetLog());
             return ret;
