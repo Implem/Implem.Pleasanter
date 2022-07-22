@@ -74,6 +74,7 @@
     <ProjectReference Include="..\Implem.Factory\Implem.Factory.csproj" />
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
+    <ProjectReference Include="..\Implem.Plugins\Implem.Plugins.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
   </ItemGroup>
 
@@ -114,6 +115,10 @@
     <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 
 </Project>

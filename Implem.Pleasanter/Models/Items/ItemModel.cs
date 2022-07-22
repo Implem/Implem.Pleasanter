@@ -2454,6 +2454,36 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.Pdf(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        issueId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        reportId: reportId);
+                case "Results":
+                    return ResultUtilities.Pdf(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        resultId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        reportId: reportId);
+                default:
+                    return (null, HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+        }
+
         public string LockTable(Context context)
         {
             SetSite(

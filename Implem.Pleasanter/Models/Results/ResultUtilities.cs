@@ -1512,6 +1512,10 @@ namespace Implem.Pleasanter.Models
                             value: context.QueryStrings.Data("FromTabIndex"),
                             _using: context.QueryStrings.Long("FromTabIndex") > 0)
                         .Hidden(
+                            controlId: "ControlledOrder",
+                            css: "control-hidden always-send",
+                            value: string.Empty)
+                        .Hidden(
                             controlId: "MethodType",
                             value: resultModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -2252,6 +2256,7 @@ namespace Implem.Pleasanter.Models
                         resultModel: resultModel,
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
+                .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
                 .Messages(context.Messages)
                 .Log(context.GetLog());
             return ret;
@@ -7398,6 +7403,80 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 notice: true);
             return KambanJson(context: context, ss: ss);
+        }
+
+        public static (Plugins.PdfData pdfData, string error) Pdf(
+            Context context,
+            SiteSettings ss,
+            long resultId,
+            int reportId)
+        {
+            var invalid = ResultValidators.OnGet(
+                context: context,
+                ss: ss,
+                api: false);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return (
+                        null,
+                        HtmlTemplates.Error(
+                            context: context,
+                            errorData: new ErrorData(type: invalid.Type)));
+            }
+            var extendedPlugin = Parameters.ExtendedPlugins
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
+                    context: context,
+                    siteId: ss.SiteId)
+                .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
+            if (extendedPlugin == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            View view = Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: false) ?? new View();
+            SqlWhereCollection where = null;
+            if (resultId > 0)
+            {
+                view = new View()
+                {
+                    GridColumns = view.GridColumns?.ToList(),
+                    ColumnFilterHash = new Dictionary<string, string>()
+                    {
+                        { "ResultId", resultId.ToString() }
+                    }
+                };
+            }
+            else
+            {
+                where = SelectedWhere(
+                    context: context,
+                    ss: ss);
+            }
+            view.ApiColumnValueDisplayType = ApiColumn.ValueDisplayTypes.Text;
+            var host = new Libraries.Pdf.PdfPluginHost(
+                context: context,
+                ss: ss,
+                view: view,
+                where: where,
+                reportId: reportId);
+            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extendedPlugin.LibraryPath);
+            if (plugin == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            return (plugin.CreatePdf(host), null);
         }
 
         public static string UnlockRecord(

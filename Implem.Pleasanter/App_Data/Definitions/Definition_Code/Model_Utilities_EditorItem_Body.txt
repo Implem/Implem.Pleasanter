@@ -305,6 +305,10 @@ private static HtmlBuilder Editor(
                     value: context.QueryStrings.Data("FromTabIndex"),
                     _using: context.QueryStrings.Long("FromTabIndex") > 0)
                 .Hidden(
+                    controlId: "ControlledOrder",
+                    css: "control-hidden always-send",
+                    value: string.Empty)
+                .Hidden(
                     controlId: "MethodType",
                     value: #modelName#Model.MethodType.ToString().ToLower())
                 .Hidden(
