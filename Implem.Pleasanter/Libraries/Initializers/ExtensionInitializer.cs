@@ -141,7 +141,6 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                 extendedPlugin.Name = Strings.CoalesceEmpty(
                                     extension.ExtensionName,
                                     extendedPlugin.Name);
-                                
                                 Parameters.ExtendedPlugins.Add(extendedPlugin);
                             }
                             break;
