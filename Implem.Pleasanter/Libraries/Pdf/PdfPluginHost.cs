@@ -5,25 +5,32 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Plugins;
 using Implem.Libraries.DataSources.SqlServer;
+using Implem.Pleasanter.Libraries.Responses;
 
 namespace Implem.Pleasanter.Libraries.Pdf
 {
     public class PdfPluginHost : IPdfPluginHost
     {
         public string SiteTitle { get; }
+        public string Url { get; }
         public int ReportId { get; }
         private Context Context { get; }
         private SiteSettings SiteSettings { get; }
         private View DefaultView { get; }
-        private SqlWhereCollection SelectingWhere { get; }
+        private SqlWhereCollection Where { get; }
 
-        public PdfPluginHost(Context context, SiteSettings ss, View defaultView, SqlWhereCollection selectingWhere, int reportId)
+        public PdfPluginHost(Context context, SiteSettings ss, View view, SqlWhereCollection where, int reportId)
         {
             Context = context;
+            Url = Locations.ItemPdfAbsoluteUri(context, context.Id);
+            if (!context.Query.IsNullOrEmpty())
+            {
+                Url = Url.Replace(context.Query, "");
+            }
             SiteSettings = ss;
-            DefaultView = defaultView;
+            DefaultView = view;
             ReportId = reportId;
-            SelectingWhere = selectingWhere;
+            Where = where;
             SiteTitle = ss.Title;
         }
 
@@ -33,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Pdf
             var gridData = new GridData(
                 context: Context,
                 ss: SiteSettings,
-                where: SelectingWhere,
+                where: Where,
                 view: view);
             return gridData.KeyValues(
                 context: Context,

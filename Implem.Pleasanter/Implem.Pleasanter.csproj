@@ -77,7 +77,11 @@
     <ProjectReference Include="..\Implem.Plugins\Implem.Plugins.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
   </ItemGroup>
-
+    
+  <ItemGroup>
+      <Folder Include="Views\" />
+  </ItemGroup>
+    
   <ItemGroup>
     <None Include="App_Data\Definitions\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -114,7 +118,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="App_Data\UserPlugins\" />
     <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 

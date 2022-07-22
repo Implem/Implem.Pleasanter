@@ -7425,12 +7425,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             errorData: new ErrorData(type: invalid.Type)));
             }
-            var extension = Parameters.ExtendedPlugins
+            var extendedPlugin = Parameters.ExtendedPlugins
                 .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
                     context: context,
                     siteId: ss.SiteId)
                 .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
-            if (extension == null)
+            if (extendedPlugin == null)
             {
                 return (
                     null,
@@ -7438,16 +7438,16 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: new ErrorData(type: Error.Types.NotFound)));
             }
-            View defaultView = Views.GetBySession(
+            View view = Views.GetBySession(
                 context: context,
                 ss: ss,
                 setSession: false) ?? new View();
-            SqlWhereCollection selectingWhere = null;
+            SqlWhereCollection where = null;
             if (resultId > 0)
             {
-                defaultView = new View()
+                view = new View()
                 {
-                    GridColumns = defaultView.GridColumns?.ToList(),
+                    GridColumns = view.GridColumns?.ToList(),
                     ColumnFilterHash = new Dictionary<string, string>()
                     {
                         { "ResultId", resultId.ToString() }
@@ -7456,18 +7456,18 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                selectingWhere = SelectedWhere(
+                where = SelectedWhere(
                     context: context,
                     ss: ss);
             }
-            defaultView.ApiColumnValueDisplayType = ApiColumn.ValueDisplayTypes.Text;
+            view.ApiColumnValueDisplayType = ApiColumn.ValueDisplayTypes.Text;
             var host = new Libraries.Pdf.PdfPluginHost(
                 context: context,
                 ss: ss,
-                defaultView: defaultView,
-                selectingWhere: selectingWhere,
+                view: view,
+                where: where,
                 reportId: reportId);
-            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extension.LibraryPath);
+            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extendedPlugin.LibraryPath);
             if (plugin == null)
             {
                 return (
