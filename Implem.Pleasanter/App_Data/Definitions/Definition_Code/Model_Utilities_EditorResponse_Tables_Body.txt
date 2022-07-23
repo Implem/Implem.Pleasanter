@@ -82,6 +82,7 @@ private static ResponseCollection EditorFields(
                 #modelName#Model: #modelName#Model,
                 serverScriptModelRow: serverScriptModelRow),
             _using: ss.SwitchCommandButtonsAutoPostBack == true)
+        .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
         .Messages(context.Messages)
         .Log(context.GetLog());
     return ret;

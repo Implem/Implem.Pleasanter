@@ -3797,13 +3797,23 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 foreach (Match match in value.RegexMatches(@"(?<=\[).+?(?=\])"))
                 {
+                    var isValue = false;
+                    var columnName = match.Value;
+                    if (!labelText && columnName.StartsWith("@"))
+                    {
+                        isValue = true;
+                        columnName = columnName.Substring(1);
+                    }
                     var column = labelText
                         ? Columns.FirstOrDefault(o =>
-                            o.LabelText == match.Value)
+                            o.LabelText == columnName)
                         : Columns.FirstOrDefault(o =>
-                            o.ColumnName == match.Value);
+                            o.ColumnName == columnName);
                     if (column != null)
                     {
+                        column.OutputType = isValue
+                            ? Column.OutputTypes.Value
+                            : Column.OutputTypes.DisplayValue;
                         columns.Add(column);
                     }
                 }
@@ -4316,6 +4326,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Select(dataRow =>
                             dataRow.String("ReferenceId") + "," + dataRow.String("Title"))
                         .ToList();
+        }
+
+        public Link ColumnFilterExpressionsLink(Context context, Column column)
+        {
+            if (column.Linked(
+                context: context,
+                withoutWiki: true))
+            {
+                return Links
+                    ?.Where(o => o.ColumnName == column.ColumnName)
+                    .Where(o => o.JsonFormat == true)
+                    .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
+                    .FirstOrDefault();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public Tab AddTab(Tab tab)
@@ -5134,12 +5162,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             ServerScriptModelRow serverScriptModelRow)
         {
+            var controlId = context.Forms.ControlId();
             var columns = serverScriptModelRow?.ReplaceFieldColumns(context: context)
                 ?? new List<string>();
             columns.AddRange(Links?
-                .Where(o => $"{ReferenceType}_{o.ColumnName}" == context.Forms.ControlId())
+                .Where(o => $"{ReferenceType}_{o.ColumnName}" == controlId)
                 .Where(o => o.Lookups != null)
                 .SelectMany(o => o.Lookups.Select(p => p.To)));
+            columns.AddRange(Links?
+                .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
+                .Select(o => o.ColumnName));
             columns.AddRange(Columns
                 .Where(o => o.UseSearch == true)
                 .Select(o => o.ColumnName));

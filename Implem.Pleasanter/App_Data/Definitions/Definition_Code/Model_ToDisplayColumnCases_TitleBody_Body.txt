@@ -1,0 +1,5 @@
+﻿case "TitleBody":
+    return TitleBody.ToDisplay(
+        context: context,
+        ss: ss,
+        column: column);

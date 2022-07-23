@@ -1,0 +1,22 @@
+﻿case "#TableName#":
+    #ModelName#Utilities.SetChoiceHashByFilterExpressions(
+        context: context,
+        ss: ss,
+        column: column,
+        #modelName#Model: isNew
+            ? new #ModelName#Model(
+                context: context,
+                ss: ss,
+                methodType: BaseModel.MethodTypes.New,
+                formData: formData)
+            : new #ModelName#Model(
+                context: context,
+                ss: ss,
+                #modelName#Id: referenceId,
+                methodType: BaseModel.MethodTypes.Edit,
+                formData: formData),
+        searchText: searchText,
+        offset: offset,
+        search: search,
+        searchFormat: searchFormat);
+    break;

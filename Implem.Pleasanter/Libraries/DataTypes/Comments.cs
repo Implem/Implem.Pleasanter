@@ -37,7 +37,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToDisplay(Context context, SiteSettings ss, Column column)
         {
-            return string.Empty;
+            return this.Any()
+                ? ToJson()
+                : null;
         }
 
         public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)

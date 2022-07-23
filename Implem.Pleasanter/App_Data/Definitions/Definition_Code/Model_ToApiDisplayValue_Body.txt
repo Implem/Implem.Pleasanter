@@ -12,6 +12,7 @@
     {
 
 <!--Model_ToApiDisplayValueColumnCases-->
+<!--Model_ToApiDisplayValueMailAddresses-->
 
         default:
             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))

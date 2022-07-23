@@ -23,7 +23,6 @@ namespace Implem.Pleasanter.Models
             Edit
         }
 
-        public Context Context;
         public FormData FormData;
         public Databases.AccessStatuses AccessStatus = Databases.AccessStatuses.Initialized;
         public MethodTypes MethodType = MethodTypes.NotSet;

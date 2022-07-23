@@ -70,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public CommandDisplayTypes? DeleteCommand;
         public CommandDisplayTypes? OpenDeleteSiteDialogCommand;
         public Dictionary<string, string> ColumnFilterHash;
+        public Dictionary<string, string> ColumnFilterExpressions;
         public Dictionary<string, Column.SearchTypes> ColumnFilterSearchTypes;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
@@ -105,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<int> Groups;
         public List<int> Users;
         public ApiDataTypes ApiDataType;
+        public bool? ApiGetMailAddresses;
         [NonSerialized]
         public SqlWhereCollection AdditionalWhere;
         [NonSerialized]
@@ -1231,6 +1233,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     })
                     .ForEach(o => view.ColumnFilterHash.Add(o.Key, o.Value));
+            }
+            if (ColumnFilterExpressions?.Any() == true)
+            {
+                view.ColumnFilterExpressions = new Dictionary<string, string>();
+                ColumnFilterExpressions.ForEach(o => view.ColumnFilterExpressions.Add(o.Key, o.Value));
             }
             if (ViewExtensionsHash?.Any() == true)
             {
@@ -2645,6 +2652,53 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     ColumnSorterHash.AddIfNotConainsKey(item.Key, item.Value);
                 });
+            }
+        }
+
+        public void SetColumnFilterHashByExpression(
+            SiteSettings ss,
+            Column targetColumn,
+            string columnName,
+            string expression,
+            bool raw)
+        {
+            if (raw)
+            {
+                if (expression == "=")
+                {
+                    ColumnFilterHash[Rds.IdColumn(ss.ReferenceType)] = "-1";
+                }
+                else
+                {
+                    ColumnFilterHash[columnName] = expression.Substring(1);
+                }
+            }
+            else if (expression.IsNullOrEmpty())
+            {
+                ColumnFilterHash[Rds.IdColumn(ss.ReferenceType)] = "-1";
+            }
+            else
+            {
+                switch (targetColumn.TypeName.CsTypeSummary())
+                {
+                    case Types.CsBool:
+                        ColumnFilterHash[columnName] = expression.ToBool().ToString();
+                        break;
+                    case Types.CsNumeric:
+                        ColumnFilterHash[columnName] = targetColumn.HasChoices()
+                            || targetColumn.TypeName == "decimal"
+                                ? expression.ToSingleList().ToJson()
+                                : expression;
+                        break;
+                    case Types.CsDateTime:
+                        ColumnFilterHash[columnName] = $"[\"{expression},{expression}\"]";
+                        break;
+                    case Types.CsString:
+                        ColumnFilterHash[columnName] = targetColumn.HasChoices()
+                            ? expression.ToSingleList().ToJson()
+                            : expression;
+                        break;
+                }
             }
         }
     }

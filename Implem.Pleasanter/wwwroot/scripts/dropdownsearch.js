@@ -14,6 +14,24 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
+    if ($('#IsNew').val() === '1') {
+        $('#MainForm').find('[class*="control-"]').each(function () {
+            $p.setData($(this));
+        });
+        $p.data.MainForm.IsNew = '1';
+    }
+    $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
+    var referenceId = $p.id();
+    var $tr = $control.closest('tr');
+    if ($tr.length) {
+        referenceId = $tr.data('id');
+    }
+    var $dialogId = $('#EditorInDialogRecordId');
+    if ($dialogId.length) {
+        $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.DialogEditorForm);
+        referenceId = $dialogId.val();
+    }
+    $('#DropDownSearchReferenceId').val(referenceId);
     var id = $control.attr('id');
     var $target = $('#DropDownSearchTarget');
     var multiple = $control.attr('multiple') === 'multiple';

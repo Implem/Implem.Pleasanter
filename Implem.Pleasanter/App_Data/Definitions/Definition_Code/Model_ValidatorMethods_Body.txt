@@ -16,6 +16,16 @@
             : new ErrorData(type: Error.Types.HasNotPermission);
 }
 
+public static ErrorData OnGet(Context context, SiteSettings ss, bool api = false)
+{
+
+<!--Model_Validator_Api-->
+
+    return context.CanRead(ss: ss)
+        ? new ErrorData(type: Error.Types.None)
+        : new ErrorData(type: Error.Types.NotFound);
+}
+
 public static ErrorData OnEditing(
     Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
 {

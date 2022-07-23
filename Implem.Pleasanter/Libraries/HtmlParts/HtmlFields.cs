@@ -38,7 +38,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Column column,
             ServerScriptModelColumn serverScriptModelColumn = null,
-            BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             string value = null,
             StatusControl.ControlConstraintsTypes controlConstraintsType = StatusControl.ControlConstraintsTypes.None,
             Permissions.ColumnPermissionTypes columnPermissionType = Permissions.ColumnPermissionTypes.Update,

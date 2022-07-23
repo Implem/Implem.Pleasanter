@@ -1,0 +1,13 @@
+﻿{
+    "Name": "Pdf",
+    "PluginType": "Pdf",
+    "LibraryPath": "Pdf\\PdfPlugin.dll",
+    "Description": "Output Pdf",
+    "DeptIdList": null,
+    "GroupIdList": null,
+    "UserIdList": null,
+    "SiteIdList": null,
+    "IdList": null,
+    "Controllers": null,
+    "Actions": null
+}
