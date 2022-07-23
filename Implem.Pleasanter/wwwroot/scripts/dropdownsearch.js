@@ -14,6 +14,30 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
+    // 新規作成画面の場合にはメインフォームの内容を$p.data.MainFormに転記
+    if ($('#IsNew').val() === '1') {
+        $('#MainForm').find('[class*="control-"]').each(function () {
+            $p.setData($(this));
+        });
+        // IsNewのプロパティを$p.data.MainFormに転記
+        $p.data.MainForm.IsNew = '1';
+    }
+    // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
+    $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
+    var referenceId = $p.id();
+    // 一覧編集の場合にはtrからreferenceIdを取得
+    var $tr = $control.closest('tr');
+    if ($tr.length) {
+        referenceId = $tr.data('id');
+    }
+    // ダイアログ編集の場合にはEditorInDialogRecordIdからreferenceIdを取得
+    // ダイアログ編集の場合には$p.data.DialogEditorFormから入力データを取得
+    var $dialogId = $('#EditorInDialogRecordId');
+    if ($dialogId.length) {
+        $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.DialogEditorForm);
+        referenceId = $dialogId.val();
+    }
+    $('#DropDownSearchReferenceId').val(referenceId);
     var id = $control.attr('id');
     var $target = $('#DropDownSearchTarget');
     var multiple = $control.attr('multiple') === 'multiple';

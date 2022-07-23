@@ -1617,6 +1617,10 @@ namespace Implem.Pleasanter.Models
                             value: context.QueryStrings.Data("FromTabIndex"),
                             _using: context.QueryStrings.Long("FromTabIndex") > 0)
                         .Hidden(
+                            controlId: "ControlledOrder",
+                            css: "control-hidden always-send",
+                            value: string.Empty)
+                        .Hidden(
                             controlId: "MethodType",
                             value: issueModel.MethodType.ToString().ToLower())
                         .Hidden(
@@ -1822,6 +1826,11 @@ namespace Implem.Pleasanter.Models
                 column: column);
             if (value != null)
             {
+                SetChoiceHashByFilterExpressions(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    issueModel: issueModel);
                 hb.Field(
                     context: context,
                     ss: ss,
@@ -1829,7 +1838,6 @@ namespace Implem.Pleasanter.Models
                     serverScriptModelColumn: issueModel
                         ?.ServerScriptModelRow
                         ?.Columns.Get(column.ColumnName),
-                    methodType: issueModel.MethodType,
                     value: value,
                     controlConstraintsType: issueModel.GetStatusControl(
                         context: context,
@@ -2405,6 +2413,7 @@ namespace Implem.Pleasanter.Models
                         issueModel: issueModel,
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
+                .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
                 .Messages(context.Messages)
                 .Log(context.GetLog());
             return ret;
@@ -2678,6 +2687,87 @@ namespace Implem.Pleasanter.Models
                     }
                 });
             return res;
+        }
+
+        public static void SetChoiceHashByFilterExpressions(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            IssueModel issueModel,
+            string searchText = null,
+            int offset = 0,
+            bool search = false,
+            bool searchFormat = false)
+        {
+            var link = ss.ColumnFilterExpressionsLink(
+                context: context,
+                column: column);
+            if (link != null)
+            {
+                var view = link.View;
+                var targetSs = ss.JoinedSsHash.Get(link.SiteId);
+                if (targetSs != null)
+                {
+                    if (view.ColumnFilterHash == null)
+                    {
+                        view.ColumnFilterHash = new Dictionary<string, string>();
+                    }
+                    view.ColumnFilterExpressions.ForEach(data =>
+                    {
+                        var columnName = data.Key;
+                        var targetColumn = targetSs?.GetColumn(
+                            context: context,
+                            columnName: columnName);
+                        if (targetColumn != null)
+                        {
+                            var expression = data.Value;
+                            var raw = expression.StartsWith("=");
+                            var hash = new Dictionary<string, Column>();
+                            ss.IncludedColumns(value: data.Value).ForEach(includedColumn =>
+                            {
+                                var guid = Strings.NewGuid();
+                                expression = expression.Replace(
+                                    $"[{includedColumn.ExpressionColumnName()}]",
+                                    guid);
+                                hash.Add(guid, includedColumn);
+                            });
+                            hash.ForEach(hashData =>
+                            {
+                                var guid = hashData.Key;
+                                var includedColumn = hashData.Value;
+                                expression = expression.Replace(
+                                    guid,
+                                    includedColumn.OutputType == Column.OutputTypes.DisplayValue
+                                        ? issueModel.ToDisplay(
+                                            context: context,
+                                            ss: ss,
+                                            column: includedColumn,
+                                            mine: issueModel.Mine(context: context))
+                                        : issueModel.ToValue(
+                                            context: context,
+                                            ss: ss,
+                                            column: includedColumn,
+                                            mine: issueModel.Mine(context: context)));
+                            });
+                            view.SetColumnFilterHashByExpression(
+                                ss: targetSs,
+                                targetColumn: targetColumn,
+                                columnName: columnName,
+                                expression: expression,
+                                raw: raw);
+                        }
+                    });
+                    column.SetChoiceHash(
+                        context: context,
+                        ss: ss,
+                        link: link,
+                        searchText: searchText,
+                        offset: offset,
+                        search: search,
+                        searchFormat: searchFormat,
+                        setChoices: true);
+                }
+            }
         }
 
         public static HtmlBuilder NewOnGrid(
@@ -8098,6 +8188,80 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 notice: true);
             return KambanJson(context: context, ss: ss);
+        }
+
+        public static (Plugins.PdfData pdfData, string error) Pdf(
+            Context context,
+            SiteSettings ss,
+            long issueId,
+            int reportId)
+        {
+            var invalid = IssueValidators.OnGet(
+                context: context,
+                ss: ss,
+                api: false);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return (
+                        null,
+                        HtmlTemplates.Error(
+                            context: context,
+                            errorData: new ErrorData(type: invalid.Type)));
+            }
+            var extendedPlugin = Parameters.ExtendedPlugins
+                .ExtensionWhere<ParameterAccessor.Parts.ExtendedPlugin>(
+                    context: context,
+                    siteId: ss.SiteId)
+                .FirstOrDefault(o => o.PluginType == ParameterAccessor.Parts.ExtendedPlugin.PluginTypes.Pdf);
+            if (extendedPlugin == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            View view = Views.GetBySession(
+                context: context,
+                ss: ss,
+                setSession: false) ?? new View();
+            SqlWhereCollection where = null;
+            if (issueId > 0)
+            {
+                view = new View()
+                {
+                    GridColumns = view.GridColumns?.ToList(),
+                    ColumnFilterHash = new Dictionary<string, string>()
+                    {
+                        { "IssueId", issueId.ToString() }
+                    }
+                };
+            }
+            else
+            {
+                where = SelectedWhere(
+                    context: context,
+                    ss: ss);
+            }
+            view.ApiColumnValueDisplayType = ApiColumn.ValueDisplayTypes.Text;
+            var host = new Libraries.Pdf.PdfPluginHost(
+                context: context,
+                ss: ss,
+                view: view,
+                where: where,
+                reportId: reportId);
+            var plugin = Libraries.Pdf.PdfPluginCache.LoadPdfPlugin(extendedPlugin.LibraryPath);
+            if (plugin == null)
+            {
+                return (
+                    null,
+                    HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound)));
+            }
+            return (plugin.CreatePdf(host), null);
         }
 
         public static string UnlockRecord(

@@ -24,13 +24,21 @@ namespace Implem.PleasanterTest.Utilities
                 switch (htmlTest.Type)
                 {
                     case HtmlTest.Types.TextContent:
-                        if (nodes[0].TextContent != htmlTest.Value)
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].TextContent != htmlTest.Value)
                         {
                             return false;
                         }
                         break;
                     case HtmlTest.Types.InnerHtml:
-                        if (nodes[0].InnerHtml != htmlTest.Value)
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].InnerHtml != htmlTest.Value)
                         {
                             return false;
                         }
@@ -43,6 +51,42 @@ namespace Implem.PleasanterTest.Utilities
                         break;
                     case HtmlTest.Types.ExistsOne:
                         if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        break;
+                    case HtmlTest.Types.NotExists:
+                        if (nodes.Any())
+                        {
+                            return false;
+                        }
+                        break;
+                    case HtmlTest.Types.Disabled:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].GetAttribute("disabled") != "disabled")
+                        {
+                            return false;
+                        }
+                        break;
+                    case HtmlTest.Types.HasClass:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (!nodes[0].ClassList.Contains(htmlTest.Value))
+                        {
+                            return false;
+                        }
+                        break;
+                    case HtmlTest.Types.Attribute:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].GetAttribute(htmlTest.Name) != htmlTest.Value)
                         {
                             return false;
                         }

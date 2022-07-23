@@ -672,7 +672,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             SiteId = ss.SiteId;
             if (IssueId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
@@ -709,7 +708,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             IssueId = issueId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -765,7 +763,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             if (dataRow != null)
             {
                 Set(
@@ -990,8 +987,18 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "TitleBody":
+                    return TitleBody.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Ver":
                     return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2963,6 +2970,10 @@ namespace Implem.Pleasanter.Models
             bool copyByDefaultOnly = false)
         {
             var changedFormData = ss.Links
+                // TOの競合対策のため直近で操作されたコントロールの順番に並び替え
+                .OrderBy(link => context.ControlledOrder?.Contains($"{ss.ReferenceType}_{link.ColumnName}") == true
+                    ? context.ControlledOrder.IndexOf($"{ss.ReferenceType}_{link.ColumnName}")
+                    : int.MaxValue)
                 .Where(link => link.Lookups?.Any() == true)
                 .Where(link => PropertyUpdated(
                     context: context,
@@ -2984,6 +2995,9 @@ namespace Implem.Pleasanter.Models
                         .Select(column => column.ColumnName)
                         .ToList(),
                     copyByDefaultOnly: copyByDefaultOnly))
+                // TOの競合対策のためキーでグループ化して競合しているものは先頭を使用
+                .GroupBy(o => o.Key)
+                .Select(o => o.FirstOrDefault())
                 .ToDictionary(o => o.Key, o => o.Value);
             if (changedFormData.Any())
             {

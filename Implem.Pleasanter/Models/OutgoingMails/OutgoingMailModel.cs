@@ -170,7 +170,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -182,7 +181,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             OutgoingMailId = outgoingMailId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
@@ -208,7 +206,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             if (dataRow != null)
             {
                 Set(

@@ -1,0 +1,5 @@
+﻿{
+    "Id": "Model_ApiMailAddresses",
+    "Indent": "2",
+    "Include": "Users"
+}

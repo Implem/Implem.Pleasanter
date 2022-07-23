@@ -5,10 +5,10 @@
     <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
     <Description>Business application platform</Description>
     <AssemblyName>Implem.Pleasanter</AssemblyName>
-    <AssemblyVersion>1.3.15.1</AssemblyVersion>
-    <FileVersion>1.3.15.1</FileVersion>
+    <AssemblyVersion>1.3.16.0</AssemblyVersion>
+    <FileVersion>1.3.16.0</FileVersion>
     <LangVersion>7.2</LangVersion>
-    <Version>1.3.15.1</Version>
+    <Version>1.3.16.0</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
@@ -74,6 +74,7 @@
     <ProjectReference Include="..\Implem.Factory\Implem.Factory.csproj" />
     <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Implem.ParameterAccessor\Implem.ParameterAccessor.csproj" />
+    <ProjectReference Include="..\Implem.Plugins\Implem.Plugins.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
   </ItemGroup>
 
@@ -88,6 +89,13 @@
     <None Include="App_Data\Parameters\**\*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_ToDisplayColumnCases_TitleBody.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SetChoiceHashByFilterExpressions.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SetChoiceHashByFilterExpressions_Items.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_SetChoiceHashByFilterExpressions_Items_TableCases.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -107,6 +115,10 @@
     <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 
 </Project>

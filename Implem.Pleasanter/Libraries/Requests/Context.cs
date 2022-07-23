@@ -44,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Dictionary<string, string> SessionData { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
         public bool Publish { get; set; }
+        public List<string> ControlledOrder { get; set; }
         public QueryStrings QueryStrings { get; set; } = new QueryStrings();
         public Forms Forms { get; set; } = new Forms();
         public string FormStringRaw { get; set; }
@@ -225,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 }
                 var request = AspNetCoreHttpContext.Current.Request;
                 FormStringRaw = CreateFormStringRaw(AspNetCoreHttpContext.Current.Request);
-                FormString = HttpUtility.UrlDecode(FormStringRaw, System.Text.Encoding.UTF8);
+                FormString = HttpUtility.UrlDecode(FormStringRaw, Encoding.UTF8);
                 HttpMethod = request?.Method;
                 Ajax = IsAjax();
                 Mobile = IsMobile(AspNetCoreHttpContext.Current.Request);
@@ -299,7 +300,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private void SetItemProperties()
+        public void SetItemProperties()
         {
             if (HasRoute)
             {
@@ -505,6 +506,14 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .ForEach(key =>
                         Forms.AddIfNotConainsKey(key, request.Form[key]));
             IsNew = Forms.Bool("IsNew") || Action == "new";
+            // ポストバックでコントロールが操作された順番を記憶
+            var controlId = Forms.ControlId();
+            if (!controlId.IsNullOrEmpty())
+            {
+                ControlledOrder = Forms.List("ControlledOrder");
+                ControlledOrder.RemoveAll(o => o == controlId);
+                ControlledOrder.Insert(0, controlId);
+            }
         }
 
         private void SetPostedFiles(ICollection<IFormFile> files)
@@ -666,7 +675,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             return AspNetCoreHttpContext.Current?.Request?.GetTypedHeaders()?.AcceptLanguage?.FirstOrDefault()?.Value.ToString();
         }
 
-        private void SetPermissions()
+        public void SetPermissions()
         {
             PermissionHash = Permissions.Get(context: this);
             Groups = PermissionUtilities.Groups(context: this);
@@ -709,11 +718,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             return (n > 0) ? address.Substring(0, n) : address;
         }
 
-        public string RequestData(string name)
+        public string RequestData(string name, bool either = false)
         {
-            return HttpMethod == "GET"
-                ? QueryStrings.Data(name)
-                : Forms.Data(name);
+            return either
+                ? Strings.CoalesceEmpty(
+                    QueryStrings.Data(name),
+                    Forms.Data(name))
+                : HttpMethod == "GET"
+                    ? QueryStrings.Data(name)
+                    : Forms.Data(name);
         }
 
         public bool TrashboxActions()

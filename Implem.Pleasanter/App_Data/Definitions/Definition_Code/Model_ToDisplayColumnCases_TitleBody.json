@@ -1,0 +1,7 @@
+﻿{
+    "Id": "Model_ToDisplayColumnCases_TitleBody",
+    "RepeatType": "Column",
+    "Indent": "4",
+    "Separator": "\\r\\n",
+    "Include": "TitleBody"
+}

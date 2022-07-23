@@ -24,6 +24,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         action: () => hb
                             .Div(id: "DropDownSearchDialogBody")
                             .Hidden(
+                                controlId: "DropDownSearchReferenceId",
+                                css: "always-send")
+                            .Hidden(
                                 controlId: "DropDownSearchSelectedValues",
                                 css: "always-send")
                             .Hidden(

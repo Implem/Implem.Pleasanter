@@ -140,6 +140,7 @@ namespace Implem.PleasanterTest
         private static Context GetContext(string loginId, string password)
         {
             return ContextData.Get(
+                userType: ContextData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/users/authenticate",
                 forms: new Forms()

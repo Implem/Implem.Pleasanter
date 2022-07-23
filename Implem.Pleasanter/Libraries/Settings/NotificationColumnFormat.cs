@@ -8,6 +8,16 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Delimiter;
         public string Allow;
         public bool? Always;
+        public ValueDisplayTypes? DisplayTypes;
+        public bool? ValueOnly;
+        public bool? ConsiderMultiLine;
+
+        public enum ValueDisplayTypes
+        {
+            BeforeAndAfterChange = 0,
+            BeforeChange = 1,
+            AfterChange = 2
+        }
 
         public NotificationColumnFormat()
         {
@@ -28,7 +38,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return update
                 ? updated
                     ? !saved.IsNullOrEmpty()
-                        ? $"{Header(column)}{saved}{GetAllow()}{Self(self)}"
+                        ? GetColumnDisplayText(
+                            column:column,
+                            saved:saved,
+                            self:self)
                         : $"{Header(column)}{Self(self)}"
                     : Always == true
                         ? $"{Header(column)}{Self(self)}"
@@ -36,9 +49,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : $"{Header(column)}{Self(self)}";
         }
 
+        private string GetColumnDisplayText(Column column, string saved, string self)
+        {
+            switch(DisplayTypes)
+            {
+                case ValueDisplayTypes.BeforeChange:
+                    return $"{Header(column)}{Self(saved)}";
+                case ValueDisplayTypes.AfterChange:
+                    return $"{Header(column)}{Self(self)}";
+                case ValueDisplayTypes.BeforeAndAfterChange:
+                case null:
+                default:
+                    return $"{Header(column)}{saved}{SeperateLine(column)}{GetAllow()}{SeperateLine(column)}{Self(self)}";
+            }
+        }
+
+        private string SeperateLine(Column column)
+        {
+            return (column.ControlType == "MarkDown" && ConsiderMultiLine != false)
+                ? "\n"
+                : string.Empty;
+        }
         private string Header(Column column)
         {
-            return $"{Prefix}{column.LabelText}{GetDelimiter()}";
+            return ValueOnly == true
+                ? string.Empty
+                : $"{Prefix}{column.LabelText}{GetDelimiter()}{SeperateLine(column)}";
         }
 
         private string GetDelimiter()

@@ -7,11 +7,16 @@
             TextContent,
             InnerHtml,
             Exists,
-            ExistsOne
+            ExistsOne,
+            NotExists,
+            Disabled,
+            HasClass,
+            Attribute
         }
 
         public Types Type { get; set; }
         public string Selector { get; set; }
+        public string Name { get; set; }
         public string Value { get; set; }
     }
 }

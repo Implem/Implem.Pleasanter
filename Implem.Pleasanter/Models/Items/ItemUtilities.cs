@@ -339,5 +339,81 @@ namespace Implem.Pleasanter.Models
                     column: column,
                     where: Rds.WikisWhere().SiteId(ss.SiteId));
         }
+
+        public static void SetChoiceHashByFilterExpressions(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            long referenceId,
+            string searchText,
+            int offset,
+            bool search,
+            bool searchFormat)
+        {
+            var controlId = context.Forms.Get("DropDownSearchTarget").Split('_');
+            // 一覧編集の場合レコードを特定するためのsuffixデータを抽出
+            var suffix = controlId.Count() == 4
+                ? $"_{controlId[2]}_{controlId[3]}"
+                : string.Empty;
+            // 一覧編集の場合はcontrolId[3]が-1で新規作成を判定
+            var isNew = suffix.IsNullOrEmpty()
+                ? context.Forms.Bool("IsNew")
+                : controlId[3] == "-1";
+            // 一覧編集の場合はsuffixが一致するフォームデータのみ抽出
+            var formData = suffix.IsNullOrEmpty()
+                ? context.Forms
+                : context.Forms
+                    .Where(o => o.Key.EndsWith(suffix))
+                    .ToDictionary(
+                        o => o.Key.CutEnd(suffix),
+                        o => o.Value);
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    IssueUtilities.SetChoiceHashByFilterExpressions(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        issueModel: isNew
+                            ? new IssueModel(
+                                context: context,
+                                ss: ss,
+                                methodType: BaseModel.MethodTypes.New,
+                                formData: formData)
+                            : new IssueModel(
+                                context: context,
+                                ss: ss,
+                                issueId: referenceId,
+                                methodType: BaseModel.MethodTypes.Edit,
+                                formData: formData),
+                        searchText: searchText,
+                        offset: offset,
+                        search: search,
+                        searchFormat: searchFormat);
+                    break;
+                case "Results":
+                    ResultUtilities.SetChoiceHashByFilterExpressions(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        resultModel: isNew
+                            ? new ResultModel(
+                                context: context,
+                                ss: ss,
+                                methodType: BaseModel.MethodTypes.New,
+                                formData: formData)
+                            : new ResultModel(
+                                context: context,
+                                ss: ss,
+                                resultId: referenceId,
+                                methodType: BaseModel.MethodTypes.Edit,
+                                formData: formData),
+                        searchText: searchText,
+                        offset: offset,
+                        search: search,
+                        searchFormat: searchFormat);
+                    break;
+            }
+        }
     }
 }
