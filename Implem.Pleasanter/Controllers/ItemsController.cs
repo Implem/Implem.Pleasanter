@@ -33,6 +33,31 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult Pdf(long id, int reportId = 0, bool download = false)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var (pdfData, error) = new ItemModel(context: context, referenceId: id)
+                .Pdf(
+                    context: context,
+                    reportId: reportId);
+            if (pdfData?.Stream != null)
+            {
+                var result = new FileStreamResult(pdfData.Stream, "application/pdf");
+                if (download)
+                {
+                    result.FileDownloadName = pdfData.FileName;
+                }
+                log.Finish(context: context, responseSize: (int)result.FileStream.Length);
+                return result;
+            }
+            var html = error.ToString();
+            ViewBag.HtmlBody = html;
+            log.Finish(context: context, responseSize: html.Length);
+            return View();
+        }
+
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
         public ActionResult TrashBox(long id = 0)
         {

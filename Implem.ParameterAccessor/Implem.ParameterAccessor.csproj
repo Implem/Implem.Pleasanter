@@ -60,6 +60,7 @@
     <Compile Include="Parts\Env.cs" />
     <Compile Include="Parts\ExtendedField.cs" />
     <Compile Include="Parts\ExtendedNavigationMenu.cs" />
+    <Compile Include="Parts\ExtendedPlugin.cs" />
     <Compile Include="Parts\GroupMembers.cs" />
     <Compile Include="Parts\Mobile.cs" />
     <Compile Include="Parts\NavigationMenu.cs" />

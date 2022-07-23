@@ -618,7 +618,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             ParentId = parentId;
             InheritPermission = inheritPermission;
@@ -643,7 +642,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             SiteId = siteId;
             Get(context: context);
@@ -666,7 +664,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (dataRow != null)
             {
@@ -853,8 +850,18 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "TitleBody":
+                    return TitleBody.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "Ver":
                     return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);

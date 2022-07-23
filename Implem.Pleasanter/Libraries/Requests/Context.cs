@@ -38,6 +38,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Dictionary<string, string> SessionData { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
         public bool Publish { get; set; }
+        public List<string> ControlledOrder { get; set; }
         public QueryStrings QueryStrings { get; set; } = new QueryStrings();
         public Forms Forms { get; set; } = new Forms();
         public string FormStringRaw { get; set; }
@@ -471,6 +472,13 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .ForEach(key =>
                     Forms.AddIfNotConainsKey(key, request.Form[key]));
             IsNew = Forms.Bool("IsNew") || Action == "new";
+            var controlId = Forms.ControlId();
+            if (!controlId.IsNullOrEmpty())
+            {
+                ControlledOrder = Forms.List("ControlledOrder");
+                ControlledOrder.RemoveAll(o => o == controlId);
+                ControlledOrder.Insert(0, controlId);
+            }
         }
 
         private void SetPostedFiles(HttpPostedFileBase[] files)
@@ -668,11 +676,15 @@ namespace Implem.Pleasanter.Libraries.Requests
             return (n > 0) ? address.Substring(0, n) : address;
         }
 
-        public string RequestData(string name)
+        public string RequestData(string name, bool either = false)
         {
-            return HttpMethod == "GET"
-                ? QueryStrings.Data(name)
-                : Forms.Data(name);
+            return either
+                ? Strings.CoalesceEmpty(
+                    QueryStrings.Data(name),
+                    Forms.Data(name))
+                : HttpMethod == "GET"
+                    ? QueryStrings.Data(name)
+                    : Forms.Data(name);
         }
 
         public bool TrashboxActions()

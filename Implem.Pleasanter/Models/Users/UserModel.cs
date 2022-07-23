@@ -1215,7 +1215,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (formData != null)
             {
@@ -1240,7 +1239,6 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             UserId = userId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -1278,7 +1276,6 @@ namespace Implem.Pleasanter.Models
             string tableAlias = null)
         {
             OnConstructing(context: context);
-            Context = context;
             TenantId = context.TenantId;
             if (dataRow != null)
             {
@@ -1343,7 +1340,7 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public UserApiModel GetByApi(Context context, SiteSettings ss)
+        public UserApiModel GetByApi(Context context, SiteSettings ss, bool? getMailAddresses)
         {
             var data = new UserApiModel()
             {
@@ -1411,6 +1408,13 @@ namespace Implem.Pleasanter.Models
                         break;
                 }
             });
+            if (getMailAddresses == true)
+            {
+                data.MailAddresses = GetMailAddresses(
+                    context: context,
+                    ss: ss,
+                    userId: data.UserId);
+            }
             return data;
         }
 
@@ -1668,6 +1672,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Ver":
                     return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2042,6 +2051,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "MailAddresses":
+                    return GetMailAddresses(
+                        context: context,
+                        ss: ss,
+                        userId: UserId);
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                     {
@@ -3441,6 +3455,26 @@ namespace Implem.Pleasanter.Models
                     transactional: true,
                     statements: statements.ToArray());
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<string> GetMailAddresses(Context context, SiteSettings ss, int? userId)
+        {
+            var mailAddresses = Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectMailAddresses(
+                    column: Rds.MailAddressesColumn()
+                        .MailAddressId()
+                        .MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(userId)
+                        .OwnerType("Users")))
+                            .AsEnumerable()
+                            .Select(o => o["MailAddress"].ToString())
+                            .ToList();
+            return mailAddresses;
         }
 
         /// <summary>

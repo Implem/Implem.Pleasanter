@@ -82,6 +82,20 @@ namespace Implem.Pleasanter.Libraries.Responses
                 });
         }
 
+        public static string ItemPdf(Context context, long id)
+        {
+            return Get(
+                context: context,
+                parts: new string[]
+                {
+                    context.Publish
+                        ? "Publishes"
+                        : "Items",
+                    id.ToString(),
+                    "Pdf"
+                });
+        }
+
         public static string ItemTrashBox(Context context, long id)
         {
             return Get(
@@ -174,6 +188,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                 ? Parameters.Service.AbsoluteUri + "/items/" + id
                 : context.AbsoluteUri?.Replace(context.AbsolutePath, itemEdit)
                     ?? itemEdit;
+        }
+
+        public static string ItemPdfAbsoluteUri(Context context, long id)
+        {
+            var itemPdf = ItemPdf(
+                context: context,
+                id: id);
+            return Parameters.Service.AbsoluteUri != null
+                ? Parameters.Service.AbsoluteUri + itemPdf
+                : context.AbsoluteUri?.Replace(context.AbsolutePath, itemPdf)
+                        ?? itemPdf;
         }
 
         public static string DemoUri(Context context)

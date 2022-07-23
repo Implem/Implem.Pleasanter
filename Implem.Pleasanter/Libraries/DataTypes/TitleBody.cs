@@ -24,6 +24,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Body = body;
         }
 
+        public override string ToDisplay(Context context, SiteSettings ss, Column column)
+        {
+            return $"{DisplayValue}\n{Body}";
+        }
+
         public override string ToString()
         {
             return Value + "\r\n" + Body;

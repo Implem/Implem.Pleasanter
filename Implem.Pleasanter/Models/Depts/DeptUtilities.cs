@@ -1120,7 +1120,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: deptModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,

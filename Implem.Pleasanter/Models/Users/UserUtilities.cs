@@ -1640,7 +1640,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     column: column,
-                    methodType: userModel.MethodType,
                     value: value,
                     columnPermissionType: Permissions.ColumnPermissionType(
                         context: context,
@@ -4327,7 +4326,8 @@ namespace Implem.Pleasanter.Models
                             TotalCount = users.Count(),
                             Data = users.Select(o => o.GetByApi(
                                 context: context,
-                                ss: ss))
+                                ss: ss,
+                                getMailAddresses: view.ApiGetMailAddresses))
                         }
                     }.ToJson());
             }

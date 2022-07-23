@@ -80,7 +80,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? "Create"
                         : "Update";
                 case Process.ActionTypes.PostBack:
-                    return "Edit";
+                    return context.IsNew
+                        ? "New"
+                        : "Edit";
                 default:
                     return string.Empty;
             }

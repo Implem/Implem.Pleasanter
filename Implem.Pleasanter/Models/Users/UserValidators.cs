@@ -40,6 +40,26 @@ namespace Implem.Pleasanter.Models
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
+        public static ErrorData OnGet(Context context, SiteSettings ss, bool api = false)
+        {
+            if (api)
+            {
+                if ((!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
+                {
+                    return new ErrorData(type: Error.Types.InvalidRequest);
+                }
+                if (context.InvalidJsonData)
+                {
+                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                }
+            }
+            return context.CanRead(ss: ss)
+                ? new ErrorData(type: Error.Types.None)
+                : new ErrorData(type: Error.Types.NotFound);
+        }
+
         public static ErrorData OnEditing(
             Context context, SiteSettings ss, UserModel userModel, bool api = false)
         {

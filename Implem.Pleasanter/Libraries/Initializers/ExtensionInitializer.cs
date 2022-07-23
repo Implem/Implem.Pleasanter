@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                 Parameters.ExtendedServerScripts = Parameters.ExtendedServerScripts ?? new List<ExtendedServerScript>();
                 Parameters.ExtendedSqls = Parameters.ExtendedSqls ?? new List<ExtendedSql>();
                 Parameters.ExtendedStyles = Parameters.ExtendedStyles ?? new List<ExtendedStyle>();
+                Parameters.ExtendedPlugins = Parameters.ExtendedPlugins ?? new List<ExtendedPlugin>();
                 extensions.ForEach(extension =>
                 {
                     switch (extension.ExtensionType)
@@ -131,6 +132,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
                                     extendedStyle.Style = extension.Body;
                                 }
                                 Parameters.ExtendedStyles.Add(extendedStyle);
+                            }
+                            break;
+                        case "Plugin":
+                            var extendedPlugin = extension.ExtensionSettings.Deserialize<ExtendedPlugin>();
+                            if (extendedPlugin != null)
+                            {
+                                extendedPlugin.Name = Strings.CoalesceEmpty(
+                                    extension.ExtensionName,
+                                    extendedPlugin.Name);
+                                Parameters.ExtendedPlugins.Add(extendedPlugin);
                             }
                             break;
                         default:
