@@ -5,24 +5,14 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
-using System.Linq;
+using static Implem.PleasanterTest.Utilities.UserData;
 
 namespace Implem.PleasanterTest.Utilities
 {
     public static class ContextData
     {
-        public enum UserTypes
-        {
-            Anonymous,
-            TenantManager,
-            General1,
-            General2,
-            General3,
-            General4,
-            General5
-        }
-
         public static Context Get(
+            int userId = 0,
             UserTypes userType = UserTypes.General1,
             bool hasRoute = true,
             string formStringRaw = "",
@@ -46,7 +36,9 @@ namespace Implem.PleasanterTest.Utilities
             bool setItemProperties = true,
             bool setPermissions = true)
         {
-            var userModel = GetUser(userType: userType);
+            var userModel = userId > 0
+                ? UserData.Get(userId: userId)
+                : UserData.Get(userType: userType);
             var context = new Context(
                 request: false,
                 sessionStatus: false,
@@ -55,7 +47,7 @@ namespace Implem.PleasanterTest.Utilities
                 item: false);
             if (userModel != null)
             {
-                context.Authenticated = true;
+                context.Authenticated = !userModel.Disabled && !userModel.Lockout;
                 context.TenantId = userModel.TenantId;
                 context.LoginId = userModel.LoginId;
                 context.DeptId = userModel.DeptId;
@@ -102,51 +94,6 @@ namespace Implem.PleasanterTest.Utilities
             if (setItemProperties) context.SetItemProperties();
             if (setPermissions) context.SetPermissions();
             return context;
-        }
-
-        private static UserModel GetUser(UserTypes userType)
-        {
-            UserModel userModel = null;
-            switch (userType)
-            {
-                case UserTypes.TenantManager:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.TenantManager)
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General1:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User2"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General2:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User3"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General3:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User4"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General4:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User5"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General5:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User6"))
-                        .FirstOrDefault();
-                    break;
-            }
-            return userModel;
         }
     }
 }

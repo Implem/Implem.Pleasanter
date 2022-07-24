@@ -1,8 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.PleasanterTest.Models;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace Implem.PleasanterTest.Utilities
 {
     /// <summary>
@@ -14,13 +16,18 @@ namespace Implem.PleasanterTest.Utilities
         /// HTMLの返却値をテストデータによって正しいことをチェックします。
         /// HTMLはAngleSharpを使用してParseします。
         /// </summary>
-        public static bool Html(string html, List<HtmlTest> htmlTests)
+        public static bool Html(
+            Context context,
+            string html,
+            List<HtmlTest> htmlTests)
         {
             var parser = new AngleSharp.Html.Parser.HtmlParser();
             var doc = parser.ParseDocument(html);
             foreach (var htmlTest in htmlTests)
             {
-                var nodes = doc.QuerySelectorAll(htmlTest.Selector);
+                var nodes = Nodes(
+                    doc: doc,
+                    htmlTest: htmlTest);
                 switch (htmlTest.Type)
                 {
                     case HtmlTest.Types.TextContent:
@@ -91,6 +98,16 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case HtmlTest.Types.NotFoundMessage:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].GetAttribute("value") != Messages.NotFound(context: context).ToSingleList().ToJson())
+                        {
+                            return false;
+                        }
+                        break;
                     default:
                         return false;
                 }
@@ -98,11 +115,27 @@ namespace Implem.PleasanterTest.Utilities
             return true;
         }
 
+        private static AngleSharp.Dom.IHtmlCollection<AngleSharp.Dom.IElement> Nodes(
+            AngleSharp.Html.Dom.IHtmlDocument doc,
+            HtmlTest htmlTest)
+        {
+            switch (htmlTest.Type)
+            {
+                case HtmlTest.Types.NotFoundMessage:
+                    return doc.QuerySelectorAll("#MessageData");
+                default:
+                    return doc.QuerySelectorAll(htmlTest.Selector);
+            }
+        }
+
         /// <summary>
         /// JSONの返却値をテストデータによって正しいことをチェックします。
         /// JSON内のHTMLはHTMLメソッドを呼び出してチェックします。
         /// </summary>
-        public static bool Json(string json, List<JsonTest> jsonTests)
+        public static bool Json(
+            Context context,
+            string json,
+            List<JsonTest> jsonTests)
         {
             var responseCollection = json.Deserialize<ResponseCollection>();
             foreach (var jsonTest in jsonTests)
@@ -137,6 +170,7 @@ namespace Implem.PleasanterTest.Utilities
                         break;
                     case JsonTest.Types.Html:
                         if (Html(
+                            context: context,
                             html: nodes[0].Value.ToString(),
                             htmlTests: jsonTest.HtmlTests))
                         {

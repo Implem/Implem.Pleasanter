@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
@@ -14,16 +15,20 @@ namespace Implem.PleasanterTest.Utilities
     /// </summary>
     public static class Initializer
     {
+        public static Context Context;
         public static int TenantId;
         public static TenantModel Tenant;
-        public static Dictionary<string, DeptModel> Depts;
-        public static Dictionary<string, GroupModel> Groups;
-        public static Dictionary<string, UserModel> Users;
+        public static Dictionary<int, DeptModel> Depts;
+        public static Dictionary<int, GroupModel> Groups;
+        public static Dictionary<int, UserModel> Users;
+        public static List<GroupMemberModel> GroupMembers;
         public static Dictionary<string, ItemModel> Items;
         public static Dictionary<string, SiteModel> Sites;
         public static Dictionary<string, Dictionary<string, IssueModel>> Issues;
         public static Dictionary<string, Dictionary<string, ResultModel>> Results;
         public static Dictionary<string, Dictionary<string, WikiModel>> Wikis;
+        public static Dictionary<string, long> Titles = new Dictionary<string, long>();
+        public static Dictionary<long, ItemModel> ItemIds = new Dictionary<long, ItemModel>();
 
         public static void Initialize()
         {
@@ -31,8 +36,8 @@ namespace Implem.PleasanterTest.Utilities
                 path: null,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
                 pleasanterTest: true);
-            Context context = ContextData.Get(
-                userType: ContextData.UserTypes.Anonymous,
+            Context = ContextData.Get(
+                userType: UserData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/demos/register",
                 forms: new Forms()
@@ -43,38 +48,45 @@ namespace Implem.PleasanterTest.Utilities
                     }
                 });
             DemoUtilities.Register(
-                context: context,
+                context: Context,
                 async: false);
-            context.TenantId = Rds.ExecuteScalar_int(
-                context: context,
+            TenantId = Rds.ExecuteScalar_int(
+                context: Context,
                 statements: Rds.SelectTenants(
                     column: Rds.TenantsColumn().TenantId(function: Sqls.Functions.Max)));
-            TenantId = context.TenantId;
+            Parameters.Security.PrivilegedUsers = new List<string>()
+            {
+                $"Tenant{TenantId}_User18"
+            };
+            Context.TenantId = TenantId;
             Tenant = new TenantModel(
-                context: context,
-                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
+                context: Context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context: Context),
                 tenantId: TenantId);
             Depts = new DeptCollection(
-                context: context,
-                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
+                context: Context,
+                ss: SiteSettingsUtilities.DeptsSiteSettings(context: Context),
                 where: Rds.DeptsWhere().TenantId(TenantId))
-                    .ToDictionary(o => o.DeptName, o => o);
+                    .ToDictionary(o => o.DeptId, o => o);
             Groups = new GroupCollection(
-                context: context,
-                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
+                context: Context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: Context),
                 where: Rds.GroupsWhere().TenantId(TenantId))
-                    .ToDictionary(o => o.GroupName, o => o);
+                    .ToDictionary(o => o.GroupId, o => o);
             Users = new UserCollection(
-                context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
+                context: Context,
+                ss: SiteSettingsUtilities.UsersSiteSettings(context: Context),
                 where: Rds.UsersWhere().TenantId(TenantId))
-                    .ToDictionary(o => o.Name, o => o);
+                    .ToDictionary(o => o.UserId, o => o);
+            GroupMembers = new GroupMemberCollection(
+                context: Context,
+                where: Rds.GroupMembersWhere().GroupId_In(Groups.Keys.ToList()));
             Sites = new SiteCollection(
-                context: context,
+                context: Context,
                 where: Rds.SitesWhere().TenantId(TenantId))
                     .ToDictionary(o => o.Title.Value, o => o);
             Items = new ItemCollection(
-                context: context,
+                context: Context,
                 where: Rds.ItemsWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
                     .ToDictionary(o => o.Title, o => o);
             Issues = new Dictionary<string, Dictionary<string, IssueModel>>();
@@ -86,36 +98,40 @@ namespace Implem.PleasanterTest.Utilities
                 {
                     case "Issues":
                         Issues.Add(siteModel.Title.Value, new IssueCollection(
-                            context: context,
+                            context: Context,
                             ss: SiteSettingsUtilities.Get(
-                                context: context,
+                                context: Context,
                                 siteId: siteModel.SiteId),
-                            where: Rds.IssuesWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                            where: Rds.IssuesWhere().SiteId(siteModel.SiteId))
                                 .ToDictionary(o => o.Title.Value, o => o));
                         break;
                     case "Results":
                         Results.Add(siteModel.Title.Value, new ResultCollection(
-                            context: context,
+                            context: Context,
                             ss: SiteSettingsUtilities.Get(
-                                context: context,
+                                context: Context,
                                 siteId: siteModel.SiteId),
-                            where: Rds.ResultsWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                            where: Rds.ResultsWhere().SiteId(siteModel.SiteId))
                                 .ToDictionary(o => o.Title.Value, o => o));
                         break;
                     case "Wikis":
                         Wikis.Add(siteModel.Title.Value, new WikiCollection(
-                            context: context,
+                            context: Context,
                             ss: SiteSettingsUtilities.Get(
-                                context: context,
+                                context: Context,
                                 siteId: siteModel.SiteId),
-                            where: Rds.WikisWhere().SiteId_In(Sites.Values.Select(o => o.SiteId)))
+                            where: Rds.WikisWhere().SiteId(siteModel.SiteId))
                                 .ToDictionary(o => o.Title.Value, o => o));
                         break;
                 }
             });
+            Issues.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.IssueId));
+            Results.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.ResultId));
+            Wikis.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.WikiId));
+            Items.ForEach(data => ItemIds.Add(data.Value.ReferenceId, data.Value));
             // 管理者ユーザのパスワードを初期化します。
             Rds.ExecuteNonQuery(
-                context: context,
+                context: Context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere()
                         .TenantId(TenantId)

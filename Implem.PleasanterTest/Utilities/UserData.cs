@@ -1,0 +1,75 @@
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Models;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Implem.PleasanterTest.Utilities
+{
+    public static class UserData
+    {
+        public enum UserTypes
+        {
+            Anonymous,
+            TenantManager,
+            General1,
+            General2,
+            General3,
+            General4,
+            General5,
+            PrivilegedUser,
+            Lockout,
+            Disabled
+        }
+
+        public static UserModel Get(int userId)
+        {
+            var userModel = Initializer.Users.Get(userId);
+            return userModel;
+        }
+
+        public static UserModel Get(UserTypes userType)
+        {
+            UserModel userModel = null;
+            switch (userType)
+            {
+                case UserTypes.TenantManager:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.TenantManager);
+                    break;
+                case UserTypes.General1:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User2"));
+                    break;
+                case UserTypes.General2:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User3"));
+                    break;
+                case UserTypes.General3:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User4"));
+                    break;
+                case UserTypes.General4:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User5"));
+                    break;
+                case UserTypes.General5:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User6"));
+                    break;
+                case UserTypes.PrivilegedUser:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User18"));
+                    break;
+                case UserTypes.Disabled:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User19"));
+                    break;
+                case UserTypes.Lockout:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User20"));
+                    break;
+            }
+            return userModel;
+        }
+
+        public static IEnumerable<UserTypes> GetUserTypePatterns()
+        {
+            yield return UserTypes.TenantManager;
+            yield return UserTypes.General1;
+            yield return UserTypes.PrivilegedUser;
+            yield return UserTypes.Disabled;
+            yield return UserTypes.Lockout;
+        }
+    }
+}

@@ -11,7 +11,8 @@
             NotExists,
             Disabled,
             HasClass,
-            Attribute
+            Attribute,
+            NotFoundMessage
         }
 
         public Types Type { get; set; }

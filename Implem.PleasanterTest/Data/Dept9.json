@@ -3,8 +3,9 @@
     "Language": "ja",
     "Type": "Depts",
     "ParentId": "Dept1",
-    "Title": "設備管理部",
+    "Title": "設備管理部（無効）",
     "ClassA": "000710",
+    "CheckD": "1",
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }

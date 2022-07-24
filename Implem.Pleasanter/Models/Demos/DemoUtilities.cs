@@ -238,6 +238,10 @@ namespace Implem.Pleasanter.Models
                 demoModel: demoModel,
                 userHash: userHash,
                 idHash: idHash);
+            InitializeGroups(
+                context: context,
+                demoModel: demoModel,
+                idHash: idHash);
             SiteInfo.Reflesh(
                 context: context,
                 force: true);
@@ -258,6 +262,12 @@ namespace Implem.Pleasanter.Models
                         idHash: idHash,
                         ssHash: ssHash);
                     InitializeResults(
+                        context: context,
+                        demoModel: demoModel,
+                        parentId: o.Id,
+                        idHash: idHash,
+                        ssHash: ssHash);
+                    InitializeWikis(
                         context: context,
                         demoModel: demoModel,
                         parentId: o.Id,
@@ -292,15 +302,14 @@ namespace Implem.Pleasanter.Models
                     demoDefinition.Id, Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
-                        statements: new SqlStatement[]
-                        {
-                            Rds.InsertDepts(
-                                selectIdentity: true,
-                                param: Rds.DeptsParam()
-                                    .TenantId(demoModel.TenantId)
-                                    .DeptCode(demoDefinition.ClassA)
-                                    .DeptName(demoDefinition.Title))
-                        }).Id.ToLong()));
+                        statements: Rds.InsertDepts(
+                            selectIdentity: true,
+                            param: Rds.DeptsParam()
+                                .TenantId(demoModel.TenantId)
+                                .DeptCode(demoDefinition.ClassA)
+                                .DeptName(demoDefinition.Title)
+                                .Disabled(demoDefinition.CheckD)))
+                                    .Id.ToLong()));
         }
 
         /// <summary>
@@ -335,7 +344,9 @@ namespace Implem.Pleasanter.Models
                                     .Name(demoDefinition.Title)
                                     .Language(context.Language)
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
-                                    .TenantManager(demoDefinition.ClassD == "1")),
+                                    .TenantManager(demoDefinition.ClassD == "1")
+                                    .Disabled(demoDefinition.CheckD)
+                                    .Lockout(demoDefinition.CheckL)),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -355,6 +366,46 @@ namespace Implem.Pleasanter.Models
                                 .Where(o => o.Type == "Users")
                                 .FirstOrDefault()?
                                 .Id))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeGroups(
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Groups")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => idHash.Add(
+                    demoDefinition.Id, Repository.ExecuteScalar_response(
+                        context: context,
+                        selectIdentity: true,
+                        statements: Rds.InsertGroups(
+                            selectIdentity: true,
+                            param: Rds.GroupsParam()
+                                .TenantId(demoModel.TenantId)
+                                .GroupName(demoDefinition.Title)
+                                .Disabled(demoDefinition.CheckD)))
+                                    .Id.ToLong()));
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "GroupMembers")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => Repository.ExecuteScalar_response(
+                    context: context,
+                    selectIdentity: true,
+                    statements: Rds.InsertGroupMembers(
+                        selectIdentity: true,
+                        param: Rds.GroupMembersParam()
+                            .GroupId(idHash.Get(demoDefinition.ParentId).ToInt())
+                            .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
+                            .UserId(idHash.Get(demoDefinition.ClassB).ToInt())
+                            .Admin(demoDefinition.CheckA)))
+                                .Id.ToLong());
         }
 
         /// <summary>
@@ -965,6 +1016,86 @@ namespace Implem.Pleasanter.Models
                                 .Title(resultModel.Title.DisplayValue)
                                 .FullText(fullText, _using: fullText != null),
                             where: Rds.ItemsWhere().ReferenceId(resultModel.ResultId),
+                            addUpdatorParam: false,
+                            addUpdatedTimeParam: false));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeWikis(
+            Context context,
+            DemoModel demoModel,
+            string parentId,
+            Dictionary<string, long> idHash,
+            Dictionary<long, SiteSettings> ssHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.ParentId == parentId)
+                .Where(o => o.Type == "Wikis")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition =>
+                {
+                    var creator = idHash.Get(demoDefinition.Creator);
+                    var updator = idHash.Get(demoDefinition.Updator);
+                    context.UserId = updator.ToInt();
+                    var wikiId = Repository.ExecuteScalar_response(
+                        context: context,
+                        selectIdentity: true,
+                        statements: new SqlStatement[]
+                        {
+                            Rds.InsertItems(
+                                selectIdentity: true,
+                                param: Rds.ItemsParam()
+                                    .ReferenceType("Wikis")
+                                    .SiteId(idHash.Get(demoDefinition.ParentId))
+                                    .Creator(creator)
+                                    .Updator(updator)
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
+                                addUpdatorParam: false),
+                            Rds.InsertWikis(
+                                param: Rds.WikisParam()
+                                    .SiteId(idHash.Get(demoDefinition.ParentId))
+                                    .WikiId(raw: Def.Sql.Identity)
+                                    .Title(demoDefinition.Title)
+                                    .Body(demoDefinition.Body.Replace(idHash))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
+                                    .Creator(creator)
+                                    .Updator(updator)
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
+                                addUpdatorParam: false)
+                        }).Id.ToLong();
+                    idHash.Add(demoDefinition.Id, wikiId);
+                    var ss = ssHash.Get(idHash.Get(demoDefinition.ParentId));
+                    var wikiModel = new WikiModel(
+                        context: context,
+                        ss: ss,
+                        wikiId: wikiId);
+                    var fullText = wikiModel.FullText(context: context, ss: ss);
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateItems(
+                            param: Rds.ItemsParam()
+                                .SiteId(wikiModel.SiteId)
+                                .Title(wikiModel.Title.DisplayValue)
+                                .FullText(fullText, _using: fullText != null),
+                            where: Rds.ItemsWhere().ReferenceId(wikiModel.WikiId),
                             addUpdatorParam: false,
                             addUpdatedTimeParam: false));
                 });

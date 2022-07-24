@@ -25,6 +25,7 @@ namespace Implem.PleasanterTest.Users
                 returnUrl: returnUrl,
                 message: message);
             Assert.True(Compare.Html(
+                context: context,
                 html: html,
                 htmlTests: htmlTests));
         }
@@ -72,7 +73,7 @@ namespace Implem.PleasanterTest.Users
         private static Context GetContext()
         {
             return ContextData.Get(
-                userType: ContextData.UserTypes.Anonymous,
+                userType: UserData.UserTypes.Anonymous,
                 httpMethod: "get",
                 absolutePath: "/users/login");
         }

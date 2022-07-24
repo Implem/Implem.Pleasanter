@@ -21,6 +21,7 @@ namespace Implem.PleasanterTest.Items
         {
             Init();
             Assert.True(Compare.Html(
+                context: Context,
                 html: Html,
                 htmlTests: htmlTests));
         }
@@ -63,7 +64,7 @@ namespace Implem.PleasanterTest.Items
             {
                 IssueModel = Initializer.Issues.Get("商談").Get("営業支援ツールの追加機能開発");
                 Context = ContextData.Get(
-                    userType: ContextData.UserTypes.General1,
+                    userType: UserData.UserTypes.General1,
                     routeData: new Dictionary<string, string>()
                     {
                         { "controller", "items" },
@@ -106,8 +107,9 @@ namespace Implem.PleasanterTest.Items
 
         private void InitSiteSettings(params string[] columnNames)
         {
-            var ss = Initializer.Sites.Get("商談").SiteSettings;
-            ss.Init(context: Context);
+            var ss = SiteData.GetSiteSettings(
+                context: Context,
+                title: "商談");
             columnNames.ForEach(columnName =>
             {
                 var column = ss.GetColumn(
@@ -115,7 +117,7 @@ namespace Implem.PleasanterTest.Items
                     columnName: columnName);
                 column.EditorReadOnly = true;
             });
-            Sites.UpdateSiteSettings(
+            SiteData.UpdateSiteSettings(
                 context: Context,
                 siteId: IssueModel.SiteId,
                 ss: ss);

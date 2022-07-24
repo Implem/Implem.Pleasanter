@@ -24,6 +24,7 @@ namespace Implem.PleasanterTest
                 context: context,
                 returnUrl: returnUrl);
             Assert.True(Compare.Json(
+                context: context,
                 json: json,
                 jsonTests: jsonTests));
         }
@@ -140,7 +141,7 @@ namespace Implem.PleasanterTest
         private static Context GetContext(string loginId, string password)
         {
             return ContextData.Get(
-                userType: ContextData.UserTypes.Anonymous,
+                userType: UserData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/users/authenticate",
                 forms: new Forms()

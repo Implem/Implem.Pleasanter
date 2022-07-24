@@ -1,0 +1,13 @@
+﻿{
+    "Id": "PermissionsTestWikis1",
+    "Language": "ja",
+    "Type": "Wikis",
+    "ParentId": "Site12",
+    "Title": "PermissionsTestWikis1",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36640.398611111108",
+    "UpdatedTime": "36653.511111111111"
+}
