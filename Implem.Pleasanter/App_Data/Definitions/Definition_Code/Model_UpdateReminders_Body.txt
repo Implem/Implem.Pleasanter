@@ -1,14 +1,1 @@
-﻿statements.Add(Rds.PhysicalDeleteReminderSchedules(
-    where: Rds.ReminderSchedulesWhere()
-        .SiteId(SiteId)));
-SiteSettings.Reminders?.ForEach(reminder =>
-    statements.Add(Rds.UpdateOrInsertReminderSchedules(
-        param: Rds.ReminderSchedulesParam()
-            .SiteId(SiteId)
-            .Id(reminder.Id)
-            .ScheduledTime(reminder.StartDateTime.Next(
-                context: context,
-                type: reminder.Type)),
-        where: Rds.ReminderSchedulesWhere()
-            .SiteId(SiteId)
-            .Id(reminder.Id))));
+﻿statements.AddRange(GetReminderSchedulesStatements(context: context));
