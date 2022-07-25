@@ -1056,7 +1056,7 @@ namespace Implem.Pleasanter.Models
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
                 checkConflict: checkConflict));
-            statements.AddRange(GetUpsertReminderSchedulesStatements(context: context));
+            statements.AddRange(GetReminderSchedulesStatements(context: context));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -6993,7 +6993,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public List<SqlStatement> GetUpsertReminderSchedulesStatements(Context context)
+        public List<SqlStatement> GetReminderSchedulesStatements(Context context)
         {
             var statements = new List<SqlStatement>();
             statements.Add(Rds.PhysicalDeleteReminderSchedules(
