@@ -167,58 +167,46 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     permissionIdList: sitePackage.PermissionIdList,
                     includeNotifications: includeNotifications,
                     includeReminders: includeReminders);
-                var statements = new List<SqlStatement>();
-                statements.Add(Rds.InsertSites(
-                    param: Rds.SitesParam()
-                        .SiteId(packageSiteModel.SavedSiteId)
-                        .TenantId(packageSiteModel.SavedTenantId)
-                        .Title(conv.SiteTitle)
-                        .SiteName(packageSiteModel.SiteName)
-                        .SiteGroupName(packageSiteModel.SiteGroupName)
-                        .Body(packageSiteModel.Body)
-                        .GridGuide(packageSiteModel.GridGuide)
-                        .EditorGuide(packageSiteModel.EditorGuide)
-                        .ReferenceType(packageSiteModel.ReferenceType.MaxLength(32))
-                        .ParentId(packageSiteModel.SavedParentId)
-                        .InheritPermission(packageSiteModel.SavedInheritPermission)
-                        .SiteSettings(packageSiteModel.SiteSettings.ToJson())
-                        .Publish(packageSiteModel.Publish)
-                        .DisableCrossSearch(packageSiteModel.DisableCrossSearch)
-                        .Comments(packageSiteModel.Comments.ToJson())));
-                statements.Add(Rds.PhysicalDeleteLinks(
-                            where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)));
-                statements.Add(LinkUtilities.Insert(
-                    link: packageSiteModel.SiteSettings.Links
-                        ?.Where(o => o.SiteId > 0)
-                        .Select(o => o.SiteId)
-                        .Distinct()
-                        .ToDictionary(o => o, o => packageSiteModel.SavedSiteId)
-                            ?? new Dictionary<long, long>()));
-                statements.Add(Rds.InsertPermissions(
-                    param: Rds.PermissionsParam()
-                        .ReferenceId(packageSiteModel.SavedSiteId)
-                        .DeptId(0)
-                        .UserId(context.UserId)
-                        .PermissionType(Permissions.Manager()),
-                    _using: packageSiteModel.SavedInheritPermission == packageSiteModel.SavedSiteId));
-                packageSiteModel.SiteSettings.Reminders?.ForEach(reminder =>
-                    statements.Add(Rds.UpdateOrInsertReminderSchedules(
-                        param: Rds.ReminderSchedulesParam()
-                            .SiteId(packageSiteModel.SavedSiteId)
-                            .Id(reminder.Id)
-                            .ScheduledTime(reminder.StartDateTime.Next(
-                                context: context,
-                                type: reminder.Type)),
-                        where: Rds.ReminderSchedulesWhere()
-                            .SiteId(packageSiteModel.SavedSiteId)
-                            .Id(reminder.Id))));
                 Repository.ExecuteScalar_response(
-                   context: context,
-                   transactional: true,
-                   statements: statements.ToArray());
+                    context: context,
+                    transactional: true,
+                    statements: new SqlStatement[]
+                    {
+                        Rds.InsertSites(param: Rds.SitesParam()
+                            .SiteId(packageSiteModel.SavedSiteId)
+                            .TenantId(packageSiteModel.SavedTenantId)
+                            .Title(conv.SiteTitle)
+                            .SiteName(packageSiteModel.SiteName)
+                            .SiteGroupName(packageSiteModel.SiteGroupName)
+                            .Body(packageSiteModel.Body)
+                            .GridGuide(packageSiteModel.GridGuide)
+                            .EditorGuide(packageSiteModel.EditorGuide)
+                            .ReferenceType(packageSiteModel.ReferenceType.MaxLength(32))
+                            .ParentId(packageSiteModel.SavedParentId)
+                            .InheritPermission(packageSiteModel.SavedInheritPermission)
+                            .SiteSettings(packageSiteModel.SiteSettings.ToJson())
+                            .Publish(packageSiteModel.Publish)
+                            .DisableCrossSearch(packageSiteModel.DisableCrossSearch)
+                            .Comments(packageSiteModel.Comments.ToJson())),
+                        Rds.PhysicalDeleteLinks(
+                            where: Rds.LinksWhere().SourceId(packageSiteModel.SavedSiteId)),
+                        LinkUtilities.Insert(link: packageSiteModel.SiteSettings.Links
+                            ?.Where(o => o.SiteId > 0)
+                            .Select(o => o.SiteId)
+                            .Distinct()
+                            .ToDictionary(o => o, o => packageSiteModel.SavedSiteId)
+                                ?? new Dictionary<long, long>() ),
+                        Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceId(packageSiteModel.SavedSiteId)
+                                .DeptId(0)
+                                .UserId(context.UserId)
+                                .PermissionType(Permissions.Manager()),
+                            _using: packageSiteModel.SavedInheritPermission == packageSiteModel.SavedSiteId),
+                    });
                 var siteModel = new SiteModel(
-                     context: context,
-                     siteId: packageSiteModel.SavedSiteId);
+                    context: context,
+                    siteId: packageSiteModel.SavedSiteId);
                 var fullText = siteModel.FullText(
                     context: context,
                     ss: siteModel.SiteSettings);
@@ -231,6 +219,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         param: Rds.ItemsParam()
                             .FullText(fullText, _using: fullText != null)
                             .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null)));
+                siteModel.Update(
+                    context: context,
+                    ss: packageSiteModel.SiteSettings);
             }
             var idHash = sitePackage.GetIdHashFromConverters();
             foreach (long savedSiteId in sitePackage.HeaderInfo.Convertors.Select(e => e.SavedSiteId))
