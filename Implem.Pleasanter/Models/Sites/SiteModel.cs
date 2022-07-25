@@ -1056,20 +1056,7 @@ namespace Implem.Pleasanter.Models
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
                 checkConflict: checkConflict));
-            statements.Add(Rds.PhysicalDeleteReminderSchedules(
-                where: Rds.ReminderSchedulesWhere()
-                    .SiteId(SiteId)));
-            SiteSettings.Reminders?.ForEach(reminder =>
-                statements.Add(Rds.UpdateOrInsertReminderSchedules(
-                    param: Rds.ReminderSchedulesParam()
-                        .SiteId(SiteId)
-                        .Id(reminder.Id)
-                        .ScheduledTime(reminder.StartDateTime.Next(
-                            context: context,
-                            type: reminder.Type)),
-                    where: Rds.ReminderSchedulesWhere()
-                        .SiteId(SiteId)
-                        .Id(reminder.Id))));
+            statements.AddRange(GetReminderSchedulesStatements(context: context));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -7001,6 +6988,29 @@ namespace Implem.Pleasanter.Models
                         beforeResetCount.ToString(),
                         apiCount.ToString()
                     }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public List<SqlStatement> GetReminderSchedulesStatements(Context context)
+        {
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.PhysicalDeleteReminderSchedules(
+                where: Rds.ReminderSchedulesWhere()
+                    .SiteId(SiteId)));
+            SiteSettings.Reminders?.ForEach(reminder =>
+                statements.Add(Rds.UpdateOrInsertReminderSchedules(
+                    param: Rds.ReminderSchedulesParam()
+                        .SiteId(SiteId)
+                        .Id(reminder.Id)
+                        .ScheduledTime(reminder.StartDateTime.Next(
+                            context: context,
+                            type: reminder.Type)),
+                    where: Rds.ReminderSchedulesWhere()
+                        .SiteId(SiteId)
+                        .Id(reminder.Id))));
+            return statements;
         }
     }
 }
