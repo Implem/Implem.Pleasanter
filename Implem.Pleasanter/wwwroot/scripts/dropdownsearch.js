@@ -16,9 +16,9 @@
 $p.openDropDownSearchDialog = function ($control) {
     // 新規作成画面の場合にはメインフォームの内容を$p.data.MainFormに転記
     if ($('#IsNew').val() === '1') {
-        $('#MainForm').find('[class*="control-"]').each(function () {
-            $p.setData($(this));
-        });
+        if ($p.data.MainForm === undefined) {
+            $p.data.MainForm = {};
+        }
         // IsNewのプロパティを$p.data.MainFormに転記
         $p.data.MainForm.IsNew = '1';
     }
