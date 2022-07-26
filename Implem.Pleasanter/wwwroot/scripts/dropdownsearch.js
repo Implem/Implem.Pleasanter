@@ -14,12 +14,11 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
-    // 新規作成画面の場合には$p.data.MainFormを作成
+    // 新規作成画面の場合にはIsNewのプロパティを$p.data.MainFormに転記
     if ($('#IsNew').val() === '1') {
         if ($p.data.MainForm === undefined) {
             $p.data.MainForm = {};
         }
-        // IsNewのプロパティを$p.data.MainFormに転記
         $p.data.MainForm.IsNew = '1';
     }
     // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
