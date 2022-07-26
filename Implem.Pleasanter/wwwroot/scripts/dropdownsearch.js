@@ -14,7 +14,7 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
-    // 新規作成画面の場合にはメインフォームの内容を$p.data.MainFormに転記
+    // 新規作成画面の場合には$p.data.MainFormを作成
     if ($('#IsNew').val() === '1') {
         if ($p.data.MainForm === undefined) {
             $p.data.MainForm = {};
