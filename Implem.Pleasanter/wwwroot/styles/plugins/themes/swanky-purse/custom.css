@@ -27,12 +27,40 @@
     background: dimgray;
 }
 
-div.field-control .ui-multiselect {
+#RecordInfo .ui-icon {
+    background-image: url("images/ui-icons_e9cd86_256x240.png");
+}
+
+#EditorComments .ui-icon {
+    background-image: url("images/ui-icons_e9cd86_256x240.png");
+}
+
+.ui-icon.ui-icon-pencil.button-edit-markdown {
+    background-image: url("images/ui-icons_e9cd86_256x240.png");
+}
+
+.ui-widget-content .control-markup a {
+    color: #383838;
+}
+
+.field-control .ui-multiselect {
     color: black;
 }
 
-div.field-control .ui-icon.ui-icon-triangle-1-s {
+.field-control .ui-multiselect .ui-icon.ui-icon-triangle-1-s {
     background-image: url("images/ui-icons_e9cd86_256x240.png");
+}
+
+#CopyToClipboards .ui-icon.ui-icon-link {
+    background-image: url("images/ui-icons_e9cd86_256x240.png");
+}
+
+.ui-icon.ui-icon-close {
+    background-image: url("images/ui-icons_e9cd86_256x240.png");
+}
+
+.ui-button-icon.ui-icon.ui-icon-close {
+    background-image: url("images/ui-icons_e8e2b5_256x240.png");
 }
 
 .grid-row .ui-icon {
