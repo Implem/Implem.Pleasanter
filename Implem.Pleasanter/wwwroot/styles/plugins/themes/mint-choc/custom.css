@@ -27,6 +27,10 @@
     background: #e3ddc9;
 }
 
+.nav-sites .ui-icon {
+    background-image: url("images/ui-icons_222222_256x240.png");
+}
+
 #RecordInfo .ui-icon {
     background-image: url("images/ui-icons_222222_256x240.png");
 }
