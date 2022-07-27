@@ -46,6 +46,10 @@
     color: #383838;
 }
 
+.field-control .control-textbox {
+    color: #383838;
+}
+
 .field-control .ui-multiselect {
     color: black;
 }
