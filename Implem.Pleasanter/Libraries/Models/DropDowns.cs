@@ -316,7 +316,7 @@ namespace Implem.Pleasanter.Libraries.Models
             bool searchColumnOnly = true,
             bool searchFormat = true)
         {
-            var columnName = controlId.Split_2nd('_');
+            var columnName = controlId.Replace("__", "_").Split_2nd('_');
             var column = ss.GetColumn(
                 context: context,
                 columnName: columnName);
