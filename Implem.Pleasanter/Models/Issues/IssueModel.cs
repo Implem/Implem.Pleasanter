@@ -1735,15 +1735,14 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
-                users: ss.Columns
-                    .Where(o => o.Type == Column.Types.User)
-                    .ToDictionary(o =>
-                        o.ColumnName,
-                        o => SiteInfo.User(
+                columns: ss.Columns
+                    .Where(o => o.Type != Column.Types.Normal)
+                    .ToDictionary(
+                        o => $"{o.ColumnName},{o.Type}",
+                        o => PropertyValue(
                             context: context,
-                            userId: PropertyValue(
-                                context: context,
-                                column: o).ToInt()))));
+                            column: o).ToInt()),
+                permissions: ss.PermissionForCreating));
             return statements;
         }
 
@@ -1950,7 +1949,22 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue));
             statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
-            if (RecordPermissions != null)
+            if (ss.PermissionForUpdating?.Any() == true)
+            {
+                statements.AddRange(PermissionUtilities.UpdateStatements(
+                    context: context,
+                    ss: ss,
+                    referenceId: IssueId,
+                    columns: ss.Columns
+                        .Where(o => o.Type != Column.Types.Normal)
+                        .ToDictionary(
+                            o => $"{o.ColumnName},{o.Type}",
+                            o => PropertyValue(
+                                context: context,
+                                column: o).ToInt()),
+                    permissions: ss.PermissionForUpdating));
+            }
+            else if (RecordPermissions != null)
             {
                 statements.UpdatePermissions(context, ss, IssueId, RecordPermissions);
             }

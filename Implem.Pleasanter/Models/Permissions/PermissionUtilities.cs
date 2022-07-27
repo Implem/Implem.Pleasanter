@@ -126,6 +126,7 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteModel siteModel, long referenceId, bool site)
         {
             var ss = siteModel.SiteSettings;
+//            disableRecordPermission = ss.PermissionForUpdating?.Any() == true;
             return hb.FieldSet(
                 id: "FieldSetPermissionEditor",
                 css: " enclosed",
@@ -280,6 +281,7 @@ namespace Implem.Pleasanter.Models
                             action: "OpenPermissionsDialog",
                             method: "post")
                         .Button(
+                            disabled: ss.PermissionForUpdating?.Any() == true,
                             controlId: "DeletePermissions",
                             controlCss: "button-icon post",
                             text: Displays.DeletePermission(context: context),
@@ -314,6 +316,7 @@ namespace Implem.Pleasanter.Models
                     commandOptionAction: () => hb
                         .Div(css: "command-left", action: () => hb
                             .Button(
+                                disabled: ss.PermissionForUpdating?.Any() == true,
                                 controlId: "AddPermissions",
                                 controlCss: "button-icon post",
                                 text: Displays.AddPermission(context: context),
@@ -505,13 +508,14 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static List<SqlInsert> InsertStatements(
+        public static List<SqlStatement> InsertStatements(
             Context context,
             SiteSettings ss,
-            Dictionary<string, User> users)
+            Dictionary<string, int> columns,
+            Dictionary<string, Permissions.Types> permissions)
         {
             var insertSet = new List<PermissionModel>();
-            ss.PermissionForCreating?.ForEach(data =>
+            permissions?.ForEach(data =>
             {
                 switch (data.Key)
                 {
@@ -544,18 +548,56 @@ namespace Implem.Pleasanter.Models
                             permissionType: data.Value));
                         break;
                     default:
-                        if (users.ContainsKey(data.Key))
+                        var columnData = columns.FirstOrDefault(o => o.Key.StartsWith(data.Key + ","));
+                        if (!columnData.Equals(default(KeyValuePair<string, int>)))
                         {
-                            var user = users[data.Key];
-                            if (!user.Anonymous())
+                            switch(columnData.Key.Split_2nd())
                             {
-                                insertSet.Add(new PermissionModel(
-                                    context: context,
-                                    referenceId: 0,
-                                    deptId: 0,
-                                    groupId: 0,
-                                    userId: user.Id,
-                                    permissionType: data.Value));
+                                case "Dept":
+                                    var dept = SiteInfo.Dept(
+                                        tenantId: context.TenantId,
+                                        deptId: columnData.Value);
+                                    if (dept.Id > 0)
+                                    {
+                                        insertSet.Add(new PermissionModel(
+                                            context: context,
+                                            referenceId: 0,
+                                            deptId: dept.Id,
+                                            groupId: 0,
+                                            userId: 0,
+                                            permissionType: data.Value));
+                                    }
+                                    break;
+                                case "Group":
+                                    var group = SiteInfo.Group(
+                                        tenantId: context.TenantId,
+                                        groupId: columnData.Value);
+                                    if (group.Id > 0)
+                                    {
+                                        insertSet.Add(new PermissionModel(
+                                            context: context,
+                                            referenceId: 0,
+                                            deptId: 0,
+                                            groupId: group.Id,
+                                            userId: 0,
+                                            permissionType: data.Value));
+                                    }
+                                    break;
+                                case "User":
+                                    var user = SiteInfo.User(
+                                        context: context,
+                                        userId: columnData.Value);
+                                    if (!user.Anonymous())
+                                    {
+                                        insertSet.Add(new PermissionModel(
+                                            context: context,
+                                            referenceId: 0,
+                                            deptId: 0,
+                                            groupId: 0,
+                                            userId: user.Id,
+                                            permissionType: data.Value));
+                                    }
+                                    break;
                             }
                         }
                         break;
@@ -564,8 +606,32 @@ namespace Implem.Pleasanter.Models
             return insertSet
                 .OrderByDescending(o => o.PermissionType)
                 .GroupBy(o => o.DeptId + "," + o.GroupId + "," + o.UserId)
-                .Select(o => Insert(o.First()))
+                .Select(o => (SqlStatement)Insert(o.First()))
                 .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static List<SqlStatement> UpdateStatements(            
+            Context context,
+            SiteSettings ss,
+            long referenceId,
+            Dictionary<string, int> columns,
+            Dictionary<string, Permissions.Types> permissions)
+        {
+            var statements = new List<SqlStatement>();
+            if (permissions?.Any() == true)
+            {
+                statements.Add(Rds.PhysicalDeletePermissions(
+                    where: Rds.PermissionsWhere().ReferenceId(referenceId)));
+            }
+            statements.AddRange(InsertStatements(
+                context: context,
+                ss: ss,
+                columns: columns,
+                permissions: permissions));
+            return statements;
         }
 
         /// <summary>
@@ -696,7 +762,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "PermissionParts",
                                 labelText: Displays.Permissions(context: context),
                                 permissionType: (Permissions.Types)context.Forms.Long(
-                                    "PermissionPattern")));
+                                    "PermissionPattern"),
+                                disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating?.Any() == true));
                         break;
                     case "ChangePermissions":
                         res.ChangePermissions(
@@ -932,13 +999,15 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
+                bool diableRecordPermission = siteModel.SiteSettings.PermissionForUpdating?.Any() == true;
                 return res.Html("#PermissionsDialog", PermissionsDialog(
                     context: context,
                     permissionType: (Permissions.Types)selected
                         .FirstOrDefault()
                         .Split_3rd()
                         .ToLong(),
-                    referenceId: referenceId)).ToJson();
+                    referenceId: referenceId,
+                    disableRecordPermission: diableRecordPermission)).ToJson();
             }
         }
 
@@ -957,7 +1026,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionsDialog(
-            Context context, Permissions.Types permissionType, long referenceId)
+            Context context, Permissions.Types permissionType, long referenceId, bool disableRecordPermission)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -968,6 +1037,7 @@ namespace Implem.Pleasanter.Models
                         id: referenceId)),
                 action: () => hb
                     .FieldDropDown(
+                        disabled: disableRecordPermission,
                         context: context,
                         controlId: "PermissionPattern",
                         controlCss: " auto-postback",
@@ -986,10 +1056,12 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "PermissionParts",
                         labelText: Displays.Permissions(context: context),
-                        permissionType: permissionType)
+                        permissionType: permissionType,
+                        disableRecordPermission: disableRecordPermission)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
+                            disabled: disableRecordPermission,
                             controlId: "ChangePermissions",
                             text: Displays.Change(context: context),
                             controlCss: "button-icon validate",
@@ -1012,7 +1084,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             string controlId,
             string labelText,
-            Permissions.Types permissionType)
+            Permissions.Types permissionType,
+            bool disableRecordPermission)
         {
             return hb.FieldSet(
                 id: controlId,
@@ -1022,39 +1095,48 @@ namespace Implem.Pleasanter.Models
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.Read)
+                        type: Permissions.Types.Read,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.Create)
+                        type: Permissions.Types.Create,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.Update)
+                        type: Permissions.Types.Update,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.Delete)
+                        type: Permissions.Types.Delete,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.SendMail)
+                        type: Permissions.Types.SendMail,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.Export)
+                        type: Permissions.Types.Export,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.Import)
+                        type: Permissions.Types.Import,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.ManageSite)
+                        type: Permissions.Types.ManageSite,
+                        disableRecordPermission: disableRecordPermission)
                     .PermissionPart(
                         context: context,
                         permissionType: permissionType,
-                        type: Permissions.Types.ManagePermission));
+                        type: Permissions.Types.ManagePermission,
+                        disableRecordPermission: disableRecordPermission));
         }
 
         /// <summary>
@@ -1064,9 +1146,11 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb,
             Context context,
             Permissions.Types permissionType,
-            Permissions.Types type)
+            Permissions.Types type,
+            bool disableRecordPermission)
         {
             return hb.FieldCheckBox(
+                disabled: disableRecordPermission,
                 controlId: type.ToString(),
                 fieldCss: "field-auto-thin w200",
                 controlCss: " always-send",
@@ -1139,7 +1223,6 @@ namespace Implem.Pleasanter.Models
         {
             var permissionsForCreating = PermissionForCreating(ss);
             var permissionsForUpdating = PermissionForUpdating(ss);
-
             return hb
                 .FieldSet(
                     id: "FieldSetRecordAccessControlForCreating",
@@ -1214,6 +1297,9 @@ namespace Implem.Pleasanter.Models
                             method: "delete")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder CurrentPermissionForUpdating(
             this HtmlBuilder hb,
             Context context,
@@ -1249,6 +1335,7 @@ namespace Implem.Pleasanter.Models
                             action: "SetPermissionForUpdating",
                             method: "delete")));
         }
+
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -1282,6 +1369,9 @@ namespace Implem.Pleasanter.Models
                             method: "post")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder SourcePermissionForUpdating(
             this HtmlBuilder hb,
             Context context,
@@ -1325,7 +1415,7 @@ namespace Implem.Pleasanter.Models
                 ss.GetPermissionForCreating("User")
             };
             permissions.AddRange(ss.Columns
-                .Where(o => o.Type == Column.Types.User)
+                .Where(o => o.Type != Column.Types.Normal)
                 .Where(o => o.ColumnName != "Creator" && o.ColumnName != "Updator")
                 .Select(o => ss.GetPermissionForCreating(o.ColumnName)));
             return permissions;
@@ -1344,7 +1434,7 @@ namespace Implem.Pleasanter.Models
                 ss.GetPermissionForUpdating("User")
             };
             permissions.AddRange(ss.Columns
-                .Where(o => o.Type == Column.Types.User)
+                .Where(o => o.Type != Column.Types.Normal)
                 .Where(o => o.ColumnName != "Creator" && o.ColumnName != "Updator")
                 .Select(o => ss.GetPermissionForUpdating(o.ColumnName)));
             return permissions;
@@ -1424,7 +1514,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "PermissionForCreatingParts",
                                 labelText: Displays.Permissions(context: context),
                                 permissionType: (Permissions.Types)context.Forms.Long(
-                                    "PermissionForCreatingPattern")));
+                                    "PermissionForCreatingPattern"),
+                                disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating?.Any() == true));
                         break;
                     case "ChangePermissionForCreating":
                         res.ChangePermissions(
@@ -1504,6 +1595,17 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder PermissionForCreatingDialog(
             Context context, Permissions.Types permissionType, long referenceId)
         {
+            var itemModel = new ItemModel(
+                context: context,
+                referenceId: referenceId);
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: itemModel.SiteId,
+                formData: context.Forms);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: referenceId);
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -1531,7 +1633,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "PermissionForCreatingParts",
                         labelText: Displays.Permissions(context: context),
-                        permissionType: permissionType)
+                        permissionType: permissionType,
+                        disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating.Any() == true)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -1549,6 +1652,9 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-cancel")));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string SetPermissionForUpdating(Context context, long referenceId)
         {
             var itemModel = new ItemModel(
@@ -1620,7 +1726,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "PermissionForUpdatingParts",
                                 labelText: Displays.Permissions(context: context),
                                 permissionType: (Permissions.Types)context.Forms.Long(
-                                    "PermissionForUpdatingPattern")));
+                                    "PermissionForUpdatingPattern"),
+                                disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating?.Any() == true));
                         break;
                     case "ChangePermissionForUpdating":
                         res.ChangePermissions(
@@ -1700,6 +1807,17 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder PermissionForUpdatingDialog(
             Context context, Permissions.Types permissionType, long referenceId)
         {
+            var itemModel = new ItemModel(
+                context: context,
+                referenceId: referenceId);
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: itemModel.SiteId,
+                formData: context.Forms);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: referenceId);
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -1727,7 +1845,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         controlId: "PermissionForUpdatingParts",
                         labelText: Displays.Permissions(context: context),
-                        permissionType: permissionType)
+                        permissionType: permissionType,
+                        disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating?.Any() == true)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -2164,7 +2283,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     controlId: "ColumnAccessControlParts",
                     labelText: Displays.RequiredPermission(context: context),
-                    permissionType: columnAccessControl.Type ?? Permissions.Types.NotSet)
+                    permissionType: columnAccessControl.Type ?? Permissions.Types.NotSet,
+                    disableRecordPermission: false)
                 .FieldSet(
                     css: " enclosed",
                     legendText: Displays.AllowedUsers(context: context),

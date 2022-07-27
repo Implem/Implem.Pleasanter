@@ -3514,6 +3514,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "IntegratedSites": SetIntegratedSites(value); break;
                 case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
+                case "CurrentPermissionForUpdatingAll": SetPermissionForUpdating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
                 case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;

@@ -1,4 +1,19 @@
-﻿if (RecordPermissions != null)
+﻿if (ss.PermissionForUpdating?.Any() == true)
+{
+    statements.AddRange(PermissionUtilities.UpdateStatements(
+        context: context,
+        ss: ss,
+        referenceId: #ModelName#Id,
+        columns: ss.Columns
+            .Where(o => o.Type != Column.Types.Normal)
+            .ToDictionary(
+                o => $"{o.ColumnName},{o.Type}",
+                o => PropertyValue(
+                    context: context,
+                    column: o).ToInt()),
+        permissions: ss.PermissionForUpdating));
+}
+else if (RecordPermissions != null)
 {
     statements.UpdatePermissions(context, ss, #ModelName#Id, RecordPermissions<!--Model_SiteTrue-->);
 }
