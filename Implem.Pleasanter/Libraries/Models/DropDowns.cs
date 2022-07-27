@@ -316,7 +316,13 @@ namespace Implem.Pleasanter.Libraries.Models
             bool searchColumnOnly = true,
             bool searchFormat = true)
         {
-            var columnName = controlId.Split_2nd('_');
+            // 以下のパターンに対応したColumnNameを切り出す文字列処理
+            // 
+            // ViewFilters__ClassA            フィルタ
+            // ViewFilters__ClassA~2,ClassA   フィルタ（リンク項目）
+            // Issues_ClassA                  編集画面、ダイアログ編集
+            // Issues_ClassA_3_81             一覧編集画面
+            var columnName = controlId.Replace("__", "_").Split_2nd('_');
             var column = ss.GetColumn(
                 context: context,
                 columnName: columnName);
