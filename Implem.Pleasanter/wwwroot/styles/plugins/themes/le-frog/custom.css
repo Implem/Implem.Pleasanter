@@ -49,6 +49,10 @@
     color: #383838;
 }
 
+.field-control .already-attachments .file-name {
+    color: #383838;
+}
+
 .field-control .ui-multiselect {
     color: black;
 }
