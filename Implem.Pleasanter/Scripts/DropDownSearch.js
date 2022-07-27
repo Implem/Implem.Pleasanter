@@ -15,9 +15,9 @@
 
 $p.openDropDownSearchDialog = function ($control) {
     if ($('#IsNew').val() === '1') {
-        $('#MainForm').find('[class*="control-"]').each(function () {
-            $p.setData($(this));
-        });
+        if ($p.data.MainForm === undefined) {
+            $p.data.MainForm = {};
+        }
         $p.data.MainForm.IsNew = '1';
     }
     $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
