@@ -263,7 +263,19 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(context: context, siteId: Site.SiteId);
             if (ReferenceId == 0)
             {
+                if (!context.HasPrivilege)
+                {
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound));
+                }
                 return SiteUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+            }
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
             }
             switch (Site.ReferenceType)
             {
