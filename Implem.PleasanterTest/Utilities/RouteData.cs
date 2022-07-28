@@ -4,6 +4,16 @@ namespace Implem.PleasanterTest.Utilities
 {
     public static class RouteData
     {
+        public static Dictionary<string, string> TenantsEdit()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "tenants" },
+                { "action", "edit" },
+                { "id", "0" },
+            };
+        }
+
         public static Dictionary<string, string> DeptsIndex()
         {
             return new Dictionary<string, string>()
@@ -11,6 +21,16 @@ namespace Implem.PleasanterTest.Utilities
                 { "controller", "depts" },
                 { "action", "index" },
                 { "id", "0" },
+            };
+        }
+
+        public static Dictionary<string, string> DeptsEdit(int deptId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "edit" },
+                { "id", deptId.ToString() },
             };
         }
 
@@ -24,6 +44,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> GroupsEdit(int groupId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "edit" },
+                { "id", groupId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> UsersIndex()
         {
             return new Dictionary<string, string>()
@@ -31,6 +61,16 @@ namespace Implem.PleasanterTest.Utilities
                 { "controller", "users" },
                 { "action", "index" },
                 { "id", "0" },
+            };
+        }
+
+        public static Dictionary<string, string> UsersEdit(int userId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "edit" },
+                { "id", userId.ToString() },
             };
         }
 

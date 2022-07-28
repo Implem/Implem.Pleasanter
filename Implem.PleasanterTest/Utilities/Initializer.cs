@@ -129,13 +129,12 @@ namespace Implem.PleasanterTest.Utilities
             Results.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.ResultId));
             Wikis.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.WikiId));
             Items.ForEach(data => ItemIds.Add(data.Value.ReferenceId, data.Value));
-            // 管理者ユーザのパスワードを初期化します。
+            // ユーザのパスワードを初期化します。
             Rds.ExecuteNonQuery(
                 context: Context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere()
-                        .TenantId(TenantId)
-                        .TenantManager(true),
+                        .TenantId(TenantId),
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
         }

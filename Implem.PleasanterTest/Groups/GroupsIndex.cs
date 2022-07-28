@@ -34,7 +34,7 @@ namespace Implem.PleasanterTest.Users
                 {
                     new HtmlTest()
                     {
-                        Type = HtmlTest.Types.Exists,
+                        Type = HtmlTest.Types.ExistsOne,
                         Selector = "#Grid"
                     }
                 });
@@ -44,7 +44,7 @@ namespace Implem.PleasanterTest.Users
                 {
                     new HtmlTest()
                     {
-                        Type = HtmlTest.Types.Exists,
+                        Type = HtmlTest.Types.ExistsOne,
                         Selector = "#Grid"
                     }
                 });
@@ -54,7 +54,7 @@ namespace Implem.PleasanterTest.Users
                 {
                     new HtmlTest()
                     {
-                        Type = HtmlTest.Types.Exists,
+                        Type = HtmlTest.Types.ExistsOne,
                         Selector = "#Grid"
                     }
                 });

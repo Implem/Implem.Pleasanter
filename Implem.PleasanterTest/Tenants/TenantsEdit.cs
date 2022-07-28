@@ -6,9 +6,9 @@ using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Implem.PleasanterTest.Depts
+namespace Implem.PleasanterTest.Tenants
 {
-    public class DeptsIndex
+    public class TenantsEdit
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Depts
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.DeptsIndex());
+                routeData: RouteData.TenantsEdit());
             var html = GetHtml(context: context);
             Assert.True(Compare.Html(
                 context: context,
@@ -35,7 +35,7 @@ namespace Implem.PleasanterTest.Depts
                     new HtmlTest()
                     {
                         Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Grid"
+                        Selector = "#Editor"
                     }
                 });
             yield return TestData(
@@ -45,7 +45,7 @@ namespace Implem.PleasanterTest.Depts
                     new HtmlTest()
                     {
                         Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Grid"
+                        Selector = "#Editor"
                     }
                 });
             yield return TestData(
@@ -54,7 +54,7 @@ namespace Implem.PleasanterTest.Depts
                 {
                     new HtmlTest()
                     {
-                        Type = HtmlTest.Types.HasNotPermissionMessage,
+                        Type = HtmlTest.Types.NotFoundMessage,
                     }
                 });
         }
@@ -72,9 +72,11 @@ namespace Implem.PleasanterTest.Depts
 
         private static string GetHtml(Context context)
         {
-            return DeptUtilities.Index(
+            return TenantUtilities.Editor(
                 context: context,
-                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context));
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
+                tenantId: context.TenantId,
+                clearSessions: true);
         }
     }
 }

@@ -4,22 +4,26 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Implem.PleasanterTest.Depts
 {
-    public class DeptsIndex
+    public class GroupsEdit
     {
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
+            int groupId,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.DeptsIndex());
-            var html = GetHtml(context: context);
+                routeData: RouteData.GroupsEdit(groupId: groupId));
+            var html = GetHtml(
+                context: context,
+                groupId: groupId);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -29,52 +33,72 @@ namespace Implem.PleasanterTest.Depts
         public static IEnumerable<object[]> GetData()
         {
             yield return TestData(
+                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
                 userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()
                     {
                         Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Grid"
+                        Selector = "#Editor"
                     }
                 });
             yield return TestData(
+                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
                 userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()
                     {
                         Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Grid"
+                        Selector = "#Editor"
                     }
                 });
             yield return TestData(
+                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
                 userModel: UserData.Get(userType: UserData.UserTypes.General1),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()
                     {
-                        Type = HtmlTest.Types.HasNotPermissionMessage,
+                        Type = HtmlTest.Types.ExistsOne,
+                        Selector = "#Editor"
+                    }
+                });
+            yield return TestData(
+                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ1").GroupId,
+                userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                htmlTests: new List<HtmlTest>
+                {
+                    new HtmlTest()
+                    {
+                        Type = HtmlTest.Types.NotFoundMessage,
                     }
                 });
         }
 
         private static object[] TestData(
+            int groupId,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
             return new object[]
             {
+                groupId,
                 userModel,
                 htmlTests
             };
         }
 
-        private static string GetHtml(Context context)
+        private static string GetHtml(
+            Context context,
+            int groupId)
         {
-            return DeptUtilities.Index(
+            return GroupUtilities.Editor(
                 context: context,
-                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context));
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
+                groupId: groupId,
+                clearSessions: true);
         }
     }
 }
