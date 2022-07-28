@@ -108,6 +108,16 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case HtmlTest.Types.HasNotPermissionMessage:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].GetAttribute("value") != Messages.HasNotPermission(context: context).ToSingleList().ToJson())
+                        {
+                            return false;
+                        }
+                        break;
                     default:
                         return false;
                 }
@@ -122,6 +132,7 @@ namespace Implem.PleasanterTest.Utilities
             switch (htmlTest.Type)
             {
                 case HtmlTest.Types.NotFoundMessage:
+                case HtmlTest.Types.HasNotPermissionMessage:
                     return doc.QuerySelectorAll("#MessageData");
                 default:
                     return doc.QuerySelectorAll(htmlTest.Selector);
