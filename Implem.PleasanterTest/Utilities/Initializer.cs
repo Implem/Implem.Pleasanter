@@ -56,7 +56,7 @@ namespace Implem.PleasanterTest.Utilities
                     column: Rds.TenantsColumn().TenantId(function: Sqls.Functions.Max)));
             Parameters.Security.PrivilegedUsers = new List<string>()
             {
-                $"Tenant{TenantId}_User18"
+                $"Tenant{TenantId}_User20"
             };
             Context.TenantId = TenantId;
             Tenant = new TenantModel(

@@ -3,8 +3,8 @@
     "Language": "ja",
     "Type": "GroupMembers",
     "ParentId": "Group2",
-    "ClassA": "Dept7",
-    "ClassB": "",
+    "ClassA": "",
+    "ClassB": "User2",
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }

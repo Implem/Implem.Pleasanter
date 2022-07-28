@@ -2,10 +2,9 @@
     "Id": "User20",
     "Language": "ja",
     "Type": "Users",
-    "ParentId": "Dept8",
-    "Title": "村上 佳奈（ロック）",
+    "ParentId": "Dept9",
+    "Title": "村上 佳奈（特権ユーザ）",
     "ClassA": "2",
-    "CheckL": "1",
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }

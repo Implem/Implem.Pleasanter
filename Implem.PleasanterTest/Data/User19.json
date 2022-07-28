@@ -2,10 +2,10 @@
     "Id": "User19",
     "Language": "ja",
     "Type": "Users",
-    "ParentId": "Dept9",
-    "Title": "井上 健一（無効）",
+    "ParentId": "Dept6",
+    "Title": "井上 健一（ロック）",
     "ClassA": "2",
-    "CheckD": "1",
+    "CheckL": "1",
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }
