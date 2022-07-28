@@ -1,8 +1,9 @@
 ﻿{
-    "Id": "Group4",
+    "Id": "Group8",
     "Language": "ja",
     "Type": "Groups",
-    "Title": "グループ4",
+    "Title": "グループ8（無効）",
+    "CheckD": "1",
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }

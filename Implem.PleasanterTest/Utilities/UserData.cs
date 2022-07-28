@@ -16,7 +16,9 @@ namespace Implem.PleasanterTest.Utilities
             General3,
             General4,
             General5,
-            PrivilegedUser,
+            DisabledDept,
+            DisabledGroup,
+            Privileged,
             Lockout,
             Disabled
         }
@@ -50,13 +52,19 @@ namespace Implem.PleasanterTest.Utilities
                 case UserTypes.General5:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User6"));
                     break;
-                case UserTypes.PrivilegedUser:
-                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User18"));
+                case UserTypes.DisabledDept:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User16"));
+                    break;
+                case UserTypes.DisabledGroup:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User17"));
                     break;
                 case UserTypes.Disabled:
-                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User19"));
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User18"));
                     break;
                 case UserTypes.Lockout:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User19"));
+                    break;
+                case UserTypes.Privileged:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User20"));
                     break;
             }
@@ -67,9 +75,11 @@ namespace Implem.PleasanterTest.Utilities
         {
             yield return UserTypes.TenantManager;
             yield return UserTypes.General1;
-            yield return UserTypes.PrivilegedUser;
+            yield return UserTypes.DisabledDept;
+            yield return UserTypes.DisabledGroup;
             yield return UserTypes.Disabled;
             yield return UserTypes.Lockout;
+            yield return UserTypes.Privileged;
         }
     }
 }

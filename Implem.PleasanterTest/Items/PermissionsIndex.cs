@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Items
             int groupId,
             int userId,
             Permissions.Types permissionType,
-            HtmlTest.Types htmlTestType)
+            List<HtmlTest> htmlTests)
         {
             InitPermissions(
                 permissionInitType: permissionInitType,
@@ -33,20 +33,11 @@ namespace Implem.PleasanterTest.Items
                 userId: userId,
                 permissionType: permissionType);
             var id = Initializer.Titles.Get(title);
+            var siteId = Initializer.ItemIds.Get(id).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: new Dictionary<string, string>()
-                {
-                    { "controller", "items" },
-                    { "action", "index" },
-                    { "id", id.ToString() },
-                });
-            var html = GetHtml(
-                context: context,
-                id: id);
-            var htmlTests = GetHtmlTest(
-                title: title,
-                htmlTestType: htmlTestType);
+                routeData: RouteData.ItemsIndex(siteId: siteId));
+            var html = GetHtml(context: context);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -74,38 +65,87 @@ namespace Implem.PleasanterTest.Items
                                 permissionInitType: permissionInitType,
                                 deptId: ids.DeptId,
                                 groupId: ids.GroupId,
-                                userId: userModel.UserId,
-                                type: GetTestType(
+                                userId: ids.UserId,
+                                permissionType: (Permissions.Types)31,
+                                htmlTests: GetHtmlTests(
+                                    title: title,
                                     userType: userType,
                                     referenceType: referenceType,
-                                    allow: permissionInitType != PermissionData.PermissionInitTypes.Nothing));
+                                    permissionIdType: permissionIdType,
+                                    permissionInitType: permissionInitType));
                         }
                     }
                 }
             }
         }
 
-        private static HtmlTest.Types GetTestType(
+        private static List<HtmlTest> GetHtmlTests(
+            string title,
             UserData.UserTypes userType,
             ItemData.ReferenceTypes referenceType,
-            bool allow)
+            PermissionData.PermissionIdTypes permissionIdType,
+            PermissionData.PermissionInitTypes permissionInitType)
         {
             switch (referenceType)
             {
                 case ItemData.ReferenceTypes.Wikis:
-                    return HtmlTest.Types.NotFoundMessage;
+                    return HtmlTestNotFoundMessage(title: title);
                 default:
-                    switch (userType)
+                    switch (permissionInitType)
                     {
-                        case UserData.UserTypes.PrivilegedUser:
-                            return HtmlTest.Types.ExistsOne;
-                        case UserData.UserTypes.Lockout:
-                        case UserData.UserTypes.Disabled:
-                            return HtmlTest.Types.NotFoundMessage;
+                        case PermissionData.PermissionInitTypes.Nothing:
+                        case PermissionData.PermissionInitTypes.RecordAllow:
+                            return userType == UserData.UserTypes.Privileged
+                                ? HtmlTestExistsOne(title: title)
+                                : HtmlTestNotFoundMessage(title: title);
+                        case PermissionData.PermissionInitTypes.SiteEntry:
+                            switch (userType)
+                            {
+                                case UserData.UserTypes.DisabledDept:
+                                    switch (permissionIdType)
+                                    {
+                                        case PermissionData.PermissionIdTypes.Dept:
+                                        case PermissionData.PermissionIdTypes.DeptGroup:
+                                            return HtmlTestNotFoundMessage(title: title);
+                                        default:
+                                            return HtmlTestEntryAndNoRow(title: title);
+                                    }
+                                case UserData.UserTypes.DisabledGroup:
+                                    return permissionIdType == PermissionData.PermissionIdTypes.Group
+                                        ? HtmlTestNotFoundMessage(title: title)
+                                        : HtmlTestEntryAndNoRow(title: title);
+                                case UserData.UserTypes.Disabled:
+                                case UserData.UserTypes.Lockout:
+                                    return HtmlTestNotFoundMessage(title: title);
+                                case UserData.UserTypes.Privileged:
+                                    return HtmlTestExistsOne(title: title);
+                                default:
+                                    return HtmlTestEntryAndNoRow(title: title);
+                            }
                         default:
-                            return allow
-                                ? HtmlTest.Types.ExistsOne
-                                : HtmlTest.Types.NotFoundMessage;
+                            switch (userType)
+                            {
+                                case UserData.UserTypes.DisabledDept:
+                                    switch (permissionIdType)
+                                    {
+                                        case PermissionData.PermissionIdTypes.Dept:
+                                        case PermissionData.PermissionIdTypes.DeptGroup:
+                                            return HtmlTestNotFoundMessage(title: title);
+                                        default:
+                                            return HtmlTestExistsOne(title: title);
+                                    }
+                                case UserData.UserTypes.DisabledGroup:
+                                    return permissionIdType == PermissionData.PermissionIdTypes.Group
+                                        ? HtmlTestNotFoundMessage(title: title)
+                                        : HtmlTestExistsOne(title: title);
+                                case UserData.UserTypes.Disabled:
+                                case UserData.UserTypes.Lockout:
+                                    return HtmlTestNotFoundMessage(title: title);
+                                case UserData.UserTypes.Privileged:
+                                    return HtmlTestExistsOne(title: title);
+                                default:
+                                    return HtmlTestExistsOne(title: title);
+                            }
                     }
             }
         }
@@ -114,11 +154,11 @@ namespace Implem.PleasanterTest.Items
             string title,
             UserModel userModel,
             PermissionData.PermissionInitTypes permissionInitType,
-            int deptId = 0,
-            int groupId = 0,
-            int userId = 0,
-            Permissions.Types permissionType = (Permissions.Types)31,
-            HtmlTest.Types type = HtmlTest.Types.ExistsOne)
+            int deptId,
+            int groupId,
+            int userId,
+            Permissions.Types permissionType,
+            List<HtmlTest> htmlTests)
         {
             return new object[]
             {
@@ -129,28 +169,56 @@ namespace Implem.PleasanterTest.Items
                 groupId,
                 userId,
                 permissionType,
-                type
+                htmlTests
             };
         }
 
-        private static string GetHtml(
-            Context context,
-            long id)
+        private static string GetHtml(Context context)
         {
-            var itemModel = Initializer.ItemIds.Get(Initializer.ItemIds.Get(id).SiteId);
+            var itemModel = Initializer.ItemIds.Get(context.Id);
             return itemModel.Index(context: context);
         }
 
-        private static List<HtmlTest> GetHtmlTest(
-            string title,
-            HtmlTest.Types htmlTestType)
+        private static List<HtmlTest> HtmlTestExistsOne(string title)
         {
             var id = Initializer.Titles.Get(title);
             var htmlTest = new List<HtmlTest>()
             {
                 new HtmlTest()
                 {
-                    Type = htmlTestType,
+                    Type = HtmlTest.Types.ExistsOne,
+                    Selector = SelectorUtilities.GridRow(id)
+                }
+            };
+            return htmlTest;
+        }
+
+        private static List<HtmlTest> HtmlTestNotFoundMessage(string title)
+        {
+            var id = Initializer.Titles.Get(title);
+            var htmlTest = new List<HtmlTest>()
+            {
+                new HtmlTest()
+                {
+                    Type = HtmlTest.Types.NotFoundMessage
+                }
+            };
+            return htmlTest;
+        }
+
+        private static List<HtmlTest> HtmlTestEntryAndNoRow(string title)
+        {
+            var id = Initializer.Titles.Get(title);
+            var htmlTest = new List<HtmlTest>()
+            {
+                new HtmlTest()
+                {
+                    Type = HtmlTest.Types.ExistsOne,
+                    Selector = "#Grid"
+                },
+                new HtmlTest()
+                {
+                    Type = HtmlTest.Types.NotExists,
                     Selector = SelectorUtilities.GridRow(id)
                 }
             };

@@ -16,14 +16,17 @@ namespace Implem.PleasanterTest.Utilities
             Nothing,
             InheritSiteAllow,
             SiteAllow,
-            RecordAllow
+            RecordAllow,
+            SiteEntry,
+            SiteEntryAndRecordAllow
         }
 
         public enum PermissionIdTypes
         {
-            Depts,
-            Groups,
-            Users,
+            Dept,
+            Group,
+            DeptGroup,
+            User,
             AllUser
         }
 
@@ -42,17 +45,22 @@ namespace Implem.PleasanterTest.Utilities
             var userModel = Initializer.Users.Get(userId);
             switch (permissionIdType)
             {
-                case PermissionIdTypes.Depts:
+                case PermissionIdTypes.Dept:
                     return (
                         userModel.DeptId,
                         0,
                         0);
-                case PermissionIdTypes.Groups:
+                case PermissionIdTypes.Group:
                     return (
                         0,
                         Initializer.GroupMembers.FirstOrDefault(o => o.UserId == userModel.UserId)?.GroupId ?? 0,
                         0);
-                case PermissionIdTypes.Users:
+                case PermissionIdTypes.DeptGroup:
+                    return (
+                        0,
+                        Initializer.GroupMembers.FirstOrDefault(o => o.DeptId == userModel.DeptId)?.GroupId ?? 0,
+                        0);
+                case PermissionIdTypes.User:
                     return (
                         0,
                         0,
@@ -119,6 +127,21 @@ namespace Implem.PleasanterTest.Utilities
                         userId: userId,
                         permissionType: permissionType);
                     break;
+                case PermissionInitTypes.SiteEntry:
+                    SetSiteEntry(
+                        siteId: siteModel.SiteId,
+                        deptId: deptId,
+                        groupId: groupId,
+                        userId: userId);
+                    break;
+                case PermissionInitTypes.SiteEntryAndRecordAllow:
+                    SetSiteEntryAndRecordAllow(
+                        siteId: siteModel.SiteId,
+                        deptId: deptId,
+                        groupId: groupId,
+                        userId: userId,
+                        permissionType: permissionType);
+                    break;
             }
         }
 
@@ -144,7 +167,7 @@ namespace Implem.PleasanterTest.Utilities
                 .ForEach(siteModel => Rds.ExecuteNonQuery(
                     context: Initializer.Context,
                     statements: Rds.UpdateSites(
-                        param: Rds.SitesParam().InheritPermission(siteId),
+                        param: Rds.SitesParam().InheritPermission(raw: "\"ParentId\""),
                         where: Rds.SitesWhere()
                             .TenantId(Initializer.TenantId)
                             .SiteId(siteModel.SiteId))));
@@ -200,20 +223,105 @@ namespace Implem.PleasanterTest.Utilities
             Initializer.Sites
                 .Values
                 .Where(o => o.ParentId == siteId)
-                .ForEach(siteModel => Initializer.Items
-                    .Values
-                    .Where(o => o.SiteId == siteModel.SiteId)
-                    .Where(o => o.SiteId != o.ReferenceId)
-                    .ForEach(itemModel =>
-                        Rds.ExecuteNonQuery(
-                            context: Initializer.Context,
-                            statements: Rds.InsertPermissions(
-                                param: Rds.PermissionsParam()
-                                    .ReferenceId(itemModel.ReferenceId)
-                                    .DeptId(deptId)
-                                    .GroupId(groupId)
-                                    .UserId(userId)
-                                    .PermissionType(permissionType)))));
+                .ForEach(siteModel =>
+                {
+                    Initializer.Items
+                        .Values
+                        .Where(o => o.SiteId == siteModel.SiteId)
+                        .Where(o => o.SiteId != o.ReferenceId)
+                        .ForEach(itemModel =>
+                            Rds.ExecuteNonQuery(
+                                context: Initializer.Context,
+                                statements: Rds.InsertPermissions(
+                                    param: Rds.PermissionsParam()
+                                        .ReferenceId(itemModel.ReferenceId)
+                                        .DeptId(deptId)
+                                        .GroupId(groupId)
+                                        .UserId(userId)
+                                        .PermissionType(permissionType))));
+                    Rds.ExecuteNonQuery(
+                        context: Initializer.Context,
+                        statements: Rds.UpdateSites(
+                            param: Rds.SitesParam().InheritPermission(raw: "\"SiteId\""),
+                            where: Rds.SitesWhere()
+                                .TenantId(Initializer.TenantId)
+                                .SiteId(siteModel.SiteId)));
+                });
+        }
+
+        private static void SetSiteEntry(
+            long siteId,
+            int deptId,
+            int groupId,
+            int userId)
+        {
+            Initializer.Sites
+                .Values
+                .Where(o => o.ParentId == siteId)
+                .ForEach(siteModel =>
+                {
+                    Rds.ExecuteNonQuery(
+                        context: Initializer.Context,
+                        statements: Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceId(siteModel.SiteId)
+                                .DeptId(deptId)
+                                .GroupId(groupId)
+                                .UserId(userId)
+                                .PermissionType(0)));
+                    Rds.ExecuteNonQuery(
+                        context: Initializer.Context,
+                        statements: Rds.UpdateSites(
+                            param: Rds.SitesParam().InheritPermission(raw: "\"SiteId\""),
+                            where: Rds.SitesWhere()
+                                .TenantId(Initializer.TenantId)
+                                .SiteId(siteModel.SiteId)));
+                });
+        }
+
+        private static void SetSiteEntryAndRecordAllow(
+            long siteId,
+            int deptId,
+            int groupId,
+            int userId,
+            Permissions.Types permissionType)
+        {
+            Initializer.Sites
+                .Values
+                .Where(o => o.ParentId == siteId)
+                .ForEach(siteModel =>
+                {
+                    Rds.ExecuteNonQuery(
+                        context: Initializer.Context,
+                        statements: Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceId(siteModel.SiteId)
+                                .DeptId(deptId)
+                                .GroupId(groupId)
+                                .UserId(userId)
+                                .PermissionType(0)));
+                    Initializer.Items
+                        .Values
+                        .Where(o => o.SiteId == siteModel.SiteId)
+                        .Where(o => o.SiteId != o.ReferenceId)
+                        .ForEach(itemModel =>
+                            Rds.ExecuteNonQuery(
+                                context: Initializer.Context,
+                                statements: Rds.InsertPermissions(
+                                    param: Rds.PermissionsParam()
+                                        .ReferenceId(itemModel.ReferenceId)
+                                        .DeptId(deptId)
+                                        .GroupId(groupId)
+                                        .UserId(userId)
+                                        .PermissionType(permissionType))));
+                    Rds.ExecuteNonQuery(
+                        context: Initializer.Context,
+                        statements: Rds.UpdateSites(
+                            param: Rds.SitesParam().InheritPermission(raw: "\"SiteId\""),
+                            where: Rds.SitesWhere()
+                                .TenantId(Initializer.TenantId)
+                                .SiteId(siteModel.SiteId)));
+                });
         }
     }
 }

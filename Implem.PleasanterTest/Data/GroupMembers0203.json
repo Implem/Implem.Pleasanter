@@ -1,10 +1,10 @@
 ﻿{
-    "Id": "GroupMembers0303",
+    "Id": "GroupMembers0203",
     "Language": "ja",
     "Type": "GroupMembers",
-    "ParentId": "Group3",
-    "ClassA": "",
-    "ClassB": "User2",
+    "ParentId": "Group2",
+    "ClassA": "Dept6",
+    "ClassB": "",
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }
