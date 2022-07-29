@@ -124,6 +124,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsBurnDown(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "burndown" },
+                { "action", "index" },
+                { "id", siteId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsEdit(long id)
         {
             return new Dictionary<string, string>()
