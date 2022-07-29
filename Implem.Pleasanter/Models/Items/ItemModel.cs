@@ -271,7 +271,9 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: new ErrorData(type: Error.Types.NotFound));
                 }
-                return SiteUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+                return SiteUtilities.TrashBox(
+                    context: context,
+                    ss: Site.SiteSettings);
             }
             if (!context.CanManageSite(ss: Site.SiteSettings))
             {
@@ -302,7 +304,7 @@ namespace Implem.Pleasanter.Models
 
         public string TrashBoxJson(Context context)
         {
-            if (ReferenceType != "Sites")
+            if (ReferenceId != 0 && ReferenceType != "Sites")
             {
                 return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -312,6 +314,20 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: true,
                 tableType: Sqls.TableTypes.Deleted);
             ViewModes.Set(context: context, siteId: Site.SiteId);
+            if (ReferenceId == 0)
+            {
+                if (!context.HasPrivilege)
+                {
+                    return Messages.ResponseNotFound(context: context).ToJson();
+                }
+                return SiteUtilities.TrashBoxJson(
+                    context: context,
+                    ss: Site.SiteSettings);
+            }
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
             switch (Site.ReferenceType)
             {
                 case "Sites":
