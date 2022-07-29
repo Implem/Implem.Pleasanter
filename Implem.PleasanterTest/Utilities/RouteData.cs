@@ -134,6 +134,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsTimeSeries(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "timeseries" },
+                { "action", "index" },
+                { "id", siteId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsKamban(long siteId)
         {
             return new Dictionary<string, string>()
