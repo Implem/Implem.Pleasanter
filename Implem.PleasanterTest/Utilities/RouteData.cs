@@ -144,6 +144,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsImageLib(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "imagelib" },
+                { "action", "index" },
+                { "id", siteId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsEdit(long id)
         {
             return new Dictionary<string, string>()
