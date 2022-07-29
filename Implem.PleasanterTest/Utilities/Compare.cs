@@ -180,7 +180,7 @@ namespace Implem.PleasanterTest.Utilities
                         }
                         break;
                     case JsonTest.Types.Html:
-                        if (Html(
+                        if (!Html(
                             context: context,
                             html: nodes[0].Value.ToString(),
                             htmlTests: jsonTest.HtmlTests))
