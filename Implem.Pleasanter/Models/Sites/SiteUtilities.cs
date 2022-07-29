@@ -6524,8 +6524,7 @@ namespace Implem.Pleasanter.Models
                                         .FieldCheckBox(
                                             controlId: "Hide",
                                             labelText: Displays.Hide(context: context),
-                                            _checked: column.Hide == true,
-                                            _using: !column.Id_Ver)
+                                            _checked: column.Hide == true)
                                         .FieldTextBox(
                                             controlId: "ExtendedFieldCss",
                                             fieldCss: "field-normal",
