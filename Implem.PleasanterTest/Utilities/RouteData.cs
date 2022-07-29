@@ -104,6 +104,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsCrossTab(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "crosstab" },
+                { "action", "index" },
+                { "id", siteId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsEdit(long id)
         {
             return new Dictionary<string, string>()

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Items
 {
-    public class ItemsCalendar
+    public class ItemsCrossTab
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Items
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsCalendar(siteId: siteId));
+                routeData: RouteData.ItemsCrossTab(siteId: siteId));
             var html = GetHtml(context: context);
             Assert.True(Compare.Html(
                 context: context,
@@ -72,7 +72,7 @@ namespace Implem.PleasanterTest.Items
         private static string GetHtml(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.Calendar(context: context);
+            return itemModel.Crosstab(context: context);
         }
     }
 }
