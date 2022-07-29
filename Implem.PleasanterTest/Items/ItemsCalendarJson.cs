@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Items
 {
-    public class ItemsIndexJson
+    public class ItemsCalendarJson
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Items
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsIndex(siteId: siteId));
+                routeData: RouteData.ItemsCalendar(siteId: siteId));
             var json = GetJson(context: context);
             Assert.True(Compare.Json(
                 context: context,
@@ -47,7 +47,7 @@ namespace Implem.PleasanterTest.Items
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
                     jsonTests: JsonData.Html(
                         target: "#ViewModeContainer",
-                        selector: "#Grid").ToSingleList());
+                        selector: "#Calendar").ToSingleList());
             }
         }
 
@@ -67,7 +67,7 @@ namespace Implem.PleasanterTest.Items
         private static string GetJson(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.IndexJson(context: context);
+            return itemModel.CalendarJson(context: context);
         }
     }
 }

@@ -52,64 +52,20 @@ namespace Implem.PleasanterTest.Items
                     title: title,
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
                     jsonTests: title == "TopTraxhBox"
-                        ? new List<JsonTest>
-                        {
-                            new JsonTest()
-                            {
-                                Type = JsonTest.Types.Message,
-                                Method = "Message",
-                                Value = "NotFound"
-                            }
-                        }
-                        : new List<JsonTest>
-                        {
-                            new JsonTest()
-                            {
-                                Type = JsonTest.Types.Html,
-                                Method = "Html",
-                                Target = "#ViewModeContainer",
-                                HtmlTests = new List<HtmlTest>()
-                                {
-                                    new HtmlTest()
-                                    {
-                                        Type = HtmlTest.Types.ExistsOne,
-                                        Selector = "#Grid"
-                                    }
-                                }
-                            }
-                        });
+                        ? JsonData.Message(message: "NotFound").ToSingleList()
+                        : JsonData.Html(
+                            target: "#ViewModeContainer",
+                            selector: "#Grid").ToSingleList());
                 yield return TestData(
                     title: title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    jsonTests: new List<JsonTest>
-                    {
-                        new JsonTest()
-                        {
-                            Type = JsonTest.Types.Message,
-                            Method = "Message",
-                            Value = "NotFound"
-                        }
-                    });
+                    jsonTests: JsonData.Message(message: "NotFound").ToSingleList());
                 yield return TestData(
                     title: title,
                     userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                    jsonTests: new List<JsonTest>
-                    {
-                        new JsonTest()
-                        {
-                            Type = JsonTest.Types.Html,
-                            Method = "Html",
-                            Target = "#ViewModeContainer",
-                            HtmlTests = new List<HtmlTest>()
-                            {
-                                new HtmlTest()
-                                {
-                                    Type = HtmlTest.Types.ExistsOne,
-                                    Selector = "#Grid"
-                                }
-                            }
-                        }
-                    });
+                    jsonTests: JsonData.Html(
+                        target: "#ViewModeContainer",
+                        selector: "#Grid").ToSingleList());
             }
         }
 
