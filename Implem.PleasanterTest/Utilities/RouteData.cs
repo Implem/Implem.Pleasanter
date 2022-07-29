@@ -88,8 +88,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "trashbox" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "trashbox" },
                 { "id", siteId.ToString() },
             };
         }
@@ -98,8 +98,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "calendar" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "calendar" },
                 { "id", siteId.ToString() },
             };
         }
@@ -108,8 +108,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "crosstab" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "crosstab" },
                 { "id", siteId.ToString() },
             };
         }
@@ -118,8 +118,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "gantt" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "gantt" },
                 { "id", siteId.ToString() },
             };
         }
@@ -128,8 +128,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "burndown" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "burndown" },
                 { "id", siteId.ToString() },
             };
         }
@@ -138,8 +138,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "timeseries" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "timeseries" },
                 { "id", siteId.ToString() },
             };
         }
@@ -148,8 +148,8 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "kamban" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "kamban" },
                 { "id", siteId.ToString() },
             };
         }
@@ -158,8 +158,18 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new Dictionary<string, string>()
             {
-                { "controller", "imagelib" },
-                { "action", "index" },
+                { "controller", "items" },
+                { "action", "imagelib" },
+                { "id", siteId.ToString() },
+            };
+        }
+
+        public static Dictionary<string, string> ItemsNew(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "new" },
                 { "id", siteId.ToString() },
             };
         }
