@@ -1634,7 +1634,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "PermissionForCreatingParts",
                         labelText: Displays.Permissions(context: context),
                         permissionType: permissionType,
-                        disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating.Any() == true)
+                        disableRecordPermission: false)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -1846,7 +1846,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "PermissionForUpdatingParts",
                         labelText: Displays.Permissions(context: context),
                         permissionType: permissionType,
-                        disableRecordPermission: siteModel.SiteSettings.PermissionForUpdating?.Any() == true)
+                        disableRecordPermission: false)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
