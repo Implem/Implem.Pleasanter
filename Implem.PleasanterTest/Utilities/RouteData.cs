@@ -94,6 +94,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsCalendar(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "calendar" },
+                { "action", "index" },
+                { "id", siteId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsEdit(long id)
         {
             return new Dictionary<string, string>()

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Items
 {
-    public class ItemsTrashBox
+    public class ItemsCalendar
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -18,12 +18,10 @@ namespace Implem.PleasanterTest.Items
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
-            var siteId = title == "TopTraxhBox"
-                ? 0
-                : Initializer.Sites.Get(title).SiteId;
+            var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsTrashBox(siteId: siteId));
+                routeData: RouteData.ItemsCalendar(siteId: siteId));
             var html = GetHtml(context: context);
             Assert.True(Compare.Html(
                 context: context,
@@ -35,12 +33,9 @@ namespace Implem.PleasanterTest.Items
         {
             var titles = new List<string>()
             {
-                "TopTraxhBox",
-                "プロジェクト管理の例",
                 "WBS",
                 "課題管理",
                 "レビュー記録",
-                "商談管理の例",
                 "顧客マスタ",
                 "商談",
                 "仕入"
@@ -49,36 +44,7 @@ namespace Implem.PleasanterTest.Items
             {
                 yield return TestData(
                     title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
-                    htmlTests: title == "TopTraxhBox"
-                        ? new List<HtmlTest>
-                        {
-                            new HtmlTest()
-                            {
-                                Type = HtmlTest.Types.NotFoundMessage
-                            }
-                        }
-                        : new List<HtmlTest>
-                        {
-                            new HtmlTest()
-                            {
-                                Type = HtmlTest.Types.ExistsOne,
-                                Selector = "#Grid"
-                            }
-                        });
-                yield return TestData(
-                    title: title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    htmlTests: new List<HtmlTest>
-                    {
-                        new HtmlTest()
-                        {
-                            Type = HtmlTest.Types.NotFoundMessage,
-                        }
-                    });
-                yield return TestData(
-                    title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
                     htmlTests: new List<HtmlTest>
                     {
                         new HtmlTest()
@@ -108,7 +74,7 @@ namespace Implem.PleasanterTest.Items
             var itemModel = context.Id == 0
                 ? new ItemModel()
                 : Initializer.ItemIds.Get(context.Id);
-            return itemModel.TrashBox(context: context);
+            return itemModel.Calendar(context: context);
         }
     }
 }
