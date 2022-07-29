@@ -180,12 +180,36 @@ namespace Implem.PleasanterTest.Utilities
                         }
                         break;
                     case JsonTest.Types.Html:
-                        if (!Html(
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (!Html(
                             context: context,
                             html: nodes[0].Value.ToString(),
                             htmlTests: jsonTest.HtmlTests))
                         {
                             return false;
+                        }
+                        break;
+                    case JsonTest.Types.Message:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            switch (jsonTest.Value)
+                            {
+                                case "NotFound":
+                                    if (nodes[0].Value.ToString() != Messages.NotFound(context: context).ToJson())
+                                    {
+                                        return false;
+                                    }
+                                    break;
+                                default:
+                                    return false;
+                            }
                         }
                         break;
                     default:
