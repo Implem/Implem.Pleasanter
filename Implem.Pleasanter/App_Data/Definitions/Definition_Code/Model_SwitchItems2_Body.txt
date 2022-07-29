@@ -1006,7 +1006,9 @@ public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId
 {
     SetSite(
         context: context,
-        initSiteSettings: true);
+        initSiteSettings: true,
+        setSiteIntegration: true,
+        setAllChoices: true);
     switch (Site.ReferenceType)
     {
         case "Issues":
