@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Items
 {
-    public class ItemsCrosstab
+    public class ItemsGantt
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Items
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsCrosstab(siteId: siteId));
+                routeData: RouteData.ItemsGantt(siteId: siteId));
             var html = GetHtml(context: context);
             Assert.True(Compare.Html(
                 context: context,
@@ -35,10 +35,7 @@ namespace Implem.PleasanterTest.Items
             {
                 "WBS",
                 "課題管理",
-                "レビュー記録",
-                "顧客マスタ",
-                "商談",
-                "仕入"
+                "商談"
             };
             foreach (var title in titles)
             {
@@ -50,7 +47,7 @@ namespace Implem.PleasanterTest.Items
                         new HtmlTest()
                         {
                                 Type = HtmlTest.Types.ExistsOne,
-                                Selector = "#Crosstab"
+                                Selector = "#GanttBody"
                         }
                     });
             }
@@ -72,7 +69,7 @@ namespace Implem.PleasanterTest.Items
         private static string GetHtml(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.Crosstab(context: context);
+            return itemModel.Gantt(context: context);
         }
     }
 }

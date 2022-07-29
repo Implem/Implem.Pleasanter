@@ -50,7 +50,7 @@ namespace Implem.PleasanterTest.Items
                         new HtmlTest()
                         {
                                 Type = HtmlTest.Types.ExistsOne,
-                                Selector = "#Grid"
+                                Selector = "#Calendar"
                         }
                     });
             }
