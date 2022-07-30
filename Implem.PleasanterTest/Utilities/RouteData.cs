@@ -134,6 +134,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> GroupsNew()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "new" },
+                { "id", "0" },
+            };
+        }
+
         public static Dictionary<string, string> UsersCreate()
         {
             return new Dictionary<string, string>()

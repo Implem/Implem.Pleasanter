@@ -1,5 +1,5 @@
-﻿using Implem.PleasanterTest.Models;
-using System.Collections.Generic;
+﻿using Implem.Libraries.Utilities;
+using Implem.PleasanterTest.Models;
 
 namespace Implem.PleasanterTest.Utilities
 {
@@ -51,14 +51,7 @@ namespace Implem.PleasanterTest.Utilities
                 Type = JsonTest.Types.Html,
                 Method = method,
                 Target = target,
-                HtmlTests = new List<HtmlTest>()
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = selector
-                    }
-                }
+                HtmlTests = HtmlData.ExistsOne(selector: selector).ToSingleList()
             };
         }
 
