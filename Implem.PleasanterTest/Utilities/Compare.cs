@@ -2,7 +2,9 @@
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.PleasanterTest.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 
 namespace Implem.PleasanterTest.Utilities
@@ -210,6 +212,37 @@ namespace Implem.PleasanterTest.Utilities
                                 default:
                                     return false;
                             }
+                        }
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// JSONの返却値をテストデータによって正しいことをチェックします。
+        /// </summary>
+        public static bool ApiResults(
+            Context context,
+            ContentResultInheritance results,
+            List<ApiJsonTest> apiJsonTests)
+        {
+            dynamic content = JsonConvert.DeserializeObject<ExpandoObject>(results.Content);
+            var data = (IDictionary<string, object>)content;
+            foreach (var apiJsonTest in apiJsonTests)
+            {
+                switch (apiJsonTest.Type)
+                {
+                    case ApiJsonTest.Types.StatusCode:
+                        if (!data.ContainsKey("StatusCode"))
+                        {
+                            return false;
+                        }
+                        else if (data["StatusCode"].ToInt() != apiJsonTest.Value.ToInt())
+                        {
+                            return false;
                         }
                         break;
                     default:
