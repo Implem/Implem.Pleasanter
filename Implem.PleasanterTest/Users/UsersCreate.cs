@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
@@ -43,7 +44,7 @@ namespace Implem.PleasanterTest.Users
             yield return TestData(
                 forms: new Forms()
                 {
-                    { "Users_LoginId", "" },
+                    { "Users_LoginId", Strings.NewGuid() },
                     { "Users_Password", "password" }
                 },
                 userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
