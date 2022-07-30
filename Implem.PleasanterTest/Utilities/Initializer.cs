@@ -125,6 +125,7 @@ namespace Implem.PleasanterTest.Utilities
                         break;
                 }
             });
+            Sites.ForEach(data => Titles.Add(data.Key, data.Value.SiteId));
             Issues.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.IssueId));
             Results.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.ResultId));
             Wikis.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.WikiId));
