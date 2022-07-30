@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Items
 {
-    public class ItemsGridRows
+    public class ItemsTrashBoxGridRows
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -18,10 +18,10 @@ namespace Implem.PleasanterTest.Items
             UserModel userModel,
             List<JsonTest> jsonTests)
         {
-            var siteId = Initializer.Sites.Get(title).SiteId;
+            var siteId = Initializer.Sites.Get(title)?.SiteId ?? 0;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsGridRows(siteId: siteId));
+                routeData: RouteData.ItemsTrashBoxGridRows(siteId: siteId));
             var json = GetJson(context: context);
             Assert.True(Compare.Json(
                 context: context,
@@ -33,9 +33,12 @@ namespace Implem.PleasanterTest.Items
         {
             var titles = new List<string>()
             {
+                "TopTraxhBox",
+                "プロジェクト管理の例",
                 "WBS",
                 "課題管理",
                 "レビュー記録",
+                "商談管理の例",
                 "顧客マスタ",
                 "商談",
                 "仕入"
@@ -76,7 +79,17 @@ namespace Implem.PleasanterTest.Items
             {
                 yield return TestData(
                     title: title,
+                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                    jsonTests: title == "TopTraxhBox"
+                        ? JsonData.Message(message: "NotFound").ToSingleList()
+                        : validJsonTests);
+                yield return TestData(
+                    title: title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                    jsonTests: JsonData.Message(message: "NotFound").ToSingleList());
+                yield return TestData(
+                    title: title,
+                    userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
                     jsonTests: validJsonTests);
             }
         }
@@ -96,8 +109,9 @@ namespace Implem.PleasanterTest.Items
 
         private static string GetJson(Context context)
         {
-            var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.GridRows(context: context);
+            var itemModel = Initializer.ItemIds.Get(context.Id)
+                ?? new ItemModel();
+            return itemModel.TrashBoxGridRows(context: context);
         }
     }
 }
