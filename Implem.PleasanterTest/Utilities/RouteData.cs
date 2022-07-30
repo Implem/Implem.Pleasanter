@@ -373,5 +373,15 @@ namespace Implem.PleasanterTest.Utilities
                 { "id", id.ToString() },
             };
         }
+
+        public static Dictionary<string, string> ItemsApiUpdate(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "update" },
+                { "id", id.ToString() },
+            };
+        }
     }
 }
