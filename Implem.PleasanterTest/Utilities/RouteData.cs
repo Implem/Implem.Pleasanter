@@ -33,6 +33,15 @@ namespace Implem.PleasanterTest.Utilities
                 { "id", "0" },
             };
         }
+        public static Dictionary<string, string> DeptsNew()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "new" },
+                { "id", "0" },
+            };
+        }
 
         public static Dictionary<string, string> DeptsEdit(int deptId)
         {
@@ -44,15 +53,6 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> DeptsNew()
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "depts" },
-                { "action", "new" },
-                { "id", "0" },
-            };
-        }
 
         public static Dictionary<string, string> DeptsCreate()
         {
@@ -90,6 +90,16 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "index" },
+                { "id", "0" },
+            };
+        }
+
+        public static Dictionary<string, string> GroupsNew()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "new" },
                 { "id", "0" },
             };
         }
@@ -144,22 +154,12 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsNew()
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "groups" },
-                { "action", "new" },
-                { "id", "0" },
-            };
-        }
-
-        public static Dictionary<string, string> UsersCreate()
+        public static Dictionary<string, string> UsersNew()
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "users" },
-                { "action", "create" },
+                { "action", "new" },
                 { "id", "0" },
             };
         }
@@ -171,6 +171,16 @@ namespace Implem.PleasanterTest.Utilities
                 { "controller", "users" },
                 { "action", "edit" },
                 { "id", userId.ToString() },
+            };
+        }
+
+        public static Dictionary<string, string> UsersCreate()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "create" },
+                { "id", "0" },
             };
         }
 
