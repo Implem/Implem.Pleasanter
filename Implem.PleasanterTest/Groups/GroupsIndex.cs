@@ -6,7 +6,7 @@ using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Implem.PleasanterTest.Users
+namespace Implem.PleasanterTest.Groups
 {
     public class GroupsIndex
     {
@@ -29,7 +29,7 @@ namespace Implem.PleasanterTest.Users
         public static IEnumerable<object[]> GetData()
         {
             yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()

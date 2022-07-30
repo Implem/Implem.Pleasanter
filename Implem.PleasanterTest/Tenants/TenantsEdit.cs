@@ -29,7 +29,7 @@ namespace Implem.PleasanterTest.Tenants
         public static IEnumerable<object[]> GetData()
         {
             yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()

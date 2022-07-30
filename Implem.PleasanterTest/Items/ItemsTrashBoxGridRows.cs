@@ -79,7 +79,7 @@ namespace Implem.PleasanterTest.Items
             {
                 yield return TestData(
                     title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                     jsonTests: title == "TopTraxhBox"
                         ? JsonData.Message(message: "NotFound").ToSingleList()
                         : validJsonTests);

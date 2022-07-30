@@ -47,8 +47,8 @@ namespace Implem.PleasanterTest.Groups
                 JsonData.ExistsOne(method: "ClearFormData")
             };
             yield return TestData(
-                title: "グループ1",
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                title: "グループ9",
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 jsonTests: jsonTests);
         }
 

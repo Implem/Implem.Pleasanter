@@ -48,7 +48,7 @@ namespace Implem.PleasanterTest.Users
             };
             yield return TestData(
                 title: "山本 陽子",
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 jsonTests: jsonTests);
         }
 

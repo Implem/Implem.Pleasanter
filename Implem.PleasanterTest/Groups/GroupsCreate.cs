@@ -39,7 +39,7 @@ namespace Implem.PleasanterTest.Groups
                 JsonData.ExistsOne(method: "Href")
             };
             yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                userModel: UserData.Get(userType: UserData.UserTypes.General5),
                 jsonTests: jsonTests);
         }
 

@@ -47,7 +47,7 @@ namespace Implem.PleasanterTest.Users
                     { "Users_LoginId", Strings.NewGuid() },
                     { "Users_Password", "password" }
                 },
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager2),
                 jsonTests: jsonTests);
         }
 

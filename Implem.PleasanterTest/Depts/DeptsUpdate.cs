@@ -48,7 +48,7 @@ namespace Implem.PleasanterTest.Depts
             };
             yield return TestData(
                 title: "開発1部",
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 jsonTests: jsonTests);
         }
 

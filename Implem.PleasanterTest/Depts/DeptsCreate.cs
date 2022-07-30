@@ -39,7 +39,7 @@ namespace Implem.PleasanterTest.Depts
                 JsonData.ExistsOne(method: "Href")
             };
             yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager2),
                 jsonTests: jsonTests);
         }
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Implem.PleasanterTest.Depts
+namespace Implem.PleasanterTest.Groups
 {
     public class GroupsEdit
     {
@@ -34,7 +34,7 @@ namespace Implem.PleasanterTest.Depts
         {
             yield return TestData(
                 groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()

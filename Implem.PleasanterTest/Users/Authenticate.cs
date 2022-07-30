@@ -6,7 +6,7 @@ using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
 using Xunit;
-namespace Implem.PleasanterTest
+namespace Implem.PleasanterTest.Users
 {
     /// <summary>
     /// ログイン操作のテストです。

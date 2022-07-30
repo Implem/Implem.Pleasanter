@@ -117,7 +117,7 @@ namespace Implem.PleasanterTest.Items
             {
                 yield return TestData(
                     title: data.Key,
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                     jsonTests: data.Value);
             }
         }

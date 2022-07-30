@@ -49,7 +49,7 @@ namespace Implem.PleasanterTest.Items
             {
                 yield return TestData(
                     title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                     htmlTests: title == "TopTraxhBox"
                         ? new List<HtmlTest>
                         {

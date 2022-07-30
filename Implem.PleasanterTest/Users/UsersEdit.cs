@@ -33,7 +33,7 @@ namespace Implem.PleasanterTest.Users
         {
             yield return TestData(
                 userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager),
+                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 htmlTests: new List<HtmlTest>
                 {
                     new HtmlTest()
