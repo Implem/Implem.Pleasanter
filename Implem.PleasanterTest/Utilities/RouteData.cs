@@ -44,6 +44,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> DeptsCreate()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "create" },
+                { "id", "0" },
+            };
+        }
+
         public static Dictionary<string, string> DeptsUpdate(long id)
         {
             return new Dictionary<string, string>()
