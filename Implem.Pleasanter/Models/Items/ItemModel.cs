@@ -1185,13 +1185,39 @@ namespace Implem.Pleasanter.Models
 
         public string TrashBoxGridRows(Context context)
         {
+            if (ReferenceId != 0 && ReferenceType != "Sites")
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
             SetSite(
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 tableType: Sqls.TableTypes.Deleted);
+            if (ReferenceId == 0)
+            {
+                if (!context.HasPrivilege)
+                {
+                    return Messages.ResponseNotFound(context: context).ToJson();
+                }
+                return SiteUtilities.GridRows(
+                    context: context,
+                    ss: Site.SiteSettings,
+                    offset: context.Forms.Int("GridOffset"),
+                    action: "TrashBoxGridRows");
+            }
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.GridRows(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        offset: context.Forms.Int("GridOffset"),
+                        action: "TrashBoxGridRows");
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
