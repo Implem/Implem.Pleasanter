@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Items
 {
-    public class ItemsApiUpdate
+    public class ItemsApiCreate
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Items
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsApiUpdate(id: id));
+                routeData: RouteData.ItemsApiCreate(id: id));
             var results = GetResults(context: context);
             Assert.True(Compare.ApiResults(
                 context: context,
@@ -34,12 +34,12 @@ namespace Implem.PleasanterTest.Items
         {
             var titles = new List<string>()
             {
-                "サーバのテスト",
-                "ネットワーク構成が決まっていない",
-                "ディスク容量の要件に誤り",
-                "株式会社プリザンター",
-                "業務改善コンサルティング",
-                "R社システム開発"
+                "WBS",
+                "課題管理",
+                "レビュー記録",
+                "顧客マスタ",
+                "商談",
+                "仕入"
             };
             foreach (var title in titles)
             {
@@ -66,7 +66,7 @@ namespace Implem.PleasanterTest.Items
         private static ContentResultInheritance GetResults(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.UpdateByApi(context: context);
+            return itemModel.CreateByApi(context: context);
         }
     }
 }

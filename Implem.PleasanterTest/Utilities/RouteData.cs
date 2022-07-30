@@ -383,5 +383,15 @@ namespace Implem.PleasanterTest.Utilities
                 { "id", id.ToString() },
             };
         }
+
+        public static Dictionary<string, string> ItemsApiCreate(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "create" },
+                { "id", id.ToString() },
+            };
+        }
     }
 }
