@@ -21,7 +21,27 @@ namespace Implem.PleasanterTest.Utilities
                 selector: selector);
         }
 
-        private static JsonTest HtmlTests(
+        public static JsonTest Append(string target, string selector)
+        {
+            return HtmlTests(
+                method: "Append",
+                target: target,
+                selector: selector);
+        }
+
+        public static JsonTest ExistsOne(
+            string method,
+            string target = null)
+        {
+            return new JsonTest()
+            {
+                Type = JsonTest.Types.ExistsOne,
+                Method = method,
+                Target = target
+            };
+        }
+
+        public static JsonTest HtmlTests(
             string method,
             string target,
             string selector)

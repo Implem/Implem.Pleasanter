@@ -84,6 +84,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsGridRows(long siteId)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "gridrows" },
+                { "action", "index" },
+                { "id", siteId.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsTrashBox(long siteId)
         {
             return new Dictionary<string, string>()
