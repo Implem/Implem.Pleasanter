@@ -64,7 +64,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> DeptsUpdate(long id)
+        public static Dictionary<string, string> DeptsUpdate(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -74,7 +74,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> DeptsDelete(long id)
+        public static Dictionary<string, string> DeptsDelete(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -84,7 +84,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> DeptsApiGet(long id)
+        public static Dictionary<string, string> DeptsApiGet(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -134,7 +134,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsUpdate(long id)
+        public static Dictionary<string, string> GroupsUpdate(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -144,7 +144,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsDelete(long id)
+        public static Dictionary<string, string> GroupsDelete(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -154,7 +154,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsApiGet(long id)
+        public static Dictionary<string, string> GroupsApiGet(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -174,7 +174,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsApiUpdate(long id)
+        public static Dictionary<string, string> GroupsApiUpdate(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -184,7 +184,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsApiDelete(long id)
+        public static Dictionary<string, string> GroupsApiDelete(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -234,7 +234,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> UsersUpdate(long id)
+        public static Dictionary<string, string> UsersUpdate(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -244,7 +244,7 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> UsersDelete(long id)
+        public static Dictionary<string, string> UsersDelete(int id)
         {
             return new Dictionary<string, string>()
             {
@@ -254,7 +254,17 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> UsersApiGet(long id)
+        public static Dictionary<string, string> UsersResetPassword(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "resetpassword" },
+                { "id", id.ToString() },
+            };
+        }
+
+        public static Dictionary<string, string> UsersApiGet(int id)
         {
             return new Dictionary<string, string>()
             {
