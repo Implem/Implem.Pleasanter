@@ -284,6 +284,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> UsersApiDelete(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "delete" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsIndex(long siteId)
         {
             return new Dictionary<string, string>()
