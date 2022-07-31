@@ -164,6 +164,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> GroupsHistories(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "groups" },
+                { "action", "histories" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> GroupsApiGet(int id)
         {
             return new Dictionary<string, string>()
