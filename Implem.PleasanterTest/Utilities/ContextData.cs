@@ -33,6 +33,9 @@ namespace Implem.PleasanterTest.Utilities
             string userAgent = "Implem.PleasanterTest",
             QueryStrings queryStrings = null,
             Forms forms = null,
+            decimal? apiVersion = null,
+            string apiRequestBody = null,
+            string apiKey = null,
             bool setItemProperties = true,
             bool setPermissions = true)
         {
@@ -91,6 +94,12 @@ namespace Implem.PleasanterTest.Utilities
             context.UserAgent = userAgent;
             context.QueryStrings = queryStrings ?? new QueryStrings();
             context.Forms = forms ?? new Forms();
+            if (apiVersion != null)
+            {
+                context.ApiVersion = apiVersion.ToDecimal();
+            }
+            context.ApiRequestBody = apiRequestBody;
+            context.ApiKey = apiKey;
             if (setItemProperties) context.SetItemProperties();
             if (setPermissions) context.SetPermissions();
             return context;
