@@ -274,6 +274,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> UsersHistories(int id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "histories" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> UsersResetPassword(int id)
         {
             return new Dictionary<string, string>()
