@@ -9,9 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace Implem.PleasanterTest.Depts
+namespace Implem.PleasanterTest.Groups
 {
-    public class DeptsApiGet
+    public class GroupsApiGet
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -20,10 +20,10 @@ namespace Implem.PleasanterTest.Depts
             UserModel userModel,
             List<ApiJsonTest> apiJsonTests)
         {
-            var id = Initializer.Depts.Values.FirstOrDefault(o => o.DeptName == title).DeptId;
+            var id = Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == title).GroupId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.DeptsApiGet(id: id));
+                routeData: RouteData.GroupsApiGet(id: id));
             var results = GetResults(context: context);
             Assert.True(Compare.ApiResults(
                 context: context,
@@ -34,7 +34,7 @@ namespace Implem.PleasanterTest.Depts
         public static IEnumerable<object[]> GetData()
         {
             yield return TestData(
-                title: "開発1部",
+                title: "グループ1",
                 userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList());
         }
@@ -54,10 +54,10 @@ namespace Implem.PleasanterTest.Depts
 
         private static ContentResultInheritance GetResults(Context context)
         {
-            return DeptUtilities.GetByApi(
+            return GroupUtilities.GetByApi(
                 context: context,
-                ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
-                deptId: context.Id.ToInt());
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
+                groupId: context.Id.ToInt());
         }
     }
 }
