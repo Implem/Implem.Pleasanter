@@ -110,6 +110,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string AuthenticationType { get; set; }
         public bool? IsAuthenticated { get; set; }
         public IEnumerable<Claim> UserClaims { get; set; }
+        public string IdentityType { get; set; }
         public bool Request { get; set; }
 
         public Context(
@@ -223,6 +224,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     AuthenticationType = user.Identity?.AuthenticationType;
                     IsAuthenticated = user.Identity?.IsAuthenticated;
                     UserClaims = user.Claims;
+                    IdentityType = user.Identity?.GetType().Name;
                 }
                 var request = AspNetCoreHttpContext.Current.Request;
                 FormStringRaw = CreateFormStringRaw(AspNetCoreHttpContext.Current.Request);
@@ -1066,7 +1068,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 return true;
             }
-            return AspNetCoreHttpContext.Current.User.Identity?.GetType().Name.Contains("Windows") ?? false;
+            return IdentityType?.Contains("Windows") ?? false;
         }
 
         private static readonly Lazy<ISqlObjectFactory> _sqlObjectFactory = new Lazy<ISqlObjectFactory>(() =>
