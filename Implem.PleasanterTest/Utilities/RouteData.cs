@@ -224,6 +224,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> UsersApiGet(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "users" },
+                { "action", "get" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsIndex(long siteId)
         {
             return new Dictionary<string, string>()
