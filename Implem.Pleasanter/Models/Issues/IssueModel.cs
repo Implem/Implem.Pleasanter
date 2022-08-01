@@ -1739,9 +1739,13 @@ namespace Implem.Pleasanter.Models
                     .Where(o => o.Type != Column.Types.Normal)
                     .ToDictionary(
                         o => $"{o.ColumnName},{o.Type}",
-                        o => PropertyValue(
-                            context: context,
-                            column: o).ToInt()),
+                        o => (o.MultipleSelections == true
+                            ? PropertyValue(
+                                context: context,
+                                column: o)?.Deserialize<List<int>>()
+                            : PropertyValue(
+                                context: context,
+                                column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
                 permissions: ss.PermissionForCreating));
             return statements;
         }
@@ -1959,9 +1963,13 @@ namespace Implem.Pleasanter.Models
                         .Where(o => o.Type != Column.Types.Normal)
                         .ToDictionary(
                             o => $"{o.ColumnName},{o.Type}",
-                            o => PropertyValue(
-                                context: context,
-                                column: o).ToInt()),
+                            o => (o.MultipleSelections == true
+                                ? PropertyValue(
+                                    context: context,
+                                    column: o)?.Deserialize<List<int>>()
+                                : PropertyValue(
+                                    context: context,
+                                    column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
                     permissions: ss.PermissionForUpdating));
             }
             else if (RecordPermissions != null)

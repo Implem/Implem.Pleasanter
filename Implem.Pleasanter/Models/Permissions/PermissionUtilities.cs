@@ -517,7 +517,7 @@ namespace Implem.Pleasanter.Models
         public static List<SqlStatement> InsertStatements(
             Context context,
             SiteSettings ss,
-            Dictionary<string, int> columns,
+            Dictionary<string, List<int>> columns,
             Dictionary<string, Permissions.Types> permissions)
         {
             var insertSet = new List<PermissionModel>();
@@ -555,55 +555,58 @@ namespace Implem.Pleasanter.Models
                         break;
                     default:
                         var columnData = columns.FirstOrDefault(o => o.Key.StartsWith(data.Key + ","));
-                        if (!columnData.Equals(default(KeyValuePair<string, int>)))
+                        if (!columnData.Equals(default(KeyValuePair<string, List<int>>)))
                         {
-                            switch(columnData.Key.Split_2nd())
+                            foreach (var id in columnData.Value)
                             {
-                                case "Dept":
-                                    var dept = SiteInfo.Dept(
-                                        tenantId: context.TenantId,
-                                        deptId: columnData.Value);
-                                    if (dept.Id > 0)
-                                    {
-                                        insertSet.Add(new PermissionModel(
+                                switch (columnData.Key.Split_2nd())
+                                {
+                                    case "Dept":
+                                        var dept = SiteInfo.Dept(
+                                            tenantId: context.TenantId,
+                                            deptId: id);
+                                        if (dept.Id > 0)
+                                        {
+                                            insertSet.Add(new PermissionModel(
+                                                context: context,
+                                                referenceId: 0,
+                                                deptId: dept.Id,
+                                                groupId: 0,
+                                                userId: 0,
+                                                permissionType: data.Value));
+                                        }
+                                        break;
+                                    case "Group":
+                                        var group = SiteInfo.Group(
+                                            tenantId: context.TenantId,
+                                            groupId: id);
+                                        if (group.Id > 0)
+                                        {
+                                            insertSet.Add(new PermissionModel(
+                                                context: context,
+                                                referenceId: 0,
+                                                deptId: 0,
+                                                groupId: group.Id,
+                                                userId: 0,
+                                                permissionType: data.Value));
+                                        }
+                                        break;
+                                    case "User":
+                                        var user = SiteInfo.User(
                                             context: context,
-                                            referenceId: 0,
-                                            deptId: dept.Id,
-                                            groupId: 0,
-                                            userId: 0,
-                                            permissionType: data.Value));
-                                    }
-                                    break;
-                                case "Group":
-                                    var group = SiteInfo.Group(
-                                        tenantId: context.TenantId,
-                                        groupId: columnData.Value);
-                                    if (group.Id > 0)
-                                    {
-                                        insertSet.Add(new PermissionModel(
-                                            context: context,
-                                            referenceId: 0,
-                                            deptId: 0,
-                                            groupId: group.Id,
-                                            userId: 0,
-                                            permissionType: data.Value));
-                                    }
-                                    break;
-                                case "User":
-                                    var user = SiteInfo.User(
-                                        context: context,
-                                        userId: columnData.Value);
-                                    if (!user.Anonymous())
-                                    {
-                                        insertSet.Add(new PermissionModel(
-                                            context: context,
-                                            referenceId: 0,
-                                            deptId: 0,
-                                            groupId: 0,
-                                            userId: user.Id,
-                                            permissionType: data.Value));
-                                    }
-                                    break;
+                                            userId: id);
+                                        if (!user.Anonymous())
+                                        {
+                                            insertSet.Add(new PermissionModel(
+                                                context: context,
+                                                referenceId: 0,
+                                                deptId: 0,
+                                                groupId: 0,
+                                                userId: user.Id,
+                                                permissionType: data.Value));
+                                        }
+                                        break;
+                                }
                             }
                         }
                         break;
@@ -623,7 +626,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long referenceId,
-            Dictionary<string, int> columns,
+            Dictionary<string, List<int>> columns,
             Dictionary<string, Permissions.Types> permissions)
         {
             var statements = new List<SqlStatement>();
