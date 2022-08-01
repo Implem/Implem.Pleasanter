@@ -8,6 +8,7 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 namespace Implem.Pleasanter.Libraries.Extensions
 {
@@ -84,38 +85,46 @@ namespace Implem.Pleasanter.Libraries.Extensions
                     switch (column.Type)
                     {
                         case Column.Types.User:
-                            var user = SiteInfo.User(
-                                context: context,
-                                userId: self.ToInt());
-                            switch (column.FullTextType)
+                            var users = column.MultipleSelections == true
+                                ? self.Deserialize<List<string>>()
+                                    ?.Select(userId => SiteInfo.User(
+                                        context: context,
+                                        userId: userId.ToInt()))
+                                : SiteInfo.User(
+                                    context: context,
+                                    userId: self.ToInt()).ToSingleList();
+                            users?.ForEach(user =>
                             {
-                                case Column.FullTextTypes.DisplayName:
-                                    fullText
-                                        .Append(" ")
-                                        .Append(user.Anonymous()
-                                            ? string.Empty
-                                            : user.Name);
-                                    break;
-                                case Column.FullTextTypes.Value:
-                                    fullText
-                                        .Append(" ")
-                                        .Append(user.Anonymous()
-                                            ? string.Empty
-                                            : user.Id.ToString());
-                                    break;
-                                case Column.FullTextTypes.ValueAndDisplayName:
-                                    fullText
-                                        .Append(" ")
-                                        .Append(user.Anonymous()
-                                            ? string.Empty
-                                            : user.Id.ToString());
-                                    fullText
-                                        .Append(" ")
-                                        .Append(user.Anonymous()
-                                            ? string.Empty
-                                            : user.Name);
-                                    break;
-                            }
+                                switch (column.FullTextType)
+                                {
+                                    case Column.FullTextTypes.DisplayName:
+                                        fullText
+                                            .Append(" ")
+                                            .Append(user.Anonymous()
+                                                ? string.Empty
+                                                : user.Name);
+                                        break;
+                                    case Column.FullTextTypes.Value:
+                                        fullText
+                                            .Append(" ")
+                                            .Append(user.Anonymous()
+                                                ? string.Empty
+                                                : user.Id.ToString());
+                                        break;
+                                    case Column.FullTextTypes.ValueAndDisplayName:
+                                        fullText
+                                            .Append(" ")
+                                            .Append(user.Anonymous()
+                                                ? string.Empty
+                                                : user.Id.ToString());
+                                        fullText
+                                            .Append(" ")
+                                            .Append(user.Anonymous()
+                                                ? string.Empty
+                                                : user.Name);
+                                        break;
+                                }
+                            });
                             break;
                         default:
                             switch (column.FullTextType)
