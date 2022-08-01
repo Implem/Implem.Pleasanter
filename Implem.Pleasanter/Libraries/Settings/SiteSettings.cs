@@ -2042,7 +2042,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName: columnName);
                 return column;
             }
-            if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
+            if (column?.SiteSettings?.ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
             {
                 return null;
             }
