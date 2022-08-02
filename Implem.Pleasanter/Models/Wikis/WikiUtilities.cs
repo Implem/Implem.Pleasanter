@@ -1429,7 +1429,9 @@ namespace Implem.Pleasanter.Models
             if (link != null)
             {
                 var view = link.View;
-                var targetSs = ss.JoinedSsHash.Get(link.SiteId);
+                var targetSs = ss.GetLinkedSiteSettings(
+                    context: context,
+                    link: link);
                 if (targetSs != null)
                 {
                     if (view.ColumnFilterHash == null)
@@ -1439,8 +1441,9 @@ namespace Implem.Pleasanter.Models
                     view.ColumnFilterExpressions.ForEach(data =>
                     {
                         var columnName = data.Key;
-                        var targetColumn = targetSs?.GetColumn(
+                        var targetColumn = targetSs?.GetFilterExpressionsColumn(
                             context: context,
+                            link: link,
                             columnName: columnName);
                         if (targetColumn != null)
                         {
