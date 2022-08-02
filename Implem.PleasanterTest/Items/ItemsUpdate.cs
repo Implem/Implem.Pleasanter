@@ -111,7 +111,7 @@ namespace Implem.PleasanterTest.Items
                 { "株式会社プリザンター", tableJsonTests },
                 { "業務改善コンサルティング", tableJsonTests },
                 { "R社システム開発", tableJsonTests },
-                { "Wiki", wikiJsonTests }
+                { "Wiki1", wikiJsonTests }
             };
             foreach (var data in titles)
             {

@@ -45,7 +45,7 @@ namespace Implem.PleasanterTest.Items
                 "業務改善コンサルティング",
                 "R社システム開発",
                 "Wikis",
-                "Wiki"
+                "Wiki1"
             };
             foreach (var title in titles)
             {

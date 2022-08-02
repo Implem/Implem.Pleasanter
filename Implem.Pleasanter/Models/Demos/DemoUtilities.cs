@@ -308,8 +308,13 @@ namespace Implem.Pleasanter.Models
                                 .TenantId(demoModel.TenantId)
                                 .DeptCode(demoDefinition.ClassA)
                                 .DeptName(demoDefinition.Title)
-                                .Disabled(demoDefinition.CheckD)))
-                                    .Id.ToLong()));
+                                .Disabled(demoDefinition.CheckD)
+                                .Comments(Comments(
+                                    context: context,
+                                    demoModel: demoModel,
+                                    idHash: idHash,
+                                    parentId: demoDefinition.Id))))
+                                        .Id.ToLong()));
         }
 
         /// <summary>
@@ -346,7 +351,12 @@ namespace Implem.Pleasanter.Models
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
                                     .TenantManager(demoDefinition.ClassD == "1")
                                     .Disabled(demoDefinition.CheckD)
-                                    .Lockout(demoDefinition.CheckL)),
+                                    .Lockout(demoDefinition.CheckL)
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -389,7 +399,12 @@ namespace Implem.Pleasanter.Models
                             param: Rds.GroupsParam()
                                 .TenantId(demoModel.TenantId)
                                 .GroupName(demoDefinition.Title)
-                                .Disabled(demoDefinition.CheckD)))
+                                .Disabled(demoDefinition.CheckD)
+                                .Comments(Comments(
+                                    context: context,
+                                    demoModel: demoModel,
+                                    idHash: idHash,
+                                    parentId: demoDefinition.Id))))
                                     .Id.ToLong()));
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
@@ -491,6 +506,11 @@ namespace Implem.Pleasanter.Models
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
                                     .Creator(creator)
                                     .Updator(updator),
                                 addUpdatorParam: false)
