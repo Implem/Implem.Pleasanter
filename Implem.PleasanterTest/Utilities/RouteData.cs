@@ -74,6 +74,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> DeptsDeleteComment(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "depts" },
+                { "action", "deletecomment" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> DeptsDelete(int id)
         {
             return new Dictionary<string, string>()
