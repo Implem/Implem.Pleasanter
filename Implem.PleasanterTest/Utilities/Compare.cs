@@ -251,5 +251,36 @@ namespace Implem.PleasanterTest.Utilities
             }
             return true;
         }
+
+        /// <summary>
+        /// 文字列の返却値をテストデータによって正しいことをチェックします。
+        /// </summary>
+        public static bool Text(
+            Context context,
+            string text,
+            List<TextTest> textTests)
+        {
+            foreach (var textTest in textTests)
+            {
+                switch (textTest.Type)
+                {
+                    case TextTest.Types.Equals:
+                        if (text != textTest.Value?.ToString())
+                        {
+                            return false;
+                        }
+                        break;
+                    case TextTest.Types.Contains:
+                        if (text.Contains(textTest.Value?.ToString()))
+                        {
+                            return false;
+                        }
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
     }
 }
