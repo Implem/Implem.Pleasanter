@@ -2042,7 +2042,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName: columnName);
                 return column;
             }
-            if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
+            if (column?.SiteSettings?.ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
             {
                 return null;
             }
@@ -4344,20 +4344,58 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Link ColumnFilterExpressionsLink(Context context, Column column)
         {
-            if (column.Linked(
+            return Links
+                ?.Where(o => o.ColumnName == column.ColumnName)
+                .Where(o => o.JsonFormat == true)
+                .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
+                .FirstOrDefault();
+        }
+
+        public SiteSettings GetLinkedSiteSettings(Context context, Link link)
+        {
+            switch (link.TableName)
+            {
+                case "Depts":
+                    return SiteSettingsUtilities.DeptsSiteSettings(context: context);
+                case "Groups":
+                    return SiteSettingsUtilities.GroupsSiteSettings(context: context);
+                case "Users":
+                    return SiteSettingsUtilities.UsersSiteSettings(context: context);
+                default:
+                    return JoinedSsHash.Get(link.SiteId);
+            }
+        }
+
+        public Column GetFilterExpressionsColumn(
+            Context context,
+            Link link,
+            string columnName)
+        {
+            switch (link.TableName)
+            {
+                case "Depts":
+                case "Users":
+                    switch (columnName)
+                    {
+                        case "Groups":
+                            // GetColumnで取得できない項目を仮想的にColumnFilterHashExpressionsに渡すための設定
+                            return new Column()
+                            {
+                                ColumnName = "Groups",
+                                TypeName = "nvarchar",
+                                ControlType = "ChoicesText",
+                                ChoicesText = "HasChoices"
+                            };
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return GetColumn(
                 context: context,
-                withoutWiki: true))
-            {
-                return Links
-                    ?.Where(o => o.ColumnName == column.ColumnName)
-                    .Where(o => o.JsonFormat == true)
-                    .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
-                    .FirstOrDefault();
-            }
-            else
-            {
-                return null;
-            }
+                columnName: columnName);
         }
 
         public Tab AddTab(Tab tab)
