@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Token;
         public MethodTypes? MethodType;
         public string Encoding;
-        public string MediaType;
+        public string MediaType = "application/json";
         public string Headers;
         public bool? UseCustomFormat;
         public string Format;
