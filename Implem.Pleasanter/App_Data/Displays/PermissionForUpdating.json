@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PermissionForUpdating",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Permission for updating records"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新记录的权限"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコード更新時の許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Berechtigung zum Aktualisieren von Datensätzen"
+        },
+        {
+            "Language": "ko",
+            "Body": "기록 업데이트 권한"
+        },
+        {
+            "Language": "es",
+            "Body": "Permiso para actualizar registros"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quyền cập nhật hồ sơ"
+        }
+    ]
+}

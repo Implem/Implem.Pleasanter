@@ -4200,6 +4200,7 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Export != false)
                 .PermissionsDialog(context: context)
                 .PermissionForCreatingDialog(context: context)
+                .PermissionForUpdatingDialog(context: context)
                 .ColumnAccessControlDialog(context: context));
         }
 

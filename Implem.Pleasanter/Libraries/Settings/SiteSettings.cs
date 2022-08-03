@@ -239,6 +239,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> IntegratedSites;
         public bool NoDisplayIfReadOnly;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
+        public Dictionary<string, Permissions.Types> PermissionForUpdating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
@@ -1110,6 +1111,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.PermissionForCreating = new Dictionary<string, Permissions.Types>();
                 }
                 ss.PermissionForCreating.Add(data.Key, data.Value);
+            });
+            PermissionForUpdating?.Where(o => o.Value > 0).ForEach(data =>
+            {
+                if (ss.PermissionForUpdating == null)
+                {
+                    ss.PermissionForUpdating = new Dictionary<string, Permissions.Types>();
+                }
+                ss.PermissionForUpdating.Add(data.Key, data.Value);
             });
             CreateColumnAccessControls?
                 .Where(o => !o.IsDefault(this, "Create"))
@@ -3505,6 +3514,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "IntegratedSites": SetIntegratedSites(value); break;
                 case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
+                case "CurrentPermissionForUpdatingAll": SetPermissionForUpdating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
                 case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;
@@ -4588,6 +4598,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : new Permission(key, 0, Permissions.Types.NotSet, source: true);
         }
 
+        public Permission GetPermissionForUpdating(string key)
+        {
+            return PermissionForUpdating?.ContainsKey(key) == true
+                ? new Permission(key, 0, PermissionForUpdating[key])
+                : new Permission(key, 0, Permissions.Types.NotSet, source: true);
+        }
+
         public void SetSiteIntegration(Context context)
         {
             if (IntegratedSites?.Any() == true)
@@ -4700,6 +4717,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetPermissionForCreating(string value)
         {
             PermissionForCreating = Permissions.Get(value.Deserialize<List<string>>())
+                .ToDictionary(o => o.Name, o => o.Type);
+        }
+
+        private void SetPermissionForUpdating(string value)
+        {
+            PermissionForUpdating = Permissions.Get(value.Deserialize<List<string>>())
                 .ToDictionary(o => o.Name, o => o.Type);
         }
 
