@@ -126,7 +126,9 @@ namespace Implem.Pleasanter.Models
             this HtmlBuilder hb, Context context, SiteModel siteModel, long referenceId, bool site)
         {
             var ss = siteModel.SiteSettings;
-            var disableRecordPermission = site ? false : ss.PermissionForUpdating?.Any() == true;
+            var disableRecordPermission = site
+                ? false
+                : ss.PermissionForUpdating?.Any() == true;
             return hb.FieldSet(
                 id: "FieldSetPermissionEditor",
                 css: " enclosed",
@@ -1041,7 +1043,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder PermissionsDialog(
-            Context context, Permissions.Types permissionType, long referenceId, bool disableRecordPermission)
+            Context context,
+            Permissions.Types permissionType,
+            long referenceId,
+            bool disableRecordPermission)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
