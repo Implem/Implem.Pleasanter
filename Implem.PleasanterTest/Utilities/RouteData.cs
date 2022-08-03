@@ -574,6 +574,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsOpenExportSelectorDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "openexportselectordialog" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsApiGet(long id)
         {
             return new Dictionary<string, string>()
