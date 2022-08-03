@@ -29,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             System.Text.Encoding encoding = System.Text.Encoding.UTF8;
             Dictionary<string, string> headers;
             HttpMethod method;
-
             try
             {
                 encoding = System.Text.Encoding.GetEncoding(Encoding);
@@ -51,7 +50,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 _ = new SysLogModel(context, e);
                 throw;
             }
-
             Task.Run(() =>
             {
                 try
@@ -61,7 +59,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         Encoding = encoding,
                         ContentType = MediaType
                     };
-
                     client.NotifyString(url: url, content: text, method: method, headers: headers);
                 }
                 catch (Exception e)
@@ -77,19 +74,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 case null:
                     return HttpMethod.Post;
-
                 case MethodTypes.Get:
                     return HttpMethod.Get;
-
                 case MethodTypes.Post:
                     return HttpMethod.Post;
-
                 case MethodTypes.Put:
                     return HttpMethod.Put;
-
                 case MethodTypes.Delete:
                     return HttpMethod.Delete;
-
                 default:
                     throw new NotSupportedException($"Unknown method type: {methodType}");
             }

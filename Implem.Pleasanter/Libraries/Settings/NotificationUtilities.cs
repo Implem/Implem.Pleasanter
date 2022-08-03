@@ -168,7 +168,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 methodTypes.Add(t.ToInt().ToString(), t.ToString());
             }
-
             return methodTypes;
         }
 

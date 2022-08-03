@@ -1,5 +1,5 @@
 ﻿{
-    "Id": "HttpClientMediaType",
+    "Id": "MediaType",
     "Type": 110,
     "Languages": [
         {
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "メディアタイプ"
+            "Body": "メディア種別"
         },
         {
             "Language": "de",

@@ -44,7 +44,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public void NotifyString(string url, string content, IDictionary<string, string> headers = null)
         {
-            NotifyString(url, content, HttpMethod.Post, headers);
+            NotifyString(
+                url: url,
+                content: content,
+                method: HttpMethod.Post,
+                headers: headers);
         }
 
         public void NotifyFormUrlencorded(string url,IDictionary<string,string> parameters, IDictionary<string, string> headers = null)

@@ -4099,33 +4099,33 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string HttpClientEncoding(
+        public static string Encoding(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "HttpClientEncoding",
+                id: "Encoding",
                 data: data);
         }
 
-        public static string HttpClientMediaType(
+        public static string MediaType(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "HttpClientMediaType",
+                id: "MediaType",
                 data: data);
         }
 
-        public static string HttpClientMethodType(
+        public static string MethodType(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "HttpClientMethodType",
+                id: "MethodType",
                 data: data);
         }
 

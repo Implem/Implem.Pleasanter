@@ -11105,7 +11105,7 @@ namespace Implem.Pleasanter.Models
                             : String.Empty),
                         controlId: "NotificationMethodType",
                         controlCss: " always-send",
-                        labelText: Displays.HttpClientMethodType(context: context),
+                        labelText: Displays.MethodType(context: context),
                         optionCollection: NotificationUtilities.MethodTypes(context: context),
                         selectedValue: notification.MethodType?.ToInt().ToString())
                     .FieldDropDown(
@@ -11116,7 +11116,7 @@ namespace Implem.Pleasanter.Models
                             : String.Empty),
                         controlId: "NotificationEncoding",
                         controlCss: " always-send",
-                        labelText: Displays.HttpClientEncoding(context: context),
+                        labelText: Displays.Encoding(context: context),
                         optionCollection: NotificationUtilities.Encodings(context: context),
                         selectedValue: notification.Encoding)
                     .FieldTextBox(
@@ -11126,7 +11126,7 @@ namespace Implem.Pleasanter.Models
                             : String.Empty),
                         controlId: "NotificationMediaType",
                         controlCss: " always-send",
-                        labelText: Displays.HttpClientMediaType(context: context),
+                        labelText: Displays.MediaType(context: context),
                         text: notification.MediaType)
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,

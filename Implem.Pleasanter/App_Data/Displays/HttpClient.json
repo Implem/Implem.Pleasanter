@@ -3,7 +3,7 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "HttpClient"
+            "Body": "Http client"
         },
         {
             "Language": "zh",
@@ -11,7 +11,7 @@
         },
         {
             "Language": "ja",
-            "Body": "HttpClient"
+            "Body": "HTTPクライアント"
         },
         {
             "Language": "de",
@@ -23,11 +23,11 @@
         },
         {
             "Language": "es",
-            "Body": "Cliente HTTP"
+            "Body": "cliente http"
         },
         {
             "Language": "vn",
-            "Body": "Khách hàng Http"
+            "Body": "Ứng dụng khách Http"
         }
     ]
 }
