@@ -4149,6 +4149,56 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HttpClient(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HttpClient",
+                data: data);
+        }
+
+        public static string Encoding(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Encoding",
+                data: data);
+        }
+
+        public static string MediaType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MediaType",
+                data: data);
+        }
+
+        public static string MethodType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MethodType",
+                data: data);
+        }
+
+        public static string HttpHeader(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HttpHeader",
+                data: data);
+        }
+
         public static string HumanResourcesAndGeneralAffairs(
             Context context,
             params string[] data)

@@ -12,7 +12,9 @@ namespace Implem.ParameterAccessor.Parts
         public bool Teams;
         public bool RocketChat;
         public bool InCircle;
+        public bool HttpClient;
         public OptionTypes CopyWithNotifications;
         public List<string> ListOrder;
+        public List<string> HttpClientEncodings;
     }
 }
