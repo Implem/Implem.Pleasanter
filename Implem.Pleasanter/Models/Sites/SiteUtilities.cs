@@ -11170,6 +11170,47 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
                         value: NotificationUtilities.Tokens())
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "NotificationMethodTypeField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
+                        controlId: "NotificationMethodType",
+                        controlCss: " always-send",
+                        labelText: Displays.MethodType(context: context),
+                        optionCollection: NotificationUtilities.MethodTypes(context: context),
+                        selectedValue: notification.MethodType?.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "NotificationEncodingField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
+                        controlId: "NotificationEncoding",
+                        controlCss: " always-send",
+                        labelText: Displays.Encoding(context: context),
+                        optionCollection: NotificationUtilities.Encodings(context: context),
+                        selectedValue: notification.Encoding)
+                    .FieldTextBox(
+                        fieldId: "NotificationMediaTypeField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
+                        controlId: "NotificationMediaType",
+                        controlCss: " always-send",
+                        labelText: Displays.MediaType(context: context),
+                        text: notification.MediaType)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "NotificationRequestHeadersField",
+                        controlId: "NotificationRequestHeaders",
+                        fieldCss: "field-wide" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.HttpHeader(context: context),
+                        text: notification.Headers)
                     .FieldCheckBox(
                         controlId: "NotificationUseCustomFormat",
                         controlCss: " always-send",

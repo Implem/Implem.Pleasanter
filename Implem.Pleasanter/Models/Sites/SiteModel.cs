@@ -5235,6 +5235,10 @@ namespace Implem.Pleasanter.Models
                     address: SiteSettings.LabelTextToColumnName(
                         context.Forms.Data("NotificationAddress")),
                     token: context.Forms.Data("NotificationToken"),
+                    methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                    encoding: context.Forms.Data("NotificationEncoding"),
+                    mediaType: context.Forms.Data("NotificationMediaType"),
+                    headers: context.Forms.Data("NotificationRequestHeaders"),
                     useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                     format: SiteSettings.LabelTextToColumnName(
                         context.Forms.Data("NotificationFormat")),
@@ -5278,6 +5282,10 @@ namespace Implem.Pleasanter.Models
                         address: SiteSettings.LabelTextToColumnName(
                             context.Forms.Data("NotificationAddress")),
                         token: context.Forms.Data("NotificationToken"),
+                        methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                        encoding: context.Forms.Data("NotificationEncoding"),
+                        mediaType: context.Forms.Data("NotificationMediaType"),
+                        headers: context.Forms.Data("NotificationRequestHeaders"),
                         useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                         format: SiteSettings.LabelTextToColumnName(
                             context.Forms.Data("NotificationFormat")),

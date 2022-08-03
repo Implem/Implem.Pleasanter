@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HttpClient",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Http client"
+        },
+        {
+            "Language": "zh",
+            "Body": "Http客户端"
+        },
+        {
+            "Language": "ja",
+            "Body": "HTTPクライアント"
+        },
+        {
+            "Language": "de",
+            "Body": "HTTP-Client"
+        },
+        {
+            "Language": "ko",
+            "Body": "HTTP 클라이언트"
+        },
+        {
+            "Language": "es",
+            "Body": "cliente http"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ứng dụng khách Http"
+        }
+    ]
+}
