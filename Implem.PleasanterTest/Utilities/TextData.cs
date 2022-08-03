@@ -13,6 +13,15 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static TextTest ListEquals(string value)
+        {
+            return new TextTest()
+            {
+                Type = TextTest.Types.ListEquals,
+                Value = value
+            };
+        }
+
         public static TextTest Contains(string value)
         {
             return new TextTest()

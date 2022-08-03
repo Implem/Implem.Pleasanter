@@ -57,7 +57,7 @@ namespace Implem.PleasanterTest.Items
                         }
                     },
                     userModel: UserData.Get(userType: testPart.UserType),
-                    textTests: TextData.Equals(value: testPart.Ids.ToJson()).ToSingleList());
+                    textTests: TextData.ListEquals(value: testPart.Ids.ToJson()).ToSingleList());
             }
         }
 

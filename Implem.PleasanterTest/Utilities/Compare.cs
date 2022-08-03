@@ -270,6 +270,12 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case TextTest.Types.ListEquals:
+                        if (!textTest.ListEquals(text: text))
+                        {
+                            return false;
+                        }
+                        break;
                     case TextTest.Types.Contains:
                         if (text.Contains(textTest.Value?.ToString()))
                         {
