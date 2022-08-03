@@ -50,11 +50,39 @@ $p.openPermissionForCreatingDialog = function ($control) {
     }
 }
 
+$p.setPermissionForUpdating = function ($control) {
+    $p.setData($('#CurrentPermissionForUpdating'));
+    $p.setData($('#SourcePermissionForUpdating'));
+    $p.send($control);
+}
+
+$p.openPermissionForUpdatingDialog = function ($control) {
+    $p.data.PermissionForUpdatingForm = {};
+    var error = $p.syncSend($control);
+    if (error === 0) {
+        $('#PermissionForUpdatingDialog').dialog({
+            modal: true,
+            width: '700px',
+            appendTo: '#Editor',
+            resizable: false
+        });
+    }
+}
+
 $p.changePermissionForCreating = function ($control) {
     $p.setData($('#CurrentPermissionForCreating'));
     var data = $p.getData($control);
     var mainFormData = $p.getData($('.main-form'));
     data.CurrentPermissionForCreating = mainFormData.CurrentPermissionForCreating;
     data.CurrentPermissionForCreatingAll = mainFormData.CurrentPermissionForCreatingAll;
+    $p.send($control);
+}
+
+$p.changePermissionForUpdating = function ($control) {
+    $p.setData($('#CurrentPermissionForUpdating'));
+    var data = $p.getData($control);
+    var mainFormData = $p.getData($('.main-form'));
+    data.CurrentPermissionForUpdating = mainFormData.CurrentPermissionForUpdating;
+    data.CurrentPermissionForUpdatingAll = mainFormData.CurrentPermissionForUpdatingAll;
     $p.send($control);
 }

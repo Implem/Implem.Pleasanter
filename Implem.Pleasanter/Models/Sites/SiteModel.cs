@@ -1114,7 +1114,26 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            if (RecordPermissions != null)
+            if (ss.PermissionForUpdating?.Any() == true)
+            {
+                statements.AddRange(PermissionUtilities.UpdateStatements(
+                    context: context,
+                    ss: ss,
+                    referenceId: SiteId,
+                    columns: ss.Columns
+                        .Where(o => o.Type != Column.Types.Normal)
+                        .ToDictionary(
+                            o => $"{o.ColumnName},{o.Type}",
+                            o => (o.MultipleSelections == true
+                                ? PropertyValue(
+                                    context: context,
+                                    column: o)?.Deserialize<List<int>>()
+                                : PropertyValue(
+                                    context: context,
+                                    column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
+                    permissions: ss.PermissionForUpdating));
+            }
+            else if (RecordPermissions != null)
             {
                 statements.UpdatePermissions(context, ss, SiteId, RecordPermissions, site: true);
             }
