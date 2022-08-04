@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
+using System.IO;
 using static Implem.PleasanterTest.Utilities.UserData;
 
 namespace Implem.PleasanterTest.Utilities
@@ -36,6 +37,8 @@ namespace Implem.PleasanterTest.Utilities
             decimal? apiVersion = null,
             string apiRequestBody = null,
             string apiKey = null,
+            string fileName = null,
+            string contentType = null,
             bool setItemProperties = true,
             bool setPermissions = true)
         {
@@ -100,6 +103,27 @@ namespace Implem.PleasanterTest.Utilities
             }
             context.ApiRequestBody = apiRequestBody;
             context.ApiKey = apiKey;
+            if (fileName != null)
+            {
+                var postedFile = Files.Bytes(Path.Combine(
+                    Directories.PleasanterTest(),
+                    "Data",
+                    "Binaries",
+                    fileName));
+                context.PostedFiles.Add(new PostedFile()
+                {
+                    Guid = postedFile.WriteToTemp(fileName: fileName),
+                    FileName = fileName,
+                    Extension = Path.GetExtension(fileName),
+                    Size = postedFile.Length,
+                    ContentType = contentType,
+                    ContentRange = new System.Net.Http.Headers.ContentRangeHeaderValue(
+                        0,
+                        postedFile.Length - 1,
+                        postedFile.Length),
+                    InputStream = new MemoryStream(postedFile)
+                });
+            }
             if (setItemProperties) context.SetItemProperties();
             if (setPermissions) context.SetPermissions();
             return context;
