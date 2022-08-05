@@ -1,9 +1,10 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using static Implem.Pleasanter.Libraries.Settings.Notification;
 
@@ -32,7 +33,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             try
             {
                 encoding = System.Text.Encoding.GetEncoding(Encoding);
-                headers = JsonSerializer.Deserialize<Dictionary<string, string>>(Headers);
+                headers = Headers?.Deserialize<Dictionary<string, string>>();
                 method = ConvertMethodType(MethodType);
             }
             catch (ArgumentException e)
@@ -59,7 +60,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         Encoding = encoding,
                         ContentType = MediaType
                     };
-                    client.NotifyString(url: url, content: text, method: method, headers: headers);
+                    client.NotifyString(
+                        url: url,
+                        content: text,
+                        method: method,
+                        headers: headers);
                 }
                 catch (Exception e)
                 {
