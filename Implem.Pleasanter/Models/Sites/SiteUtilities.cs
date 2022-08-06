@@ -3966,7 +3966,8 @@ namespace Implem.Pleasanter.Models
                 column: commentsColumn,
                 baseModel: siteModel);
             var showComments = true;
-            var showBanner = !Parameters.DisableAds() && !Parameters.CommercialLicense();
+            var showBanner = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
             var queryString = $"?re=tableedit{Parameters.General.HtmlUrlPrefix}";
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
