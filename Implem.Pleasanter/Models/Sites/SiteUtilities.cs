@@ -3726,9 +3726,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
-            var queryString = "?re=startguide" + Strings.CoalesceEmpty(
-                Parameters.General.HtmlUrlPrefix,
-                "comm");
+            var queryString = $"?re=startguide{Parameters.General.HtmlUrlPrefix}";
             return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
@@ -3968,11 +3966,8 @@ namespace Implem.Pleasanter.Models
                 column: commentsColumn,
                 baseModel: siteModel);
             var showComments = true;
-            var showBanner = !Parameters.DisableAds()
-                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
-            var queryString = "?re=tableedit" + Strings.CoalesceEmpty(
-                Parameters.General.HtmlUrlPrefix,
-                "comm");
+            var showBanner = !Parameters.DisableAds() && !Parameters.CommercialLicense();
+            var queryString = $"?re=tableedit{Parameters.General.HtmlUrlPrefix}";
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
