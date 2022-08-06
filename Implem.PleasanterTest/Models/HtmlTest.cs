@@ -11,7 +11,9 @@
             NotExists,
             Disabled,
             HasClass,
-            Attribute
+            Attribute,
+            NotFoundMessage,
+            HasNotPermissionMessage
         }
 
         public Types Type { get; set; }

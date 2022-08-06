@@ -66,7 +66,21 @@ public string TrashBox(Context context)
     ViewModes.Set(context: context, siteId: Site.SiteId);
     if (ReferenceId == 0)
     {
-        return SiteUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+        if (!context.HasPrivilege)
+        {
+            return HtmlTemplates.Error(
+                context: context,
+                errorData: new ErrorData(type: Error.Types.NotFound));
+        }
+        return SiteUtilities.TrashBox(
+            context: context,
+            ss: Site.SiteSettings);
+    }
+    if (!context.CanManageSite(ss: Site.SiteSettings))
+    {
+        return HtmlTemplates.Error(
+            context: context,
+            errorData: new ErrorData(type: Error.Types.NotFound));
     }
     switch (Site.ReferenceType)
     {
@@ -82,7 +96,7 @@ public string TrashBox(Context context)
 
 public string TrashBoxJson(Context context)
 {
-    if (ReferenceType != "Sites")
+    if (ReferenceId != 0 && ReferenceType != "Sites")
     {
         return Messages.ResponseNotFound(context: context).ToJson();
     }
@@ -92,6 +106,20 @@ public string TrashBoxJson(Context context)
         setSiteIntegration: true,
         tableType: Sqls.TableTypes.Deleted);
     ViewModes.Set(context: context, siteId: Site.SiteId);
+    if (ReferenceId == 0)
+    {
+        if (!context.HasPrivilege)
+        {
+            return Messages.ResponseNotFound(context: context).ToJson();
+        }
+        return SiteUtilities.TrashBoxJson(
+            context: context,
+            ss: Site.SiteSettings);
+    }
+    if (!context.CanManageSite(ss: Site.SiteSettings))
+    {
+        return Messages.ResponseNotFound(context: context).ToJson();
+    }
     switch (Site.ReferenceType)
     {
 

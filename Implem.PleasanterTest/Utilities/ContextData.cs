@@ -5,24 +5,15 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using static Implem.PleasanterTest.Utilities.UserData;
 
 namespace Implem.PleasanterTest.Utilities
 {
     public static class ContextData
     {
-        public enum UserTypes
-        {
-            Anonymous,
-            TenantManager,
-            General1,
-            General2,
-            General3,
-            General4,
-            General5
-        }
-
         public static Context Get(
+            int userId = 0,
             UserTypes userType = UserTypes.General1,
             bool hasRoute = true,
             string formStringRaw = "",
@@ -43,10 +34,17 @@ namespace Implem.PleasanterTest.Utilities
             string userAgent = "Implem.PleasanterTest",
             QueryStrings queryStrings = null,
             Forms forms = null,
+            decimal? apiVersion = null,
+            string apiRequestBody = null,
+            string apiKey = null,
+            string fileName = null,
+            string contentType = null,
             bool setItemProperties = true,
             bool setPermissions = true)
         {
-            var userModel = GetUser(userType: userType);
+            var userModel = userId > 0
+                ? UserData.Get(userId: userId)
+                : UserData.Get(userType: userType);
             var context = new Context(
                 request: false,
                 sessionStatus: false,
@@ -55,7 +53,7 @@ namespace Implem.PleasanterTest.Utilities
                 item: false);
             if (userModel != null)
             {
-                context.Authenticated = true;
+                context.Authenticated = !userModel.Disabled && !userModel.Lockout;
                 context.TenantId = userModel.TenantId;
                 context.LoginId = userModel.LoginId;
                 context.DeptId = userModel.DeptId;
@@ -99,54 +97,36 @@ namespace Implem.PleasanterTest.Utilities
             context.UserAgent = userAgent;
             context.QueryStrings = queryStrings ?? new QueryStrings();
             context.Forms = forms ?? new Forms();
+            if (apiVersion != null)
+            {
+                context.ApiVersion = apiVersion.ToDecimal();
+            }
+            context.ApiRequestBody = apiRequestBody;
+            context.ApiKey = apiKey;
+            if (fileName != null)
+            {
+                var postedFile = Files.Bytes(Path.Combine(
+                    Directories.PleasanterTest(),
+                    "Data",
+                    "Binaries",
+                    fileName));
+                context.PostedFiles.Add(new PostedFile()
+                {
+                    Guid = postedFile.WriteToTemp(fileName: fileName),
+                    FileName = fileName,
+                    Extension = Path.GetExtension(fileName),
+                    Size = postedFile.Length,
+                    ContentType = contentType,
+                    ContentRange = new System.Net.Http.Headers.ContentRangeHeaderValue(
+                        0,
+                        postedFile.Length - 1,
+                        postedFile.Length),
+                    InputStream = new MemoryStream(postedFile)
+                });
+            }
             if (setItemProperties) context.SetItemProperties();
             if (setPermissions) context.SetPermissions();
             return context;
-        }
-
-        private static UserModel GetUser(UserTypes userType)
-        {
-            UserModel userModel = null;
-            switch (userType)
-            {
-                case UserTypes.TenantManager:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.TenantManager)
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General1:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User2"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General2:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User3"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General3:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User4"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General4:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User5"))
-                        .FirstOrDefault();
-                    break;
-                case UserTypes.General5:
-                    userModel = Initializer.Users
-                        .Values
-                        .Where(o => o.LoginId.EndsWith("User6"))
-                        .FirstOrDefault();
-                    break;
-            }
-            return userModel;
         }
     }
 }

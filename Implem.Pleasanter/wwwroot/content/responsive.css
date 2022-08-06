@@ -35,7 +35,7 @@
         width: 100% !important;
         z-index: 999;
     }
-    #CasesBanner, #EnterPriseBanner {
+    #EnterPriseBanner, #SupportBanner, #CasesBanner {
         display: none;
     }
     #EditorTabsContainer > fieldset {

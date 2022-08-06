@@ -151,7 +151,9 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -263,7 +265,21 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(context: context, siteId: Site.SiteId);
             if (ReferenceId == 0)
             {
-                return SiteUtilities.TrashBox(context: context, ss: Site.SiteSettings);
+                if (!context.HasPrivilege)
+                {
+                    return HtmlTemplates.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotFound));
+                }
+                return SiteUtilities.TrashBox(
+                    context: context,
+                    ss: Site.SiteSettings);
+            }
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.NotFound));
             }
             switch (Site.ReferenceType)
             {
@@ -288,7 +304,7 @@ namespace Implem.Pleasanter.Models
 
         public string TrashBoxJson(Context context)
         {
-            if (ReferenceType != "Sites")
+            if (ReferenceId != 0 && ReferenceType != "Sites")
             {
                 return Messages.ResponseNotFound(context: context).ToJson();
             }
@@ -298,6 +314,20 @@ namespace Implem.Pleasanter.Models
                 setSiteIntegration: true,
                 tableType: Sqls.TableTypes.Deleted);
             ViewModes.Set(context: context, siteId: Site.SiteId);
+            if (ReferenceId == 0)
+            {
+                if (!context.HasPrivilege)
+                {
+                    return Messages.ResponseNotFound(context: context).ToJson();
+                }
+                return SiteUtilities.TrashBoxJson(
+                    context: context,
+                    ss: Site.SiteSettings);
+            }
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
             switch (Site.ReferenceType)
             {
                 case "Sites":
@@ -1155,13 +1185,39 @@ namespace Implem.Pleasanter.Models
 
         public string TrashBoxGridRows(Context context)
         {
+            if (ReferenceId != 0 && ReferenceType != "Sites")
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
             SetSite(
                 context: context,
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 tableType: Sqls.TableTypes.Deleted);
+            if (ReferenceId == 0)
+            {
+                if (!context.HasPrivilege)
+                {
+                    return Messages.ResponseNotFound(context: context).ToJson();
+                }
+                return SiteUtilities.GridRows(
+                    context: context,
+                    ss: Site.SiteSettings,
+                    offset: context.Forms.Int("GridOffset"),
+                    action: "TrashBoxGridRows");
+            }
+            if (!context.CanManageSite(ss: Site.SiteSettings))
+            {
+                return Messages.ResponseNotFound(context: context).ToJson();
+            }
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.GridRows(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        offset: context.Forms.Int("GridOffset"),
+                        action: "TrashBoxGridRows");
                 case "Issues":
                     return IssueUtilities.GridRows(
                         context: context,
@@ -2458,7 +2514,9 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
             switch (Site.ReferenceType)
             {
                 case "Issues":

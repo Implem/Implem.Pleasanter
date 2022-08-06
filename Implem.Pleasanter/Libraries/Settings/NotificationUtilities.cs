@@ -57,6 +57,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                     Notification.Types.InCircle.ToInt().ToString(),
                     Displays.InCircle(context: context));
             }
+            if (Parameters.Notification.HttpClient)
+            {
+                notificationTypes.Add(
+                    Notification.Types.HttpClient.ToInt().ToString(),
+                    Displays.HttpClient(context: context));
+            }
             return notificationTypes;
         }
 
@@ -140,9 +146,40 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 Displays.InCircle(context: context));
                         }
                         break;
+                    case Notification.Types.HttpClient:
+                        if (Parameters.Notification.HttpClient)
+                        {
+                            notificationTypes.Add(
+                                type.ToInt().ToString(),
+                                Displays.HttpClient(context: context));
+                        }
+                        break;
                 }
             }
             return notificationTypes;
+        }
+
+        public static Dictionary<string, string> MethodTypes(Context context)
+        {
+            var methodTypes = new Dictionary<string, string>();
+
+            var types = System.Enum.GetValues(typeof(Notification.MethodTypes));
+            foreach (var t in types)
+            {
+                methodTypes.Add(t.ToInt().ToString(), t.ToString());
+            }
+            return methodTypes;
+        }
+
+        public static Dictionary<string,string> Encodings(Context context)
+        {
+            return Parameters.Notification.HttpClientEncodings?
+                .ToDictionary(k => k, v => v);
+        }
+
+        public static bool NotificationType(Notification notification)
+        {
+            return notification.Type == Notification.Types.HttpClient;
         }
 
         public static bool RequireToken(Notification notification)

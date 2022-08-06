@@ -8,7 +8,8 @@ namespace Implem.PleasanterTest.Models
             Value,
             Exists,
             ExistsOne,
-            Html
+            Html,
+            Message
         }
 
         public Types Type { get; set; }

@@ -441,7 +441,7 @@ pre{
 }
 
 #StartGuide > #StartGuideContents{
-    width:750px;
+    width:900px;
     margin:0px auto;
 }
 
@@ -449,7 +449,7 @@ pre{
     width:150px;
     display:block;
     float:left;
-    margin:0px 50px;
+    margin:0px 37px;
     padding:5px;
     text-align:center;
     border-radius:5px;
@@ -3152,15 +3152,23 @@ textarea:focus{
 }
 
 #EnterPriseBanner{
-    width:250px;
+    width:238px;
     position:fixed;
     right:8px;
-    bottom:170px;
+    bottom:280px;
+    z-index:3;
+}
+
+#SupportBanner {
+    width:238px;
+    position:fixed;
+    right:8px;
+    bottom:180px;
     z-index:3;
 }
 
 #CasesBanner{
-    width:250px;
+    width:238px;
     position:fixed;
     right:8px;
     bottom:80px;

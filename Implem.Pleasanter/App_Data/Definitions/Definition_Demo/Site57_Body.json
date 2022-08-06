@@ -1,8 +1,36 @@
 ﻿{
     "Version": 1.017,
     "ReferenceType": "Results",
-    "GridColumns": [ "ResultId", "ClassA", "Status", "Title", "NumA", "Owner", "DateA", "Manager", "DateB", "Updator", "UpdatedTime" ],
-    "EditorColumnHash": { "General": [ "ClassA", "Status", "_Section-2", "Title", "Body", "NumA", "AttachmentsA", "Owner", "DateA", "_Section-1", "Manager", "DateB", "Comments" ] },
+    "GridColumns": [
+        "ResultId",
+        "ClassA",
+        "Status",
+        "Title",
+        "NumA",
+        "Owner",
+        "DateA",
+        "Manager",
+        "DateB",
+        "Updator",
+        "UpdatedTime"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "ClassA",
+            "Status",
+            "_Section-2",
+            "Title",
+            "Body",
+            "NumA",
+            "AttachmentsA",
+            "Owner",
+            "DateA",
+            "_Section-1",
+            "Manager",
+            "DateB",
+            "Comments"
+        ]
+    },
     "SectionLatestId": 2,
     "Sections": [
         {
@@ -120,7 +148,22 @@
                 "ApiColumnValueDisplayType": 0,
                 "ApiDataType": 0
             },
-            "ErrorMessage": "データが正しくありません。"
+            "ErrorMessage": "データが正しくありません。",
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "Owner",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateA",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                }
+            ]
         },
         {
             "Id": 2,
@@ -133,17 +176,35 @@
             "Users": [ "#User11#" ],
             "View": {
                 "Id": 0,
-                "ColumnFilterHash": { "NumA": "[\",199999\"]" },
+                "ColumnFilterHash": {
+                    "NumA": "[\",199999\"]"
+                },
                 "ApiColumnKeyDisplayType": 0,
                 "ApiColumnValueDisplayType": 0,
                 "ApiDataType": 0
             },
             "ErrorMessage": "データが正しくありません。",
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateB",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                }
+            ],
             "Notifications": [
                 {
                     "Type": 1,
                     "Subject": "承認通知",
                     "Address": "[Creator],[Updator]",
+                    "MediaType": "application/json",
                     "Body": "承認しました。\n{Url}",
                     "BeforeCondition": 0,
                     "AfterCondition": 0,
@@ -163,17 +224,35 @@
             "Users": [ "#User12#" ],
             "View": {
                 "Id": 0,
-                "ColumnFilterHash": { "NumA": "[\"200000,\"]" },
+                "ColumnFilterHash": {
+                    "NumA": "[\"200000,\"]"
+                },
                 "ApiColumnKeyDisplayType": 0,
                 "ApiColumnValueDisplayType": 0,
                 "ApiDataType": 0
             },
             "ErrorMessage": "データが正しくありません。",
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateB",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                }
+            ],
             "Notifications": [
                 {
                     "Type": 1,
                     "Subject": "承認通知",
                     "Address": "[Creator],[Updator]",
+                    "MediaType": "application/json",
                     "Body": "承認しました。\n{Url}",
                     "BeforeCondition": 0,
                     "AfterCondition": 0,
@@ -213,37 +292,120 @@
                 "ApiColumnValueDisplayType": 0,
                 "ApiDataType": 0
             },
-            "ErrorMessage": "データが正しくありません。"
+            "ErrorMessage": "データが正しくありません。",
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputValue",
+                    "ColumnName": "Owner",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputValue",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputValue",
+                    "ColumnName": "DateA",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "InputValue",
+                    "ColumnName": "DateB",
+                    "Value": ""
+                }
+            ]
         }
     ],
-    "ServerScripts": [
+    "StatusControls": [
         {
-            "Title": "編集画面制御",
-            "Name": "",
-            "BeforeOpeningPage": true,
-            "Body": "if (model.Status > 100) {\n    columns.Title.ReadOnly = true;\n    columns.Body.ReadOnly = true;\n    columns.NumA.ReadOnly = true;\n    columns.AttachmentsA.ReadOnly = true;\n}",
-            "Id": 1
+            "Id": 1,
+            "Name": "編集画面制御_申請",
+            "Status": 200,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "NumA": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
         },
         {
-            "Title": "申請",
-            "Name": "",
-            "BeforeUpdate": true,
-            "Body": "if (context.ControlId === 'Process_1') {\n    model.Owner = context.UserId;\n    model.DateA = new Date();\n}",
-            "Id": 2
+            "Id": 2,
+            "Name": "編集画面制御_承認",
+            "Status": 900,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "NumA": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
         },
         {
-            "Title": "決済",
-            "Name": "",
-            "BeforeUpdate": true,
-            "Body": "if (context.ControlId === 'Process_2' || context.ControlId === 'Process_3') {\n    model.Manager = context.UserId;\n    model.DateB = new Date();\n}",
-            "Id": 3
+            "Id": 3,
+            "Name": "編集画面制御_否決",
+            "Status": 920,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "NumA": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
         },
         {
-            "Title": "承認後取消",
-            "Name": "",
-            "BeforeUpdate": true,
-            "Body": "if (context.ControlId === 'Process_5') {\n    model.Manager = undefined;\n    model.Owner = undefined;\n    model.DateA = undefined;\n    model.DateB = undefined;\n}",
-            "Id": 4
+            "Id": 4,
+            "Name": "編集画面制御_条件付き承認",
+            "Status": 930,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "NumA": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 5,
+            "Name": "編集画面制御_保留",
+            "Status": 940,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "NumA": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
         }
     ],
     "AllowCopy": false,

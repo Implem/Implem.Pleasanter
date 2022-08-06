@@ -1,8 +1,12 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.PleasanterTest.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+
 namespace Implem.PleasanterTest.Utilities
 {
     /// <summary>
@@ -14,13 +18,18 @@ namespace Implem.PleasanterTest.Utilities
         /// HTMLの返却値をテストデータによって正しいことをチェックします。
         /// HTMLはAngleSharpを使用してParseします。
         /// </summary>
-        public static bool Html(string html, List<HtmlTest> htmlTests)
+        public static bool Html(
+            Context context,
+            string html,
+            List<HtmlTest> htmlTests)
         {
             var parser = new AngleSharp.Html.Parser.HtmlParser();
             var doc = parser.ParseDocument(html);
             foreach (var htmlTest in htmlTests)
             {
-                var nodes = doc.QuerySelectorAll(htmlTest.Selector);
+                var nodes = Nodes(
+                    doc: doc,
+                    htmlTest: htmlTest);
                 switch (htmlTest.Type)
                 {
                     case HtmlTest.Types.TextContent:
@@ -91,6 +100,26 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case HtmlTest.Types.NotFoundMessage:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].GetAttribute("value") != Messages.NotFound(context: context).ToSingleList().ToJson())
+                        {
+                            return false;
+                        }
+                        break;
+                    case HtmlTest.Types.HasNotPermissionMessage:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (nodes[0].GetAttribute("value") != Messages.HasNotPermission(context: context).ToSingleList().ToJson())
+                        {
+                            return false;
+                        }
+                        break;
                     default:
                         return false;
                 }
@@ -98,11 +127,28 @@ namespace Implem.PleasanterTest.Utilities
             return true;
         }
 
+        private static AngleSharp.Dom.IHtmlCollection<AngleSharp.Dom.IElement> Nodes(
+            AngleSharp.Html.Dom.IHtmlDocument doc,
+            HtmlTest htmlTest)
+        {
+            switch (htmlTest.Type)
+            {
+                case HtmlTest.Types.NotFoundMessage:
+                case HtmlTest.Types.HasNotPermissionMessage:
+                    return doc.QuerySelectorAll("#MessageData");
+                default:
+                    return doc.QuerySelectorAll(htmlTest.Selector);
+            }
+        }
+
         /// <summary>
         /// JSONの返却値をテストデータによって正しいことをチェックします。
         /// JSON内のHTMLはHTMLメソッドを呼び出してチェックします。
         /// </summary>
-        public static bool Json(string json, List<JsonTest> jsonTests)
+        public static bool Json(
+            Context context,
+            string json,
+            List<JsonTest> jsonTests)
         {
             var responseCollection = json.Deserialize<ResponseCollection>();
             foreach (var jsonTest in jsonTests)
@@ -136,9 +182,102 @@ namespace Implem.PleasanterTest.Utilities
                         }
                         break;
                     case JsonTest.Types.Html:
-                        if (Html(
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (!Html(
+                            context: context,
                             html: nodes[0].Value.ToString(),
                             htmlTests: jsonTest.HtmlTests))
+                        {
+                            return false;
+                        }
+                        break;
+                    case JsonTest.Types.Message:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            switch (jsonTest.Value)
+                            {
+                                case "NotFound":
+                                    if (nodes[0].Value.ToString() != Messages.NotFound(context: context).ToJson())
+                                    {
+                                        return false;
+                                    }
+                                    break;
+                                default:
+                                    return false;
+                            }
+                        }
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// JSONの返却値をテストデータによって正しいことをチェックします。
+        /// </summary>
+        public static bool ApiResults(
+            Context context,
+            ContentResultInheritance results,
+            List<ApiJsonTest> apiJsonTests)
+        {
+            dynamic content = JsonConvert.DeserializeObject<ExpandoObject>(results.Content);
+            var data = (IDictionary<string, object>)content;
+            foreach (var apiJsonTest in apiJsonTests)
+            {
+                switch (apiJsonTest.Type)
+                {
+                    case ApiJsonTest.Types.StatusCode:
+                        if (!data.ContainsKey("StatusCode"))
+                        {
+                            return false;
+                        }
+                        else if (data["StatusCode"].ToInt() != apiJsonTest.Value.ToInt())
+                        {
+                            return false;
+                        }
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 文字列の返却値をテストデータによって正しいことをチェックします。
+        /// </summary>
+        public static bool Text(
+            Context context,
+            string text,
+            List<TextTest> textTests)
+        {
+            foreach (var textTest in textTests)
+            {
+                switch (textTest.Type)
+                {
+                    case TextTest.Types.Equals:
+                        if (text != textTest.Value?.ToString())
+                        {
+                            return false;
+                        }
+                        break;
+                    case TextTest.Types.ListEquals:
+                        if (!textTest.ListEquals(text: text))
+                        {
+                            return false;
+                        }
+                        break;
+                    case TextTest.Types.Contains:
+                        if (text.Contains(textTest.Value?.ToString()))
                         {
                             return false;
                         }

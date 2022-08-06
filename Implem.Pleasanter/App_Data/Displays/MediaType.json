@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MediaType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Media type"
+        },
+        {
+            "Language": "zh",
+            "Body": "媒体类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "メディア種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Medientyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "매체 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de medio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại phương tiện"
+        }
+    ]
+}
