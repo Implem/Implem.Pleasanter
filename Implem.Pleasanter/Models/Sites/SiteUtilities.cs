@@ -3726,6 +3726,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
+            var queryString = "?re=startguide" + Strings.CoalesceEmpty(
+                Parameters.General.HtmlUrlPrefix,
+                "comm");
             return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
@@ -3734,7 +3737,7 @@ namespace Implem.Pleasanter.Models
                             id: "StartGuideContents",
                             action: () => hb
                                 .A(
-                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl,
+                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl + queryString,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -3743,7 +3746,7 @@ namespace Implem.Pleasanter.Models
                                         .Div(action: () => hb
                                             .Text(text: Displays.ApplicationBuildingGuide(context: context))))
                                 .A(
-                                    href: Parameters.General.HtmlUserManualUrl,
+                                    href: Parameters.General.HtmlUserManualUrl + queryString,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -3751,13 +3754,21 @@ namespace Implem.Pleasanter.Models
                                             "Hayato2.png"))
                                         .Text(text: Displays.UserManual(context: context)))
                                 .A(
-                                    href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                    href: Parameters.General.HtmlEnterPriseEditionUrl + queryString,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
                                             "Images",
                                             "Hayato3.png"))
-                                        .Text(text: Displays.EnterpriseEdition(context: context))))
+                                        .Text(text: Displays.EnterpriseEdition(context: context)))
+                                .A(
+                                    href: Parameters.General.HtmlSupportUrl + queryString,
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "Hayato4.png"))
+                                        .Text(text: Displays.NeedHelp(context: context))))
                         .FieldCheckBox(
                             fieldId: "DisableStartGuideField",
                             controlId: "DisableStartGuide",

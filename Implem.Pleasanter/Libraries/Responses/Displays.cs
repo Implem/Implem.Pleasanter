@@ -3139,6 +3139,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Encoding(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Encoding",
+                data: data);
+        }
+
         public static string End(
             Context context,
             params string[] data)
@@ -4156,36 +4166,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HttpClient",
-                data: data);
-        }
-
-        public static string Encoding(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Encoding",
-                data: data);
-        }
-
-        public static string MediaType(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "MediaType",
-                data: data);
-        }
-
-        public static string MethodType(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "MethodType",
                 data: data);
         }
 
@@ -5639,6 +5619,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MediaType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MediaType",
+                data: data);
+        }
+
         public static string Members(
             Context context,
             params string[] data)
@@ -5686,6 +5676,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MessageWhenDuplicated",
+                data: data);
+        }
+
+        public static string MethodType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MethodType",
                 data: data);
         }
 
@@ -5926,6 +5926,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NearCompletionTimeBeforeDays",
+                data: data);
+        }
+
+        public static string NeedHelp(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NeedHelp",
                 data: data);
         }
 

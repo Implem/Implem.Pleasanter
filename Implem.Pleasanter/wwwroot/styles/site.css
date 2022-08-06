@@ -441,7 +441,7 @@ pre{
 }
 
 #StartGuide > #StartGuideContents{
-    width:750px;
+    width:900px;
     margin:0px auto;
 }
 
@@ -449,7 +449,7 @@ pre{
     width:150px;
     display:block;
     float:left;
-    margin:0px 50px;
+    margin:0px 37px;
     padding:5px;
     text-align:center;
     border-radius:5px;
