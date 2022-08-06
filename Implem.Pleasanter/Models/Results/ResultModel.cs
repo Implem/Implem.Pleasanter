@@ -1513,15 +1513,18 @@ namespace Implem.Pleasanter.Models
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
-                users: ss.Columns
-                    .Where(o => o.Type == Column.Types.User)
-                    .ToDictionary(o =>
-                        o.ColumnName,
-                        o => SiteInfo.User(
-                            context: context,
-                            userId: PropertyValue(
+                columns: ss.Columns
+                    .Where(o => o.Type != Column.Types.Normal)
+                    .ToDictionary(
+                        o => $"{o.ColumnName},{o.Type}",
+                        o => (o.MultipleSelections == true
+                            ? PropertyValue(
                                 context: context,
-                                column: o).ToInt()))));
+                                column: o)?.Deserialize<List<int>>()
+                            : PropertyValue(
+                                context: context,
+                                column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
+                permissions: ss.PermissionForCreating));
             return statements;
         }
 
@@ -1728,7 +1731,26 @@ namespace Implem.Pleasanter.Models
                 param: param,
                 otherInitValue: otherInitValue));
             statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
-            if (RecordPermissions != null)
+            if (ss.PermissionForUpdating?.Any() == true)
+            {
+                statements.AddRange(PermissionUtilities.UpdateStatements(
+                    context: context,
+                    ss: ss,
+                    referenceId: ResultId,
+                    columns: ss.Columns
+                        .Where(o => o.Type != Column.Types.Normal)
+                        .ToDictionary(
+                            o => $"{o.ColumnName},{o.Type}",
+                            o => (o.MultipleSelections == true
+                                ? PropertyValue(
+                                    context: context,
+                                    column: o)?.Deserialize<List<int>>()
+                                : PropertyValue(
+                                    context: context,
+                                    column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
+                    permissions: ss.PermissionForUpdating));
+            }
+            else if (RecordPermissions != null)
             {
                 statements.UpdatePermissions(context, ss, ResultId, RecordPermissions);
             }

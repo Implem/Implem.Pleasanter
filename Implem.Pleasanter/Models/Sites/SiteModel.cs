@@ -1056,20 +1056,7 @@ namespace Implem.Pleasanter.Models
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
                 checkConflict: checkConflict));
-            statements.Add(Rds.PhysicalDeleteReminderSchedules(
-                where: Rds.ReminderSchedulesWhere()
-                    .SiteId(SiteId)));
-            SiteSettings.Reminders?.ForEach(reminder =>
-                statements.Add(Rds.UpdateOrInsertReminderSchedules(
-                    param: Rds.ReminderSchedulesParam()
-                        .SiteId(SiteId)
-                        .Id(reminder.Id)
-                        .ScheduledTime(reminder.StartDateTime.Next(
-                            context: context,
-                            type: reminder.Type)),
-                    where: Rds.ReminderSchedulesWhere()
-                        .SiteId(SiteId)
-                        .Id(reminder.Id))));
+            statements.AddRange(GetReminderSchedulesStatements(context: context));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1127,7 +1114,26 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            if (RecordPermissions != null)
+            if (ss.PermissionForUpdating?.Any() == true)
+            {
+                statements.AddRange(PermissionUtilities.UpdateStatements(
+                    context: context,
+                    ss: ss,
+                    referenceId: SiteId,
+                    columns: ss.Columns
+                        .Where(o => o.Type != Column.Types.Normal)
+                        .ToDictionary(
+                            o => $"{o.ColumnName},{o.Type}",
+                            o => (o.MultipleSelections == true
+                                ? PropertyValue(
+                                    context: context,
+                                    column: o)?.Deserialize<List<int>>()
+                                : PropertyValue(
+                                    context: context,
+                                    column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
+                    permissions: ss.PermissionForUpdating));
+            }
+            else if (RecordPermissions != null)
             {
                 statements.UpdatePermissions(context, ss, SiteId, RecordPermissions, site: true);
             }
@@ -5229,6 +5235,10 @@ namespace Implem.Pleasanter.Models
                     address: SiteSettings.LabelTextToColumnName(
                         context.Forms.Data("NotificationAddress")),
                     token: context.Forms.Data("NotificationToken"),
+                    methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                    encoding: context.Forms.Data("NotificationEncoding"),
+                    mediaType: context.Forms.Data("NotificationMediaType"),
+                    headers: context.Forms.Data("NotificationRequestHeaders"),
                     useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                     format: SiteSettings.LabelTextToColumnName(
                         context.Forms.Data("NotificationFormat")),
@@ -5272,6 +5282,10 @@ namespace Implem.Pleasanter.Models
                         address: SiteSettings.LabelTextToColumnName(
                             context.Forms.Data("NotificationAddress")),
                         token: context.Forms.Data("NotificationToken"),
+                        methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                        encoding: context.Forms.Data("NotificationEncoding"),
+                        mediaType: context.Forms.Data("NotificationMediaType"),
+                        headers: context.Forms.Data("NotificationRequestHeaders"),
                         useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                         format: SiteSettings.LabelTextToColumnName(
                             context.Forms.Data("NotificationFormat")),
@@ -7001,6 +7015,29 @@ namespace Implem.Pleasanter.Models
                         beforeResetCount.ToString(),
                         apiCount.ToString()
                     }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public List<SqlStatement> GetReminderSchedulesStatements(Context context)
+        {
+            var statements = new List<SqlStatement>();
+            statements.Add(Rds.PhysicalDeleteReminderSchedules(
+                where: Rds.ReminderSchedulesWhere()
+                    .SiteId(SiteId)));
+            SiteSettings.Reminders?.ForEach(reminder =>
+                statements.Add(Rds.UpdateOrInsertReminderSchedules(
+                    param: Rds.ReminderSchedulesParam()
+                        .SiteId(SiteId)
+                        .Id(reminder.Id)
+                        .ScheduledTime(reminder.StartDateTime.Next(
+                            context: context,
+                            type: reminder.Type)),
+                    where: Rds.ReminderSchedulesWhere()
+                        .SiteId(SiteId)
+                        .Id(reminder.Id))));
+            return statements;
         }
     }
 }

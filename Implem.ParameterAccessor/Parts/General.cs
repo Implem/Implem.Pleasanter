@@ -16,6 +16,7 @@ namespace Implem.ParameterAccessor.Parts
         public string HtmlAGPLUrl;
         public string HtmlEnterPriseEditionUrl;
         public string HtmlCasesUrl;
+        public string HtmlUrlPrefix;
         public bool DisplayLogoText;
         public bool DisableAutoComplete;
         public int SiteMenuHotSpan;

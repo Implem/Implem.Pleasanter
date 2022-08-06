@@ -219,6 +219,11 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         param: Rds.ItemsParam()
                             .FullText(fullText, _using: fullText != null)
                             .SearchIndexCreatedTime(DateTime.Now, _using: fullText != null)));
+                var statements = siteModel.GetReminderSchedulesStatements(context: context);
+                Repository.ExecuteScalar_response(
+                    context: context,
+                    transactional: true,
+                    statements: statements.ToArray());
             }
             var idHash = sitePackage.GetIdHashFromConverters();
             foreach (long savedSiteId in sitePackage.HeaderInfo.Convertors.Select(e => e.SavedSiteId))

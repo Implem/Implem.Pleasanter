@@ -21,6 +21,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                     view: view,
                     setSession: setSession,
                     useUsersView: useUsersView);
+                SetGridColumnsDefault(
+                    context: context,
+                    view: view);
                 return view;
             }
             if (context.Forms.ControlId() == "ViewSelector"
@@ -63,6 +66,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                     view: view,
                     setSession: setSession,
                     useUsersView: useUsersView);
+                SetGridColumnsDefault(
+                    context: context,
+                    view: view);
                 return view;
             }
             view = GetSessionView(
@@ -86,7 +92,20 @@ namespace Implem.Pleasanter.Libraries.Requests
                         view: view);
                     break;
             }
+            SetGridColumnsDefault(
+                context: context,
+                view: view);
             return view;
+        }
+
+        private static void SetGridColumnsDefault(Context context, View view)
+        {
+            if (context.RequestData(
+                name: "SetGridColumnsDefault",
+                either: true).ToBool())
+            {
+                view.GridColumns = null;
+            }
         }
 
         private static View GetSessionView(Context context, SiteSettings ss, bool useUsersView)

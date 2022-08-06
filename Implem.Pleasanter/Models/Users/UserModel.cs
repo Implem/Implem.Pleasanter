@@ -2470,7 +2470,10 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     password: Password);
             }
-            PasswordExpirationPeriod(context: context);
+            if (!PasswordExpirationTime.Value.InRange())
+            {
+                SetPasswordExpirationPeriod(context: context);
+            }
             var statements = new List<SqlStatement>();
             statements.AddRange(CreateStatements(
                 context: context,
@@ -3488,7 +3491,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void PasswordExpirationPeriod(Context context)
+        private void SetPasswordExpirationPeriod(Context context)
         {
             PasswordExpirationTime = Parameters.Security.PasswordExpirationPeriod != 0
                 ? new Time(
@@ -4427,7 +4430,7 @@ namespace Implem.Pleasanter.Models
         public SqlParamCollection ChangePasswordParam(
             Context context, string password, bool changeAtLogin = false)
         {
-            PasswordExpirationPeriod(context: context);
+            SetPasswordExpirationPeriod(context: context);
             var param = Rds.UsersParam()
                 .Password(password)
                 .PasswordChangeTime(raw: $"{context.Sqls.CurrentDateTime}")

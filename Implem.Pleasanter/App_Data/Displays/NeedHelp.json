@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NeedHelp",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Need help?"
+        },
+        {
+            "Language": "zh",
+            "Body": "需要帮忙？"
+        },
+        {
+            "Language": "ja",
+            "Body": "なにかお困りですか?"
+        },
+        {
+            "Language": "de",
+            "Body": "Brauchen Sie Hilfe?"
+        },
+        {
+            "Language": "ko",
+            "Body": "도움이 필요하다?"
+        },
+        {
+            "Language": "es",
+            "Body": "¿Necesitas ayuda?"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cần giúp đỡ?"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MethodType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Method type"
+        },
+        {
+            "Language": "zh",
+            "Body": "方法类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "メソッド種別"
+        },
+        {
+            "Language": "de",
+            "Body": "Methodentyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "방법 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "tipo de método"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại phương pháp"
+        }
+    ]
+}

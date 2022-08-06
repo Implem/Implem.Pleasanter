@@ -162,6 +162,13 @@ namespace Implem.DefinitionAccessor
                 Parameters.Mail.SmtpPassword,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Mail_SmtpPassword"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Mail_SmtpPassword"));
+            Parameters.General.HtmlUrlPrefix = Strings.CoalesceEmpty(
+                Parameters.General.HtmlUrlPrefix,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_HtmlUrlPrefix"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_HtmlUrlPrefix"),
+                Parameters.CommercialLicense()
+                    ? "ee"
+                    : "com");
         }
 
         public static void ReloadParameters()
