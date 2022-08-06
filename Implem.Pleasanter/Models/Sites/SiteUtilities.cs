@@ -3957,6 +3957,11 @@ namespace Implem.Pleasanter.Models
                 column: commentsColumn,
                 baseModel: siteModel);
             var showComments = true;
+            var showBanner = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var queryString = "?re=tableedit" + Strings.CoalesceEmpty(
+                Parameters.General.HtmlUrlPrefix,
+                "comm");
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -3986,7 +3991,7 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "EnterPriseBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl + queryString),
                                     action: () => hb
                                         .Img(
                                             id: "EnterPriseBannerImage",
@@ -3994,12 +3999,23 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "enterprise-banner.png"))),
-                            _using: !Parameters.DisableAds()
-                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
+                            _using: showBanner)
+                        .Div(
+                            id: "SupportBanner", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlSupportUrl + queryString),
+                                    action: () => hb
+                                        .Img(
+                                            id: "SupportBannerImage",
+                                            src: Locations.Get(
+                                                context: context,
+                                                "Images",
+                                                "support-banner.png"))),
+                            _using: showBanner)
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl + queryString),
                                     action: () => hb
                                         .Img(
                                             id: "CasesBannerImage",
@@ -4007,8 +4023,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "cases-banner.png"))),
-                            _using: !Parameters.DisableAds()
-                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
+                            _using: showBanner)
                         .Div(
                             id: "EditorTabsContainer",
                             css: "tab-container" + tabsCss,

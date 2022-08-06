@@ -3152,15 +3152,23 @@ textarea:focus{
 }
 
 #EnterPriseBanner{
-    width:250px;
+    width:238px;
     position:fixed;
     right:8px;
-    bottom:170px;
+    bottom:280px;
+    z-index:3;
+}
+
+#SupportBanner {
+    width:238px;
+    position:fixed;
+    right:8px;
+    bottom:180px;
     z-index:3;
 }
 
 #CasesBanner{
-    width:250px;
+    width:238px;
     position:fixed;
     right:8px;
     bottom:80px;
