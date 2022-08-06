@@ -238,29 +238,29 @@ namespace Implem.Libraries.Utilities
             Directory.EnumerateFiles(sourcePath)
                 .Where(o => (File.GetAttributes(o) & excludeFileAttributes) !=
                     excludeFileAttributes)
-                .ForEach(sourceFileName =>
+                .ForEach(sourceFilePath =>
                 {
                     if (uncommenting
-                        && (sourceFileName.EndsWith(".cs")
-                            || sourceFileName.EndsWith(".js")
-                            || (sourceFileName.Contains("\\Definition_Code\\")
-                                && sourceFileName.EndsWith(".txt")))
-                        && !sourceFileName.ToLower().Contains("\\plugins\\"))
+                        && (sourceFilePath.EndsWith(".cs")
+                            || sourceFilePath.EndsWith(".js")
+                            || (sourceFilePath.Contains("\\Definition_Code\\")
+                                && sourceFilePath.EndsWith(".txt")))
+                        && !sourceFilePath.ToLower().Contains("\\plugins\\"))
                     {
                         CopyFileWhileUncommenting(
-                            sourceFileName: sourceFileName,
-                            destFileName: Path.Combine(
+                            sourceFilePath: sourceFilePath,
+                            destinationPath: Path.Combine(
                                 destinationPath,
-                                Path.GetFileName(sourceFileName)),
+                                Path.GetFileName(sourceFilePath)),
                             overwrite: overwrite);
                     }
                     else
                     {
                         File.Copy(
-                            sourceFileName: sourceFileName,
+                            sourceFileName: sourceFilePath,
                             destFileName: Path.Combine(
                                 destinationPath,
-                                Path.GetFileName(sourceFileName)),
+                                Path.GetFileName(sourceFilePath)),
                             overwrite: overwrite);
                     }
                 });
@@ -274,17 +274,21 @@ namespace Implem.Libraries.Utilities
                     uncommenting: uncommenting));
         }
 
-        private static void CopyFileWhileUncommenting(
-            string sourceFileName,
-            string destFileName,
+        public static void CopyFileWhileUncommenting(
+            string sourceFilePath,
+            string destinationPath,
             bool overwrite)
         {
-            if (!overwrite && Exists(destFileName))
+            if (!Exists(sourceFilePath))
+            {
+                return;
+            }
+            if (!overwrite && Exists(destinationPath))
             {
                 return;
             }
             var data = new List<string>();
-            var file = Read(sourceFileName);
+            var file = Read(sourceFilePath);
             var exclude = new List<string>()
             {
                 "/// <summary>",
@@ -314,7 +318,7 @@ namespace Implem.Libraries.Utilities
                     data.Add(line);
                 }
             });
-            Write(data.Join("\n"), destFileName);
+            Write(data.Join("\n"), destinationPath);
         }
 
         public static void DeleteTemporaryFiles(string path, int timeElapsed)

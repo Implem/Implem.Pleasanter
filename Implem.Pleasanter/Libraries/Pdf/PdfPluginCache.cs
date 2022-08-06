@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Plugins;
+using System;
 using System.Collections.Concurrent;
+using System.Linq;
 namespace Implem.Pleasanter.Libraries.Pdf
 {
     public static class PdfPluginCache
     {
-        private static readonly ConcurrentDictionary<string, IPdfPlugin> plugins
-            = new ConcurrentDictionary<string, IPdfPlugin>();
+        private static readonly ConcurrentDictionary<string, IPdfPlugin> plugins = new ConcurrentDictionary<string, IPdfPlugin>();
 
         public static IPdfPlugin LoadPdfPlugin(string libraryPath)
         {

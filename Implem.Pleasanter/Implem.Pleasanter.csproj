@@ -294,7 +294,9 @@
     <Compile Include="Interfaces\IConvertable.cs" />
     <Compile Include="Interfaces\IExportModel.cs" />
     <Compile Include="Interfaces\ISettingListItem.cs" />
+    <Compile Include="Libraries\DataSources\HttpClient.cs" />
     <Compile Include="Libraries\DataSources\Line.cs" />
+    <Compile Include="Libraries\DataSources\NotificationHttpClient.cs" />
     <Compile Include="Libraries\DataSources\Repository.cs" />
     <Compile Include="Libraries\DataSources\InCircle.cs" />
     <Compile Include="Libraries\DataSources\RocketChat.cs" />
@@ -6516,6 +6518,13 @@
     <Content Include="App_Data\Definitions\Definition_Column\Wikis_Ver.json" />
     <Content Include="App_Data\Definitions\Definition_Column\Wikis_VerUp.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Utilities_Pdf.json" />
+    <Content Include="App_Data\Displays\HttpClient.json" />
+    <Content Include="App_Data\Displays\HttpHeader.json" />
+    <Content Include="App_Data\Displays\Encoding.json" />
+    <Content Include="App_Data\Displays\MediaType.json" />
+    <Content Include="App_Data\Displays\MethodType.json" />
+    <Content Include="App_Data\Displays\PermissionForUpdating.json" />
+    <Content Include="App_Data\Displays\NeedHelp.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

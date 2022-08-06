@@ -23,6 +23,10 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Subject;
         public string Address;
         public string Token;
+        public MethodTypes? MethodType;
+        public string Encoding;
+        public string MediaType = "application/json";
+        public string Headers;
         public bool? UseCustomFormat;
         public string Format;
         public string Body;
@@ -50,13 +54,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             LineGroup = 5,
             Teams = 6,
             RocketChat = 7,
-            InCircle = 8
+            InCircle = 8,
+            HttpClient = 9
         }
 
         public enum Expressions : int
         {
             Or = 1,
             And = 2
+        }
+
+        public enum MethodTypes : int
+        {
+            Get = 1,
+            Post = 2,
+            Put = 3,
+            Delete = 4
         }
 
         public Notification()
@@ -75,6 +88,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
+            MethodTypes methodType,
+            string encoding,
+            string mediaType,
+            string headers,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -95,6 +112,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
+            MethodType = methodType;
+            Encoding = encoding;
+            MediaType = mediaType;
+            Headers = headers;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -114,6 +135,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)
         {
+            MethodType = MethodType ?? MethodTypes.Get;
         }
 
         [OnSerializing]
@@ -126,6 +148,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string prefix,
             string address,
             string token,
+            MethodTypes methodType,
+            string encoding,
+            string mediaType,
+            string headers,
             bool? useCustomFormat,
             string format,
             List<string> monitorChangesColumns,
@@ -145,6 +171,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             Prefix = prefix;
             Address = address;
             Token = token;
+            MethodType = methodType;
+            Encoding = encoding;
+            MediaType = mediaType;
+            Headers = headers;
             UseCustomFormat = useCustomFormat;
             Format = format;
             MonitorChangesColumns = monitorChangesColumns;
@@ -269,6 +299,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 .Send(Address);
                     }
                     break;
+                case Types.HttpClient:
+                    if (Parameters.Notification.HttpClient)
+                    {
+                        new HttpClient(
+                            _context: context,
+                            _text: $"*{Prefix}{title}*\n{body}")
+                        {
+                            MethodType = MethodType,
+                            Encoding = Encoding,
+                            MediaType = MediaType,
+                            Headers = Headers
+                        }
+                        .Send(Address);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -369,6 +414,22 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!Address.IsNullOrEmpty())
             {
                 notification.Address = Address;
+            }
+            if (MethodType != MethodTypes.Get)
+            {
+                notification.MethodType = MethodType;
+            }
+            if (!MediaType.IsNullOrEmpty())
+            {
+                notification.MediaType = MediaType;
+            }
+            if (!Encoding.IsNullOrEmpty())
+            {
+                notification.Encoding = Encoding;
+            }
+            if (!Headers.IsNullOrEmpty())
+            {
+                notification.Headers = Headers;
             }
             if (!Token.IsNullOrEmpty())
             {
