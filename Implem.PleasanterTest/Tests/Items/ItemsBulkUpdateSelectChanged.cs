@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsOpenBulkUpdateSelectorDialog
+    public class ItemsBulkUpdateSelectChanged
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -35,26 +35,32 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
+            var gridCheckedItems = new List<string>()
+            {
+                "サーバの構築"
+            }
+                .Select(o => Initializer.Titles.Get(o))
+                .Join();
             var testParts = new List<MyTestPart>()
             {
                 new MyTestPart(
                     title: "WBS",
-                    gridCheckedItems: new List<string>()
-                    {
-                        "サーバの構築"
-                    })
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "OpenBulkUpdateSelectorDialog"),
+                        new KeyValue("GridCheckedItems", gridCheckedItems),
+                        new KeyValue("BulkUpdateColumnName", "ClassA")),
+                    bulkUpdateColumnName: "ClassA",
+                    jsonTests: JsonData.Tests(JsonData.ExistsOne(
+                        method: "Html",
+                        target: "#BulkUpdateSelectedField")))
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     title: testPart.Title,
-                    forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "OpenBulkUpdateSelectorDialog"),
-                        new KeyValue("GridCheckedItems", testPart.GridCheckedItems)),
+                    forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: JsonData.Tests(JsonData.ExistsOne(
-                        method: "Html",
-                        target: "#BulkUpdateSelectorDialog")));
+                    jsonTests: testPart.JsonTests);
             }
         }
 
@@ -76,22 +82,25 @@ namespace Implem.PleasanterTest.Tests.Items
         private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.OpenBulkUpdateSelectorDialog(context: context);
+            return itemModel.BulkUpdateSelectChanged(context: context);
         }
 
         private class MyTestPart : TestPart
         {
             public string GridCheckedItems { get; set; }
+            public string BulkUpdateColumnName { get; set; }
 
             public MyTestPart(
                 string title,
-                List<string> gridCheckedItems,
+                Forms forms,
+                string bulkUpdateColumnName,
+                List<JsonTest> jsonTests,
                 UserData.UserTypes userType = UserData.UserTypes.General1)
             {
                 Title = title;
-                GridCheckedItems = gridCheckedItems
-                    .Select(o => Initializer.Titles.Get(o))
-                    .Join();
+                Forms = forms;
+                BulkUpdateColumnName = bulkUpdateColumnName;
+                JsonTests = jsonTests;
                 UserModel = UserData.Get(userType: userType);
             }
         }
