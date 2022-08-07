@@ -43,30 +43,13 @@ namespace Implem.PleasanterTest.Tests.Users
                 context,
                 string.Empty,
                 string.Empty,
-                new List<HtmlTest>()
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Users_LoginId"
-                    },
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Users_Password"
-                    },
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Users_RememberMe"
-                    },
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.TextContent,
-                        Selector = "#Login",
-                        Value = Displays.Login(context: context)
-                    }
-                }
+                HtmlData.Tests(
+                    HtmlData.ExistsOne(selector: "#Users_LoginId"),
+                    HtmlData.ExistsOne(selector: "#Users_Password"),
+                    HtmlData.ExistsOne(selector: "#Users_RememberMe"),
+                    HtmlData.TextContent(
+                        selector: "#Login",
+                        value: Displays.Login(context: context)))
             };
         }
 

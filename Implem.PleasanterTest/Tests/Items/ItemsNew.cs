@@ -45,14 +45,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    htmlTests: new List<HtmlTest>
-                    {
-                        new HtmlTest()
-                        {
-                            Type = HtmlTest.Types.ExistsOne,
-                            Selector = "#Editor"
-                        }
-                    });
+                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne(selector: "#Editor")));
             }
         }
 

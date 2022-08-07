@@ -50,43 +50,17 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                    htmlTests: testPart.Title == "TopTraxhBox"
-                        ? new List<HtmlTest>
-                        {
-                            new HtmlTest()
-                            {
-                                Type = HtmlTest.Types.NotFoundMessage
-                            }
-                        }
-                        : new List<HtmlTest>
-                        {
-                            new HtmlTest()
-                            {
-                                Type = HtmlTest.Types.ExistsOne,
-                                Selector = "#Grid"
-                            }
-                        });
+                    htmlTests: HtmlData.Tests(testPart.Title == "TopTraxhBox"
+                        ? HtmlData.NotFoundMessage()
+                        : HtmlData.ExistsOne("#Grid")));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    htmlTests: new List<HtmlTest>
-                    {
-                        new HtmlTest()
-                        {
-                            Type = HtmlTest.Types.NotFoundMessage,
-                        }
-                    });
+                    htmlTests: HtmlData.Tests(HtmlData.NotFoundMessage()));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                    htmlTests: new List<HtmlTest>
-                    {
-                        new HtmlTest()
-                        {
-                                Type = HtmlTest.Types.ExistsOne,
-                                Selector = "#Grid"
-                        }
-                    });
+                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne("#Grid")));
             }
         }
 

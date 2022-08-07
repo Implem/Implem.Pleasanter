@@ -211,47 +211,24 @@ namespace Implem.PleasanterTest.Tests.Items
         private static List<HtmlTest> HtmlTestExistsOne(string title)
         {
             var id = Initializer.Titles.Get(title);
-            var htmlTest = new List<HtmlTest>()
-            {
-                new HtmlTest()
-                {
-                    Type = HtmlTest.Types.ExistsOne,
-                    Selector = SelectorUtilities.GridRow(id)
-                }
-            };
-            return htmlTest;
+            var htmlTests = HtmlData.Tests(HtmlData.ExistsOne(selector: SelectorUtilities.GridRow(id)));
+            return htmlTests;
         }
 
         private static List<HtmlTest> HtmlTestNotFoundMessage(string title)
         {
             var id = Initializer.Titles.Get(title);
-            var htmlTest = new List<HtmlTest>()
-            {
-                new HtmlTest()
-                {
-                    Type = HtmlTest.Types.NotFoundMessage
-                }
-            };
-            return htmlTest;
+            var htmlTests = HtmlData.Tests(HtmlData.NotFoundMessage());
+            return htmlTests;
         }
 
         private static List<HtmlTest> HtmlTestEntryAndNoRow(string title)
         {
             var id = Initializer.Titles.Get(title);
-            var htmlTest = new List<HtmlTest>()
-            {
-                new HtmlTest()
-                {
-                    Type = HtmlTest.Types.ExistsOne,
-                    Selector = "#Grid"
-                },
-                new HtmlTest()
-                {
-                    Type = HtmlTest.Types.NotExists,
-                    Selector = SelectorUtilities.GridRow(id)
-                }
-            };
-            return htmlTest;
+            var htmlTests = HtmlData.Tests(
+                HtmlData.ExistsOne(selector: "#Grid"),
+                HtmlData.NotExists(selector: SelectorUtilities.GridRow(id)));
+            return htmlTests;
         }
 
         private static void InitPermissions(

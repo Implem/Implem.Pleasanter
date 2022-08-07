@@ -21,6 +21,25 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static HtmlTest NotExists(string selector)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.NotExists,
+                Selector = selector
+            };
+        }
+
+        public static HtmlTest TextContent(string selector, string value)
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.TextContent,
+                Selector = selector,
+                Value = value
+            };
+        }
+
         public static HtmlTest TextContains(string selector, string value)
         {
             return new HtmlTest()

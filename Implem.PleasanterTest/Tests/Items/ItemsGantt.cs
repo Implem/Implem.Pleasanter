@@ -42,14 +42,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    htmlTests: new List<HtmlTest>
-                    {
-                        new HtmlTest()
-                        {
-                                Type = HtmlTest.Types.ExistsOne,
-                                Selector = "#GanttBody"
-                        }
-                    });
+                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne(selector: "#GanttBody")));
             }
         }
 
