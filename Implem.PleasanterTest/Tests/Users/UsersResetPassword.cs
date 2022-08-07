@@ -44,17 +44,9 @@ namespace Implem.PleasanterTest.Tests.Users
             };
             yield return TestData(
                 title: "小林 佳子",
-                forms: new Forms()
-                {
-                    {
-                        "ControlId",
-                        "ResetPassword"
-                    },
-                    {
-                        "Users_AfterResetPassword",
-                        "ChangedPassword"
-                    }
-                },
+                forms: FormsUtilities.Get(
+                    new KeyValue("ControlId", "ResetPassword"),
+                    new KeyValue("Users_AfterResetPassword", "ChangedPassword")),
                 userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                 jsonTests: jsonTests);
         }

@@ -51,17 +51,9 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 yield return TestData(
                     title: title,
-                    forms: new Forms()
-                    {
-                        {
-                            "Ver",
-                            "1"
-                        },
-                        {
-                            "Latest",
-                            Latest(title: title).ToOneOrZeroString()
-                        }
-                    },
+                    forms: FormsUtilities.Get(
+                        new KeyValue("Ver", "1"),
+                        new KeyValue("Latest", Latest(title: title).ToOneOrZeroString())),
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                     jsonTests: JsonData.ReplaceAll(
                         target: "#MainContainer",

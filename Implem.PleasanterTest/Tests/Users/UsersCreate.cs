@@ -42,11 +42,9 @@ namespace Implem.PleasanterTest.Tests.Users
                 JsonData.ExistsOne(method: "Href")
             };
             yield return TestData(
-                forms: new Forms()
-                {
-                    { "Users_LoginId", Strings.NewGuid() },
-                    { "Users_Password", "password" }
-                },
+                forms: FormsUtilities.Get(
+                    new KeyValue("Users_LoginId", Strings.NewGuid()),
+                    new KeyValue("Users_Password", "password")),
                 userModel: UserData.Get(userType: UserData.UserTypes.TenantManager2),
                 jsonTests: jsonTests);
         }

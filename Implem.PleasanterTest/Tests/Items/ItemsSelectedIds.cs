@@ -49,13 +49,8 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 yield return TestData(
                     title: testPart.Title,
-                    forms: new Forms()
-                    {
-                        {
-                            "GridCheckedItems",
-                            testPart.Ids.Join()
-                        }
-                    },
+                    forms: FormsUtilities.Get(
+                        new KeyValue("GridCheckedItems", testPart.Ids.Join())),
                     userModel: UserData.Get(userType: testPart.UserType),
                     textTests: TextData.ListEquals(value: testPart.Ids.ToJson()).ToSingleList());
             }

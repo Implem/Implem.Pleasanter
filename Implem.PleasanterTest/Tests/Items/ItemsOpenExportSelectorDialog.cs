@@ -42,13 +42,8 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 yield return TestData(
                     title: testPart,
-                    forms: new Forms()
-                    {
-                        {
-                            "ControlId",
-                            "OpenExportSelectorDialog"
-                        }
-                    },
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "OpenExportSelectorDialog")),
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
                     jsonTests: JsonData.ExistsOne(
                         method: "Html",

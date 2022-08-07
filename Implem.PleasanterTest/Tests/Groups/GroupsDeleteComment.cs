@@ -46,13 +46,8 @@ namespace Implem.PleasanterTest.Tests.Groups
             {
                 yield return TestData(
                     title: testPart.Title,
-                    forms: new Forms()
-                    {
-                        {
-                            "ControlId",
-                            $"DeleteComment,{testPart.CommentId}"
-                        }
-                    },
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", $"DeleteComment,{testPart.CommentId}")),
                     userModel: UserData.Get(userType: testPart.UserType),
                     jsonTests: testPart.UpdateResponseType == 0
                         ? JsonData.ReplaceAll(

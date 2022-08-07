@@ -145,17 +145,9 @@ namespace Implem.PleasanterTest.Tests.Users
                 userType: UserData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/users/authenticate",
-                forms: new Forms()
-                {
-                    {
-                        "Users_LoginId",
-                        loginId
-                    },
-                    {
-                        "Users_Password",
-                        password
-                    }
-                });
+                forms: FormsUtilities.Get(
+                    new KeyValue("Users_LoginId", loginId),
+                    new KeyValue("Users_Password", password)));
         }
 
         private static List<JsonTest> AllowMessage(Context context, string returnUrl)

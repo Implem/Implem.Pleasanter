@@ -44,22 +44,13 @@ namespace Implem.PleasanterTest.Tests.Items
             foreach (var testPart in testParts)
             {
                 var tableId = $"{testPart.ReferenceType}_{testPart.Direction}{testPart.SiteId}";
-                var forms = new Forms();
-                forms.Add(
-                    $"ViewSorters__{testPart.SortColumnName}",
-                    testPart.SortType);
-                forms.Add(
-                    "Direction",
-                    testPart.Direction);
-                forms.Add(
-                    "TableId",
-                    tableId);
-                forms.Add(
-                    "ControlId",
-                    tableId);
                 yield return TestData(
                     title: testPart.Title,
-                    forms: forms,
+                    forms: FormsUtilities.Get(
+                        new KeyValue($"ViewSorters__{testPart.SortColumnName}", testPart.SortType),
+                        new KeyValue("Direction", testPart.Direction),
+                        new KeyValue("TableId", tableId),
+                        new KeyValue("ControlId", tableId)),
                     userModel: UserData.Get(userType: testPart.UserType),
                     jsonTests: JsonData.ExistsOne(
                         method: "ReplaceAll",

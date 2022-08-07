@@ -81,19 +81,12 @@ namespace Implem.PleasanterTest.Tests.Items
             };
             foreach (var testPart in testParts)
             {
-                var forms = new Forms();
-                forms.Add(
-                    $"Encoding",
-                    testPart.Encoding);
-                forms.Add(
-                    $"UpdatableImport",
-                    testPart.UpdatableImport.ToString().ToLower());
-                forms.Add(
-                    "Key",
-                    testPart.Key);
                 yield return TestData(
                     title: testPart.Title,
-                    forms: forms,
+                    forms: FormsUtilities.Get(
+                        new KeyValue($"Encoding", testPart.Encoding),
+                        new KeyValue($"UpdatableImport", testPart.UpdatableImport.ToString().ToLower()),
+                        new KeyValue("Key", testPart.Key)),
                     fileName: testPart.FileName,
                     userModel: UserData.Get(userType: testPart.UserType),
                     jsonTests: validJsonTests);
