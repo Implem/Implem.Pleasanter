@@ -1,0 +1,203 @@
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
+using Implem.PleasanterTest.Models;
+using Implem.PleasanterTest.Utilities;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Implem.PleasanterTest.Tests.Users
+{
+    /// <summary>
+    /// ログイン操作のテストです。
+    /// </summary>
+    public class Authenticate
+    {
+        [Theory]
+        [MemberData(nameof(GetData))]
+        public void Test(
+            Context context,
+            string returnUrl,
+            List<JsonTest> jsonTests)
+        {
+            var json = Authentications.SignIn(
+                context: context,
+                returnUrl: returnUrl);
+            Assert.True(Compare.Json(
+                context: context,
+                json: json,
+                jsonTests: jsonTests));
+        }
+
+        public static IEnumerable<object[]> GetData => new List<object[]>()
+        {
+            Allow(),
+            LowerCaseLoginId(),
+            DifferentPassword1(),
+            DifferentPassword2(),
+            DifferentPassword3(),
+            BlankLoginId(),
+            BlankPassword()
+        };
+
+        private static object[] Allow()
+        {
+            var context = GetContext(
+                loginId: $"Tenant{Initializer.TenantId}_User1",
+                password: "ABCDEF");
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                AllowMessage(context, returnUrl)
+            };
+        }
+
+        private static object[] LowerCaseLoginId()
+        {
+            var context = GetContext(
+                loginId: $"tenant{Initializer.TenantId}_user1",
+                password: "ABCDEF");
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                AllowMessage(context, returnUrl)
+            };
+        }
+
+        private static object[] DifferentPassword1()
+        {
+            var context = GetContext(
+                loginId: $"Tenant{Initializer.TenantId}_User1",
+                password: "ABCDEf");
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                FailResponse(context)
+            };
+        }
+
+        private static object[] DifferentPassword2()
+        {
+            var context = GetContext(
+                loginId: $"Tenant{Initializer.TenantId}_User1",
+                password: "ABCDEF ");
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                FailResponse(context)
+            };
+        }
+
+        private static object[] DifferentPassword3()
+        {
+            var context = GetContext(
+                loginId: $"Tenant{Initializer.TenantId}_User1",
+                password: "111111");
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                FailResponse(context)
+            };
+        }
+
+        private static object[] BlankLoginId()
+        {
+            var context = GetContext(
+                loginId: string.Empty,
+                password: "ABCDEF");
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                FailResponse(context)
+            };
+        }
+
+        private static object[] BlankPassword()
+        {
+            var context = GetContext(
+                loginId: $"Tenant{Initializer.TenantId}_User1",
+                password: string.Empty);
+            var returnUrl = string.Empty;
+            return new object[]
+            {
+                context,
+                returnUrl,
+                FailResponse(context)
+            };
+        }
+
+        private static Context GetContext(string loginId, string password)
+        {
+            return ContextData.Get(
+                userType: UserData.UserTypes.Anonymous,
+                httpMethod: "post",
+                absolutePath: "/users/authenticate",
+                forms: new Forms()
+                {
+                    {
+                        "Users_LoginId",
+                        loginId
+                    },
+                    {
+                        "Users_Password",
+                        password
+                    }
+                });
+        }
+
+        private static List<JsonTest> AllowMessage(Context context, string returnUrl)
+        {
+            return new List<JsonTest>()
+            {
+                new JsonTest()
+                {
+                    Type = JsonTest.Types.Value,
+                    Method = "Message",
+                    Target = "#LoginMessage",
+                    Value = Messages.LoginIn(context: context).ToJson()
+                },
+                new JsonTest()
+                {
+                    Type = JsonTest.Types.Value,
+                    Method = "Href",
+                    Value = returnUrl.IsNullOrEmpty()
+                        ? Locations.Top(context: context)
+                        : returnUrl
+                }
+            };
+        }
+
+        private static List<JsonTest> FailResponse(Context context)
+        {
+            return new List<JsonTest>()
+            {
+                new JsonTest()
+                {
+                    Type = JsonTest.Types.Value,
+                    Method = "Message",
+                    Target = "#LoginMessage",
+                    Value = Messages.Authentication(context: context).ToJson()
+                },
+                new JsonTest()
+                {
+                    Type = JsonTest.Types.ExistsOne,
+                    Method = "Focus",
+                    Target = "#Password"
+                }
+            };
+        }
+    }
+}
