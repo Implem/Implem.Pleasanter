@@ -1,4 +1,6 @@
-﻿namespace Implem.PleasanterTest.Models
+﻿using System.Collections.Generic;
+
+namespace Implem.PleasanterTest.Models
 {
     public class HtmlTest
     {
@@ -13,12 +15,14 @@
             HasClass,
             Attribute,
             NotFoundMessage,
-            HasNotPermissionMessage
+            HasNotPermissionMessage,
+            Text
         }
 
         public Types Type { get; set; }
         public string Selector { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
+        public List<TextTest> TextTests { get; set; }
     }
 }

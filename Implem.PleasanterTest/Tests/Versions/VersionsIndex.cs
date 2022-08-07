@@ -1,0 +1,56 @@
+﻿using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.HtmlParts;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Models;
+using Implem.PleasanterTest.Models;
+using Implem.PleasanterTest.Utilities;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Implem.PleasanterTest.Tests.Versions
+{
+    public class VersionsIndex
+    {
+        [Theory]
+        [MemberData(nameof(GetData))]
+        public void Test(
+            UserModel userModel,
+            List<HtmlTest> htmlTests)
+        {
+            var context = ContextData.Get(
+                userId: userModel.UserId,
+                routeData: RouteData.VersionsIndex());
+            var html = Results(context: context);
+            Assert.True(Compare.Html(
+                context: context,
+                html: html,
+                htmlTests: htmlTests));
+        }
+
+        public static IEnumerable<object[]> GetData()
+        {
+            yield return TestData(
+                userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                htmlTests: HtmlData.Tests(HtmlData.TextContains(
+                    selector: "#Versions",
+                    value: Displays.AGPL(context: Initializer.Context))));
+        }
+
+        private static object[] TestData(
+            UserModel userModel,
+            List<HtmlTest> htmlTests)
+        {
+            return new object[]
+            {
+                userModel,
+                htmlTests
+            };
+        }
+
+        private static string Results(Context context)
+        {
+            return new HtmlBuilder().AssemblyVersions(context: context);
+        }
+    }
+}

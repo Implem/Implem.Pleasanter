@@ -120,6 +120,19 @@ namespace Implem.PleasanterTest.Utilities
                             return false;
                         }
                         break;
+                    case HtmlTest.Types.Text:
+                        if (nodes.Count() != 1)
+                        {
+                            return false;
+                        }
+                        else if (!Text(
+                            context: context,
+                            text: nodes[0].OuterHtml,
+                            textTests: htmlTest.TextTests))
+                        {
+                            return false;
+                        }
+                        break;
                     default:
                         return false;
                 }
@@ -277,7 +290,7 @@ namespace Implem.PleasanterTest.Utilities
                         }
                         break;
                     case TextTest.Types.Contains:
-                        if (text.Contains(textTest.Value?.ToString()))
+                        if (!text.Contains(textTest.Value?.ToString()))
                         {
                             return false;
                         }

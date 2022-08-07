@@ -1,10 +1,17 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.PleasanterTest.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Implem.PleasanterTest.Utilities
 {
     public static class JsonData
     {
+        public static List<JsonTest> Tests(params JsonTest[] tests)
+        {
+            return tests.ToList();
+        }
+
         public static JsonTest Html(string target, string selector)
         {
             return HtmlTests(
