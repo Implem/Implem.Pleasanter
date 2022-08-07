@@ -152,44 +152,28 @@ namespace Implem.PleasanterTest.Tests.Users
 
         private static List<JsonTest> AllowMessage(Context context, string returnUrl)
         {
-            return new List<JsonTest>()
-            {
-                new JsonTest()
-                {
-                    Type = JsonTest.Types.Value,
-                    Method = "Message",
-                    Target = "#LoginMessage",
-                    Value = Messages.LoginIn(context: context).ToJson()
-                },
-                new JsonTest()
-                {
-                    Type = JsonTest.Types.Value,
-                    Method = "Href",
-                    Value = returnUrl.IsNullOrEmpty()
+            return JsonData.Tests(
+                JsonData.Value(
+                    method: "Message",
+                    target: "#LoginMessage",
+                    value: Messages.LoginIn(context: context).ToJson()),
+                JsonData.Value(
+                    method: "Href",
+                    value: returnUrl.IsNullOrEmpty()
                         ? Locations.Top(context: context)
-                        : returnUrl
-                }
-            };
+                        : returnUrl));
         }
 
         private static List<JsonTest> FailResponse(Context context)
         {
-            return new List<JsonTest>()
-            {
-                new JsonTest()
-                {
-                    Type = JsonTest.Types.Value,
-                    Method = "Message",
-                    Target = "#LoginMessage",
-                    Value = Messages.Authentication(context: context).ToJson()
-                },
-                new JsonTest()
-                {
-                    Type = JsonTest.Types.ExistsOne,
-                    Method = "Focus",
-                    Target = "#Password"
-                }
-            };
+            return JsonData.Tests(
+                JsonData.Value(
+                    method: "Message",
+                    target: "#LoginMessage",
+                    value: Messages.Authentication(context: context).ToJson()),
+                JsonData.ExistsOne(
+                    method: "Focus",
+                    target: "#Password"));
         }
     }
 }

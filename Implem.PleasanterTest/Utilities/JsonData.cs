@@ -48,6 +48,20 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static JsonTest Value(
+            string method,
+            string value,
+            string target = null)
+        {
+            return new JsonTest()
+            {
+                Type = JsonTest.Types.Value,
+                Method = method,
+                Value = value,
+                Target = target
+            };
+        }
+
         public static JsonTest HtmlTests(
             string method,
             string target,
