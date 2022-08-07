@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsOpenSetNumericRangeDialog
+    public class ItemsOpenSetDateRangeDialog
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsOpenSetNumericRangeDialog(id: id),
+                routeData: RouteData.ItemsOpenSetDateRangeDialog(id: id),
                 httpMethod: "POST",
                 forms: forms);
             var json = Results(context: context);
@@ -39,11 +39,11 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "商談",
                     forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "ViewFilters__NumA_NumericRange"),
-                        new KeyValue("ViewFilters__NumA_NumericRange", string.Empty)),
+                        new KeyValue("ControlId", "ViewFilters__DateA_DateRange"),
+                        new KeyValue("ViewFilters__DateA_DateRange", string.Empty)),
                     jsonTests: JsonData.Tests(JsonData.ExistsOne(
                         method: "Html",
-                        target: "#SetNumericRangeDialog")))
+                        target: "#SetDateRangeDialog")))
             };
             foreach (var testPart in testParts)
             {
@@ -73,7 +73,7 @@ namespace Implem.PleasanterTest.Tests.Items
         private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.OpenSetNumericRangeDialog(context: context);
+            return itemModel.OpenSetDateRangeDialog(context: context);
         }
     }
 }

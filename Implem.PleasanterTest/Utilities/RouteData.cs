@@ -604,6 +604,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsOpenSetDateRangeDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "opensetdaterangedialog" },
+                { "id", id.ToString() },
+            };
+        }
+
         public static Dictionary<string, string> ItemsBulkUpdateSelectChanged(long id)
         {
             return new Dictionary<string, string>()
