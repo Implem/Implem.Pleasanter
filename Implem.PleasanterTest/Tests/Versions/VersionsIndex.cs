@@ -30,11 +30,19 @@ namespace Implem.PleasanterTest.Tests.Versions
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: HtmlData.Tests(HtmlData.TextContains(
-                    selector: "#Versions",
-                    value: Displays.AGPL(context: Initializer.Context))));
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    htmlTests: HtmlData.Tests(HtmlData.TextContains(
+                        selector: "#Versions",
+                        value: Displays.AGPL(context: Initializer.Context))))
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    userModel: testPart.UserModel,
+                    htmlTests: testPart.HtmlTests);
+            }
         }
 
         private static object[] TestData(

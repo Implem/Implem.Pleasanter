@@ -43,13 +43,13 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> DeptsEdit(int deptId)
+        public static Dictionary<string, string> DeptsEdit(int id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "depts" },
                 { "action", "edit" },
-                { "id", deptId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
@@ -134,13 +134,13 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> GroupsEdit(int groupId)
+        public static Dictionary<string, string> GroupsEdit(int id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "groups" },
                 { "action", "edit" },
-                { "id", groupId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
@@ -254,13 +254,13 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> UsersEdit(int userId)
+        public static Dictionary<string, string> UsersEdit(int id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "users" },
                 { "action", "edit" },
-                { "id", userId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
@@ -364,123 +364,123 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsIndex(long siteId)
+        public static Dictionary<string, string> ItemsIndex(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "index" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsGridRows(long siteId)
+        public static Dictionary<string, string> ItemsGridRows(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "gridrows" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsTrashBox(long siteId)
+        public static Dictionary<string, string> ItemsTrashBox(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "trashbox" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsTrashBoxGridRows(long siteId)
+        public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "trashboxgridrows" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsCalendar(long siteId)
+        public static Dictionary<string, string> ItemsCalendar(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "calendar" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsCrosstab(long siteId)
+        public static Dictionary<string, string> ItemsCrosstab(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "crosstab" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsGantt(long siteId)
+        public static Dictionary<string, string> ItemsGantt(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "gantt" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsBurnDown(long siteId)
+        public static Dictionary<string, string> ItemsBurnDown(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "burndown" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsTimeSeries(long siteId)
+        public static Dictionary<string, string> ItemsTimeSeries(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "timeseries" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsKamban(long siteId)
+        public static Dictionary<string, string> ItemsKamban(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "kamban" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsImageLib(long siteId)
+        public static Dictionary<string, string> ItemsImageLib(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "imagelib" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 
-        public static Dictionary<string, string> ItemsNew(long siteId)
+        public static Dictionary<string, string> ItemsNew(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "new" },
-                { "id", siteId.ToString() },
+                { "id", id.ToString() },
             };
         }
 

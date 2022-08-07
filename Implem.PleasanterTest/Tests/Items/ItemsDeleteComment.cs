@@ -33,22 +33,22 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<TestPart>()
+            var testParts = new List<MyTestPart>()
             {
-                new TestPart(
+                new MyTestPart(
                     title: "WBS",
                     commentId: 1,
                     updateResponseType: 1,
                     userType: UserData.UserTypes.TenantManager1),
-                new TestPart(
+                new MyTestPart(
                     title: "サーバの構築",
                     commentId: 2,
                     updateResponseType: 0),
-                new TestPart(
+                new MyTestPart(
                     title: "ディスク容量の要件に誤り",
                     commentId: 1,
                     updateResponseType: 0),
-                new TestPart(
+                new MyTestPart(
                     title: "Wiki1",
                     commentId: 1,
                     updateResponseType: 1)
@@ -59,7 +59,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", $"DeleteComment,{testPart.CommentId}")),
-                    userModel: UserData.Get(userType: testPart.UserType),
+                    userModel: testPart.UserModel,
                     jsonTests: testPart.UpdateResponseType == 0
                         ? JsonData.ReplaceAll(
                             target: "#MainContainer",
@@ -103,14 +103,12 @@ namespace Implem.PleasanterTest.Tests.Items
             return itemModel.DeleteComment(context: context);
         }
 
-        private class TestPart
+        private class MyTestPart : TestPart
         {
-            public string Title { get; set; }
             public int CommentId { get; set; }
             public int UpdateResponseType { get; set; }
-            public UserData.UserTypes UserType { get; set; }
 
-            public TestPart(
+            public MyTestPart(
                 string title,
                 int commentId,
                 int updateResponseType,
@@ -119,7 +117,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 Title = title;
                 CommentId = commentId;
                 UpdateResponseType = updateResponseType;
-                UserType = userType;
+                UserModel = UserData.Get(userType: userType);
             }
         }
     }

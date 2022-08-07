@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
@@ -28,35 +29,26 @@ namespace Implem.PleasanterTest.Tests.Users
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Grid"
-                    }
-                });
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Grid"
-                    }
-                });
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.HasNotPermissionMessage,
-                    }
-                });
+            var validHtmlTests = HtmlData.ExistsOne(selector: "#Grid").ToSingleList();
+            var hasNotPermissionMessageHtmlTests = HtmlData.HasNotPermissionMessage().ToSingleList();
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    htmlTests: validHtmlTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    htmlTests: validHtmlTests,
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    htmlTests: hasNotPermissionMessageHtmlTests,
+                    userType: UserData.UserTypes.General1)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    userModel: testPart.UserModel,
+                    htmlTests: testPart.HtmlTests);
+            }
         }
 
         private static object[] TestData(

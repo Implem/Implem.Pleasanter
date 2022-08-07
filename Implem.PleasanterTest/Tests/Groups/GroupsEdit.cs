@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
@@ -14,16 +15,17 @@ namespace Implem.PleasanterTest.Tests.Groups
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
-            int groupId,
+            string title,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
+            var id = Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == title).GroupId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.GroupsEdit(groupId: groupId));
+                routeData: RouteData.GroupsEdit(id: id));
             var html = Results(
                 context: context,
-                groupId: groupId);
+                id: id);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -32,59 +34,44 @@ namespace Implem.PleasanterTest.Tests.Groups
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
-                userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ2").GroupId,
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                groupId: Initializer.Groups.Values.FirstOrDefault(o => o.GroupName == "グループ1").GroupId,
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.NotFoundMessage,
-                    }
-                });
+            var validHtmlTests = HtmlData.ExistsOne(selector: "#Editor").ToSingleList();
+            var notFoundMessage = HtmlData.NotFoundMessage().ToSingleList();
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    title: "グループ2",
+                    userType: UserData.UserTypes.TenantManager1,
+                    htmlTests: validHtmlTests),
+                new TestPart(
+                    title: "グループ2",
+                    userType: UserData.UserTypes.Privileged,
+                    htmlTests: validHtmlTests),
+                new TestPart(
+                    title: "グループ2",
+                    userType: UserData.UserTypes.General1,
+                    htmlTests: validHtmlTests),
+                new TestPart(
+                    title: "グループ1",
+                    userType: UserData.UserTypes.General1,
+                    htmlTests: notFoundMessage)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    htmlTests: testPart.HtmlTests);
+            }
         }
 
         private static object[] TestData(
-            int groupId,
+            string title,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
             return new object[]
             {
-                groupId,
+                title,
                 userModel,
                 htmlTests
             };
@@ -92,12 +79,12 @@ namespace Implem.PleasanterTest.Tests.Groups
 
         private static string Results(
             Context context,
-            int groupId)
+            int id)
         {
             return GroupUtilities.Editor(
                 context: context,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(context: context),
-                groupId: groupId,
+                groupId: id,
                 clearSessions: true);
         }
     }

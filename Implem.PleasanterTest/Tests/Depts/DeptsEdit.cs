@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
@@ -14,16 +15,17 @@ namespace Implem.PleasanterTest.Tests.Depts
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
-            int deptId,
+            string title,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
+            var id = Initializer.Depts.Values.FirstOrDefault(o => o.DeptName == title).DeptId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.DeptsEdit(deptId: deptId));
+                routeData: RouteData.DeptsEdit(id: id));
             var html = Results(
                 context: context,
-                deptId: deptId);
+                id: id);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -32,48 +34,40 @@ namespace Implem.PleasanterTest.Tests.Depts
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                deptId: Initializer.Depts.Values.FirstOrDefault().DeptId,
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                deptId: Initializer.Depts.Values.FirstOrDefault().DeptId,
-                userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                deptId: Initializer.Depts.Values.FirstOrDefault().DeptId,
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.NotFoundMessage,
-                    }
-                });
+            var validHtmlTests = HtmlData.ExistsOne(selector: "#Editor").ToSingleList();
+            var notFoundHtmlTests = HtmlData.NotFoundMessage().ToSingleList();
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    title: "会社",
+                    htmlTests: validHtmlTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "会社",
+                    htmlTests: validHtmlTests,
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    title: "会社",
+                    htmlTests: notFoundHtmlTests,
+                    userType: UserData.UserTypes.General1)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    htmlTests: testPart.HtmlTests);
+            }
         }
 
         private static object[] TestData(
-            int deptId,
+            string title,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
             return new object[]
             {
-                deptId,
+                title,
                 userModel,
                 htmlTests
             };
@@ -81,12 +75,12 @@ namespace Implem.PleasanterTest.Tests.Depts
 
         private static string Results(
             Context context,
-            int deptId)
+            int id)
         {
             return DeptUtilities.Editor(
                 context: context,
                 ss: SiteSettingsUtilities.DeptsSiteSettings(context: context),
-                deptId: deptId,
+                deptId: id,
                 clearSessions: true);
         }
     }

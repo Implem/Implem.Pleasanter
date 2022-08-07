@@ -32,20 +32,20 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "RecordToApiDeleteSite2",
-                "RecordToApiDeleteSite3",
-                "RecordToApiDeleteSite4",
-                "RecordToApiDeleteSite6",
-                "RecordToApiDeleteSite7",
-                "RecordToApiDeleteSite8"
+                new TestPart(title: "RecordToApiDeleteSite2"),
+                new TestPart(title: "RecordToApiDeleteSite3"),
+                new TestPart(title: "RecordToApiDeleteSite4"),
+                new TestPart(title: "RecordToApiDeleteSite6"),
+                new TestPart(title: "RecordToApiDeleteSite7"),
+                new TestPart(title: "RecordToApiDeleteSite8")
             };
-            foreach (var title in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
                     apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList());
             }
         }

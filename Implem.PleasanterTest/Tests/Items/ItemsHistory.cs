@@ -34,27 +34,47 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "プロジェクト管理の例",
-                "サーバのテスト",
-                "ネットワーク構成が決まっていない",
-                "ディスク容量の要件に誤り",
-                "商談管理の例",
-                "株式会社プリザンター",
-                "業務改善コンサルティング",
-                "R社システム開発",
-                "Wikis",
-                "Wiki1"
+                new TestPart(
+                    title: "プロジェクト管理の例",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "サーバのテスト",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "ネットワーク構成が決まっていない",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "ディスク容量の要件に誤り",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "商談管理の例",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "株式会社プリザンター",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "業務改善コンサルティング",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "R社システム開発",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "Wikis",
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "Wiki1",
+                    userType: UserData.UserTypes.TenantManager1)
             };
-            foreach (var title in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: title,
+                    title: testPart.Title,
                     forms: FormsUtilities.Get(
                         new KeyValue("Ver", "1"),
-                        new KeyValue("Latest", Latest(title: title).ToOneOrZeroString())),
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
+                        new KeyValue("Latest", Latest(title: testPart.Title).ToOneOrZeroString())),
+                    userModel: testPart.UserModel,
                     jsonTests: JsonData.ReplaceAll(
                         target: "#MainContainer",
                         selector: "#Editor").ToSingleList());

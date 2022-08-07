@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsCrosstab(siteId: siteId));
+                routeData: RouteData.ItemsCrosstab(id: siteId));
             var html = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,
@@ -31,20 +31,20 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "WBS",
-                "課題管理",
-                "レビュー記録",
-                "顧客マスタ",
-                "商談",
-                "仕入"
+                new TestPart(title: "WBS"),
+                new TestPart(title: "課題管理"),
+                new TestPart(title: "レビュー記録"),
+                new TestPart(title: "顧客マスタ"),
+                new TestPart(title: "商談"),
+                new TestPart(title: "仕入")
             };
-            foreach (var title in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
                     htmlTests: new List<HtmlTest>
                     {
                         new HtmlTest()

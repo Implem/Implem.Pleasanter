@@ -95,30 +95,75 @@ namespace Implem.PleasanterTest.Tests.Items
                 JsonData.ExistsOne(method: "Message"),
                 JsonData.ExistsOne(method: "ClearFormData")
             };
-            var titles = new Dictionary<string, List<JsonTest>>()
+            var testParts = new List<TestPart>()
             {
-                { "プロジェクト管理の例", siteJsonTests },
-                { "WBS", siteJsonTests },
-                { "課題管理", siteJsonTests },
-                { "レビュー記録", siteJsonTests },
-                { "商談管理の例", siteJsonTests },
-                { "顧客マスタ", siteJsonTests },
-                { "商談", siteJsonTests },
-                { "仕入", siteJsonTests },
-                { "サーバのテスト", tableJsonTests },
-                { "ネットワーク構成が決まっていない", tableJsonTests },
-                { "ディスク容量の要件に誤り", tableJsonTests },
-                { "株式会社プリザンター", tableJsonTests },
-                { "業務改善コンサルティング", tableJsonTests },
-                { "R社システム開発", tableJsonTests },
-                { "Wiki1", wikiJsonTests }
+                new TestPart(
+                    title: "プロジェクト管理の例",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "WBS",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "課題管理",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "レビュー記録",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "商談管理の例",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "顧客マスタ",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "商談",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "仕入",
+                    jsonTests: siteJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "サーバのテスト",
+                    jsonTests: tableJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "ネットワーク構成が決まっていない",
+                    jsonTests: tableJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "ディスク容量の要件に誤り",
+                    jsonTests: tableJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "株式会社プリザンター",
+                    jsonTests: tableJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "業務改善コンサルティング",
+                    jsonTests: tableJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "R社システム開発",
+                    jsonTests: tableJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "Wiki1",
+                    jsonTests: wikiJsonTests,
+                    userType: UserData.UserTypes.TenantManager1)
             };
-            foreach (var data in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: data.Key,
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                    jsonTests: data.Value);
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
             }
         }
 

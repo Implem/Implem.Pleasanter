@@ -31,28 +31,28 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "サーバのテスト",
-                "ネットワーク構成が決まっていない",
-                "ディスク容量の要件に誤り",
-                "株式会社プリザンター",
-                "業務改善コンサルティング",
-                "R社システム開発",
-                "Wiki1"
+                new TestPart(title: "サーバのテスト"),
+                new TestPart(title: "ネットワーク構成が決まっていない"),
+                new TestPart(title: "ディスク容量の要件に誤り"),
+                new TestPart(title: "株式会社プリザンター"),
+                new TestPart(title: "業務改善コンサルティング"),
+                new TestPart(title: "R社システム開発"),
+                new TestPart(title: "Wiki1")
             };
-            foreach (var title in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                title: title,
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                title: testPart.Title,
+                userModel: testPart.UserModel,
                 htmlTests: new List<HtmlTest>
                 {
-                        new HtmlTest()
-                        {
-                            Type = HtmlTest.Types.ExistsOne,
-                            Selector = "#Editor"
-                        }
+                    new HtmlTest()
+                    {
+                        Type = HtmlTest.Types.ExistsOne,
+                        Selector = "#Editor"
+                    }
                 });
             }
         }

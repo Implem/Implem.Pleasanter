@@ -35,9 +35,9 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<TestPart>()
+            var testParts = new List<MyTestPart>()
             {
-                new TestPart(
+                new MyTestPart(
                     title: "WBS",
                     gridCheckedItems: new List<string>()
                     {
@@ -79,13 +79,11 @@ namespace Implem.PleasanterTest.Tests.Items
             return itemModel.OpenBulkUpdateSelectorDialog(context: context);
         }
 
-        private class TestPart
+        private class MyTestPart : TestPart
         {
-            public string Title { get; }
             public string GridCheckedItems { get; }
-            public UserModel UserModel { get; }
 
-            public TestPart(
+            public MyTestPart(
                 string title,
                 List<string> gridCheckedItems,
                 UserData.UserTypes userType = UserData.UserTypes.General1)

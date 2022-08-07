@@ -34,9 +34,9 @@ namespace Implem.PleasanterTest.Tests.Depts
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<TestPart>()
+            var testParts = new List<MyTestPart>()
             {
-                new TestPart(
+                new MyTestPart(
                     title: "会社",
                     commentId: 1,
                     updateResponseType: 1,
@@ -48,7 +48,7 @@ namespace Implem.PleasanterTest.Tests.Depts
                     title: testPart.Title,
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", $"DeleteComment,{testPart.CommentId}")),
-                    userModel: UserData.Get(userType: testPart.UserType),
+                    userModel: testPart.UserModel,
                     jsonTests: testPart.UpdateResponseType == 0
                         ? JsonData.ReplaceAll(
                             target: "#MainContainer",
@@ -94,14 +94,12 @@ namespace Implem.PleasanterTest.Tests.Depts
                 deptId: context.Id.ToInt());
         }
 
-        private class TestPart
+        private class MyTestPart : TestPart
         {
-            public string Title { get; set; }
             public int CommentId { get; set; }
             public int UpdateResponseType { get; set; }
-            public UserData.UserTypes UserType { get; set; }
 
-            public TestPart(
+            public MyTestPart(
                 string title,
                 int commentId,
                 int updateResponseType,
@@ -110,7 +108,7 @@ namespace Implem.PleasanterTest.Tests.Depts
                 Title = title;
                 CommentId = commentId;
                 UpdateResponseType = updateResponseType;
-                UserType = userType;
+                UserModel = UserData.Get(userType: userType);
             }
         }
     }

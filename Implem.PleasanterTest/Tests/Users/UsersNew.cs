@@ -29,9 +29,26 @@ namespace Implem.PleasanterTest.Tests.Users
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                htmlTests: HtmlData.ExistsOne(selector: "#Editor").ToSingleList());
+            var validHtmlTests = HtmlData.ExistsOne(selector: "#Editor").ToSingleList();
+            var notFoundHtmlTests = HtmlData.NotFoundMessage().ToSingleList();
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    htmlTests: validHtmlTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    htmlTests: validHtmlTests,
+                    userType: UserData.UserTypes.Privileged),
+                new TestPart(
+                    htmlTests: notFoundHtmlTests,
+                    userType: UserData.UserTypes.General1)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    userModel: testPart.UserModel,
+                    htmlTests: testPart.HtmlTests);
+            }
         }
 
         private static object[] TestData(

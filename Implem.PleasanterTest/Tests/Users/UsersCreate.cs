@@ -41,12 +41,21 @@ namespace Implem.PleasanterTest.Tests.Users
                     target: "formChanged"),
                 JsonData.ExistsOne(method: "Href")
             };
-            yield return TestData(
-                forms: FormsUtilities.Get(
-                    new KeyValue("Users_LoginId", Strings.NewGuid()),
-                    new KeyValue("Users_Password", "password")),
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager2),
-                jsonTests: jsonTests);
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    userType: UserData.UserTypes.TenantManager2,
+                    jsonTests: jsonTests),
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    forms: FormsUtilities.Get(
+                        new KeyValue("Users_LoginId", Strings.NewGuid()),
+                        new KeyValue("Users_Password", "password")),
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
+            }
         }
 
         private static object[] TestData(

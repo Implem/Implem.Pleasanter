@@ -41,21 +41,33 @@ namespace Implem.PleasanterTest.Tests.Items
                     target: "formChanged"),
                 JsonData.ExistsOne(method: "Href")
             };
-            var titles = new Dictionary<string, List<JsonTest>>()
+            var testParts = new List<TestPart>()
             {
-                { "WBS", jsonTests },
-                { "課題管理", jsonTests },
-                { "レビュー記録", jsonTests },
-                { "顧客マスタ", jsonTests },
-                { "商談", jsonTests },
-                { "仕入", jsonTests }
+                new TestPart(
+                    title: "WBS",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "課題管理",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "レビュー記録",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "顧客マスタ",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "商談",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "仕入",
+                    jsonTests: jsonTests)
             };
-            foreach (var data in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: data.Key,
-                    userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    jsonTests: data.Value);
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
             }
         }
 

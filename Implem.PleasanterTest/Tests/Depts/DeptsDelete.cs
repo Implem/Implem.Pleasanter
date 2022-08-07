@@ -41,10 +41,20 @@ namespace Implem.PleasanterTest.Tests.Depts
                     method: "Invoke",
                     target: "back")
             };
-            yield return TestData(
-                title: "組織10（削除用）",
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                jsonTests: jsonTests);
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    title: "組織10（削除用）",
+                    userType: UserData.UserTypes.TenantManager1,
+                    jsonTests: jsonTests),
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
+            }
         }
 
         private static object[] TestData(

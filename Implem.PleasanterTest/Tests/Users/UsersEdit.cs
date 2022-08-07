@@ -1,9 +1,11 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Users
@@ -13,16 +15,17 @@ namespace Implem.PleasanterTest.Tests.Users
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
-            int userId,
+            string title,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
+            var id = Initializer.Users.Values.FirstOrDefault(o => o.Name == title).UserId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.UsersEdit(userId: userId));
+                routeData: RouteData.UsersEdit(id: id));
             var html = Results(
                 context: context,
-                userId: userId);
+                id: id);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -31,59 +34,44 @@ namespace Implem.PleasanterTest.Tests.Users
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
-                userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.ExistsOne,
-                        Selector = "#Editor"
-                    }
-                });
-            yield return TestData(
-                userId: UserData.Get(userType: UserData.UserTypes.General2).UserId,
-                userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                htmlTests: new List<HtmlTest>
-                {
-                    new HtmlTest()
-                    {
-                        Type = HtmlTest.Types.NotFoundMessage,
-                    }
-                });
+            var validHtmlTests = HtmlData.ExistsOne(selector: "#Editor").ToSingleList();
+            var notFoundMessage = HtmlData.NotFoundMessage().ToSingleList();
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    title: "佐藤 由香",
+                    userType: UserData.UserTypes.TenantManager1,
+                    htmlTests: validHtmlTests),
+                new TestPart(
+                    title: "佐藤 由香",
+                    userType: UserData.UserTypes.Privileged,
+                    htmlTests: validHtmlTests),
+                new TestPart(
+                    title: "佐藤 由香",
+                    userType: UserData.UserTypes.General1,
+                    htmlTests: validHtmlTests),
+                new TestPart(
+                    title: "高橋 一郎",
+                    userType: UserData.UserTypes.General1,
+                    htmlTests: notFoundMessage)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    htmlTests: testPart.HtmlTests);
+            }
         }
 
         private static object[] TestData(
-            int userId,
+            string title,
             UserModel userModel,
             List<HtmlTest> htmlTests)
         {
             return new object[]
             {
-                userId,
+                title,
                 userModel,
                 htmlTests
             };
@@ -91,12 +79,12 @@ namespace Implem.PleasanterTest.Tests.Users
 
         private static string Results(
             Context context,
-            int userId)
+            int id)
         {
             return UserUtilities.Editor(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(context: context),
-                userId: userId,
+                userId: id,
                 clearSessions: true);
         }
     }

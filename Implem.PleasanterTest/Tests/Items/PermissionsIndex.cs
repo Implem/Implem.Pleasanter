@@ -36,7 +36,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var siteId = Initializer.ItemIds.Get(id).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsIndex(siteId: siteId));
+                routeData: RouteData.ItemsIndex(id: siteId));
             var html = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,

@@ -42,13 +42,24 @@ namespace Implem.PleasanterTest.Tests.Users
                 JsonData.ExistsOne(method: "Message"),
                 JsonData.ExistsOne(method: "ClearFormData")
             };
-            yield return TestData(
-                title: "小林 佳子",
-                forms: FormsUtilities.Get(
-                    new KeyValue("ControlId", "ResetPassword"),
-                    new KeyValue("Users_AfterResetPassword", "ChangedPassword")),
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                jsonTests: jsonTests);
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    title: "小林 佳子",
+                    forms: FormsUtilities.Get(
+                        new KeyValue("ControlId", "ResetPassword"),
+                        new KeyValue("Users_AfterResetPassword", "ChangedPassword")),
+                    jsonTests: jsonTests,
+                    userType: UserData.UserTypes.TenantManager1)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    title: testPart.Title,
+                    forms: testPart.Forms,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
+            }
         }
 
         private static object[] TestData(

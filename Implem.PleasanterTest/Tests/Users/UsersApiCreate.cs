@@ -32,16 +32,25 @@ namespace Implem.PleasanterTest.Tests.Users
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                apiRequestBody: new
-                {
-                    LoginId = Strings.NewGuid(),
-                    Name = Strings.NewGuid(),
-                    Password = Strings.NewGuid()
-                }
-                    .ToJson(),
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList());
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    apiRequestBody: new
+                    {
+                        LoginId = Strings.NewGuid(),
+                        Name = Strings.NewGuid(),
+                        Password = Strings.NewGuid()
+                    },
+                    apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList(),
+                    userType: UserData.UserTypes.TenantManager1),
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    apiRequestBody: testPart.ApiRequestBody,
+                    userModel: testPart.UserModel,
+                    apiJsonTests: testPart.ApiJsonTests);
+            }
         }
 
         private static object[] TestData(

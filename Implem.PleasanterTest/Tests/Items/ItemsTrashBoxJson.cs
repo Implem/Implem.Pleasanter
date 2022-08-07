@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 : Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsTrashBox(siteId: siteId));
+                routeData: RouteData.ItemsTrashBox(id: siteId));
             var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
@@ -34,34 +34,34 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "TopTraxhBox",
-                "プロジェクト管理の例",
-                "WBS",
-                "課題管理",
-                "レビュー記録",
-                "商談管理の例",
-                "顧客マスタ",
-                "商談",
-                "仕入"
+                new TestPart(title: "TopTraxhBox"),
+                new TestPart(title: "プロジェクト管理の例"),
+                new TestPart(title: "WBS"),
+                new TestPart(title: "課題管理"),
+                new TestPart(title: "レビュー記録"),
+                new TestPart(title: "商談管理の例"),
+                new TestPart(title: "顧客マスタ"),
+                new TestPart(title: "商談"),
+                new TestPart(title: "仕入")
             };
-            foreach (var title in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: title,
+                    title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                    jsonTests: title == "TopTraxhBox"
+                    jsonTests: testPart.Title == "TopTraxhBox"
                         ? JsonData.Message(message: "NotFound").ToSingleList()
                         : JsonData.Html(
                             target: "#ViewModeContainer",
                             selector: "#Grid").ToSingleList());
                 yield return TestData(
-                    title: title,
+                    title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
                     jsonTests: JsonData.Message(message: "NotFound").ToSingleList());
                 yield return TestData(
-                    title: title,
+                    title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
                     jsonTests: JsonData.Html(
                         target: "#ViewModeContainer",

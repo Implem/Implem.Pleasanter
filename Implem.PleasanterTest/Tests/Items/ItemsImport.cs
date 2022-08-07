@@ -37,16 +37,6 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<TestPart>()
-            {
-                new TestPart(
-                    title: "WBS",
-                    fileName: "WBS.csv",
-                    encoding: "Shift-JIS",
-                    updatableImport: false,
-                    key: "IssueId",
-                    userType: UserData.UserTypes.TenantManager1)
-            };
             var validJsonTests = new List<JsonTest>()
             {
                 JsonData.ExistsOne(method: "Log"),
@@ -79,6 +69,16 @@ namespace Implem.PleasanterTest.Tests.Items
                     method: "Paging",
                     target: "#Grid")
             };
+            var testParts = new List<MyTestPart>()
+            {
+                new MyTestPart(
+                    title: "WBS",
+                    fileName: "WBS.csv",
+                    encoding: "Shift-JIS",
+                    updatableImport: false,
+                    key: "IssueId",
+                    userType: UserData.UserTypes.TenantManager1)
+            };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
@@ -88,7 +88,7 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue($"UpdatableImport", testPart.UpdatableImport.ToString().ToLower()),
                         new KeyValue("Key", testPart.Key)),
                     fileName: testPart.FileName,
-                    userModel: UserData.Get(userType: testPart.UserType),
+                    userModel: testPart.UserModel,
                     jsonTests: validJsonTests);
             }
         }
@@ -116,16 +116,14 @@ namespace Implem.PleasanterTest.Tests.Items
             return itemModel.Import(context: context);
         }
 
-        private class TestPart
+        private class MyTestPart : TestPart
         {
-            public string Title { get; }
             public string FileName { get; }
             public string Encoding { get; }
             public bool UpdatableImport { get; }
             public string Key { get; }
-            public UserData.UserTypes UserType { get; set; }
 
-            public TestPart(
+            public MyTestPart(
                 string title,
                 string fileName,
                 string encoding,
@@ -138,7 +136,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 UpdatableImport = updatableImport;
                 Encoding = encoding;
                 Key = key;
-                UserType = userType;
+                UserModel = UserData.Get(userType: userType);
             }
         }
     }

@@ -34,9 +34,9 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<TestPart>()
+            var testParts = new List<MyTestPart>()
             {
-                new TestPart(
+                new MyTestPart(
                     title: "AI技術の検証",
                     linkedSitetitle: "顧客マスタ",
                     sortColumnName: "Title")
@@ -51,7 +51,7 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("Direction", testPart.Direction),
                         new KeyValue("TableId", tableId),
                         new KeyValue("ControlId", tableId)),
-                    userModel: UserData.Get(userType: testPart.UserType),
+                    userModel: testPart.UserModel,
                     jsonTests: JsonData.ExistsOne(
                         method: "ReplaceAll",
                         target: $"#{tableId}").ToSingleList());
@@ -79,17 +79,15 @@ namespace Implem.PleasanterTest.Tests.Items
             return itemModel.LinkTable(context: context);
         }
 
-        private class TestPart
+        private class MyTestPart : TestPart
         {
-            public string Title { get; }
             public string SortColumnName { get; }
             public string SortType { get; }
             public string Direction { get; }
             public string ReferenceType { get; }
             public long SiteId { get; }
-            public UserData.UserTypes UserType { get; set; }
 
-            public TestPart(
+            public MyTestPart(
                 string title,
                 string linkedSitetitle,
                 string sortColumnName,
@@ -104,7 +102,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 Direction = direction;
                 ReferenceType = siteModel.ReferenceType;
                 SiteId = siteModel.SiteId;
-                UserType = userType;
+                UserModel = UserData.Get(userType: userType);
             }
         }
     }

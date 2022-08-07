@@ -34,17 +34,19 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "WBS"
+                new TestPart(
+                    title: "WBS",
+                    userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: testPart,
+                    title: testPart.Title,
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "OpenExportSelectorDialog")),
-                    userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
+                    userModel: testPart.UserModel,
                     jsonTests: JsonData.ExistsOne(
                         method: "Html",
                         target: $"#ExportSelectorDialog").ToSingleList());

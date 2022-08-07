@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsGridRows(siteId: siteId));
+                routeData: RouteData.ItemsGridRows(id: siteId));
             var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
@@ -31,15 +31,6 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
-            {
-                "WBS",
-                "課題管理",
-                "レビュー記録",
-                "顧客マスタ",
-                "商談",
-                "仕入"
-            };
             var validJsonTests = new List<JsonTest>()
             {
                 JsonData.ExistsOne(method: "Log"),
@@ -72,11 +63,20 @@ namespace Implem.PleasanterTest.Tests.Items
                     method: "Paging",
                     target: "#Grid")
             };
-            foreach (var title in titles)
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(title: "WBS"),
+                new TestPart(title: "課題管理"),
+                new TestPart(title: "レビュー記録"),
+                new TestPart(title: "顧客マスタ"),
+                new TestPart(title: "商談"),
+                new TestPart(title: "仕入")
+            };
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
                     jsonTests: validJsonTests);
             }
         }

@@ -35,9 +35,9 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var testParts = new List<TestPart>()
+            var testParts = new List<MyTestPart>()
             {
-                new TestPart(
+                new MyTestPart(
                     title: "WBS",
                     recordTitles: new List<string>()
                     {
@@ -51,7 +51,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: FormsUtilities.Get(
                         new KeyValue("GridCheckedItems", testPart.Ids.Join())),
-                    userModel: UserData.Get(userType: testPart.UserType),
+                    userModel: testPart.UserModel,
                     textTests: TextData.ListEquals(value: testPart.Ids.ToJson()).ToSingleList());
             }
         }
@@ -77,13 +77,11 @@ namespace Implem.PleasanterTest.Tests.Items
             return itemModel.SelectedIds(context: context);
         }
 
-        private class TestPart
+        private class MyTestPart : TestPart
         {
-            public string Title { get; set; }
             public List<long> Ids { get; set; }
-            public UserData.UserTypes UserType { get; set; }
 
-            public TestPart(
+            public MyTestPart(
                 string title,
                 List<string> recordTitles,
                 UserData.UserTypes userType = UserData.UserTypes.General1)
@@ -93,7 +91,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     .Where(o => recordTitles.Contains(o.Key))
                     .Select(o => o.Value)
                     .ToList();
-                UserType = userType;
+                UserModel = UserData.Get(userType: userType);
             }
         }
     }

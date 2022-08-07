@@ -38,9 +38,16 @@ namespace Implem.PleasanterTest.Tests.Depts
                     target: "formChanged"),
                 JsonData.ExistsOne(method: "Href")
             };
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager2),
-                jsonTests: jsonTests);
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(userType: UserData.UserTypes.TenantManager1),
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    userModel: testPart.UserModel,
+                    jsonTests: jsonTests);
+            }
         }
 
         private static object[] TestData(

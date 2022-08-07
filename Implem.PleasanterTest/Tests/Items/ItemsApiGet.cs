@@ -32,26 +32,26 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var titles = new List<string>()
+            var testParts = new List<TestPart>()
             {
-                "WBS",
-                "課題管理",
-                "レビュー記録",
-                "顧客マスタ",
-                "商談",
-                "仕入",
-                "サーバのテスト",
-                "ネットワーク構成が決まっていない",
-                "ディスク容量の要件に誤り",
-                "株式会社プリザンター",
-                "業務改善コンサルティング",
-                "R社システム開発"
+                new TestPart(title: "WBS"),
+                new TestPart(title: "課題管理"),
+                new TestPart(title: "レビュー記録"),
+                new TestPart(title: "顧客マスタ"),
+                new TestPart(title: "商談"),
+                new TestPart(title: "仕入"),
+                new TestPart(title: "サーバのテスト"),
+                new TestPart(title: "ネットワーク構成が決まっていない"),
+                new TestPart(title: "ディスク容量の要件に誤り"),
+                new TestPart(title: "株式会社プリザンター"),
+                new TestPart(title: "業務改善コンサルティング"),
+                new TestPart(title: "R社システム開発")
             };
-            foreach (var title in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: title,
-                    userModel: UserData.Get(userType: UserData.UserTypes.General1),
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
                     apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList());
             }
         }

@@ -40,21 +40,33 @@ namespace Implem.PleasanterTest.Tests.Items
                     method: "Invoke",
                     target: "back")
             };
-            var titles = new Dictionary<string, List<JsonTest>>()
+            var testParts = new List<TestPart>()
             {
-                { "RecordToDeleteSite2", jsonTests },
-                { "RecordToDeleteSite3", jsonTests },
-                { "RecordToDeleteSite4", jsonTests },
-                { "RecordToDeleteSite6", jsonTests },
-                { "RecordToDeleteSite7", jsonTests },
-                { "RecordToDeleteSite8", jsonTests }
+                new TestPart(
+                    title: "RecordToDeleteSite2",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "RecordToDeleteSite3",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "RecordToDeleteSite4",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "RecordToDeleteSite6",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "RecordToDeleteSite7",
+                    jsonTests: jsonTests),
+                new TestPart(
+                    title: "RecordToDeleteSite8",
+                    jsonTests: jsonTests)
             };
-            foreach (var data in titles)
+            foreach (var testPart in testParts)
             {
                 yield return TestData(
-                    title: data.Key,
-                    userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    jsonTests: data.Value);
+                    title: testPart.Title,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
             }
         }
 

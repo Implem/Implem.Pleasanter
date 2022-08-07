@@ -34,5 +34,21 @@ namespace Implem.PleasanterTest.Utilities
                 }.ToSingleList()
             };
         }
+
+        public static HtmlTest NotFoundMessage()
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.NotFoundMessage,
+            };
+        }
+
+        public static HtmlTest HasNotPermissionMessage()
+        {
+            return new HtmlTest()
+            {
+                Type = HtmlTest.Types.HasNotPermissionMessage,
+            };
+        }
     }
 }

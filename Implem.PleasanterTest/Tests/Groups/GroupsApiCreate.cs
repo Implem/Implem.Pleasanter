@@ -6,7 +6,6 @@ using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Groups
@@ -31,9 +30,18 @@ namespace Implem.PleasanterTest.Tests.Groups
 
         public static IEnumerable<object[]> GetData()
         {
-            yield return TestData(
-                userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList());
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList(),
+                    userType: UserData.UserTypes.TenantManager1),
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    userModel: testPart.UserModel,
+                    apiJsonTests: testPart.ApiJsonTests);
+            }
         }
 
         private static object[] TestData(
