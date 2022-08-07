@@ -68,7 +68,8 @@
         {
             "ColumnName": "ClassA",
             "LabelText": "作業工程",
-            "ChoicesText": "要件定義\n設計\n構築\nテスト\nリリース・展開\n初期サポート\n運用"
+            "ChoicesText": "要件定義\n設計\n構築\nテスト\nリリース・展開\n初期サポート\n運用",
+            "AllowBulkUpdate": true
         },
         {
             "ColumnName": "ClassB",
