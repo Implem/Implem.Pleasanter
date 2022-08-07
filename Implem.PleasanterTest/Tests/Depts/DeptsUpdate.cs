@@ -23,7 +23,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsUpdate(id: id));
-            var json = GetJson(context: context);
+            var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
                 json: json,
@@ -65,7 +65,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             };
         }
 
-        private static string GetJson(Context context)
+        private static string Results(Context context)
         {
             return DeptUtilities.Update(
                 context: context,

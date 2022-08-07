@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsDeleteComment(id: id),
                 forms: forms);
-            var json = GetJson(context: context);
+            var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
                 json: json,
@@ -102,7 +102,7 @@ namespace Implem.PleasanterTest.Tests.Items
             };
         }
 
-        private static string GetJson(Context context)
+        private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
             return itemModel.DeleteComment(context: context);

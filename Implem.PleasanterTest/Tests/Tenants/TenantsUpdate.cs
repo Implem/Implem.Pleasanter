@@ -19,7 +19,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.TenantsUpdate());
-            var json = GetJson(context: context);
+            var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
                 json: json,
@@ -58,7 +58,7 @@ namespace Implem.PleasanterTest.Tests.Tenants
             };
         }
 
-        private static string GetJson(Context context)
+        private static string Results(Context context)
         {
             return TenantUtilities.Update(
                 context: context,

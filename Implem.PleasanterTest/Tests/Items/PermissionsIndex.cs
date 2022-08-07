@@ -37,7 +37,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsIndex(siteId: siteId));
-            var html = GetHtml(context: context);
+            var html = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -202,7 +202,7 @@ namespace Implem.PleasanterTest.Tests.Items
             };
         }
 
-        private static string GetHtml(Context context)
+        private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
             return itemModel.Index(context: context);

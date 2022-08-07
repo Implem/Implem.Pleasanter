@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsApiGet(id: id));
-            var results = GetResults(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.ApiResults(
                 context: context,
                 results: results,
@@ -52,7 +52,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             };
         }
 
-        private static ContentResultInheritance GetResults(Context context)
+        private static ContentResultInheritance Results(Context context)
         {
             return DeptUtilities.GetByApi(
                 context: context,

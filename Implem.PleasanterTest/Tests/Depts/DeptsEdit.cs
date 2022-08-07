@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsEdit(deptId: deptId));
-            var html = GetHtml(
+            var html = Results(
                 context: context,
                 deptId: deptId);
             Assert.True(Compare.Html(
@@ -79,7 +79,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             };
         }
 
-        private static string GetHtml(
+        private static string Results(
             Context context,
             int deptId)
         {

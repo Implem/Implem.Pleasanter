@@ -19,7 +19,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsIndex());
-            var html = GetHtml(context: context);
+            var html = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,
                 html: html,
@@ -70,7 +70,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             };
         }
 
-        private static string GetHtml(Context context)
+        private static string Results(Context context)
         {
             return DeptUtilities.Index(
                 context: context,

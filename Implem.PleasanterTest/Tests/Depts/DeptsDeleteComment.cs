@@ -25,7 +25,7 @@ namespace Implem.PleasanterTest.Tests.Depts
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsDeleteComment(id: id),
                 forms: forms);
-            var json = GetJson(context: context);
+            var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
                 json: json,
@@ -91,7 +91,7 @@ namespace Implem.PleasanterTest.Tests.Depts
             };
         }
 
-        private static string GetJson(Context context)
+        private static string Results(Context context)
         {
             return DeptUtilities.Update(
                 context: context,

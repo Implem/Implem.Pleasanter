@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Tests.Groups
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.GroupsEdit(groupId: groupId));
-            var html = GetHtml(
+            var html = Results(
                 context: context,
                 groupId: groupId);
             Assert.True(Compare.Html(
@@ -90,7 +90,7 @@ namespace Implem.PleasanterTest.Tests.Groups
             };
         }
 
-        private static string GetHtml(
+        private static string Results(
             Context context,
             int groupId)
         {

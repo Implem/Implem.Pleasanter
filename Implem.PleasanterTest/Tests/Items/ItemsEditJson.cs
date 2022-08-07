@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsEdit(id: id));
-            var json = GetJson(context: context);
+            var json = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
                 json: json,
@@ -65,7 +65,7 @@ namespace Implem.PleasanterTest.Tests.Items
             };
         }
 
-        private static string GetJson(Context context)
+        private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
             return itemModel.EditorJson(context: context);
