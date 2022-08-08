@@ -109,6 +109,7 @@
             "ColumnName": "ClassA",
             "LabelText": "顧客",
             "ChoicesText": "[[#Site6#]]",
+            "UseSearch": true,
             "FieldCss": "field-wide",
             "Link": true
         },
