@@ -4617,7 +4617,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetAllowedIntegratedSites(Context context)
         {
-            AllowedIntegratedSites = new List<long> { SiteId };
+            AllowedIntegratedSites = new List<long>();
             var sites = GetIntegratedSites(context: context);
             var allows = Permissions.AllowSites(
                 context: context,
@@ -4628,7 +4628,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<long> GetIntegratedSites(Context context)
         {
-            var sites = new List<long>();
+            var sites = new List<long>() { SiteId };
             IntegratedSites?.ForEach(site =>
             {
                 var isName = false;
