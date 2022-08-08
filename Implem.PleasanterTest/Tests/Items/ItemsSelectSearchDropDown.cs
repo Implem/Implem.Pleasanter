@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsSearchDropDown
+    public class ItemsSelectSearchDropDown
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsSearchDropDown(id: id),
+                routeData: RouteData.ItemsSelectSearchDropDown(id: id),
                 httpMethod: "POST",
                 forms: forms);
             var json = Results(context: context);
@@ -35,22 +35,34 @@ namespace Implem.PleasanterTest.Tests.Items
         public static IEnumerable<object[]> GetData()
         {
             var forms = FormsUtilities.Get(
-                new KeyValue("ControlId", "DropDownSearchTarget"),
                 new KeyValue("DropDownSearchReferenceId", Initializer.Titles.Get("顧客マスタ").ToString()),
                 new KeyValue("DropDownSearchSelectedValues", $"[{Initializer.Titles.Get("働き方改革推進団体")}]"),
                 new KeyValue("DropDownSearchTarget", "Issues_ClassA"),
                 new KeyValue("DropDownSearchMultiple", "false"),
-                new KeyValue("DropDownSearchResultsOffset", "0"),
+                new KeyValue("DropDownSearchResultsOffset", "-1"),
                 new KeyValue("DropDownSearchParentClass", string.Empty),
-                new KeyValue("DropDownSearchParentDataId", string.Empty));
+                new KeyValue("DropDownSearchParentDataId", string.Empty),
+                new KeyValue("DropDownSearchResults", $"[{Initializer.Titles.Get("株式会社プリザンター")}]"),
+                new KeyValue("DropDownSearchText", string.Empty));
+            var jsonTests = JsonData.Tests(
+                JsonData.ExistsOne(
+                    method: "CloseDialog",
+                    target: "#DropDownSearchDialog"),
+                JsonData.ExistsOne(
+                    method: "Html",
+                    target: "[id=\"Issues_ClassA\"]"),
+                JsonData.ExistsOne(
+                    method: "Invoke",
+                    target: "setDropDownSearch"),
+                JsonData.ExistsOne(
+                    method: "Trigger",
+                    target: "#Issues_ClassA"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     title: "業務改善コンサルティング",
                     forms: forms,
-                    jsonTests: JsonData.Tests(JsonData.ExistsOne(
-                        method: "Html",
-                        target: "#DropDownSearchDialogBody")))
+                    jsonTests: jsonTests)
             };
             foreach (var testPart in testParts)
             {
@@ -80,7 +92,7 @@ namespace Implem.PleasanterTest.Tests.Items
         private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.SearchDropDown(context: context);
+            return itemModel.SelectSearchDropDown(context: context);
         }
     }
 }
