@@ -45,7 +45,8 @@ namespace Implem.PleasanterTest.Utilities
                     new KeyValue("Users_DemoMailAddress", "DemoUser@example.com")));
             DemoUtilities.Register(
                 context: Context,
-                async: false);
+                async: false,
+                sendMail: false);
             TenantId = Rds.ExecuteScalar_int(
                 context: Context,
                 statements: Rds.SelectTenants(

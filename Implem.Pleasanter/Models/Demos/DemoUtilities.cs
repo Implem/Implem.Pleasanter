@@ -30,7 +30,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Register(Context context, bool async = true)
+        public static string Register(
+            Context context,
+            bool async = true,
+            bool sendMail = true)
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
@@ -80,7 +83,8 @@ namespace Implem.Pleasanter.Models
                     Bcc = Parameters.Mail.SupportFrom
                 },
                 userHash: userHash,
-                async: async);
+                async: async,
+                sendMail: sendMail);
             return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
@@ -166,7 +170,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             OutgoingMailModel outgoingMailModel,
             Dictionary<string, string> userHash,
-            bool async)
+            bool async,
+            bool sendMail)
         {
             System.Diagnostics.Debug.WriteLine(outgoingMailModel.Body);
             var idHash = new Dictionary<string, long>();
@@ -179,7 +184,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         outgoingMailModel: outgoingMailModel,
                         userHash: userHash,
-                        idHash: idHash);
+                        idHash: idHash,
+                        sendMail: sendMail);
                 });
             }
             else
@@ -189,7 +195,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     outgoingMailModel: outgoingMailModel,
                     userHash: userHash,
-                    idHash: idHash);
+                    idHash: idHash,
+                    sendMail: sendMail);
             }
         }
 
@@ -201,7 +208,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             OutgoingMailModel outgoingMailModel,
             Dictionary<string, string> userHash,
-            Dictionary<string, long> idHash)
+            Dictionary<string, long> idHash,
+            bool sendMail)
         {
             try
             {
@@ -209,9 +217,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     userHash: userHash,
                     idHash: idHash);
-                outgoingMailModel.Send(
-                    context: context,
-                    ss: new SiteSettings());
+                if (sendMail)
+                {
+                    outgoingMailModel.Send(
+                        context: context,
+                        ss: new SiteSettings());
+                }
             }
             catch (Exception e)
             {
