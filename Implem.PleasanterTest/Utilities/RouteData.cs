@@ -10,7 +10,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "tenants" },
                 { "action", "edit" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -20,7 +20,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "tenants" },
                 { "action", "update" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -30,7 +30,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "index" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
         public static Dictionary<string, string> DeptsNew()
@@ -39,7 +39,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "new" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -49,7 +49,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "edit" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -60,7 +60,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "create" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -70,7 +70,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -80,7 +80,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "deletecomment" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -90,7 +90,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -100,7 +100,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "histories" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -110,7 +110,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "depts" },
                 { "action", "get" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -120,7 +120,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "index" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -130,7 +130,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "new" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -140,7 +140,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "edit" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -150,7 +150,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "create" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -160,7 +160,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -170,7 +170,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "deletecomment" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -180,7 +180,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -190,7 +190,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "histories" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -200,7 +200,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "get" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -210,7 +210,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "create" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -220,7 +220,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -230,7 +230,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "groups" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -240,7 +240,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "index" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -250,7 +250,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "new" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -260,7 +260,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "edit" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -270,7 +270,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "create" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -280,7 +280,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -290,7 +290,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "deletecomment" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -300,7 +300,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -310,7 +310,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "histories" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -320,7 +320,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "resetpassword" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -330,7 +330,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "get" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -340,7 +340,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "create" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
 
@@ -350,7 +350,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -360,7 +360,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "users" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -370,7 +370,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "index" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -380,7 +380,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "gridrows" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -390,7 +390,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "trashbox" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -400,7 +400,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "trashboxgridrows" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -410,7 +410,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "calendar" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -420,7 +420,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "crosstab" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -430,7 +430,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "gantt" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -440,7 +440,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "burndown" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -450,7 +450,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "timeseries" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -460,7 +460,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "kamban" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -470,7 +470,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "imagelib" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -480,7 +480,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "new" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -490,7 +490,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "edit" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -500,7 +500,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "create" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -510,7 +510,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -520,7 +520,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "deletecomment" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -530,7 +530,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -540,7 +540,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "histories" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -550,7 +550,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "history" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -560,7 +560,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "selectedids" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -570,7 +570,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "linktable" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -580,7 +580,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "import" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -590,7 +590,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "openexportselectordialog" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -600,7 +600,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "openbulkupdateselectordialog" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -610,7 +610,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "opensetdaterangedialog" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -620,7 +620,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "bulkupdateselectchanged" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -630,7 +630,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "opensetnumericrangedialog" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -640,7 +640,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "export" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -650,7 +650,17 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "exportcrosstab" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsSearch()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "search" },
+                { "id", "0" }
             };
         }
 
@@ -660,7 +670,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "get" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -670,7 +680,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "update" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -680,7 +690,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "create" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -690,7 +700,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "delete" },
-                { "id", id.ToString() },
+                { "id", id.ToString() }
             };
         }
 
@@ -700,7 +710,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "versions" },
                 { "action", "index" },
-                { "id", "0" },
+                { "id", "0" }
             };
         }
     }
