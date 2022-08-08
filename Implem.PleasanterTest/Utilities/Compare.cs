@@ -10,13 +10,13 @@ using System.Linq;
 namespace Implem.PleasanterTest.Utilities
 {
     /// <summary>
-    /// HTMLまたはJSONの返却値をテストデータによって正しいことをチェックします。
+    /// HTMLまたはJSONの返却値をテストデータによって正しいことをチェック。
     /// </summary>
     public static class Compare
     {
         /// <summary>
-        /// HTMLの返却値をテストデータによって正しいことをチェックします。
-        /// HTMLはAngleSharpを使用してParseします。
+        /// HTMLの返却値をテストデータによって正しいことをチェック。
+        /// HTMLはAngleSharpを使用してParse。
         /// </summary>
         public static bool Html(
             Context context,
@@ -155,8 +155,8 @@ namespace Implem.PleasanterTest.Utilities
         }
 
         /// <summary>
-        /// JSONの返却値をテストデータによって正しいことをチェックします。
-        /// JSON内のHTMLはHTMLメソッドを呼び出してチェックします。
+        /// ResponseCollectionの返却値をテストデータによって正しいことをチェック。
+        /// ResponseCollection内のHTMLはHTMLメソッドを呼び出してチェック。
         /// </summary>
         public static bool Json(
             Context context,
@@ -235,7 +235,7 @@ namespace Implem.PleasanterTest.Utilities
         }
 
         /// <summary>
-        /// JSONの返却値をテストデータによって正しいことをチェックします。
+        /// APIの返却値をテストデータによって正しいことをチェック。
         /// </summary>
         public static bool ApiResults(
             Context context,
@@ -266,7 +266,7 @@ namespace Implem.PleasanterTest.Utilities
         }
 
         /// <summary>
-        /// 文字列の返却値をテストデータによって正しいことをチェックします。
+        /// 文字列の返却値をテストデータによって正しいことをチェック。
         /// </summary>
         public static bool Text(
             Context context,
@@ -297,6 +297,33 @@ namespace Implem.PleasanterTest.Utilities
                         break;
                     default:
                         return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// ResponseFileの返却値をテストデータによって正しいことをチェック。
+        /// </summary>
+        public static bool File(
+            Context context,
+            ResponseFile file,
+            List<FileTest> fileTests)
+        {
+            foreach (var textTest in fileTests)
+            {
+                switch (textTest.Type)
+                {
+                    case FileTest.Types.Exists:
+                        if (file == null)
+                        {
+                            return false;
+                        }
+                        if (file.Length == 0)
+                        {
+                            return false;
+                        }
+                        break;
                 }
             }
             return true;

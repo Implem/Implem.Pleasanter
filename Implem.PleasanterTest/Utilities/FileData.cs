@@ -1,6 +1,9 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.PleasanterTest.Models;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Implem.PleasanterTest.Utilities
 {
@@ -19,6 +22,19 @@ namespace Implem.PleasanterTest.Utilities
                 bw.Write(bytes);
             }
             return guid;
+        }
+
+        public static List<FileTest> Tests(params FileTest[] tests)
+        {
+            return tests.ToList();
+        }
+
+        public static FileTest Exists()
+        {
+            return new FileTest()
+            {
+                Type = FileTest.Types.Exists
+            };
         }
     }
 }
