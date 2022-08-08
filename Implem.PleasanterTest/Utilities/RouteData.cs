@@ -684,6 +684,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsPreviewTemplate(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "previewtemplate" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsTemplates(long id)
         {
             return new Dictionary<string, string>()
