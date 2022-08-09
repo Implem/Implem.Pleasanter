@@ -774,6 +774,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsCreateLink(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "createlink" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsSortSiteMenu(long id)
         {
             return new Dictionary<string, string>()
