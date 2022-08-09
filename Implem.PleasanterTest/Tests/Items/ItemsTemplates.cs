@@ -23,10 +23,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsTemplates(id: id),
                 httpMethod: "POST");
-            var json = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
-                json: json,
+                results: results,
                 jsonTests: jsonTests));
         }
 

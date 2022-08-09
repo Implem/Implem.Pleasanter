@@ -25,10 +25,10 @@ namespace Implem.PleasanterTest.Tests.Items
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsTrashBox(id: siteId));
-            var json = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
-                json: json,
+                results: results,
                 jsonTests: jsonTests));
         }
 

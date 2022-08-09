@@ -25,10 +25,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsSelectSearchDropDown(id: id),
                 httpMethod: "POST",
                 forms: forms);
-            var json = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
-                json: json,
+                results: results,
                 jsonTests: jsonTests));
         }
 

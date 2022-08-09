@@ -31,14 +31,14 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 Assert.True(Compare.Json(
                     context: context,
-                    json: results,
+                    results: results,
                     jsonTests: jsonTests));
             }
             else
             {
                 Assert.True(Compare.Text(
                     context: context,
-                    text: results,
+                    results: results,
                     textTests: textTests));
             }
         }

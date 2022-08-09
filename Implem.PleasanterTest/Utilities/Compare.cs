@@ -20,11 +20,11 @@ namespace Implem.PleasanterTest.Utilities
         /// </summary>
         public static bool Html(
             Context context,
-            string html,
+            string results,
             List<HtmlTest> htmlTests)
         {
             var parser = new AngleSharp.Html.Parser.HtmlParser();
-            var doc = parser.ParseDocument(html);
+            var doc = parser.ParseDocument(results);
             foreach (var htmlTest in htmlTests)
             {
                 var nodes = Nodes(
@@ -127,7 +127,7 @@ namespace Implem.PleasanterTest.Utilities
                         }
                         else if (!Text(
                             context: context,
-                            text: nodes[0].OuterHtml,
+                            results: nodes[0].OuterHtml,
                             textTests: htmlTest.TextTests))
                         {
                             return false;
@@ -160,10 +160,10 @@ namespace Implem.PleasanterTest.Utilities
         /// </summary>
         public static bool Json(
             Context context,
-            string json,
+            string results,
             List<JsonTest> jsonTests)
         {
-            var responseCollection = json.Deserialize<ResponseCollection>();
+            var responseCollection = results.Deserialize<ResponseCollection>();
             foreach (var jsonTest in jsonTests)
             {
                 var nodes = responseCollection
@@ -201,7 +201,7 @@ namespace Implem.PleasanterTest.Utilities
                         }
                         else if (!Html(
                             context: context,
-                            html: nodes[0].Value.ToString(),
+                            results: nodes[0].Value.ToString(),
                             htmlTests: jsonTest.HtmlTests))
                         {
                             return false;
@@ -270,7 +270,7 @@ namespace Implem.PleasanterTest.Utilities
         /// </summary>
         public static bool Text(
             Context context,
-            string text,
+            string results,
             List<TextTest> textTests)
         {
             foreach (var textTest in textTests)
@@ -278,19 +278,19 @@ namespace Implem.PleasanterTest.Utilities
                 switch (textTest.Type)
                 {
                     case TextTest.Types.Equals:
-                        if (text != textTest.Value?.ToString())
+                        if (results != textTest.Value?.ToString())
                         {
                             return false;
                         }
                         break;
                     case TextTest.Types.ListEquals:
-                        if (!textTest.ListEquals(text: text))
+                        if (!textTest.ListEquals(text: results))
                         {
                             return false;
                         }
                         break;
                     case TextTest.Types.Contains:
-                        if (!text.Contains(textTest.Value?.ToString()))
+                        if (!results.Contains(textTest.Value?.ToString()))
                         {
                             return false;
                         }
@@ -307,7 +307,7 @@ namespace Implem.PleasanterTest.Utilities
         /// </summary>
         public static bool File(
             Context context,
-            ResponseFile file,
+            ResponseFile results,
             List<FileTest> fileTests)
         {
             foreach (var textTest in fileTests)
@@ -315,11 +315,11 @@ namespace Implem.PleasanterTest.Utilities
                 switch (textTest.Type)
                 {
                     case FileTest.Types.Exists:
-                        if (file == null)
+                        if (results == null)
                         {
                             return false;
                         }
-                        if (file.Length == 0)
+                        if (results.Length == 0)
                         {
                             return false;
                         }

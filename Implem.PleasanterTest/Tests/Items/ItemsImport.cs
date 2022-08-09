@@ -28,10 +28,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 forms: forms,
                 fileName: fileName,
                 contentType: "text/csv");
-            var json = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
-                json: json,
+                results: results,
                 jsonTests: jsonTests));
         }
 

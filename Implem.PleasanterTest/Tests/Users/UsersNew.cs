@@ -20,10 +20,10 @@ namespace Implem.PleasanterTest.Tests.Users
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.UsersNew());
-            var html = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,
-                html: html,
+                results: results,
                 htmlTests: htmlTests));
         }
 

@@ -25,10 +25,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 queryStrings: queryStrings,
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsExportCrosstab(id: id));
-            var file = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.File(
                 context: context,
-                file: file,
+                results: results,
                 fileTests: fileTests));
         }
 

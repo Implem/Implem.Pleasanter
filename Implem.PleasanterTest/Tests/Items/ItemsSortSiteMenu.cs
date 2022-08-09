@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsSortSiteMenu(id: id),
                 httpMethod: "POST",
                 forms: forms);
-            var text = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Text(
                 context: context,
-                text: text,
+                results: results,
                 textTests: textTests));
         }
 

@@ -20,13 +20,13 @@ namespace Implem.PleasanterTest.Tests.Users
             string message,
             List<HtmlTest> htmlTests)
         {
-            var html = UserUtilities.HtmlLogin(
+            var results = UserUtilities.HtmlLogin(
                 context: context,
                 returnUrl: returnUrl,
                 message: message);
             Assert.True(Compare.Html(
                 context: context,
-                html: html,
+                results: results,
                 htmlTests: htmlTests));
         }
 

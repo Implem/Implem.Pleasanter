@@ -23,7 +23,7 @@ namespace Implem.PleasanterTest.Tests.Items
             Init();
             Assert.True(Compare.Html(
                 context: Context,
-                html: Html,
+                results: Html,
                 htmlTests: htmlTests));
         }
 
