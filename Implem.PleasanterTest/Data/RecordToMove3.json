@@ -1,0 +1,21 @@
+﻿{
+    "Id": "RecordToMove3",
+    "Language": "ja",
+    "Type": "Issues",
+    "ParentId": "Site3",
+    "Title": "RecordToMove3",
+    "WorkValue": "90",
+    "ProgressRate": "0",
+    "Status": "100",
+    "ClassA": "構築",
+    "ClassB": "ドキュメント作成",
+    "ClassC": "業務",
+    "Manager": "User9",
+    "Owner": "User9",
+    "Creator": "User9",
+    "Updator": "User9",
+    "StartTime": "36675",
+    "CompletionTime": "36679",
+    "CreatedTime": "36643.705555555556",
+    "UpdatedTime": "36650.42291666667"
+}
