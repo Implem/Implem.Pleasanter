@@ -253,13 +253,13 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 demoModel: demoModel,
                 idHash: idHash);
-            SiteInfo.Reflesh(
-                context: context,
-                force: true);
             var ssHash = InitializeSites(
                 context: context,
                 demoModel: demoModel,
                 idHash: idHash);
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
