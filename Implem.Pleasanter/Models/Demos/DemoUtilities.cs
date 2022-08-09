@@ -421,17 +421,14 @@ namespace Implem.Pleasanter.Models
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "GroupMembers")
                 .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
-                .ForEach(demoDefinition => Repository.ExecuteScalar_response(
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
                     context: context,
-                    selectIdentity: true,
                     statements: Rds.InsertGroupMembers(
-                        selectIdentity: true,
                         param: Rds.GroupMembersParam()
                             .GroupId(idHash.Get(demoDefinition.ParentId).ToInt())
                             .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
                             .UserId(idHash.Get(demoDefinition.ClassB).ToInt())
-                            .Admin(demoDefinition.CheckA)))
-                                .Id.ToLong());
+                            .Admin(demoDefinition.CheckA))));
         }
 
         /// <summary>
