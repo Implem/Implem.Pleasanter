@@ -115,6 +115,7 @@
             "ApiDataType": 0
         }
     ],
+    "AllowSeparate": true,
     "SwitchRecordWithAjax": true,
     "TitleSeparator": "）",
     "NoDisplayIfReadOnly": false
