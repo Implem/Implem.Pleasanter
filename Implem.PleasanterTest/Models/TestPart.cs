@@ -15,6 +15,7 @@ namespace Implem.PleasanterTest.Models
         public List<HtmlTest> HtmlTests { get; set; }
         public List<JsonTest> JsonTests { get; set; }
         public List<ApiJsonTest> ApiJsonTests { get; set; }
+        public List<TextTest> TextTests { get; set; }
         public List<FileTest> FileTests { get; set; }
         public UserModel UserModel { get; set; }
 
@@ -26,6 +27,7 @@ namespace Implem.PleasanterTest.Models
             List<HtmlTest> htmlTests = null,
             List<JsonTest> jsonTests = null,
             List<ApiJsonTest> apiJsonTests = null,
+            List<TextTest> textTests = null,
             List<FileTest> fileTests = null,
             UserData.UserTypes userType = UserData.UserTypes.General1)
         {
@@ -36,6 +38,7 @@ namespace Implem.PleasanterTest.Models
             HtmlTests = htmlTests;
             JsonTests = jsonTests;
             ApiJsonTests = apiJsonTests;
+            TextTests = textTests;
             FileTests = fileTests;
             UserModel = UserData.Get(userType: userType);
         }

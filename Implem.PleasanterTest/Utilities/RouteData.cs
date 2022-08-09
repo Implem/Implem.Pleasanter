@@ -754,6 +754,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsMoveSiteMenu(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "movesitemenu" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsMove(long id)
         {
             return new Dictionary<string, string>()
