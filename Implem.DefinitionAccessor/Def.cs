@@ -4446,6 +4446,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToDateTime();
                             newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime;
                             break;
+                        case "Locked":
+                            newDemoDefinition.Locked = customDefinitionRow.Get("Locked")?.ToBool() ??
+                                data.ToBool();
+                            newDemoDefinition.SavedLocked = newDemoDefinition.Locked;
+                            break;
                         case "CreatedTime":
                             newDemoDefinition.CreatedTime = customDefinitionRow.Get("CreatedTime")?.ToDateTime() ??
                                 data.ToDateTime();
@@ -4610,6 +4615,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Updator")) { definition.Updator = definitionRow["Updator"].ToString(); definition.SavedUpdator = definition.Updator; }
             if (definitionRow.ContainsKey("StartTime")) { definition.StartTime = definitionRow["StartTime"].ToDateTime(); definition.SavedStartTime = definition.StartTime; }
             if (definitionRow.ContainsKey("CompletionTime")) { definition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); definition.SavedCompletionTime = definition.CompletionTime; }
+            if (definitionRow.ContainsKey("Locked")) { definition.Locked = definitionRow["Locked"].ToBool(); definition.SavedLocked = definition.Locked; }
             if (definitionRow.ContainsKey("CreatedTime")) { definition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); definition.SavedCreatedTime = definition.CreatedTime; }
             if (definitionRow.ContainsKey("UpdatedTime")) { definition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); definition.SavedUpdatedTime = definition.UpdatedTime; }
         }
@@ -5777,6 +5783,7 @@ namespace Implem.DefinitionAccessor
                         case "Updator": demoDefinition.Updator = optionValue.ToString(); break;
                         case "StartTime": demoDefinition.StartTime = optionValue.ToDateTime(); break;
                         case "CompletionTime": demoDefinition.CompletionTime = optionValue.ToDateTime(); break;
+                        case "Locked": demoDefinition.Locked = optionValue.ToBool(); break;
                         case "CreatedTime": demoDefinition.CreatedTime = optionValue.ToDateTime(); break;
                         case "UpdatedTime": demoDefinition.UpdatedTime = optionValue.ToDateTime(); break;
                     }
@@ -9747,6 +9754,7 @@ namespace Implem.DefinitionAccessor
         public string Updator; public string SavedUpdator;
         public DateTime StartTime; public DateTime SavedStartTime;
         public DateTime CompletionTime; public DateTime SavedCompletionTime;
+        public bool Locked; public bool SavedLocked;
         public DateTime CreatedTime; public DateTime SavedCreatedTime;
         public DateTime UpdatedTime; public DateTime SavedUpdatedTime;
 
@@ -9901,6 +9909,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Updator")) Updator = propertyCollection["Updator"].ToString(); else Updator = string.Empty;
             if (propertyCollection.ContainsKey("StartTime")) StartTime = propertyCollection["StartTime"].ToDateTime(); else StartTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("CompletionTime")) CompletionTime = propertyCollection["CompletionTime"].ToDateTime(); else CompletionTime = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("Locked")) Locked = propertyCollection["Locked"].ToBool(); else Locked = false;
             if (propertyCollection.ContainsKey("CreatedTime")) CreatedTime = propertyCollection["CreatedTime"].ToDateTime(); else CreatedTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("UpdatedTime")) UpdatedTime = propertyCollection["UpdatedTime"].ToDateTime(); else UpdatedTime = 0.ToDateTime();
         }
@@ -10055,6 +10064,7 @@ namespace Implem.DefinitionAccessor
                     case "Updator": return Updator;
                     case "StartTime": return StartTime;
                     case "CompletionTime": return CompletionTime;
+                    case "Locked": return Locked;
                     case "CreatedTime": return CreatedTime;
                     case "UpdatedTime": return UpdatedTime;
                     default: return null;
@@ -10209,6 +10219,7 @@ namespace Implem.DefinitionAccessor
             Updator = SavedUpdator;
             StartTime = SavedStartTime;
             CompletionTime = SavedCompletionTime;
+            Locked = SavedLocked;
             CreatedTime = SavedCreatedTime;
             UpdatedTime = SavedUpdatedTime;
         }

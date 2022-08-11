@@ -8298,10 +8298,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         issueModel: issueModel)
-                            .SetMemory("formChanged", false)
                             .Message(Messages.UnlockedRecord(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData()
                             .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(
