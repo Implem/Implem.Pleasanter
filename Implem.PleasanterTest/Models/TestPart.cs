@@ -11,6 +11,7 @@ namespace Implem.PleasanterTest.Models
         public string Title { get; set; }
         public QueryStrings QueryStrings { get; set; }
         public Forms Forms { get; set; }
+        public string FileName { get; set; }
         public string ApiRequestBody { get; set; }
         public List<HtmlTest> HtmlTests { get; set; }
         public List<JsonTest> JsonTests { get; set; }
@@ -24,6 +25,7 @@ namespace Implem.PleasanterTest.Models
             QueryStrings queryStrings = null,
             Forms forms = null,
             object apiRequestBody = null,
+            string fileName = null,
             List<HtmlTest> htmlTests = null,
             List<JsonTest> jsonTests = null,
             List<ApiJsonTest> apiJsonTests = null,
@@ -34,6 +36,7 @@ namespace Implem.PleasanterTest.Models
             Title = title;
             QueryStrings = queryStrings;
             Forms = forms;
+            FileName = fileName;
             ApiRequestBody = apiRequestBody.ToJson();
             HtmlTests = htmlTests;
             JsonTests = jsonTests;

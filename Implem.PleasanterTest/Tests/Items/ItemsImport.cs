@@ -118,7 +118,6 @@ namespace Implem.PleasanterTest.Tests.Items
 
         private class MyTestPart : TestPart
         {
-            public string FileName { get; }
             public string Encoding { get; }
             public bool UpdatableImport { get; }
             public string Key { get; }
