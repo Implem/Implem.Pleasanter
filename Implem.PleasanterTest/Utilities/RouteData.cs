@@ -954,6 +954,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsSetPermissions(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "setpermissions" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsApiGet(long id)
         {
             return new Dictionary<string, string>()
