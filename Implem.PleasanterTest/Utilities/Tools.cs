@@ -9,7 +9,7 @@ namespace Implem.PleasanterTest.Utilities
         public static string TestCode(string json)
         {
             var ret = json.Deserialize<ResponseCollection>()
-                .Select(o => o.Target.IsNullOrEmpty()
+                .Select(o => o.Target == null
                     ? @$"                JsonData.ExistsOne(method: ""{o.Method}"")"
                     : @$"                JsonData.ExistsOne(
                     method: ""{o.Method}"",
