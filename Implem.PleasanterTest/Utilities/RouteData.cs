@@ -1044,6 +1044,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsUnlockTable(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "unlocktable" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsApiGet(long id)
         {
             return new Dictionary<string, string>()
