@@ -116,6 +116,25 @@
             "ApiDataType": 0
         }
     ],
+    "Exports": [
+        {
+            "Name": "ExportAsyncテスト用",
+            "Columns": [
+                {
+                    "Id": 1,
+                    "ColumnName": "IssueId"
+                },
+                {
+                    "Id": 2,
+                    "ColumnName": "Title"
+                }
+            ],
+            "Type": 0,
+            "DelimiterType": 0,
+            "ExecutionType": 1,
+            "Id": 1
+        }
+    ],
     "AllowSeparate": true,
     "SwitchRecordWithAjax": true,
     "TitleSeparator": "）",

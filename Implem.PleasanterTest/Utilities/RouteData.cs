@@ -634,6 +634,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsExportAndMailNotify(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "exportandmailnotify" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsExportCrosstab(long id)
         {
             return new Dictionary<string, string>()
