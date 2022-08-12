@@ -794,6 +794,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsUpdateByGrid(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "updatebygrid" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsCopy(long id)
         {
             return new Dictionary<string, string>()
