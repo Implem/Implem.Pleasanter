@@ -114,4 +114,9 @@
     <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>Implem.PleasanterTest</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
 </Project>
