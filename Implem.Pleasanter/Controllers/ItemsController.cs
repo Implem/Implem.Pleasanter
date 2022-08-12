@@ -997,7 +997,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string PermissionForCreating(long id)
+        public string PermissionForRecord(long id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
