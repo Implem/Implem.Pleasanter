@@ -524,6 +524,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsImageLibNext(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "imagelibnext" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsCreate(long id)
         {
             return new Dictionary<string, string>()
