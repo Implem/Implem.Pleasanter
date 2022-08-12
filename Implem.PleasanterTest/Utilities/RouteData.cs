@@ -494,6 +494,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsReloadRow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "reloadrow" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
         {
             return new Dictionary<string, string>()
