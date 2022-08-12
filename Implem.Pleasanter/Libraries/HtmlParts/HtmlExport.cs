@@ -1,10 +1,8 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Collections.Generic;
-using System.Linq;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlExport
@@ -38,8 +36,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         text: Displays.Export(context: context),
                         controlId: "DoExport",
                         controlCss: "button-icon",
-                        action: "ExportAsync",
-                        method: "Post",
+                        action: "ExportAndMailNotify",
+                        method: "post",
                         onClick: "$p.export();",
                         icon: "ui-icon-arrowreturnthick-1-w")
                     .Button(
