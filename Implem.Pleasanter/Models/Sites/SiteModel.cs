@@ -5737,6 +5737,7 @@ namespace Implem.Pleasanter.Models
                     Export.Header = context.Forms.Bool("ExportHeader");
                     Export.DelimiterType = (Export.DelimiterTypes)context.Forms.Int("DelimiterType");
                     Export.EncloseDoubleQuotes = context.Forms.Bool("EncloseDoubleQuotes");
+                    Export.ExecutionType = (Export.ExecutionTypes)context.Forms.Int("ExecutionType");
                     Export.SetPermissions(permissions: ExportPermissions(context: context));
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);
