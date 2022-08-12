@@ -474,6 +474,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsCancelNewRow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "cancelnewrow" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsEdit(long id)
         {
             return new Dictionary<string, string>()
