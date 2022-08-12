@@ -2,6 +2,7 @@
     "Version": 1.017,
     "ReferenceType": "Issues",
     "GridView": 1,
+    "GridEditorType": 10,
     "GridColumns": [
         "IssueId",
         "TitleBody",
