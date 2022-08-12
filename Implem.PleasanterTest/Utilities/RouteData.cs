@@ -1024,6 +1024,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsColumnAccessControl(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "columnaccesscontrol" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsBurnDownRecordDetails(long id)
         {
             return new Dictionary<string, string>()
