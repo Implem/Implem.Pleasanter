@@ -504,6 +504,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsCopyRow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "copyrow" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
         {
             return new Dictionary<string, string>()
