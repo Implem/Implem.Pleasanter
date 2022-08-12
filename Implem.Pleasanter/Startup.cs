@@ -145,6 +145,10 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
+            if (Parameters.BackgroundService.TimerEnabled())
+            {
+                services.AddHostedService<TimerBackgroundService>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
