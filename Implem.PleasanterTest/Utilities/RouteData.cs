@@ -374,32 +374,12 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsGridRows(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "gridrows" },
-                { "id", id.ToString() }
-            };
-        }
-
         public static Dictionary<string, string> ItemsTrashBox(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "trashbox" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "trashboxgridrows" },
                 { "id", id.ToString() }
             };
         }
@@ -490,6 +470,16 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "edit" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "trashboxgridrows" },
                 { "id", id.ToString() }
             };
         }
@@ -604,22 +594,22 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsOpenSetDateRangeDialog(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "opensetdaterangedialog" },
-                { "id", id.ToString() }
-            };
-        }
-
         public static Dictionary<string, string> ItemsBulkUpdateSelectChanged(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "bulkupdateselectchanged" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsOpenSetDateRangeDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "opensetdaterangedialog" },
                 { "id", id.ToString() }
             };
         }
@@ -680,6 +670,16 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "selectsearchdropdown" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsGridRows(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "gridrows" },
                 { "id", id.ToString() }
             };
         }
