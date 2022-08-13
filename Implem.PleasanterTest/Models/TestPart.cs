@@ -9,6 +9,7 @@ namespace Implem.PleasanterTest.Models
     public class TestPart
     {
         public string Title { get; set; }
+        public Dictionary<string, string> RouteData { get; set; }
         public QueryStrings QueryStrings { get; set; }
         public Forms Forms { get; set; }
         public string FileName { get; set; }
@@ -22,6 +23,7 @@ namespace Implem.PleasanterTest.Models
 
         public TestPart(
             string title = null,
+            Dictionary<string, string> routeData = null,
             QueryStrings queryStrings = null,
             Forms forms = null,
             object apiRequestBody = null,
@@ -34,6 +36,7 @@ namespace Implem.PleasanterTest.Models
             UserData.UserTypes userType = UserData.UserTypes.General1)
         {
             Title = title;
+            RouteData = routeData;
             QueryStrings = queryStrings;
             Forms = forms;
             FileName = fileName;
