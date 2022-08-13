@@ -494,106 +494,6 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsReloadRow(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "reloadrow" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsCopyRow(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "copyrow" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "trashboxgridrows" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsImageLibNext(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "imagelibnext" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsCreate(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "create" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsUpdate(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "update" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsDeleteComment(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "deletecomment" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsDelete(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "delete" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsHistories(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "histories" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> ItemsHistory(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "history" },
-                { "id", id.ToString() }
-            };
-        }
-
         public static Dictionary<string, string> ItemsSelectedIds(long id)
         {
             return new Dictionary<string, string>()
@@ -654,22 +554,22 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsOpenSetDateRangeDialog(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "opensetdaterangedialog" },
-                { "id", id.ToString() }
-            };
-        }
-
         public static Dictionary<string, string> ItemsOpenSetNumericRangeDialog(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "opensetnumericrangedialog" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsOpenSetDateRangeDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "opensetdaterangedialog" },
                 { "id", id.ToString() }
             };
         }
@@ -744,6 +644,56 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsReloadRow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "reloadrow" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsCopyRow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "copyrow" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsTrashBoxGridRows(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "trashboxgridrows" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsImageLibNext(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "imagelibnext" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsCreate(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "create" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsPreviewTemplate(long id)
         {
             return new Dictionary<string, string>()
@@ -780,6 +730,16 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "sitemenu" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsUpdate(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "update" },
                 { "id", id.ToString() }
             };
         }
@@ -824,22 +784,22 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsMoveSiteMenu(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "movesitemenu" },
-                { "id", id.ToString() }
-            };
-        }
-
         public static Dictionary<string, string> ItemsMove(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "move" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsMoveSiteMenu(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "movesitemenu" },
                 { "id", id.ToString() }
             };
         }
@@ -874,12 +834,32 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsDelete(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "delete" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsBulkDelete(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "items" },
                 { "action", "bulkdelete" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsDeleteComment(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "deletecomment" },
                 { "id", id.ToString() }
             };
         }
@@ -1000,6 +980,26 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "rebuildsearchindexes" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsHistories(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "histories" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsHistory(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "history" },
                 { "id", id.ToString() }
             };
         }
