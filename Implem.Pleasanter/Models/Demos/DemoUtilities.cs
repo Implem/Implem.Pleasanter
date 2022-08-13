@@ -257,9 +257,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 demoModel: demoModel,
                 idHash: idHash);
-            SiteInfo.Reflesh(
-                context: context,
-                force: true);
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
@@ -297,6 +294,9 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
         }
 
         /// <summary>
