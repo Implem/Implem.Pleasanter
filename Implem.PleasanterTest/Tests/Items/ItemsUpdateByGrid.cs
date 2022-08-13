@@ -1,10 +1,14 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Models;
 using Implem.PleasanterTest.Utilities;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
@@ -34,12 +38,18 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var issueModel = Initializer.Issues
-                .Get("WBS")
-                .Get("運用者向けマニュアルを作成する");
-            var siteId = issueModel.SiteId;
-            var id = issueModel.IssueId;
-            var timestamp = issueModel.Timestamp;
+            var siteId = Initializer.Titles.Get("WBS");
+            var id = Initializer.Titles.Get("運用者向けマニュアルを作成する");
+            var timestamp = Rds.ExecuteTable(
+                context: Initializer.Context,
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().UpdatedTime(),
+                    where: Rds.IssuesWhere()
+                        .SiteId(siteId)
+                        .IssueId(id)))
+                            .AsEnumerable()
+                            .FirstOrDefault()
+                            .Field<DateTime>("UpdatedTime").ToString("yyyy/M/d H:m:s.fff");
             var forms = FormsUtilities.Get(
                 new KeyValue("ControlId", "UpdateByGridCommand"),
                 new KeyValue("EditOnGrid", "1"),
