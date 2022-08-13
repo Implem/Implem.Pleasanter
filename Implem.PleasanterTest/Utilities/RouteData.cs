@@ -1204,16 +1204,6 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> ItemsUnlockRecord(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "items" },
-                { "action", "unlockrecord" },
-                { "id", id.ToString() }
-            };
-        }
-
         public static Dictionary<string, string> ItemsUnlockTable(long id)
         {
             return new Dictionary<string, string>()
@@ -1230,6 +1220,16 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "items" },
                 { "action", "forceunlocktable" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> ItemsUnlockRecord(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "unlockrecord" },
                 { "id", id.ToString() }
             };
         }
