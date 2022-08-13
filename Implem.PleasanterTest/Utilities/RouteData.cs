@@ -624,6 +624,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsRelatingDropDown(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "relatingdropdown" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsSelectSearchDropDown(long id)
         {
             return new Dictionary<string, string>()

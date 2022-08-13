@@ -14,6 +14,7 @@
         "General": [
             "ResultId",
             "Ver",
+            "ClassB",
             "ClassA",
             "Title",
             "Body",
@@ -60,12 +61,24 @@
             "ColumnName": "NumA",
             "LabelText": "金額",
             "Format": "C"
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "顧客",
+            "ChoicesText": "[[#Site6#]]",
+            "FieldCss": "field-wide",
+            "Link": true,
+            "SearchType": "PartialMatch"
         }
     ],
     "Links": [
         {
             "ColumnName": "ClassA",
             "SiteId": "#Site7#"
+        },
+        {
+            "ColumnName": "ClassB",
+            "SiteId": "#Site6#"
         }
     ],
     "Summaries": [
@@ -76,6 +89,13 @@
             "LinkColumn": "ClassA",
             "Type": "Total",
             "SourceColumn": "NumA",
+            "Id": 1
+        }
+    ],
+    "RelatingColumns": [
+        {
+            "Title": "顧客と商談",
+            "Columns": [ "ClassB", "ClassA" ],
             "Id": 1
         }
     ],
