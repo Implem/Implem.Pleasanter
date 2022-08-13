@@ -521,21 +521,6 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string EditOnGrid(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = new ItemModel(
-                context: context,
-                referenceId: id)
-                    .GridRows(context: context);
-            log.Finish(
-                context: context,
-                responseSize: json.Length);
-            return json;
-        }
-
-        [HttpPost]
         public string ReloadRow(long id)
         {
             var context = new Context();
