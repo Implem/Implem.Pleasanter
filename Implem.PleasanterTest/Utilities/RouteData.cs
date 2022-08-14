@@ -384,6 +384,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesShow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "show" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsIndex(long id)
         {
             return new Dictionary<string, string>()

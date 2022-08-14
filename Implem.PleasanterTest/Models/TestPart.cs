@@ -12,6 +12,7 @@ namespace Implem.PleasanterTest.Models
         public Dictionary<string, string> RouteData { get; set; }
         public QueryStrings QueryStrings { get; set; }
         public Forms Forms { get; set; }
+        public string Guid { get; set; }
         public string FileName { get; set; }
         public string ApiRequestBody { get; set; }
         public List<HtmlTest> HtmlTests { get; set; }
@@ -27,6 +28,7 @@ namespace Implem.PleasanterTest.Models
             QueryStrings queryStrings = null,
             Forms forms = null,
             object apiRequestBody = null,
+            string guid = null,
             string fileName = null,
             List<HtmlTest> htmlTests = null,
             List<JsonTest> jsonTests = null,
@@ -39,6 +41,7 @@ namespace Implem.PleasanterTest.Models
             RouteData = routeData;
             QueryStrings = queryStrings;
             Forms = forms;
+            Guid = guid;
             FileName = fileName;
             ApiRequestBody = apiRequestBody.ToJson();
             HtmlTests = htmlTests;
