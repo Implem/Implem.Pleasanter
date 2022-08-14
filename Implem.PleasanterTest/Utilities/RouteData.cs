@@ -374,6 +374,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesUploadImage(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "uploadimage" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> ItemsIndex(long id)
         {
             return new Dictionary<string, string>()
