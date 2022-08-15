@@ -444,6 +444,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesDeleteTenantImage(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "deletetenantimage" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> BinariesShow(long id)
         {
             return new Dictionary<string, string>()
