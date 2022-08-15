@@ -379,7 +379,7 @@ namespace Implem.PleasanterTest.Utilities
             return new Dictionary<string, string>()
             {
                 { "controller", "binaries" },
-                { "action", "upload" },
+                { "action", "siteimagethumbnail" },
                 { "id", id.ToString() }
             };
         }
@@ -389,7 +389,7 @@ namespace Implem.PleasanterTest.Utilities
             return new Dictionary<string, string>()
             {
                 { "controller", "binaries" },
-                { "action", "siteimagethumbnail" },
+                { "action", "upload" },
                 { "id", id.ToString() }
             };
         }
