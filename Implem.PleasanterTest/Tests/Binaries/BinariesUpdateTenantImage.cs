@@ -77,7 +77,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
 
         private static string Results(Context context)
         {
-            var ss = SiteSettingsUtilities.TenantsSiteSettings(context);
+            var ss = SiteSettingsUtilities.TenantsSiteSettings(context: context);
             var tenantModel = new TenantModel(
                 context: context,
                 ss: ss)
