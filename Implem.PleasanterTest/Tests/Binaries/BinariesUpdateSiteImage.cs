@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Binaries
 {
-    public class BinariesUploadImage
+    public class BinariesUpdateSiteImage
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -23,7 +23,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.BinariesUploadImage(id: id),
+                routeData: RouteData.BinariesUpdateSiteImage(id: id),
                 httpMethod: "POST",
                 forms: forms,
                 fileName: fileName,
@@ -40,14 +40,19 @@ namespace Implem.PleasanterTest.Tests.Binaries
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "ネットワークの構築",
-                    forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "Issues_Body")),
+                    title: "WBS",
                     fileName: "Image1.png",
                     jsonTests: JsonData.Tests(
                         JsonData.ExistsOne(
-                            method: "InsertText",
-                            target: "#Issues_Body")))
+                            method: "Html",
+                            target: "#TenantImageLogoContainer"),
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#TenantImageSettingsEditor"),
+                        JsonData.Value(
+                            method: "Message",
+                            value: "{\"Id\":\"FileUpdateCompleted\",\"Text\":\"ファイルのアップロードが完了しました。\",\"Css\":\"alert-success\"}")),
+                    userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
             {
@@ -79,9 +84,11 @@ namespace Implem.PleasanterTest.Tests.Binaries
 
         private static string Results(Context context)
         {
-            return BinaryUtilities.UploadImage(
+            return BinaryUtilities.UpdateSiteImage(
                 context: context,
-                id: context.Id);
+                siteModel: new SiteModel(
+                    context: context,
+                    siteId: context.Id));
         }
     }
 }
