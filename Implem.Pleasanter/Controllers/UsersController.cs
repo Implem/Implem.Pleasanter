@@ -505,6 +505,10 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public string SyncByLdap()
         {
+            if (Parameters.BackgroundService.SyncByLdapTimer)
+            {
+                return null;
+            }
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.SyncByLdap(context: context);

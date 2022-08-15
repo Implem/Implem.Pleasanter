@@ -13,11 +13,10 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
         readonly public List<TimeSpan> TaskDelayCalledList = new ();
         public DateTime DateTimeNow_ = DateTime.Parse("2022-08-12 00:00");
 
-        public SortedList<DateTime, TimerBase> GetScheduledTimerList() { return ScheduledTimerList; }
+        public SortedList<DateTime, ExecutionTimerBase> GetScheduledTimerList() { return ScheduledTimerList; }
 
         public MockTimerBackgroundService()
         {
-            Timers.Clear();
             ScheduledTimerList.Clear();
         }
         override protected DateTime DateTimeNow() { return DateTimeNow_; }
@@ -26,20 +25,20 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             TaskDelayCalledList.Add(waitTimeSpan);
             await Task.CompletedTask;
         }
-        public void AddTimer_(TimerBase timer) { AddTimer(timer); }
+        public void AddTimer_(ExecutionTimerBase timer) { AddTimer(timer); }
     }
 
 
-    public class StubTimer : TimerBase
+    public class StubTimer : ExecutionTimerBase
     {
         public readonly string Name; 
         public MockTimerBackgroundService Parent;
         public List<string> TimeList = new List<string>();
 
-        public StubTimer(string name, MockTimerBackgroundService paremt)
+        public StubTimer(string name, MockTimerBackgroundService parent)
         {
             Name = name;
-            Parent = paremt;
+            Parent = parent;
         }
 
         public override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -76,11 +75,11 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             var targetMock = new MockTimerBackgroundService();
             // DateTime.Nowを固定
             targetMock.DateTimeNow_ = DateTime.Parse("2022-08-12 02:00");
-            var timer1 = new StubTimer("Timer1", targetMock);
+            var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
             timer1.TimeList.Add("3:00");
             timer1.TimeList.Add("1:00");
             //Act
-            targetMock.AddTimer_(timer1);
+            targetMock.AddTimer_(timer: timer1);
             //Assert
             var expectedScheduledTimeList = new DateTime[]
             {
@@ -97,46 +96,47 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             var targetMock = new MockTimerBackgroundService();
             // DateTime.Nowを固定
             targetMock.DateTimeNow_ = DateTime.Parse("2022-08-12 00:00");
-            // Timer1を２回(3:00と1:00)、Timer2は2:00で、タイマー登録しておく
-            var timer1 = new StubTimer("Timer1", targetMock);
+            // Timer1を２回(3:00と1:00)、Timer2は2:00で、StubTimer登録しておく。3つが下の順で登録される。
+            // "2022-08-12 01:00", Timer1
+            // "2022-08-12 02:00", Timer2
+            // "2022-08-12 03:00", Timer1
+            var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
             timer1.TimeList.Add("3:00");
             timer1.TimeList.Add("1:00");
-            targetMock.AddTimer_(timer1);
-            var timer2 = new StubTimer("Timer2", targetMock);
+            targetMock.AddTimer_(timer: timer1);
+            var timer2 = new StubTimer(name: "Timer2", parent: targetMock);
             timer2.TimeList.Add("2:00");
-            targetMock.AddTimer_(timer2);
+            targetMock.AddTimer_(timer: timer2);
             // Act
-            // TimerBackgroundService:ExecuteAsync()内で3回ループを回った想定
-            await targetMock.WaitNextTimerThenExecuteAsync(CancellationToken.None);
+            // TimerBackgroundService:ExecuteAsync()内で2回ループを回った想定
             await targetMock.WaitNextTimerThenExecuteAsync(CancellationToken.None);
             await targetMock.WaitNextTimerThenExecuteAsync(CancellationToken.None);
             // Assert
             // StubTimerインスタンスはこの順番で呼ばれたはず。
-            var executeAsyncCalledList = new List<string>() { "Timer1", "Timer2", "Timer1" };
+            var executeAsyncCalledList = new List<string>() { "Timer1", "Timer2" };
             Assert.Equal(executeAsyncCalledList, targetMock.ExecuteAsyncCalledList);
             // StubTimerインスタンスが呼び出された待ち時間は、それぞれ下の待ち時間後だったはず。
             // (MockTimerBackgroundService内で呼び出し待ち時間(Task.Delay()の時間を記録して確認している。)
             var taskDelayCalledList = new List<TimeSpan>()
             {
                 TimeSpan.Parse("01:00"),
-                TimeSpan.Parse("02:00"),
-                TimeSpan.Parse("03:00")
+                TimeSpan.Parse("02:00")
             };
             Assert.Equal(taskDelayCalledList, targetMock.TaskDelayCalledList);
-            // 現状のタイマー予約時間は全て1日進んで下のようになっているはず。
+            // タイマー予約時間が進んで現状下のようになっているはず。
             var expectedScheduledTimeList = new DateTime[]
             {
+                DateTime.Parse("2022-08-12 03:00"),
                 DateTime.Parse("2022-08-13 01:00"),
-                DateTime.Parse("2022-08-13 02:00"),
-                DateTime.Parse("2022-08-13 03:00")
+                DateTime.Parse("2022-08-13 02:00")
             };
             Assert.Equal(expectedScheduledTimeList, targetMock.GetScheduledTimerList().Keys);
             // 現状のタイマー待ち順番は下のようになっているはず。
             var expectedTimerBaseList = new object[]
             {
                 timer1,
-                timer2,
-                timer1
+                timer1,
+                timer2
             };
             Assert.Equal(expectedTimerBaseList, targetMock.GetScheduledTimerList().Values);
         }

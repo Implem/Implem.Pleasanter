@@ -15,20 +15,18 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// </summary>
     public class TimerBackgroundService : BackgroundService
     {
-        readonly protected IList<TimerBase> Timers = new List<TimerBase>();
-        readonly protected SortedList<DateTime, TimerBase> ScheduledTimerList = new SortedList<DateTime, TimerBase>();
+        readonly protected SortedList<DateTime, ExecutionTimerBase> ScheduledTimerList = new SortedList<DateTime, ExecutionTimerBase>();
 
         public TimerBackgroundService()
         {
-            AddTimer(new SyncByLdapTimer());
+            AddTimer(timer: new SyncByLdapExecutionTimer());
         }
 
-        protected void AddTimer(TimerBase timer)
+        protected void AddTimer(ExecutionTimerBase timer)
         {
-            Timers.Add(timer);
-            foreach(var t in GetTimerDateTimeList(timer))
+            foreach (var timeString in timer.GetTimeList())
             {
-                ScheduledTimerList.Add(t, timer);
+                ScheduledTimerList.Add(GetTimerDateTime(timeString: timeString), timer);
             }
         }
 
@@ -37,24 +35,22 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             return DateTime.Now;
         }
 
-        private IEnumerable<DateTime> GetTimerDateTimeList(TimerBase timer)
+        private DateTime GetTimerDateTime(string timeString)
         {
-            return timer.GetTimeList().Select(timeString =>
+            //TODO Parse()の例外対応どうする
+            //TODO TimeZoneは何か考慮する必要があるか
+            var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
+            var now = DateTimeNow();
+            var timerDateTime = now.Date + timeOfDay;
+            // 時間が過ぎているのは次の日に回す
+            if (timerDateTime < now)
             {
-                // timeStringに日付があっても無視してTimeOfDayだけ取り出す
-                var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
-                var now = DateTimeNow();
-                var timerDateTime = now.Date + timeOfDay;
-                // 時間が過ぎているのは次の日に回す
-                if ((timerDateTime - now) <= TimeSpan.Zero)
-                {
-                    timerDateTime = timerDateTime.AddDays(1);
-                }
-                return timerDateTime;
-            });
+                timerDateTime = timerDateTime.AddDays(1);
+            }
+            return timerDateTime;
         }
 
-        private (DateTime DateTime, TimerBase Timer) GetFirstTimer()
+        private (DateTime DateTime, ExecutionTimerBase Timer) GetFirstTimer()
         {
             return (ScheduledTimerList.First().Key, ScheduledTimerList.First().Value);
         }
@@ -67,16 +63,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             ScheduledTimerList.Add(nextDayTimer, firstTimer.Timer);
         }
 
-        private Context CreateEmptyContext()
-        {
-            return new Context(
-                request: false,
-                sessionStatus: false,
-                sessionData: false,
-                user: false,
-                item: false);
-        }
-
         virtual protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
         {
             await Task.Delay(waitTimeSpan, stoppingToken);
@@ -85,11 +71,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         private async Task WaitNextTimer(CancellationToken stoppingToken)
         {
             var waitTimeSpan = GetFirstTimer().DateTime - DateTimeNow();
-            if (waitTimeSpan <= TimeSpan.Zero)
-            {
-                return;
-            }
-            await TaskDelay(waitTimeSpan, stoppingToken);
+            waitTimeSpan = TimeSpan.Zero < waitTimeSpan ? waitTimeSpan : TimeSpan.Zero; 
+            await TaskDelay(waitTimeSpan: waitTimeSpan, stoppingToken: stoppingToken);
         }
 
         public async Task WaitNextTimerThenExecuteAsync(CancellationToken stoppingToken)
@@ -98,12 +81,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 return;
             }
-            await WaitNextTimer(stoppingToken);
+            await WaitNextTimer(stoppingToken: stoppingToken);
             var nextTiemr = GetFirstTimer().Timer;
             //ExecuteAsync()呼び出し前に先頭のタイマー時間は次の日に進めておく。ExecuteAsync()が例外の場合に連続呼び出しを避けるため。
-            //ExecuteAsync()処理リトライを考慮したいなら各TimerBase側でリトライの実装をすること。
             ScheduleFirstTimerToNextDay();
-            await nextTiemr.ExecuteAsync(stoppingToken);
+            await nextTiemr.ExecuteAsync(stoppingToken: stoppingToken);
         }
 
         /// <summary>
@@ -116,12 +98,18 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 return;
             }
-            var context = CreateEmptyContext();
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
+
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
                 {
-                    await WaitNextTimerThenExecuteAsync(stoppingToken);
+                    await WaitNextTimerThenExecuteAsync(stoppingToken: stoppingToken);
                 }
                 catch (OperationCanceledException e)
                 {
