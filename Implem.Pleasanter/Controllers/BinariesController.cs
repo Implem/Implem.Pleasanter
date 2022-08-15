@@ -18,7 +18,6 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SiteImageThumbnail(string reference, long id)
         {
             var context = new Context();
-            var log = new SysLogModel(context: context);
             if (reference.ToLower() == "items")
             {
                 var (bytes, contentType) = BinaryUtilities.SiteImageThumbnail(
@@ -37,15 +36,11 @@ namespace Implem.Pleasanter.Controllers
         public ActionResult SiteImageIcon(string reference, long id)
         {
             var context = new Context();
-            var log = new SysLogModel(context: context);
             if (reference.ToLower() == "items")
             {
                 var (bytes, contentType) = BinaryUtilities.SiteImageIcon(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id));
-                log.Finish(
-                    context: context,
-                    responseSize: bytes.Length);
                 return new FileContentResult(bytes, contentType);
             }
             else
