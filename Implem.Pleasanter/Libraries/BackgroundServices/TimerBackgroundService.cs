@@ -39,15 +39,16 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             //TODO Parse()の例外対応どうする
             //TODO TimeZoneは何か考慮する必要があるか
-            var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
-            var now = DateTimeNow();
-            var timerDateTime = now.Date + timeOfDay;
-            // 時間が過ぎているのは次の日に回す
+                var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
+                var now = DateTimeNow();
+                var timerDateTime = now.Date + timeOfDay;
+                // 時間が過ぎているのは次の日に回す
             if (timerDateTime < now)
-            {
-                timerDateTime = timerDateTime.AddDays(1);
-            }
-            return timerDateTime;
+                {
+                    timerDateTime = timerDateTime.AddDays(1);
+                }
+                return timerDateTime;
+            });
         }
 
         private (DateTime DateTime, ExecutionTimerBase Timer) GetFirstTimer()
@@ -63,6 +64,16 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             ScheduledTimerList.Add(nextDayTimer, firstTimer.Timer);
         }
 
+        private Context CreateEmptyContext()
+        {
+            return new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
+        }
+
         virtual protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
         {
             await Task.Delay(waitTimeSpan, stoppingToken);
@@ -73,6 +84,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             var waitTimeSpan = GetFirstTimer().DateTime - DateTimeNow();
             waitTimeSpan = TimeSpan.Zero < waitTimeSpan ? waitTimeSpan : TimeSpan.Zero; 
             await TaskDelay(waitTimeSpan: waitTimeSpan, stoppingToken: stoppingToken);
+            }
+            await TaskDelay(waitTimeSpan, stoppingToken);
         }
 
         public async Task WaitNextTimerThenExecuteAsync(CancellationToken stoppingToken)
@@ -84,6 +97,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             await WaitNextTimer(stoppingToken: stoppingToken);
             var nextTiemr = GetFirstTimer().Timer;
             //ExecuteAsync()呼び出し前に先頭のタイマー時間は次の日に進めておく。ExecuteAsync()が例外の場合に連続呼び出しを避けるため。
+            //ExecuteAsync()処理リトライを考慮したいなら各TimerBase側でリトライの実装をすること。
             ScheduleFirstTimerToNextDay();
             await nextTiemr.ExecuteAsync(stoppingToken: stoppingToken);
         }

@@ -17,6 +17,7 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
 
         public MockTimerBackgroundService()
         {
+            Timers.Clear();
             ScheduledTimerList.Clear();
         }
         override protected DateTime DateTimeNow() { return DateTimeNow_; }
