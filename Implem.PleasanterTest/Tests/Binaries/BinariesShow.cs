@@ -42,7 +42,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "Issues_Body")),
                     fileName: "Image2.png",
-                    contentType: "text/json"),
+                    contentType: "image/png"),
                 id: id);
             var guid = Rds.ExecuteScalar_string(
                 context: Initializer.Context,
