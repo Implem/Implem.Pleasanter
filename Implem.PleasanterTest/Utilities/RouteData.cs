@@ -404,6 +404,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesUpdateTenantImage(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "updatetenantimage" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> BinariesUpdateSiteImage(long id)
         {
             return new Dictionary<string, string>()
