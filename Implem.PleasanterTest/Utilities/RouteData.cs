@@ -364,6 +364,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesSiteImageThumbnail(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "siteimagethumbnail" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> BinariesSiteImageIcon(long id)
         {
             return new Dictionary<string, string>()
@@ -384,32 +394,12 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> BinariesSiteImageThumbnail(long id)
+        public static Dictionary<string, string> BinariesUpdateSiteImage(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "binaries" },
-                { "action", "siteimagethumbnail" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> BinariesUpload(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "binaries" },
-                { "action", "upload" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> BinariesUploadImage(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "binaries" },
-                { "action", "uploadimage" },
+                { "action", "updatesiteimage" },
                 { "id", id.ToString() }
             };
         }
@@ -420,16 +410,6 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "binaries" },
                 { "action", "updatetenantimage" },
-                { "id", id.ToString() }
-            };
-        }
-
-        public static Dictionary<string, string> BinariesUpdateSiteImage(long id)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "controller", "binaries" },
-                { "action", "updatesiteimage" },
                 { "id", id.ToString() }
             };
         }
@@ -454,6 +434,26 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesUploadImage(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "uploadimage" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> BinariesDownload(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "download" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> BinariesShow(long id)
         {
             return new Dictionary<string, string>()
@@ -474,12 +474,12 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
-        public static Dictionary<string, string> BinariesDownload(long id)
+        public static Dictionary<string, string> BinariesUpload(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "binaries" },
-                { "action", "download" },
+                { "action", "upload" },
                 { "id", id.ToString() }
             };
         }
