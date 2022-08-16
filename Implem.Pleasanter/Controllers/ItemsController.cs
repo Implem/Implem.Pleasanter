@@ -417,11 +417,11 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string ExportAsync(long id)
+        public string ExportAndMailNotify(long id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new ItemModel(context: context, referenceId: id).ExportAsync(context: context);
+            var json = new ItemModel(context: context, referenceId: id).ExportAndMailNotify(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

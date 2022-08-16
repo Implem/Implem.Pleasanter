@@ -2070,6 +2070,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 statements: Rds.SelectUsers(
                                     column: Rds.UsersColumn().UserId(),
+                                    join: Rds.UsersJoinDefault(),
                                     where: where,
                                     orderBy: view.OrderBy(
                                         context: context,

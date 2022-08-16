@@ -1,5 +1,5 @@
 ﻿{
-    "Id": "Model_ExportAsyncCases",
+    "Id": "Model_ExportAndMailNotifyCases",
     "RepeatType": "Table",
     "Indent": "4",
     "Separator": "\\r\\n",

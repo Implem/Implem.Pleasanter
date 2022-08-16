@@ -892,7 +892,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_EditorCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_EditorJsonCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_EditSeparateSettingsCases_Body.txt" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_ExportAsyncCases_Body.txt" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ExportAndMailNotifyCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ExportByApi_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ExportCases_Body.txt" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ExportClassPropertyCases_Body.txt" />
@@ -2459,10 +2459,12 @@
     <Content Include="Images\Hayato1.png" />
     <Content Include="Images\Hayato2.png" />
     <Content Include="Images\Hayato3.png" />
+    <Content Include="Images\hayato4.png" />
     <Content Include="Images\logo-version.png" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\logo-corp-with-title.png" />
     <Content Include="Images\logo-corp.png" />
+    <Content Include="Images\support-banner.png" />
     <Content Include="Scripts\AggregationEvents.js" />
     <Content Include="Scripts\Anchor.js" />
     <Content Include="Scripts\AnchorEvents.js" />
@@ -3604,7 +3606,7 @@
     <Content Include="App_Data\Definitions\Definition_Code\Model_EditorJsonCases.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_EditSeparateSettingsCases.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_Export.json" />
-    <Content Include="App_Data\Definitions\Definition_Code\Model_ExportAsyncCases.json" />
+    <Content Include="App_Data\Definitions\Definition_Code\Model_ExportAndMailNotifyCases.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ExportByApi.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ExportCases.json" />
     <Content Include="App_Data\Definitions\Definition_Code\Model_ExportClassPropertyCases.json" />

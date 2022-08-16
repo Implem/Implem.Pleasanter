@@ -8,7 +8,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
     public class NotificationHttpClient
     {
         private static readonly System.Net.Http.HttpClient _httpClient;
-        public string ContentType { get; set; } = "text/plain";
+        public string ContentType { get; set; } = "application/json";
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         
         static NotificationHttpClient()
