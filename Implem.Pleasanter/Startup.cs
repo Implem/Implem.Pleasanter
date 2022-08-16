@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Azure.Identity;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -12,6 +13,7 @@ using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -145,6 +147,10 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
+            services
+                .AddDataProtection()
+                .PersistKeysToAzureBlobStorage(new Uri("<blobUriWithSasToken>"))
+                .ProtectKeysWithAzureKeyVault(new Uri("<keyIdentifier>"), new DefaultAzureCredential());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
