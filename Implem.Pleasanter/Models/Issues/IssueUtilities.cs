@@ -6379,7 +6379,7 @@ namespace Implem.Pleasanter.Models
                 encoding: context.QueryStrings.Data("encoding"));
         }
 
-        public static string ExportAsync(
+        public static string ExportAndMailNotify(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (context.ContractSettings.Export == false)

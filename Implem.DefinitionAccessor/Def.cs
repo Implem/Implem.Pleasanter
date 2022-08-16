@@ -420,7 +420,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_EditSeparateSettingsCases": Code.Model_EditSeparateSettingsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditSeparateSettingsCases, definitionRow, CodeXls); break;
                     case "Model_Export": Code.Model_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Export, definitionRow, CodeXls); break;
-                    case "Model_ExportAsyncCases": Code.Model_ExportAsyncCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportAsyncCases, definitionRow, CodeXls); break;
+                    case "Model_ExportAndMailNotifyCases": Code.Model_ExportAndMailNotifyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportAndMailNotifyCases, definitionRow, CodeXls); break;
                     case "Model_ExportByApi": Code.Model_ExportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByApi, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
                     case "Model_ExportClassPropertyCases": Code.Model_ExportClassPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportClassPropertyCases, definitionRow, CodeXls); break;
@@ -6634,7 +6634,7 @@ namespace Implem.DefinitionAccessor
         public string Model_EditorJsonCases;
         public string Model_EditSeparateSettingsCases;
         public string Model_Export;
-        public string Model_ExportAsyncCases;
+        public string Model_ExportAndMailNotifyCases;
         public string Model_ExportByApi;
         public string Model_ExportCases;
         public string Model_ExportClassPropertyCases;
@@ -7388,7 +7388,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_EditSeparateSettingsCases = new CodeDefinition();
         public CodeDefinition Model_Export = new CodeDefinition();
-        public CodeDefinition Model_ExportAsyncCases = new CodeDefinition();
+        public CodeDefinition Model_ExportAndMailNotifyCases = new CodeDefinition();
         public CodeDefinition Model_ExportByApi = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
         public CodeDefinition Model_ExportClassPropertyCases = new CodeDefinition();
