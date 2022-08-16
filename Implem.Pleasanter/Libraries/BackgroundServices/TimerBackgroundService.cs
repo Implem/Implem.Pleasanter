@@ -15,6 +15,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// </summary>
     public class TimerBackgroundService : BackgroundService
     {
+        /// <summary>
+        /// 実行する時間をKey,実行されるExecutionTimerをValueのペアで保持する。実行する時間が早い順でリスト保持される。
+        /// 1つのExecutionTimerを１日に複数回実行する場合はExecutionTimerインスタンスは重複して保持される。
+        /// </summary>
         readonly protected SortedList<DateTime, ExecutionTimerBase> ScheduledTimerList = new SortedList<DateTime, ExecutionTimerBase>();
 
         public TimerBackgroundService()
@@ -41,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         private DateTime GetTimerDateTime(string timeString)
         {
             //TODO Parse()の例外対応どうする
-            //TODO TimeZoneは何か考慮する必要があるか
+            //TODO TimeZoneは考慮する必要があるか
             var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
             var now = DateTimeNow();
             var timerDateTime = now.Date + timeOfDay;
