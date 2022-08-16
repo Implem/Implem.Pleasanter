@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     /// <summary>
-    /// 毎日定時に呼び出すBackgroundServiceクラス
+    /// 毎日定時にExecutionTimerBase(のサブクラス)を呼び出すクラス
     /// </summary>
     public class TimerBackgroundService : BackgroundService
     {
@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         public TimerBackgroundService()
         {
+            // 呼び出すExecutionTimer実装クラスをここに追加する。
             AddTimer(timer: new SyncByLdapExecutionTimer());
         }
 
@@ -26,7 +27,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             foreach (var timeString in timer.GetTimeList())
             {
-                ScheduledTimerList.Add(GetTimerDateTime(timeString: timeString), timer);
+                ScheduledTimerList.Add(
+                    GetTimerDateTime(timeString: timeString),
+                    timer);
             }
         }
 
@@ -39,19 +42,18 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             //TODO Parse()の例外対応どうする
             //TODO TimeZoneは何か考慮する必要があるか
-                var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
-                var now = DateTimeNow();
-                var timerDateTime = now.Date + timeOfDay;
-                // 時間が過ぎているのは次の日に回す
+            var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
+            var now = DateTimeNow();
+            var timerDateTime = now.Date + timeOfDay;
+            // 時間が過ぎているのは次の日に回す
             if (timerDateTime < now)
-                {
-                    timerDateTime = timerDateTime.AddDays(1);
-                }
-                return timerDateTime;
-            });
+            {
+                timerDateTime = timerDateTime.AddDays(1);
+            }
+            return timerDateTime;
         }
 
-        private (DateTime DateTime, ExecutionTimerBase Timer) GetFirstTimer()
+    private (DateTime DateTime, ExecutionTimerBase Timer) GetFirstTimer()
         {
             return (ScheduledTimerList.First().Key, ScheduledTimerList.First().Value);
         }
@@ -61,7 +63,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             var firstTimer = GetFirstTimer();
             ScheduledTimerList.RemoveAt(0);
             var nextDayTimer = firstTimer.DateTime.AddDays(1);
-            ScheduledTimerList.Add(nextDayTimer, firstTimer.Timer);
+            ScheduledTimerList.Add(
+                nextDayTimer,
+                firstTimer.Timer);
         }
 
         private Context CreateEmptyContext()
@@ -76,16 +80,18 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         virtual protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
         {
-            await Task.Delay(waitTimeSpan, stoppingToken);
+            await Task.Delay(
+                waitTimeSpan,
+                stoppingToken);
         }
 
         private async Task WaitNextTimer(CancellationToken stoppingToken)
         {
             var waitTimeSpan = GetFirstTimer().DateTime - DateTimeNow();
             waitTimeSpan = TimeSpan.Zero < waitTimeSpan ? waitTimeSpan : TimeSpan.Zero; 
-            await TaskDelay(waitTimeSpan: waitTimeSpan, stoppingToken: stoppingToken);
-            }
-            await TaskDelay(waitTimeSpan, stoppingToken);
+            await TaskDelay(
+                waitTimeSpan: waitTimeSpan,
+                stoppingToken: stoppingToken);
         }
 
         public async Task WaitNextTimerThenExecuteAsync(CancellationToken stoppingToken)
@@ -97,7 +103,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             await WaitNextTimer(stoppingToken: stoppingToken);
             var nextTiemr = GetFirstTimer().Timer;
             //ExecuteAsync()呼び出し前に先頭のタイマー時間は次の日に進めておく。ExecuteAsync()が例外の場合に連続呼び出しを避けるため。
-            //ExecuteAsync()処理リトライを考慮したいなら各TimerBase側でリトライの実装をすること。
             ScheduleFirstTimerToNextDay();
             await nextTiemr.ExecuteAsync(stoppingToken: stoppingToken);
         }
