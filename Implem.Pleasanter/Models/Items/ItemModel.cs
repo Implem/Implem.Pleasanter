@@ -1014,7 +1014,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public string ExportAsync(Context context)
+        public string ExportAndMailNotify(Context context)
         {
             SetSite(
                 context: context,
@@ -1038,12 +1038,12 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Issues":
-                    return IssueUtilities.ExportAsync(
+                    return IssueUtilities.ExportAndMailNotify(
                         context: context,
                         ss: Site.SiteSettings,
                         siteModel: Site);
                 case "Results":
-                    return ResultUtilities.ExportAsync(
+                    return ResultUtilities.ExportAndMailNotify(
                         context: context,
                         ss: Site.SiteSettings,
                         siteModel: Site);
