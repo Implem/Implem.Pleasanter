@@ -1,6 +1,7 @@
 ﻿using Implem.Pleasanter.Libraries.BackgroundServices;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,11 +14,12 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
         readonly public List<TimeSpan> TaskDelayCalledList = new ();
         public DateTime DateTimeNow_ = DateTime.Parse("2022-08-12 00:00");
 
-        public SortedList<DateTime, ExecutionTimerBase> GetScheduledTimerList() { return ScheduledTimerList; }
+        public List<TimeExecuteTimerPair> GetTimerList() { return TimerList; }
 
         public MockTimerBackgroundService()
         {
-            ScheduledTimerList.Clear();
+            //TimerBackgroundServiceにはコンストラクタで事前にリストに入っているのでテスト用に消しておく
+            TimerList.Clear();
         }
         override protected DateTime DateTimeNow() { return DateTimeNow_; }
         override protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
@@ -78,15 +80,19 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
             timer1.TimeList.Add("3:00");
             timer1.TimeList.Add("1:00");
+            //同じ時間も追加
+            timer1.TimeList.Add("1:00");
             //Act
             targetMock.AddTimer_(timer: timer1);
             //Assert
             var expectedScheduledTimeList = new DateTime[]
             {
+                //既に過ぎている時間は次の日8/13にスケジュールされているはず。
                 DateTime.Parse("2022-08-12 03:00"),
                 DateTime.Parse("2022-08-13 01:00"),
+                DateTime.Parse("2022-08-13 01:00"),
             };
-            Assert.Equal(expectedScheduledTimeList, targetMock.GetScheduledTimerList().Keys);
+            Assert.Equal(expectedScheduledTimeList, targetMock.GetTimerList().Select(t => t.DateTime));
         }
 
         [Fact]
@@ -130,7 +136,7 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
                 DateTime.Parse("2022-08-13 01:00"),
                 DateTime.Parse("2022-08-13 02:00")
             };
-            Assert.Equal(expectedScheduledTimeList, targetMock.GetScheduledTimerList().Keys);
+            Assert.Equal(expectedScheduledTimeList, targetMock.GetTimerList().Select(t => t.DateTime));
             // 現状のタイマー待ち順番は下のようになっているはず。
             var expectedTimerBaseList = new object[]
             {
@@ -138,7 +144,7 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
                 timer1,
                 timer2
             };
-            Assert.Equal(expectedTimerBaseList, targetMock.GetScheduledTimerList().Values);
+            Assert.Equal(expectedTimerBaseList, targetMock.GetTimerList().Select(t => t.ExecutionTimer));
         }
     }
 }

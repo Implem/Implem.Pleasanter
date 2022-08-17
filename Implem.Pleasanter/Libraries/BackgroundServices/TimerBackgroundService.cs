@@ -4,6 +4,7 @@ using Implem.Pleasanter.Models;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,11 +16,14 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// </summary>
     public class TimerBackgroundService : BackgroundService
     {
-        /// <summary>
-        /// 実行する時間をKey,実行されるExecutionTimerをValueのペアで保持する。実行する時間が早い順でリスト保持される。
-        /// 1つのExecutionTimerを１日に複数回実行する場合はExecutionTimerインスタンスは重複して保持される。
-        /// </summary>
-        readonly protected SortedList<DateTime, ExecutionTimerBase> ScheduledTimerList = new SortedList<DateTime, ExecutionTimerBase>();
+        public class TimeExecuteTimerPair
+        {
+            public DateTime DateTime { get; set; }
+            public ExecutionTimerBase ExecutionTimer { get; set; }
+        }
+
+        readonly protected List<TimeExecuteTimerPair> TimerList = new List<TimeExecuteTimerPair>();
+
 
         public TimerBackgroundService()
         {
@@ -27,14 +31,22 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             AddTimer(timer: new SyncByLdapExecutionTimer());
         }
 
+        private void SortTimerList()
+        {
+            TimerList.Sort((x, y) => x.DateTime.CompareTo(y.DateTime));
+        }
+
         protected void AddTimer(ExecutionTimerBase timer)
         {
             foreach (var timeString in timer.GetTimeList())
             {
-                ScheduledTimerList.Add(
-                    GetTimerDateTime(timeString: timeString),
-                    timer);
+                TimerList.Add(new TimeExecuteTimerPair()
+                {
+                    DateTime = GetTimerDateTime(timeString: timeString),
+                    ExecutionTimer = timer
+                });
             }
+            SortTimerList();
         }
 
         virtual protected DateTime DateTimeNow()
@@ -44,9 +56,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private DateTime GetTimerDateTime(string timeString)
         {
-            //TODO Parse()の例外対応どうする
-            //TODO TimeZoneは考慮する必要があるか
-            var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
+            //TODO Parse()の例外対応どうする //TODO どうなるか確認。
+            //TODO TimeZoneは考慮する必要があるか //TODO toLocalTime使う
+            var timeOfDay = DateTime.Parse(timeString).TimeOfDay; //TODO JSONにエラーがあったらどうなるか。
             var now = DateTimeNow();
             var timerDateTime = now.Date + timeOfDay;
             // 時間が過ぎているのは次の日に回す
@@ -54,32 +66,22 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 timerDateTime = timerDateTime.AddDays(1);
             }
+            SortTimerList();
             return timerDateTime;
         }
 
-    private (DateTime DateTime, ExecutionTimerBase Timer) GetFirstTimer()
+        private void ScheduleToNextDay(TimeExecuteTimerPair timerPair)
         {
-            return (ScheduledTimerList.First().Key, ScheduledTimerList.First().Value);
-        }
-
-        private void ScheduleFirstTimerToNextDay()
-        {
-            var firstTimer = GetFirstTimer();
-            ScheduledTimerList.RemoveAt(0);
-            var nextDayTimer = firstTimer.DateTime.AddDays(1);
-            ScheduledTimerList.Add(
-                nextDayTimer,
-                firstTimer.Timer);
-        }
-
-        private Context CreateEmptyContext()
-        {
-            return new Context(
-                request: false,
-                sessionStatus: false,
-                sessionData: false,
-                user: false,
-                item: false);
+            //再スケジュールするのは先頭要素だけのはず
+            Debug.Assert(TimerList.First() == timerPair);
+            TimerList.Remove(timerPair);
+            var nextDayTime = timerPair.DateTime.AddDays(1);
+            TimerList.Add(new TimeExecuteTimerPair()
+            {
+                DateTime = nextDayTime,
+                ExecutionTimer = timerPair.ExecutionTimer
+            });
+            SortTimerList();
         }
 
         virtual protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
@@ -91,7 +93,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private async Task WaitNextTimer(CancellationToken stoppingToken)
         {
-            var waitTimeSpan = GetFirstTimer().DateTime - DateTimeNow();
+            var waitTimeSpan = TimerList.First().DateTime - DateTimeNow();
             waitTimeSpan = TimeSpan.Zero < waitTimeSpan ? waitTimeSpan : TimeSpan.Zero; 
             await TaskDelay(
                 waitTimeSpan: waitTimeSpan,
@@ -100,15 +102,15 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         public async Task WaitNextTimerThenExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!ScheduledTimerList.Any())
+            if (!TimerList.Any())
             {
                 return;
             }
             await WaitNextTimer(stoppingToken: stoppingToken);
-            var nextTiemr = GetFirstTimer().Timer;
+            var nextTiemr = TimerList.First();
             //ExecuteAsync()呼び出し前に先頭のタイマー時間は次の日に進めておく。ExecuteAsync()が例外の場合に連続呼び出しを避けるため。
-            ScheduleFirstTimerToNextDay();
-            await nextTiemr.ExecuteAsync(stoppingToken: stoppingToken);
+            ScheduleToNextDay(nextTiemr);
+            await nextTiemr.ExecutionTimer.ExecuteAsync(stoppingToken: stoppingToken);
         }
 
         /// <summary>
@@ -117,17 +119,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            if (!Parameters.BackgroundService.SyncByLdapTimer)
-            {
-                return;
-            }
             var context = new Context(
                 request: false,
                 sessionStatus: false,
                 sessionData: false,
                 user: false,
                 item: false);
-
             while (!stoppingToken.IsCancellationRequested)
             {
                 try

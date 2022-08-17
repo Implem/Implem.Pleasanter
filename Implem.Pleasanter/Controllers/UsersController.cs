@@ -505,7 +505,7 @@ namespace Implem.Pleasanter.Controllers
         [AllowAnonymous]
         public string SyncByLdap()
         {
-            if (Parameters.BackgroundService.SyncByLdapTimer)
+            if (Parameters.BackgroundService.SyncByLdap)
             {
                 return null;
             }

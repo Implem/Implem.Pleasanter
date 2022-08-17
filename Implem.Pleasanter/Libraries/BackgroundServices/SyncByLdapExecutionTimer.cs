@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         override public IList<string> GetTimeList()
         {
-            return Parameters.BackgroundService.SyncByLdapTimerTime;
+            return Parameters.BackgroundService.SyncByLdapTime;
         }
     }
 }
