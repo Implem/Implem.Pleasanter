@@ -1699,14 +1699,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var csType2 = column2?.TypeName.CsTypeSummary();
                         if (column1 != null && column2 != null && csType1 == csType2)
                         {
-                            var _operator = data.Eq ? "=" : "<>";
                             AddEqWhere(
                                 context: context,
                                 where: where,
-                                _operator: _operator,
                                 column1: column1,
                                 column2: column2,
-                                csType: csType1);
+                                csType: csType1,
+                                notEq: data.NotEq);
                         }
                     }
                     else if (data.Groups)
@@ -1832,36 +1831,51 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static void AddEqWhere(
             Context context,
             SqlWhereCollection where,
-            string _operator,
             Column column1,
             Column column2,
-            string csType)
+            string csType,
+            bool notEq)
         {
-            var nullableDefault = string.Empty;
-            switch (csType)
+            var columnName1 = $"\"{column1.TableName()}\".\"{column1.Name}\"";
+            var columnName2 = $"\"{column2.TableName()}\".\"{column2.Name}\"";
+            if (csType == Types.CsNumeric && column1.Nullable == true)
             {
-                case Types.CsBool:
-                    nullableDefault = "'false'";
-                    break;
-                case Types.CsNumeric:
-                    nullableDefault = "0";
-                    break;
-                case Types.CsDateTime:
-                    nullableDefault = $"'{0.ToDateTime():yyyy-MM-dd}'";
-                    break;
-                case Types.CsString:
-                    nullableDefault = "''";
-                    break;
+                //x = null、x <> null の判定ができない（どちらもHITしない）ため X is nullで判定する
+                //not eq では、「一方がNULLで一方がNULLでない場合」または「(どちらもNULLでなく)値が異なる場合」で判定
+                var raw = notEq
+                    ? $"(({columnName1} is not null and {columnName2} is null)"
+                        + $" or ({columnName1} is null and {columnName2} is not null)"
+                        + $" or {columnName1} <> {columnName2})"
+                    : $"(({columnName1} is null and {columnName2} is null)"
+                        + $" or {columnName1} = {columnName2})";
+                where.Add(
+                    joinTableNames: new[] { column1.TableName(), column2.TableName() },
+                    raw: raw);
             }
-            var columnName1 = (csType == Types.CsNumeric && column1.Nullable == true)
-                ? $"\"{column1.TableName()}\".\"{column1.Name}\""
-                : $"{context.Sqls.IsNull}(\"{column1.TableName()}\".\"{column1.Name}\", {nullableDefault})";
-            var columnName2 = (csType == Types.CsNumeric && column1.Nullable == true)
-                ? $"\"{column2.TableName()}\".\"{column2.Name}\""
-                : $"{context.Sqls.IsNull}(\"{column2.TableName()}\".\"{column2.Name}\", {nullableDefault})";
-            where.Add(
-                joinTableNames: new[] { column1.TableName(), column2.TableName() },
-                raw: $"{columnName1} {_operator} {columnName2}");
+            else
+            {
+                var defaultValue = string.Empty;
+                switch (csType)
+                {
+                    case Types.CsBool:
+                        defaultValue = "'false'";
+                        break;
+                    case Types.CsNumeric:
+                        defaultValue = "0";
+                        break;
+                    case Types.CsDateTime:
+                        defaultValue = $"'{0.ToDateTime():yyyy-MM-dd}'";
+                        break;
+                    case Types.CsString:
+                        defaultValue = "''";
+                        break;
+                }
+                where.Add(
+                    joinTableNames: new[] { column1.TableName(), column2.TableName() },
+                    raw: $"{context.Sqls.IsNull}({columnName1}, {defaultValue})"
+                        + $" {(notEq ? "<>" : "=")}"
+                        + $" {context.Sqls.IsNull}({columnName2}, {defaultValue})");
+            }
         }
 
         private void CsBoolColumns(Column column, string value, SqlWhereCollection where)
