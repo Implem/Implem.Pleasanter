@@ -2,5 +2,5 @@
     "Reminder": false,
     "ReminderIgnoreConsecutiveExceptionCount": 30,
     "SyncByLdap": true,
-    "SyncByLdapTime": ["0:00", "1:30"]
+    "SyncByLdapTime": ["00:00", "01:30"]
 }

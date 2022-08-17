@@ -4,6 +4,8 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Helpers;
+using Context = Implem.Pleasanter.Libraries.Requests.Context;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
@@ -16,11 +18,16 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             await Task.Run(() =>
             {
-                var context = new Context();
+                var context = new Context(
+                    request: false,
+                    sessionStatus: false,
+                    sessionData: false,
+                    user: false,
+                    item: false);
                 var log = new SysLogModel(context: context);
                 var json = UserUtilities.SyncByLdap(context: context);
                 log.Finish(
-                    context: context,
+                context: context,
                     responseSize: json.Length);
             }, stoppingToken);
         }
