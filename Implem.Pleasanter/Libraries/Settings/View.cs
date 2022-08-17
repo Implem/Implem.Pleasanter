@@ -1639,12 +1639,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     data.Value,
                     Or = data.Key.StartsWith("or_"),
                     And = data.Key.StartsWith("and_"),
+                    Eq = data.Key.StartsWith("eq_"),
+                    NotEq = data.Key.StartsWith("notEq_"),
                     Groups = data.Key == "Groups",
                     OnSelectingWhere = data.Key == "OnSelectingWhere"
                 })
                 .Where(o => o.Column != null
                     || o.Or
                     || o.And
+                    || o.Eq
+                    || o.NotEq
                     || o.Groups
                     || o.OnSelectingWhere)
                 .ForEach(data =>
@@ -1681,6 +1685,46 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 id: id,
                                 timestamp: timestamp);
                             if (and.Any()) where.Add(and: and);
+                        }
+                    }
+                    else if (data.Eq || data.NotEq)
+                    {
+                        var column1 = ss.GetColumn(
+                            context: context,
+                            columnName: data.Value.Split_1st('|'));
+                        var column2 = ss.GetColumn(
+                            context: context,
+                            columnName: data.Value.Split_2nd('|'));
+                        var type1 = column1?.TypeName.CsTypeSummary();
+                        var type2 = column2?.TypeName.CsTypeSummary();
+                        if (column1 != null
+                            && column2 != null
+                            && type1 == type2)
+                        {
+                            var _operator = data.Eq ? "=" : "<>";
+                            var nullableDefault = string.Empty;
+                            switch (type1)
+                            {
+                                case Types.CsBool:
+                                    nullableDefault = "'false'";
+                                    break;
+                                case Types.CsNumeric:
+                                    nullableDefault = "0";
+                                    break;
+                                case Types.CsDateTime:
+                                    nullableDefault = $"'{0.ToDateTime():yyyy-MM-dd}'";
+                                    break;
+                                case Types.CsString:
+                                    nullableDefault = "''";
+                                    break;
+                            }
+                            AddEqWhere(
+                                context: context,
+                                where: where,
+                                _operator: _operator,
+                                column1: column1,
+                                column2: column2,
+                                nullableDefault);
                         }
                     }
                     else if (data.Groups)
@@ -1801,6 +1845,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                         }
                     }
                 });
+        }
+
+        private static void AddEqWhere(
+            Context context,
+            SqlWhereCollection where,
+            string _operator,
+            Column column1,
+            Column column2,
+            string nullableDefault)
+        {
+            var columnName1 = (column1.Nullable == true)
+                ? $"{context.Sqls.IsNull}(\"{column1.TableName()}\".\"{column1.Name}\", {nullableDefault})"
+                : $"\"{column1.TableName()}\".\"{column1.Name}\"";
+            var columnName2 = (column2.Nullable == true)
+                ? $"{context.Sqls.IsNull}(\"{column2.TableName()}\".\"{column2.Name}\", {nullableDefault})"
+                : $"\"{column2.TableName()}\".\"{column2.Name}\"";
+            where.Add(
+                joinTableNames: new[] { column1.TableName(), column2.TableName() },
+                raw: $"{columnName1} {_operator} {columnName2}");
         }
 
         private void CsBoolColumns(Column column, string value, SqlWhereCollection where)
