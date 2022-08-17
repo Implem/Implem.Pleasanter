@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -24,7 +23,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         readonly protected List<TimeExecuteTimerPair> TimerList = new List<TimeExecuteTimerPair>();
 
-
         public TimerBackgroundService()
         {
             // 呼び出すExecutionTimer実装クラスをここに追加する。
@@ -36,15 +34,36 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             TimerList.Sort((x, y) => x.DateTime.CompareTo(y.DateTime));
         }
 
+        private Context CreateEmptyContext()
+        {
+            return new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
+        }
+
         protected void AddTimer(ExecutionTimerBase timer)
         {
-            foreach (var timeString in timer.GetTimeList())
+            try
             {
-                TimerList.Add(new TimeExecuteTimerPair()
+                foreach (var timeString in timer.GetTimeList())
                 {
-                    DateTime = GetTimerDateTime(timeString: timeString),
-                    ExecutionTimer = timer
-                });
+                    TimerList.Add(new TimeExecuteTimerPair()
+                    {
+                        DateTime = GetTimerDateTime(timeString: timeString),
+                        ExecutionTimer = timer
+                    });
+                }
+            }
+            catch (Exception e)
+            {
+                Context context = CreateEmptyContext();
+                new SysLogModel(
+                    context: context,
+                    e: e,
+                    extendedErrorMessage: "AddTimer() Exception");
             }
             SortTimerList();
         }
@@ -56,9 +75,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private DateTime GetTimerDateTime(string timeString)
         {
-            //TODO Parse()の例外対応どうする //TODO どうなるか確認。
-            //TODO TimeZoneは考慮する必要があるか //TODO toLocalTime使う
-            var timeOfDay = DateTime.Parse(timeString).TimeOfDay; //TODO JSONにエラーがあったらどうなるか。
+            // このクラスではDateTimeはローカルタイムだけ扱うのでTimeZoneは考慮しなくていい
+            var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
             var now = DateTimeNow();
             var timerDateTime = now.Date + timeOfDay;
             // 時間が過ぎているのは次の日に回す
@@ -119,12 +137,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var context = new Context(
-                request: false,
-                sessionStatus: false,
-                sessionData: false,
-                user: false,
-                item: false);
+            var context = CreateEmptyContext();
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
