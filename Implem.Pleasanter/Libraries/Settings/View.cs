@@ -1695,36 +1695,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         var column2 = ss.GetColumn(
                             context: context,
                             columnName: data.Value.Split_2nd('|'));
-                        var type1 = column1?.TypeName.CsTypeSummary();
-                        var type2 = column2?.TypeName.CsTypeSummary();
-                        if (column1 != null
-                            && column2 != null
-                            && type1 == type2)
+                        var csType1 = column1?.TypeName.CsTypeSummary();
+                        var csType2 = column2?.TypeName.CsTypeSummary();
+                        if (column1 != null && column2 != null && csType1 == csType2)
                         {
                             var _operator = data.Eq ? "=" : "<>";
-                            var nullableDefault = string.Empty;
-                            switch (type1)
-                            {
-                                case Types.CsBool:
-                                    nullableDefault = "'false'";
-                                    break;
-                                case Types.CsNumeric:
-                                    nullableDefault = "0";
-                                    break;
-                                case Types.CsDateTime:
-                                    nullableDefault = $"'{0.ToDateTime():yyyy-MM-dd}'";
-                                    break;
-                                case Types.CsString:
-                                    nullableDefault = "''";
-                                    break;
-                            }
                             AddEqWhere(
                                 context: context,
                                 where: where,
                                 _operator: _operator,
                                 column1: column1,
                                 column2: column2,
-                                nullableDefault);
+                                csType: csType1);
                         }
                     }
                     else if (data.Groups)
@@ -1853,14 +1835,30 @@ namespace Implem.Pleasanter.Libraries.Settings
             string _operator,
             Column column1,
             Column column2,
-            string nullableDefault)
+            string csType)
         {
-            var columnName1 = (column1.Nullable == true)
-                ? $"{context.Sqls.IsNull}(\"{column1.TableName()}\".\"{column1.Name}\", {nullableDefault})"
-                : $"\"{column1.TableName()}\".\"{column1.Name}\"";
-            var columnName2 = (column2.Nullable == true)
-                ? $"{context.Sqls.IsNull}(\"{column2.TableName()}\".\"{column2.Name}\", {nullableDefault})"
-                : $"\"{column2.TableName()}\".\"{column2.Name}\"";
+            var nullableDefault = string.Empty;
+            switch (csType)
+            {
+                case Types.CsBool:
+                    nullableDefault = "'false'";
+                    break;
+                case Types.CsNumeric:
+                    nullableDefault = "0";
+                    break;
+                case Types.CsDateTime:
+                    nullableDefault = $"'{0.ToDateTime():yyyy-MM-dd}'";
+                    break;
+                case Types.CsString:
+                    nullableDefault = "''";
+                    break;
+            }
+            var columnName1 = (csType == Types.CsNumeric && column1.Nullable == true)
+                ? $"\"{column1.TableName()}\".\"{column1.Name}\""
+                : $"{context.Sqls.IsNull}(\"{column1.TableName()}\".\"{column1.Name}\", {nullableDefault})";
+            var columnName2 = (csType == Types.CsNumeric && column1.Nullable == true)
+                ? $"\"{column2.TableName()}\".\"{column2.Name}\""
+                : $"{context.Sqls.IsNull}(\"{column2.TableName()}\".\"{column2.Name}\", {nullableDefault})";
             where.Add(
                 joinTableNames: new[] { column1.TableName(), column2.TableName() },
                 raw: $"{columnName1} {_operator} {columnName2}");
