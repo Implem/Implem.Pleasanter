@@ -1838,7 +1838,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var columnName1 = $"\"{column1.TableName()}\".\"{column1.Name}\"";
             var columnName2 = $"\"{column2.TableName()}\".\"{column2.Name}\"";
-            if (csType == Types.CsNumeric && column1.Nullable == true)
+            if (csType == Types.CsDateTime
+                || (csType == Types.CsNumeric && column1.Nullable == true))
             {
                 //x = null、x <> null の判定ができない（どちらもHITしない）ため X is nullで判定する
                 //not eq では、「一方がNULLで一方がNULLでない場合」または「(どちらもNULLでなく)値が異なる場合」で判定
@@ -1864,7 +1865,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                         defaultValue = "0";
                         break;
                     case Types.CsDateTime:
-                        defaultValue = $"'{0.ToDateTime():yyyy-MM-dd}'";
                         break;
                     case Types.CsString:
                         defaultValue = "''";

@@ -131,6 +131,7 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Select(o => o.Or)
                 .Where(o => o != null)
                 .ForEach(o => data.AddRange(o.JoinTableNames()));
+            // view.Filters.eq_Filter 用に複数のTableNameを指定できるように追加
             this
                 .Where(o => o?.JoinTableNames != null)
                 .SelectMany(o => o.JoinTableNames)
