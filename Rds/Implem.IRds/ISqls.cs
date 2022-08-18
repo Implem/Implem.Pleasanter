@@ -9,7 +9,9 @@ namespace Implem.IRds
         string IsNotTrue { get; }
         string CurrentDateTime { get; }
         string Like { get; }
+        string NotLike { get; }
         string LikeWithEscape { get; }
+        string NotLikeWithEscape { get; }
         string Escape { get; }
         string EscapeValue(string value);
         string IsNull { get; }

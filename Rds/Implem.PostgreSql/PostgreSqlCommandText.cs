@@ -83,16 +83,24 @@ namespace Implem.PostgreSql
             return commandText.ToString();
         }
 
-        public string CreateFullTextWhereItem(string itemsTableName, string paramName)
+        public string CreateFullTextWhereItem(
+            string itemsTableName,
+            string paramName,
+            bool negative = false)
         {
-            return $"(\"{itemsTableName}\".\"FullText\" %> @{paramName}#CommandCount#)";
+            return (negative
+                ? $"(not (coalesce(\"{itemsTableName}\".\"FullText\",'') %> @{paramName}#CommandCount#))"
+                : $"(\"{itemsTableName}\".\"FullText\" %> @{paramName}#CommandCount#)");
         }
 
         public string CreateFullTextWhereBinary(
             string itemsTableName,
-            string paramName)
+            string paramName,
+            bool negative = false)
         {
-            return $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))";
+            return (negative
+                ? $"(not exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))"
+                : $"(exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))");
         }
 
         public Dictionary<string,string> CreateSearchTextWords(
