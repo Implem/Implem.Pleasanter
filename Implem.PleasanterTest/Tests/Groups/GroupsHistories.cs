@@ -23,10 +23,10 @@ namespace Implem.PleasanterTest.Tests.Groups
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.GroupsHistories(id: id));
-            var json = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Json(
                 context: context,
-                json: json,
+                results: results,
                 jsonTests: jsonTests));
         }
 

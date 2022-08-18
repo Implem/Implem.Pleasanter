@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsSelectedIds(id: id),
                 httpMethod: "POST",
                 forms: forms);
-            var text = GetText(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Text(
                 context: context,
-                text: text,
+                results: results,
                 textTests: textTests));
         }
 
@@ -71,7 +71,7 @@ namespace Implem.PleasanterTest.Tests.Items
             };
         }
 
-        private static string GetText(Context context)
+        private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
             return itemModel.SelectedIds(context: context);

@@ -21,12 +21,12 @@ namespace Implem.PleasanterTest.Tests.Users
             string returnUrl,
             List<JsonTest> jsonTests)
         {
-            var json = Authentications.SignIn(
+            var results = Authentications.SignIn(
                 context: context,
                 returnUrl: returnUrl);
             Assert.True(Compare.Json(
                 context: context,
-                json: json,
+                results: results,
                 jsonTests: jsonTests));
         }
 

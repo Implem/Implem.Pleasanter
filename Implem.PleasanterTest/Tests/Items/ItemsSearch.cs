@@ -21,10 +21,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 queryStrings: queryStrings,
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsSearch());
-            var html = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,
-                html: html,
+                results: results,
                 htmlTests: htmlTests));
         }
 

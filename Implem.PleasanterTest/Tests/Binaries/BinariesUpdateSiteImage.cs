@@ -1,0 +1,94 @@
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using Implem.PleasanterTest.Models;
+using Implem.PleasanterTest.Utilities;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Implem.PleasanterTest.Tests.Binaries
+{
+    public class BinariesUpdateSiteImage
+    {
+        [Theory]
+        [MemberData(nameof(GetData))]
+        public void Test(
+            string title,
+            Forms forms,
+            string fileName,
+            UserModel userModel,
+            List<JsonTest> jsonTests)
+        {
+            var id = Initializer.Titles.Get(title);
+            var context = ContextData.Get(
+                userId: userModel.UserId,
+                routeData: RouteData.BinariesUpdateSiteImage(id: id),
+                httpMethod: "POST",
+                forms: forms,
+                fileName: fileName,
+                contentType: "image/png");
+            var results = Results(context: context);
+            Assert.True(Compare.Json(
+                context: context,
+                results: results,
+                jsonTests: jsonTests));
+        }
+
+        public static IEnumerable<object[]> GetData()
+        {
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    title: "WBS",
+                    fileName: "Image1.png",
+                    jsonTests: JsonData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#TenantImageLogoContainer"),
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#TenantImageSettingsEditor"),
+                        JsonData.Value(
+                            method: "Message",
+                            value: "{\"Id\":\"FileUpdateCompleted\",\"Text\":\"ファイルのアップロードが完了しました。\",\"Css\":\"alert-success\"}")),
+                    userType: UserData.UserTypes.TenantManager1)
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    title: testPart.Title,
+                    forms: testPart.Forms,
+                    fileName: testPart.FileName,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
+            }
+        }
+
+        private static object[] TestData(
+            string title,
+            Forms forms,
+            string fileName,
+            UserModel userModel,
+            List<JsonTest> jsonTests)
+        {
+            return new object[]
+            {
+                title,
+                forms,
+                fileName,
+                userModel,
+                jsonTests
+            };
+        }
+
+        private static string Results(Context context)
+        {
+            return BinaryUtilities.UpdateSiteImage(
+                context: context,
+                siteModel: new SiteModel(
+                    context: context,
+                    siteId: context.Id));
+        }
+    }
+}

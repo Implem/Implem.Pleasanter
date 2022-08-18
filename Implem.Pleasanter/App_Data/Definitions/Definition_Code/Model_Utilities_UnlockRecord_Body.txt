@@ -29,10 +29,8 @@
                 context: context,
                 ss: ss,
                 #modelName#Model: #modelName#Model)
-                    .SetMemory("formChanged", false)
                     .Message(Messages.UnlockedRecord(context: context))
                     .Messages(context.Messages)
-                    .ClearFormData()
                     .ToJson();
         case Error.Types.UpdateConflicts:
             return Messages.ResponseUpdateConflicts(

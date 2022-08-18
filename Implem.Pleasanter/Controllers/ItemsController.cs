@@ -425,11 +425,11 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string ExportAsync(long id)
+        public string ExportAndMailNotify(long id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = new ItemModel(context: context, referenceId: id).ExportAsync(context: context);
+            var json = new ItemModel(context: context, referenceId: id).ExportAndMailNotify(context: context);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
@@ -507,21 +507,6 @@ namespace Implem.Pleasanter.Controllers
 
         [HttpPost]
         public string GridRows(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = new ItemModel(
-                context: context,
-                referenceId: id)
-                    .GridRows(context: context);
-            log.Finish(
-                context: context,
-                responseSize: json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string EditOnGrid(long id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
@@ -997,7 +982,7 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
-        public string PermissionForCreating(long id)
+        public string PermissionForRecord(long id)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
@@ -1212,19 +1197,6 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 responseSize: json.Length);
             return json;
-        }
-
-        [HttpPost]
-        public ContentResult Get(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var result = new ItemModel(context: context, referenceId: id)
-                .GetByApi(
-                    context: context,
-                    internalRequest: true);
-            log.Finish(context: context, responseSize: result.Content.Length);
-            return result.ToRecourceContentResult(request: Request);
         }
     }
 }

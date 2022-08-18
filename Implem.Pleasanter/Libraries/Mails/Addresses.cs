@@ -217,7 +217,7 @@ namespace Implem.Pleasanter.Libraries.Mails
                                 deptId: deptId))
                             .SelectMany(dept => SiteInfo.DeptUsers(
                                 context: context,
-                                dept: dept))
+                                dept: dept)) ?? new List<User>()
                         : SiteInfo.DeptUsers(
                             context: context,
                             dept: SiteInfo.Dept(
@@ -232,7 +232,7 @@ namespace Implem.Pleasanter.Libraries.Mails
                                 groupId: groupId))
                             .SelectMany(group => SiteInfo.GroupUsers(
                                 context: context,
-                                group: group))
+                                group: group)) ?? new List<User>()
                         : SiteInfo.GroupUsers(
                             context: context,
                             group: SiteInfo.Group(
@@ -244,7 +244,7 @@ namespace Implem.Pleasanter.Libraries.Mails
                         ? value.Deserialize<List<int>>()
                             ?.Select(userId => SiteInfo.User(
                                 context: context,
-                                userId: userId))
+                                userId: userId)) ?? new List<User>()
                         : SiteInfo.User(
                             context: context,
                             userId: value.ToInt()).ToSingleList());

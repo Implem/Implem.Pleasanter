@@ -37,6 +37,7 @@
             "Comments"
         ]
     },
+    "MoveTargets": [ "#Site2#" ],
     "Columns": [
         {
             "ColumnName": "AttachmentsA",

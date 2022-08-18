@@ -253,9 +253,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 demoModel: demoModel,
                 idHash: idHash);
-            SiteInfo.Reflesh(
-                context: context,
-                force: true);
             var ssHash = InitializeSites(
                 context: context,
                 demoModel: demoModel,
@@ -297,6 +294,9 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
         }
 
         /// <summary>
@@ -602,6 +602,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))
@@ -884,6 +885,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))

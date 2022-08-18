@@ -6380,7 +6380,7 @@ namespace Implem.Pleasanter.Models
                 encoding: context.QueryStrings.Data("encoding"));
         }
 
-        public static string ExportAsync(
+        public static string ExportAndMailNotify(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (context.ContractSettings.Export == false)
@@ -8298,10 +8298,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         issueModel: issueModel)
-                            .SetMemory("formChanged", false)
                             .Message(Messages.UnlockedRecord(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData()
                             .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(

@@ -22,10 +22,10 @@ namespace Implem.PleasanterTest.Tests.Items
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsKamban(id: siteId));
-            var html = Results(context: context);
+            var results = Results(context: context);
             Assert.True(Compare.Html(
                 context: context,
-                html: html,
+                results: results,
                 htmlTests: htmlTests));
         }
 

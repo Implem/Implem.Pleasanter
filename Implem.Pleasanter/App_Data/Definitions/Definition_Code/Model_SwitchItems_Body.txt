@@ -662,7 +662,7 @@ public ResponseFile Export(Context context)
     }
 }
 
-public string ExportAsync(Context context)
+public string ExportAndMailNotify(Context context)
 {
     SetSite(
         context: context,
@@ -686,7 +686,7 @@ public string ExportAsync(Context context)
     switch (Site.ReferenceType)
     {
         
-<!--Model_ExportAsyncCases-->
+<!--Model_ExportAndMailNotifyCases-->
 
         default:
             return Error.Types.InvalidRequest.MessageJson(context: context);
