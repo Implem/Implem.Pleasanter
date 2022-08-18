@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private DateTime GetTimerDateTime(string timeString)
         {
-            // このクラスではDateTimeはローカルタイムだけ扱うのでTimeZoneは考慮しなくていい
+            // このクラスではDateTimeはローカルタイムだけ扱うのでTimeZoneは考慮しない。
             var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
             var now = DateTimeNow();
             var timerDateTime = now.Date + timeOfDay;
