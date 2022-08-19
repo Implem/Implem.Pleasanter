@@ -1371,11 +1371,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
-        public static Message SyncByLdapExecuted(Context context, params string[] data)
+        public static Message SyncByLdapStarted(Context context, params string[] data)
         {
             return Get(
-                id: "SyncByLdapExecuted",
-                text: Displays.SyncByLdapExecuted(
+                id: "SyncByLdapStarted",
+                text: Displays.SyncByLdapStarted(
                     context: context,
                     data: data),
                 css: "alert-success");
@@ -2871,11 +2871,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                 target: target);
         }
 
-        public static ResponseCollection ResponseSyncByLdapExecuted(
+        public static ResponseCollection ResponseSyncByLdapStarted(
             Context context, string target = null, params string[] data)
         {
             return ResponseMessage(
-                message: SyncByLdapExecuted(
+                message: SyncByLdapStarted(
                     context: context,
                     data: data),
                 target: target);

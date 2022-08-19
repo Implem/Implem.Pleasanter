@@ -4829,16 +4829,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string LdapSynchronize(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "LdapSynchronize",
-                data: data);
-        }
-
         public static string Leader(
             Context context,
             params string[] data)
@@ -8409,13 +8399,23 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string SyncByLdapExecuted(
+        public static string SyncByLdap(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "SyncByLdapExecuted",
+                id: "SyncByLdap",
+                data: data);
+        }
+
+        public static string SyncByLdapStarted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncByLdapStarted",
                 data: data);
         }
 

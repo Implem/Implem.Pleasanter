@@ -728,11 +728,13 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlId: "TenantSyncByLdap",
                             controlCss: "button-icon",
-                            text: Displays.LdapSynchronize(context: context),
+                            text: Displays.SyncByLdap(context: context),
                             onClick: "$p.send($(this));",
                             icon: "ui-icon-disk",
                             action: "SyncByLdap",
-                            method: "post")));
+                            method: "post",
+                            _using: Parameters.BackgroundService.SyncByLdap),
+                    _using: Parameters.BackgroundService.SyncByLdap));
         }
 
         public static HtmlBuilder Field(
@@ -1486,7 +1488,8 @@ namespace Implem.Pleasanter.Models
         public static string SyncByLdap(Context context, SiteSettings ss)
         {
             var invalid = TenantValidators.OnSyncByLdap(
-                context: context, ss: ss);
+                context: context,
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -1494,7 +1497,7 @@ namespace Implem.Pleasanter.Models
             }
             //SyncByLdap()に時間がかかるのでTask呼び出しするが、呼び出し側がasyncでないのでawait無し。
             Task.Run(() => UserUtilities.SyncByLdap(context: context));
-            return Messages.ResponseSyncByLdapExecuted(context: context).ToJson();
+            return Messages.ResponseSyncByLdapStarted(context: context).ToJson();
         }
 
         /// <summary>

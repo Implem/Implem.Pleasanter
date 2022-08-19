@@ -61,6 +61,5 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
-
     }
 }

@@ -1,13 +1,13 @@
 ﻿{
-    "Id": "LdapSynchronize",
+    "Id": "SyncByLdap",
     "Type": 110,
     "Languages": [
         {
-            "Body": "LDAP synchronization"
+            "Body": "Synchronize by LDAP"
         },
         {
             "Language": "zh",
-            "Body": "LDAP 同步"
+            "Body": "通过 LDAP 同步"
         },
         {
             "Language": "ja",
@@ -15,19 +15,19 @@
         },
         {
             "Language": "de",
-            "Body": "LDAP-Synchronisierung"
+            "Body": "Per LDAP synchronisieren"
         },
         {
             "Language": "ko",
-            "Body": "LDAP 동기화"
+            "Body": "LDAP로 동기화"
         },
         {
             "Language": "es",
-            "Body": "sincronización LDAP"
+            "Body": "Sincronizar por LDAP"
         },
         {
             "Language": "vn",
-            "Body": "Đồng bộ hóa LDAP"
+            "Body": "Đồng bộ hóa bằng LDAP"
         }
     ]
 }

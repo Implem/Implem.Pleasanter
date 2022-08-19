@@ -537,7 +537,7 @@ namespace Implem.Pleasanter.Models
         public static ErrorData OnSyncByLdap(
             Context context, SiteSettings ss)
         {
-            if (!context.CanRead(ss: ss))
+            if (!context.CanUpdate(ss: ss))
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }

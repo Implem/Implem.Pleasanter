@@ -28,22 +28,20 @@ namespace Implem.PleasanterTest.Tests.Tenants
         }
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTestsSuccess = JsonData.Tests(
-                JsonData.Value(
-                    method: "Message",
-                    value: "{\"Id\":\"SyncByLdapExecuted\",\"Text\":\"LDAP同期を開始しました。\",\"Css\":\"alert-success\"}"));
-            var jsonTestsNotPermitted = JsonData.Tests(
-                JsonData.Value(
-                    method: "Message",
-                    value: "{\"Id\":\"HasNotPermission\",\"Text\":\"この操作を行うための権限がありません。\",\"Css\":\"alert-error\"}"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     userType: UserData.UserTypes.TenantManager1,
-                    jsonTests: jsonTestsSuccess),
+                    jsonTests: JsonData.Tests(
+                        JsonData.Value(
+                            method: "Message",
+                            value: "{\"Id\":\"SyncByLdapExecuted\",\"Text\":\"LDAP同期を開始しました。\",\"Css\":\"alert-success\"}"))),
                 new TestPart(
                     userType: UserData.UserTypes.General1,
-                    jsonTests: jsonTestsNotPermitted)
+                    jsonTests: JsonData.Tests(
+                        JsonData.Value(
+                            method: "Message",
+                            value: "{\"Id\":\"HasNotPermission\",\"Text\":\"この操作を行うための権限がありません。\",\"Css\":\"alert-error\"}")))
             };
             foreach (var testPart in testParts)
             {

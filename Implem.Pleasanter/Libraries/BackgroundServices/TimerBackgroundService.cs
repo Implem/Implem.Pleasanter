@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             TimerList.Sort((x, y) => x.DateTime.CompareTo(y.DateTime));
         }
 
-        private Context CreateEmptyContext()
+        private Context CreateContext()
         {
             return new Context(
                 request: false,
@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             }
             catch (Exception e)
             {
-                Context context = CreateEmptyContext();
+                Context context = CreateContext();
                 new SysLogModel(
                     context: context,
                     e: e,
@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         private DateTime GetTimerDateTime(string timeString)
         {
             // このクラスではDateTimeはローカルタイムだけ扱うのでTimeZoneは考慮しない。
-            var timeOfDay = DateTime.Parse(timeString).TimeOfDay;
+            var timeOfDay = DateTime.Parse(timeString).TimeOfDay; //TODO ToLocal()メソッドで日付と時間をマージして、ToUniversal()する
             var now = DateTimeNow();
             var timerDateTime = now.Date + timeOfDay;
             // 時間が過ぎているのは次の日に回す
@@ -84,7 +84,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 timerDateTime = timerDateTime.AddDays(1);
             }
-            SortTimerList();
             return timerDateTime;
         }
 
@@ -93,7 +92,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             //再スケジュールするのは先頭要素だけのはず
             Debug.Assert(TimerList.First() == timerPair);
             TimerList.Remove(timerPair);
-            var nextDayTime = timerPair.DateTime.AddDays(1);
+            var nextDayTime = timerPair.DateTime.AddDays(1); //TODO 秒がちょっとずつずれつとか無いのか確認。
             TimerList.Add(new TimeExecuteTimerPair()
             {
                 DateTime = nextDayTime,
@@ -112,7 +111,9 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         private async Task WaitNextTimer(CancellationToken stoppingToken)
         {
             var waitTimeSpan = TimerList.First().DateTime - DateTimeNow();
-            waitTimeSpan = TimeSpan.Zero < waitTimeSpan ? waitTimeSpan : TimeSpan.Zero; 
+            waitTimeSpan = TimeSpan.Zero < waitTimeSpan
+                ? waitTimeSpan
+                : TimeSpan.Zero;
             await TaskDelay(
                 waitTimeSpan: waitTimeSpan,
                 stoppingToken: stoppingToken);
@@ -137,7 +138,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var context = CreateEmptyContext();
+            var context = CreateContext();
             while (!stoppingToken.IsCancellationRequested)
             {
                 try

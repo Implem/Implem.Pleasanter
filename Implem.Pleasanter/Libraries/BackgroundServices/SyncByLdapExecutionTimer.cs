@@ -25,7 +25,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var log = new SysLogModel(context: context);
                 var json = UserUtilities.SyncByLdap(context: context);
                 log.Finish(
-                context: context,
+                    context: context,
                     responseSize: json.Length);
             }, stoppingToken);
         }
