@@ -530,5 +530,18 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(type: Error.Types.NotFound)
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ErrorData OnSyncByLdap(
+            Context context, SiteSettings ss)
+        {
+            if (!context.CanRead(ss: ss))
+            {
+                return new ErrorData(type: Error.Types.HasNotPermission);
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
     }
 }
