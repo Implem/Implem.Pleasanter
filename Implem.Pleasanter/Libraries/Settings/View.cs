@@ -517,6 +517,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     if (filterName.Contains(columnFilterPrefix))
                                     {
                                         filterName = filterName.Substring(columnFilterPrefix.Length);
+                                        filterName = filterName.Replace("_NumericRange", "");
+                                        filterName = filterName.Replace("_DateRange", "");
                                     }
                                     if (ColumnFilterNegatives?.Contains(filterName) != true)
                                     {
@@ -537,6 +539,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     if (filterName.Contains(columnFilterPrefix))
                                     {
                                         filterName = filterName.Substring(columnFilterPrefix.Length);
+                                        filterName = filterName.Replace("_NumericRange", "");
+                                        filterName = filterName.Replace("_DateRange", "");
                                     }
                                     if (ColumnFilterNegatives?.Contains(filterName) == true)
                                     {

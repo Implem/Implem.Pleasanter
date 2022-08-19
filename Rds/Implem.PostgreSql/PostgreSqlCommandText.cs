@@ -86,7 +86,7 @@ namespace Implem.PostgreSql
         public string CreateFullTextWhereItem(
             string itemsTableName,
             string paramName,
-            bool negative = false)
+            bool negative)
         {
             return (negative
                 ? $"(not (coalesce(\"{itemsTableName}\".\"FullText\",'') %> @{paramName}#CommandCount#))"
@@ -96,7 +96,7 @@ namespace Implem.PostgreSql
         public string CreateFullTextWhereBinary(
             string itemsTableName,
             string paramName,
-            bool negative = false)
+            bool negative)
         {
             return (negative
                 ? $"(not exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and (encode(\"Bin\", 'escape') %> @{paramName}#CommandCount#)))"

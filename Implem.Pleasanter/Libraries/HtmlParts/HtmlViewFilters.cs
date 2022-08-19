@@ -368,6 +368,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             SetNumericRangeDialog(
                                 hb: hb,
+                                context: context,
                                 ss: ss,
                                 view: view,
                                 column: column,
@@ -398,6 +399,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         SetNumericRangeDialog(
                             hb: hb,
+                            context: context,
                             ss: ss,
                             view: view,
                             column: column,
@@ -441,13 +443,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new Dictionary<string, string>
                             {
                                 ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
-                            })
-                        .Hidden(attributes: new HtmlAttributes()
-                            .Id(idPrefix + column.ColumnName)
-                            .Class(column.UseSearch == true ? " search" : string.Empty)
-                            .DataMethod("post")
-                            .DataAction(action)
-                            .Value(view.ColumnFilter(column.ColumnName)));
+                            });
+                        if (!context.Forms.ContainsKey("ViewFilters_Negative"))
+                        {
+                            hb.Hidden(attributes: new HtmlAttributes()
+                                .Id(idPrefix + column.ColumnName)
+                                .Class(column.UseSearch == true ? " search" : string.Empty)
+                                .DataMethod("post")
+                                .DataAction(action)
+                                .Value(view.ColumnFilter(column.ColumnName)));
+                        }
                     }
                     break;
                 case Types.CsString:
@@ -504,6 +509,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static void SetNumericRangeDialog(
             HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             View view,
             Column column,
@@ -528,13 +534,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new Dictionary<string, string>
                     {
                         ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
-                    })
-                .Hidden(attributes: new HtmlAttributes()
+                    });
+            if (!context.Forms.ContainsKey("ViewFilters_Negative"))
+            {
+                hb
+                    .Hidden(attributes: new HtmlAttributes()
                     .Id(idPrefix + column.ColumnName)
                     .Class(column.UseSearch == true ? " search" : string.Empty)
                     .DataMethod("post")
                     .DataAction(action)
                     .Value(view.ColumnFilter(column.ColumnName)));
+            }
         }
 
         private static HtmlBuilder CheckBox(

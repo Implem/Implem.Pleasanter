@@ -43,8 +43,7 @@
         $p.ajax(
             $('#ApplicationPath').val() + 'items/' + $p.id() + '/index',
             'POST',
-            data,
-            undefined);
+            data);
     });
     $(document).on('click', '.menu-negative > li.positive', function (e) {
         var data = {};
@@ -52,7 +51,6 @@
         $p.ajax(
             $('#ApplicationPath').val() + 'items/' + $p.id() + '/index',
             'POST',
-            data,
-            undefined);
+            data);
     });
 });

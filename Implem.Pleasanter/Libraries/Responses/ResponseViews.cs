@@ -130,19 +130,38 @@ namespace Implem.Pleasanter.Libraries.Responses
                 else
                 {
                     filterName = filterName.Substring(prefix.Length);
+                    filterName = filterName.Replace("_NumericRange", "");
+                    filterName = filterName.Replace("_DateRange", "");
                     var column = ss.GetColumn(
                         context: context,
                         columnName: filterName);
                     if (column != null)
                     {
                         var hb = new HtmlBuilder();
+                        string ReplaceColumnName = column.ColumnName;
+                        switch (column.DateFilterSetMode.ToString())
+                        {
+                            case "Range":
+                                switch (column.TypeName)
+                                {
+                                    case "decimal":
+                                        ReplaceColumnName += "_NumericRange";
+                                        break;
+                                    case "datetime":
+                                        ReplaceColumnName += "_DateRange";
+                                        break;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                         HtmlViewFilters.Column(
                             hb: hb,
                             context: context,
                             ss: ss,
                             view: view,
                             column: column);
-                        res.ReplaceAll($"[id=\"ViewFilters__{column.ColumnName}Field\"]", hb);
+                        res.ReplaceAll($"[id=\"ViewFilters__{ReplaceColumnName}Field\"]", hb);
                     }
                 }
             }

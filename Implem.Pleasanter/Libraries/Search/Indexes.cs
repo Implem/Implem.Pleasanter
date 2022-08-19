@@ -882,7 +882,7 @@ namespace Implem.Pleasanter.Libraries.Search
             string name,
             string idColumnBracket,
             Sqls.TableTypes tableType,
-            bool negative = false)
+            bool negative)
         {
             var prefix = string.Empty;
             switch (tableType)
@@ -895,13 +895,13 @@ namespace Implem.Pleasanter.Libraries.Search
             string binary;
             if (negative)
             {
-                item = $"not exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name)})";
-                binary = $"not exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name)})";
+                item = $"not exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name, negative)})";
+                binary = $"not exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name, negative)})";
             }
             else
             {
-                item = $"exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name)})";
-                binary = $"exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name)})";
+                item = $"exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name, negative)})";
+                binary = $"exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name, negative)})";
             }
             return Parameters.Search.SearchDocuments
                 ? $"({item} or {binary})"

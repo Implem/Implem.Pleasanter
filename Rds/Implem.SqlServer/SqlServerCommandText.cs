@@ -74,7 +74,7 @@ namespace Implem.SqlServer
         public string CreateFullTextWhereItem(
             string itemsTableName,
             string paramName,
-            bool negative = false)
+            bool negative)
         {
             return (negative
                 ? $"(not contains(\"{itemsTableName}\".\"FullText\", @{paramName}#CommandCount#))"
@@ -84,7 +84,7 @@ namespace Implem.SqlServer
         public string CreateFullTextWhereBinary(
             string itemsTableName,
             string paramName,
-            bool negative = false)
+            bool negative)
         {
             return(negative
                 ? $"(not exists(select * from \"Binaries\" where \"Binaries\".\"ReferenceId\"=\"{itemsTableName}\".\"ReferenceId\" and contains(\"Bin\", @{paramName}#CommandCount#)))"
