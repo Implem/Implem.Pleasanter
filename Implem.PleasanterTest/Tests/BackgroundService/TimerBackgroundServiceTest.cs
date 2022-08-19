@@ -21,7 +21,11 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             //TimerBackgroundServiceにはコンストラクタで事前にリストに入っているのでテスト用に消しておく
             TimerList.Clear();
         }
-        override protected DateTime DateTimeNow() { return DateTimeNow_; }
+        override protected DateTime DateTimeNow()
+        {
+            //return DateTimeNow_.ToUniversalTime();
+            return DateTimeNow_;
+        }
         override protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
         {
             TaskDelayCalledList.Add(waitTimeSpan);
@@ -59,7 +63,6 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
     {
 
         [Fact]
-        //[Fact(Skip = "")]
         public async void WaitNextTimerThenExecuteAsync_TimerEmpty_DoesNotThrowException()
         {
             //Arrange
@@ -78,10 +81,10 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             // DateTime.Nowを固定
             targetMock.DateTimeNow_ = DateTime.Parse("2022-08-12 02:00");
             var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
-            timer1.TimeList.Add("3:00");
-            timer1.TimeList.Add("1:00");
+            timer1.TimeList.Add("03:00");
+            timer1.TimeList.Add("01:00");
             //同じ時間も追加
-            timer1.TimeList.Add("1:00");
+            timer1.TimeList.Add("01:00");
             //Act
             targetMock.AddTimer_(timer: timer1);
             //Assert
@@ -107,11 +110,11 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             // "2022-08-12 02:00", Timer2
             // "2022-08-12 03:00", Timer1
             var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
-            timer1.TimeList.Add("3:00");
-            timer1.TimeList.Add("1:00");
+            timer1.TimeList.Add("03:00");
+            timer1.TimeList.Add("01:00");
             targetMock.AddTimer_(timer: timer1);
             var timer2 = new StubTimer(name: "Timer2", parent: targetMock);
-            timer2.TimeList.Add("2:00");
+            timer2.TimeList.Add("02:00");
             targetMock.AddTimer_(timer: timer2);
             // Act
             // TimerBackgroundService:ExecuteAsync()内で2回ループを回った想定
