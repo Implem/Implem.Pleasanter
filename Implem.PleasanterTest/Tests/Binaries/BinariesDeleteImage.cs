@@ -1,0 +1,102 @@
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using Implem.PleasanterTest.Models;
+using Implem.PleasanterTest.Utilities;
+using System.Collections.Generic;
+using Xunit;
+
+namespace Implem.PleasanterTest.Tests.Binaries
+{
+    public class BinariesDeleteImage
+    {
+        [Theory]
+        [MemberData(nameof(GetData))]
+        public void Test(
+            string guid,
+            Forms forms,
+            UserModel userModel,
+            List<JsonTest> jsonTests)
+        {
+            var context = ContextData.Get(
+                userId: userModel.UserId,
+                routeData: RouteData.BinariesDeleteImage(guid: guid),
+                httpMethod: "DELETE",
+                forms: forms);
+            var results = Results(
+                context: context,
+                guid: guid);
+            Assert.True(Compare.Json(
+                context: context,
+                results: results,
+                jsonTests: jsonTests));
+        }
+
+        public static IEnumerable<object[]> GetData()
+        {
+            var id = Initializer.Titles.Get("利用者向けマニュアルを作成する");
+            BinaryUtilities.UploadImage(
+                context: ContextData.Get(
+                    userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
+                    routeData: RouteData.BinariesUploadImage(id: id),
+                    httpMethod: "POST",
+                    forms: FormsUtilities.Get(new KeyValue("ControlId", "Issues_Body")),
+                    fileName: "Image1.png",
+                    contentType: "image/png"),
+                id: id);
+            var guid = Rds.ExecuteScalar_string(
+                context: Initializer.Context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().Guid(),
+                    where: Rds.BinariesWhere()
+                        .TenantId(Initializer.TenantId)
+                        .ReferenceId(id)
+                        .FileName("Image1.png")));
+            var testParts = new List<TestPart>()
+            {
+                new TestPart(
+                    guid: guid,
+                    forms: FormsUtilities.Get(new KeyValue("Guid", guid)),
+                    jsonTests: JsonData.Tests(
+                        JsonData.Value(
+                            method: "Message",
+                            value: "{\"Id\":\"DeletedImage\",\"Text\":\"画像を削除しました。\",\"Css\":\"alert-success\"}"),
+                        JsonData.ExistsOne(
+                            method: "Remove",
+                            target: $"#ImageLib .item[data-id=\"{guid}\"]")))
+            };
+            foreach (var testPart in testParts)
+            {
+                yield return TestData(
+                    guid: testPart.Guid,
+                    forms: testPart.Forms,
+                    userModel: testPart.UserModel,
+                    jsonTests: testPart.JsonTests);
+            }
+        }
+
+        private static object[] TestData(
+            string guid,
+            Forms forms,
+            UserModel userModel,
+            List<JsonTest> jsonTests)
+        {
+            return new object[]
+            {
+                guid,
+                forms,
+                userModel,
+                jsonTests
+            };
+        }
+
+        private static string Results(Context context, string guid)
+        {
+            return BinaryUtilities.DeleteImage(
+                context: context,
+                guid: guid);
+        }
+    }
+}
