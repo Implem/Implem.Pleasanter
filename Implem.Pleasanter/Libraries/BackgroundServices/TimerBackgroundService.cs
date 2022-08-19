@@ -75,7 +75,6 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private DateTime GetTimerDateTime(string timeString)
         {
-            // このクラスではDateTimeはローカルタイムだけ扱うのでTimeZoneは考慮しない。
             var timeOfDay = DateTime.Parse(timeString).TimeOfDay; //TODO ToLocal()メソッドで日付と時間をマージして、ToUniversal()する
             var now = DateTimeNow();
             var timerDateTime = now.Date + timeOfDay;
@@ -92,7 +91,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             //再スケジュールするのは先頭要素だけのはず
             Debug.Assert(TimerList.First() == timerPair);
             TimerList.Remove(timerPair);
-            var nextDayTime = timerPair.DateTime.AddDays(1); //TODO 秒がちょっとずつずれつとか無いのか確認。
+            // TODO 1日進めるのでなく、今日の次の日、に進める、にする。
+            var nextDayTime = timerPair.DateTime.AddDays(1); //TODO 秒がちょっとずつずれつとか無いのか確認。-> C#のMSの実装コード見て確認できた。24時間だけ進めてる。
             TimerList.Add(new TimeExecuteTimerPair()
             {
                 DateTime = nextDayTime,
