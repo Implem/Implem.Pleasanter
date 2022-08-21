@@ -202,10 +202,10 @@ namespace Implem.Pleasanter.Controllers
             var file = BinaryUtilities.DownloadTemp(
                 context: context,
                 guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            var result = file != null
-                ? file.FileStream()
-                : null;
+            var result = file?.FileStream();
+            log.Finish(
+                context: context,
+                responseSize: result?.FileContents?.Length ?? 0);
             return result != null
                 ? File(result.FileContents, result.ContentType)
                 : null;
