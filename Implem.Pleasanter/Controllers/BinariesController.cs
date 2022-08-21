@@ -199,10 +199,12 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
+            var file = BinaryUtilities.DownloadTemp(
+                context: context,
+                guid: guid);
             log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
             var result = file != null
-                ? new FileContentResult(System.Text.Encoding.UTF8.GetBytes(file.FileContents), file.ContentType)
+                ? file.FileStream()
                 : null;
             return result != null
                 ? File(result.FileContents, result.ContentType)
