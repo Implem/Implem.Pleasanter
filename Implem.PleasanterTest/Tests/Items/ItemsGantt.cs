@@ -16,17 +16,17 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsGantt(id: siteId));
             var results = Results(context: context);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -42,20 +42,20 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne(selector: "#GanttBody")));
+                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#GanttBody")));
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                htmlTests
+                baseTests
             };
         }
 

@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<TextTest> textTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -27,10 +27,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Text(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                textTests: textTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -52,7 +52,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     forms: FormsUtilities.Get(
                         new KeyValue("GridCheckedItems", testPart.Ids.Join())),
                     userModel: testPart.UserModel,
-                    textTests: TextData.ListEquals(value: testPart.Ids.ToJson()).ToSingleList());
+                    baseTests: BaseData.Tests(TextData.ListEquals(value: testPart.Ids.ToJson())));
             }
         }
 
@@ -60,14 +60,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<TextTest> textTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                textTests
+                baseTests
             };
         }
 

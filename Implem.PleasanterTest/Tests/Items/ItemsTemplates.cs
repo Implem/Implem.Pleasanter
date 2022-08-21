@@ -16,7 +16,7 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -24,15 +24,15 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsTemplates(id: id),
                 httpMethod: "POST");
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
                     target: "#SiteMenu"),
@@ -46,14 +46,14 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new TestPart(
                     title: string.Empty,
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
                 new TestPart(
                     title: "プロジェクト管理の例",
-                    jsonTests: jsonTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "商談管理の例",
-                    jsonTests: jsonTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -61,20 +61,20 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

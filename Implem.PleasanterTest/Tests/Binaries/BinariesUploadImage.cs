@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -29,10 +29,10 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 fileName: fileName,
                 contentType: "image/png");
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -44,7 +44,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "Issues_Body")),
                     fileName: "Image1.png",
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "InsertText",
                             target: "#Issues_Body")))
@@ -56,7 +56,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                     forms: testPart.Forms,
                     fileName: testPart.FileName,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
@@ -73,7 +73,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 forms,
                 fileName,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

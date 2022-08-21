@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             string guid,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
@@ -28,10 +28,10 @@ namespace Implem.PleasanterTest.Tests.Binaries
             var results = Results(
                 context: context,
                 guid: guid);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -59,7 +59,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 new TestPart(
                     guid: guid,
                     forms: FormsUtilities.Get(new KeyValue("Guid", guid)),
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.Value(
                             method: "Message",
                             value: "{\"Id\":\"DeletedImage\",\"Text\":\"画像を削除しました。\",\"Css\":\"alert-success\"}"),
@@ -73,7 +73,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                     guid: testPart.Guid,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -81,14 +81,14 @@ namespace Implem.PleasanterTest.Tests.Binaries
             string guid,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 guid,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

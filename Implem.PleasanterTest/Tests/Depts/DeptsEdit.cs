@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Depts
         public void Test(
             string title,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Depts.Values.FirstOrDefault(o => o.DeptName == title).DeptId;
             var context = ContextData.Get(
@@ -26,29 +26,29 @@ namespace Implem.PleasanterTest.Tests.Depts
             var results = Results(
                 context: context,
                 id: id);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var validHtmlTests = HtmlData.ExistsOne(selector: "#Editor").ToSingleList();
-            var notFoundHtmlTests = HtmlData.NotFoundMessage().ToSingleList();
+            var validHtmlTests = BaseData.Tests(HtmlData.ExistsOne(selector: "#Editor"));
+            var notFoundHtmlTests = BaseData.Tests(HtmlData.NotFoundMessage());
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     title: "会社",
-                    htmlTests: validHtmlTests,
+                    baseTests: validHtmlTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "会社",
-                    htmlTests: validHtmlTests,
+                    baseTests: validHtmlTests,
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
                     title: "会社",
-                    htmlTests: notFoundHtmlTests,
+                    baseTests: notFoundHtmlTests,
                     userType: UserData.UserTypes.General1)
             };
             foreach (var testPart in testParts)
@@ -56,20 +56,20 @@ namespace Implem.PleasanterTest.Tests.Depts
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    htmlTests: testPart.HtmlTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                htmlTests
+                baseTests
             };
         }
 

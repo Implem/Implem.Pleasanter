@@ -16,7 +16,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 fileName: fileName,
                 contentType: "image/png");
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -38,7 +38,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             {
                 new TestPart(
                     fileName: "Image1.png",
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
                             target: "#Logo"),
@@ -56,7 +56,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                     forms: testPart.Forms,
                     fileName: testPart.FileName,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -64,14 +64,14 @@ namespace Implem.PleasanterTest.Tests.Binaries
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 forms,
                 fileName,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

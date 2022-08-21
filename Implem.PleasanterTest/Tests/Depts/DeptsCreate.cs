@@ -14,21 +14,21 @@ namespace Implem.PleasanterTest.Tests.Depts
         [MemberData(nameof(GetData))]
         public void Test(
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsCreate());
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = new List<JsonTest>()
+            var baseTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "Response",
@@ -46,18 +46,18 @@ namespace Implem.PleasanterTest.Tests.Depts
             {
                 yield return TestData(
                     userModel: testPart.UserModel,
-                    jsonTests: jsonTests);
+                    baseTests: baseTests);
             }
         }
 
         private static object[] TestData(
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

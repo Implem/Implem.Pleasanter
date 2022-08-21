@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var siteId = title == "TopTraxhBox"
                 ? 0
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsTrashBox(id: siteId));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -51,34 +51,36 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                    jsonTests: testPart.Title == "TopTraxhBox"
-                        ? JsonData.Message(message: "NotFound").ToSingleList()
-                        : JsonData.Html(
-                            target: "#ViewModeContainer",
-                            selector: "#Grid").ToSingleList());
+                    baseTests: testPart.Title == "TopTraxhBox"
+                        ? BaseData.Tests(JsonData.Message(message: "NotFound"))
+                        : BaseData.Tests(
+                            JsonData.Html(
+                                target: "#ViewModeContainer",
+                                selector: "#Grid")));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    jsonTests: JsonData.Message(message: "NotFound").ToSingleList());
+                    baseTests: BaseData.Tests(JsonData.Message(message: "NotFound")));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                    jsonTests: JsonData.Html(
-                        target: "#ViewModeContainer",
-                        selector: "#Grid").ToSingleList());
+                    baseTests: BaseData.Tests(
+                        JsonData.Html(
+                            target: "#ViewModeContainer",
+                            selector: "#Grid")));
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

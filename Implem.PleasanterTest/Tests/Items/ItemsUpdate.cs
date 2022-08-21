@@ -16,22 +16,22 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsUpdate(id: id));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var siteJsonTests = new List<JsonTest>()
+            var siteJsonTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
@@ -51,7 +51,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 JsonData.ExistsOne(method: "Message"),
                 JsonData.ExistsOne(method: "ClearFormData")
             };
-            var tableJsonTests = new List<JsonTest>()
+            var tableJsonTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(method: "Log"),
                 JsonData.ExistsOne(
@@ -78,7 +78,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     method: "Events",
                     target: "on_editor_load")
             };
-            var wikiJsonTests = new List<JsonTest>()
+            var wikiJsonTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
@@ -99,63 +99,63 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new TestPart(
                     title: "プロジェクト管理の例",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "WBS",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "課題管理",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "レビュー記録",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "商談管理の例",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "顧客マスタ",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "商談",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "仕入",
-                    jsonTests: siteJsonTests,
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "サーバのテスト",
-                    jsonTests: tableJsonTests,
+                    baseTests: tableJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "ネットワーク構成が決まっていない",
-                    jsonTests: tableJsonTests,
+                    baseTests: tableJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "ディスク容量の要件に誤り",
-                    jsonTests: tableJsonTests,
+                    baseTests: tableJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "株式会社プリザンター",
-                    jsonTests: tableJsonTests,
+                    baseTests: tableJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "業務改善コンサルティング",
-                    jsonTests: tableJsonTests,
+                    baseTests: tableJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "R社システム開発",
-                    jsonTests: tableJsonTests,
+                    baseTests: tableJsonTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "Wiki1",
-                    jsonTests: wikiJsonTests,
+                    baseTests: wikiJsonTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -163,20 +163,20 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

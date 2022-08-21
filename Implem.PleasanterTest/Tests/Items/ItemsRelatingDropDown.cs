@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -40,7 +40,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new KeyValue("RelatingDropDownSelected", "[\"\"]"),
                 new KeyValue("RelatingDropDownParentClass", "ClassA"),
                 new KeyValue("RelatingDropDownParentDataId", $"[\"{Initializer.Titles.Get("株式会社プリザンター")}\"]"));
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.Value(
                     method: "Html",
                     target: "#Results_ClassA",
@@ -56,7 +56,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "X社ソフトウェア",
                     forms: forms,
-                    jsonTests: jsonTests)
+                    baseTests: baseTests)
             };
             foreach (var testPart in testParts)
             {
@@ -64,7 +64,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -72,14 +72,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 
