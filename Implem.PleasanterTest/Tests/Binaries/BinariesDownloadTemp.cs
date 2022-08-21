@@ -55,7 +55,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    title: "サーバ要件の確認",
+                    title: "運用管理システムの構築",
                     guid: guid)
             };
             foreach (var testPart in testParts)
