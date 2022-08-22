@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -27,10 +27,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -50,9 +50,10 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("GridCheckedItems", gridCheckedItems),
                         new KeyValue("BulkUpdateColumnName", "ClassA")),
                     bulkUpdateColumnName: "ClassA",
-                    jsonTests: JsonData.Tests(JsonData.ExistsOne(
-                        method: "Html",
-                        target: "#BulkUpdateSelectedField")))
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#BulkUpdateSelectedField")))
             };
             foreach (var testPart in testParts)
             {
@@ -60,7 +61,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -68,14 +69,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 
@@ -94,13 +95,13 @@ namespace Implem.PleasanterTest.Tests.Items
                 string title,
                 Forms forms,
                 string bulkUpdateColumnName,
-                List<JsonTest> jsonTests,
+                List<BaseTest> baseTests,
                 UserData.UserTypes userType = UserData.UserTypes.General1)
             {
                 Title = title;
                 Forms = forms;
                 BulkUpdateColumnName = bulkUpdateColumnName;
-                JsonTests = jsonTests;
+                BaseTests = baseTests;
                 UserModel = UserData.Get(userType: userType);
             }
         }

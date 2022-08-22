@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -52,9 +52,10 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("TableId", tableId),
                         new KeyValue("ControlId", tableId)),
                     userModel: testPart.UserModel,
-                    jsonTests: JsonData.ExistsOne(
-                        method: "ReplaceAll",
-                        target: $"#{tableId}").ToSingleList());
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "ReplaceAll",
+                            target: $"#{tableId}")));
             }
         }
 
@@ -62,14 +63,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

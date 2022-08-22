@@ -16,22 +16,22 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var siteId = Initializer.Sites.Get(title)?.SiteId ?? 0;
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsTrashBoxGridRows(id: siteId));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var validJsonTests = new List<JsonTest>()
+            var validJsonTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(method: "Log"),
                 JsonData.ExistsOne(
@@ -80,30 +80,30 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                    jsonTests: testPart.Title == "TopTraxhBox"
-                        ? JsonData.Message(message: "NotFound").ToSingleList()
+                    baseTests: testPart.Title == "TopTraxhBox"
+                        ? BaseData.Tests(JsonData.Message(message: "NotFound"))
                         : validJsonTests);
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    jsonTests: JsonData.Message(message: "NotFound").ToSingleList());
+                    baseTests: BaseData.Tests(JsonData.Message(message: "NotFound")));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                    jsonTests: validJsonTests);
+                    baseTests: validJsonTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

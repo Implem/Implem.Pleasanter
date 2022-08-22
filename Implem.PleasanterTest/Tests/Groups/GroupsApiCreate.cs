@@ -16,16 +16,16 @@ namespace Implem.PleasanterTest.Tests.Groups
         [MemberData(nameof(GetData))]
         public void Test(
             UserModel userModel,
-            List<ApiJsonTest> apiJsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.GroupsApiCreate());
             var results = GetResults(context: context);
-            Assert.True(Compare.ApiResults(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                apiJsonTests: apiJsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -33,25 +33,25 @@ namespace Implem.PleasanterTest.Tests.Groups
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList(),
+                    baseTests: BaseData.Tests(ApiJsonData.StatusCode(statusCode: 200)),
                     userType: UserData.UserTypes.TenantManager1),
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     userModel: testPart.UserModel,
-                    apiJsonTests: testPart.ApiJsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             UserModel userModel,
-            List<ApiJsonTest> apiJsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 userModel,
-                apiJsonTests
+                baseTests
             };
         }
 

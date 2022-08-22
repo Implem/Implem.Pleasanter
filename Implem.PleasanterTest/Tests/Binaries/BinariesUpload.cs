@@ -23,7 +23,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
@@ -33,10 +33,10 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 fileName: fileName,
                 contentType: "text/json");
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -69,7 +69,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                         new KeyValue("uuid", uuid),
                         new KeyValue("Uuids", uuid)),
                     fileName: "Attachments.txt",
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "ReplaceAll",
                             target: "#Issues_AttachmentsAField"),
@@ -94,7 +94,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                             .ToJson()),
                         new KeyValue($"Issues_Timestamp", timestamp)),
                     fileName: "Attachments.txt",
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.ExistsOne(
                             method: "Response",
                             target: "id"),
@@ -130,7 +130,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                     forms: testPart.Forms,
                     fileName: testPart.FileName,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
@@ -147,7 +147,7 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 forms,
                 fileName,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

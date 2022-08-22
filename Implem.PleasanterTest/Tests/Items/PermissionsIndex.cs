@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Tests.Items
             int groupId,
             int userId,
             Permissions.Types permissionType,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             InitPermissions(
                 permissionInitType: permissionInitType,
@@ -38,10 +38,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsIndex(id: siteId));
             var results = Results(context: context);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -67,7 +67,7 @@ namespace Implem.PleasanterTest.Tests.Items
                                 groupId: ids.GroupId,
                                 userId: ids.UserId,
                                 permissionType: (Permissions.Types)31,
-                                htmlTests: GetHtmlTests(
+                                baseTests: GetHtmlTests(
                                     title: title,
                                     userType: userType,
                                     referenceType: referenceType,
@@ -79,7 +79,7 @@ namespace Implem.PleasanterTest.Tests.Items
             }
         }
 
-        private static List<HtmlTest> GetHtmlTests(
+        private static List<BaseTest> GetHtmlTests(
             string title,
             UserData.UserTypes userType,
             ItemData.ReferenceTypes referenceType,
@@ -187,7 +187,7 @@ namespace Implem.PleasanterTest.Tests.Items
             int groupId,
             int userId,
             Permissions.Types permissionType,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
@@ -198,7 +198,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 groupId,
                 userId,
                 permissionType,
-                htmlTests
+                baseTests
             };
         }
 
@@ -208,27 +208,27 @@ namespace Implem.PleasanterTest.Tests.Items
             return itemModel.Index(context: context);
         }
 
-        private static List<HtmlTest> HtmlTestExistsOne(string title)
+        private static List<BaseTest> HtmlTestExistsOne(string title)
         {
             var id = Initializer.Titles.Get(title);
-            var htmlTests = HtmlData.Tests(HtmlData.ExistsOne(selector: SelectorUtilities.GridRow(id)));
-            return htmlTests;
+            var baseTests = BaseData.Tests(HtmlData.ExistsOne(selector: SelectorUtilities.GridRow(id)));
+            return baseTests;
         }
 
-        private static List<HtmlTest> HtmlTestNotFoundMessage(string title)
+        private static List<BaseTest> HtmlTestNotFoundMessage(string title)
         {
             var id = Initializer.Titles.Get(title);
-            var htmlTests = HtmlData.Tests(HtmlData.NotFoundMessage());
-            return htmlTests;
+            var baseTests = BaseData.Tests(HtmlData.NotFoundMessage());
+            return baseTests;
         }
 
-        private static List<HtmlTest> HtmlTestEntryAndNoRow(string title)
+        private static List<BaseTest> HtmlTestEntryAndNoRow(string title)
         {
             var id = Initializer.Titles.Get(title);
-            var htmlTests = HtmlData.Tests(
+            var baseTests = BaseData.Tests(
                 HtmlData.ExistsOne(selector: "#Grid"),
                 HtmlData.NotExists(selector: SelectorUtilities.GridRow(id)));
-            return htmlTests;
+            return baseTests;
         }
 
         private static void InitPermissions(

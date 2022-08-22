@@ -570,6 +570,10 @@ pre{
     cursor:pointer;
 }
 
+#ViewFilters .ui-icon.ui-icon-info {
+    transform: scale(1, -1);
+}
+
 #FilterButton{
     display:block;
     float:left;
@@ -2172,10 +2176,16 @@ td > .field-normal,td > .field-wide{
     margin:8px 0px;
 }
 
-.control-checkbox + label{
+.control-checkbox ~ label{
     display:block;
     float:left;
     margin:7px 5px 0px 7px;
+}
+
+.control-checkbox + .ui-icon.ui-icon-info{
+    display:block;
+    float:left;
+    margin:7px -7px 0px 0px;
 }
 
 .field-normal .control-checkbox + label{
@@ -3065,6 +3075,22 @@ div.field-control .ui-multiselect.ui-state-disabled{
 .focus-inform{
     background-color:white !important;
     border:solid 1px orange !important;
+}
+
+.menu-negative{
+    border-left:solid 1px white;
+    border-right:solid 1px white;
+    position:absolute;
+    z-index:10;
+}
+
+.menu-negative > li{
+    width:100%;
+    display:block;
+    float:left;
+    border-top:dotted 1px white;
+    cursor:pointer;
+    clear:both;
 }
 
 .sortable{

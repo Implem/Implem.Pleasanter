@@ -16,22 +16,22 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsDelete(id: id));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = new List<JsonTest>()
+            var baseTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "SetMemory",
@@ -44,42 +44,42 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new TestPart(
                     title: "RecordToDeleteSite2",
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
                 new TestPart(
                     title: "RecordToDeleteSite3",
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
                 new TestPart(
                     title: "RecordToDeleteSite4",
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
                 new TestPart(
                     title: "RecordToDeleteSite6",
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
                 new TestPart(
                     title: "RecordToDeleteSite7",
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
                 new TestPart(
                     title: "RecordToDeleteSite8",
-                    jsonTests: jsonTests)
+                    baseTests: baseTests)
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

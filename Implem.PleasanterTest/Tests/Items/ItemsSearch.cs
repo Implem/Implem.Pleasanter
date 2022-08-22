@@ -15,17 +15,17 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             QueryStrings queryStrings,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 queryStrings: queryStrings,
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsSearch());
             var results = Results(context: context);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -34,33 +34,33 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new TestPart(
                     queryStrings: QueryStringsUtilities.Get(new KeyValue("text", "WBS")),
-                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne(selector: "#SearchResults"))),
+                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#SearchResults"))),
                 new TestPart(
                     queryStrings: QueryStringsUtilities.Get(new KeyValue("text", "サーバ テスト")),
-                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne(selector: "#SearchResults"))),
+                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#SearchResults"))),
                 new TestPart(
                     queryStrings: QueryStringsUtilities.Get(new KeyValue("text", "ABCDEFG")),
-                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne(selector: "#SearchResults")))
+                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#SearchResults")))
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     queryStrings: testPart.QueryStrings,
                     userModel: testPart.UserModel,
-                    htmlTests: testPart.HtmlTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             QueryStrings queryStrings,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 queryStrings,
                 userModel,
-                htmlTests
+                baseTests
             };
         }
 

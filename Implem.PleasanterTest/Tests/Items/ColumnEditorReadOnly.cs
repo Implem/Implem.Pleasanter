@@ -18,13 +18,13 @@ namespace Implem.PleasanterTest.Tests.Items
 
         [Theory]
         [MemberData(nameof(GetData))]
-        public void Test(List<HtmlTest> htmlTests)
+        public void Test(List<BaseTest> baseTests)
         {
             Init();
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: Context,
                 results: Html,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData => new List<object[]>()

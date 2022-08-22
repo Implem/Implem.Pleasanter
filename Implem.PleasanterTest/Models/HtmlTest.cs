@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Implem.PleasanterTest.Models
+﻿namespace Implem.PleasanterTest.Models
 {
-    public class HtmlTest
+    public class HtmlTest : BaseTest
     {
         public enum Types
         {
@@ -23,6 +21,6 @@ namespace Implem.PleasanterTest.Models
         public string Selector { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
-        public List<TextTest> TextTests { get; set; }
+        public TextTest TextTest { get; set; }
     }
 }

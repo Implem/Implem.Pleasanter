@@ -16,7 +16,7 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var siteId = title == "TopTraxhBox"
                 ? 0
@@ -25,10 +25,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsTrashBox(id: siteId));
             var results = Results(context: context);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -50,30 +50,30 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.TenantManager1),
-                    htmlTests: HtmlData.Tests(testPart.Title == "TopTraxhBox"
+                    baseTests: BaseData.Tests(testPart.Title == "TopTraxhBox"
                         ? HtmlData.NotFoundMessage()
                         : HtmlData.ExistsOne("#Grid")));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.General1),
-                    htmlTests: HtmlData.Tests(HtmlData.NotFoundMessage()));
+                    baseTests: BaseData.Tests(HtmlData.NotFoundMessage()));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: UserData.Get(userType: UserData.UserTypes.Privileged),
-                    htmlTests: HtmlData.Tests(HtmlData.ExistsOne("#Grid")));
+                    baseTests: BaseData.Tests(HtmlData.ExistsOne("#Grid")));
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                htmlTests
+                baseTests
             };
         }
 

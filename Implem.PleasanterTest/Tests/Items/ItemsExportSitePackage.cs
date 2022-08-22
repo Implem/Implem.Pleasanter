@@ -19,7 +19,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             QueryStrings queryStrings,
             UserModel userModel,
-            List<FileTest> fileTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
@@ -27,10 +27,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsExportSitePackage(id: id));
             var results = Results(context: context);
-            Assert.True(Compare.File(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                fileTests: fileTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -47,13 +47,13 @@ namespace Implem.PleasanterTest.Tests.Items
                 new KeyValue("IncludeColumnPermission", "true"),
                 new KeyValue("IncludeNotifications", "true"),
                 new KeyValue("IncludeReminders", "true"));
-            var fileTests = FileData.Tests(FileData.Exists());
+            var baseTests = BaseData.Tests(FileData.Exists());
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     title: "商談管理の例",
                     queryStrings: queryStrings,
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -62,7 +62,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     queryStrings: testPart.QueryStrings,
                     userModel: testPart.UserModel,
-                    fileTests: testPart.FileTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -70,14 +70,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             QueryStrings queryStrings,
             UserModel userModel,
-            List<FileTest> fileTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 queryStrings,
                 userModel,
-                fileTests
+                baseTests
             };
         }
 

@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Users
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Users.Values.FirstOrDefault(o => o.Name == title).UserId;
             var context = ContextData.Get(
@@ -25,15 +25,15 @@ namespace Implem.PleasanterTest.Tests.Users
                 routeData: RouteData.UsersResetPassword(id: id),
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = new List<JsonTest>()
+            var baseTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "Html",
@@ -49,7 +49,7 @@ namespace Implem.PleasanterTest.Tests.Users
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", "ResetPassword"),
                         new KeyValue("Users_AfterResetPassword", "ChangedPassword")),
-                    jsonTests: jsonTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -58,7 +58,7 @@ namespace Implem.PleasanterTest.Tests.Users
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -66,14 +66,14 @@ namespace Implem.PleasanterTest.Tests.Users
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

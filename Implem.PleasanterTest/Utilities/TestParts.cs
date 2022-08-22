@@ -9,7 +9,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {
@@ -24,7 +24,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {
@@ -39,7 +39,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {
@@ -54,7 +54,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {
@@ -70,7 +70,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {
@@ -87,7 +87,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {
@@ -104,7 +104,7 @@ namespace Implem.PleasanterTest.Utilities
         {
             return new object[]
             {
-                new List<HtmlTest>()
+                new List<BaseTest>()
                 {
                     new HtmlTest()
                     {

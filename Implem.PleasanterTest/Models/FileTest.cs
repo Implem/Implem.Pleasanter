@@ -1,6 +1,6 @@
 ﻿namespace Implem.PleasanterTest.Models
 {
-    public class FileTest
+    public class FileTest : BaseTest
     {
         public enum Types
         {

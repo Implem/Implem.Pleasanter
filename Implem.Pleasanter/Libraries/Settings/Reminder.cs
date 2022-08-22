@@ -553,7 +553,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         {
                             "\"" + orderByColumn.ColumnName + "\""
                         },
-                        _operator: $">'{scheduledTime.ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff")}'",
+                        _operator: $">'{scheduledTime.ToDateTime().ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff")}'",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(

@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -44,7 +44,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new KeyValue("DropDownSearchParentDataId", string.Empty),
                 new KeyValue("DropDownSearchResults", $"[{Initializer.Titles.Get("株式会社プリザンター")}]"),
                 new KeyValue("DropDownSearchText", string.Empty));
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "CloseDialog",
                     target: "#DropDownSearchDialog"),
@@ -62,7 +62,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "業務改善コンサルティング",
                     forms: forms,
-                    jsonTests: jsonTests)
+                    baseTests: baseTests)
             };
             foreach (var testPart in testParts)
             {
@@ -70,7 +70,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -78,14 +78,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 
