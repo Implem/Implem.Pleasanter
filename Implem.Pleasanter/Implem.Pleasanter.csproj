@@ -9,6 +9,7 @@
     <FileVersion>1.3.17.0</FileVersion>
     <LangVersion>7.2</LangVersion>
     <Version>1.3.17.0</Version>
+    <Nullable>disable</Nullable>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
