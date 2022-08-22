@@ -890,6 +890,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             string tagControlContainer = "div",
             bool validateRequired = false,
@@ -916,6 +917,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             labelText: labelText,
                             labelRaw: labelRaw,
                             labelTitle: labelTitle,
+                            labelIcon: labelIcon,
                             required: validateRequired,
                             _using: !controlOnly),
                     actionControl: () => hb
@@ -986,12 +988,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool required = false,
             bool _using = true)
         {
             return _using && labelText != string.Empty
                 ? hb.P(css: "field-label", action: () =>
                 {
+                    if (!labelIcon.IsNullOrEmpty())
+                    {
+                        hb.Span(css: $"ui-icon {labelIcon}");
+                    }
                     if (!labelRaw.IsNullOrEmpty())
                     {
                         hb.Raw(text: labelRaw);
@@ -1003,8 +1010,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .For(controlId)
                                 .Class(Css.Class(labelCss, required
                                     ? " required"
-                                    : string.Empty))
-                                .Title(labelTitle),
+                                    : string.Empty)),
                             action: () => hb
                                 .Text(labelText));
                     }
@@ -1045,6 +1051,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             string text = null,
             string dataValue = null,
@@ -1064,6 +1071,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                     extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
@@ -1106,6 +1114,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             string unit = null,
             string text = null,
@@ -1144,6 +1153,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1201,6 +1211,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             int validateMaxLength = 0,
             string validateRegex = null,
             string validateRegexErrorMessage = null,
@@ -1232,6 +1243,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1272,6 +1284,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             string text = null,
             bool validateRequired = false,
@@ -1292,6 +1305,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1319,6 +1333,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             Dictionary<string, string> optionCollection = null,
             string selectedValue = null,
@@ -1348,6 +1363,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1387,6 +1403,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             Dictionary<string, ControlData> optionCollection = null,
             string selectedValue = null,
@@ -1417,6 +1434,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1458,6 +1476,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             bool _checked = false,
             bool disabled = false,
@@ -1486,6 +1505,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1515,6 +1535,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlContainerCss: controlContainerCss,
                     labelText: string.Empty,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1525,6 +1546,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlId: controlId,
                             controlCss: controlCss,
                             labelText: labelText,
+                            labelIcon: labelIcon,
                             _checked: _checked,
                             disabled: disabled,
                             alwaysSend: alwaysSend,
@@ -1547,6 +1569,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             bool validateRequired = false,
             Dictionary<string, ControlData> optionCollection = null,
@@ -1566,6 +1589,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1592,6 +1616,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             decimal? value = 0,
             decimal min = -1,
@@ -1621,6 +1646,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1663,6 +1689,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             decimal value = 0,
             decimal min = -1,
@@ -1689,6 +1716,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1722,6 +1750,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string labelIcon = null,
             bool controlOnly = false,
             bool validateRequired = false,
             Dictionary<string, ControlData> listItemCollection = null,
@@ -1748,6 +1777,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
@@ -1775,6 +1805,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: labelText,
                     labelRaw: labelRaw,
                     labelTitle: labelTitle,
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     validateRequired: validateRequired,
                     controlAction: () =>
