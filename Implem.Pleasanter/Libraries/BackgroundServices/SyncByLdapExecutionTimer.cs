@@ -22,7 +22,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     sessionData: false,
                     user: false,
                     item: false);
-                var log = new SysLogModel(context: context);
+                var log = new SysLogModel(
+                    context: context,
+                    method: nameof(ExecuteAsync),
+                    message: "ExecuteAsync() Called.",
+                    sysLogType: SysLogModel.SysLogTypes.Info);
                 var json = UserUtilities.SyncByLdap(context: context);
                 log.Finish(
                     context: context,

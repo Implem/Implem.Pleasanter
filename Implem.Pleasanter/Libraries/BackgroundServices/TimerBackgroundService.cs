@@ -13,7 +13,7 @@ using System.Globalization;
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     /// <summary>
-    /// 毎日定時にExecutionTimerBase(のサブクラス)を呼び出すクラス
+    /// ExecutionTimerBase(のサブクラス)を指定された時間に毎日呼び出すクラス
     /// </summary>
     public class TimerBackgroundService : BackgroundService
     {
@@ -61,7 +61,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             }
             catch (Exception e)
             {
-                Context context = CreateContext();
+                var context = CreateContext();
                 new SysLogModel(
                     context: context,
                     e: e,
@@ -75,24 +75,25 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             return DateTime.Now;
         }
 
+        /// <summary>
+        /// 引数の時間をサーバOSの時間に変換して返す。既に時間を過ぎていたら次の日の時間を返す。
+        /// </summary>
         private DateTime GetTimerDateTime(string timeString)
         {
             var context = CreateContext();
             var timeOfDay = DateTime.ParseExact(timeString, "HH:mm", CultureInfo.InvariantCulture).TimeOfDay;
             var now = DateTimeNow();
-            // SyncByLdapTimeの時間は、Service.jsonのTimeZoneDefaultのタイムゾーンの時間として扱う。
+            // SyncByLdapTime.GetTimeList()の時間はService.jsonのTimeZoneDefaultのタイムゾーンの時間として扱うのでToLocal()する。
             var localNow = now.ToLocal(context);
             var localTimerDateTime = localNow.Date + timeOfDay;
-            // ToUniversal()は常にUTCを返すわけではないがこのクラス内ではToUniversal()だけを使うようにすれば
-            // タイムゾーンは統一されるので大丈夫。
-            var utcTimerDateTime = localTimerDateTime.ToUniversal(context);
-            var utcNow = localNow.ToUniversal(context);
+            /// ToUniversal()は実行しているOSのローカル時間に変換して返す(名前に反してUTCを返すわけではないので注意)
+            var timerDateTime = localTimerDateTime.ToUniversal(context);
             // 時間が過ぎているのは次の日に回す
-            if (utcTimerDateTime < utcNow)
+            if (timerDateTime < now)
             {
-                utcTimerDateTime = utcTimerDateTime.AddDays(1);
+                timerDateTime = timerDateTime.AddDays(1);
             }
-            return utcTimerDateTime;
+            return timerDateTime;
         }
 
         private void ScheduleToNextDay(TimeExecuteTimerPair timerPair)
@@ -100,8 +101,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             //再スケジュールするのは先頭要素だけのはず
             Debug.Assert(TimerList.First() == timerPair);
             TimerList.Remove(timerPair);
-            // TODO 1日進めるのでなく、今日の次の日、に進める、にする。
-            var nextDayTime = timerPair.DateTime.AddDays(1); //TODO 秒がちょっとずつずれつとか無いのか確認。-> C#のMSの実装コード見て確認できた。24時間だけ進めてる。
+            var nextDayTime = timerPair.DateTime.AddDays(1);
             TimerList.Add(new TimeExecuteTimerPair()
             {
                 DateTime = nextDayTime,
@@ -119,10 +119,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         private async Task WaitNextTimer(CancellationToken stoppingToken)
         {
-            var context = CreateContext();
-            // ToUniversal()はDateTime.Kind=Utcの時例外になるので一旦ToLocal()が必要。
-            var utcNow = DateTimeNow().ToLocal(context).ToUniversal(context);
-            var waitTimeSpan = TimerList.First().DateTime - utcNow;
+            var now = DateTimeNow();
+            var waitTimeSpan = TimerList.First().DateTime - now;
             waitTimeSpan = TimeSpan.Zero < waitTimeSpan
                 ? waitTimeSpan
                 : TimeSpan.Zero;
