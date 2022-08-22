@@ -1980,7 +1980,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void CsBoolColumns(Column column, string value, SqlWhereCollection where)
         private void CsBoolColumns(
             Column column,
             string value,
