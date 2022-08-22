@@ -8,13 +8,16 @@ namespace Implem.Pleasanter.Libraries.Initializers
 {
     public static class TenantInitializer
     {
-        public static void Initialize(Context context)
+        public static void Initialize()
         {
-            var tenantId = 1;
+            var context = new Context()
+            {
+                TenantId = 1
+            };
             var tenantModel = new TenantModel(
                 context: context,
                 ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                tenantId: tenantId);
+                tenantId: context.TenantId);
             if (tenantModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 Repository.ExecuteNonQuery(
@@ -24,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Initializers
                         Rds.IdentityInsertTenants(factory: context, on: true),
                         Rds.InsertTenants(
                             param: Rds.TenantsParam()
-                                .TenantId(tenantId)
+                                .TenantId(context.TenantId)
                                 .TenantName("DefaultTenant")),
                         Rds.IdentityInsertTenants(factory: context, on: false)
                     });
