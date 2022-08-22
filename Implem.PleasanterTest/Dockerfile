@@ -13,9 +13,9 @@ COPY ["Implem.Plugins/Implem.Plugins.csproj", "Implem.Plugins/"]
 COPY ["Implem.Factory/Implem.Factory.csproj", "Implem.Factory/"]
 COPY ["Rds/Implem.PostgreSql/Implem.PostgreSql.csproj", "Rds/Implem.PostgreSql/"]
 COPY ["Rds/Implem.SqlServer/Implem.SqlServer.csproj", "Rds/Implem.SqlServer/"]
-RUN dotnet restore "Implem.PleasanterTest/Implem.PleasanterTest.csproj"
+RUN dotnet restore Implem.PleasanterTest
 COPY . .
-RUN dotnet build "Implem.PleasanterTest/Implem.PleasanterTest.csproj"
+RUN dotnet build --no-restore Implem.PleasanterTest
 
 FROM build AS testrunner
 RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/bin/jq && \
@@ -25,5 +25,5 @@ RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1
 RUN cat /src/Implem/Pleasanter/App_Data/Parameters/Service.json \
     | jq '.WithoutChangeDefaultPassword|=true' \
     > /src/Implem.PleasanterTest/bin/Debug/net6.0/App_Data/Parameters/Service.json
-
-CMD ["dotnet", "test", "--no-restore", "Implem.PleasanterTest"]
+WORKDIR /src/Implem.PleasanterTest
+CMD ["dotnet", "test", "--no-restore"]
