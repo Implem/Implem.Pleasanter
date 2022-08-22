@@ -10,7 +10,12 @@ namespace Implem.Pleasanter.Libraries.Initializers
     {
         public static void Initialize()
         {
-            var context = new Context()
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false)
             {
                 TenantId = 1
             };
