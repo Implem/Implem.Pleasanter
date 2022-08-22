@@ -473,7 +473,7 @@ namespace Implem.Pleasanter.Libraries.Search
             SiteSettings ss,
             string searchText,
             bool itemJoin,
-            bool negative = false)
+            bool negative)
         {
             var name = Strings.NewGuid();
             if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
@@ -509,7 +509,8 @@ namespace Implem.Pleasanter.Libraries.Search
                             context: context,
                             words: words,
                             idColumnBracket: ss.IdColumnBracket(),
-                            tableType: ss.TableType);
+                            tableType: ss.TableType,
+                            negative: negative);
                     }
                     return where;
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
@@ -860,7 +861,7 @@ namespace Implem.Pleasanter.Libraries.Search
             Dictionary<string, string> words,
             string idColumnBracket,
             Sqls.TableTypes tableType,
-            bool negative = false)
+            bool negative)
         {
             words.ForEach(data => where.Add(
                 name: data.Key,
@@ -884,25 +885,20 @@ namespace Implem.Pleasanter.Libraries.Search
             Sqls.TableTypes tableType,
             bool negative)
         {
-            var prefix = string.Empty;
+            var suffix = string.Empty;
             switch (tableType)
             {
                 case Sqls.TableTypes.Deleted:
-                    prefix = "_deleted";
+                    suffix = "_deleted";
                     break;
             }
             string item;
             string binary;
-            if (negative)
-            {
-                item = $"not exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name, negative)})";
-                binary = $"not exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name, negative)})";
-            }
-            else
-            {
-                item = $"exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name, negative)})";
-                binary = $"exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name, negative)})";
-            }
+            var not = (negative)
+                ? "not "
+                : string.Empty;
+            item = $"{not}exists(select * from \"Items{suffix}\" where \"Items{suffix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + suffix, name, negative)})";
+            binary = $"{not}exists(select * from \"Binaries{suffix}\" where \"Binaries{suffix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + suffix, name, negative)})";
             return Parameters.Search.SearchDocuments
                 ? $"({item} or {binary})"
                 : item;
