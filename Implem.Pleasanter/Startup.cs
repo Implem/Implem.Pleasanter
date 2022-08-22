@@ -318,6 +318,7 @@ namespace Implem.Pleasanter.NetCore
         {
             Context context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
+            TenantInitializer.Initialize(context: context);
             ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
             ItemsInitializer.Initialize(context: context);
