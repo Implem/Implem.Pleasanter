@@ -77,6 +77,18 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     ss: ss,
                     editOnGrid: editOnGrid)
+                .FilterField(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    controlId: "ViewFilters_Negative",
+                    prefix: "ViewFilters__")
+                .FilterField(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    controlId: "ViewFilters_Positive",
+                    prefix: "ViewFilters__")
                 .ServerScriptResponses(
                     context: context,
                     ss: ss,

@@ -24,6 +24,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? hb.Div(
                             id: "ViewFilters",
                             action: () => hb
+                                .ViewFiltersLabelMenus(
+                                    context: context,
+                                    ss: ss,
+                                    view: view)
                                 .DisplayControl(
                                     context: context,
                                     view: view,
@@ -115,21 +119,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 method: "post");
         }
 
-        private static HtmlBuilder Incomplete(
+        public static HtmlBuilder Incomplete(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             View view)
         {
+            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Incomplete") == true
+                ? "ui-icon-info"
+                : string.Empty;
             return ss.UseIncompleteFilter == true
                 ? hb
                     .FieldCheckBox(
+                        fieldId: "ViewFilters_Incomplete" + "Field",
                         controlId: "ViewFilters_Incomplete",
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
                         labelText: Displays.Incomplete(context: context),
+                        labelIcon: labelIcon,
                         _checked: view.Incomplete == true,
                         method: "post",
                         labelPositionIsRight: true,
@@ -138,18 +147,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder Own(
+        public static HtmlBuilder Own(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
+            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Own") == true
+                ? "ui-icon-info"
+                : string.Empty;
             return ss.UseOwnFilter == true
                 ? hb
                     .FieldCheckBox(
+                        fieldId: "ViewFilters_Own" + "Field",
                         controlId: "ViewFilters_Own",
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
                         labelText: Displays.Own(context: context),
+                        labelIcon: labelIcon,
                         _checked: view.Own == true,
                         method: "post",
                         labelPositionIsRight: true,
@@ -158,18 +172,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder NearCompletionTime(
+        public static HtmlBuilder NearCompletionTime(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
+            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_NearCompletionTime") == true
+                ? "ui-icon-info"
+                : string.Empty;
             return ss.UseNearCompletionTimeFilter == true
                 ? hb
                     .FieldCheckBox(
+                        fieldId: "ViewFilters_NearCompletionTime" + "Field",
                         controlId: "ViewFilters_NearCompletionTime",
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
                         labelText: Displays.NearCompletionTime(context: context),
+                        labelIcon: labelIcon,
                         _checked: view.NearCompletionTime == true,
                         method: "post",
                         labelPositionIsRight: true,
@@ -178,18 +197,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder Delay(
+        public static HtmlBuilder Delay(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
+            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Delay") == true
+                ? "ui-icon-info"
+                : string.Empty;
             return ss.UseDelayFilter == true
                 ? hb
                     .FieldCheckBox(
+                        fieldId: "ViewFilters_Delay" + "Field",
                         controlId: "ViewFilters_Delay",
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
                         labelText: Displays.Delay(context: context),
+                        labelIcon: labelIcon,
                         _checked: view.Delay == true,
                         method: "post",
                         labelPositionIsRight: true,
@@ -198,18 +222,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 : hb;
         }
 
-        private static HtmlBuilder Limit(
+        public static HtmlBuilder Limit(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
+            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Overdue") == true
+                ? "ui-icon-info"
+                : string.Empty;
             return ss.UseOverdueFilter == true
                 ? hb
                     .FieldCheckBox(
+                        fieldId: "ViewFilters_Overdue" + "Field",
                         controlId: "ViewFilters_Overdue",
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
                         labelText: Displays.Overdue(context: context),
+                        labelIcon: labelIcon,
                         _checked: view.Overdue == true,
                         method: "post",
                         labelPositionIsRight: true,
@@ -301,6 +330,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var idPrefix = onGridHeader ? "ViewFiltersOnGridHeader__" : "ViewFilters__";
             var action = onGridHeader ? "GridRows" : null;
             var controlOnly = onGridHeader;
+            var labelIcon = view.ColumnFilterNegatives?.Contains(column.ColumnName) == true
+                ? "ui-icon-info"
+                : string.Empty;
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
@@ -311,6 +343,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         view: view,
                         idPrefix: idPrefix,
                         action: action,
+                        labelIcon: labelIcon,
                         controlOnly: controlOnly);
                     break;
                 case Types.CsNumeric:
@@ -327,6 +360,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     : string.Empty,
                                 labelText: column.GridLabelText,
                                 labelTitle: ss.LabelTitle(column),
+                                labelIcon: labelIcon,
                                 controlOnly: controlOnly,
                                 method: "post");
                         }
@@ -334,11 +368,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         {
                             SetNumericRangeDialog(
                                 hb: hb,
+                                context: context,
                                 ss: ss,
                                 view: view,
                                 column: column,
                                 idPrefix: idPrefix,
                                 action: action,
+                                labelIcon: labelIcon,
                                 controlOnly: controlOnly);
                         }
                     }
@@ -356,17 +392,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 : column.NumFilterOptions(context: context),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
-                            action: action);
+                            action: action,
+                            labelIcon: labelIcon);
                     }
                     else
                     {
                         SetNumericRangeDialog(
                             hb: hb,
+                            context: context,
                             ss: ss,
                             view: view,
                             column: column,
                             idPrefix: idPrefix,
                             action: action,
+                            labelIcon: labelIcon,
                             controlOnly: controlOnly);
                     }
                     break;
@@ -381,7 +420,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             optionCollection: column.DateFilterOptions(context: context),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
-                            action: action);
+                            action: action,
+                            labelIcon: labelIcon);
                     }
                     else
                     {
@@ -392,6 +432,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             controlCss: (column.UseSearch == true ? " search" : string.Empty),
                             labelText: column.GridLabelText,
                             labelTitle: ss.LabelTitle(column),
+                            labelIcon: labelIcon,
                             controlOnly: controlOnly,
                             action: "openSetDateRangeDialog",
                             text: GetDisplayDateFilterRange(
@@ -402,13 +443,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             attributes: new Dictionary<string, string>
                             {
                                 ["onfocus"] = $"$p.openSetDateRangeDialog($(this))"
-                            })
-                        .Hidden(attributes: new HtmlAttributes()
-                            .Id(idPrefix + column.ColumnName)
-                            .Class(column.UseSearch == true ? " search" : string.Empty)
-                            .DataMethod("post")
-                            .DataAction(action)
-                            .Value(view.ColumnFilter(column.ColumnName)));
+                            });
+                        if (!context.Forms.ContainsKey("ViewFilters_Negative"))
+                        {
+                            hb.Hidden(attributes: new HtmlAttributes()
+                                .Id(idPrefix + column.ColumnName)
+                                .Class(column.UseSearch == true ? " search" : string.Empty)
+                                .DataMethod("post")
+                                .DataAction(action)
+                                .Value(view.ColumnFilter(column.ColumnName)));
+                        }
                     }
                     break;
                 case Types.CsString:
@@ -437,7 +481,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 addNotSet: true),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
-                            action: action);
+                            action: action,
+                            labelIcon: labelIcon);
                     }
                     else
                     {
@@ -450,6 +495,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 : string.Empty,
                             labelText: column.GridLabelText,
                             labelTitle: ss.LabelTitle(column),
+                            labelIcon: labelIcon,
                             controlOnly: controlOnly,
                             action: action,
                             text: view.ColumnFilter(column.ColumnName),
@@ -463,11 +509,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static void SetNumericRangeDialog(
             HtmlBuilder hb,
+            Context context,
             SiteSettings ss,
             View view,
             Column column,
             string idPrefix,
             string action,
+            string labelIcon,
             bool controlOnly)
         {
             hb
@@ -478,6 +526,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: (column.UseSearch == true ? " search" : string.Empty),
                     labelText: column.GridLabelText,
                     labelTitle: ss.LabelTitle(column),
+                    labelIcon: labelIcon,
                     controlOnly: controlOnly,
                     action: "openSetNumericRangeDialog",
                     text: GetNumericFilterRange(view.ColumnFilter(column.ColumnName)),
@@ -485,13 +534,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     attributes: new Dictionary<string, string>
                     {
                         ["onfocus"] = $"$p.openSetNumericRangeDialog($(this))"
-                    })
-                .Hidden(attributes: new HtmlAttributes()
+                    });
+            if (!context.Forms.ContainsKey("ViewFilters_Negative"))
+            {
+                hb
+                    .Hidden(attributes: new HtmlAttributes()
                     .Id(idPrefix + column.ColumnName)
                     .Class(column.UseSearch == true ? " search" : string.Empty)
                     .DataMethod("post")
                     .DataAction(action)
                     .Value(view.ColumnFilter(column.ColumnName)));
+            }
         }
 
         private static HtmlBuilder CheckBox(
@@ -502,6 +555,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             View view,
             string idPrefix = "ViewFilters__",
             string action = null,
+            string labelIcon = null,
             bool controlOnly = false)
         {
             switch (column.CheckFilterControlType)
@@ -517,6 +571,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             : string.Empty,
                         labelText: column.GridLabelText,
                         labelTitle: ss.LabelTitle(column),
+                        labelIcon: labelIcon,
                         controlOnly: controlOnly,
                         action: action,
                         optionCollection: ColumnUtilities
@@ -535,6 +590,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             : string.Empty,
                         labelText: column.GridLabelText,
                         labelTitle: ss.LabelTitle(column),
+                        labelIcon: labelIcon,
                         controlOnly: controlOnly,
                         action: action,
                         _checked: view.ColumnFilter(column.ColumnName).ToBool(),
@@ -551,6 +607,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Dictionary<string, ControlData> optionCollection,
             string idPrefix = "ViewFilters__",
             string action = null,
+            string labelIcon = null,
             bool controlOnly = false)
         {
             var selectedValue = view.ColumnFilter(column.ColumnName);
@@ -598,6 +655,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             : string.Empty),
                 labelText: column.GridLabelText,
                 labelTitle: ss.LabelTitle(column),
+                labelIcon: labelIcon,
                 controlOnly: controlOnly,
                 action: action,
                 optionCollection: optionCollection,
@@ -608,21 +666,26 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 column: column);
         }
 
-        private static HtmlBuilder Search(
+        public static HtmlBuilder Search(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             View view)
         {
+            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Search") == true
+                ? "ui-icon-info"
+                : string.Empty;
             return ss.UseSearchFilter == true
                 ? hb
                     .FieldTextBox(
+                        fieldId: "ViewFilters_Search" + "Field",
                         controlId: "ViewFilters_Search",
                         fieldCss: "field-auto-thin",
                         controlCss: ss.UseFilterButton != true
                             ? " auto-postback"
                             : string.Empty,
                         labelText: Displays.Search(context: context),
+                        labelIcon: labelIcon,
                         text: view.Search,
                         method: "post",
                         _using: context.Controller == "items"
