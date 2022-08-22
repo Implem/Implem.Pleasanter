@@ -894,7 +894,7 @@ namespace Implem.Pleasanter.Libraries.Search
             }
             string item;
             string binary;
-            var not = (negative)
+            var not = negative
                 ? "not "
                 : string.Empty;
             item = $"{not}exists(select * from \"Items{suffix}\" where \"Items{suffix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + suffix, name, negative)})";

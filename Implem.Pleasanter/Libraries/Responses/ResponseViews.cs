@@ -130,8 +130,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                 else
                 {
                     filterName = filterName.Substring(prefix.Length);
-                    filterName = filterName.Replace("_NumericRange", "");
-                    filterName = filterName.Replace("_DateRange", "");
+                    filterName = filterName.Replace("_NumericRange", string.Empty);
+                    filterName = filterName.Replace("_DateRange", string.Empty);
                     var column = ss.GetColumn(
                         context: context,
                         columnName: filterName);
