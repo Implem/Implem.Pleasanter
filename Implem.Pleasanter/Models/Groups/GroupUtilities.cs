@@ -1327,6 +1327,9 @@ namespace Implem.Pleasanter.Models
             res.Val(
                 target: "#ReplaceFieldColumns",
                 value: replaceFieldColumns?.ToJson());
+            res.LookupClearFormData(
+                context: context,
+                ss: ss);
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,

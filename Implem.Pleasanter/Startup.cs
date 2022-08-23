@@ -174,7 +174,7 @@ namespace Implem.Pleasanter.NetCore
                     context.HttpContext.Response.ContentType = "application/json";
                     context.HttpContext.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(new
                     {
-                        Message = Implem.Pleasanter.Libraries.Responses.Displays.Unauthorized(context: new Context())
+                        Message = Libraries.Responses.Displays.Unauthorized(context: new Context())
                     }));
                 }
                 else context.HttpContext.Response.Redirect("/errors/internalservererror");
@@ -317,6 +317,7 @@ namespace Implem.Pleasanter.NetCore
         {
             Context context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
+            TenantInitializer.Initialize();
             ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
             ItemsInitializer.Initialize(context: context);

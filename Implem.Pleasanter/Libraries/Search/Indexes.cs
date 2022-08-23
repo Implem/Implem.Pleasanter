@@ -472,7 +472,8 @@ namespace Implem.Pleasanter.Libraries.Search
             Context context,
             SiteSettings ss,
             string searchText,
-            bool itemJoin)
+            bool itemJoin,
+            bool negative)
         {
             var name = Strings.NewGuid();
             if (ss != null && ss.TableType != Sqls.TableTypes.Normal)
@@ -484,7 +485,8 @@ namespace Implem.Pleasanter.Libraries.Search
                     searchText: searchText,
                     name: name,
                     forward: false,
-                    itemJoin: itemJoin);
+                    itemJoin: itemJoin,
+                    negative: negative);
             }
             switch (ss?.SearchType)
             {
@@ -498,7 +500,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         where.FullTextWhere(
                             context: context,
                             words: words,
-                            itemsTableName: ss.ReferenceType + "_Items");
+                            itemsTableName: ss.ReferenceType + "_Items",
+                            negative: negative);
                     }
                     else
                     {
@@ -506,7 +509,8 @@ namespace Implem.Pleasanter.Libraries.Search
                             context: context,
                             words: words,
                             idColumnBracket: ss.IdColumnBracket(),
-                            tableType: ss.TableType);
+                            tableType: ss.TableType,
+                            negative: negative);
                     }
                     return where;
                 case SiteSettings.SearchTypes.MatchInFrontOfTitle:
@@ -517,7 +521,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         searchText: searchText,
                         name: name,
                         forward: true,
-                        itemJoin: itemJoin);
+                        itemJoin: itemJoin,
+                        negative: negative);
                 case SiteSettings.SearchTypes.BroadMatchOfTitle:
                     return where.ItemWhereLike(
                         context: context,
@@ -526,7 +531,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         searchText: searchText,
                         name: name,
                         forward: false,
-                        itemJoin: itemJoin);
+                        itemJoin: itemJoin,
+                        negative: negative);
                 case SiteSettings.SearchTypes.PartialMatch:
                 default:
                     return where.ItemWhereLike(
@@ -536,7 +542,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         searchText: searchText,
                         name: name,
                         forward: false,
-                        itemJoin: itemJoin);
+                        itemJoin: itemJoin,
+                        negative: negative);
             }
         }
 
@@ -551,7 +558,8 @@ namespace Implem.Pleasanter.Libraries.Search
             string searchText,
             string name,
             bool forward,
-            bool itemJoin)
+            bool itemJoin,
+            bool negative = false)
         {
             var tableName = ItemTableName(
                 ss: ss,
@@ -566,7 +574,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         tableName: tableName,
                         columnName: columnName,
                         name: name,
-                        forward: forward)
+                        forward: forward,
+                        negative: negative)
                             .ToSingleList()
                     : SelectItemWhereLike(
                         context: context,
@@ -574,7 +583,8 @@ namespace Implem.Pleasanter.Libraries.Search
                         tableName: tableName,
                         columnName: columnName,
                         name: name,
-                        forward: forward)
+                        forward: forward,
+                        negative: negative)
                             .ToSingleList()));
         }
 
@@ -607,7 +617,8 @@ namespace Implem.Pleasanter.Libraries.Search
             string tableName,
             string columnName,
             string name,
-            bool forward)
+            bool forward,
+            bool negative = false)
         {
             switch (columnName)
             {
@@ -617,14 +628,16 @@ namespace Implem.Pleasanter.Libraries.Search
                         tableName: tableName,
                         name: name,
                         forward: forward,
-                        escape: true);
+                        escape: true,
+                        negative: negative);
                 case "FullText":
                     return Rds.Items_FullText_WhereLike(
                         factory: context,
                         tableName: tableName,
                         name: name,
                         forward: forward,
-                        escape: true);
+                        escape: true,
+                        negative: negative);
                 default:
                     return null;
             }
@@ -639,14 +652,16 @@ namespace Implem.Pleasanter.Libraries.Search
             string tableName,
             string columnName,
             string name,
-            bool forward = false)
+            bool forward = false,
+            bool negative = false)
         {
             var like = ItemWhereLike(
                 context: context,
                 tableName: tableName,
                 columnName: columnName,
                 name: name,
-                forward: forward);
+                forward: forward,
+                negative: negative);
             return $"exists(select * from \"{tableName}\" where \"{tableName}\".\"ReferenceId\"={ss.IdColumnBracket()} and {like})";
         }
 
@@ -807,7 +822,8 @@ namespace Implem.Pleasanter.Libraries.Search
             this SqlWhereCollection where,
             Context context,
             Dictionary<string, string> words,
-            string itemsTableName = "Items")
+            string itemsTableName = "Items",
+            bool negative = false)
         {
             words.ForEach(data => where.Add(
                 name: data.Key,
@@ -815,17 +831,22 @@ namespace Implem.Pleasanter.Libraries.Search
                 raw: FullTextWhere(
                     factory: context,
                     name: data.Key,
-                    itemsTableName: itemsTableName)));
+                    itemsTableName: itemsTableName,
+                    negative: negative)));
             return where;
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static string FullTextWhere(ISqlObjectFactory factory, string name, string itemsTableName = "Items")
+        private static string FullTextWhere(
+            ISqlObjectFactory factory,
+            string name,
+            string itemsTableName = "Items",
+            bool negative = false)
         {
-            var item = factory.SqlCommandText.CreateFullTextWhereItem(itemsTableName, name);
-            var binary = factory.SqlCommandText.CreateFullTextWhereBinary(itemsTableName, name);
+            var item = factory.SqlCommandText.CreateFullTextWhereItem(itemsTableName, name, negative);
+            var binary = factory.SqlCommandText.CreateFullTextWhereBinary(itemsTableName, name, negative);
             return Parameters.Search.SearchDocuments
                 ? $"({item} or {binary})"
                 : item;
@@ -839,7 +860,8 @@ namespace Implem.Pleasanter.Libraries.Search
             Context context,
             Dictionary<string, string> words,
             string idColumnBracket,
-            Sqls.TableTypes tableType)
+            Sqls.TableTypes tableType,
+            bool negative)
         {
             words.ForEach(data => where.Add(
                 name: data.Key,
@@ -848,7 +870,8 @@ namespace Implem.Pleasanter.Libraries.Search
                     factory: context,
                     name: data.Key,
                     idColumnBracket: idColumnBracket,
-                    tableType: tableType)));
+                    tableType: tableType,
+                    negative: negative)));
             return where;
         }
 
@@ -859,17 +882,23 @@ namespace Implem.Pleasanter.Libraries.Search
             ISqlObjectFactory factory,
             string name,
             string idColumnBracket,
-            Sqls.TableTypes tableType)
+            Sqls.TableTypes tableType,
+            bool negative)
         {
-            var prefix = string.Empty;
+            var suffix = string.Empty;
             switch (tableType)
             {
                 case Sqls.TableTypes.Deleted:
-                    prefix = "_deleted";
+                    suffix = "_deleted";
                     break;
             }
-            var item = $"exists(select * from \"Items{prefix}\" where \"Items{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + prefix, name)})";
-            var binary = $"exists(select * from \"Binaries{prefix}\" where \"Binaries{prefix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + prefix, name)})";
+            string item;
+            string binary;
+            var not = negative
+                ? "not "
+                : string.Empty;
+            item = $"{not}exists(select * from \"Items{suffix}\" where \"Items{suffix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereItem("Items" + suffix, name, negative)})";
+            binary = $"{not}exists(select * from \"Binaries{suffix}\" where \"Binaries{suffix}\".\"ReferenceId\"={idColumnBracket} and {factory.SqlCommandText.CreateFullTextWhereBinary("Binaries" + suffix, name, negative)})";
             return Parameters.Search.SearchDocuments
                 ? $"({item} or {binary})"
                 : item;

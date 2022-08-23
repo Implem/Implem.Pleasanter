@@ -72,6 +72,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> ColumnFilterHash;
         public Dictionary<string, string> ColumnFilterExpressions;
         public Dictionary<string, Column.SearchTypes> ColumnFilterSearchTypes;
+        public List<string> ColumnFilterNegatives;
         public string Search;
         public Dictionary<string, SqlOrderBy.Types> ColumnSorterHash;
         public Dictionary<string, string> ViewExtensionsHash;
@@ -505,6 +506,46 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "ViewFilters_Negative":
+                                if (!context.Forms.Get(controlId).IsNullOrEmpty())
+                                {
+                                    var filterName = String(
+                                        context: context,
+                                        controlId: controlId);
+                                    if (filterName.Contains(columnFilterPrefix))
+                                    {
+                                        filterName = filterName.Substring(columnFilterPrefix.Length);
+                                        filterName = filterName.Replace("_NumericRange", string.Empty);
+                                        filterName = filterName.Replace("_DateRange", string.Empty);
+                                    }
+                                    if (ColumnFilterNegatives?.Contains(filterName) != true)
+                                    {
+                                        if (ColumnFilterNegatives == null)
+                                        {
+                                            ColumnFilterNegatives = new List<string>();
+                                        }
+                                        ColumnFilterNegatives.Add(filterName);
+                                    }
+                                }
+                                break;
+                            case "ViewFilters_Positive":
+                                if (!context.Forms.Get(controlId).IsNullOrEmpty())
+                                {
+                                    var filterName = String(
+                                        context: context,
+                                        controlId: controlId);
+                                    if (filterName.Contains(columnFilterPrefix))
+                                    {
+                                        filterName = filterName.Substring(columnFilterPrefix.Length);
+                                        filterName = filterName.Replace("_NumericRange", string.Empty);
+                                        filterName = filterName.Replace("_DateRange", string.Empty);
+                                    }
+                                    if (ColumnFilterNegatives?.Contains(filterName) == true)
+                                    {
+                                        ColumnFilterNegatives.Remove(filterName);
+                                    }
+                                }
+                                break;
                             case "KeepSorterState":
                                 KeepSorterState = Bool(
                                     context: context,
@@ -732,6 +773,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Delay = view.Delay;
             Overdue = view.Overdue;
             ColumnFilterHash = view.ColumnFilterHash;
+            ColumnFilterNegatives = view.ColumnFilterNegatives;
             Search = view.Search;
             ShowHistory = view.ShowHistory;
         }
@@ -1277,6 +1319,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 view.ColumnFilterSearchTypes = new Dictionary<string, Column.SearchTypes>();
                 ColumnFilterSearchTypes.ForEach(o => view.ColumnFilterSearchTypes.Add(o.Key, o.Value));
             }
+            if (ColumnFilterNegatives?.Any() == true)
+            {
+                view.ColumnFilterNegatives = new List<string>();
+                ColumnFilterNegatives.ForEach(o => view.ColumnFilterNegatives.Add(o));
+            }
             if (ColumnSorterHash?.Any() == true)
             {
                 view.ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
@@ -1440,7 +1487,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return where;
         }
 
-        private void SetGeneralsWhere(Context context, SiteSettings ss, SqlWhereCollection where)
+        private void SetGeneralsWhere(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where)
         {
             if (Incomplete == true && HasIncompleteColumns(
                 context: context,
@@ -1449,7 +1499,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(
                     tableName: ss.ReferenceType,
                     columnBrackets: "\"Status\"".ToSingleArray(),
-                    _operator: "<" + Parameters.General.CompletionCode);
+                    _operator: ((ColumnFilterNegatives?.Contains("ViewFilters_Incomplete") == true)
+                        ? ">="
+                        : "<")
+                            + Parameters.General.CompletionCode);
             }
             if (Own == true && HasOwnColumns(context, ss))
             {
@@ -1457,7 +1510,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                     tableName: ss.ReferenceType,
                     columnBrackets: new string[] { "\"Manager\"", "\"Owner\"" },
                     name: "_U",
-                    value: context.UserId);
+                    value: context.UserId,
+                    _operator: (ColumnFilterNegatives?.Contains("ViewFilters_Own") == true)
+                        ? "!="
+                        : "=",
+                    multiColumnOperator: (ColumnFilterNegatives?.Contains("ViewFilters_Own") == true)
+                        ? " and "
+                        : " or ");
             }
             if (NearCompletionTime == true && HasNearCompletionTimeColumns(
                 context: context,
@@ -1466,45 +1525,82 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(
                     tableName: ss.ReferenceType,
                     columnBrackets: "\"CompletionTime\"".ToSingleArray(),
-                    _operator: " between '{0}' and '{1}'".Params(
-                        DateTime.Now.ToLocal(context: context).Date
-                            .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
-                        DateTime.Now.ToLocal(context: context).Date
-                            .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
-                            .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
-                            .ToString("yyyy/M/d H:m:s.fff")));
+                    _operator: ((ColumnFilterNegatives?.Contains("ViewFilters_NearCompletionTime") == true)
+                        ? " not between"
+                        : " between")
+                            + " '{0}' and '{1}'".Params(
+                                DateTime.Now.ToLocal(context: context).Date
+                                    .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
+                                DateTime.Now.ToLocal(context: context).Date
+                                    .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
+                                    .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
+                                    .ToString("yyyy/M/d H:m:s.fff")));
             }
             if (Delay == true && HasDelayColumns(
                 context: context,
                 ss: ss))
             {
-                where
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        columnBrackets: "\"Status\"".ToSingleArray(),
-                        name: "_U",
-                        _operator: "<{0}".Params(Parameters.General.CompletionCode))
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        columnBrackets: "\"ProgressRate\"".ToSingleArray(),
-                        _operator: "<",
-                        raw: Def.Sql.ProgressRateDelay
-                            .Replace("#TableName#", ss.ReferenceType));
+                if (ColumnFilterNegatives?.Contains("ViewFilters_Delay") == true)
+                {
+                    where.Or(or: new SqlWhereCollection()
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"Status\"".ToSingleArray(),
+                            name: "_U",
+                            _operator: ">={0}".Params(Parameters.General.CompletionCode))
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"ProgressRate\"".ToSingleArray(),
+                            _operator: ">=",
+                            raw: Def.Sql.ProgressRateDelay
+                                .Replace("#TableName#", ss.ReferenceType)));
+                }
+                else
+                {
+                    where
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"Status\"".ToSingleArray(),
+                            name: "_U",
+                            _operator: "<{0}".Params(Parameters.General.CompletionCode))
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"ProgressRate\"".ToSingleArray(),
+                            _operator: "<",
+                            raw: Def.Sql.ProgressRateDelay
+                                .Replace("#TableName#", ss.ReferenceType));
+                }
             }
             if (Overdue == true && HasOverdueColumns(
                 context: context,
                 ss: ss))
             {
-                where
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        columnBrackets: "\"Status\"".ToSingleArray(),
-                        name: "_U",
-                        _operator: "<{0}".Params(Parameters.General.CompletionCode))
-                    .Add(
-                        tableName: ss.ReferenceType,
-                        columnBrackets: "\"CompletionTime\"".ToSingleArray(),
-                        _operator: $"<{context.Sqls.CurrentDateTime}");
+                if (ColumnFilterNegatives?.Contains("ViewFilters_Overdue") == true)
+                {
+                    where.Or(or: new SqlWhereCollection()
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"Status\"".ToSingleArray(),
+                            name: "_U",
+                            _operator: ">={0}".Params(Parameters.General.CompletionCode))
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"CompletionTime\"".ToSingleArray(),
+                            _operator: ">=" + context.Sqls.CurrentDateTime));
+                }
+                else
+                {
+                    where
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"Status\"".ToSingleArray(),
+                            name: "_U",
+                            _operator: "<{0}".Params(Parameters.General.CompletionCode))
+                        .Add(
+                            tableName: ss.ReferenceType,
+                            columnBrackets: "\"CompletionTime\"".ToSingleArray(),
+                            _operator: "<" + context.Sqls.CurrentDateTime);
+                }
             }
         }
 
@@ -1637,16 +1733,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     data.Value,
                     Or = data.Key.StartsWith("or_"),
                     And = data.Key.StartsWith("and_"),
+                    Eq = data.Key.StartsWith("eq_"),
+                    NotEq = data.Key.StartsWith("notEq_"),
                     Groups = data.Key == "Groups",
                     OnSelectingWhere = data.Key == "OnSelectingWhere"
                 })
                 .Where(o => o.Column != null
                     || o.Or
                     || o.And
+                    || o.Eq
+                    || o.NotEq
                     || o.Groups
                     || o.OnSelectingWhere)
                 .ForEach(data =>
                 {
+                    var negative = ColumnFilterNegatives?.Contains(data.Column.ColumnName) == true;
                     if (data.Or)
                     {
                         var orColumnFilterHash = data.Value.Deserialize<Dictionary<string, string>>();
@@ -1679,6 +1780,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 id: id,
                                 timestamp: timestamp);
                             if (and.Any()) where.Add(and: and);
+                        }
+                    }
+                    else if (data.Eq || data.NotEq)
+                    {
+                        var column1 = ss.GetColumn(
+                            context: context,
+                            columnName: data.Value.Split_1st('|'));
+                        var column2 = ss.GetColumn(
+                            context: context,
+                            columnName: data.Value.Split_2nd('|'));
+                        var csType1 = column1?.TypeName.CsTypeSummary();
+                        var csType2 = column2?.TypeName.CsTypeSummary();
+                        if (column1 != null && column2 != null && csType1 == csType2)
+                        {
+                            AddEqWhere(
+                                context: context,
+                                where: where,
+                                column1: column1,
+                                column2: column2,
+                                csType: csType1,
+                                notEq: data.NotEq);
                         }
                     }
                     else if (data.Groups)
@@ -1764,7 +1886,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 context: context,
                                 columnName: "SiteId"),
                             value: data.Value,
-                            where: where);
+                            where: where,
+                            negative: negative);
                     }
                     else
                     {
@@ -1774,57 +1897,136 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 CsBoolColumns(
                                     column: data.Column,
                                     value: data.Value,
-                                    where: where);
+                                    where: where,
+                                    negative: negative);
                                 break;
                             case Types.CsNumeric:
                                 CsNumericColumns(
                                     column: data.Column,
                                     value: data.Value,
-                                    where: where);
+                                    where: where,
+                                    negative: negative);
                                 break;
                             case Types.CsDateTime:
                                 CsDateTimeColumns(
                                     context: context,
                                     column: data.Column,
                                     value: data.Value,
-                                    where: where);
+                                    where: where,
+                                    negative: negative);
                                 break;
                             case Types.CsString:
                                 CsStringColumns(
                                     context: context,
                                     column: data.Column,
                                     value: data.Value,
-                                    where: where);
+                                    where: where,
+                                    negative: negative);
                                 break;
                         }
                     }
                 });
         }
 
-        private void CsBoolColumns(Column column, string value, SqlWhereCollection where)
+        private static void AddEqWhere(
+            Context context,
+            SqlWhereCollection where,
+            Column column1,
+            Column column2,
+            string csType,
+            bool notEq)
+        {
+            var columnName1 = $"\"{column1.TableName()}\".\"{column1.Name}\"";
+            var columnName2 = $"\"{column2.TableName()}\".\"{column2.Name}\"";
+            if (csType == Types.CsDateTime
+                || (csType == Types.CsNumeric && column1.Nullable == true))
+            {
+                var raw = notEq
+                    ? $"(({columnName1} is not null and {columnName2} is null)"
+                        + $" or ({columnName1} is null and {columnName2} is not null)"
+                        + $" or {columnName1} <> {columnName2})"
+                    : $"(({columnName1} is null and {columnName2} is null)"
+                        + $" or {columnName1} = {columnName2})";
+                where.Add(
+                    joinTableNames: new[] { column1.TableName(), column2.TableName() },
+                    raw: raw);
+            }
+            else
+            {
+                var defaultValue = string.Empty;
+                switch (csType)
+                {
+                    case Types.CsBool:
+                        defaultValue = "'false'";
+                        break;
+                    case Types.CsNumeric:
+                        defaultValue = "0";
+                        break;
+                    case Types.CsDateTime:
+                        break;
+                    case Types.CsString:
+                        defaultValue = "''";
+                        break;
+                }
+                where.Add(
+                    joinTableNames: new[] { column1.TableName(), column2.TableName() },
+                    raw: $"{context.Sqls.IsNull}({columnName1}, {defaultValue})"
+                        + $" {(notEq ? "<>" : "=")}"
+                        + $" {context.Sqls.IsNull}({columnName2}, {defaultValue})");
+            }
+        }
+
+        private void CsBoolColumns(
+            Column column,
+            string value,
+            SqlWhereCollection where,
+            bool negative)
         {
             switch (value?.ToLower())
             {
                 case "1":
                 case "true":
-                    where.Bool(column, true);
+                    if (negative)
+                    {
+                        where.Add(or: new SqlWhereCollection()
+                            .Bool(column, null)
+                            .Bool(column, false));
+                    }
+                    else
+                    {
+                        where.Bool(column, true);
+                    }
                     break;
                 case "2":
                 case "false":
-                    where.Add(or: new SqlWhereCollection()
-                        .Bool(column, null)
-                        .Bool(column, false));
+                    if (negative)
+                    {
+                        where.Bool(column, true);
+                    }
+                    else
+                    {
+                        where.Add(or: new SqlWhereCollection()
+                            .Bool(column, null)
+                            .Bool(column, false));
+                    }
                     break;
             }
         }
 
-        private void CsNumericColumns(Column column, string value, SqlWhereCollection where)
+        private void CsNumericColumns(
+            Column column,
+            string value,
+            SqlWhereCollection where,
+            bool negative)
         {
             long number = 0;
             var collection = new SqlWhereCollection();
             if (long.TryParse(value, out number))
             {
-                collection.Add(CsNumericColumnsWhere(column, number));
+                collection.Add(CsNumericColumnsWhere(
+                    column: column,
+                    param: number,
+                    negative: negative));
             }
             else
             {
@@ -1832,15 +2034,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (param?.Any() != true) return;
                 collection.AddRange(param
                     .Where(o => o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
-                    .SelectMany(o => CsNumericRangeColumns(column, o)));
+                    .SelectMany(o => CsNumericRangeColumns(
+                        column: column,
+                        param: o,
+                        negative: negative)));
                 collection.AddRange(param
                     .Where(o => o == "\t")
-                    .SelectMany(o => CsNumericColumnsWhereNull(column)));
+                    .SelectMany(o => CsNumericColumnsWhereNull(
+                        column: column,
+                        negative: negative)));
                 var valueWhere = CsNumericColumnsWhere(
-                    column,
-                    param
+                    column: column,
+                    param: param
                         .Where(o => !o.RegexExists(@"^-?[0-9\.]*,-?[0-9\.]*$"))
-                        .Where(o => o != "\t"));
+                        .Where(o => o != "\t"),
+                    negative: negative);
                 if (valueWhere != null)
                 {
                     collection.Add(valueWhere);
@@ -1848,20 +2056,40 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (collection.Any())
             {
-                where.Add(or: collection);
+                if (negative)
+                {
+                    where.Or(or: new SqlWhereCollection()
+                        .Add(and: collection)
+                        .Add(
+                            tableName: column.TableName(),
+                            columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                            _operator: " is null"));
+                }
+                else
+                {
+                    where.Add(or: collection);
+                }
             }
         }
 
-        private SqlWhere CsNumericColumnsWhere(Column column, long param)
+        private SqlWhere CsNumericColumnsWhere(
+            Column column,
+            long param,
+            bool negative)
         {
             return new SqlWhere(
                 tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: column.Name,
-                _operator: $"={param}");
+                _operator: negative
+                    ? $"!={param}"
+                    : $"={param}");
         }
 
-        private SqlWhere CsNumericColumnsWhere(Column column, IEnumerable<string> param)
+        private SqlWhere CsNumericColumnsWhere(
+            Column column,
+            IEnumerable<string> param,
+            bool negative)
         {
             var numList = param.Select(o => o.ToDecimal());
             if (!numList.Any()) { return null; }
@@ -1869,43 +2097,64 @@ namespace Implem.Pleasanter.Libraries.Settings
                 tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                 name: column.Name,
-                _operator: " in ({0})".Params(numList.Join()));
+                _operator: (negative
+                    ? " not in ({0})"
+                    : " in ({0})")
+                        .Params(numList.Join()));
         }
 
-        private IEnumerable<SqlWhere> CsNumericColumnsWhereNull(Column column)
+        private IEnumerable<SqlWhere> CsNumericColumnsWhereNull(
+            Column column,
+            bool negative = false)
         {
             yield return new SqlWhere(
                 tableName: column.TableName(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: " is null");
+                    _operator: negative
+                        ? " is not null"
+                        : " is null");
             if (column.Nullable != true)
             {
                 yield return new SqlWhere(
                 tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                _operator: "=0");
+                _operator: negative
+                    ? "!=0"
+                    : "=0");
                 if (column.Type == Column.Types.User && SiteInfo.AnonymousId != 0)
                 {
                     yield return new SqlWhere(
                     tableName: column.TableName(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: $"={SiteInfo.AnonymousId}");
+                    _operator: (negative
+                        ? "!="
+                        : "=")
+                            + SiteInfo.AnonymousId);
                 }
             }
         }
 
-        private IEnumerable<SqlWhere> CsNumericRangeColumns(Column column, string param)
+        private IEnumerable<SqlWhere> CsNumericRangeColumns(
+            Column column,
+            string param,
+            bool negative)
         {
             var from = param.Split_1st();
             var to = param.Split_2nd();
             yield return new SqlWhere(
                 tableName: column.TableName(),
                 columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                _operator: from == string.Empty
-                    ? "<={0}".Params(to.ToDecimal())
-                    : to == string.Empty
-                        ? ">={0}".Params(from.ToDecimal())
-                        : " between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal()));
+                _operator: negative
+                    ? from == string.Empty
+                        ? $">{to.ToDecimal()}"
+                        : to == string.Empty
+                            ? $"<{from.ToDecimal()}"
+                            : " not between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal())
+                    : from == string.Empty
+                        ? $"<={to.ToDecimal()}"
+                        : to == string.Empty
+                            ? $">={from.ToDecimal()}"
+                            : " between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal()));
             if (column.Nullable != true
                 && (to == string.Empty && from.ToDecimal() <= 0)
                     || (from == string.Empty && to.ToDecimal() >= 0)
@@ -1914,12 +2163,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                 yield return new SqlWhere(
                     tableName: column.TableName(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: " is null");
+                    _operator: negative
+                        ? " is not null"
+                        : " is null");
             }
         }
 
         private void CsDateTimeColumns(
-            Context context, Column column, string value, SqlWhereCollection where)
+            Context context,
+            Column column,
+            string value,
+            SqlWhereCollection where,
+            bool negative)
         {
             var param = value.Deserialize<List<string>>();
             if (param?.Any(o => !o.IsNullOrEmpty()) == true)
@@ -1928,20 +2183,30 @@ namespace Implem.Pleasanter.Libraries.Settings
                     CsDateTimeColumnsWhere(
                         context: context,
                         column: column,
-                        param: param),
+                        param: param,
+                        negative: negative),
+                    CsDateTimeColumnsWhereNegative(
+                        column: column,
+                        param: param,
+                        negative: negative),
                     CsDateTimeColumnsWhereNull(
                         context: context,
                         column: column,
-                        param: param)));
+                        param: param,
+                        negative: negative)));
             }
         }
 
         private SqlWhere CsDateTimeColumnsWhere(
-            Context context, Column column, List<string> param)
+            Context context,
+            Column column,
+            List<string> param,
+            bool negative)
         {
             var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
             var addMilliseconds = Parameters.Rds.MinimumTime * -1;
             var between = "#TableBracket#.\"{0}\" between '{1}' and '{2}'";
+            var notBetween = "#TableBracket#.\"{0}\" not between '{1}' and '{2}'";
             var ymdhms = "yyyy/M/d H:m:s";
             var ymdhmsfff = "yyyy/M/d H:m:s.fff";
             return param.Any(o => o != "\t")
@@ -1954,87 +2219,107 @@ namespace Implem.Pleasanter.Libraries.Settings
                         switch (from)
                         {
                             case "Today":
-                                return between.Params(
-                                    column.Name,
-                                    ConvertDateTimeParam(
-                                        context: context,
-                                        column: column,
-                                        dt: today,
-                                        format: ymdhms),
-                                    ConvertDateTimeParam(
-                                        context: context,
-                                        column: column,
-                                        dt: today
-                                            .AddDays(1)
-                                            .AddMilliseconds(addMilliseconds),
-                                        format: ymdhmsfff));
+                                return (negative
+                                    ? notBetween
+                                    : between)
+                                        .Params(
+                                            column.Name,
+                                            ConvertDateTimeParam(
+                                                context: context,
+                                                column: column,
+                                                dt: today,
+                                                format: ymdhms),
+                                            ConvertDateTimeParam(
+                                                context: context,
+                                                column: column,
+                                                dt: today
+                                                    .AddDays(1)
+                                                    .AddMilliseconds(addMilliseconds),
+                                                format: ymdhmsfff));
                             case "ThisMonth":
-                                return between.Params(
-                                    column.Name,
-                                    ConvertDateTimeParam(
-                                        context: context,
-                                        column: column,
-                                        dt: new DateTime(today.Year, today.Month, 1),
-                                        format: ymdhms),
-                                    ConvertDateTimeParam(
-                                        context: context,
-                                        column: column,
-                                        dt: new DateTime(today.Year, today.Month, 1)
-                                            .AddMonths(1)
-                                            .AddMilliseconds(addMilliseconds),
-                                        format: ymdhmsfff));
+                                return (negative
+                                    ? notBetween
+                                    : between)
+                                        .Params(
+                                            column.Name,
+                                            ConvertDateTimeParam(
+                                                context: context,
+                                                column: column,
+                                                dt: new DateTime(today.Year, today.Month, 1),
+                                                format: ymdhms),
+                                            ConvertDateTimeParam(
+                                                context: context,
+                                                column: column,
+                                                dt: new DateTime(today.Year, today.Month, 1)
+                                                    .AddMonths(1)
+                                                    .AddMilliseconds(addMilliseconds),
+                                                format: ymdhmsfff));
                             case "ThisYear":
-                                return between.Params(
-                                    column.Name,
-                                    ConvertDateTimeParam(
-                                        context: context,
-                                        column: column,
-                                        dt: new DateTime(today.Year, 1, 1),
-                                        format: ymdhms),
-                                    ConvertDateTimeParam(
-                                        context: context,
-                                        column: column,
-                                        dt: new DateTime(today.Year, 1, 1)
-                                            .AddYears(1)
-                                            .AddMilliseconds(addMilliseconds),
-                                        format: ymdhmsfff));
+                                return (negative
+                                    ? notBetween
+                                    : between)
+                                        .Params(
+                                            column.Name,
+                                            ConvertDateTimeParam(
+                                                context: context,
+                                                column: column,
+                                                dt: new DateTime(today.Year, 1, 1),
+                                                format: ymdhms),
+                                            ConvertDateTimeParam(
+                                                context: context,
+                                                column: column,
+                                                dt: new DateTime(today.Year, 1, 1)
+                                                    .AddYears(1)
+                                                    .AddMilliseconds(addMilliseconds),
+                                                format: ymdhmsfff));
                         }
                         if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
                         {
-                            return between.Params(
-                                column.Name,
-                                ConvertDateTimeParam(
-                                    context: context,
-                                    column: column,
-                                    dateTimeString: from,
-                                    format: ymdhms),
-                                ConvertDateTimeParam(
-                                    context: context,
-                                    column: column,
-                                    dateTimeString: to,
-                                    format: ymdhmsfff));
+                            return (negative
+                                ? notBetween
+                                : between)
+                                    .Params(
+                                        column.Name,
+                                        ConvertDateTimeParam(
+                                            context: context,
+                                            column: column,
+                                            dateTimeString: from,
+                                            format: ymdhms),
+                                        ConvertDateTimeParam(
+                                            context: context,
+                                            column: column,
+                                            dateTimeString: to,
+                                            format: ymdhmsfff));
                         }
                         else if (to.IsNullOrEmpty())
                         {
-                            return "#TableBracket#.\"{0}\">='{1}'".Params(
-                                column.Name,
-                                ConvertDateTimeParam(
-                                    context: context,
-                                    column: column,
-                                    dateTimeString: from,
-                                    format: ymdhms));
+                            return (negative
+                                ? "#TableBracket#.\"{0}\"<'{1}'"
+                                : "#TableBracket#.\"{0}\">='{1}'")
+                                    .Params(
+                                        column.Name,
+                                        ConvertDateTimeParam(
+                                            context: context,
+                                            column: column,
+                                            dateTimeString: from,
+                                            format: ymdhms));
                         }
                         else
                         {
-                            return "#TableBracket#.\"{0}\"<='{1}'".Params(
-                                column.Name,
-                                ConvertDateTimeParam(
-                                    context: context,
-                                    column: column,
-                                    dateTimeString: to,
-                                    format: ymdhmsfff));
+                            return (negative
+                                ? "#TableBracket#.\"{0}\">'{1}'"
+                                : "#TableBracket#.\"{0}\"<='{1}'")
+                                    .Params(
+                                        column.Name,
+                                        ConvertDateTimeParam(
+                                            context: context,
+                                            column: column,
+                                            dateTimeString: to,
+                                            format: ymdhmsfff));
                         }
-                    }).Join(" or "))
+                    }).Join(negative
+                        ? " and "
+                        : " or "))
                 : null;
         }
 
@@ -2071,23 +2356,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToString(format);
         }
 
+        private static SqlWhere CsDateTimeColumnsWhereNegative(
+            Column column, List<string> param, bool negative)
+        {
+            return param.Any(o => o != "\t") && negative
+                ? new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: " is null")
+                : null;
+        }
+
         private SqlWhere CsDateTimeColumnsWhereNull(
-            Context context, Column column, List<string> param)
+            Context context,
+            Column column,
+            List<string> param,
+            bool negative)
         {
             return param.Any(o => o == "\t")
                 ? new SqlWhere(or: new SqlWhereCollection(
                     new SqlWhere(
                         tableName: column.TableName(),
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: " is null"),
+                        _operator: negative
+                            ? " is not null"
+                            : " is null"),
                     new SqlWhere(
                         tableName: column.TableName(),
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: " not between '{0}' and '{1}'".Params(
-                            Parameters.General.MinTime.ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s"),
-                            Parameters.General.MaxTime.ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s")))))
+                        _operator: (negative
+                            ? " between"
+                            : " not between")
+                                + "'{0}' and '{1}'".Params(
+                                    Parameters.General.MinTime.ToUniversal(context: context)
+                                        .ToString("yyyy/M/d H:m:s"),
+                                    Parameters.General.MaxTime.ToUniversal(context: context)
+                                        .ToString("yyyy/M/d H:m:s")))))
                 : null;
         }
 
@@ -2095,7 +2399,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Context context,
             Column column,
             string value,
-            SqlWhereCollection where)
+            SqlWhereCollection where,
+            bool negative)
         {
             if (value.IsNullOrEmpty())
             {
@@ -2121,7 +2426,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     column: column,
                                     where: where,
                                     param: json?.ToSingleList(),
-                                    nullable: param.All(o => o == "\t"));
+                                    nullable: param.All(o => o == "\t"),
+                                    negative: negative);
                             }
                             break;
                         case Column.SearchTypes.ForwardMatch:
@@ -2141,7 +2447,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         ? json.Substring(0, json.Length - 1)
                                         : value),
                                     where: where,
-                                    query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}" + context.Sqls.Escape + ")");
+                                    query: "(\"{0}\".\"{1}\"" + (negative
+                                        ? context.Sqls.NotLike
+                                        : context.Sqls.Like)
+                                            + "@{3}{4}" + context.Sqls.Escape + ")"
+                                            +" or " + context.Sqls.IsNull + "(\"{0}\".\"{1}\", \'\') = \'\'" + ")");
                             }
                             break;
                         default:
@@ -2155,6 +2465,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         .Where(o => o != "\t")
                                         .Select(o => o.StringInJson()),
                                     nullable: param.Any(o => o == "\t"),
+                                    negative: negative,
                                     format: "%{0}%",
                                     like: true);
                             }
@@ -2172,7 +2483,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 where: where,
                                 param: param.Where(o => o != "\t"),
-                                nullable: param.Any(o => o == "\t"));
+                                nullable: param.Any(o => o == "\t"),
+                                negative: negative);
                             break;
                         case Column.SearchTypes.ForwardMatch:
                         case Column.SearchTypes.ForwardMatchMultiple:
@@ -2182,6 +2494,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 where: where,
                                 param: param.Where(o => o != "\t"),
                                 nullable: param.Any(o => o == "\t"),
+                                negative: negative,
                                 format: "{0}%",
                                 like: true);
                             break;
@@ -2192,6 +2505,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 where: where,
                                 param: param.Where(o => o != "\t"),
                                 nullable: param.Any(o => o == "\t"),
+                                negative: negative,
                                 format: "%{0}%",
                                 like: true);
                             break;
@@ -2204,7 +2518,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     where.Add(CsStringColumnsWhereNull(
                         context: context,
-                        column: column));
+                        column: column,
+                        negative: negative));
                 }
                 else
                 {
@@ -2217,7 +2532,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 where: where,
                                 param: value.ToSingleList(),
-                                nullable: false);
+                                nullable: false,
+                                negative: negative);
                             break;
                         case Column.SearchTypes.ForwardMatch:
                             CreateCsStringSqlWhereLike(
@@ -2225,7 +2541,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 value: context.Sqls.EscapeValue(value),
                                 where: where,
-                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "@{3}{4}" + context.Sqls.Escape + ")");
+                                query: "(\"{0}\".\"{1}\"" + (negative
+                                    ? context.Sqls.NotLike
+                                    : context.Sqls.Like)
+                                        + "@{3}{4}" + context.Sqls.Escape
+                                        + (negative
+                                            ? " or " + context.Sqls.IsNull + "(\"{0}\".\"{1}\", \'\') = \'\'"
+                                            : string.Empty)
+                                                + ")");
                             break;
                         case Column.SearchTypes.PartialMatch:
                             CreateCsStringSqlWhereLike(
@@ -2233,7 +2556,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 column: column,
                                 value: context.Sqls.EscapeValue(value),
                                 where: where,
-                                query: "(\"{0}\".\"{1}\"" + context.Sqls.Like + "{2}@{3}{4}" + context.Sqls.Escape + ")");
+                                query: "(\"{0}\".\"{1}\"" + (negative
+                                    ? context.Sqls.NotLike
+                                    : context.Sqls.Like)
+                                        + "{2}@{3}{4}" + context.Sqls.Escape
+                                        + (negative
+                                            ? " or " + context.Sqls.IsNull + "(\"{0}\".\"{1}\", \'\') = \'\'"
+                                            : string.Empty)
+                                                + ")");
                             break;
                         case Column.SearchTypes.ExactMatchMultiple:
                             if (param?.Any() == true)
@@ -2243,7 +2573,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     column: column,
                                     where: where,
                                     param: param.Where(o => o != "\t"),
-                                    nullable: param.Any(o => o == "\t"));
+                                    nullable: param.Any(o => o == "\t"),
+                                    negative: negative);
                             }
                             break;
                         case Column.SearchTypes.ForwardMatchMultiple:
@@ -2255,6 +2586,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     where: where,
                                     param: param.Where(o => o != "\t"),
                                     nullable: param.Any(o => o == "\t"),
+                                    negative: negative,
                                     format: "{0}%",
                                     like: true);
                             }
@@ -2268,6 +2600,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     where: where,
                                     param: param.Where(o => o != "\t"),
                                     nullable: param.Any(o => o == "\t"),
+                                    negative: negative,
                                     format: "%{0}%",
                                     like: true);
                             }
@@ -2283,29 +2616,44 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             IEnumerable<string> param,
             bool nullable,
+            bool negative,
             string format = null,
             bool like = false)
         {
-            var or = new SqlWhereCollection();
+            var collection = new SqlWhereCollection();
             if (param.Any())
             {
-                or.Add(CsStringColumnsWhere(
+                collection.Add(CsStringColumnsWhere(
                     context: context,
                     column: column,
                     param: param,
                     format: format,
-                    like: like));
+                    like: like,
+                    negative: negative));
             }
             if (nullable)
             {
-                or.Add(CsStringColumnsWhereNull(
+                collection.Add(CsStringColumnsWhereNull(
                     context: context,
-                    column: column));
+                    column: column,
+                    negative: negative));
             }
-            or.RemoveAll(o => o == null);
-            if (or.Any())
+            collection.RemoveAll(o => o == null);
+            if (collection.Any())
             {
-                where.Add(or: or);
+                if (negative)
+                {
+                    where.Or(or: new SqlWhereCollection()
+                        .Add(and: collection)
+                        .Add(
+                            tableName: column.TableName(),
+                            columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                            _operator: " is null"));
+                }
+                else
+                {
+                    where.Add(or: collection);
+                }
             }
         }
 
@@ -2314,7 +2662,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Column column,
             IEnumerable<string> param,
             string format,
-            bool like)
+            bool like,
+            bool negative = false)
         {
             return new SqlWhere(
                 tableName: column.TableItemTitleCases(context: context),
@@ -2328,27 +2677,42 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ? format.Params(o)
                         : o)
                     .ToList(),
-                _operator: like
-                    ? context.Sqls.LikeWithEscape
-                    : "=",
-                multiParamOperator: " or ");
+                _operator: negative
+                    ? like
+                        ? context.Sqls.NotLikeWithEscape
+                        : "!="
+                    : like
+                        ? context.Sqls.LikeWithEscape
+                        : "=",
+                multiParamOperator: negative
+                    ? " and "
+                    : " or ");
         }
 
-        private SqlWhere CsStringColumnsWhereNull(Context context, Column column)
+        private SqlWhere CsStringColumnsWhereNull(
+            Context context,
+            Column column,
+            bool negative = false)
         {
             return new SqlWhere(or: new SqlWhereCollection(
                 new SqlWhere(
                     tableName: column.TableItemTitleCases(context: context),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: " is null"),
+                    _operator: negative
+                        ? " is not null"
+                        : " is null"),
                 new SqlWhere(
                     tableName: column.TableItemTitleCases(context: context),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: "=''"),
+                    _operator: negative
+                        ? "!=''"
+                        : "=''"),
                 new SqlWhere(
                     tableName: column.TableItemTitleCases(context: context),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: "='[]'",
+                    _operator: negative
+                        ? "!='[]'"
+                        : "='[]'",
                     _using: column.MultipleSelections == true)));
         }
 
@@ -2522,19 +2886,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             bool itemJoin)
         {
-            var or = new SqlWhereCollection();
+            var negative = ColumnFilterNegatives?.Contains("ViewFilters_Search") == true;
+            var collection = new SqlWhereCollection();
             Search?
                 .Replace("　", " ")
                 .Replace(" or ", "\n")
                 .Split('\n')
                 .Where(o => !o.IsNullOrEmpty())
                 .ForEach(search =>
-                    or.Add(and: new SqlWhereCollection().FullTextWhere(
+                    collection.Add(and: new SqlWhereCollection().FullTextWhere(
                         context: context,
                         ss: ss,
                         searchText: search,
-                        itemJoin: itemJoin)));
-            if (or.Any()) where.Add(or: or);
+                        itemJoin: itemJoin,
+                        negative: negative)));
+            if (collection.Any())
+                if (negative)
+                {
+                    where.Add(and: collection);
+                }
+                else
+                {
+                    where.Add(or: collection);
+                }
         }
 
         public bool RequestSearchCondition(Context context, SiteSettings ss)

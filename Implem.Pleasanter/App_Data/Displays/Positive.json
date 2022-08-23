@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Positive",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Positive"
+        },
+        {
+            "Language": "zh",
+            "Body": "积极的"
+        },
+        {
+            "Language": "ja",
+            "Body": "肯定"
+        },
+        {
+            "Language": "de",
+            "Body": "Positiv"
+        },
+        {
+            "Language": "ko",
+            "Body": "긍정적인"
+        },
+        {
+            "Language": "es",
+            "Body": "Positiva"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tích cực"
+        }
+    ]
+}
