@@ -101,6 +101,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     }
                     using (var smtpClient = new SmtpClient())
                     {
+                        if (Parameters.Mail.ServerCertificateValidationCallback)
+                        {
+                            smtpClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                        }
                         var options = Parameters.Mail.SmtpEnableSsl
                             ? MailKit.Security.SecureSocketOptions.StartTls
                             : MailKit.Security.SecureSocketOptions.None;

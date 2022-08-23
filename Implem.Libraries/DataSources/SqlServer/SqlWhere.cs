@@ -9,6 +9,7 @@ namespace Implem.Libraries.DataSources.SqlServer
     public class SqlWhere
     {
         public string TableName;
+        public string[] JoinTableNames;
         public string[] ColumnBrackets;
         public string Name;
         public object Value;
@@ -25,6 +26,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public SqlWhere(
             string tableName = null,
+            string[] joinTableNames = null,
             string[] columnBrackets = null,
             string name = null,
             object value = null,
@@ -40,6 +42,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             bool _using = true)
         {
             TableName = tableName;
+            JoinTableNames = joinTableNames;
             ColumnBrackets = columnBrackets;
             Name = name;
             Value = value;

@@ -18,6 +18,7 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public SqlWhereCollection Add(
             string tableName = null,
+            string[] joinTableNames = null,
             string[] columnBrackets = null,
             string name = null,
             object value = null,
@@ -35,6 +36,7 @@ namespace Implem.Libraries.DataSources.SqlServer
             Add(new SqlWhere(
                 columnBrackets: columnBrackets,
                 tableName: tableName,
+                joinTableNames: joinTableNames,
                 name: name,
                 value: value,
                 _operator: _operator,
@@ -124,6 +126,13 @@ namespace Implem.Libraries.DataSources.SqlServer
                 .Select(o => o.Or)
                 .Where(o => o != null)
                 .ForEach(o => data.AddRange(o.JoinTableNames()));
+            this
+                .Where(o => o?.JoinTableNames != null)
+                .SelectMany(o => o.JoinTableNames)
+                .Where(o => o != null)
+                .Select(o => o.CutEnd("_Items"))
+                .Where(o => o?.Contains("~") == true)
+                .ForEach(o => data.Add(o));
             return data
                 .Distinct()
                 .ToList();

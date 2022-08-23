@@ -370,6 +370,7 @@
     <Compile Include="Libraries\Initializers\NotificationInitializer.cs" />
     <Compile Include="Libraries\Initializers\ParametersInitializer.cs" />
     <Compile Include="Libraries\Initializers\StatusesInitializer.cs" />
+    <Compile Include="Libraries\Initializers\TenantInitializer.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_017.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_016.cs" />
     <Compile Include="Libraries\Migrators\SiteSettings\Version1_015.cs" />
@@ -418,6 +419,7 @@
     <Compile Include="Libraries\Responses\FileContentResults.cs" />
     <Compile Include="Libraries\Responses\Paging.cs" />
     <Compile Include="Libraries\Responses\RedirectData.cs" />
+    <Compile Include="Libraries\Responses\ResponseLookups.cs" />
     <Compile Include="Libraries\Responses\ResponseServerScripts.cs" />
     <Compile Include="Libraries\Responses\ResponseViewModes.cs" />
     <Compile Include="Libraries\Security\IpAddresses.cs" />
@@ -2576,6 +2578,7 @@
     <Content Include="Scripts\Users.js" />
     <Content Include="Scripts\Validator.js" />
     <Content Include="Scripts\Video.js" />
+    <Content Include="Scripts\viewfilterslabelevents.js" />
     <Content Include="Scripts\ViewMode.js" />
     <Content Include="Scripts\Visibility.js" />
     <Content Include="Scripts\_Ajax.js" />
@@ -6527,6 +6530,8 @@
     <Content Include="App_Data\Displays\MethodType.json" />
     <Content Include="App_Data\Displays\PermissionForUpdating.json" />
     <Content Include="App_Data\Displays\NeedHelp.json" />
+    <Content Include="App_Data\Displays\Negative.json" />
+    <Content Include="App_Data\Displays\Positive.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

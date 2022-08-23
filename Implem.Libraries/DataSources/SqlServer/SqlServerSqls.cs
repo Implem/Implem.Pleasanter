@@ -19,7 +19,11 @@ namespace Implem.Libraries.DataSources.SqlServer
 
         public string Like { get; } = " like ";
 
+        public string NotLike { get; } = " not like ";
+
         public string LikeWithEscape { get; } = " like {0} escape '|'";
+
+        public string NotLikeWithEscape { get; } = " not like {0} escape '|'";
 
         public string Escape { get; } = " escape '|'";
 

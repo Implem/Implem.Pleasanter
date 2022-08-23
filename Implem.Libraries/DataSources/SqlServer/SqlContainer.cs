@@ -23,6 +23,8 @@ namespace Implem.Libraries.DataSources.SqlServer
             var adapter = new SqlDataAdapter(sqlCommand);
             var number = string.Empty;
             SqlStatementCollection
+                .GroupBy(statement => statement.DataTableName)
+                .Select(statements => statements.First())
                 .Where(statement => statement.Using)
                 .Where(statement => !statement.DataTableName.IsNullOrEmpty())
                 .Select((o, i) => new

@@ -27,6 +27,7 @@ namespace Implem.Pleasanter
                 Action = "Application_Start",
             };
             var log = new SysLogModel(context: context);
+            TenantInitializer.Initialize();
             ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
             StatusesMigrator.Migrate(context: context);

@@ -5939,6 +5939,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Negative(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Negative",
+                data: data);
+        }
+
         public static string New(
             Context context,
             params string[] data)
@@ -6896,6 +6906,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Portal",
+                data: data);
+        }
+
+        public static string Positive(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Positive",
                 data: data);
         }
 

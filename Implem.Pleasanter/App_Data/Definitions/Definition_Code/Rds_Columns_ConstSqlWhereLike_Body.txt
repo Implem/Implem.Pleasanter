@@ -3,10 +3,13 @@
     string tableName = "#TableName#",
     string name = "SearchText",
     bool forward = false,
-    bool escape = false)
+    bool escape = false,
+    bool negative = false)
 {
     return "(\"" + tableName + "\".\"#ColumnName#\""
-        + factory.Sqls.Like
+        + (negative
+            ? factory.Sqls.NotLike
+            : factory.Sqls.Like)
         + (forward
             ? string.Empty
             : factory.Sqls.WhereLikeTemplateForward)
