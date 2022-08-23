@@ -1,6 +1,6 @@
 ﻿namespace Implem.PleasanterTest.Models
 {
-    public class HtmlTest
+    public class HtmlTest : BaseTest
     {
         public enum Types
         {
@@ -13,12 +13,14 @@
             HasClass,
             Attribute,
             NotFoundMessage,
-            HasNotPermissionMessage
+            HasNotPermissionMessage,
+            Text
         }
 
         public Types Type { get; set; }
         public string Selector { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
+        public TextTest TextTest { get; set; }
     }
 }

@@ -4052,7 +4052,7 @@ namespace Implem.Pleasanter.Models
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
-                                        .DataAction("PermissionForCreating")
+                                        .DataAction("PermissionForRecord")
                                         .DataMethod("post"),
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))

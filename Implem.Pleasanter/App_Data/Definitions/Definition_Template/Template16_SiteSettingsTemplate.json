@@ -13,6 +13,7 @@
         "NumB",
         "NumC",
         "NumD",
+        "DateA",
         "StartTime",
         "CompletionTime",
         "Status",
@@ -33,6 +34,7 @@
         "NumB",
         "NumC",
         "NumD",
+        "DateA",
         "StartTime",
         "CompletionTime",
         "Status",
@@ -101,7 +103,8 @@
         {
             "ColumnName": "NumA",
             "LabelText": "売上",
-            "Format": "C"
+            "Format": "C",
+            "DateFilterSetMode": 2
         },
         {
             "ColumnName": "NumB",
@@ -133,6 +136,10 @@
         {
             "ColumnName": "StartTime",
             "LabelText": "商談開始日"
+        },
+        {
+            "ColumnName": "DateA",
+            "DateFilterSetMode": 2
         }
     ],
     "Aggregations": [

@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Implem.PleasanterTest.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,16 +41,12 @@ namespace Implem.PleasanterTest.Utilities
                 userType: UserData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/demos/register",
-                forms: new Forms()
-                {
-                    {
-                        "Users_DemoMailAddress",
-                        "DemoUser@example.com"
-                    }
-                });
+                forms: FormsUtilities.Get(
+                    new KeyValue("Users_DemoMailAddress", "DemoUser@example.com")));
             DemoUtilities.Register(
                 context: Context,
-                async: false);
+                async: false,
+                sendMail: false);
             TenantId = Rds.ExecuteScalar_int(
                 context: Context,
                 statements: Rds.SelectTenants(

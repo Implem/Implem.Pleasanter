@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Implem.PleasanterTest.Models
 {
-    public class TextTest
+    public class TextTest : BaseTest
     {
         public enum Types
         {

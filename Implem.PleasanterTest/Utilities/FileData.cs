@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.PleasanterTest.Models;
 using System.IO;
 
 namespace Implem.PleasanterTest.Utilities
@@ -19,6 +20,14 @@ namespace Implem.PleasanterTest.Utilities
                 bw.Write(bytes);
             }
             return guid;
+        }
+
+        public static FileTest Exists()
+        {
+            return new FileTest()
+            {
+                Type = FileTest.Types.Exists
+            };
         }
     }
 }
