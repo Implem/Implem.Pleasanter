@@ -3726,6 +3726,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder StartGuide(this HtmlBuilder hb, Context context)
         {
+            var queryString = $"?re=startguide{Parameters.General.HtmlUrlPrefix}";
             return context.UserSettings.StartGuide(context: context)
                 ? hb.Div(
                     id: "StartGuide",
@@ -3734,7 +3735,7 @@ namespace Implem.Pleasanter.Models
                             id: "StartGuideContents",
                             action: () => hb
                                 .A(
-                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl,
+                                    href: Parameters.General.HtmlApplicationBuildingGuideUrl + queryString,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -3743,7 +3744,7 @@ namespace Implem.Pleasanter.Models
                                         .Div(action: () => hb
                                             .Text(text: Displays.ApplicationBuildingGuide(context: context))))
                                 .A(
-                                    href: Parameters.General.HtmlUserManualUrl,
+                                    href: Parameters.General.HtmlUserManualUrl + queryString,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
@@ -3751,13 +3752,21 @@ namespace Implem.Pleasanter.Models
                                             "Hayato2.png"))
                                         .Text(text: Displays.UserManual(context: context)))
                                 .A(
-                                    href: Parameters.General.HtmlEnterPriseEditionUrl,
+                                    href: Parameters.General.HtmlEnterPriseEditionUrl + queryString,
                                     action: () => hb
                                         .Img(src: Locations.Get(
                                             context: context,
                                             "Images",
                                             "Hayato3.png"))
-                                        .Text(text: Displays.EnterpriseEdition(context: context))))
+                                        .Text(text: Displays.EnterpriseEdition(context: context)))
+                                .A(
+                                    href: Parameters.General.HtmlSupportUrl + queryString,
+                                    action: () => hb
+                                        .Img(src: Locations.Get(
+                                            context: context,
+                                            "Images",
+                                            "Hayato4.png"))
+                                        .Text(text: Displays.NeedHelp(context: context))))
                         .FieldCheckBox(
                             fieldId: "DisableStartGuideField",
                             controlId: "DisableStartGuide",
@@ -3957,6 +3966,9 @@ namespace Implem.Pleasanter.Models
                 column: commentsColumn,
                 baseModel: siteModel);
             var showComments = true;
+            var showBanner = !Parameters.DisableAds()
+                && (!Parameters.CommercialLicense() || Parameters.Service.Demo);
+            var queryString = $"?re=tableedit{Parameters.General.HtmlUrlPrefix}";
             var tabsCss = showComments ? null : "max";
             return hb.Div(id: "Editor", action: () => hb
                 .Form(
@@ -3986,7 +3998,7 @@ namespace Implem.Pleasanter.Models
                         .Div(
                             id: "EnterPriseBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlEnterPriseEditionUrl + queryString),
                                     action: () => hb
                                         .Img(
                                             id: "EnterPriseBannerImage",
@@ -3994,12 +4006,23 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "enterprise-banner.png"))),
-                            _using: !Parameters.DisableAds()
-                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
+                            _using: showBanner)
+                        .Div(
+                            id: "SupportBanner", action: () => hb
+                                .A(
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlSupportUrl + queryString),
+                                    action: () => hb
+                                        .Img(
+                                            id: "SupportBannerImage",
+                                            src: Locations.Get(
+                                                context: context,
+                                                "Images",
+                                                "support-banner.png"))),
+                            _using: showBanner)
                         .Div(
                             id: "CasesBanner", action: () => hb
                                 .A(
-                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl),
+                                    attributes: new HtmlAttributes().Href(Parameters.General.HtmlCasesUrl + queryString),
                                     action: () => hb
                                         .Img(
                                             id: "CasesBannerImage",
@@ -4007,8 +4030,7 @@ namespace Implem.Pleasanter.Models
                                                 context: context,
                                                 "Images",
                                                 "cases-banner.png"))),
-                            _using: !Parameters.DisableAds()
-                                && (!Parameters.CommercialLicense() || Parameters.Service.Demo))
+                            _using: showBanner)
                         .Div(
                             id: "EditorTabsContainer",
                             css: "tab-container" + tabsCss,
@@ -4030,7 +4052,7 @@ namespace Implem.Pleasanter.Models
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
-                                        .DataAction("PermissionForCreating")
+                                        .DataAction("PermissionForRecord")
                                         .DataMethod("post"),
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))
@@ -4200,6 +4222,7 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Export != false)
                 .PermissionsDialog(context: context)
                 .PermissionForCreatingDialog(context: context)
+                .PermissionForUpdatingDialog(context: context)
                 .ColumnAccessControlDialog(context: context));
         }
 
@@ -6524,8 +6547,7 @@ namespace Implem.Pleasanter.Models
                                         .FieldCheckBox(
                                             controlId: "Hide",
                                             labelText: Displays.Hide(context: context),
-                                            _checked: column.Hide == true,
-                                            _using: !column.Id_Ver)
+                                            _checked: column.Hide == true)
                                         .FieldTextBox(
                                             controlId: "ExtendedFieldCss",
                                             fieldCss: "field-normal",
@@ -11170,6 +11192,47 @@ namespace Implem.Pleasanter.Models
                     .Hidden(
                         controlId: "NotificationTokenEnableList",
                         value: NotificationUtilities.Tokens())
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "NotificationMethodTypeField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
+                        controlId: "NotificationMethodType",
+                        controlCss: " always-send",
+                        labelText: Displays.MethodType(context: context),
+                        optionCollection: NotificationUtilities.MethodTypes(context: context),
+                        selectedValue: notification.MethodType?.ToInt().ToString())
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "NotificationEncodingField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
+                        controlId: "NotificationEncoding",
+                        controlCss: " always-send",
+                        labelText: Displays.Encoding(context: context),
+                        optionCollection: NotificationUtilities.Encodings(context: context),
+                        selectedValue: notification.Encoding)
+                    .FieldTextBox(
+                        fieldId: "NotificationMediaTypeField",
+                        fieldCss: "field-normal" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : String.Empty),
+                        controlId: "NotificationMediaType",
+                        controlCss: " always-send",
+                        labelText: Displays.MediaType(context: context),
+                        text: notification.MediaType)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        fieldId: "NotificationRequestHeadersField",
+                        controlId: "NotificationRequestHeaders",
+                        fieldCss: "field-wide" + (!NotificationUtilities.NotificationType(notification)
+                            ? " hidden"
+                            : string.Empty),
+                        controlCss: " always-send",
+                        labelText: Displays.HttpHeader(context: context),
+                        text: notification.Headers)
                     .FieldCheckBox(
                         controlId: "NotificationUseCustomFormat",
                         controlCss: " always-send",

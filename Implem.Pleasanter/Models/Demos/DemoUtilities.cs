@@ -30,7 +30,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Register(Context context, bool async = true)
+        public static string Register(
+            Context context,
+            bool async = true,
+            bool sendMail = true)
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
@@ -80,7 +83,8 @@ namespace Implem.Pleasanter.Models
                     Bcc = Parameters.Mail.SupportFrom
                 },
                 userHash: userHash,
-                async: async);
+                async: async,
+                sendMail: sendMail);
             return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
@@ -166,7 +170,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             OutgoingMailModel outgoingMailModel,
             Dictionary<string, string> userHash,
-            bool async)
+            bool async,
+            bool sendMail)
         {
             System.Diagnostics.Debug.WriteLine(outgoingMailModel.Body);
             var idHash = new Dictionary<string, long>();
@@ -179,7 +184,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         outgoingMailModel: outgoingMailModel,
                         userHash: userHash,
-                        idHash: idHash);
+                        idHash: idHash,
+                        sendMail: sendMail);
                 });
             }
             else
@@ -189,7 +195,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     outgoingMailModel: outgoingMailModel,
                     userHash: userHash,
-                    idHash: idHash);
+                    idHash: idHash,
+                    sendMail: sendMail);
             }
         }
 
@@ -201,7 +208,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             OutgoingMailModel outgoingMailModel,
             Dictionary<string, string> userHash,
-            Dictionary<string, long> idHash)
+            Dictionary<string, long> idHash,
+            bool sendMail)
         {
             try
             {
@@ -209,9 +217,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     userHash: userHash,
                     idHash: idHash);
-                outgoingMailModel.Send(
-                    context: context,
-                    ss: new SiteSettings());
+                if (sendMail)
+                {
+                    outgoingMailModel.Send(
+                        context: context,
+                        ss: new SiteSettings());
+                }
             }
             catch (Exception e)
             {
@@ -242,9 +253,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 demoModel: demoModel,
                 idHash: idHash);
-            SiteInfo.Reflesh(
-                context: context,
-                force: true);
             var ssHash = InitializeSites(
                 context: context,
                 demoModel: demoModel,
@@ -286,6 +294,9 @@ namespace Implem.Pleasanter.Models
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
         }
 
         /// <summary>
@@ -308,8 +319,13 @@ namespace Implem.Pleasanter.Models
                                 .TenantId(demoModel.TenantId)
                                 .DeptCode(demoDefinition.ClassA)
                                 .DeptName(demoDefinition.Title)
-                                .Disabled(demoDefinition.CheckD)))
-                                    .Id.ToLong()));
+                                .Disabled(demoDefinition.CheckD)
+                                .Comments(Comments(
+                                    context: context,
+                                    demoModel: demoModel,
+                                    idHash: idHash,
+                                    parentId: demoDefinition.Id))))
+                                        .Id.ToLong()));
         }
 
         /// <summary>
@@ -346,7 +362,12 @@ namespace Implem.Pleasanter.Models
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
                                     .TenantManager(demoDefinition.ClassD == "1")
                                     .Disabled(demoDefinition.CheckD)
-                                    .Lockout(demoDefinition.CheckL)),
+                                    .Lockout(demoDefinition.CheckL)
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -389,23 +410,25 @@ namespace Implem.Pleasanter.Models
                             param: Rds.GroupsParam()
                                 .TenantId(demoModel.TenantId)
                                 .GroupName(demoDefinition.Title)
-                                .Disabled(demoDefinition.CheckD)))
+                                .Disabled(demoDefinition.CheckD)
+                                .Comments(Comments(
+                                    context: context,
+                                    demoModel: demoModel,
+                                    idHash: idHash,
+                                    parentId: demoDefinition.Id))))
                                     .Id.ToLong()));
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "GroupMembers")
                 .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
-                .ForEach(demoDefinition => Repository.ExecuteScalar_response(
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
                     context: context,
-                    selectIdentity: true,
                     statements: Rds.InsertGroupMembers(
-                        selectIdentity: true,
                         param: Rds.GroupMembersParam()
                             .GroupId(idHash.Get(demoDefinition.ParentId).ToInt())
                             .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
                             .UserId(idHash.Get(demoDefinition.ClassB).ToInt())
-                            .Admin(demoDefinition.CheckA)))
-                                .Id.ToLong());
+                            .Admin(demoDefinition.CheckA))));
         }
 
         /// <summary>
@@ -491,6 +514,11 @@ namespace Implem.Pleasanter.Models
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
                                     .Creator(creator)
                                     .Updator(updator),
                                 addUpdatorParam: false)
@@ -574,6 +602,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))
@@ -856,6 +885,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))

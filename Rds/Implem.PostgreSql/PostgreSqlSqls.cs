@@ -17,7 +17,11 @@ namespace Implem.PostgreSql
 
         public string Like { get; } = " ilike ";
 
+        public string NotLike { get; } = " not ilike ";
+
         public string LikeWithEscape { get; } = " ilike {0} escape '|'";
+
+        public string NotLikeWithEscape { get; } = " not ilike {0} escape '|'";
 
         public string Escape { get; } = " escape '|'";
 

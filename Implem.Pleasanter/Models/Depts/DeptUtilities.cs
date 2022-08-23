@@ -1335,6 +1335,9 @@ namespace Implem.Pleasanter.Models
             res.Val(
                 target: "#ReplaceFieldColumns",
                 value: replaceFieldColumns?.ToJson());
+            res.LookupClearFormData(
+                context: context,
+                ss: ss);
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -2151,7 +2154,7 @@ namespace Implem.Pleasanter.Models
                        errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<Api>();
-            if (api == null)
+            if (api == null && !context.RequestDataString.IsNullOrEmpty())
             {
                 return ApiResults.Get(ApiResponses.BadRequest(context: context));
             }
@@ -2255,7 +2258,7 @@ namespace Implem.Pleasanter.Models
                         orderBy: view.OrderBy(
                             context: context,
                             ss: ss),
-                        offset: api.Offset,
+                        offset: api?.Offset ?? 0,
                         pageSize: pageSize,
                         tableType: tableType);
                     var groups = siteDepts == null
@@ -2266,7 +2269,7 @@ namespace Implem.Pleasanter.Models
                         StatusCode = 200,
                         Response = new
                         {
-                            Offset = api.Offset,
+                            Offset = api?.Offset ?? 0,
                             PageSize = pageSize,
                             TotalCount = groups.Count(),
                             Data = groups.Select(o => o.GetByApi(

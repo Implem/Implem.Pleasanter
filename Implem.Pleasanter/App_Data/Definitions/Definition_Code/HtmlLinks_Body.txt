@@ -166,30 +166,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             BaseModel.MethodTypes? methodType,
             int tabIndex)
         {
-            return hb.FieldSet(
-                css: " enclosed link-creations",
-                legendText: Displays.Links(context: context),
-                action: () => hb.Div(action: () =>
-                {
-                    var link = links.FirstOrDefault(o => o.SourceId == linkId);
-                    if (link != null && direction == "Source")
+            var dataRows = DataRows(
+                dataSet: dataSet,
+                ss: targetSs,
+                dataTableName: DataTableName(
+                    ss: targetSs,
+                    direction: direction));
+            var link = links.FirstOrDefault(o => o.SourceId == linkId);
+            var addButton = link != null && direction == "Source";
+            // レコードが存在するか、追加ボタンが無い場合にはフィールドセットを作成しない
+            // linksには、NoAddButtonがtrueのものは含まれていないためNoAddButtonのチェックは不要
+            // linksはHtmlLinkCreations.Linksメソッドで生成される
+            return dataRows?.Any() == true || addButton
+                ? hb.FieldSet(
+                    css: " enclosed link-creations",
+                    legendText: Displays.Links(context: context),
+                    action: () => hb.Div(action: () =>
                     {
-                        hb.Div(action: () => hb.LinkCreationButton(
+                        if (addButton)
+                        {
+                            hb.Div(action: () => hb.LinkCreationButton(
+                                context: context,
+                                ss: ss,
+                                linkId: id,
+                                sourceId: link.SourceId,
+                                text: link.SiteTitle,
+                                tabIndex: tabIndex));
+                        }
+                        hb.LinkTable(
                             context: context,
-                            ss: ss,
-                            linkId: id,
-                            sourceId: link.SourceId,
-                            text: link.SiteTitle,
-                            tabIndex: tabIndex));
-                    }
-                    hb.LinkTable(
-                        context: context,
-                        ss: targetSs,
-                        direction: direction,
-                        dataSet: dataSet,
-                        tabIndex: tabIndex);
-                }),
-                _using: methodType != BaseModel.MethodTypes.New);
+                            ss: targetSs,
+                            direction: direction,
+                            dataSet: dataSet,
+                            tabIndex: tabIndex);
+                    }),
+                    _using: methodType != BaseModel.MethodTypes.New)
+                : hb;
         }
 
         private static SiteSettings TargetSiteSettings(

@@ -7,6 +7,8 @@
     "Teams": false,
     "RocketChat": false,
     "InCircle": false,
+    "HttpClient": false,
     "CopyWithNotifications": "On",
-    "ListOrder": null
+    "ListOrder": null,
+    "HttpClientEncodings": [ "utf-8", "shift_jis", "euc-jp" ]
 }

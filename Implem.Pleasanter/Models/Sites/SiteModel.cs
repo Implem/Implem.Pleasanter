@@ -1114,7 +1114,26 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            if (RecordPermissions != null)
+            if (ss.PermissionForUpdating?.Any() == true)
+            {
+                statements.AddRange(PermissionUtilities.UpdateStatements(
+                    context: context,
+                    ss: ss,
+                    referenceId: SiteId,
+                    columns: ss.Columns
+                        .Where(o => o.Type != Column.Types.Normal)
+                        .ToDictionary(
+                            o => $"{o.ColumnName},{o.Type}",
+                            o => (o.MultipleSelections == true
+                                ? PropertyValue(
+                                    context: context,
+                                    column: o)?.Deserialize<List<int>>()
+                                : PropertyValue(
+                                    context: context,
+                                    column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
+                    permissions: ss.PermissionForUpdating));
+            }
+            else if (RecordPermissions != null)
             {
                 statements.UpdatePermissions(context, ss, SiteId, RecordPermissions, site: true);
             }
@@ -5216,6 +5235,10 @@ namespace Implem.Pleasanter.Models
                     address: SiteSettings.LabelTextToColumnName(
                         context.Forms.Data("NotificationAddress")),
                     token: context.Forms.Data("NotificationToken"),
+                    methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                    encoding: context.Forms.Data("NotificationEncoding"),
+                    mediaType: context.Forms.Data("NotificationMediaType"),
+                    headers: context.Forms.Data("NotificationRequestHeaders"),
                     useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                     format: SiteSettings.LabelTextToColumnName(
                         context.Forms.Data("NotificationFormat")),
@@ -5259,6 +5282,10 @@ namespace Implem.Pleasanter.Models
                         address: SiteSettings.LabelTextToColumnName(
                             context.Forms.Data("NotificationAddress")),
                         token: context.Forms.Data("NotificationToken"),
+                        methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                        encoding: context.Forms.Data("NotificationEncoding"),
+                        mediaType: context.Forms.Data("NotificationMediaType"),
+                        headers: context.Forms.Data("NotificationRequestHeaders"),
                         useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
                         format: SiteSettings.LabelTextToColumnName(
                             context.Forms.Data("NotificationFormat")),
@@ -5710,6 +5737,7 @@ namespace Implem.Pleasanter.Models
                     Export.Header = context.Forms.Bool("ExportHeader");
                     Export.DelimiterType = (Export.DelimiterTypes)context.Forms.Int("DelimiterType");
                     Export.EncloseDoubleQuotes = context.Forms.Bool("EncloseDoubleQuotes");
+                    Export.ExecutionType = (Export.ExecutionTypes)context.Forms.Int("ExecutionType");
                     Export.SetPermissions(permissions: ExportPermissions(context: context));
                     SiteSettings.Exports.Add(Export);
                     SetExportsResponseCollection(context: context, res: res);

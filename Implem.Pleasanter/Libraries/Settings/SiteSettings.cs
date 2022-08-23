@@ -239,6 +239,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<string> IntegratedSites;
         public bool NoDisplayIfReadOnly;
         public Dictionary<string, Permissions.Types> PermissionForCreating;
+        public Dictionary<string, Permissions.Types> PermissionForUpdating;
         public List<ColumnAccessControl> CreateColumnAccessControls;
         public List<ColumnAccessControl> ReadColumnAccessControls;
         public List<ColumnAccessControl> UpdateColumnAccessControls;
@@ -1110,6 +1111,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.PermissionForCreating = new Dictionary<string, Permissions.Types>();
                 }
                 ss.PermissionForCreating.Add(data.Key, data.Value);
+            });
+            PermissionForUpdating?.Where(o => o.Value > 0).ForEach(data =>
+            {
+                if (ss.PermissionForUpdating == null)
+                {
+                    ss.PermissionForUpdating = new Dictionary<string, Permissions.Types>();
+                }
+                ss.PermissionForUpdating.Add(data.Key, data.Value);
             });
             CreateColumnAccessControls?
                 .Where(o => !o.IsDefault(this, "Create"))
@@ -2042,7 +2051,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnName: columnName);
                 return column;
             }
-            if (ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
+            if (column?.SiteSettings?.ColumnDefinitionHash?.ContainsKey(column?.Name ?? string.Empty) != true)
             {
                 return null;
             }
@@ -3505,6 +3514,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "IntegratedSites": SetIntegratedSites(value); break;
                 case "NoDisplayIfReadOnly": NoDisplayIfReadOnly = value.ToBool(); break;
                 case "CurrentPermissionForCreatingAll": SetPermissionForCreating(value); break;
+                case "CurrentPermissionForUpdatingAll": SetPermissionForUpdating(value); break;
                 case "CreateColumnAccessControlAll": SetCreateColumnAccessControl(value); break;
                 case "ReadColumnAccessControlAll": SetReadColumnAccessControl(value); break;
                 case "UpdateColumnAccessControlAll": SetUpdateColumnAccessControl(value); break;
@@ -4344,20 +4354,58 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Link ColumnFilterExpressionsLink(Context context, Column column)
         {
-            if (column.Linked(
+            return Links
+                ?.Where(o => o.ColumnName == column.ColumnName)
+                .Where(o => o.JsonFormat == true)
+                .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
+                .FirstOrDefault();
+        }
+
+        public SiteSettings GetLinkedSiteSettings(Context context, Link link)
+        {
+            switch (link.TableName)
+            {
+                case "Depts":
+                    return SiteSettingsUtilities.DeptsSiteSettings(context: context);
+                case "Groups":
+                    return SiteSettingsUtilities.GroupsSiteSettings(context: context);
+                case "Users":
+                    return SiteSettingsUtilities.UsersSiteSettings(context: context);
+                default:
+                    return JoinedSsHash.Get(link.SiteId);
+            }
+        }
+
+        public Column GetFilterExpressionsColumn(
+            Context context,
+            Link link,
+            string columnName)
+        {
+            switch (link.TableName)
+            {
+                case "Depts":
+                case "Users":
+                    switch (columnName)
+                    {
+                        case "Groups":
+                            // GetColumnで取得できない項目を仮想的にColumnFilterHashExpressionsに渡すための設定
+                            return new Column()
+                            {
+                                ColumnName = "Groups",
+                                TypeName = "nvarchar",
+                                ControlType = "ChoicesText",
+                                ChoicesText = "HasChoices"
+                            };
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return GetColumn(
                 context: context,
-                withoutWiki: true))
-            {
-                return Links
-                    ?.Where(o => o.ColumnName == column.ColumnName)
-                    .Where(o => o.JsonFormat == true)
-                    .Where(o => o.View?.ColumnFilterExpressions?.Any() == true)
-                    .FirstOrDefault();
-            }
-            else
-            {
-                return null;
-            }
+                columnName: columnName);
         }
 
         public Tab AddTab(Tab tab)
@@ -4550,6 +4598,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : new Permission(key, 0, Permissions.Types.NotSet, source: true);
         }
 
+        public Permission GetPermissionForUpdating(string key)
+        {
+            return PermissionForUpdating?.ContainsKey(key) == true
+                ? new Permission(key, 0, PermissionForUpdating[key])
+                : new Permission(key, 0, Permissions.Types.NotSet, source: true);
+        }
+
         public void SetSiteIntegration(Context context)
         {
             if (IntegratedSites?.Any() == true)
@@ -4562,7 +4617,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetAllowedIntegratedSites(Context context)
         {
-            AllowedIntegratedSites = new List<long> { SiteId };
+            AllowedIntegratedSites = new List<long>();
             var sites = GetIntegratedSites(context: context);
             var allows = Permissions.AllowSites(
                 context: context,
@@ -4573,7 +4628,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public List<long> GetIntegratedSites(Context context)
         {
-            var sites = new List<long>();
+            var sites = new List<long>() { SiteId };
             IntegratedSites?.ForEach(site =>
             {
                 var isName = false;
@@ -4662,6 +4717,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         private void SetPermissionForCreating(string value)
         {
             PermissionForCreating = Permissions.Get(value.Deserialize<List<string>>())
+                .ToDictionary(o => o.Name, o => o.Type);
+        }
+
+        private void SetPermissionForUpdating(string value)
+        {
+            PermissionForUpdating = Permissions.Get(value.Deserialize<List<string>>())
                 .ToDictionary(o => o.Name, o => o.Type);
         }
 

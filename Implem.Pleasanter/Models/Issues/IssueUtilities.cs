@@ -2515,6 +2515,9 @@ namespace Implem.Pleasanter.Models
             res.Val(
                 target: "#ReplaceFieldColumns",
                 value: replaceFieldColumns?.ToJson());
+            res.LookupClearFormData(
+                context: context,
+                ss: ss);
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -2705,7 +2708,9 @@ namespace Implem.Pleasanter.Models
             if (link != null)
             {
                 var view = link.View;
-                var targetSs = ss.JoinedSsHash.Get(link.SiteId);
+                var targetSs = ss.GetLinkedSiteSettings(
+                    context: context,
+                    link: link);
                 if (targetSs != null)
                 {
                     if (view.ColumnFilterHash == null)
@@ -2715,8 +2720,9 @@ namespace Implem.Pleasanter.Models
                     view.ColumnFilterExpressions.ForEach(data =>
                     {
                         var columnName = data.Key;
-                        var targetColumn = targetSs?.GetColumn(
+                        var targetColumn = targetSs?.GetFilterExpressionsColumn(
                             context: context,
+                            link: link,
                             columnName: columnName);
                         if (targetColumn != null)
                         {
@@ -6377,7 +6383,7 @@ namespace Implem.Pleasanter.Models
                 encoding: context.QueryStrings.Data("encoding"));
         }
 
-        public static string ExportAsync(
+        public static string ExportAndMailNotify(
             Context context, SiteSettings ss, SiteModel siteModel)
         {
             if (context.ContractSettings.Export == false)
@@ -8295,10 +8301,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         issueModel: issueModel)
-                            .SetMemory("formChanged", false)
                             .Message(Messages.UnlockedRecord(context: context))
                             .Messages(context.Messages)
-                            .ClearFormData()
                             .ToJson();
                 case Error.Types.UpdateConflicts:
                     return Messages.ResponseUpdateConflicts(

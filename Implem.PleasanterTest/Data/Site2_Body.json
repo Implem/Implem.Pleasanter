@@ -2,11 +2,11 @@
     "Version": 1.017,
     "ReferenceType": "Issues",
     "GridView": 1,
+    "GridEditorType": 10,
     "GridColumns": [
         "IssueId",
         "TitleBody",
         "Title",
-        "Comments",
         "Comments",
         "Manager",
         "Owner",
@@ -53,7 +53,8 @@
             "CheckA",
             "DescriptionA",
             "AttachmentsA",
-            "Comments"
+            "Comments",
+            "Locked"
         ]
     },
     "TitleColumns": [
@@ -69,7 +70,8 @@
         {
             "ColumnName": "ClassA",
             "LabelText": "作業工程",
-            "ChoicesText": "要件定義\n設計\n構築\nテスト\nリリース・展開\n初期サポート\n運用"
+            "ChoicesText": "要件定義\n設計\n構築\nテスト\nリリース・展開\n初期サポート\n運用",
+            "AllowBulkUpdate": true
         },
         {
             "ColumnName": "ClassB",
@@ -115,6 +117,26 @@
             "ApiDataType": 0
         }
     ],
+    "Exports": [
+        {
+            "Name": "ExportAsyncテスト用",
+            "Columns": [
+                {
+                    "Id": 1,
+                    "ColumnName": "IssueId"
+                },
+                {
+                    "Id": 2,
+                    "ColumnName": "Title"
+                }
+            ],
+            "Type": 0,
+            "DelimiterType": 0,
+            "ExecutionType": 1,
+            "Id": 1
+        }
+    ],
+    "AllowSeparate": true,
     "SwitchRecordWithAjax": true,
     "TitleSeparator": "）",
     "NoDisplayIfReadOnly": false

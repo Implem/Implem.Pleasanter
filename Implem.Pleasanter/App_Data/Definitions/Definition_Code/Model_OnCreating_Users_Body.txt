@@ -4,4 +4,7 @@
         context: context,
         password: Password);
 }
-PasswordExpirationPeriod(context: context);
+if (!PasswordExpirationTime.Value.InRange())
+{
+    SetPasswordExpirationPeriod(context: context);
+}

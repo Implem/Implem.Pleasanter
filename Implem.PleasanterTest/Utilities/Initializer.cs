@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Implem.PleasanterTest.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,16 +41,12 @@ namespace Implem.PleasanterTest.Utilities
                 userType: UserData.UserTypes.Anonymous,
                 httpMethod: "post",
                 absolutePath: "/demos/register",
-                forms: new Forms()
-                {
-                    {
-                        "Users_DemoMailAddress",
-                        "DemoUser@example.com"
-                    }
-                });
+                forms: FormsUtilities.Get(
+                    new KeyValue("Users_DemoMailAddress", "DemoUser@example.com")));
             DemoUtilities.Register(
                 context: Context,
-                async: false);
+                async: false,
+                sendMail: false);
             TenantId = Rds.ExecuteScalar_int(
                 context: Context,
                 statements: Rds.SelectTenants(
@@ -125,17 +122,17 @@ namespace Implem.PleasanterTest.Utilities
                         break;
                 }
             });
+            Sites.ForEach(data => Titles.Add(data.Key, data.Value.SiteId));
             Issues.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.IssueId));
             Results.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.ResultId));
             Wikis.SelectMany(o => o.Value).ForEach(data => Titles.Add(data.Key, data.Value.WikiId));
             Items.ForEach(data => ItemIds.Add(data.Value.ReferenceId, data.Value));
-            // 管理者ユーザのパスワードを初期化します。
+            // ユーザのパスワードを初期化します。
             Rds.ExecuteNonQuery(
                 context: Context,
                 statements: Rds.UpdateUsers(
                     where: Rds.UsersWhere()
-                        .TenantId(TenantId)
-                        .TenantManager(true),
+                        .TenantId(TenantId),
                     param: Rds.UsersParam()
                         .Password("ABCDEF".Sha512Cng())));
         }

@@ -75,6 +75,10 @@
     background-image: url("images/ui-icons_b8ec79_256x240.png");
 }
 
+#ViewFilters .ui-icon.ui-icon-info {
+    background-image: url("images/ui-icons_9fda58_256x240.png");
+}
+
 .grid-row .ui-icon {
     background-image: url("images/ui-icons_9fda58_256x240.png");
 }

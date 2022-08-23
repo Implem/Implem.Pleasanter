@@ -1,0 +1,14 @@
+﻿{
+    "Id": "Wiki1",
+    "Language": "ja",
+    "Type": "Wikis",
+    "ParentId": "Site13",
+    "Title": "Wiki1",
+    "Body": "Wiki Body",
+    "Manager": "User10",
+    "Owner": "User10",
+    "Creator": "User10",
+    "Updator": "User10",
+    "CreatedTime": "36640.398611111108",
+    "UpdatedTime": "36653.511111111111"
+}

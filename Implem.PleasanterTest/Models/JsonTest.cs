@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 namespace Implem.PleasanterTest.Models
 {
-    public class JsonTest
+    public class JsonTest : BaseTest
     {
         public enum Types
         {
             Value,
             Exists,
             ExistsOne,
-            Html
+            Html,
+            Message
         }
 
         public Types Type { get; set; }

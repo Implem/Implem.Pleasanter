@@ -1,0 +1,10 @@
+﻿{
+    "Id": "User22",
+    "Language": "ja",
+    "Type": "Users",
+    "ParentId": "Dept9",
+    "Title": "ユーザ22（API削除用）",
+    "ClassA": "2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

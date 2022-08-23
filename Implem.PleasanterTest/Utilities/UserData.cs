@@ -10,7 +10,8 @@ namespace Implem.PleasanterTest.Utilities
         public enum UserTypes
         {
             Anonymous,
-            TenantManager,
+            TenantManager1,
+            TenantManager2,
             General1,
             General2,
             General3,
@@ -34,8 +35,11 @@ namespace Implem.PleasanterTest.Utilities
             UserModel userModel = null;
             switch (userType)
             {
-                case UserTypes.TenantManager:
-                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.TenantManager);
+                case UserTypes.TenantManager1:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User1"));
+                    break;
+                case UserTypes.TenantManager2:
+                    userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User11"));
                     break;
                 case UserTypes.General1:
                     userModel = Initializer.Users.Values.FirstOrDefault(o => o.LoginId.EndsWith("User2"));
@@ -73,7 +77,7 @@ namespace Implem.PleasanterTest.Utilities
 
         public static IEnumerable<UserTypes> GetUserTypePatterns()
         {
-            yield return UserTypes.TenantManager;
+            yield return UserTypes.TenantManager1;
             yield return UserTypes.General1;
             yield return UserTypes.DisabledDept;
             yield return UserTypes.DisabledGroup;

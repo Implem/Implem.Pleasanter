@@ -4,6 +4,7 @@
     "SmtpUserName": null,
     "SmtpPassword": null,
     "SmtpEnableSsl": false,
+    "ServerCertificateValidationCallback": false,
     "FixedFrom": null,
     "AllowedFrom": null,
     "SupportFrom": "\"Pleasanter.org\" <support@pleasanter.org>",
