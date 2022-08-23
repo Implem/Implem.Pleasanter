@@ -14,6 +14,7 @@ COPY ["Implem.ParameterAccessor/Implem.ParameterAccessor.csproj", "Implem.Parame
 COPY ["Implem.DisplayAccessor/Implem.DisplayAccessor.csproj", "Implem.DisplayAccessor/"]
 COPY ["Implem.Libraries/Implem.Libraries.csproj", "Implem.Libraries/"]
 COPY ["Rds/Implem.IRds/Implem.IRds.csproj", "Rds/Implem.IRds/"]
+COPY ["Implem.Plugins/Implem.Plugins.csproj", "Implem.Plugins/"]
 COPY ["Implem.Factory/Implem.Factory.csproj", "Implem.Factory/"]
 COPY ["Rds/Implem.PostgreSql/Implem.PostgreSql.csproj", "Rds/Implem.PostgreSql/"]
 COPY ["Rds/Implem.SqlServer/Implem.SqlServer.csproj", "Rds/Implem.SqlServer/"]
