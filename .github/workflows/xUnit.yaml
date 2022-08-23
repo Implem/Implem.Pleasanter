@@ -1,19 +1,21 @@
-﻿name: CI
+﻿name: build and xUnit test
 on:
   schedule:
     - cron: '0 13 * * *'   # UTC (= 22:00 JST)
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
 env:
   AZURE_WEBAPP_NAME: pleasanter
   AZURE_WEBAPP_PACKAGE_PATH: Implem.Pleasanter/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 6.0.x
   DOTNET_CORE_DIR: net6.0
-  WORKING_DIRECTORY: Implem.Pleasanter
-  WORKING_DIR_CODEDEFINER: Implem.CodeDefiner
-  WORKING_DIR_TESTAUTOMATION: Implem.TestAutomation
 jobs:
-    build_and_e2e_test:
-        name: Build and E2E test
+    run_xunit_test:
+        name: Run xUnit test
         runs-on: ubuntu-latest
         env:
             Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN }}
@@ -26,33 +28,23 @@ jobs:
             COMPOSE_DOCKER_CLI_BUILD: true
         steps:
             - uses: actions/checkout@v3
-            - name: Deploy Started Notification
+            - name: xUnit Test Started Notification
               uses: mikesprague/teams-incoming-webhook-action@v1
               with:
                 github-token: ${{ github.token }}
                 webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
                 deploy-card: true
-                title: "Build and Test Started"
+                title: "xUnit Test Started"
                 color: "info"
-            - name: Setup .NET Core SDK ${{ env.DOTNET_CORE_VERSION }}
-              uses: actions/setup-dotnet@v2
-              with:
-                dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
             - name: build on docker-compose
               working-directory: ./
-              run: docker-compose build
+              run: docker-compose build Implem.CodeDefiner Implem.PleasanterTest
             - name: run Implem.CodeDefiner on docker-compose
               run: docker-compose run --rm --name codedefiner Implem.CodeDefiner _rds
               working-directory: ./
-            - name: run Implem.Pleasanter on docker-compose
-              run: docker-compose run -d -p 50001:80 --rm --name pleasanter Implem.Pleasanter
+            - name: run Implem.PleasanterTest on docker-compose
+              run: docker-compose run --rm --name testrunner Implem.PleasanterTest
               working-directory: ./
-            - name: build Implem.TestAutomation
-              run: dotnet build "Implem.TestAutomation.csproj" -c Release
-              working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}
-            - name: run Implem.TestAutomation
-              run: dotnet Implem.TestAutomation.dll /p . /s
-              working-directory: ${{ env.WORKING_DIR_TESTAUTOMATION }}/bin/${{ env.CONFIGURATION }}/${{ env.DOTNET_CORE_DIR }}
             - name: clean up on docker-compose
               run: docker-compose down
               working-directory: ./
@@ -63,7 +55,7 @@ jobs:
                 github-token: ${{ github.token }}
                 webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
                 deploy-card: true
-                title: "Build Cancelled"
+                title: "xUnit test Cancelled"
                 color: "warning"
             - name: Failure Notification
               if: ${{ failure() }}
@@ -72,7 +64,7 @@ jobs:
                 github-token: ${{ github.token }}
                 webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
                 deploy-card: true
-                title: "Build or Test Failed"
+                title: "xUnit test Failed"
                 color: "failure"
             - name: Success Notification
               if: ${{ success() }}
@@ -81,5 +73,5 @@ jobs:
                 github-token: ${{ github.token }}
                 webhook-url: ${{ secrets.MS_TEAMS_WEBHOOK_URL }}
                 deploy-card: true
-                title: "Build and Test Successful"
+                title: "xUnit test Successful"
                 color: "success"

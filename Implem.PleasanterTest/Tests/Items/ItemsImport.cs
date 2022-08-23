@@ -73,7 +73,7 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new MyTestPart(
                     title: "WBS",
-                    fileName: "WBS.csv",
+                    fileName: "WBS.Csv",
                     encoding: "Shift-JIS",
                     updatableImport: false,
                     key: "IssueId",
