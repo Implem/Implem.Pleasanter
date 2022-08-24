@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class PublishesIndex
+    public class ItemsIndex
     {
         [Theory]
         [MemberData(nameof(GetData))]
