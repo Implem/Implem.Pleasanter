@@ -8001,7 +8001,10 @@ namespace Implem.Pleasanter.Models
                         inRange: inRange));
         }
 
-        public static string KambanJson(Context context, SiteSettings ss)
+        public static string KambanJson(
+            Context context,
+            SiteSettings ss,
+            bool updated = false)
         {
             if (!ss.EnableViewMode(context: context, name: "Kamban"))
             {
@@ -8028,7 +8031,9 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     view: view,
                                     bodyOnly: bodyOnly,
-                                    changedItemId: context.Forms.Long("KambanId")))
+                                    changedItemId: updated
+                                        ? context.Forms.Long("KambanId")
+                                        : 0))
                         .Events("on_kamban_load")
                         .ToJson()
                     : new ResponseCollection()
@@ -8190,15 +8195,22 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            issueModel.VerUp = Versions.MustVerUp(
+            var updated = issueModel.Updated(context: context);
+            if (updated)
+            {
+                issueModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: issueModel);
+                issueModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
+            return KambanJson(
                 context: context,
                 ss: ss,
-                baseModel: issueModel);
-            issueModel.Update(
-                context: context,
-                ss: ss,
-                notice: true);
-            return KambanJson(context: context, ss: ss);
+                updated: updated);
         }
 
         public static (Plugins.PdfData pdfData, string error) Pdf(

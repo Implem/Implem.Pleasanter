@@ -18,13 +18,20 @@
     {
         return Messages.ResponseDeleteConflicts(context: context).ToJson();
     }
-    #modelName#Model.VerUp = Versions.MustVerUp(
+    var updated = #modelName#Model.Updated(context: context);
+    if (updated)
+    {
+        #modelName#Model.VerUp = Versions.MustVerUp(
+            context: context,
+            ss: ss,
+            baseModel: #modelName#Model);
+        #modelName#Model.Update(
+            context: context,
+            ss: ss,
+            notice: true);
+    }
+    return KambanJson(
         context: context,
         ss: ss,
-        baseModel: #modelName#Model);
-    #modelName#Model.Update(
-        context: context,
-        ss: ss,
-        notice: true);
-    return KambanJson(context: context, ss: ss);
+        updated: updated);
 }
