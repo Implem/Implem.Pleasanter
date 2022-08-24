@@ -1,0 +1,34 @@
+﻿{
+    "Id": "Negative",
+    "Type": 110,
+    "ClientScript": true,
+    "Languages": [
+        {
+            "Body": "Negative"
+        },
+        {
+            "Language": "zh",
+            "Body": "消极的"
+        },
+        {
+            "Language": "ja",
+            "Body": "否定"
+        },
+        {
+            "Language": "de",
+            "Body": "Negativ"
+        },
+        {
+            "Language": "ko",
+            "Body": "부정적인"
+        },
+        {
+            "Language": "es",
+            "Body": "Negativa"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phủ định"
+        }
+    ]
+}

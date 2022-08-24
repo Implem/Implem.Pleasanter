@@ -16,22 +16,22 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var siteId = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsGridRows(id: siteId));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var validJsonTests = new List<JsonTest>()
+            var validJsonTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(method: "Log"),
                 JsonData.ExistsOne(
@@ -77,20 +77,20 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    jsonTests: validJsonTests);
+                    baseTests: validJsonTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

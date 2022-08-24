@@ -19,7 +19,7 @@ namespace Implem.PleasanterTest.Tests.Items
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -30,15 +30,15 @@ namespace Implem.PleasanterTest.Tests.Items
                 fileName: fileName,
                 contentType: "text/json");
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.Value(
                     method: "Href",
                     value: Locations.ItemIndex(
@@ -64,7 +64,7 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("IncludeReminders", "true")),
                     fileName: testPart.FileName,
                     userModel: testPart.UserModel,
-                    jsonTests: jsonTests);
+                    baseTests: baseTests);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Implem.PleasanterTest.Tests.Items
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
@@ -81,7 +81,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 forms,
                 fileName,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

@@ -17,8 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests,
-            List<TextTest> textTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -27,20 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            if (jsonTests != null)
-            {
-                Assert.True(Compare.Json(
-                    context: context,
-                    results: results,
-                    jsonTests: jsonTests));
-            }
-            else
-            {
-                Assert.True(Compare.Text(
-                    context: context,
-                    results: results,
-                    textTests: textTests));
-            }
+            Assert.True(Tester.Test(
+                context: context,
+                results: results,
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -54,7 +43,7 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("ControlId", "MoveSiteMenu"),
                         new KeyValue("SiteId", Initializer.Sites.Get("サイト移動のテスト").ToString()),
                         new KeyValue("DestinationId", "0")),
-                    textTests: TextData.Tests(TextData.Equals(value: "[]")),
+                    baseTests: BaseData.Tests(TextData.Equals(value: "[]")),
                     userType: UserData.UserTypes.TenantManager1),
                 // トップからフォルダ内への移動
                 new TestPart(
@@ -63,7 +52,7 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("ControlId", "MoveSiteMenu"),
                         new KeyValue("SiteId", Initializer.Titles.Get("サイト移動のテスト").ToString()),
                         new KeyValue("DestinationId", Initializer.Titles.Get("プロジェクト管理の例").ToString())),
-                    jsonTests: JsonData.Tests(JsonData.ExistsOne(
+                    baseTests: BaseData.Tests(JsonData.ExistsOne(
                         method: "ReplaceAll",
                         target: $"[data-value=\"{Initializer.Titles.Get("プロジェクト管理の例")}\"]")),
                     userType: UserData.UserTypes.TenantManager1)
@@ -74,8 +63,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests,
-                    textTests: testPart.TextTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -83,16 +71,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests,
-            List<TextTest> textTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests,
-                textTests
+                baseTests
             };
         }
 

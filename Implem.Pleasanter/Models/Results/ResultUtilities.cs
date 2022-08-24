@@ -2358,6 +2358,9 @@ namespace Implem.Pleasanter.Models
             res.Val(
                 target: "#ReplaceFieldColumns",
                 value: replaceFieldColumns?.ToJson());
+            res.LookupClearFormData(
+                context: context,
+                ss: ss);
             var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
                 ? ss.GetColumn(
                     context: context,
@@ -4820,13 +4823,18 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
+            var destination = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId,
+                referenceId: siteId);
+            if (destination.SiteId == 0)
+            {
+                return Error.Types.NotFound.MessageJson(context: context);
+            }
             if (Permissions.CanMove(
                 context: context,
                 source: ss,
-                destination: SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: siteId,
-                    referenceId: siteId)))
+                destination: destination))
             {
                 var count = BulkMove(
                     context: context,

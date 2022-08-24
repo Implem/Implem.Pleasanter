@@ -17,17 +17,17 @@ namespace Implem.PleasanterTest.Tests.Depts
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Depts.Values.FirstOrDefault(o => o.DeptName == title).DeptId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.DeptsHistories(id: id));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -36,9 +36,10 @@ namespace Implem.PleasanterTest.Tests.Depts
             {
                 new TestPart(
                     title: "開発1部",
-                    jsonTests: JsonData.ExistsOne(
-                        method: "Html",
-                        target: "#FieldSetHistories").ToSingleList(),
+                    baseTests: BaseData.Tests(
+                        JsonData.ExistsOne(
+                            method: "Html",
+                            target: "#FieldSetHistories")),
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -46,20 +47,20 @@ namespace Implem.PleasanterTest.Tests.Depts
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

@@ -12,13 +12,74 @@ namespace Implem.PleasanterTest.Utilities
     /// <summary>
     /// HTMLまたはJSONの返却値をテストデータによって正しいことをチェック。
     /// </summary>
-    public static class Compare
+    public static class Tester
     {
+        public static bool Test(
+            Context context,
+            object results,
+            List<BaseTest> baseTests)
+        {
+            foreach (var baseTest in baseTests)
+            {
+                switch (baseTest)
+                {
+                    case HtmlTest htmlTest:
+                        if (!Html(
+                            context: context,
+                            results: (string)results,
+                            htmlTests: htmlTest.ToSingleList()))
+                        {
+                            return false;
+                        };
+                        break;
+                    case JsonTest jsonTest:
+                        if (!Json(
+                            context: context,
+                            results: (string)results,
+                            jsonTest: jsonTest))
+                        {
+                            return false;
+                        };
+                        break;
+                    case ApiJsonTest apiJsonTest:
+                        if (!ApiResults(
+                            context: context,
+                            results: (ContentResultInheritance)results,
+                            apiJsonTests: apiJsonTest.ToSingleList()))
+                        {
+                            return false;
+                        };
+                        break;
+                    case TextTest textTest:
+                        if (!Text(
+                            context: context,
+                            results: (string)results,
+                            textTest: textTest))
+                        {
+                            return false;
+                        };
+                        break;
+                    case FileTest fileTest:
+                        if (!File(
+                            context: context,
+                            results: (ResponseFile)results,
+                            fileTest: fileTest))
+                        {
+                            return false;
+                        };
+                        break;
+                    default:
+                        return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// HTMLの返却値をテストデータによって正しいことをチェック。
         /// HTMLはAngleSharpを使用してParse。
         /// </summary>
-        public static bool Html(
+        private static bool Html(
             Context context,
             string results,
             List<HtmlTest> htmlTests)
@@ -128,7 +189,7 @@ namespace Implem.PleasanterTest.Utilities
                         else if (!Text(
                             context: context,
                             results: nodes[0].OuterHtml,
-                            textTests: htmlTest.TextTests))
+                            textTest: htmlTest.TextTest))
                         {
                             return false;
                         }
@@ -158,78 +219,75 @@ namespace Implem.PleasanterTest.Utilities
         /// ResponseCollectionの返却値をテストデータによって正しいことをチェック。
         /// ResponseCollection内のHTMLはHTMLメソッドを呼び出してチェック。
         /// </summary>
-        public static bool Json(
+        private static bool Json(
             Context context,
             string results,
-            List<JsonTest> jsonTests)
+            JsonTest jsonTest)
         {
             var responseCollection = results.Deserialize<ResponseCollection>();
-            foreach (var jsonTest in jsonTests)
+            var nodes = responseCollection
+                .Where(o => o.Method == jsonTest.Method)
+                .Where(o => o.Target == jsonTest.Target)
+                .ToArray();
+            switch (jsonTest.Type)
             {
-                var nodes = responseCollection
-                    .Where(o => o.Method == jsonTest.Method)
-                    .Where(o => o.Target == jsonTest.Target)
-                    .ToArray();
-                switch (jsonTest.Type)
-                {
-                    case JsonTest.Types.Value:
-                        if (nodes[0].Value.ToString() != jsonTest.Value.ToString())
-                        {
-                            return false;
-                        }
-                        if (nodes[0].Options != jsonTest.Options)
-                        {
-                            return false;
-                        }
-                        break;
-                    case JsonTest.Types.Exists:
-                        if (!nodes.Any())
-                        {
-                            return false;
-                        }
-                        break;
-                    case JsonTest.Types.ExistsOne:
-                        if (nodes.Count() != 1)
-                        {
-                            return false;
-                        }
-                        break;
-                    case JsonTest.Types.Html:
-                        if (nodes.Count() != 1)
-                        {
-                            return false;
-                        }
-                        else if (!Html(
-                            context: context,
-                            results: nodes[0].Value.ToString(),
-                            htmlTests: jsonTest.HtmlTests))
-                        {
-                            return false;
-                        }
-                        break;
-                    case JsonTest.Types.Message:
-                        if (nodes.Count() != 1)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            switch (jsonTest.Value)
-                            {
-                                case "NotFound":
-                                    if (nodes[0].Value.ToString() != Messages.NotFound(context: context).ToJson())
-                                    {
-                                        return false;
-                                    }
-                                    break;
-                                default:
-                                    return false;
-                            }
-                        }
-                        break;
-                    default:
+                case JsonTest.Types.Value:
+                    if (nodes[0].Value.ToString() != jsonTest.Value.ToString())
+                    {
                         return false;
-                }
+                    }
+                    if (nodes[0].Options != jsonTest.Options)
+                    {
+                        return false;
+                    }
+                    break;
+                case JsonTest.Types.Exists:
+                    if (!nodes.Any())
+                    {
+                        return false;
+                    }
+                    break;
+                case JsonTest.Types.ExistsOne:
+                    if (nodes.Count() != 1)
+                    {
+                        return false;
+                    }
+                    break;
+                case JsonTest.Types.Html:
+                    if (nodes.Count() != 1)
+                    {
+                        return false;
+                    }
+                    else if (!Html(
+                        context: context,
+                        results: nodes[0].Value.ToString(),
+                        htmlTests: jsonTest.HtmlTests))
+                    {
+                        return false;
+                    }
+                    break;
+                case JsonTest.Types.Message:
+                    if (nodes.Count() != 1)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        switch (jsonTest.Value)
+                        {
+                            case "NotFound":
+                                if (nodes[0].Value.ToString() != Messages.NotFound(context: context).ToJson())
+                                {
+                                    return false;
+                                }
+                                break;
+                            default:
+                                return false;
+                        }
+                    }
+                    break;
+                default:
+                    return false;
             }
             return true;
         }
@@ -237,7 +295,7 @@ namespace Implem.PleasanterTest.Utilities
         /// <summary>
         /// APIの返却値をテストデータによって正しいことをチェック。
         /// </summary>
-        public static bool ApiResults(
+        private static bool ApiResults(
             Context context,
             ContentResultInheritance results,
             List<ApiJsonTest> apiJsonTests)
@@ -268,36 +326,33 @@ namespace Implem.PleasanterTest.Utilities
         /// <summary>
         /// 文字列の返却値をテストデータによって正しいことをチェック。
         /// </summary>
-        public static bool Text(
+        private static bool Text(
             Context context,
             string results,
-            List<TextTest> textTests)
+            TextTest textTest)
         {
-            foreach (var textTest in textTests)
+            switch (textTest.Type)
             {
-                switch (textTest.Type)
-                {
-                    case TextTest.Types.Equals:
-                        if (results != textTest.Value?.ToString())
-                        {
-                            return false;
-                        }
-                        break;
-                    case TextTest.Types.ListEquals:
-                        if (!textTest.ListEquals(text: results))
-                        {
-                            return false;
-                        }
-                        break;
-                    case TextTest.Types.Contains:
-                        if (!results.Contains(textTest.Value?.ToString()))
-                        {
-                            return false;
-                        }
-                        break;
-                    default:
+                case TextTest.Types.Equals:
+                    if (results != textTest.Value?.ToString())
+                    {
                         return false;
-                }
+                    }
+                    break;
+                case TextTest.Types.ListEquals:
+                    if (!textTest.ListEquals(text: results))
+                    {
+                        return false;
+                    }
+                    break;
+                case TextTest.Types.Contains:
+                    if (!results.Contains(textTest.Value?.ToString()))
+                    {
+                        return false;
+                    }
+                    break;
+                default:
+                    return false;
             }
             return true;
         }
@@ -305,26 +360,23 @@ namespace Implem.PleasanterTest.Utilities
         /// <summary>
         /// ResponseFileの返却値をテストデータによって正しいことをチェック。
         /// </summary>
-        public static bool File(
+        private static bool File(
             Context context,
             ResponseFile results,
-            List<FileTest> fileTests)
+            FileTest fileTest)
         {
-            foreach (var textTest in fileTests)
+            switch (fileTest.Type)
             {
-                switch (textTest.Type)
-                {
-                    case FileTest.Types.Exists:
-                        if (results == null)
-                        {
-                            return false;
-                        }
-                        if (results.Length == 0)
-                        {
-                            return false;
-                        }
-                        break;
-                }
+                case FileTest.Types.Exists:
+                    if (results == null)
+                    {
+                        return false;
+                    }
+                    if (results.Length == 0)
+                    {
+                        return false;
+                    }
+                    break;
             }
             return true;
         }

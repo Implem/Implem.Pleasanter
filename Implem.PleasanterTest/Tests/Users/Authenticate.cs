@@ -19,15 +19,15 @@ namespace Implem.PleasanterTest.Tests.Users
         public void Test(
             Context context,
             string returnUrl,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var results = Authentications.SignIn(
                 context: context,
                 returnUrl: returnUrl);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData => new List<object[]>()
@@ -150,9 +150,9 @@ namespace Implem.PleasanterTest.Tests.Users
                     new KeyValue("Users_Password", password)));
         }
 
-        private static List<JsonTest> AllowMessage(Context context, string returnUrl)
+        private static List<BaseTest> AllowMessage(Context context, string returnUrl)
         {
-            return JsonData.Tests(
+            return BaseData.Tests(
                 JsonData.Value(
                     method: "Message",
                     target: "#LoginMessage",
@@ -164,9 +164,9 @@ namespace Implem.PleasanterTest.Tests.Users
                         : returnUrl));
         }
 
-        private static List<JsonTest> FailResponse(Context context)
+        private static List<BaseTest> FailResponse(Context context)
         {
-            return JsonData.Tests(
+            return BaseData.Tests(
                 JsonData.Value(
                     method: "Message",
                     target: "#LoginMessage",

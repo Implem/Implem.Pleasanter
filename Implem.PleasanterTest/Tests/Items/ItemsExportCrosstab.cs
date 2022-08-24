@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             QueryStrings queryStrings,
             UserModel userModel,
-            List<FileTest> fileTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
@@ -26,40 +26,40 @@ namespace Implem.PleasanterTest.Tests.Items
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsExportCrosstab(id: id));
             var results = Results(context: context);
-            Assert.True(Compare.File(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                fileTests: fileTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var fileTests = FileData.Tests(FileData.Exists());
+            var baseTests = BaseData.Tests(FileData.Exists());
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     title: "WBS",
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "課題管理",
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "レビュー記録",
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "顧客マスタ",
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "商談",
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "仕入",
-                    fileTests: fileTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -68,7 +68,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     queryStrings: testPart.QueryStrings,
                     userModel: testPart.UserModel,
-                    fileTests: testPart.FileTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -76,14 +76,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             QueryStrings queryStrings,
             UserModel userModel,
-            List<FileTest> fileTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 queryStrings,
                 userModel,
-                fileTests
+                baseTests
             };
         }
 

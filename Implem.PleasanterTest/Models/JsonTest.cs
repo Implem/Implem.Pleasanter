@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 namespace Implem.PleasanterTest.Models
 {
-    public class JsonTest
+    public class JsonTest : BaseTest
     {
         public enum Types
         {

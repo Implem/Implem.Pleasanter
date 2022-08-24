@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -37,7 +37,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var forms = FormsUtilities.Get(
                 new KeyValue("ControlId", "OpenPermissionForCreatingDialog"),
                 new KeyValue("CurrentPermissionForCreating", "[\"Dept,0,31\"]"));
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "Html",
                     target: "#PermissionForCreatingDialog"));
@@ -46,7 +46,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "WBS",
                     forms: forms,
-                    jsonTests: jsonTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -55,7 +55,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -63,14 +63,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

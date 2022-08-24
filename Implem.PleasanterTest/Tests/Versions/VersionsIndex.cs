@@ -16,16 +16,16 @@ namespace Implem.PleasanterTest.Tests.Versions
         [MemberData(nameof(GetData))]
         public void Test(
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.VersionsIndex());
             var results = Results(context: context);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -33,7 +33,7 @@ namespace Implem.PleasanterTest.Tests.Versions
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    htmlTests: HtmlData.Tests(HtmlData.TextContains(
+                    baseTests: BaseData.Tests(HtmlData.TextContains(
                         selector: "#Versions",
                         value: Displays.AGPL(context: Initializer.Context))))
             };
@@ -41,18 +41,18 @@ namespace Implem.PleasanterTest.Tests.Versions
             {
                 yield return TestData(
                     userModel: testPart.UserModel,
-                    htmlTests: testPart.HtmlTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 userModel,
-                htmlTests
+                baseTests
             };
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace Implem.PleasanterTest.Models
 {
-    public class ApiJsonTest
+    public class ApiJsonTest : BaseTest
     {
         public enum Types
         {

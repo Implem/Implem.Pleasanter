@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -48,7 +48,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "業務改善コンサルティング",
                     forms: forms,
-                    jsonTests: JsonData.Tests(JsonData.ExistsOne(
+                    baseTests: BaseData.Tests(JsonData.ExistsOne(
                         method: "Html",
                         target: "#DropDownSearchDialogBody")))
             };
@@ -58,7 +58,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -66,14 +66,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

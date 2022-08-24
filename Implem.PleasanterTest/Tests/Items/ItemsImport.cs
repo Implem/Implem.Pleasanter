@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Items
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -29,15 +29,15 @@ namespace Implem.PleasanterTest.Tests.Items
                 fileName: fileName,
                 contentType: "text/csv");
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var validJsonTests = new List<JsonTest>()
+            var validJsonTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(method: "Log"),
                 JsonData.ExistsOne(
@@ -73,7 +73,7 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new MyTestPart(
                     title: "WBS",
-                    fileName: "WBS.csv",
+                    fileName: "WBS.Csv",
                     encoding: "Shift-JIS",
                     updatableImport: false,
                     key: "IssueId",
@@ -89,7 +89,7 @@ namespace Implem.PleasanterTest.Tests.Items
                         new KeyValue("Key", testPart.Key)),
                     fileName: testPart.FileName,
                     userModel: testPart.UserModel,
-                    jsonTests: validJsonTests);
+                    baseTests: validJsonTests);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Implem.PleasanterTest.Tests.Items
             Forms forms,
             string fileName,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
@@ -106,7 +106,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 forms,
                 fileName,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

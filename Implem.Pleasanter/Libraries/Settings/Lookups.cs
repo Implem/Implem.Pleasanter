@@ -61,9 +61,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(lookup => lookup.Overwrite != false
                     || blankColumns.Contains(lookup.To)
                     || formData.Get($"{ss.ReferenceType}_{lookup.To}") == string.Empty)
-                .Where(lookup => lookup.OverwriteForm == true
-                    || formData == null
-                    || formData.Get($"{ss.ReferenceType}_{lookup.To}").IsNullOrEmpty())
+                // OverwriteFormは自動ポストバック時のみ動作する
+                // OverwriteFormでルックアップした際はResponseLookupsクラスのLookupClearFormDataメソッドで
+                // クライアントの$p.data.MainFormから値をクリアする
+                .Where(lookup => (lookup.OverwriteForm == true
+                    && formData.Get("ControlId") == $"{ss.ReferenceType}_{link.ColumnName}")
+                        || formData == null
+                        || formData.Get($"{ss.ReferenceType}_{lookup.To}").IsNullOrEmpty())
                 .ToList();
             var changedFormData = lookups.ToDictionary(
                 lookup => $"{ss.ReferenceType}_{lookup.To}",

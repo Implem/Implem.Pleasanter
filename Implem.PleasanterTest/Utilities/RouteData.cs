@@ -454,6 +454,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesDeleteImage(string guid)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "deleteimage" },
+                { "id", guid }
+            };
+        }
+
         public static Dictionary<string, string> BinariesDownload(long id)
         {
             return new Dictionary<string, string>()
@@ -464,12 +474,32 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> BinariesDownloadTemp(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "downloadtemp" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> BinariesShow(long id)
         {
             return new Dictionary<string, string>()
             {
                 { "controller", "binaries" },
                 { "action", "show" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> BinariesShowTemp(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "binaries" },
+                { "action", "showtemp" },
                 { "id", id.ToString() }
             };
         }

@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -26,10 +26,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -43,7 +43,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new KeyValue("SeparateTitle_2", "稼動レポートの作成-2"),
                 new KeyValue("SeparateTitle_3", "稼動レポートの作成-3"),
                 new KeyValue("SeparateCopyWithComments", "true"));
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(method: "Log"),
                 JsonData.ExistsOne(
                     method: "Response",
@@ -78,7 +78,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "稼動レポートの作成",
                     forms: forms,
-                    jsonTests: jsonTests)
+                    baseTests: baseTests)
             };
             foreach (var testPart in testParts)
             {
@@ -86,7 +86,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -94,14 +94,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

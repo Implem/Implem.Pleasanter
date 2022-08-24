@@ -18,17 +18,17 @@ namespace Implem.PleasanterTest.Tests.Users
         public void Test(
             string title,
             UserModel userModel,
-            List<ApiJsonTest> apiJsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Users.Values.FirstOrDefault(o => o.Name == title).UserId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.UsersApiDelete(id: id));
             var results = GetResults(context: context);
-            Assert.True(Compare.ApiResults(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                apiJsonTests: apiJsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -37,7 +37,7 @@ namespace Implem.PleasanterTest.Tests.Users
             {
                 new TestPart(
                     title: "ユーザ22（API削除用）",
-                    apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList(),
+                    baseTests: BaseData.Tests(ApiJsonData.StatusCode(statusCode: 200)),
                     userType: UserData.UserTypes.TenantManager1),
             };
             foreach (var testPart in testParts)
@@ -45,20 +45,20 @@ namespace Implem.PleasanterTest.Tests.Users
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    apiJsonTests: testPart.ApiJsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<ApiJsonTest> apiJsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                apiJsonTests
+                baseTests
             };
         }
 

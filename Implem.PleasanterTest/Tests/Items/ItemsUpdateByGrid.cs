@@ -21,7 +21,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
@@ -30,10 +30,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -55,7 +55,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new KeyValue("EditOnGrid", "1"),
                 new KeyValue($"Issues_Status_{siteId}_{id}", "900"),
                 new KeyValue($"Issues_Timestamp_{siteId}_{id}", timestamp));
-            var jsonTests = JsonData.Tests(
+            var baseTests = BaseData.Tests(
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
                     target: $"[data-id=\"{id}\"][data-latest]"),
@@ -77,7 +77,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "WBS",
                     forms: forms,
-                    jsonTests: jsonTests)
+                    baseTests: baseTests)
             };
             foreach (var testPart in testParts)
             {
@@ -85,7 +85,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -93,14 +93,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

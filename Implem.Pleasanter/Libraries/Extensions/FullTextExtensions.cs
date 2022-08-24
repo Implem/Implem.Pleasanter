@@ -142,23 +142,17 @@ namespace Implem.Pleasanter.Libraries.Extensions
                                 case Column.FullTextTypes.Value:
                                     fullText
                                         .Append(" ")
-                                        .Append(self?.ToDisplay(
-                                            context: context,
-                                            ss: column?.SiteSettings,
-                                            column: column,
-                                            delimiter: " ",
-                                            type: ExportColumn.Types.Value)
+                                        .Append((column?.MultipleSelections == true
+                                            ? self?.Deserialize<List<string>>()?.Join(" ") ?? self
+                                            : self)
                                                 ?? string.Empty);
                                     break;
                                 case Column.FullTextTypes.ValueAndDisplayName:
                                     fullText
                                         .Append(" ")
-                                        .Append(self?.ToDisplay(
-                                            context: context,
-                                            ss: column?.SiteSettings,
-                                            column: column,
-                                            delimiter: " ",
-                                            type: ExportColumn.Types.Value)
+                                        .Append((column?.MultipleSelections == true
+                                            ? self?.Deserialize<List<string>>()?.Join(" ") ?? self
+                                            : self)
                                                 ?? string.Empty);
                                     fullText
                                         .Append(" ")
