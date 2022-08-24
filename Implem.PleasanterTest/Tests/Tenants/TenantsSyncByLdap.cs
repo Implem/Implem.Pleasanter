@@ -15,16 +15,16 @@ namespace Implem.PleasanterTest.Tests.Tenants
         [MemberData(nameof(GetData))]
         public void Test(
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.TenantsSyncByLdap());
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
         public static IEnumerable<object[]> GetData()
         {
@@ -32,13 +32,13 @@ namespace Implem.PleasanterTest.Tests.Tenants
             {
                 new TestPart(
                     userType: UserData.UserTypes.TenantManager1,
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.Value(
                             method: "Message",
-                            value: "{\"Id\":\"SyncByLdapExecuted\",\"Text\":\"LDAP同期を開始しました。\",\"Css\":\"alert-success\"}"))),
+                            value: "{\"Id\":\"SyncByLdapStarted\",\"Text\":\"LDAP同期を開始しました。\",\"Css\":\"alert-success\"}"))),
                 new TestPart(
                     userType: UserData.UserTypes.General1,
-                    jsonTests: JsonData.Tests(
+                    baseTests: BaseData.Tests(
                         JsonData.Value(
                             method: "Message",
                             value: "{\"Id\":\"HasNotPermission\",\"Text\":\"この操作を行うための権限がありません。\",\"Css\":\"alert-error\"}")))
@@ -47,18 +47,18 @@ namespace Implem.PleasanterTest.Tests.Tenants
             {
                 yield return TestData(
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 
