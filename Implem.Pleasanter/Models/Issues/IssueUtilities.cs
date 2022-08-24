@@ -6693,22 +6693,30 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            issueModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: issueModel);
-            issueModel.Update(
-                context: context,
-                ss: ss,
-                notice: true);
+            var updated = issueModel.Updated(context: context);
+            if (updated)
+            {
+                issueModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: issueModel);
+                issueModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
             return CalendarJson(
                 context: context,
                 ss: ss,
-                changedItemId: issueModel.IssueId,
+                changedItemId: updated
+                    ? issueModel.IssueId
+                    : 0,
                 update: true,
-                message: Messages.Updated(
-                    context: context,
-                    data: issueModel.Title.MessageDisplay(context: context)));
+                message: updated
+                    ? Messages.Updated(
+                        context: context,
+                        data: issueModel.Title.MessageDisplay(context: context))
+                    : null);
         }
 
         public static string CalendarJson(

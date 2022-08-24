@@ -6329,22 +6329,30 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true);
+            var updated = resultModel.Updated(context: context);
+            if (updated)
+            {
+                resultModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: resultModel);
+                resultModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
             return CalendarJson(
                 context: context,
                 ss: ss,
-                changedItemId: resultModel.ResultId,
+                changedItemId: updated
+                    ? resultModel.ResultId
+                    : 0,
                 update: true,
-                message: Messages.Updated(
-                    context: context,
-                    data: resultModel.Title.MessageDisplay(context: context)));
+                message: updated
+                    ? Messages.Updated(
+                        context: context,
+                        data: resultModel.Title.MessageDisplay(context: context))
+                    : null);
         }
 
         public static string CalendarJson(
