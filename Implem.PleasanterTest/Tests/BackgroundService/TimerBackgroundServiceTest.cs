@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.BackgroundServices;
+using Implem.Libraries.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
 
         public MockTimerBackgroundService()
         {
+            //CI/CDサーバでタイムゾーンが違う影響を避けるため
+            Environments.TimeZoneInfoDefault = null;
             //TimerBackgroundServiceにはコンストラクタで事前にリストに入っているのでテスト用に消しておく
             TimerList.Clear();
         }
