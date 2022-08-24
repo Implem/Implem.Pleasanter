@@ -145,6 +145,7 @@
     "StartTime": "DateTime",
     "CompletionTime": "DateTime",
     "Locked": "bool",
+    "Publish": "bool",
     "CreatedTime": "DateTime",
     "UpdatedTime": "DateTime"
 }

@@ -7,7 +7,7 @@ using Implem.PleasanterTest.Utilities;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Implem.PleasanterTest.Tests.Items
+namespace Implem.PleasanterTest.Tests.Publishes
 {
     public class PublishesIndex
     {
@@ -15,13 +15,12 @@ namespace Implem.PleasanterTest.Tests.Items
         [MemberData(nameof(GetData))]
         public void Test(
             string title,
-            UserModel userModel,
             List<BaseTest> baseTests)
         {
-            var siteId = Initializer.Sites.Get(title).SiteId;
+            var id = Initializer.Sites.Get(title).SiteId;
             var context = ContextData.Get(
-                userId: userModel.UserId,
-                routeData: RouteData.ItemsIndex(id: siteId));
+                userType: UserData.UserTypes.Anonymous,
+                routeData: RouteData.PublishesIndex(id: id));
             var results = Results(context: context);
             Assert.True(Tester.Test(
                 context: context,
@@ -33,31 +32,23 @@ namespace Implem.PleasanterTest.Tests.Items
         {
             var testParts = new List<TestPart>()
             {
-                new TestPart(title: "WBS"),
-                new TestPart(title: "課題管理"),
-                new TestPart(title: "レビュー記録"),
-                new TestPart(title: "顧客マスタ"),
-                new TestPart(title: "商談"),
-                new TestPart(title: "仕入")
+                new TestPart(title: "WBS")
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     title: testPart.Title,
-                    userModel: testPart.UserModel,
                     baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#Grid")));
             }
         }
 
         private static object[] TestData(
             string title,
-            UserModel userModel,
             List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
-                userModel,
                 baseTests
             };
         }

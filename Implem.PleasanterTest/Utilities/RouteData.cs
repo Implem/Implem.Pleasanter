@@ -1443,5 +1443,15 @@ namespace Implem.PleasanterTest.Utilities
                 { "id", "0" }
             };
         }
+
+        public static Dictionary<string, string> PublishesIndex(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "index" },
+                { "id", id.ToString() }
+            };
+        }
     }
 }
