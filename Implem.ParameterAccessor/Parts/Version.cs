@@ -4,5 +4,6 @@
     {
         public bool ShowDeadline;
         public bool ShowLicensee;
+        public bool ShowMaxUserCount;
     }
 }

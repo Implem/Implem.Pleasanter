@@ -85,6 +85,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
+                                        .Text(text: Displays.MaxUserCount(context: context)))
+                                    .Span(action: () => hb
+                                        .Text(text: Parameters.LicensedUsers() == 0
+                                            ? Displays.Unlimited(context: context)
+                                            : Parameters.LicensedUsers().ToString())),
+                                _using: Parameters.CommercialLicense()
+                                    && Parameters.Version.ShowMaxUserCount)
+                            .Div(
+                                action: () => hb
+                                    .Span(action: () => hb
                                         .Text(text: plan + Displays.Plan(context: context))),
                                 _using: !plan.IsNullOrEmpty())
                             .Div(

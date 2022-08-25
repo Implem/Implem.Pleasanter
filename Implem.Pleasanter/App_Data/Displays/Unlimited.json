@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Unlimited",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Unlimited"
+        },
+        {
+            "Language": "zh",
+            "Body": "无限"
+        },
+        {
+            "Language": "ja",
+            "Body": "無制限"
+        },
+        {
+            "Language": "de",
+            "Body": "Unbegrenzt"
+        },
+        {
+            "Language": "ko",
+            "Body": "제한 없는"
+        },
+        {
+            "Language": "es",
+            "Body": "Ilimitado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vô hạn"
+        }
+    ]
+}
