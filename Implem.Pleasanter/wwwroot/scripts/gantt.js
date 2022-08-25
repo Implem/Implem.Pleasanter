@@ -26,8 +26,9 @@ $p.drawGantt = function () {
     var svg = d3.select('#Gantt');
     var padding = 20;
     var width = parseInt(svg.style('width'));
-    var minDate = new Date($('#GanttMinDate').val());
-    var maxDate = new Date($('#GanttMaxDate').val());
+    var format = $('#YmdFormat').val();
+    var minDate = $p.transferedDate(format, $('#GanttMinDate').val());
+    var maxDate = $p.transferedDate(format, $('#GanttMaxDate').val());
     var xScale = d3.scaleTime()
         .domain([minDate, maxDate])
         .range([0, width - 60]);
@@ -139,12 +140,15 @@ $p.drawGantt = function () {
         .data(json)
         .enter()
         .append('rect')
-        .attr('x', function (d) { return padding + xScale(new Date(d.StartTime)) })
+        .attr('x', function (d) {
+            return padding + xScale($p.transferedDate(format, d.StartTime))
+        })
         .attr('y', function (d) {
             return d.Y;
         })
         .attr('width', function (d) {
-            return xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime))
+            return xScale($p.transferedDate(format, d.CompletionTime))
+                - xScale($p.transferedDate(format, d.StartTime))
         })
         .attr('height', 23)
         .attr('class', function (d) {
@@ -165,24 +169,27 @@ $p.drawGantt = function () {
         .data(json)
         .enter()
         .append('rect')
-        .attr('x', function (d) { return padding + xScale(new Date(d.StartTime)) })
+        .attr('x', function (d) {
+            return padding + xScale($p.transferedDate(format, d.StartTime))
+        })
         .attr('y', function (d) {
             return d.Y;
         })
         .attr('width', function (d) {
-            return (xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
+            return (xScale($p.transferedDate(format, d.CompletionTime))
+                - xScale($p.transferedDate(format, d.StartTime)))
                 * d.ProgressRate * 0.01
         })
         .attr('height', 23)
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
-                (padding + xScale(new Date(d.StartTime)) +
-                ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                * d.ProgressRate * 0.01)) < now
-                    ? 'delay'
-                    : d.ProgressRate === 100 && d.Completed
-                        ? 'completed'
-                        : ''
+                (padding + xScale($p.transferedDate(format, d.StartTime)) +
+                    ((xScale($p.transferedDate(format, d.CompletionTime)) - xScale($p.transferedDate(format, d.StartTime)))
+                        * d.ProgressRate * 0.01)) < now
+                ? 'delay'
+                : d.ProgressRate === 100 && d.Completed
+                    ? 'completed'
+                    : ''
             return d.GroupSummary
                 ? ret + ' summary'
                 : ret;
@@ -199,26 +206,27 @@ $p.drawGantt = function () {
         .enter()
         .append('text')
         .attr('x', function (d) {
-            return xScale(new Date(d.StartTime)) < 0
+            return xScale($p.transferedDate(format, d.StartTime)) < 0
                 ? padding + 5
-                : padding + xScale(new Date(d.StartTime)) + 5
+                : padding + xScale($p.transferedDate(format, d.StartTime)) + 5
         })
         .attr('y', function (d) {
             return d.Y + 16;
         })
         .attr('width', function (d) {
-            return (xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
+            return (xScale($p.transferedDate(format, d.CompletionTime))
+                - xScale($p.transferedDate(format, d.StartTime)))
                 * d.ProgressRate * 0.01
         })
         .attr('height', 23)
         .attr('class', function (d) {
             var ret = d.ProgressRate < 100 &&
-                (padding + xScale(new Date(d.StartTime)) +
-                ((xScale(new Date(d.CompletionTime)) - xScale(new Date(d.StartTime)))
-                * d.ProgressRate * 0.01)) < now &&
+                (padding + xScale($p.transferedDate(format, d.StartTime)) +
+                    ((xScale($p.transferedDate(format, d.CompletionTime)) - xScale($p.transferedDate(format, d.StartTime)))
+                        * d.ProgressRate * 0.01)) < now &&
                 ($('#ShowGanttProgressRate').val() === '1' || !d.Completed)
-                    ? 'delay'
-                    : '';
+                ? 'delay'
+                : '';
             return d.GroupSummary
                 ? ret + ' summary'
                 : ret;

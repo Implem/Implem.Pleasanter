@@ -34,3 +34,7 @@ $p.dateTimeString = function (date) {
             ? ' ' + date.getHours() + ':' + date.getMinutes()
             : '');
 }
+
+$p.transferedDate = function (format, datetimeString) {
+    return new Date(moment(datetimeString, format.toUpperCase()).format('YYYY/MM/DD'));
+}
