@@ -70,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             SortTimerList();
         }
 
+        // UnitTestで現在時間を置き換えるためvirtual
         virtual protected DateTime DateTimeNow()
         {
             return DateTime.Now;
@@ -110,6 +111,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             SortTimerList();
         }
 
+        // UnitTestでDalay()を置き換えるためvirtual
         virtual protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
         {
             await Task.Delay(

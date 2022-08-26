@@ -9,10 +9,15 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.BackgroundService
 {
+    /// <summary>
+    /// テスト対象TimerBackgroundServiceのMockクラス
+    /// </summary>
     public class MockTimerBackgroundService : TimerBackgroundService
     {
+        // ExecuteAsync()を呼んだ順番を覚えておくリスト
         readonly public List<string> ExecuteAsyncCalledList = new ();
         readonly public List<TimeSpan> TaskDelayCalledList = new ();
+        // 現在時間を固定する用
         public DateTime DateTimeNow_ = DateTime.Parse("2022-08-12 00:00");
 
         public List<TimeExecuteTimerPair> GetTimerList() { return TimerList; }
@@ -24,20 +29,32 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             //TimerBackgroundServiceにはコンストラクタで事前にリストに入っているのでテスト用に消しておく
             TimerList.Clear();
         }
+
         override protected DateTime DateTimeNow()
         {
-            //return DateTimeNow_.ToUniversalTime();
             return DateTimeNow_;
         }
+
         override protected async Task TaskDelay(TimeSpan waitTimeSpan, CancellationToken stoppingToken)
         {
+            //後でチェックのため呼び出された事を教えておく。
             TaskDelayCalledList.Add(waitTimeSpan);
             await Task.CompletedTask;
         }
-        public void AddTimer_(ExecutionTimerBase timer) { AddTimer(timer); }
+
+        /// <summary>
+        /// テスト対象クラスのprotectedなメソッドをテスト用に呼び出すため
+        /// </summary>
+        public void AddTimer_(ExecutionTimerBase timer)
+        {
+            AddTimer(timer);
+        }
     }
 
-
+    /// <summary>
+    /// MockTimerBackgroundServiceの実行に必要なスタブクラス。
+    /// MockTimerBackgroundServiceクラスから呼び出される。
+    /// </summary>
     public class StubTimer : ExecutionTimerBase
     {
         public readonly string Name; 
@@ -52,6 +69,7 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
 
         public override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            //後でチェックのため呼び出された事を親クラスに教えておく。
             Parent.ExecuteAsyncCalledList.Add(Name);
             await Task.CompletedTask;
         }
