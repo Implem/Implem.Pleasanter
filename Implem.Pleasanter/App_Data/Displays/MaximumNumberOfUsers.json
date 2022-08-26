@@ -1,0 +1,33 @@
+﻿{
+    "Id": "MaximumNumberOfUsers",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Maximum number of users"
+        },
+        {
+            "Language": "zh",
+            "Body": "最大用户数"
+        },
+        {
+            "Language": "ja",
+            "Body": "ユーザ数上限"
+        },
+        {
+            "Language": "de",
+            "Body": "Maximale Anzahl von Benutzern"
+        },
+        {
+            "Language": "ko",
+            "Body": "최대 사용자 수"
+        },
+        {
+            "Language": "es",
+            "Body": "Número máximo de usuarios"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng người dùng tối đa"
+        }
+    ]
+}

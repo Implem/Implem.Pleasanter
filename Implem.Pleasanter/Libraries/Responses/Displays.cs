@@ -5589,6 +5589,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string MaximumNumberOfUsers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MaximumNumberOfUsers",
+                data: data);
+        }
+
         public static string MaxLength(
             Context context,
             params string[] data)
@@ -8836,6 +8846,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Unit",
+                data: data);
+        }
+
+        public static string Unlimited(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Unlimited",
                 data: data);
         }
 
