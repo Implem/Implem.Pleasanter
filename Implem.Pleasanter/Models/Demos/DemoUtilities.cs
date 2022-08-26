@@ -513,6 +513,7 @@ namespace Implem.Pleasanter.Models
                                         ? idHash.Get(demoDefinition.ParentId)
                                         : 0)
                                     .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                    .Publish(demoDefinition.Publish)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
                                     .Comments(Comments(
                                         context: context,

@@ -14,6 +14,7 @@ using Implem.TestAutomation.Parts;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Edge;
 namespace Implem.TestAutomation
 {
     internal class TestAutomation
@@ -185,6 +186,8 @@ namespace Implem.TestAutomation
                     return new ChromeDriver(options: opt);
                 case BrowserTypes.IE:
                     return new InternetExplorerDriver();
+                case BrowserTypes.Edge:
+                    return new EdgeDriver();
                 default:
                     return new ChromeDriver();
             }

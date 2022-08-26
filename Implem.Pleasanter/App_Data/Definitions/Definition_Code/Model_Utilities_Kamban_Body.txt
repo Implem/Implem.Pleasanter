@@ -42,7 +42,10 @@
                 inRange: inRange));
 }
 
-public static string KambanJson(Context context, SiteSettings ss)
+public static string KambanJson(
+    Context context,
+    SiteSettings ss,
+    bool updated = false)
 {
     if (!ss.EnableViewMode(context: context, name: "Kamban"))
     {
@@ -69,7 +72,9 @@ public static string KambanJson(Context context, SiteSettings ss)
                             ss: ss,
                             view: view,
                             bodyOnly: bodyOnly,
-                            changedItemId: context.Forms.Long("KambanId")))
+                            changedItemId: updated
+                                ? context.Forms.Long("KambanId")
+                                : 0))
                 .Events("on_kamban_load")
                 .ToJson()
             : new ResponseCollection()
