@@ -3,7 +3,7 @@
     "Type": 110,
     "Languages": [
         {
-            "Body": "Maximum user count"
+            "Body": "Maximum number of users"
         },
         {
             "Language": "zh",
@@ -11,11 +11,11 @@
         },
         {
             "Language": "ja",
-            "Body": "最大ユーザ数"
+            "Body": "ユーザ数上限"
         },
         {
             "Language": "de",
-            "Body": "Maximale Benutzeranzahl"
+            "Body": "Maximale Anzahl von Benutzern"
         },
         {
             "Language": "ko",
