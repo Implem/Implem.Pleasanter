@@ -39,6 +39,7 @@
         $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
     })
     .fail(function (jqXHR, textStatus, errorThrown) {
+        $p.setByJson(url, methodType, data, $control, _async, jqXHR);
         ret = -1;
         if (!jqXHR.getAllResponseHeaders()) {
             return;
