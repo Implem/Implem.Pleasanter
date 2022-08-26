@@ -1,5 +1,5 @@
 ﻿{
     "ShowDeadline": true,
     "ShowLicensee": true,
-    "ShowMaxUserCount": true
+    "ShowMaximumNumberOfUsers": true
 }
