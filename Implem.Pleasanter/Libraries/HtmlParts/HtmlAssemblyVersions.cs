@@ -85,13 +85,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
-                                        .Text(text: Displays.MaxUserCount(context: context)))
+                                        .Text(text: Displays.MaximumNumberOfUsers(context: context)))
                                     .Span(action: () => hb
                                         .Text(text: Parameters.LicensedUsers() == 0
                                             ? Displays.Unlimited(context: context)
                                             : Parameters.LicensedUsers().ToString())),
                                 _using: Parameters.CommercialLicense()
-                                    && Parameters.Version.ShowMaxUserCount)
+                                    && Parameters.Version.ShowMaximumNumberOfUsers)
                             .Div(
                                 action: () => hb
                                     .Span(action: () => hb
