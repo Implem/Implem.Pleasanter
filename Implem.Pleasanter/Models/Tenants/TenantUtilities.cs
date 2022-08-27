@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -1499,7 +1498,7 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             //SyncByLdap()に時間がかかるのでTask呼び出しするが、呼び出し側がasyncでないのでawait無し。
-            Task.Run(() => UserUtilities.SyncByLdap(context: context));
+            System.Threading.Tasks.Task.Run(() => UserUtilities.SyncByLdap(context: context));
             return Messages.ResponseSyncByLdapStarted(context: context).ToJson();
         }
 
