@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SyncByLdapStarted",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "LDAP synchronization started."
+        },
+        {
+            "Language": "zh",
+            "Body": "LDAP 同步已启动。"
+        },
+        {
+            "Language": "ja",
+            "Body": "LDAP同期を開始しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "LDAP-Synchronisation gestartet."
+        },
+        {
+            "Language": "ko",
+            "Body": "LDAP 동기화를 시작했습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Se inició la sincronización LDAP."
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã bắt đầu đồng bộ hóa LDAP."
+        }
+    ]
+}
