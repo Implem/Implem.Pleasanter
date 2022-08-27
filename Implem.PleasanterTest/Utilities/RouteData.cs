@@ -24,6 +24,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> TenantsSyncByLdap()
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "tenants" },
+                { "action", "syncbyldap" },
+                { "id", "0" }
+            };
+        }
+
         public static Dictionary<string, string> DeptsIndex()
         {
             return new Dictionary<string, string>()

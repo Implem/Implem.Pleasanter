@@ -5439,6 +5439,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Maintenance(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Maintenance",
+                data: data);
+        }
+
         public static string Manage(
             Context context,
             params string[] data)
@@ -8416,6 +8426,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SwitchUserInfo",
+                data: data);
+        }
+
+        public static string SyncByLdap(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncByLdap",
+                data: data);
+        }
+
+        public static string SyncByLdapStarted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncByLdapStarted",
                 data: data);
         }
 
