@@ -310,13 +310,24 @@ namespace Implem.Libraries.Utilities
             return obj != null && float.TryParse(obj.ToString(), out data) ? data : 0;
         }
 
-        public static DateTime ToDateTime(this object obj)
+        public static DateTime ToDateTime(this object obj, string format = null)
         {
             DateTime data;
             var str = obj.ToStr();
-            return obj != null && DateTime.TryParse(str, out data)
-                ? data
-                : FromOADate(obj.ToDecimal(), str);
+            if (format == null)
+            {
+                return obj != null && DateTime.TryParse(str, out data)
+                    ? data
+                    : FromOADate(obj.ToDecimal(), str);
+            }
+            else
+            {
+                CultureInfo ci = CultureInfo.CurrentCulture;
+                DateTimeStyles dts = DateTimeStyles.None;
+                return obj != null && DateTime.TryParseExact(str, format, ci, dts, out data)
+                    ? data
+                    : FromOADate(obj.ToDecimal(), str);
+            }
         }
 
         private static DateTime FromOADate(decimal d, string str)

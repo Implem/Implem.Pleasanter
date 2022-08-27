@@ -74,6 +74,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "Scripts/Plugins/md5.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/moment.min.js"))
                     .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(
