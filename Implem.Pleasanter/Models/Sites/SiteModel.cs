@@ -2509,6 +2509,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyProcessDataChanges":
+                    CopyProcessDataChanges(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteProcessDataChanges":
                     DeleteProcessDataChanges(
                         context: context,
@@ -4666,6 +4671,32 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyProcessDataChanges(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditProcessDataChange");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
+                dataChanges.Copy(selected);
+                res
+                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                        .EditProcessDataChange(
+                            context: context,
+                            ss: SiteSettings,
+                            dataChanges: dataChanges))
+                    .Val(
+                        "#ProcessDataChanges",
+                        dataChanges.ToJson());
             }
         }
 
