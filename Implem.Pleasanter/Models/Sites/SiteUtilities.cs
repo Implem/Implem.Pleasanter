@@ -9275,6 +9275,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyStatusControls",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditStatusControl', $(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteStatusControls",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),

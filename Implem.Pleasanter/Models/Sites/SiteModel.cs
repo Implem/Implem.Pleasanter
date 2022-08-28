@@ -2559,6 +2559,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopyStatusControls":
+                    CopyStatusControls(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteStatusControls":
                     DeleteStatusControl(
                         context: context,
@@ -4920,6 +4925,26 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyStatusControls(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditStatusControl");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.StatusControls.Copy(selected);
+                res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                    .EditStatusControl(
+                        context: context,
+                        ss: SiteSettings));
             }
         }
 
