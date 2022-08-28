@@ -10871,7 +10871,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static ResponseCollection ViewResponses(
-            this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
+            this ResponseCollection res,
+            SiteSettings ss,
+            IEnumerable<int> selected = null)
         {
             return res
                 .Html("#Views", new HtmlBuilder().SelectableItems(

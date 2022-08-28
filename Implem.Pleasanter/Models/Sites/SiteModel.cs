@@ -5120,9 +5120,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void CopyViews(Context context, ResponseCollection res)
         {
+            var selected = context.Forms.IntList("Views");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
             if (SiteSettings.Views != null)
             {
-                var selected = context.Forms.IntList("Views");
                 var views = new List<View>();
                 foreach (var view in SiteSettings.Views.Where(o => selected.Contains(o.Id)))
                 {
@@ -5134,7 +5138,9 @@ namespace Implem.Pleasanter.Models
                 }
                 SiteSettings.Views.AddRange(views);
             }
-            res.ViewResponses(SiteSettings);
+            res.ViewResponses(
+                ss: SiteSettings,
+                selected: selected);
         }
 
         /// <summary>
