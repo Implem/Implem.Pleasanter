@@ -7905,6 +7905,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyProcesses",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditProcess', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteProcesses",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),

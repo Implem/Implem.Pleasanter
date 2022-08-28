@@ -2421,6 +2421,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopyProcesses":
+                    CopyProcesses(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteProcesses":
                     DeleteProcess(
                         context: context,
@@ -4178,6 +4183,26 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyProcesses(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditProcess");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Processes.Copy(selected);
+                res.ReplaceAll("#EditProcess", new HtmlBuilder()
+                    .EditProcess(
+                        context: context,
+                        ss: SiteSettings));
             }
         }
 

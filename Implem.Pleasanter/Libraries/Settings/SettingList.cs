@@ -42,6 +42,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public void Copy(IEnumerable<int> selected)
+        {
+            var items = new SettingList<T>();
+            foreach (var item in this.Where(o => selected?.Contains(o.Id) == true))
+            {
+                var copied = item.ToJson().Deserialize<T>();
+                copied.Id = this.MaxOrDefault(o => o.Id) + 1;
+                items.Add(copied);
+            }
+            AddRange(items);
+        }
+
         public void Delete(IEnumerable<int> selected)
         {
             RemoveAll(o => selected?.Contains(o.Id) == true);
