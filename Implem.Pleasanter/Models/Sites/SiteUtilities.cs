@@ -13131,6 +13131,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyScripts",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteScripts",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",

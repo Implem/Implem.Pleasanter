@@ -2835,6 +2835,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyScripts":
+                    CopyScripts(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteScripts":
                     DeleteScripts(
                         context: context,
@@ -6555,6 +6560,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyScripts(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Scripts.Copy(selected);
+                res.ReplaceAll("#EditScript", new HtmlBuilder()
+                    .EditScript(
+                        context: context,
+                        ss: SiteSettings));
+            }
         }
 
         /// <summary>
