@@ -5295,7 +5295,6 @@ namespace Implem.Pleasanter.Models
                     var copied = view.ToJson().Deserialize<View>();
                     SiteSettings.ViewLatestId++;
                     copied.Id = SiteSettings.ViewLatestId.ToInt();
-                    copied.Name += Parameters.General.CharToAddWhenCopying;
                     views.Add(copied);
                 }
                 SiteSettings.Views.AddRange(views);
