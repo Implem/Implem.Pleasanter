@@ -2363,6 +2363,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopySummaries":
+                    CopySummaries(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteSummaries":
                     DeleteSummaries(
                         context: context,
@@ -3895,6 +3900,24 @@ namespace Implem.Pleasanter.Models
                     .Html("#EditSummary", new HtmlBuilder()
                         .EditSummary(context: context, ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopySummaries(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditSummary");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Summaries.Copy(selected);
+                res.ReplaceAll("#EditSummary", new HtmlBuilder()
+                    .EditSummary(context: context, ss: SiteSettings));
             }
         }
 

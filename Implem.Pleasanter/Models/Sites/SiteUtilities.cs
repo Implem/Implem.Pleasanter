@@ -7229,6 +7229,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopySummaries",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditSummary', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteSummaries",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
