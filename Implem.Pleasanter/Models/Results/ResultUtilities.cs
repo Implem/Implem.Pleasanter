@@ -5770,7 +5770,7 @@ namespace Implem.Pleasanter.Models
                                     }
                                     break;
                                 default:
-                                    resultModel.GetValue(
+                                    resultModel.SetValue(
                                         context: context,
                                         column: column.Value.Column,
                                         value: recordingData);

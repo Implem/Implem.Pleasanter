@@ -6115,7 +6115,7 @@ namespace Implem.Pleasanter.Models
                                     }
                                     break;
                                 default:
-                                    issueModel.GetValue(
+                                    issueModel.SetValue(
                                         context: context,
                                         column: column.Value.Column,
                                         value: recordingData);

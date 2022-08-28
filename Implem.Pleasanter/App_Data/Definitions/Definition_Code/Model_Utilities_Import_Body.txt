@@ -153,7 +153,7 @@
                             }
                             break;
                         default:
-                            #modelName#Model.GetValue(
+                            #modelName#Model.SetValue(
                                 context: context,
                                 column: column.Value.Column,
                                 value: recordingData);

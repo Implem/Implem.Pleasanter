@@ -43,12 +43,12 @@
                     switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                     {
                         case "Class":
-                            GetClass(
+                            SetClass(
                                 columnName: column.ColumnName,
                                 value: value);
                             break;
                         case "Num":
-                            GetNum(
+                            SetNum(
                                 columnName: column.ColumnName,
                                 value: new Num(
                                     context: context,
@@ -56,22 +56,22 @@
                                     value: value));
                             break;
                         case "Date":
-                            GetDate(
+                            SetDate(
                                 columnName: column.ColumnName,
                                 value: value.ToDateTime().ToUniversal(context: context));
                             break;
                         case "Description":
-                            GetDescription(
+                            SetDescription(
                                 columnName: column.ColumnName,
                                 value: value);
                             break;
                         case "Check":
-                            GetCheck(
+                            SetCheck(
                                 columnName: column.ColumnName,
                                 value: value.ToBool());
                             break;
                         case "Attachments":
-                            GetAttachments(
+                            SetAttachments(
                                 columnName: column.ColumnName,
                                 value: value.Deserialize<Attachments>());
                             break;

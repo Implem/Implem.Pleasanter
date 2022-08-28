@@ -1944,7 +1944,7 @@ namespace Implem.Pleasanter.Models
                                 deptModel.Disabled = recordingData.ToBool();
                                 break;
                             default:
-                                deptModel.GetValue(
+                                deptModel.SetValue(
                                     context: context,
                                     column: column.Value.Column,
                                     value: recordingData);

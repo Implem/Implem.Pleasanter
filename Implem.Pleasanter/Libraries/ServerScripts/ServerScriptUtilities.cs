@@ -400,7 +400,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             ExpandoObject data,
             Column[] columns)
         {
-            columns?.ForEach(column => model?.GetValue(
+            columns?.ForEach(column => model?.SetValue(
                 context: context,
                 column: column,
                 value: String(
