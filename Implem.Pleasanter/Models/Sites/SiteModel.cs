@@ -2912,6 +2912,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyBulkUpdateColumns":
+                    CopyBulkUpdateColumns(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteBulkUpdateColumns":
                     DeleteBulkUpdateColumns(
                         context: context,
@@ -6977,6 +6982,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyBulkUpdateColumns(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditBulkUpdateColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.BulkUpdateColumns.Copy(selected);
+                res.ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: SiteSettings));
+            }
         }
 
         /// <summary>

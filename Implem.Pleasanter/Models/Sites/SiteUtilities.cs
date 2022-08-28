@@ -4565,6 +4565,14 @@ namespace Implem.Pleasanter.Models
                             action: "SetSiteSettings",
                             method: "put")
                         .Button(
+                            controlId: "CopyBulkUpdateColumns",
+                            text: Displays.Copy(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
                             controlId: "DeleteBulkUpdateColumns",
                             text: Displays.Delete(context: context),
                             controlCss: "button-icon",
