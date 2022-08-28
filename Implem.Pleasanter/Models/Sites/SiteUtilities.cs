@@ -7675,6 +7675,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditFormula', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteFormulas",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),

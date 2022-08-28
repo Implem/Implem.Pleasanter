@@ -2392,6 +2392,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopyFormulas":
+                    CopyFormulas(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteFormulas":
                     DeleteFormulas(
                         context: context,
@@ -4026,6 +4031,24 @@ namespace Implem.Pleasanter.Models
                     .Html("#EditFormula", new HtmlBuilder()
                         .EditFormula(context: context, ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyFormulas(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditFormula");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Formulas.Copy(selected);
+                res.ReplaceAll("#EditFormula", new HtmlBuilder()
+                    .EditFormula(context: context, ss: SiteSettings));
             }
         }
 
