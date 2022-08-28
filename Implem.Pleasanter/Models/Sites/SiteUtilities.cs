@@ -11922,6 +11922,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyExports",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditExport', $(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
                         controlId: "DeleteExports",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",

@@ -2716,6 +2716,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyExports":
+                    CopyExports(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteExports":
                     DeleteExports(
                         context: context,
@@ -5916,6 +5921,31 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             join: join))))
                 .SetFormData("ExportSourceColumns", "[]");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyExports(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditExport");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Exports.Copy(selected);
+                    res.ReplaceAll("#EditExport", new HtmlBuilder()
+                        .EditExport(context: context, ss: SiteSettings));
+                }
+            }
         }
 
         /// <summary>

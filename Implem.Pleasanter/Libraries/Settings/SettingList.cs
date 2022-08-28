@@ -45,10 +45,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Copy(IEnumerable<int> selected)
         {
             var items = new SettingList<T>();
+            var maxId = this.MaxOrDefault(o => o.Id);
             foreach (var item in this.Where(o => selected?.Contains(o.Id) == true))
             {
+                maxId++;
                 var copied = item.ToJson().Deserialize<T>();
-                copied.Id = this.MaxOrDefault(o => o.Id) + 1;
+                copied.Id = maxId;
                 items.Add(copied);
             }
             AddRange(items);
