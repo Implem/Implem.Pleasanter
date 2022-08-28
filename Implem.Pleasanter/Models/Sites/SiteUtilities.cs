@@ -9674,7 +9674,7 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: ss.ViewSelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
+                                .Div(css: "command-left", action: () => hb
                                     .Button(
                                         controlId: "MoveUpViews",
                                         text: Displays.MoveUp(context: context),
@@ -9701,6 +9701,14 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.openViewDialog($(this));",
                                         icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "CopyViews",
+                                        text: Displays.Copy(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
                                         action: "SetSiteSettings",
                                         method: "put")
                                     .Button(

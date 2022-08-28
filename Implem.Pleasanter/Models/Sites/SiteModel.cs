@@ -2597,6 +2597,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopyViews":
+                    CopyViews(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteViews":
                     DeleteViews(
                         context: context,
@@ -5108,6 +5113,28 @@ namespace Implem.Pleasanter.Models
                     .ViewResponses(SiteSettings, new List<int> { selected })
                     .CloseDialog();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyViews(Context context, ResponseCollection res)
+        {
+            if (SiteSettings.Views != null)
+            {
+                var selected = context.Forms.IntList("Views");
+                var views = new List<View>();
+                foreach (var view in SiteSettings.Views.Where(o => selected.Contains(o.Id)))
+                {
+                    var copied = view.ToJson().Deserialize<View>();
+                    SiteSettings.ViewLatestId++;
+                    copied.Id = SiteSettings.ViewLatestId.ToInt();
+                    copied.Name += Parameters.General.CharToAddWhenCopying;
+                    views.Add(copied);
+                }
+                SiteSettings.Views.AddRange(views);
+            }
+            res.ViewResponses(SiteSettings);
         }
 
         /// <summary>
