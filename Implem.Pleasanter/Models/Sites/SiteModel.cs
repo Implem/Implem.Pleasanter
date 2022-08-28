@@ -2693,6 +2693,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyReminders":
+                    CopyReminders(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteReminders":
                     DeleteReminders(
                         context: context,
@@ -5745,6 +5750,31 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyReminders(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Remind == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditReminder");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Reminders.Copy(selected);
+                    res.ReplaceAll("#EditReminder", new HtmlBuilder()
+                        .EditReminder(context: context, ss: SiteSettings));
+                }
             }
         }
 

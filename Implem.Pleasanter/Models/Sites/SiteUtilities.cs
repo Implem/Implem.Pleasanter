@@ -11497,6 +11497,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyReminders",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditReminder', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete")
+                    .Button(
                         controlId: "DeleteReminders",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
