@@ -2799,6 +2799,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyStyles":
+                    CopyStyles(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteStyles":
                     DeleteStyles(
                         context: context,
@@ -6386,6 +6391,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyStyles(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditStyle");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Styles.Copy(selected);
+                res.ReplaceAll("#EditStyle", new HtmlBuilder()
+                    .EditStyle(
+                        context: context,
+                        ss: SiteSettings));
+            }
         }
 
         /// <summary>
