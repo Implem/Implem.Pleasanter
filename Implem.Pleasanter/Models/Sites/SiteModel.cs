@@ -2654,6 +2654,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyNotifications":
+                    CopyNotifications(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteNotifications":
                     DeleteNotifications(
                         context: context,
@@ -5436,6 +5441,31 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll("#EditNotification", new HtmlBuilder()
                         .EditNotification(context: context, ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyNotifications(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditNotification");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Notifications.Copy(selected);
+                    res.ReplaceAll("#EditNotification", new HtmlBuilder()
+                        .EditNotification(context: context, ss: SiteSettings));
+                }
             }
         }
 
