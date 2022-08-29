@@ -243,7 +243,7 @@ namespace Implem.TestAutomation
             ResultCheck resultCheck,
             string resultFileName)
         {
-            if (!resultCheck.ExpectedValue.IsNullOrEmpty())
+            if (resultCheck.ExpectedValue != null)
             {
                 resultCheck.ExecutionValue = GetExecutionValue(driver, resultCheck);
             }
