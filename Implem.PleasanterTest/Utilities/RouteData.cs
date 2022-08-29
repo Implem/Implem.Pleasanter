@@ -1494,6 +1494,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> PublishesSelectSearchDropDown(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "selectsearchdropdown" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> PublishesGridRows(long id)
         {
             return new Dictionary<string, string>()
