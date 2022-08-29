@@ -74,21 +74,23 @@
         var importKeyColumnName = context.Forms.Data("Key");
         var importKeyColumn = columnHash
             .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
-        var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+        var csvRows = csv.Rows
+            .Select((o, i) => new { Index = i, Row = o })
+            .ToDictionary(o => o.Index, o => o.Row);
         foreach (var data in csvRows)
         {
             var #modelName#Model = new #ModelName#Model(
                 context: context,
                 ss: ss);
             if (updatableImport
-                && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
+                && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
             {
                 var view = new View();
                 view.AddColumnFilterHash(
                     context: context,
                     ss: ss,
                     column: importKeyColumn.Value.Column,
-                    objectValue: data.Row[importKeyColumn.Key]);
+                    objectValue: data.Value[importKeyColumn.Key]);
                 view.AddColumnFilterSearchTypes(
                     columnName: importKeyColumnName,
                     searchType: Column.SearchTypes.ExactMatch);
@@ -106,61 +108,20 @@
                     return new ErrorData(
                         type: Error.Types.OverlapCsvImport,
                         data: new string[] {
-                            (data.Index + 1).ToString(),
+                            (data.Key + 1).ToString(),
                             importKeyColumn.Value.Column.GridLabelText,
-                            data.Row[importKeyColumn.Key]
+                            data.Value[importKeyColumn.Key]
                         })
                         .MessageJson(context: context);
                 }
             }
             previousTitle = #modelName#Model.Title.DisplayValue;
-            columnHash
-                .Where(column =>
-                    (column.Value.Column.CanCreate(
-                        context: context,
-                        ss: ss,
-                        mine: #modelName#Model.Mine(context: context))
-                            && #modelName#Model.#ModelName#Id == 0)
-                    || (column.Value.Column.CanUpdate(
-                        context: context,
-                        ss: ss,
-                        mine: #modelName#Model.Mine(context: context))
-                            && #modelName#Model.#ModelName#Id > 0))
-                .ForEach(column =>
-                {
-                    var recordingData = ImportRecordingData(
-                        context: context,
-                        column: column.Value.Column,
-                        value: ImportUtilities.RecordingData(
-                            columnHash: columnHash,
-                            row: data.Row,
-                            column: column),
-                        inheritPermission: ss.InheritPermission);
-                    switch (column.Value.Column.ColumnName)
-                    {
-
-<!--Model_Utilities_ImportColumnCases-->
-<!--Model_Utilities_ImportUserColumnCases-->
-
-                        case "Comments":
-                            if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected &&
-                                !data.Row[column.Key].IsNullOrEmpty())
-                            {
-                                #modelName#Model.Comments.Prepend(
-                                    context: context,
-                                    ss: ss,
-                                    body: data.Row[column.Key]);
-                            }
-                            break;
-                        default:
-                            #modelName#Model.SetValue(
-                                context: context,
-                                column: column.Value.Column,
-                                value: recordingData);
-                            break;
-                    }
-                });
-            #modelName#Hash.Add(data.Index, #modelName#Model);
+            #modelName#Model.SetByCsvRow(
+                context: context,
+                ss: ss,
+                columnHash: columnHash,
+                row: data.Value);
+            #modelName#Hash.Add(data.Key, #modelName#Model);
         }
 
 <!--Model_Utilities_ImportValidatorCases-->
@@ -168,8 +129,10 @@
 
         var insertCount = 0;
         var updateCount = 0;
-        foreach (var #modelName#Model in #modelName#Hash.Values)
+        var processed = new HashSet<long>();
+        foreach (var data in #modelName#Hash)
         {
+            var #modelName#Model = data.Value;
             #modelName#Model.SetBySettings(
                 context: context,
                 ss: ss);
@@ -183,6 +146,23 @@
             {
                 if (#modelName#Model.Updated(context: context))
                 {
+                    if (processed.Contains(#modelName#Model.#ModelName#Id))
+                    {
+                        // CSVに同じレコードが複数件含まれていた際はバージョンが変更されている可能性があるため
+                        // レコードの再読込を行い、データの再セットを行う
+                        #modelName#Model.Get(
+                            context: context,
+                            ss: ss);
+                        #modelName#Model.SetByCsvRow(
+                            context: context,
+                            ss: ss,
+                            columnHash: columnHash,
+                            row: csvRows[data.Key]);
+                    }
+                    else
+                    {
+                        processed.Add(#modelName#Model.#ModelName#Id);
+                    }
                     #modelName#Model.VerUp = Versions.MustVerUp(
                         context: context,
                         ss: ss,
@@ -286,14 +266,4 @@
     {
         return Messages.ResponseFileNotFound(context: context).ToJson();
     }
-}
-
-private static string ImportRecordingData(
-    Context context, Column column, string value, long inheritPermission)
-{
-    var recordingData = column.RecordingData(
-        context: context,
-        value: value,
-        siteId: inheritPermission);
-    return recordingData;
 }

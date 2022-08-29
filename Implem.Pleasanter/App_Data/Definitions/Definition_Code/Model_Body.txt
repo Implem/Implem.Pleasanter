@@ -116,6 +116,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_SetDefault-->
 <!--Model_SetByForm ( HasIdentity = true ) -->
 <!--Model_SetByForm ( ItemOnly = true ) -->
+<!--Model_SetByCsvRow -->
 <!--Model_SetProcessMatchConditions-->
 <!--Model_GetStatusControl-->
 <!--Model_SetByModel-->

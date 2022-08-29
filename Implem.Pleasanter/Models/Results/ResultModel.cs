@@ -2449,6 +2449,88 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public void SetByCsvRow(
+            Context context,
+            SiteSettings ss,
+            Dictionary<int, ImportColumn> columnHash,
+            List<string> row)
+        {
+            columnHash
+                .Where(column =>
+                    (column.Value.Column.CanCreate(
+                        context: context,
+                        ss: ss,
+                        mine: Mine(context: context))
+                            && ResultId == 0)
+                    || (column.Value.Column.CanUpdate(
+                        context: context,
+                        ss: ss,
+                        mine: Mine(context: context))
+                            && ResultId > 0))
+                .ForEach(column =>
+                {
+                    var recordingData = ImportRecordingData(
+                        context: context,
+                        column: column.Value.Column,
+                        value: ImportUtilities.RecordingData(
+                            columnHash: columnHash,
+                            row: row,
+                            column: column),
+                        inheritPermission: ss.InheritPermission);
+                    switch (column.Value.Column.ColumnName)
+                    {
+                        case "Title":
+                            Title.Value = recordingData.ToString();
+                            break;
+                        case "Body":
+                            Body = recordingData.ToString();
+                            break;
+                        case "Status":
+                            Status.Value = recordingData.ToInt();
+                            break;
+                        case "Locked":
+                            Locked = recordingData.ToBool();
+                            break;
+                        case "Manager":
+                            Manager = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
+                            break;
+                        case "Owner":
+                            Owner = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
+                            break;
+                        case "Comments":
+                            if (AccessStatus != Databases.AccessStatuses.Selected &&
+                                !row[column.Key].IsNullOrEmpty())
+                            {
+                                Comments.Prepend(
+                                    context: context,
+                                    ss: ss,
+                                    body: row[column.Key]);
+                            }
+                            break;
+                        default:
+                            SetValue(
+                                context: context,
+                                column: column.Value.Column,
+                                value: recordingData);
+                            break;
+                    }
+                });
+        }
+
+        private static string ImportRecordingData(
+            Context context, Column column, string value, long inheritPermission)
+        {
+            var recordingData = column.RecordingData(
+                context: context,
+                value: value,
+                siteId: inheritPermission);
+            return recordingData;
+        }
+
         public void SetProcessMatchConditions(
             Context context,
             SiteSettings ss)

@@ -6006,21 +6006,23 @@ namespace Implem.Pleasanter.Models
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
-                var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+                var csvRows = csv.Rows
+                    .Select((o, i) => new { Index = i, Row = o })
+                    .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
                     var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
                     if (updatableImport
-                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
+                        && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
                         view.AddColumnFilterHash(
                             context: context,
                             ss: ss,
                             column: importKeyColumn.Value.Column,
-                            objectValue: data.Row[importKeyColumn.Key]);
+                            objectValue: data.Value[importKeyColumn.Key]);
                         view.AddColumnFilterSearchTypes(
                             columnName: importKeyColumnName,
                             searchType: Column.SearchTypes.ExactMatch);
@@ -6038,91 +6040,20 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(
                                 type: Error.Types.OverlapCsvImport,
                                 data: new string[] {
-                                    (data.Index + 1).ToString(),
+                                    (data.Key + 1).ToString(),
                                     importKeyColumn.Value.Column.GridLabelText,
-                                    data.Row[importKeyColumn.Key]
+                                    data.Value[importKeyColumn.Key]
                                 })
                                 .MessageJson(context: context);
                         }
                     }
                     previousTitle = issueModel.Title.DisplayValue;
-                    columnHash
-                        .Where(column =>
-                            (column.Value.Column.CanCreate(
-                                context: context,
-                                ss: ss,
-                                mine: issueModel.Mine(context: context))
-                                    && issueModel.IssueId == 0)
-                            || (column.Value.Column.CanUpdate(
-                                context: context,
-                                ss: ss,
-                                mine: issueModel.Mine(context: context))
-                                    && issueModel.IssueId > 0))
-                        .ForEach(column =>
-                        {
-                            var recordingData = ImportRecordingData(
-                                context: context,
-                                column: column.Value.Column,
-                                value: ImportUtilities.RecordingData(
-                                    columnHash: columnHash,
-                                    row: data.Row,
-                                    column: column),
-                                inheritPermission: ss.InheritPermission);
-                            switch (column.Value.Column.ColumnName)
-                            {
-                                case "Title":
-                                    issueModel.Title.Value = recordingData.ToString();
-                                    break;
-                                case "Body":
-                                    issueModel.Body = recordingData.ToString();
-                                    break;
-                                case "StartTime":
-                                    issueModel.StartTime = recordingData.ToDateTime();
-                                    break;
-                                case "CompletionTime":
-                                    issueModel.CompletionTime.Value = recordingData.ToDateTime();
-                                    break;
-                                case "WorkValue":
-                                    issueModel.WorkValue.Value = recordingData.ToDecimal();
-                                    break;
-                                case "ProgressRate":
-                                    issueModel.ProgressRate.Value = recordingData.ToDecimal();
-                                    break;
-                                case "Status":
-                                    issueModel.Status.Value = recordingData.ToInt();
-                                    break;
-                                case "Locked":
-                                    issueModel.Locked = recordingData.ToBool();
-                                    break;
-                                case "Manager":
-                                    issueModel.Manager = SiteInfo.User(
-                                        context: context,
-                                        userId: recordingData.ToInt());
-                                    break;
-                                case "Owner":
-                                    issueModel.Owner = SiteInfo.User(
-                                        context: context,
-                                        userId: recordingData.ToInt());
-                                    break;
-                                case "Comments":
-                                    if (issueModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                        !data.Row[column.Key].IsNullOrEmpty())
-                                    {
-                                        issueModel.Comments.Prepend(
-                                            context: context,
-                                            ss: ss,
-                                            body: data.Row[column.Key]);
-                                    }
-                                    break;
-                                default:
-                                    issueModel.SetValue(
-                                        context: context,
-                                        column: column.Value.Column,
-                                        value: recordingData);
-                                    break;
-                            }
-                        });
-                    issueHash.Add(data.Index, issueModel);
+                    issueModel.SetByCsvRow(
+                        context: context,
+                        ss: ss,
+                        columnHash: columnHash,
+                        row: data.Value);
+                    issueHash.Add(data.Key, issueModel);
                 }
                 var errorCompletionTime = Imports.Validate(
                     context: context,
@@ -6142,8 +6073,10 @@ namespace Implem.Pleasanter.Models
                 }
                 var insertCount = 0;
                 var updateCount = 0;
-                foreach (var issueModel in issueHash.Values)
+                var processed = new HashSet<long>();
+                foreach (var data in issueHash)
                 {
+                    var issueModel = data.Value;
                     issueModel.SetBySettings(
                         context: context,
                         ss: ss);
@@ -6157,6 +6090,23 @@ namespace Implem.Pleasanter.Models
                     {
                         if (issueModel.Updated(context: context))
                         {
+                            if (processed.Contains(issueModel.IssueId))
+                            {
+                                // CSVに同じレコードが複数件含まれていた際はバージョンが変更されている可能性があるため
+                                // レコードの再読込を行い、データの再セットを行う
+                                issueModel.Get(
+                                    context: context,
+                                    ss: ss);
+                                issueModel.SetByCsvRow(
+                                    context: context,
+                                    ss: ss,
+                                    columnHash: columnHash,
+                                    row: csvRows[data.Key]);
+                            }
+                            else
+                            {
+                                processed.Add(issueModel.IssueId);
+                            }
                             issueModel.VerUp = Versions.MustVerUp(
                                 context: context,
                                 ss: ss,
@@ -6300,28 +6250,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseFileNotFound(context: context).ToJson();
             }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string ImportRecordingData(
-            Context context, Column column, string value, long inheritPermission)
-        {
-            var recordingData = column.RecordingData(
-                context: context,
-                value: value,
-                siteId: inheritPermission);
-            switch (column.ColumnName)
-            {
-                case "CompletionTime":
-                    recordingData = recordingData
-                        .ToDateTime()
-                        .AddDifferenceOfDates(column.EditorFormat)
-                        .ToString();
-                    break;
-            }
-            return recordingData;
         }
 
         public static string OpenExportSelectorDialog(
