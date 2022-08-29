@@ -569,7 +569,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 ?? DateTime.Now)).TotalMilliseconds;
         }
 
-        private void SetPublish()
+        public void SetPublish()
         {
             if (HasRoute)
             {

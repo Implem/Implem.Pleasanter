@@ -718,7 +718,22 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss,
                                 column: topScriptColumn,
-                                baseModel: tenantModel))));
+                                baseModel: tenantModel)))
+                .FieldSet(
+                    id: "MaintenanceField",
+                    css: " enclosed",
+                    legendText: Displays.Maintenance(context),
+                    action: () => hb
+                        .Button(
+                            controlId: "TenantSyncByLdap",
+                            controlCss: "button-icon",
+                            text: Displays.SyncByLdap(context: context),
+                            onClick: "$p.send($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SyncByLdap",
+                            method: "post",
+                            _using: Parameters.BackgroundService.SyncByLdap),
+                    _using: Parameters.BackgroundService.SyncByLdap));
         }
 
         public static HtmlBuilder Field(
@@ -1467,6 +1482,23 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string SyncByLdap(Context context, SiteSettings ss)
+        {
+            var invalid = TenantValidators.OnSyncByLdap(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            System.Threading.Tasks.Task.Run(() => UserUtilities.SyncByLdap(context: context));
+            return Messages.ResponseSyncByLdapStarted(context: context).ToJson();
         }
 
         /// <summary>

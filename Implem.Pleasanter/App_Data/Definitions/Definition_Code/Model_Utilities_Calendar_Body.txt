@@ -99,22 +99,30 @@ public static string UpdateByCalendar(Context context, SiteSettings ss)
     {
         return Messages.ResponseDeleteConflicts(context: context).ToJson();
     }
-    #modelName#Model.VerUp = Versions.MustVerUp(
-        context: context,
-        ss: ss,
-        baseModel: #modelName#Model);
-    #modelName#Model.Update(
-        context: context,
-        ss: ss,
-        notice: true);
+    var updated = #modelName#Model.Updated(context: context);
+    if (updated)
+    {
+        #modelName#Model.VerUp = Versions.MustVerUp(
+            context: context,
+            ss: ss,
+            baseModel: #modelName#Model);
+        #modelName#Model.Update(
+            context: context,
+            ss: ss,
+            notice: true);
+    }
     return CalendarJson(
         context: context,
         ss: ss,
-        changedItemId: #modelName#Model.#ModelName#Id,
+        changedItemId: updated
+            ? #modelName#Model.#ModelName#Id
+            : 0,
         update: true,
-        message: Messages.Updated(
-            context: context,
-            data: #modelName#Model.Title.MessageDisplay(context: context)));
+        message: updated
+            ? Messages.Updated(
+                context: context,
+                data: #modelName#Model.Title.MessageDisplay(context: context))
+            : null);
 }
 
 public static string CalendarJson(

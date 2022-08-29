@@ -1944,7 +1944,7 @@ namespace Implem.Pleasanter.Models
                                 groupModel.MemberIsAdmin = recordingData.ToBool();
                                 break;
                             default:
-                                groupModel.GetValue(
+                                groupModel.SetValue(
                                     context: context,
                                     column: column.Value.Column,
                                     value: recordingData);

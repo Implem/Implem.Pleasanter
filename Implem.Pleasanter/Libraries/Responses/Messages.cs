@@ -1371,6 +1371,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message SyncByLdapStarted(Context context, params string[] data)
+        {
+            return Get(
+                id: "SyncByLdapStarted",
+                text: Displays.SyncByLdapStarted(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message SynchronizationCompleted(Context context, params string[] data)
         {
             return Get(
@@ -2856,6 +2866,16 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             return ResponseMessage(
                 message: SitesLimit(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseSyncByLdapStarted(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                message: SyncByLdapStarted(
                     context: context,
                     data: data),
                 target: target);

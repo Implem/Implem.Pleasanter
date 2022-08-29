@@ -31,7 +31,7 @@ if (queryStringsSiteId > 0)
             id = column.MultipleSelections == true
                 ? id.ToSingleList().ToJson()
                 : id;
-            GetClass(column.ColumnName, id);
+            SetClass(column.ColumnName, id);
             column.ControlCss += " always-send";
         });
 }

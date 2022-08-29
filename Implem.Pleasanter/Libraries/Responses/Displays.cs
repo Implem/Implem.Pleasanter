@@ -5439,6 +5439,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Maintenance(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Maintenance",
+                data: data);
+        }
+
         public static string Manage(
             Context context,
             params string[] data)
@@ -5586,6 +5596,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "MaxColumns",
+                data: data);
+        }
+
+        public static string MaximumNumberOfUsers(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "MaximumNumberOfUsers",
                 data: data);
         }
 
@@ -8409,6 +8429,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SyncByLdap(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncByLdap",
+                data: data);
+        }
+
+        public static string SyncByLdapStarted(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SyncByLdapStarted",
+                data: data);
+        }
+
         public static string SynchronizationCompleted(
             Context context,
             params string[] data)
@@ -8836,6 +8876,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Unit",
+                data: data);
+        }
+
+        public static string Unlimited(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Unlimited",
                 data: data);
         }
 

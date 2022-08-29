@@ -63,8 +63,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || formData.Get($"{ss.ReferenceType}_{lookup.To}") == string.Empty)
                 .Where(lookup => (lookup.OverwriteForm == true
                     && formData.Get("ControlId") == $"{ss.ReferenceType}_{link.ColumnName}")
-                        || formData == null
-                        || formData.Get($"{ss.ReferenceType}_{lookup.To}").IsNullOrEmpty())
+                        || formData?.ContainsKey($"{ss.ReferenceType}_{lookup.To}") != true)
                 .ToList();
             var changedFormData = lookups.ToDictionary(
                 lookup => $"{ss.ReferenceType}_{lookup.To}",

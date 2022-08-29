@@ -574,6 +574,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_Site": Code.Model_SetByApi_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Site, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
+                    case "Model_SetByCsvRow": Code.Model_SetByCsvRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRow, definitionRow, CodeXls); break;
+                    case "Model_SetByCsvRowColumnCases": Code.Model_SetByCsvRowColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByCsvRowUserColumnCases": Code.Model_SetByCsvRowUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowUserColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByDataChanges": Code.Model_SetByDataChanges = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByDataChanges, definitionRow, CodeXls); break;
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
                     case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
@@ -766,9 +769,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_History_Sites": Code.Model_Utilities_History_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImageLib": Code.Model_Utilities_ImageLib = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImageLib, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
-                    case "Model_Utilities_ImportColumnCases": Code.Model_Utilities_ImportColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
-                    case "Model_Utilities_ImportUserColumnCases": Code.Model_Utilities_ImportUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportUserColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
@@ -4451,6 +4452,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newDemoDefinition.SavedLocked = newDemoDefinition.Locked;
                             break;
+                        case "Publish":
+                            newDemoDefinition.Publish = customDefinitionRow.Get("Publish")?.ToBool() ??
+                                data.ToBool();
+                            newDemoDefinition.SavedPublish = newDemoDefinition.Publish;
+                            break;
                         case "CreatedTime":
                             newDemoDefinition.CreatedTime = customDefinitionRow.Get("CreatedTime")?.ToDateTime() ??
                                 data.ToDateTime();
@@ -4616,6 +4622,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("StartTime")) { definition.StartTime = definitionRow["StartTime"].ToDateTime(); definition.SavedStartTime = definition.StartTime; }
             if (definitionRow.ContainsKey("CompletionTime")) { definition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); definition.SavedCompletionTime = definition.CompletionTime; }
             if (definitionRow.ContainsKey("Locked")) { definition.Locked = definitionRow["Locked"].ToBool(); definition.SavedLocked = definition.Locked; }
+            if (definitionRow.ContainsKey("Publish")) { definition.Publish = definitionRow["Publish"].ToBool(); definition.SavedPublish = definition.Publish; }
             if (definitionRow.ContainsKey("CreatedTime")) { definition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); definition.SavedCreatedTime = definition.CreatedTime; }
             if (definitionRow.ContainsKey("UpdatedTime")) { definition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); definition.SavedUpdatedTime = definition.UpdatedTime; }
         }
@@ -5784,6 +5791,7 @@ namespace Implem.DefinitionAccessor
                         case "StartTime": demoDefinition.StartTime = optionValue.ToDateTime(); break;
                         case "CompletionTime": demoDefinition.CompletionTime = optionValue.ToDateTime(); break;
                         case "Locked": demoDefinition.Locked = optionValue.ToBool(); break;
+                        case "Publish": demoDefinition.Publish = optionValue.ToBool(); break;
                         case "CreatedTime": demoDefinition.CreatedTime = optionValue.ToDateTime(); break;
                         case "UpdatedTime": demoDefinition.UpdatedTime = optionValue.ToDateTime(); break;
                     }
@@ -6795,6 +6803,9 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_Site;
         public string Model_SetByApiExec;
         public string Model_SetByApiParameter;
+        public string Model_SetByCsvRow;
+        public string Model_SetByCsvRowColumnCases;
+        public string Model_SetByCsvRowUserColumnCases;
         public string Model_SetByDataChanges;
         public string Model_SetByForm;
         public string Model_SetByForm_ColumnCases;
@@ -6987,9 +6998,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_History_Sites;
         public string Model_Utilities_ImageLib;
         public string Model_Utilities_Import;
-        public string Model_Utilities_ImportColumnCases;
         public string Model_Utilities_ImportSettings;
-        public string Model_Utilities_ImportUserColumnCases;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_ImportValidatorHeaders;
         public string Model_Utilities_Index;
@@ -7549,6 +7558,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_Site = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
+        public CodeDefinition Model_SetByCsvRow = new CodeDefinition();
+        public CodeDefinition Model_SetByCsvRowColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByCsvRowUserColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByDataChanges = new CodeDefinition();
         public CodeDefinition Model_SetByForm = new CodeDefinition();
         public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
@@ -7741,9 +7753,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_History_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImageLib = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
-        public CodeDefinition Model_Utilities_ImportColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
-        public CodeDefinition Model_Utilities_ImportUserColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
@@ -9755,6 +9765,7 @@ namespace Implem.DefinitionAccessor
         public DateTime StartTime; public DateTime SavedStartTime;
         public DateTime CompletionTime; public DateTime SavedCompletionTime;
         public bool Locked; public bool SavedLocked;
+        public bool Publish; public bool SavedPublish;
         public DateTime CreatedTime; public DateTime SavedCreatedTime;
         public DateTime UpdatedTime; public DateTime SavedUpdatedTime;
 
@@ -9910,6 +9921,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("StartTime")) StartTime = propertyCollection["StartTime"].ToDateTime(); else StartTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("CompletionTime")) CompletionTime = propertyCollection["CompletionTime"].ToDateTime(); else CompletionTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("Locked")) Locked = propertyCollection["Locked"].ToBool(); else Locked = false;
+            if (propertyCollection.ContainsKey("Publish")) Publish = propertyCollection["Publish"].ToBool(); else Publish = false;
             if (propertyCollection.ContainsKey("CreatedTime")) CreatedTime = propertyCollection["CreatedTime"].ToDateTime(); else CreatedTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("UpdatedTime")) UpdatedTime = propertyCollection["UpdatedTime"].ToDateTime(); else UpdatedTime = 0.ToDateTime();
         }
@@ -10065,6 +10077,7 @@ namespace Implem.DefinitionAccessor
                     case "StartTime": return StartTime;
                     case "CompletionTime": return CompletionTime;
                     case "Locked": return Locked;
+                    case "Publish": return Publish;
                     case "CreatedTime": return CreatedTime;
                     case "UpdatedTime": return UpdatedTime;
                     default: return null;
@@ -10220,6 +10233,7 @@ namespace Implem.DefinitionAccessor
             StartTime = SavedStartTime;
             CompletionTime = SavedCompletionTime;
             Locked = SavedLocked;
+            Publish = SavedPublish;
             CreatedTime = SavedCreatedTime;
             UpdatedTime = SavedUpdatedTime;
         }

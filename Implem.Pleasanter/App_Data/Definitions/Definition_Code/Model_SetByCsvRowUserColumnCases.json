@@ -1,7 +1,7 @@
 ﻿{
-    "Id": "Model_Utilities_ImportUserColumnCases",
+    "Id": "Model_SetByCsvRowUserColumnCases",
     "RepeatType": "Column",
-    "Indent": "8",
+    "Indent": "6",
     "Separator": "\\r\\n",
     "NotUnique": "1",
     "Form": "1",

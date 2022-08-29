@@ -169,7 +169,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetValue(
+        public void SetValue(
             Context context,
             Column column,
             string value,
@@ -178,12 +178,12 @@ namespace Implem.Pleasanter.Models
             switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
             {
                 case "Class":
-                    GetClass(
+                    SetClass(
                         columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Num":
-                    GetNum(
+                    SetNum(
                         columnName: column.ColumnName,
                         value: new Num(
                             context: context,
@@ -191,24 +191,24 @@ namespace Implem.Pleasanter.Models
                             value: value));
                     break;
                 case "Date":
-                    GetDate(
+                    SetDate(
                         columnName: column.ColumnName,
                         value: toUniversal
                             ? value.ToDateTime().ToUniversal(context: context)
                             : value.ToDateTime());
                     break;
                 case "Description":
-                    GetDescription(
+                    SetDescription(
                         columnName: column.ColumnName,
                         value: value);
                     break;
                 case "Check":
-                    GetCheck(
+                    SetCheck(
                         columnName: column.ColumnName,
                         value: value.ToBool());
                     break;
                 case "Attachments":
-                    GetAttachments(
+                    SetAttachments(
                         columnName: column.ColumnName,
                         value: value.Deserialize<Attachments>());
                     break;
@@ -245,21 +245,21 @@ namespace Implem.Pleasanter.Models
             return SavedClassHash.Get(columnName) ?? string.Empty;
         }
 
-        public void GetClass(Column column, string value)
+        public void SetClass(Column column, string value)
         {
-            GetClass(
+            SetClass(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetSavedClass(Column column, string value)
+        public void SetSavedClass(Column column, string value)
         {
-            GetSavedClass(
+            SetSavedClass(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetClass(string columnName, string value)
+        public void SetClass(string columnName, string value)
         {
             if (!ClassHash.ContainsKey(columnName))
             {
@@ -271,7 +271,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetSavedClass(string columnName, string value)
+        public void SetSavedClass(string columnName, string value)
         {
             if (!SavedClassHash.ContainsKey(columnName))
             {
@@ -315,21 +315,21 @@ namespace Implem.Pleasanter.Models
             return SavedNumHash.Get(columnName);
         }
 
-        public void GetNum(Column column, Num value)
+        public void SetNum(Column column, Num value)
         {
-            GetNum(
+            SetNum(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetSavedNum(Column column, decimal? value)
+        public void SetSavedNum(Column column, decimal? value)
         {
-            GetSavedNum(
+            SetSavedNum(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetNum(string columnName, Num value)
+        public void SetNum(string columnName, Num value)
         {
             if (!NumHash.ContainsKey(columnName))
             {
@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetSavedNum(string columnName, decimal? value)
+        public void SetSavedNum(string columnName, decimal? value)
         {
             if (!SavedNumHash.ContainsKey(columnName))
             {
@@ -397,21 +397,21 @@ namespace Implem.Pleasanter.Models
                 : 0.ToDateTime();
         }
 
-        public void GetDate(Column column, DateTime value)
+        public void SetDate(Column column, DateTime value)
         {
-            GetDate(
+            SetDate(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetSavedDate(Column column, DateTime value)
+        public void SetSavedDate(Column column, DateTime value)
         {
-            GetSavedDate(
+            SetSavedDate(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetDate(string columnName, DateTime value)
+        public void SetDate(string columnName, DateTime value)
         {
             if (!DateHash.ContainsKey(columnName))
             {
@@ -423,7 +423,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetSavedDate(string columnName, DateTime value)
+        public void SetSavedDate(string columnName, DateTime value)
         {
             if (!SavedDateHash.ContainsKey(columnName))
             {
@@ -467,21 +467,21 @@ namespace Implem.Pleasanter.Models
             return SavedDescriptionHash.Get(columnName) ?? string.Empty;
         }
 
-        public void GetDescription(Column column, string value)
+        public void SetDescription(Column column, string value)
         {
-            GetDescription(
+            SetDescription(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetSavedDescription(Column column, string value)
+        public void SetSavedDescription(Column column, string value)
         {
-            GetSavedDescription(
+            SetSavedDescription(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetDescription(string columnName, string value)
+        public void SetDescription(string columnName, string value)
         {
             if (!DescriptionHash.ContainsKey(columnName))
             {
@@ -493,7 +493,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetSavedDescription(string columnName, string value)
+        public void SetSavedDescription(string columnName, string value)
         {
             if (!SavedDescriptionHash.ContainsKey(columnName))
             {
@@ -537,21 +537,21 @@ namespace Implem.Pleasanter.Models
             return SavedCheckHash.Get(columnName);
         }
 
-        public void GetCheck(Column column, bool value)
+        public void SetCheck(Column column, bool value)
         {
-            GetCheck(
+            SetCheck(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetSavedCheck(Column column, bool value)
+        public void SetSavedCheck(Column column, bool value)
         {
-            GetSavedCheck(
+            SetSavedCheck(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetCheck(string columnName, bool value)
+        public void SetCheck(string columnName, bool value)
         {
             if (!CheckHash.ContainsKey(columnName))
             {
@@ -563,7 +563,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetSavedCheck(string columnName, bool value)
+        public void SetSavedCheck(string columnName, bool value)
         {
             if (!CheckHash.ContainsKey(columnName))
             {
@@ -607,21 +607,21 @@ namespace Implem.Pleasanter.Models
             return SavedAttachmentsHash.Get(columnName) ?? new Attachments().RecordingJson();
         }
 
-        public void GetAttachments(Column column, Attachments value)
+        public void SetAttachments(Column column, Attachments value)
         {
-            GetAttachments(
+            SetAttachments(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetSavedAttachments(Column column, string value)
+        public void SetSavedAttachments(Column column, string value)
         {
-            GetSavedAttachments(
+            SetSavedAttachments(
                 columnName: column.ColumnName,
                 value: value);
         }
 
-        public void GetAttachments(string columnName, Attachments value)
+        public void SetAttachments(string columnName, Attachments value)
         {
             if (!AttachmentsHash.ContainsKey(columnName))
             {
@@ -633,7 +633,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void GetSavedAttachments(string columnName, string value)
+        public void SetSavedAttachments(string columnName, string value)
         {
             if (!AttachmentsHash.ContainsKey(columnName))
             {

@@ -525,6 +525,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: context.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(controlId: "YmdFormat", value: Displays.YmdFormat(context: context))
+                    .Hidden(
+                        controlId: "YmdDatePickerFormat",
+                        value: Displays.YmdDatePickerFormat(context: context))
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)
@@ -560,10 +564,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: "1",
                         _using: Parameters.General.AnchorTargetBlank)
                     .Hidden(
-                        controlId: "data-validation-maxlength-type", 
+                        controlId: "data-validation-maxlength-type",
                         value: Parameters.Validation.MaxLengthCountType)
                     .Hidden(
-                        controlId: "data-validation-maxlength-regex", 
+                        controlId: "data-validation-maxlength-regex",
                         value: Parameters.Validation.SingleByteCharactorRegexClient)
                 : hb;
         }
