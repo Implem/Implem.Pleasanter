@@ -34,3 +34,8 @@ $p.dateTimeString = function (date) {
             ? ' ' + date.getHours() + ':' + date.getMinutes()
             : '');
 }
+
+$p.transferedDate = function (format, datetimeString) {
+    // 指定された日付書式でDate型オブジェクトを生成出来ない場合があるため、YYYY/MM/DD形式の日付書式に変換してDate型オブジェクトを生成します
+    return new Date(moment(datetimeString, format.toUpperCase()).format('YYYY/MM/DD'));
+}

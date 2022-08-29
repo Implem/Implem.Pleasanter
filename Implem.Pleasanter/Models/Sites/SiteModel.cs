@@ -1410,12 +1410,12 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.ColumnName,
                                         value: new Num(
                                             context: context,
@@ -1423,22 +1423,22 @@ namespace Implem.Pleasanter.Models
                                             value: value));
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.ColumnName,
                                         value: value.ToDateTime().ToUniversal(context: context));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.ColumnName,
                                         value: value.ToBool());
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.ColumnName,
                                         value: value.Deserialize<Attachments>());
                                     break;
@@ -1537,10 +1537,10 @@ namespace Implem.Pleasanter.Models
             if (data.SiteSettings != null) SiteSettings = data.SiteSettings;
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash?.ForEach(o => GetClass(
+            data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
                 value: o.Value));
-            data.NumHash?.ForEach(o => GetNum(
+            data.NumHash?.ForEach(o => SetNum(
                 columnName: o.Key,
                 value: new Num(
                     context: context,
@@ -1548,13 +1548,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: o.Key),
                     value: o.Value.ToString())));
-            data.DateHash?.ForEach(o => GetDate(
+            data.DateHash?.ForEach(o => SetDate(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
-            data.DescriptionHash?.ForEach(o => GetDescription(
+            data.DescriptionHash?.ForEach(o => SetDescription(
                 columnName: o.Key,
                 value: o.Value));
-            data.CheckHash?.ForEach(o => GetCheck(
+            data.CheckHash?.ForEach(o => SetCheck(
                 columnName: o.Key,
                 value: o.Value));
             data.AttachmentsHash?.ForEach(o =>
@@ -1615,7 +1615,7 @@ namespace Implem.Pleasanter.Models
                             Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
                     }
                 }
-                GetAttachments(columnName: columnName, value: newAttachments);
+                SetAttachments(columnName: columnName, value: newAttachments);
             });
             SetSiteSettings(
                 context: context,
@@ -1901,53 +1901,53 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedClass(
+                                    SetSavedClass(
                                         columnName: column.Name,
                                         value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    GetSavedNum(
+                                    SetSavedNum(
                                         columnName: column.Name,
                                         value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    GetSavedDate(
+                                    SetSavedDate(
                                         columnName: column.Name,
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedDescription(
+                                    SetSavedDescription(
                                         columnName: column.Name,
                                         value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    GetSavedCheck(
+                                    SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    GetSavedAttachments(
+                                    SetSavedAttachments(
                                         columnName: column.Name,
                                         value: GetAttachments(columnName: column.Name).ToJson());
                                     break;
@@ -2363,6 +2363,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopySummaries":
+                    CopySummaries(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteSummaries":
                     DeleteSummaries(
                         context: context,
@@ -2392,6 +2397,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopyFormulas":
+                    CopyFormulas(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteFormulas":
                     DeleteFormulas(
                         context: context,
@@ -2418,6 +2428,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "UpdateProcess":
                     UpdateProcess(
+                        context: context,
+                        res: res);
+                    break;
+                case "CopyProcesses":
+                    CopyProcesses(
                         context: context,
                         res: res);
                     break;
@@ -2494,6 +2509,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyProcessDataChanges":
+                    CopyProcessDataChanges(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteProcessDataChanges":
                     DeleteProcessDataChanges(
                         context: context,
@@ -2554,6 +2574,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "CopyStatusControls":
+                    CopyStatusControls(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteStatusControls":
                     DeleteStatusControl(
                         context: context,
@@ -2594,6 +2619,11 @@ namespace Implem.Pleasanter.Models
                     break;
                 case "UpdateView":
                     UpdateView(
+                        context: context,
+                        res: res);
+                    break;
+                case "CopyViews":
+                    CopyViews(
                         context: context,
                         res: res);
                     break;
@@ -2639,6 +2669,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyNotifications":
+                    CopyNotifications(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteNotifications":
                     DeleteNotifications(
                         context: context,
@@ -2662,6 +2697,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res,
                         controlId: controlId);
+                    break;
+                case "CopyReminders":
+                    CopyReminders(
+                        context: context,
+                        res: res);
                     break;
                 case "DeleteReminders":
                     DeleteReminders(
@@ -2705,6 +2745,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res,
                         controlId: controlId);
+                    break;
+                case "CopyExports":
+                    CopyExports(
+                        context: context,
+                        res: res);
                     break;
                 case "DeleteExports":
                     DeleteExports(
@@ -2759,6 +2804,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyStyles":
+                    CopyStyles(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteStyles":
                     DeleteStyles(
                         context: context,
@@ -2790,6 +2840,11 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
+                case "CopyScripts":
+                    CopyScripts(
+                        context: context,
+                        res: res);
+                    break;
                 case "DeleteScripts":
                     DeleteScripts(
                         context: context,
@@ -2820,6 +2875,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res,
                         controlId: controlId);
+                    break;
+                case "CopyServerScripts":
+                    CopyServerScripts(
+                        context: context,
+                        res: res);
                     break;
                 case "DeleteServerScripts":
                     DeleteServerScripts(
@@ -2856,6 +2916,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res,
                         controlId: controlId);
+                    break;
+                case "CopyBulkUpdateColumns":
+                    CopyBulkUpdateColumns(
+                        context: context,
+                        res: res);
                     break;
                 case "DeleteBulkUpdateColumns":
                     DeleteBulkUpdateColumns(
@@ -3871,6 +3936,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void CopySummaries(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditSummary");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Summaries.Copy(selected);
+                res.ReplaceAll("#EditSummary", new HtmlBuilder()
+                    .EditSummary(context: context, ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void DeleteSummaries(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditSummary");
@@ -4001,6 +4084,24 @@ namespace Implem.Pleasanter.Models
                     .Html("#EditFormula", new HtmlBuilder()
                         .EditFormula(context: context, ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyFormulas(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditFormula");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Formulas.Copy(selected);
+                res.ReplaceAll("#EditFormula", new HtmlBuilder()
+                    .EditFormula(context: context, ss: SiteSettings));
             }
         }
 
@@ -4173,6 +4274,26 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyProcesses(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditProcess");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Processes.Copy(selected);
+                res.ReplaceAll("#EditProcess", new HtmlBuilder()
+                    .EditProcess(
+                        context: context,
+                        ss: SiteSettings));
             }
         }
 
@@ -4556,6 +4677,32 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void CopyProcessDataChanges(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditProcessDataChange");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                var dataChanges = context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>();
+                dataChanges.Copy(selected);
+                res
+                    .Html("#EditProcessDataChange", new HtmlBuilder()
+                        .EditProcessDataChange(
+                            context: context,
+                            ss: SiteSettings,
+                            dataChanges: dataChanges))
+                    .Val(
+                        "#ProcessDataChanges",
+                        dataChanges.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void DeleteProcessDataChanges(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditProcessDataChange");
@@ -4891,6 +5038,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void CopyStatusControls(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditStatusControl");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.StatusControls.Copy(selected);
+                res.ReplaceAll("#EditStatusControl", new HtmlBuilder()
+                    .EditStatusControl(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void DeleteStatusControl(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditStatusControl");
@@ -5108,6 +5275,33 @@ namespace Implem.Pleasanter.Models
                     .ViewResponses(SiteSettings, new List<int> { selected })
                     .CloseDialog();
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyViews(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("Views");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            if (SiteSettings.Views != null)
+            {
+                var views = new List<View>();
+                foreach (var view in SiteSettings.Views.Where(o => selected.Contains(o.Id)))
+                {
+                    var copied = view.ToJson().Deserialize<View>();
+                    SiteSettings.ViewLatestId++;
+                    copied.Id = SiteSettings.ViewLatestId.ToInt();
+                    views.Add(copied);
+                }
+                SiteSettings.Views.AddRange(views);
+            }
+            res.ViewResponses(
+                ss: SiteSettings,
+                selected: selected);
         }
 
         /// <summary>
@@ -5354,6 +5548,31 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void CopyNotifications(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Notice == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditNotification");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Notifications.Copy(selected);
+                    res.ReplaceAll("#EditNotification", new HtmlBuilder()
+                        .EditNotification(context: context, ss: SiteSettings));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void DeleteNotifications(Context context, ResponseCollection res)
         {
             if (context.ContractSettings.Notice == false)
@@ -5581,6 +5800,31 @@ namespace Implem.Pleasanter.Models
                     .ReplaceAll("#EditReminder", new HtmlBuilder()
                         .EditReminder(context: context, ss: SiteSettings))
                     .CloseDialog();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyReminders(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Remind == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditReminder");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Reminders.Copy(selected);
+                    res.ReplaceAll("#EditReminder", new HtmlBuilder()
+                        .EditReminder(context: context, ss: SiteSettings));
+                }
             }
         }
 
@@ -5858,6 +6102,31 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             join: join))))
                 .SetFormData("ExportSourceColumns", "[]");
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyExports(Context context, ResponseCollection res)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                res.Message(Messages.Restricted(context: context));
+            }
+            else
+            {
+                var selected = context.Forms.IntList("EditExport");
+                if (selected?.Any() != true)
+                {
+                    res.Message(Messages.SelectTargets(context: context)).ToJson();
+                }
+                else
+                {
+                    SiteSettings.Exports.Copy(selected);
+                    res.ReplaceAll("#EditExport", new HtmlBuilder()
+                        .EditExport(context: context, ss: SiteSettings));
+                }
+            }
         }
 
         /// <summary>
@@ -6172,6 +6441,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void CopyStyles(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditStyle");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Styles.Copy(selected);
+                res.ReplaceAll("#EditStyle", new HtmlBuilder()
+                    .EditStyle(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void DeleteStyles(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditStyle");
@@ -6311,6 +6600,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyScripts(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Scripts.Copy(selected);
+                res.ReplaceAll("#EditScript", new HtmlBuilder()
+                    .EditScript(
+                        context: context,
+                        ss: SiteSettings));
+            }
         }
 
         /// <summary>
@@ -6526,6 +6835,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void CopyServerScripts(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditServerScript");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.ServerScripts.Copy(selected);
+                res.ReplaceAll("#EditServerScript", new HtmlBuilder()
+                    .EditServerScript(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void DeleteServerScripts(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditServerScript");
@@ -6683,6 +7012,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyBulkUpdateColumns(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditBulkUpdateColumns");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.BulkUpdateColumns.Copy(selected);
+                res.ReplaceAll("#EditBulkUpdateColumns", new HtmlBuilder()
+                    .EditBulkUpdateColumns(
+                        context: context,
+                        ss: SiteSettings));
+            }
         }
 
         /// <summary>

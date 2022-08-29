@@ -4565,6 +4565,14 @@ namespace Implem.Pleasanter.Models
                             action: "SetSiteSettings",
                             method: "put")
                         .Button(
+                            controlId: "CopyBulkUpdateColumns",
+                            text: Displays.Copy(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "post")
+                        .Button(
                             controlId: "DeleteBulkUpdateColumns",
                             text: Displays.Delete(context: context),
                             controlCss: "button-icon",
@@ -7229,6 +7237,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopySummaries",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditSummary', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteSummaries",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
@@ -7675,6 +7691,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditFormula', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteFormulas",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
@@ -7902,6 +7926,14 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         onClick: "$p.openProcessDialog($(this));",
                         icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "CopyProcesses",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditProcess', $(this));",
+                        icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -8735,6 +8767,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyProcessDataChanges",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditProcessDataChange', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteProcessDataChanges",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -9267,6 +9307,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyStatusControls",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditStatusControl', $(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteStatusControls",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
@@ -9674,7 +9722,7 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: ss.ViewSelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
+                                .Div(css: "command-left", action: () => hb
                                     .Button(
                                         controlId: "MoveUpViews",
                                         text: Displays.MoveUp(context: context),
@@ -9701,6 +9749,14 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.openViewDialog($(this));",
                                         icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "CopyViews",
+                                        text: Displays.Copy(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
                                         action: "SetSiteSettings",
                                         method: "put")
                                     .Button(
@@ -10863,7 +10919,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static ResponseCollection ViewResponses(
-            this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
+            this ResponseCollection res,
+            SiteSettings ss,
+            IEnumerable<int> selected = null)
         {
             return res
                 .Html("#Views", new HtmlBuilder().SelectableItems(
@@ -10969,6 +11027,14 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
+                    .Button(
+                        controlId: "CopyNotifications",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditNotification', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
                     .Button(
                         controlId: "DeleteNotifications",
                         text: Displays.Delete(context: context),
@@ -11447,6 +11513,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyReminders",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditReminder', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete")
+                    .Button(
                         controlId: "DeleteReminders",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -11900,6 +11974,14 @@ namespace Implem.Pleasanter.Models
                         text: Displays.New(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.openExportDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "CopyExports",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditExport', $(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
@@ -12731,6 +12813,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyStyles",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditStyle', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteStyles",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -13057,6 +13147,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyScripts",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteScripts",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -13377,6 +13475,14 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
+                    .Button(
+                        controlId: "CopyServerScripts",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
                     .Button(
                         controlId: "DeleteServerScripts",
                         text: Displays.Delete(context: context),

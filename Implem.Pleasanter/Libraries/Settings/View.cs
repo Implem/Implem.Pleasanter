@@ -646,7 +646,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             case "CrosstabMonth":
                                 CrosstabMonth = Time(
                                     context: context,
-                                    controlId: controlId);
+                                    controlId: controlId,
+                                    useDateFormat: false);
                                 break;
                             case "ViewFilters_ExportCrosstabCommand":
                                 ExportCrosstabCommand = (CommandDisplayTypes)Int(
@@ -813,9 +814,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private DateTime? Time(Context context, string controlId)
+        private DateTime? Time(Context context, string controlId, bool useDateFormat = true)
         {
-            var data = context.Forms.DateTime(controlId);
+            // クロス集計の場合のみ日付書式を指定しないように処理を分岐（クロス集計での前の月、次の月を計算する際に日付書式を指定すると正しく算出されないため）
+            var data = (useDateFormat)
+                ? context.Forms.DateTime(context: context, key: controlId)
+                : context.Forms.DateTime(controlId);
             if (data.InRange())
             {
                 return data;

@@ -134,7 +134,7 @@ private static void Set(
             switch (Def.ExtendedColumnTypes.Get(destinationColumn ?? string.Empty))
             {
                 case "Num":
-                    #modelName#Model.GetNum(
+                    #modelName#Model.SetNum(
                         columnName: destinationColumn,
                         value: new Num(value));
                     break;

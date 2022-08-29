@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Construct(
                 context: context,
                 siteList: siteList,
+                includeSitePermission: includeSitePermission,
                 includeRecordPermission: includeRecordPermission,
                 includeColumnPermission: includeColumnPermission,
                 includeNotifications: includeNotifications,
@@ -55,15 +56,12 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 sites: Sites,
                 packagePermissionModels: Permissions,
                 includeSitePermission: includeSitePermission);
-            if (includeSitePermission == false)
-            {
-                Permissions.Clear();
-            }
         }
 
         private void Construct(
             Context context,
             List<SelectedSite> siteList,
+            bool includeSitePermission,
             bool includeRecordPermission,
             bool includeColumnPermission,
             bool includeNotifications,
@@ -162,12 +160,14 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 break;
                         }
                     }
-                    if (includeRecordPermission == true)
+                    if (includeSitePermission || includeRecordPermission)
                     {
                         var packagePermissionModel = new PackagePermissionModel(
                             context: context,
                             siteModel: siteModel,
-                            view: view);
+                            view: view,
+                            includeSitePermission: includeSitePermission,
+                            includeRecordPermission: includeRecordPermission);
                         Permissions.Add(packagePermissionModel);
                     }
                 }
