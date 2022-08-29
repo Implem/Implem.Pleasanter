@@ -56,7 +56,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.StartDate(context: context),
                         text: startDate.ToLocal(context: context).InRange()
                             ? startDate.ToLocal(context: context).ToString(
-                                "d", context.CultureInfo())
+                                Displays.YmdFormat(context: context))
                             : string.Empty,
                         format: Displays.YmdDatePickerFormat(context: context),
                         method: "post")
@@ -142,27 +142,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(
                     controlId: "GanttMinDate",
                     value: startDate.ToLocal(context: context).ToString(
-                        "d", context.CultureInfo()))
+                        Displays.YmdFormat(context: context)))
                 .Hidden(
                     controlId: "GanttMaxDate",
                     value: startDate.AddDays(period).ToLocal(context: context).ToString(
-                        "d", context.CultureInfo()))
+                        Displays.YmdFormat(context: context)))
                 .Hidden(
                     controlId: "GanttPrevious",
                     value: startDate.AddDays(-7).ToLocal(context: context).ToString(
-                        "d", context.CultureInfo()))
+                        Displays.YmdFormat(context: context)))
                 .Hidden(
                     controlId: "GanttNext",
                     value: startDate.AddDays(7).ToLocal(context: context).ToString(
-                        "d", context.CultureInfo()))
+                        Displays.YmdFormat(context: context)))
                 .Hidden(
                     controlId: "GanttFirstDay",
                     value: range.Min.ToLocal(context: context).ToString(
-                        "d", context.CultureInfo()))
+                        Displays.YmdFormat(context: context)))
                 .Hidden(
                     controlId: "GanttToday",
                     value: DateTime.Now.ToLocal(context: context).ToString(
-                        "d", context.CultureInfo()))
+                        Displays.YmdFormat(context: context)))
                 .Hidden(
                     controlId: "ShowGanttProgressRate",
                     value: ss.ShowGanttProgressRate.ToBool().ToOneOrZeroString());

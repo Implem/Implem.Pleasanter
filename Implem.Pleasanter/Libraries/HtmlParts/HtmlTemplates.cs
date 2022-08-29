@@ -544,6 +544,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: Authentications.Token(),
                         _using: Parameters.Security.TokenCheck)
                     .Hidden(controlId: "Language", value: context.Language)
+                    .Hidden(controlId: "YmdFormat", value: Displays.YmdFormat(context: context))
+                    .Hidden(
+                        controlId: "YmdDatePickerFormat",
+                        value: Displays.YmdDatePickerFormat(context: context))
                     .Hidden(controlId: "DeptId", value: context.DeptId.ToString())
                     .Hidden(controlId: "UserId", value: context.UserId.ToString())
                     .Hidden(controlId: "LoginId", value: context.LoginId)

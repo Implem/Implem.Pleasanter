@@ -1,4 +1,5 @@
 ﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,11 @@ namespace Implem.Pleasanter.Libraries.Requests
         public DateTime DateTime(string key)
         {
             return Data(key).ToDateTime();
+        }
+        public DateTime DateTime(Context context, string key)
+        {
+            var format = Displays.YmdFormat(context: context);
+            return Data(key).ToDateTime(format: format);
         }
 
         public List<int> IntList(string name)

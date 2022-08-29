@@ -18,7 +18,10 @@
 }
 
 $p.openOutgoingMailReplyDialog = function ($control) {
-    $p.getData($('#OutgoingMailsForm')).OutgoingMails_OutgoingMailId = $control.attr('data-id');
+    var data = $p.getData($('#OutgoingMailsForm'));
+    data.OutgoingMails_OutgoingMailId = $control.attr('data-id');
+    data.Controller = $('#Controller').val();
+    data.Id = $('#Id').val();
     var error = $p.syncSend($control, 'OutgoingMailsForm');
     if (error === 0) {
         $('#OutgoingMailDialog').dialog({

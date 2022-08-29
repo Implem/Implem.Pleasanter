@@ -2544,12 +2544,12 @@ namespace Implem.Pleasanter.Models
                     switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                     {
                         case "Class":
-                            GetClass(
+                            SetClass(
                                 column: column,
                                 value: defaultInput);
                             break;
                         case "Num":
-                            GetNum(
+                            SetNum(
                                 column: column,
                                 value: new Num(
                                     context: context,
@@ -2557,22 +2557,22 @@ namespace Implem.Pleasanter.Models
                                     value: defaultInput));
                             break;
                         case "Date":
-                            GetDate(
+                            SetDate(
                                 column: column,
                                 value: column.DefaultTime(context: context));
                             break;
                         case "Description":
-                            GetDescription(
+                            SetDescription(
                                 column: column,
                                 value: defaultInput.ToString());
                             break;
                         case "Check":
-                            GetCheck(
+                            SetCheck(
                                 column: column,
                                 value: defaultInput.ToBool());
                             break;
                         case "Attachments":
-                            GetAttachments(
+                            SetAttachments(
                                 column: column,
                                 value: new Attachments());
                             break;
@@ -2628,12 +2628,12 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.ColumnName,
                                         value: new Num(
                                             context: context,
@@ -2641,22 +2641,22 @@ namespace Implem.Pleasanter.Models
                                             value: value));
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.ColumnName,
                                         value: value.ToDateTime().ToUniversal(context: context));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.ColumnName,
                                         value: value.ToBool());
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.ColumnName,
                                         value: value.Deserialize<Attachments>());
                                     break;
@@ -2702,7 +2702,7 @@ namespace Implem.Pleasanter.Models
                         id = column.MultipleSelections == true
                             ? id.ToSingleList().ToJson()
                             : id;
-                        GetClass(column.ColumnName, id);
+                        SetClass(column.ColumnName, id);
                         column.ControlCss += " always-send";
                     });
             }
@@ -2716,6 +2716,112 @@ namespace Implem.Pleasanter.Models
                     .ToInt() ?? 0;
                 Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
             }
+        }
+
+        public void SetByCsvRow(
+            Context context,
+            SiteSettings ss,
+            Dictionary<int, ImportColumn> columnHash,
+            List<string> row)
+        {
+            columnHash
+                .Where(column =>
+                    (column.Value.Column.CanCreate(
+                        context: context,
+                        ss: ss,
+                        mine: Mine(context: context))
+                            && IssueId == 0)
+                    || (column.Value.Column.CanUpdate(
+                        context: context,
+                        ss: ss,
+                        mine: Mine(context: context))
+                            && IssueId > 0))
+                .ForEach(column =>
+                {
+                    var recordingData = ImportRecordingData(
+                        context: context,
+                        column: column.Value.Column,
+                        value: ImportUtilities.RecordingData(
+                            columnHash: columnHash,
+                            row: row,
+                            column: column),
+                        inheritPermission: ss.InheritPermission);
+                    switch (column.Value.Column.ColumnName)
+                    {
+                        case "Title":
+                            Title.Value = recordingData.ToString();
+                            break;
+                        case "Body":
+                            Body = recordingData.ToString();
+                            break;
+                        case "StartTime":
+                            StartTime = recordingData.ToDateTime();
+                            break;
+                        case "CompletionTime":
+                            CompletionTime.Value = recordingData.ToDateTime();
+                            break;
+                        case "WorkValue":
+                            WorkValue.Value = recordingData.ToDecimal();
+                            break;
+                        case "ProgressRate":
+                            ProgressRate.Value = recordingData.ToDecimal();
+                            break;
+                        case "Status":
+                            Status.Value = recordingData.ToInt();
+                            break;
+                        case "Locked":
+                            Locked = recordingData.ToBool();
+                            break;
+                        case "Manager":
+                            Manager = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
+                            break;
+                        case "Owner":
+                            Owner = SiteInfo.User(
+                                context: context,
+                                userId: recordingData.ToInt());
+                            break;
+                        case "Comments":
+                            if (AccessStatus != Databases.AccessStatuses.Selected &&
+                                !row[column.Key].IsNullOrEmpty())
+                            {
+                                Comments.Prepend(
+                                    context: context,
+                                    ss: ss,
+                                    body: row[column.Key]);
+                            }
+                            break;
+                        default:
+                            SetValue(
+                                context: context,
+                                column: column.Value.Column,
+                                value: recordingData);
+                            break;
+                    }
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ImportRecordingData(
+            Context context, Column column, string value, long inheritPermission)
+        {
+            var recordingData = column.RecordingData(
+                context: context,
+                value: value,
+                siteId: inheritPermission);
+            switch (column.ColumnName)
+            {
+                case "CompletionTime":
+                    recordingData = recordingData
+                        .ToDateTime()
+                        .AddDifferenceOfDates(column.EditorFormat)
+                        .ToString();
+                    break;
+            }
+            return recordingData;
         }
 
         public void SetProcessMatchConditions(
@@ -2805,10 +2911,10 @@ namespace Implem.Pleasanter.Models
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash?.ForEach(o => GetClass(
+            data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
                 value: o.Value));
-            data.NumHash?.ForEach(o => GetNum(
+            data.NumHash?.ForEach(o => SetNum(
                 columnName: o.Key,
                 value: new Num(
                     context: context,
@@ -2816,13 +2922,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: o.Key),
                     value: o.Value.ToString())));
-            data.DateHash?.ForEach(o => GetDate(
+            data.DateHash?.ForEach(o => SetDate(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
-            data.DescriptionHash?.ForEach(o => GetDescription(
+            data.DescriptionHash?.ForEach(o => SetDescription(
                 columnName: o.Key,
                 value: o.Value));
-            data.CheckHash?.ForEach(o => GetCheck(
+            data.CheckHash?.ForEach(o => SetCheck(
                 columnName: o.Key,
                 value: o.Value));
             data.AttachmentsHash?.ForEach(o =>
@@ -2883,7 +2989,7 @@ namespace Implem.Pleasanter.Models
                             Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
                     }
                 }
-                GetAttachments(columnName: columnName, value: newAttachments);
+                SetAttachments(columnName: columnName, value: newAttachments);
             });
             RecordPermissions = data.RecordPermissions;
             SetByFormula(context: context, ss: ss);
@@ -3220,7 +3326,7 @@ namespace Implem.Pleasanter.Models
                         ProgressRate.Value = value;
                         break;
                     default:
-                        GetNum(
+                        SetNum(
                             columnName: columnName,
                             value: new Num(value));
                         break;
@@ -3947,53 +4053,53 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedClass(
+                                    SetSavedClass(
                                         columnName: column.Name,
                                         value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    GetSavedNum(
+                                    SetSavedNum(
                                         columnName: column.Name,
                                         value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    GetSavedDate(
+                                    SetSavedDate(
                                         columnName: column.Name,
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedDescription(
+                                    SetSavedDescription(
                                         columnName: column.Name,
                                         value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    GetSavedCheck(
+                                    SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    GetSavedAttachments(
+                                    SetSavedAttachments(
                                         columnName: column.Name,
                                         value: GetAttachments(columnName: column.Name).ToJson());
                                     break;

@@ -173,7 +173,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
             string name = binder.Name;
-            Model.GetValue(
+            Model.SetValue(
                 context: Context,
                 column: new Column(name),
                 value: value.ToStr());

@@ -4823,13 +4823,18 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
+            var destination = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId,
+                referenceId: siteId);
+            if (destination.SiteId == 0)
+            {
+                return Error.Types.NotFound.MessageJson(context: context);
+            }
             if (Permissions.CanMove(
                 context: context,
                 source: ss,
-                destination: SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: siteId,
-                    referenceId: siteId)))
+                destination: destination))
             {
                 var count = BulkMove(
                     context: context,
@@ -5668,21 +5673,23 @@ namespace Implem.Pleasanter.Models
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
-                var csvRows = csv.Rows.Select((o, i) => new { Row = o, Index = i });
+                var csvRows = csv.Rows
+                    .Select((o, i) => new { Index = i, Row = o })
+                    .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
                     var resultModel = new ResultModel(
                         context: context,
                         ss: ss);
                     if (updatableImport
-                        && !data.Row[importKeyColumn.Key].IsNullOrEmpty())
+                        && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
                     {
                         var view = new View();
                         view.AddColumnFilterHash(
                             context: context,
                             ss: ss,
                             column: importKeyColumn.Value.Column,
-                            objectValue: data.Row[importKeyColumn.Key]);
+                            objectValue: data.Value[importKeyColumn.Key]);
                         view.AddColumnFilterSearchTypes(
                             columnName: importKeyColumnName,
                             searchType: Column.SearchTypes.ExactMatch);
@@ -5700,79 +5707,20 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(
                                 type: Error.Types.OverlapCsvImport,
                                 data: new string[] {
-                                    (data.Index + 1).ToString(),
+                                    (data.Key + 1).ToString(),
                                     importKeyColumn.Value.Column.GridLabelText,
-                                    data.Row[importKeyColumn.Key]
+                                    data.Value[importKeyColumn.Key]
                                 })
                                 .MessageJson(context: context);
                         }
                     }
                     previousTitle = resultModel.Title.DisplayValue;
-                    columnHash
-                        .Where(column =>
-                            (column.Value.Column.CanCreate(
-                                context: context,
-                                ss: ss,
-                                mine: resultModel.Mine(context: context))
-                                    && resultModel.ResultId == 0)
-                            || (column.Value.Column.CanUpdate(
-                                context: context,
-                                ss: ss,
-                                mine: resultModel.Mine(context: context))
-                                    && resultModel.ResultId > 0))
-                        .ForEach(column =>
-                        {
-                            var recordingData = ImportRecordingData(
-                                context: context,
-                                column: column.Value.Column,
-                                value: ImportUtilities.RecordingData(
-                                    columnHash: columnHash,
-                                    row: data.Row,
-                                    column: column),
-                                inheritPermission: ss.InheritPermission);
-                            switch (column.Value.Column.ColumnName)
-                            {
-                                case "Title":
-                                    resultModel.Title.Value = recordingData.ToString();
-                                    break;
-                                case "Body":
-                                    resultModel.Body = recordingData.ToString();
-                                    break;
-                                case "Status":
-                                    resultModel.Status.Value = recordingData.ToInt();
-                                    break;
-                                case "Locked":
-                                    resultModel.Locked = recordingData.ToBool();
-                                    break;
-                                case "Manager":
-                                    resultModel.Manager = SiteInfo.User(
-                                        context: context,
-                                        userId: recordingData.ToInt());
-                                    break;
-                                case "Owner":
-                                    resultModel.Owner = SiteInfo.User(
-                                        context: context,
-                                        userId: recordingData.ToInt());
-                                    break;
-                                case "Comments":
-                                    if (resultModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                        !data.Row[column.Key].IsNullOrEmpty())
-                                    {
-                                        resultModel.Comments.Prepend(
-                                            context: context,
-                                            ss: ss,
-                                            body: data.Row[column.Key]);
-                                    }
-                                    break;
-                                default:
-                                    resultModel.GetValue(
-                                        context: context,
-                                        column: column.Value.Column,
-                                        value: recordingData);
-                                    break;
-                            }
-                        });
-                    resultHash.Add(data.Index, resultModel);
+                    resultModel.SetByCsvRow(
+                        context: context,
+                        ss: ss,
+                        columnHash: columnHash,
+                        row: data.Value);
+                    resultHash.Add(data.Key, resultModel);
                 }
                 var inputErrorData = ResultValidators.OnInputValidating(
                     context: context,
@@ -5785,8 +5733,10 @@ namespace Implem.Pleasanter.Models
                 }
                 var insertCount = 0;
                 var updateCount = 0;
-                foreach (var resultModel in resultHash.Values)
+                var processed = new HashSet<long>();
+                foreach (var data in resultHash)
                 {
+                    var resultModel = data.Value;
                     resultModel.SetBySettings(
                         context: context,
                         ss: ss);
@@ -5800,6 +5750,21 @@ namespace Implem.Pleasanter.Models
                     {
                         if (resultModel.Updated(context: context))
                         {
+                            if (processed.Contains(resultModel.ResultId))
+                            {
+                                resultModel.Get(
+                                    context: context,
+                                    ss: ss);
+                                resultModel.SetByCsvRow(
+                                    context: context,
+                                    ss: ss,
+                                    columnHash: columnHash,
+                                    row: csvRows[data.Key]);
+                            }
+                            else
+                            {
+                                processed.Add(resultModel.ResultId);
+                            }
                             resultModel.VerUp = Versions.MustVerUp(
                                 context: context,
                                 ss: ss,
@@ -5942,16 +5907,6 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseFileNotFound(context: context).ToJson();
             }
-        }
-
-        private static string ImportRecordingData(
-            Context context, Column column, string value, long inheritPermission)
-        {
-            var recordingData = column.RecordingData(
-                context: context,
-                value: value,
-                siteId: inheritPermission);
-            return recordingData;
         }
 
         public static string OpenExportSelectorDialog(
@@ -6323,22 +6278,30 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            resultModel.VerUp = Versions.MustVerUp(
-                context: context,
-                ss: ss,
-                baseModel: resultModel);
-            resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true);
+            var updated = resultModel.Updated(context: context);
+            if (updated)
+            {
+                resultModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: resultModel);
+                resultModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
             return CalendarJson(
                 context: context,
                 ss: ss,
-                changedItemId: resultModel.ResultId,
+                changedItemId: updated
+                    ? resultModel.ResultId
+                    : 0,
                 update: true,
-                message: Messages.Updated(
-                    context: context,
-                    data: resultModel.Title.MessageDisplay(context: context)));
+                message: updated
+                    ? Messages.Updated(
+                        context: context,
+                        data: resultModel.Title.MessageDisplay(context: context))
+                    : null);
         }
 
         public static string CalendarJson(
@@ -7210,7 +7173,10 @@ namespace Implem.Pleasanter.Models
                         inRange: inRange));
         }
 
-        public static string KambanJson(Context context, SiteSettings ss)
+        public static string KambanJson(
+            Context context,
+            SiteSettings ss,
+            bool updated = false)
         {
             if (!ss.EnableViewMode(context: context, name: "Kamban"))
             {
@@ -7237,7 +7203,9 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     view: view,
                                     bodyOnly: bodyOnly,
-                                    changedItemId: context.Forms.Long("KambanId")))
+                                    changedItemId: updated
+                                        ? context.Forms.Long("KambanId")
+                                        : 0))
                         .Events("on_kamban_load")
                         .ToJson()
                     : new ResponseCollection()
@@ -7399,15 +7367,22 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseDeleteConflicts(context: context).ToJson();
             }
-            resultModel.VerUp = Versions.MustVerUp(
+            var updated = resultModel.Updated(context: context);
+            if (updated)
+            {
+                resultModel.VerUp = Versions.MustVerUp(
+                    context: context,
+                    ss: ss,
+                    baseModel: resultModel);
+                resultModel.Update(
+                    context: context,
+                    ss: ss,
+                    notice: true);
+            }
+            return KambanJson(
                 context: context,
                 ss: ss,
-                baseModel: resultModel);
-            resultModel.Update(
-                context: context,
-                ss: ss,
-                notice: true);
-            return KambanJson(context: context, ss: ss);
+                updated: updated);
         }
 
         public static (Plugins.PdfData pdfData, string error) Pdf(
