@@ -8,6 +8,7 @@
     "ClassB": "Site6",
     "Creator": "User2",
     "Updator": "User2",
+    "Publish": true,
     "CreatedTime": "36640",
     "UpdatedTime": "36640"
 }

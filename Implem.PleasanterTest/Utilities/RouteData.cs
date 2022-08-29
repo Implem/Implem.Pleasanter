@@ -1464,6 +1464,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> PublishesOpenSetNumericRangeDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "opensetnumericrangedialog" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> PublishesGridRows(long id)
         {
             return new Dictionary<string, string>()
