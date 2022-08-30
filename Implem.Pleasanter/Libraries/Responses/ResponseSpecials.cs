@@ -8,7 +8,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public AutoNumberingModel AutoNumberingModel;
 
-        public AutoNumberingsResponseCollection(AutoNumberingModel autoNumberingModel)
+        public AutoNumberingsResponseCollection(
+            Context context,
+            AutoNumberingModel autoNumberingModel) : base(context: context)
         {
             AutoNumberingModel = autoNumberingModel;
         }
@@ -30,7 +32,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public BinaryModel BinaryModel;
 
-        public BinariesResponseCollection(BinaryModel binaryModel)
+        public BinariesResponseCollection(
+            Context context,
+            BinaryModel binaryModel) : base(context: context)
         {
             BinaryModel = binaryModel;
         }
@@ -52,7 +56,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public DemoModel DemoModel;
 
-        public DemosResponseCollection(DemoModel demoModel)
+        public DemosResponseCollection(
+            Context context,
+            DemoModel demoModel) : base(context: context)
         {
             DemoModel = demoModel;
         }
@@ -74,7 +80,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public DeptModel DeptModel;
 
-        public DeptsResponseCollection(DeptModel deptModel)
+        public DeptsResponseCollection(
+            Context context,
+            DeptModel deptModel) : base(context: context)
         {
             DeptModel = deptModel;
         }
@@ -96,7 +104,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public ExportSettingModel ExportSettingModel;
 
-        public ExportSettingsResponseCollection(ExportSettingModel exportSettingModel)
+        public ExportSettingsResponseCollection(
+            Context context,
+            ExportSettingModel exportSettingModel) : base(context: context)
         {
             ExportSettingModel = exportSettingModel;
         }
@@ -118,7 +128,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public ExtensionModel ExtensionModel;
 
-        public ExtensionsResponseCollection(ExtensionModel extensionModel)
+        public ExtensionsResponseCollection(
+            Context context,
+            ExtensionModel extensionModel) : base(context: context)
         {
             ExtensionModel = extensionModel;
         }
@@ -140,7 +152,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public GroupMemberModel GroupMemberModel;
 
-        public GroupMembersResponseCollection(GroupMemberModel groupMemberModel)
+        public GroupMembersResponseCollection(
+            Context context,
+            GroupMemberModel groupMemberModel) : base(context: context)
         {
             GroupMemberModel = groupMemberModel;
         }
@@ -162,7 +176,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public GroupModel GroupModel;
 
-        public GroupsResponseCollection(GroupModel groupModel)
+        public GroupsResponseCollection(
+            Context context,
+            GroupModel groupModel) : base(context: context)
         {
             GroupModel = groupModel;
         }
@@ -184,7 +200,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public LinkModel LinkModel;
 
-        public LinksResponseCollection(LinkModel linkModel)
+        public LinksResponseCollection(
+            Context context,
+            LinkModel linkModel) : base(context: context)
         {
             LinkModel = linkModel;
         }
@@ -206,7 +224,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public LoginKeyModel LoginKeyModel;
 
-        public LoginKeysResponseCollection(LoginKeyModel loginKeyModel)
+        public LoginKeysResponseCollection(
+            Context context,
+            LoginKeyModel loginKeyModel) : base(context: context)
         {
             LoginKeyModel = loginKeyModel;
         }
@@ -228,7 +248,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public MailAddressModel MailAddressModel;
 
-        public MailAddressesResponseCollection(MailAddressModel mailAddressModel)
+        public MailAddressesResponseCollection(
+            Context context,
+            MailAddressModel mailAddressModel) : base(context: context)
         {
             MailAddressModel = mailAddressModel;
         }
@@ -250,7 +272,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public OrderModel OrderModel;
 
-        public OrdersResponseCollection(OrderModel orderModel)
+        public OrdersResponseCollection(
+            Context context,
+            OrderModel orderModel) : base(context: context)
         {
             OrderModel = orderModel;
         }
@@ -272,7 +296,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public OutgoingMailModel OutgoingMailModel;
 
-        public OutgoingMailsResponseCollection(OutgoingMailModel outgoingMailModel)
+        public OutgoingMailsResponseCollection(
+            Context context,
+            OutgoingMailModel outgoingMailModel) : base(context: context)
         {
             OutgoingMailModel = outgoingMailModel;
         }
@@ -294,7 +320,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public RegistrationModel RegistrationModel;
 
-        public RegistrationsResponseCollection(RegistrationModel registrationModel)
+        public RegistrationsResponseCollection(
+            Context context,
+            RegistrationModel registrationModel) : base(context: context)
         {
             RegistrationModel = registrationModel;
         }
@@ -316,7 +344,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public ReminderScheduleModel ReminderScheduleModel;
 
-        public ReminderSchedulesResponseCollection(ReminderScheduleModel reminderScheduleModel)
+        public ReminderSchedulesResponseCollection(
+            Context context,
+            ReminderScheduleModel reminderScheduleModel) : base(context: context)
         {
             ReminderScheduleModel = reminderScheduleModel;
         }
@@ -338,7 +368,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public SessionModel SessionModel;
 
-        public SessionsResponseCollection(SessionModel sessionModel)
+        public SessionsResponseCollection(
+            Context context,
+            SessionModel sessionModel) : base(context: context)
         {
             SessionModel = sessionModel;
         }
@@ -360,7 +392,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public SiteModel SiteModel;
 
-        public SitesResponseCollection(SiteModel siteModel)
+        public SitesResponseCollection(
+            Context context,
+            SiteModel siteModel) : base(context: context)
         {
             SiteModel = siteModel;
         }
@@ -382,7 +416,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public StatusModel StatusModel;
 
-        public StatusesResponseCollection(StatusModel statusModel)
+        public StatusesResponseCollection(
+            Context context,
+            StatusModel statusModel) : base(context: context)
         {
             StatusModel = statusModel;
         }
@@ -404,7 +440,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public TenantModel TenantModel;
 
-        public TenantsResponseCollection(TenantModel tenantModel)
+        public TenantsResponseCollection(
+            Context context,
+            TenantModel tenantModel) : base(context: context)
         {
             TenantModel = tenantModel;
         }
@@ -426,7 +464,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public UserModel UserModel;
 
-        public UsersResponseCollection(UserModel userModel)
+        public UsersResponseCollection(
+            Context context,
+            UserModel userModel) : base(context: context)
         {
             UserModel = userModel;
         }
@@ -448,7 +488,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public PermissionModel PermissionModel;
 
-        public PermissionsResponseCollection(PermissionModel permissionModel)
+        public PermissionsResponseCollection(
+            Context context,
+            PermissionModel permissionModel) : base(context: context)
         {
             PermissionModel = permissionModel;
         }
@@ -470,7 +512,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public IssueModel IssueModel;
 
-        public IssuesResponseCollection(IssueModel issueModel)
+        public IssuesResponseCollection(
+            Context context,
+            IssueModel issueModel) : base(context: context)
         {
             IssueModel = issueModel;
         }
@@ -492,7 +536,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public ResultModel ResultModel;
 
-        public ResultsResponseCollection(ResultModel resultModel)
+        public ResultsResponseCollection(
+            Context context,
+            ResultModel resultModel) : base(context: context)
         {
             ResultModel = resultModel;
         }
@@ -514,7 +560,9 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public WikiModel WikiModel;
 
-        public WikisResponseCollection(WikiModel wikiModel)
+        public WikisResponseCollection(
+            Context context,
+            WikiModel wikiModel) : base(context: context)
         {
             WikiModel = wikiModel;
         }

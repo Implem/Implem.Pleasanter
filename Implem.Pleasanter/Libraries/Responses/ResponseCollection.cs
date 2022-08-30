@@ -1,5 +1,6 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
 namespace Implem.Pleasanter.Libraries.Responses
@@ -9,6 +10,14 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public ResponseCollection()
         {
+        }
+
+        public ResponseCollection(Context context)
+        {
+            if (context != null)
+            {
+                Log(context.GetLog());
+            }
         }
 
         public ResponseCollection Add(

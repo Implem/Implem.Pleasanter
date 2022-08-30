@@ -85,7 +85,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 offset: 0,
                 totalCount: column.TotalCount,
                 pageSize: Parameters.General.DropDownSearchPageSize);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#DropDownSearchDialogBody",
                     new HtmlBuilder().DropDownSearchDialogBody(
@@ -94,7 +94,6 @@ namespace Implem.Pleasanter.Libraries.Models
                         filter: filter))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
                 .ClearFormData("DropDownSearchResults")
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -123,7 +122,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var selectedValues = (column?.MultipleSelections == true || filter)
                 ? context.Forms.List("DropDownSearchResultsAll")
                 : new List<string>();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     (column?.MultipleSelections == true || filter)
                         ? "#DropDownSearchSourceResults"
@@ -167,7 +166,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var selectedValues = column?.MultipleSelections == true
                 ? context.Forms.List("DropDownSearchResultsAll")
                 : new List<string>();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Append(
                     "#" + context.Forms.ControlId(),
                     new HtmlBuilder().SelectableItems(
@@ -240,7 +239,7 @@ namespace Implem.Pleasanter.Libraries.Models
             {
                 selectedValue = selectedValue.Deserialize<string[]>()?.FirstOrDefault();
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#" + controlId,
                     new HtmlBuilder().OptionCollection(
@@ -288,7 +287,7 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             else if (selected.Count() != 1)
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Message(Messages.SelectOne(context: context))
                     .ToJson();
             }
@@ -454,7 +453,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .Where(o => selected.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection?.Any() == true || !selected.Any()
-                ? new ResponseCollection()
+                ? new ResponseCollection(context: context)
                     .CloseDialog("#DropDownSearchDialog")
                     .Html("[id=\"" + controlId + "\"]", new HtmlBuilder()
                         .OptionCollection(
@@ -470,7 +469,7 @@ namespace Implem.Pleasanter.Libraries.Models
                     .Invoke("setDropDownSearch")
                     .Trigger("#" + controlId, "change")
                     .ToJson()
-                : new ResponseCollection()
+                : new ResponseCollection(context: context)
                     .Message(Messages.NotFound(context: context))
                     .ToJson();
         }

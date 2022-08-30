@@ -14,7 +14,7 @@
         default: return invalid.MessageJson(context: context);
     }
     var idInTitle = ss.TitleColumns?.Contains("#ModelName#Id") == true;
-    var res = new ResponseCollection();
+    var res = new ResponseCollection(context: context);
     Csv csv;
     try
     {

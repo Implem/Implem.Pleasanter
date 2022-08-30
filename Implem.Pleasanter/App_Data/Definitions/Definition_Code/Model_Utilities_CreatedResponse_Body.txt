@@ -5,7 +5,7 @@
         ss: ss,
         #modelName#Model: #modelName#Model,
         process: processes?.FirstOrDefault()));
-return new ResponseCollection()
+return new ResponseCollection(context: context)
     .Response("id", #modelName#Model.#ModelName#Id.ToString())
     .SetMemory("formChanged", false)
     .Href(Locations.Edit(

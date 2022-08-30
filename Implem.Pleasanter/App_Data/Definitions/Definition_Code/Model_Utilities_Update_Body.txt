@@ -30,7 +30,9 @@
     switch (errorData.Type)
     {
         case Error.Types.None:
-            var res = new #TableName#ResponseCollection(#modelName#Model);
+            var res = new #TableName#ResponseCollection(
+                context: context,
+                #modelName#Model: #modelName#Model);
 
 <!--Model_Utilities_OnUpdated_Issues-->
 <!--Model_Utilities_OnUpdated_Breadcrumb_Sites-->

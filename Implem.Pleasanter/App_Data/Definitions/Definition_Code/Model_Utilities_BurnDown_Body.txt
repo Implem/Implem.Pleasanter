@@ -61,7 +61,7 @@ public static string BurnDownJson(Context context, SiteSettings ss)
         ss: ss,
         view: view,
         limit: Parameters.General.BurnDownLimit)
-            ? new ResponseCollection()
+            ? new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -83,7 +83,7 @@ public static string BurnDownJson(Context context, SiteSettings ss)
                                 columnName: "WorkValue")))
                 .Events("on_burndown_load")
                 .ToJson()
-            : new ResponseCollection()
+            : new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -99,7 +99,7 @@ public static string BurnDownJson(Context context, SiteSettings ss)
 public static string BurnDownRecordDetails(Context context, SiteSettings ss)
 {
     var date = context.Forms.DateTime("BurnDownDate");
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .After(string.Empty, new HtmlBuilder().BurnDownRecordDetails(
             context: context,
             elements: new Libraries.ViewModes.BurnDown(

@@ -13,7 +13,7 @@
     }
     else
     {
-        return new ResponseCollection().Message(
+        return new ResponseCollection(context: context).Message(
             message: new Message()
             {
                 Id = "MessageWhenDuplicated",

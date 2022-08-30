@@ -2180,7 +2180,9 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new SitesResponseCollection(this);
+            var res = new SitesResponseCollection(
+                context: context,
+                siteModel: this);
             if (setSiteSettingsPropertiesBySession)
             {
                 SetSiteSettingsPropertiesBySession(context: context);

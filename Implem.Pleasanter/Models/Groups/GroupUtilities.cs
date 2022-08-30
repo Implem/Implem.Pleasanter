@@ -183,7 +183,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -290,7 +290,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return (res ?? new ResponseCollection())
+            return (res ?? new ResponseCollection(context: context))
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -334,7 +334,6 @@ namespace Implem.Pleasanter.Models
                 .Paging("#Grid")
                 .Message(message)
                 .Messages(context.Messages)
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -425,7 +424,6 @@ namespace Implem.Pleasanter.Models
                         message: Messages.NotFound(context: context),
                         target: "row_" + groupId)
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -443,7 +441,6 @@ namespace Implem.Pleasanter.Models
                             checkRow: false,
                             idColumn: "GroupId"))
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1250,16 +1247,17 @@ namespace Implem.Pleasanter.Models
             groupModel.MethodType = groupModel.GroupId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            return new GroupsResponseCollection(groupModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, ss, groupModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .Log(context.GetLog());
+            return new GroupsResponseCollection(
+                context: context,
+                groupModel: groupModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, ss, groupModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int groupId)
@@ -1496,7 +1494,7 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             groupModel: groupModel,
                             process: processes?.FirstOrDefault()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Response("id", groupModel.GroupId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -1564,7 +1562,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new GroupsResponseCollection(groupModel);
+                    var res = new GroupsResponseCollection(
+                        context: context,
+                        groupModel: groupModel);
                     return ResponseByUpdate(res, context, ss, groupModel, processes)
                         .PrependComment(
                             context: context,
@@ -1701,7 +1701,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: groupModel.Title.MessageDisplay(context: context)));
-                    var res = new GroupsResponseCollection(groupModel);
+                    var res = new GroupsResponseCollection(
+                        context: context,
+                        groupModel: groupModel);
                     res
                         .SetMemory("formChanged", false)
                         .Invoke("back");
@@ -1739,11 +1741,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 groupModel: groupModel)));
-            return new GroupsResponseCollection(groupModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new GroupsResponseCollection(
+                context: context,
+                groupModel: groupModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(
@@ -1844,7 +1848,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             Csv csv;
             try
             {
@@ -2290,7 +2294,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#ExportSelectorDialog",
                     new HtmlBuilder().ExportSelectorDialog(
@@ -2714,7 +2718,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string SelectableMembersJson(Context context)
         {
-            return new ResponseCollection().Html(
+            return new ResponseCollection(context: context).Html(
                 "#SelectableMembers",
                 new HtmlBuilder().SelectableItems(
                     listItemCollection: SelectableMembers(
