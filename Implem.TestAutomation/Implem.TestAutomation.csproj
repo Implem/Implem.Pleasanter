@@ -29,7 +29,7 @@
     <PackageReference Include="Selenium.WebDriver" Version="4.4.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="104.0.5112.7900" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.3.0" />
-    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="104.0.1293.54" />
+    <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="104.0.1293.70" />
     <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
