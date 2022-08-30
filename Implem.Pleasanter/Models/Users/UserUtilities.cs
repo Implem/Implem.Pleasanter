@@ -2478,6 +2478,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection(context: context)
                         .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
+                        .Messages(context.Messages)
                         .Href(Locations.Edit(
                             context: context,
                             controller: context.Controller,

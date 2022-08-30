@@ -1158,6 +1158,7 @@ namespace Implem.Pleasanter.Models
                     return new ResponseCollection(context: context)
                         .Response("id", tenantModel.TenantId.ToString())
                         .SetMemory("formChanged", false)
+                        .Messages(context.Messages)
                         .Href(Locations.Edit(
                             context: context,
                             controller: context.Controller,
