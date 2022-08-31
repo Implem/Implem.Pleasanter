@@ -57,9 +57,9 @@ $p.setServerErrorMessage = function (responseJSON) {
         return false;
     }
 
-    if ($('.message-dialog:visible').length > 0) {
+    if ($('.message-dialog:visible').length) {
         $p.setMessage('.message-dialog:visible', responseJSON[0].Value);
-    } else if ($('#Message').length > 0) {
+    } else if ($('#Message').length) {
         $p.setMessage('#Message', responseJSON[0].Value);
     } else {
         return false;
