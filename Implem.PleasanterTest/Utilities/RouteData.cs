@@ -1524,6 +1524,16 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> PublishBinariesSiteImageThumbnail(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishbinaries" },
+                { "action", "siteimagethumbnail" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> PublishBinariesSiteImageIcon(long id)
         {
             return new Dictionary<string, string>()
