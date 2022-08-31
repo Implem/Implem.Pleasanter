@@ -256,7 +256,7 @@ namespace Implem.Pleasanter.Libraries.Search
                 offset: offset,
                 pageSize: Parameters.Search.PageSize);
             var dataRows = dataSet?.Tables["SearchResults"].AsEnumerable();
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             return offset == 0
                 ? res
                     .ReplaceAll(
@@ -979,7 +979,7 @@ namespace Implem.Pleasanter.Libraries.Search
             RebuildSearchIndexes(
                 context: context,
                 siteId: siteModel.SiteId);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Message(Messages.RebuildingCompleted(context: context))
                 .ToJson();
         }

@@ -58,7 +58,7 @@ public static string KambanJson(
         ss: ss,
         view: view,
         limit: Parameters.General.KambanLimit)
-            ? new ResponseCollection()
+            ? new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -77,7 +77,7 @@ public static string KambanJson(
                                 : 0))
                 .Events("on_kamban_load")
                 .ToJson()
-            : new ResponseCollection()
+            : new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,

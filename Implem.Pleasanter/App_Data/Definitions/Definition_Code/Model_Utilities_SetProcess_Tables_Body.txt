@@ -21,7 +21,7 @@ foreach (var process in processes)
             context: context,
             ss: ss,
             value: message.Text);
-        return new ResponseCollection()
+        return new ResponseCollection(context: context)
             .Message(message: message)
             .ToJson();
     }

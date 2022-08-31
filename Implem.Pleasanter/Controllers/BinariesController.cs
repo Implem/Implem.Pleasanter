@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Controllers
                 ? BinaryUtilities.UpdateSiteImage(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id))
-                : new ResponseCollection().ToJson();
+                : new ResponseCollection(context: context).ToJson();
             log.Finish(context: context);
             return json;
         }
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Controllers
                 ? BinaryUtilities.DeleteSiteImage(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id))
-                : new ResponseCollection().ToJson();
+                : new ResponseCollection(context: context).ToJson();
             log.Finish(context: context);
             return json;
         }

@@ -36,7 +36,7 @@ public static string ImageLibJson(Context context, SiteSettings ss)
     }
     var view = Views.GetBySession(context: context, ss: ss);
     var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .ViewMode(
             context: context,
             ss: ss,
@@ -104,7 +104,7 @@ public static string ImageLibNext(Context context, SiteSettings ss, int offset)
                     context: context,
                     ss: ss,
                     dataRow: dataRow));
-    return (new ResponseCollection())
+    return (new ResponseCollection(context: context))
         .Append("#ImageLib", hb)
         .Val("#ImageLibOffset", ss.ImageLibNextOffset(
             offset,

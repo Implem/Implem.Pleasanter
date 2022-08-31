@@ -716,7 +716,7 @@ namespace Implem.Pleasanter.Models
         {
             if (!context.QueryStrings.Bool("control-auto-postback"))
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
                     .FocusMainForm()
@@ -879,7 +879,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(context: context);
             var dataTableName = context.Forms.Data("TableId");
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ReplaceAll("#" + dataTableName, new HtmlBuilder()
                     .LinkTable(
                         context: context,
@@ -944,7 +944,7 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#SetNumericRangeDialog",
                         new HtmlBuilder().SetNumericRangeDialog(
@@ -974,7 +974,7 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#SetDateRangeDialog",
                         new HtmlBuilder().SetDateRangeDialog(
@@ -1822,7 +1822,7 @@ namespace Implem.Pleasanter.Models
         public string MoveTargets(Context context)
         {
             SetSite(context: context);
-            return new ResponseCollection().Html("#MoveTargets", new HtmlBuilder()
+            return new ResponseCollection(context: context).Html("#MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     context: context,
                     optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(
@@ -2797,53 +2797,53 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedClass(
+                                    SetSavedClass(
                                         columnName: column.Name,
                                         value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    GetSavedNum(
+                                    SetSavedNum(
                                         columnName: column.Name,
                                         value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    GetSavedDate(
+                                    SetSavedDate(
                                         columnName: column.Name,
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedDescription(
+                                    SetSavedDescription(
                                         columnName: column.Name,
                                         value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    GetSavedCheck(
+                                    SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    GetSavedAttachments(
+                                    SetSavedAttachments(
                                         columnName: column.Name,
                                         value: GetAttachments(columnName: column.Name).ToJson());
                                     break;

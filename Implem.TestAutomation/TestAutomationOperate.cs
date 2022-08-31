@@ -243,7 +243,7 @@ namespace Implem.TestAutomation
             ResultCheck resultCheck,
             string resultFileName)
         {
-            if (!resultCheck.ExpectedValue.IsNullOrEmpty())
+            if (resultCheck.ExpectedValue != null)
             {
                 resultCheck.ExecutionValue = GetExecutionValue(driver, resultCheck);
             }
@@ -490,29 +490,36 @@ namespace Implem.TestAutomation
             }
             else
             {
-                if (driver.FindElement(SelectItem(resultCheck)).TagName.Equals("select"))
+                if (driver.FindElements(SelectItem(resultCheck)).Count != 0)
                 {
-                    var selectElement = new SelectElement(driver.FindElement(SelectItem(resultCheck)));
-
-                    if (resultCheck.CheckType.Equals(CheckTypes.SelectOptions))
+                    if (driver.FindElement(SelectItem(resultCheck)).TagName.Equals("select"))
                     {
-                        executionValue = string.Join(",",
-                            selectElement.Options
-                            .Where(o => !o.Text.Equals(" "))
-                            .Select(o => o.Text).ToList());
+                        var selectElement = new SelectElement(driver.FindElement(SelectItem(resultCheck)));
+
+                        if (resultCheck.CheckType.Equals(CheckTypes.SelectOptions))
+                        {
+                            executionValue = string.Join(",",
+                                selectElement.Options
+                                .Where(o => !o.Text.Equals(" "))
+                                .Select(o => o.Text).ToList());
+                        }
+                        else
+                        {
+                            executionValue = selectElement.SelectedOption.Text;
+                        }
                     }
                     else
                     {
-                        executionValue = selectElement.SelectedOption.Text;
+                        executionValue = driver.FindElement(SelectItem(resultCheck)).Text;
+                        if (executionValue.IsNullOrEmpty())
+                        {
+                            executionValue = driver.FindElement(SelectItem(resultCheck)).GetAttribute("value");
+                        }
                     }
                 }
                 else
                 {
-                    executionValue = driver.FindElement(SelectItem(resultCheck)).Text;
-                    if (executionValue.IsNullOrEmpty())
-                    {
-                        executionValue = driver.FindElement(SelectItem(resultCheck)).GetAttribute("value");
-                    }
+                    executionValue = null;
                 }
             }
             return executionValue;
@@ -595,7 +602,7 @@ namespace Implem.TestAutomation
             jsDriver.ExecuteScript($"$p.data.MainForm.ViewFilters__ResultId='{resultCheck.ItemId}'");
             jsDriver.ExecuteScript($"$p.data.MainForm.ViewFilters__IssueId='{resultCheck.ItemId}'");
             jsDriver.ExecuteScript($"$p.send($('#Grid'))");
-            return (driver.FindElements(By.CssSelector($"[data-id=\"{resultCheck.ItemId}\"]")).Count == 1);
+            return (driver.FindElements(By.CssSelector($".grid-row[data-id=\"{resultCheck.ItemId}\"]")).Count == 1);
         }
 
         private static bool CanReadRecordOnEditor(

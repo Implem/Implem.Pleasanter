@@ -164,7 +164,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 userId: context.UserId) == string.Empty)
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .CloseDialog()
                     .Message(Messages.MailAddressHasNotSet(context: context))
                     .ToJson();
@@ -182,7 +182,7 @@ namespace Implem.Pleasanter.Models
                 where: Rds.OutgoingMailsWhere().OutgoingMailId(
                     context.Forms.Long("OutgoingMails_OutgoingMailId")));
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html("#OutgoingMailDialog", hb
                     .Div(
                         id: "MailEditorTabsContainer",
@@ -687,20 +687,22 @@ namespace Implem.Pleasanter.Models
                 ss: ss);
             return errorData.Type.Has()
                 ? errorData.MessageJson(context: context)
-                : new OutgoingMailsResponseCollection(outgoingMailModel)
-                    .CloseDialog()
-                    .ClearFormData()
-                    .Html("#OutgoingMailDialog", string.Empty)
-                    .Val("#OutgoingMails_Title", string.Empty)
-                    .Val("#OutgoingMails_Body", string.Empty)
-                    .Prepend(
-                        "#OutgoingMailsForm",
-                        new HtmlBuilder().OutgoingMailListItem(
-                            context: context,
-                            ss: ss,
-                            outgoingMailModel: outgoingMailModel))
-                    .Message(Messages.MailTransmissionCompletion(context: context))
-                    .ToJson();
+                : new OutgoingMailsResponseCollection(
+                    context: context,
+                    outgoingMailModel: outgoingMailModel)
+                        .CloseDialog()
+                        .ClearFormData()
+                        .Html("#OutgoingMailDialog", string.Empty)
+                        .Val("#OutgoingMails_Title", string.Empty)
+                        .Val("#OutgoingMails_Body", string.Empty)
+                        .Prepend(
+                            "#OutgoingMailsForm",
+                            new HtmlBuilder().OutgoingMailListItem(
+                                context: context,
+                                ss: ss,
+                                outgoingMailModel: outgoingMailModel))
+                        .Message(Messages.MailTransmissionCompletion(context: context))
+                        .ToJson();
         }
 
         /// <summary>

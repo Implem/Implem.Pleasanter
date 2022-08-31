@@ -116,6 +116,7 @@
         {
             "ColumnName": "ClassB",
             "LabelText": "商品区分",
+            "UseSearch": true,
             "ChoicesText": "システム開発\nソフトウェア販売\nコンサルティング"
         },
         {

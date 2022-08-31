@@ -145,6 +145,10 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
+            if (Parameters.BackgroundService.TimerEnabled())
+            {
+                services.AddHostedService<TimerBackgroundService>();
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -218,7 +222,7 @@ namespace Implem.Pleasanter.NetCore
                     {
                         Reference = "[A-Za-z][A-Za-z0-9_]*",
                         Id = "[0-9]+",
-                        Controller = "Binaries|OutgoingMails",
+                        Controller = "Binaries|PublishBinaries|OutgoingMails",
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );

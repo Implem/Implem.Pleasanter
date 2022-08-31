@@ -485,7 +485,7 @@ namespace Implem.Pleasanter.Libraries.General
 
         public static string MessageJson(this Types type, Context context, params string[] data)
         {
-            return new ResponseCollection().Message(type.Message(
+            return new ResponseCollection(context: context).Message(type.Message(
                 context: context,
                 data: data)).ToJson();
         }

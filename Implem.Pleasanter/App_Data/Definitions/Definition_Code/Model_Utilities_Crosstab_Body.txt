@@ -163,7 +163,7 @@ public static string CrosstabJson(Context context, SiteSettings ss)
                 dataRows: dataRows);
     var bodyOnly = context.Forms.ControlId().StartsWith("Crosstab");
     return inRangeX && inRangeY
-        ? new ResponseCollection()
+        ? new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -198,7 +198,7 @@ public static string CrosstabJson(Context context, SiteSettings ss)
                         dataRows: dataRows))
             .Events("on_crosstab_load")
             .ToJson()
-        : new ResponseCollection()
+        : new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,

@@ -39,7 +39,7 @@
 <!--Model_SetByFormula_ColumnCases-->
 
             default:
-                GetNum(
+                SetNum(
                     columnName: columnName,
                     value: new Num(value));
                 break;

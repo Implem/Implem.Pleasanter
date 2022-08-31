@@ -3,7 +3,7 @@
     message: Messages.Created(
         context: context,
         data: siteModel.Title.<!--Model_Utilities_TitleDisplay-->Value));
-return new ResponseCollection()
+return new ResponseCollection(context: context)
     .Response("id", #modelName#Model.#ModelName#Id.ToString())
     .SetMemory("formChanged", false)
     .Href(Locations.Edit(

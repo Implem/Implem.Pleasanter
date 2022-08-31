@@ -36,12 +36,12 @@ public void SetDefault(Context context, SiteSettings ss, Column column)
             switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
             {
                 case "Class":
-                    GetClass(
+                    SetClass(
                         column: column,
                         value: defaultInput);
                     break;
                 case "Num":
-                    GetNum(
+                    SetNum(
                         column: column,
                         value: new Num(
                             context: context,
@@ -49,22 +49,22 @@ public void SetDefault(Context context, SiteSettings ss, Column column)
                             value: defaultInput));
                     break;
                 case "Date":
-                    GetDate(
+                    SetDate(
                         column: column,
                         value: column.DefaultTime(context: context));
                     break;
                 case "Description":
-                    GetDescription(
+                    SetDescription(
                         column: column,
                         value: defaultInput.ToString());
                     break;
                 case "Check":
-                    GetCheck(
+                    SetCheck(
                         column: column,
                         value: defaultInput.ToBool());
                     break;
                 case "Attachments":
-                    GetAttachments(
+                    SetAttachments(
                         column: column,
                         value: new Attachments());
                     break;

@@ -2802,12 +2802,12 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.ColumnName,
                                         value: new Num(
                                             context: context,
@@ -2815,22 +2815,22 @@ namespace Implem.Pleasanter.Models
                                             value: value));
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.ColumnName,
                                         value: value.ToDateTime().ToUniversal(context: context));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.ColumnName,
                                         value: value);
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.ColumnName,
                                         value: value.ToBool());
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.ColumnName,
                                         value: value.Deserialize<Attachments>());
                                     break;
@@ -2967,10 +2967,10 @@ namespace Implem.Pleasanter.Models
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-            data.ClassHash?.ForEach(o => GetClass(
+            data.ClassHash?.ForEach(o => SetClass(
                 columnName: o.Key,
                 value: o.Value));
-            data.NumHash?.ForEach(o => GetNum(
+            data.NumHash?.ForEach(o => SetNum(
                 columnName: o.Key,
                 value: new Num(
                     context: context,
@@ -2978,13 +2978,13 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: o.Key),
                     value: o.Value.ToString())));
-            data.DateHash?.ForEach(o => GetDate(
+            data.DateHash?.ForEach(o => SetDate(
                 columnName: o.Key,
                 value: o.Value.ToDateTime().ToUniversal(context: context)));
-            data.DescriptionHash?.ForEach(o => GetDescription(
+            data.DescriptionHash?.ForEach(o => SetDescription(
                 columnName: o.Key,
                 value: o.Value));
-            data.CheckHash?.ForEach(o => GetCheck(
+            data.CheckHash?.ForEach(o => SetCheck(
                 columnName: o.Key,
                 value: o.Value));
             data.AttachmentsHash?.ForEach(o =>
@@ -3045,7 +3045,7 @@ namespace Implem.Pleasanter.Models
                             Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
                     }
                 }
-                GetAttachments(columnName: columnName, value: newAttachments);
+                SetAttachments(columnName: columnName, value: newAttachments);
             });
         }
 
@@ -3314,53 +3314,53 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedClass(
+                                    SetSavedClass(
                                         columnName: column.Name,
                                         value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    GetSavedNum(
+                                    SetSavedNum(
                                         columnName: column.Name,
                                         value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    GetSavedDate(
+                                    SetSavedDate(
                                         columnName: column.Name,
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedDescription(
+                                    SetSavedDescription(
                                         columnName: column.Name,
                                         value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    GetSavedCheck(
+                                    SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    GetSavedAttachments(
+                                    SetSavedAttachments(
                                         columnName: column.Name,
                                         value: GetAttachments(columnName: column.Name).ToJson());
                                     break;
@@ -3575,7 +3575,7 @@ namespace Implem.Pleasanter.Models
                                 .Focus("#SecondaryAuthenticationCode")
                                 .ToJson()
                             : PasswordExpired()
-                                ? OpenChangePasswordAtLoginDialog()
+                                ? OpenChangePasswordAtLoginDialog(context: context)
                                 : Allow(
                                     context: context,
                                     returnUrl: GetReturnUrl(returnUrl: returnUrl),
@@ -3583,7 +3583,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (PasswordExpired())
                 {
-                    return OpenChangePasswordAtLoginDialog();
+                    return OpenChangePasswordAtLoginDialog(context: context);
                 }
                 else
                 {
@@ -3822,7 +3822,7 @@ namespace Implem.Pleasanter.Models
         private string TenantsDropDown(
             Context context, Dictionary<string, string> tenantOptions)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html("#Tenants", new HtmlBuilder().FieldDropDown(
                     context: context,
                     controlId: "SelectedTenantId",
@@ -4015,7 +4015,7 @@ namespace Implem.Pleasanter.Models
             UpdateSecondaryAuthenticationCode(context: context);
             NotificationSecondaryAuthenticationCode(context: context);
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Css(
                     target: "#Logins",
                     name: "display",
@@ -4078,14 +4078,16 @@ namespace Implem.Pleasanter.Models
             SetFormsAuthentication(
                 context: context,
                 createPersistentCookie: createPersistentCookie);
-            return new UsersResponseCollection(this)
-                .CloseDialog(_using: atLogin)
-                .Message(
-                    message: Messages.LoginIn(context: context),
-                    target: "#LoginMessage")
-                .Href(returnUrl.IsNullOrEmpty()
-                    ? Locations.Top(context: context)
-                    : returnUrl).ToJson();
+            return new UsersResponseCollection(
+                context: context,
+                userModel: this)
+                    .CloseDialog(_using: atLogin)
+                    .Message(
+                        message: Messages.LoginIn(context: context),
+                        target: "#LoginMessage")
+                    .Href(returnUrl.IsNullOrEmpty()
+                        ? Locations.Top(context: context)
+                        : returnUrl).ToJson();
         }
 
         /// <summary>
@@ -4223,9 +4225,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string OpenChangePasswordAtLoginDialog()
+        private string OpenChangePasswordAtLoginDialog(Context context)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Invoke("openChangePasswordDialog")
                 .ToJson();
         }

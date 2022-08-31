@@ -31,7 +31,7 @@ public static string TrashBoxJson(Context context, SiteSettings ss)
 {
     var view = Views.GetBySession(context: context, ss: ss);
     var gridData = GetGridData(context: context, ss: ss, view: view);
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .ViewMode(
             context: context,
             ss: ss,

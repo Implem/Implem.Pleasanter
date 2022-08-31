@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SyncByLdap",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Synchronize by LDAP"
+        },
+        {
+            "Language": "zh",
+            "Body": "通过 LDAP 同步"
+        },
+        {
+            "Language": "ja",
+            "Body": "LDAP同期"
+        },
+        {
+            "Language": "de",
+            "Body": "Per LDAP synchronisieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "LDAP로 동기화"
+        },
+        {
+            "Language": "es",
+            "Body": "Sincronizar por LDAP"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đồng bộ hóa bằng LDAP"
+        }
+    ]
+}

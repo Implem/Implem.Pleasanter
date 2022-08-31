@@ -71,7 +71,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .SetMemory("formChanged", false, _using: !editOnGrid)
                 .Invoke(invoke)
                 .Message(message)
-                .Messages(context.Messages)
                 .LoadScroll(loadScroll)
                 .ClearFormData(
                     context: context,
@@ -93,8 +92,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     context: context,
                     ss: ss,
                     view: view,
-                    responses: serverScriptModelRow?.Responses)
-                .Log(context.GetLog());
+                    responses: serverScriptModelRow?.Responses);
         }
 
         private static ResponseCollection ClearFormData(
