@@ -56,7 +56,6 @@ $p.setServerErrorMessage = function (responseJSON) {
     if (!isMessage) {
         return false;
     }
-
     if ($('.message-dialog:visible').length) {
         $p.setMessage('.message-dialog:visible', responseJSON[0].Value);
     } else if ($('#Message').length) {
