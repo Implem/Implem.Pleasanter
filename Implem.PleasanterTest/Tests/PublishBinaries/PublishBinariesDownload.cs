@@ -13,7 +13,7 @@ using System.Data;
 using System.Linq;
 using Xunit;
 
-namespace Implem.PleasanterTest.Tests.Binaries
+namespace Implem.PleasanterTest.Tests.PublishBinaries
 {
     public class PublishBinariesDownload
     {
