@@ -49,8 +49,10 @@
             alert($p.display('UnauthorizedRequest'));
         } else {
             $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-            alert(jqXHR.statusCode + '\n' + textStatus + '\n' +
-                $(jqXHR.responseText).text().trim().replace('\n', ''));
+            if (!$p.setServerErrorMessage(jqXHR.responseJSON)) {
+                alert((jqXHR.status + '\n' + textStatus + '\n' +
+                    JSON.parse(jqXHR.responseJSON[0].Value).Text).trim().replace('\n', ''));
+            }
             $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
         }
     })
