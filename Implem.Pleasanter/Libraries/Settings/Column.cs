@@ -1074,12 +1074,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().GroupId(),
                     where: Rds.GroupMembersWhere()
-                        .Or(or: Rds.GroupMembersWhere()
-                            .DeptId(context.DeptId)
-                            .UserId(context.UserId))))
-                                .AsEnumerable()
-                                .Select(dataRow => dataRow.Int("GroupId"))
-                                .FirstOrDefault(groupId => ChoiceHash.ContainsKey(groupId.ToString()));
+                        .Add(raw: Permissions.DeptOrUser(tableName: "GroupMembers"))))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Int("GroupId"))
+                            .FirstOrDefault(groupId => ChoiceHash.ContainsKey(groupId.ToString()));
         }
 
         public bool OtherColumn()
