@@ -48,3 +48,20 @@ $p.setErrorMessage = function (error, target) {
 $p.clearMessage = function () {
     $('[class*="message"]').html('');
 }
+
+$p.setServerErrorMessage = function (responseJSON) {
+    var isMessage = responseJSON.filter(function (i) {
+        return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
+    });
+    if (!isMessage) {
+        return false;
+    }
+    if ($('.message-dialog:visible').length) {
+        $p.setMessage('.message-dialog:visible', responseJSON[0].Value);
+    } else if ($('#Message').length) {
+        $p.setMessage('#Message', responseJSON[0].Value);
+    } else {
+        return false;
+    }
+    return true;
+}
