@@ -385,6 +385,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
                     case "Model_ContextTenantId": Code.Model_ContextTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ContextTenantId, definitionRow, CodeXls); break;
                     case "Model_ControlConstraintsType": Code.Model_ControlConstraintsType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ControlConstraintsType, definitionRow, CodeXls); break;
+                    case "Model_CopyAndInit": Code.Model_CopyAndInit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyAndInit, definitionRow, CodeXls); break;
                     case "Model_CopyCases": Code.Model_CopyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyCases, definitionRow, CodeXls); break;
                     case "Model_CopyRowCases": Code.Model_CopyRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyRowCases, definitionRow, CodeXls); break;
                     case "Model_CopyWithLinks": Code.Model_CopyWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyWithLinks, definitionRow, CodeXls); break;
@@ -6614,6 +6615,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Constructor;
         public string Model_ContextTenantId;
         public string Model_ControlConstraintsType;
+        public string Model_CopyAndInit;
         public string Model_CopyCases;
         public string Model_CopyRowCases;
         public string Model_CopyWithLinks;
@@ -7369,6 +7371,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Constructor = new CodeDefinition();
         public CodeDefinition Model_ContextTenantId = new CodeDefinition();
         public CodeDefinition Model_ControlConstraintsType = new CodeDefinition();
+        public CodeDefinition Model_CopyAndInit = new CodeDefinition();
         public CodeDefinition Model_CopyCases = new CodeDefinition();
         public CodeDefinition Model_CopyRowCases = new CodeDefinition();
         public CodeDefinition Model_CopyWithLinks = new CodeDefinition();

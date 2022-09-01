@@ -1325,23 +1325,9 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: issueModel.IssueId))
                 {
-                    var newIssue = new IssueModel(
-                        context: context,
-                        ss: ss,
-                        methodType: BaseModel.MethodTypes.New);
-                    newIssue.SetByModel(issueModel);
-                    issueModel = newIssue;
-                    issueModel.SetCopyDefault(
+                    issueModel = issueModel.CopyAndInit(
                         context: context,
                         ss: ss);
-                    issueModel.IssueId = 0;
-                    issueModel.Ver = 1;
-                    issueModel.Comments = new Comments();
-                    issueModel.AccessStatus = Databases.AccessStatuses.Initialized;
-                    issueModel.SetBySettings(
-                        context: context,
-                        ss: ss,
-                        copyByDefaultOnly: true);
                 }
                 else
                 {
@@ -2302,21 +2288,9 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: issueModel.IssueId))
                 {
-                    issueModel.SetCopyDefault(
+                    issueModel = issueModel.CopyAndInit(
                         context: context,
                         ss: ss);
-                    issueModel.SetByForm(
-                        context: context,
-                        ss: ss,
-                        formData: context.Forms);
-                    issueModel.SetBySettings(
-                        context: context,
-                        ss: ss,
-                        formData: context.Forms);
-                    issueModel.IssueId = 0;
-                    issueModel.Ver = 1;
-                    issueModel.Comments = new Comments();
-                    issueModel.AccessStatus = Databases.AccessStatuses.Initialized;
                 }
                 else
                 {

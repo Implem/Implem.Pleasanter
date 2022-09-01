@@ -119,6 +119,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_SetByCsvRow -->
 <!--Model_SetProcessMatchConditions-->
 <!--Model_GetStatusControl-->
+<!--Model_CopyAndInit-->
 <!--Model_SetByModel-->
 <!--Model_SetByApi-->
 <!--Model_SetByDataChanges-->

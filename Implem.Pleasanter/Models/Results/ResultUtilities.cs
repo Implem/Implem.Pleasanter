@@ -1220,23 +1220,9 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
-                    var newResult = new ResultModel(
-                        context: context,
-                        ss: ss,
-                        methodType: BaseModel.MethodTypes.New);
-                    newResult.SetByModel(resultModel);
-                    resultModel = newResult;
-                    resultModel.SetCopyDefault(
+                    resultModel = resultModel.CopyAndInit(
                         context: context,
                         ss: ss);
-                    resultModel.ResultId = 0;
-                    resultModel.Ver = 1;
-                    resultModel.Comments = new Comments();
-                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
-                    resultModel.SetBySettings(
-                        context: context,
-                        ss: ss,
-                        copyByDefaultOnly: true);
                 }
                 else
                 {
@@ -2145,21 +2131,9 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
-                    resultModel.SetCopyDefault(
+                    resultModel = resultModel.CopyAndInit(
                         context: context,
                         ss: ss);
-                    resultModel.SetByForm(
-                        context: context,
-                        ss: ss,
-                        formData: context.Forms);
-                    resultModel.SetBySettings(
-                        context: context,
-                        ss: ss,
-                        formData: context.Forms);
-                    resultModel.ResultId = 0;
-                    resultModel.Ver = 1;
-                    resultModel.Comments = new Comments();
-                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
                 }
                 else
                 {

@@ -15,21 +15,9 @@
                 siteId: ss.SiteId,
                 id: #modelName#Model.#ModelName#Id))
         {
-            #modelName#Model.SetCopyDefault(
+            #modelName#Model = #modelName#Model.CopyAndInit(
                 context: context,
                 ss: ss);
-            #modelName#Model.SetByForm(
-                context: context,
-                ss: ss,
-                formData: context.Forms);
-            #modelName#Model.SetBySettings(
-                context: context,
-                ss: ss,
-                formData: context.Forms);
-            #modelName#Model.#ModelName#Id = 0;
-            #modelName#Model.Ver = 1;
-            #modelName#Model.Comments = new Comments();
-            #modelName#Model.AccessStatus = Databases.AccessStatuses.Initialized;
         }
         else
         {

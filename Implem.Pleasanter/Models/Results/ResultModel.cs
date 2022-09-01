@@ -2569,6 +2569,37 @@ namespace Implem.Pleasanter.Models
             return StatusControlHash.Get(column.ColumnName);
         }
 
+        public ResultModel CopyAndInit(
+            Context context,
+            SiteSettings ss)
+        {
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                methodType: MethodTypes.New);
+            resultModel.SetByModel(this);
+            resultModel.ResultId = 0;
+            resultModel.Ver = 1;
+            resultModel.Comments = new Comments();
+            resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
+            resultModel.SetCopyDefault(
+                context: context,
+                ss: ss);
+            resultModel.SetByForm(
+                context: context,
+                ss: ss,
+                formData: context.Forms);
+            resultModel.SetBySettings(
+                context: context,
+                ss: ss,
+                formData: context.Forms);
+            resultModel.SetByStatusControls(
+                context: context,
+                ss: ss,
+                force: true);
+            return resultModel;
+        }
+
         public void SetByModel(ResultModel resultModel)
         {
             SiteId = resultModel.SiteId;
