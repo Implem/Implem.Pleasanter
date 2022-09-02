@@ -667,6 +667,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
                     case "Model_ToValue": Code.Model_ToValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToValue, definitionRow, CodeXls); break;
+                    case "Model_ToValueApiDisplayValue": Code.Model_ToValueApiDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToValueApiDisplayValue, definitionRow, CodeXls); break;
                     case "Model_TrashBoxCases": Code.Model_TrashBoxCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxCases, definitionRow, CodeXls); break;
                     case "Model_TrashBoxGridRowsCases": Code.Model_TrashBoxGridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxGridRowsCases, definitionRow, CodeXls); break;
                     case "Model_TrashBoxJsonCases": Code.Model_TrashBoxJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxJsonCases, definitionRow, CodeXls); break;
@@ -6897,6 +6898,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ToLocal;
         public string Model_ToUniversal;
         public string Model_ToValue;
+        public string Model_ToValueApiDisplayValue;
         public string Model_TrashBoxCases;
         public string Model_TrashBoxGridRowsCases;
         public string Model_TrashBoxJsonCases;
@@ -7653,6 +7655,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ToLocal = new CodeDefinition();
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
         public CodeDefinition Model_ToValue = new CodeDefinition();
+        public CodeDefinition Model_ToValueApiDisplayValue = new CodeDefinition();
         public CodeDefinition Model_TrashBoxCases = new CodeDefinition();
         public CodeDefinition Model_TrashBoxGridRowsCases = new CodeDefinition();
         public CodeDefinition Model_TrashBoxJsonCases = new CodeDefinition();

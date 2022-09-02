@@ -775,9 +775,20 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            return PropertyValue(
-                context: context,
-                column: column);
+            switch (column.TypeName)
+            {
+                case "datetime":
+                    return ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ?.ToString() ?? String.Empty;
+                default:
+                    return PropertyValue(
+                        context: context,
+                        column: column);
+            }
         }
 
         public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
