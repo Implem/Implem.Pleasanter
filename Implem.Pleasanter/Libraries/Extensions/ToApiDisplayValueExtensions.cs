@@ -95,12 +95,30 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static object ToApiDisplayValue(
+            this double self,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            return self;
+        }
+
+        public static object ToApiDisplayValue(
             this TimeZoneInfo self,
             Context context,
             SiteSettings ss,
             Column column)
         {
             return self.DisplayName;
+        }
+
+        public static object ToApiDisplayValue(
+            this Enum self,
+            Context context,
+            SiteSettings ss,
+            Column column)
+        {
+            return self;
         }
     }
 }

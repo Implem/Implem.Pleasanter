@@ -259,6 +259,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var groups = new Dictionary<string, GroupModel>();
             var registrations = new Dictionary<string, RegistrationModel>();
             var sites = new Dictionary<string, SiteModel>();
+            var sysLogs = new Dictionary<string, SysLogModel>();
             var users = new Dictionary<string, UserModel>();
             var issues = new Dictionary<string, IssueModel>();
             var results = new Dictionary<string, ResultModel>();
@@ -425,6 +426,24 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: column.SiteSettings,
                                     column: column,
                                     siteModel: siteModel);
+                                break;
+                            case "SysLogs":
+                                var sysLogModel = sysLogs.Get(key);
+                                if (sysLogModel == null)
+                                {
+                                    sysLogModel = new SysLogModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        tableAlias: column.TableAlias);
+                                    sysLogs.Add(key, sysLogModel);
+                                    ss.ClearColumnAccessControlCaches(baseModel: sysLogModel);
+                                }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    sysLogModel: sysLogModel);
                                 break;
                             case "Users":
                                 var userModel = users.Get(key);

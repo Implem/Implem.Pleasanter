@@ -100,6 +100,12 @@
                 "LinkParams": [ "Tenants", "Edit" ]
             },
             {
+                "MenuId": "SettingsMenu_SysLogAdmin",
+                "Name": "SysLogAdmin",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "SysLogs" ]
+            },
+            {
                 "MenuId": "SettingsMenu_DeptAdmin",
                 "Name": "DeptAdmin",
                 "Icon": "ui-icon ui-icon-gear",

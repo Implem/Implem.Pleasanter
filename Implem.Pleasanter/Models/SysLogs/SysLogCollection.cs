@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Models
 
         public SysLogCollection(
             Context context,
+            SiteSettings ss,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
             SqlWhereCollection where = null,
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Models
             {
                 Set(
                     context: context,
+                    ss: ss,
                     dataRows: Get(
                         context: context,
                         column: column,
@@ -60,15 +62,18 @@ namespace Implem.Pleasanter.Models
 
         public SysLogCollection(
             Context context,
+            SiteSettings ss,
             EnumerableRowCollection<DataRow> dataRows)
         {
                 Set(
                     context: context,
+                    ss: ss,
                     dataRows: dataRows);
         }
 
         private SysLogCollection Set(
             Context context,
+            SiteSettings ss,
             EnumerableRowCollection<DataRow> dataRows)
         {
             if (dataRows.Any())
@@ -77,6 +82,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Add(new SysLogModel(
                         context: context,
+                        ss: ss,
                         dataRow: dataRow));
                 }
                 AccessStatus = Databases.AccessStatuses.Selected;

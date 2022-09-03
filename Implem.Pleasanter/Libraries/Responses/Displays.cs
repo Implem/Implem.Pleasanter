@@ -8469,6 +8469,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SysLogAdmin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogAdmin",
+                data: data);
+        }
+
         public static string Tab(
             Context context,
             params string[] data)
@@ -11669,6 +11679,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SysLogs_Comments(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_Comments",
+                data: data);
+        }
+
         public static string SysLogs_CreatedTime(
             Context context,
             params string[] data)
@@ -11676,6 +11696,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_CreatedTime",
+                data: data);
+        }
+
+        public static string SysLogs_Creator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_Creator",
                 data: data);
         }
 
@@ -11906,6 +11936,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_Title",
+                data: data);
+        }
+
+        public static string SysLogs_UpdatedTime(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_UpdatedTime",
+                data: data);
+        }
+
+        public static string SysLogs_Updator(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_Updator",
                 data: data);
         }
 
@@ -14549,26 +14599,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string SysLogs_Comments(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SysLogs_Comments",
-                data: data);
-        }
-
-        public static string SysLogs_Creator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SysLogs_Creator",
-                data: data);
-        }
-
         public static string SysLogs_Timestamp(
             Context context,
             params string[] data)
@@ -14576,26 +14606,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_Timestamp",
-                data: data);
-        }
-
-        public static string SysLogs_UpdatedTime(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SysLogs_UpdatedTime",
-                data: data);
-        }
-
-        public static string SysLogs_Updator(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "SysLogs_Updator",
                 data: data);
         }
 

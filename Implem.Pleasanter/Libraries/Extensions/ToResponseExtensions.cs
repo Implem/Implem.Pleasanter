@@ -43,6 +43,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string ToResponse(
+            this double self, Context context, SiteSettings ss, Column column)
+        {
+            return self.ToString();
+        }
+
+        public static string ToResponse(
             this string self,
             Context context,
             SiteSettings ss,

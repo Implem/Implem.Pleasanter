@@ -37,5 +37,17 @@ namespace Implem.Pleasanter.Libraries.Extensions
         {
             return self.ToString(column.StringFormat);
         }
+
+        public static string ToControl(
+            this double self, Context context, SiteSettings ss, Column column)
+        {
+            return self.ToString(column.StringFormat);
+        }
+
+        public static string ToControl(
+            this Enum self, Context context, SiteSettings ss, Column column)
+        {
+            return self.ToString();
+        }
     }
 }

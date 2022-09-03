@@ -436,6 +436,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class SysLogsResponseCollection : ResponseCollection
+    {
+        public SysLogModel SysLogModel;
+
+        public SysLogsResponseCollection(
+            Context context,
+            SysLogModel sysLogModel) : base(context: context)
+        {
+            SysLogModel = sysLogModel;
+        }
+
+        public SysLogsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public SysLogsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class TenantsResponseCollection : ResponseCollection
     {
         public TenantModel TenantModel;
@@ -6916,6 +6940,1854 @@ namespace Implem.Pleasanter.Libraries.Responses
             this StatusesResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Statuses_Timestamp", value);
+        }
+
+        public static SysLogsResponseCollection CreatedTime(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_CreatedTime",
+                res.SysLogModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static SysLogsResponseCollection CreatedTime(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_CreatedTime", value);
+        }
+
+        public static SysLogsResponseCollection CreatedTime_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_CreatedTime",
+                res.SysLogModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static SysLogsResponseCollection CreatedTime_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_CreatedTime", value);
+        }
+
+        public static SysLogsResponseCollection SysLogId(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_SysLogId",
+                res.SysLogModel.SysLogId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SysLogId")));
+        }
+
+        public static SysLogsResponseCollection SysLogId(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_SysLogId", value);
+        }
+
+        public static SysLogsResponseCollection SysLogId_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_SysLogId",
+                res.SysLogModel.SysLogId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SysLogId")));
+        }
+
+        public static SysLogsResponseCollection SysLogId_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_SysLogId", value);
+        }
+
+        public static SysLogsResponseCollection Ver(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Ver",
+                res.SysLogModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static SysLogsResponseCollection Ver(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Ver", value);
+        }
+
+        public static SysLogsResponseCollection Ver_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Ver",
+                res.SysLogModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static SysLogsResponseCollection Ver_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Ver", value);
+        }
+
+        public static SysLogsResponseCollection StartTime(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_StartTime",
+                res.SysLogModel.StartTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "StartTime")));
+        }
+
+        public static SysLogsResponseCollection StartTime(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_StartTime", value);
+        }
+
+        public static SysLogsResponseCollection StartTime_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_StartTime",
+                res.SysLogModel.StartTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "StartTime")));
+        }
+
+        public static SysLogsResponseCollection StartTime_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_StartTime", value);
+        }
+
+        public static SysLogsResponseCollection EndTime(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_EndTime",
+                res.SysLogModel.EndTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EndTime")));
+        }
+
+        public static SysLogsResponseCollection EndTime(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_EndTime", value);
+        }
+
+        public static SysLogsResponseCollection EndTime_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_EndTime",
+                res.SysLogModel.EndTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "EndTime")));
+        }
+
+        public static SysLogsResponseCollection EndTime_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_EndTime", value);
+        }
+
+        public static SysLogsResponseCollection SysLogType(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_SysLogType",
+                res.SysLogModel.SysLogType.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SysLogType")));
+        }
+
+        public static SysLogsResponseCollection SysLogType(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_SysLogType", value);
+        }
+
+        public static SysLogsResponseCollection SysLogType_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_SysLogType",
+                res.SysLogModel.SysLogType.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SysLogType")));
+        }
+
+        public static SysLogsResponseCollection SysLogType_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_SysLogType", value);
+        }
+
+        public static SysLogsResponseCollection OnAzure(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_OnAzure",
+                res.SysLogModel.OnAzure.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "OnAzure")));
+        }
+
+        public static SysLogsResponseCollection OnAzure(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_OnAzure", value);
+        }
+
+        public static SysLogsResponseCollection OnAzure_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_OnAzure",
+                res.SysLogModel.OnAzure.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "OnAzure")));
+        }
+
+        public static SysLogsResponseCollection OnAzure_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_OnAzure", value);
+        }
+
+        public static SysLogsResponseCollection MachineName(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_MachineName",
+                res.SysLogModel.MachineName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "MachineName")));
+        }
+
+        public static SysLogsResponseCollection MachineName(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_MachineName", value);
+        }
+
+        public static SysLogsResponseCollection MachineName_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_MachineName",
+                res.SysLogModel.MachineName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "MachineName")));
+        }
+
+        public static SysLogsResponseCollection MachineName_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_MachineName", value);
+        }
+
+        public static SysLogsResponseCollection ServiceName(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ServiceName",
+                res.SysLogModel.ServiceName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ServiceName")));
+        }
+
+        public static SysLogsResponseCollection ServiceName(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ServiceName", value);
+        }
+
+        public static SysLogsResponseCollection ServiceName_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ServiceName",
+                res.SysLogModel.ServiceName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ServiceName")));
+        }
+
+        public static SysLogsResponseCollection ServiceName_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ServiceName", value);
+        }
+
+        public static SysLogsResponseCollection TenantName(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_TenantName",
+                res.SysLogModel.TenantName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TenantName")));
+        }
+
+        public static SysLogsResponseCollection TenantName(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_TenantName", value);
+        }
+
+        public static SysLogsResponseCollection TenantName_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_TenantName",
+                res.SysLogModel.TenantName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "TenantName")));
+        }
+
+        public static SysLogsResponseCollection TenantName_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_TenantName", value);
+        }
+
+        public static SysLogsResponseCollection Application(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Application",
+                res.SysLogModel.Application.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Application")));
+        }
+
+        public static SysLogsResponseCollection Application(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Application", value);
+        }
+
+        public static SysLogsResponseCollection Application_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Application",
+                res.SysLogModel.Application.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Application")));
+        }
+
+        public static SysLogsResponseCollection Application_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Application", value);
+        }
+
+        public static SysLogsResponseCollection Class(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Class",
+                res.SysLogModel.Class.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Class")));
+        }
+
+        public static SysLogsResponseCollection Class(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Class", value);
+        }
+
+        public static SysLogsResponseCollection Class_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Class",
+                res.SysLogModel.Class.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Class")));
+        }
+
+        public static SysLogsResponseCollection Class_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Class", value);
+        }
+
+        public static SysLogsResponseCollection Method(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Method",
+                res.SysLogModel.Method.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Method")));
+        }
+
+        public static SysLogsResponseCollection Method(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Method", value);
+        }
+
+        public static SysLogsResponseCollection Method_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Method",
+                res.SysLogModel.Method.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Method")));
+        }
+
+        public static SysLogsResponseCollection Method_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Method", value);
+        }
+
+        public static SysLogsResponseCollection RequestData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_RequestData",
+                res.SysLogModel.RequestData.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "RequestData")));
+        }
+
+        public static SysLogsResponseCollection RequestData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_RequestData", value);
+        }
+
+        public static SysLogsResponseCollection RequestData_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_RequestData",
+                res.SysLogModel.RequestData.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "RequestData")));
+        }
+
+        public static SysLogsResponseCollection RequestData_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_RequestData", value);
+        }
+
+        public static SysLogsResponseCollection HttpMethod(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_HttpMethod",
+                res.SysLogModel.HttpMethod.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "HttpMethod")));
+        }
+
+        public static SysLogsResponseCollection HttpMethod(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_HttpMethod", value);
+        }
+
+        public static SysLogsResponseCollection HttpMethod_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_HttpMethod",
+                res.SysLogModel.HttpMethod.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "HttpMethod")));
+        }
+
+        public static SysLogsResponseCollection HttpMethod_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_HttpMethod", value);
+        }
+
+        public static SysLogsResponseCollection RequestSize(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_RequestSize",
+                res.SysLogModel.RequestSize.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "RequestSize")));
+        }
+
+        public static SysLogsResponseCollection RequestSize(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_RequestSize", value);
+        }
+
+        public static SysLogsResponseCollection RequestSize_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_RequestSize",
+                res.SysLogModel.RequestSize.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "RequestSize")));
+        }
+
+        public static SysLogsResponseCollection RequestSize_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_RequestSize", value);
+        }
+
+        public static SysLogsResponseCollection ResponseSize(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ResponseSize",
+                res.SysLogModel.ResponseSize.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ResponseSize")));
+        }
+
+        public static SysLogsResponseCollection ResponseSize(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ResponseSize", value);
+        }
+
+        public static SysLogsResponseCollection ResponseSize_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ResponseSize",
+                res.SysLogModel.ResponseSize.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ResponseSize")));
+        }
+
+        public static SysLogsResponseCollection ResponseSize_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ResponseSize", value);
+        }
+
+        public static SysLogsResponseCollection Elapsed(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Elapsed",
+                res.SysLogModel.Elapsed.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Elapsed")));
+        }
+
+        public static SysLogsResponseCollection Elapsed(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Elapsed", value);
+        }
+
+        public static SysLogsResponseCollection Elapsed_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Elapsed",
+                res.SysLogModel.Elapsed.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Elapsed")));
+        }
+
+        public static SysLogsResponseCollection Elapsed_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Elapsed", value);
+        }
+
+        public static SysLogsResponseCollection ApplicationAge(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ApplicationAge",
+                res.SysLogModel.ApplicationAge.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ApplicationAge")));
+        }
+
+        public static SysLogsResponseCollection ApplicationAge(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ApplicationAge", value);
+        }
+
+        public static SysLogsResponseCollection ApplicationAge_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ApplicationAge",
+                res.SysLogModel.ApplicationAge.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ApplicationAge")));
+        }
+
+        public static SysLogsResponseCollection ApplicationAge_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ApplicationAge", value);
+        }
+
+        public static SysLogsResponseCollection ApplicationRequestInterval(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ApplicationRequestInterval",
+                res.SysLogModel.ApplicationRequestInterval.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ApplicationRequestInterval")));
+        }
+
+        public static SysLogsResponseCollection ApplicationRequestInterval(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ApplicationRequestInterval", value);
+        }
+
+        public static SysLogsResponseCollection ApplicationRequestInterval_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ApplicationRequestInterval",
+                res.SysLogModel.ApplicationRequestInterval.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ApplicationRequestInterval")));
+        }
+
+        public static SysLogsResponseCollection ApplicationRequestInterval_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ApplicationRequestInterval", value);
+        }
+
+        public static SysLogsResponseCollection SessionAge(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_SessionAge",
+                res.SysLogModel.SessionAge.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SessionAge")));
+        }
+
+        public static SysLogsResponseCollection SessionAge(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_SessionAge", value);
+        }
+
+        public static SysLogsResponseCollection SessionAge_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_SessionAge",
+                res.SysLogModel.SessionAge.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SessionAge")));
+        }
+
+        public static SysLogsResponseCollection SessionAge_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_SessionAge", value);
+        }
+
+        public static SysLogsResponseCollection SessionRequestInterval(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_SessionRequestInterval",
+                res.SysLogModel.SessionRequestInterval.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SessionRequestInterval")));
+        }
+
+        public static SysLogsResponseCollection SessionRequestInterval(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_SessionRequestInterval", value);
+        }
+
+        public static SysLogsResponseCollection SessionRequestInterval_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_SessionRequestInterval",
+                res.SysLogModel.SessionRequestInterval.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SessionRequestInterval")));
+        }
+
+        public static SysLogsResponseCollection SessionRequestInterval_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_SessionRequestInterval", value);
+        }
+
+        public static SysLogsResponseCollection WorkingSet64(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_WorkingSet64",
+                res.SysLogModel.WorkingSet64.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "WorkingSet64")));
+        }
+
+        public static SysLogsResponseCollection WorkingSet64(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_WorkingSet64", value);
+        }
+
+        public static SysLogsResponseCollection WorkingSet64_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_WorkingSet64",
+                res.SysLogModel.WorkingSet64.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "WorkingSet64")));
+        }
+
+        public static SysLogsResponseCollection WorkingSet64_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_WorkingSet64", value);
+        }
+
+        public static SysLogsResponseCollection VirtualMemorySize64(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_VirtualMemorySize64",
+                res.SysLogModel.VirtualMemorySize64.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "VirtualMemorySize64")));
+        }
+
+        public static SysLogsResponseCollection VirtualMemorySize64(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_VirtualMemorySize64", value);
+        }
+
+        public static SysLogsResponseCollection VirtualMemorySize64_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_VirtualMemorySize64",
+                res.SysLogModel.VirtualMemorySize64.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "VirtualMemorySize64")));
+        }
+
+        public static SysLogsResponseCollection VirtualMemorySize64_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_VirtualMemorySize64", value);
+        }
+
+        public static SysLogsResponseCollection ProcessId(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ProcessId",
+                res.SysLogModel.ProcessId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ProcessId")));
+        }
+
+        public static SysLogsResponseCollection ProcessId(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ProcessId", value);
+        }
+
+        public static SysLogsResponseCollection ProcessId_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ProcessId",
+                res.SysLogModel.ProcessId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ProcessId")));
+        }
+
+        public static SysLogsResponseCollection ProcessId_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ProcessId", value);
+        }
+
+        public static SysLogsResponseCollection ProcessName(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ProcessName",
+                res.SysLogModel.ProcessName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ProcessName")));
+        }
+
+        public static SysLogsResponseCollection ProcessName(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ProcessName", value);
+        }
+
+        public static SysLogsResponseCollection ProcessName_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ProcessName",
+                res.SysLogModel.ProcessName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ProcessName")));
+        }
+
+        public static SysLogsResponseCollection ProcessName_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ProcessName", value);
+        }
+
+        public static SysLogsResponseCollection BasePriority(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_BasePriority",
+                res.SysLogModel.BasePriority.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "BasePriority")));
+        }
+
+        public static SysLogsResponseCollection BasePriority(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_BasePriority", value);
+        }
+
+        public static SysLogsResponseCollection BasePriority_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_BasePriority",
+                res.SysLogModel.BasePriority.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "BasePriority")));
+        }
+
+        public static SysLogsResponseCollection BasePriority_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_BasePriority", value);
+        }
+
+        public static SysLogsResponseCollection Url(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Url",
+                res.SysLogModel.Url.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Url")));
+        }
+
+        public static SysLogsResponseCollection Url(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Url", value);
+        }
+
+        public static SysLogsResponseCollection Url_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Url",
+                res.SysLogModel.Url.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Url")));
+        }
+
+        public static SysLogsResponseCollection Url_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Url", value);
+        }
+
+        public static SysLogsResponseCollection UrlReferer(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_UrlReferer",
+                res.SysLogModel.UrlReferer.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UrlReferer")));
+        }
+
+        public static SysLogsResponseCollection UrlReferer(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_UrlReferer", value);
+        }
+
+        public static SysLogsResponseCollection UrlReferer_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_UrlReferer",
+                res.SysLogModel.UrlReferer.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UrlReferer")));
+        }
+
+        public static SysLogsResponseCollection UrlReferer_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_UrlReferer", value);
+        }
+
+        public static SysLogsResponseCollection UserHostName(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_UserHostName",
+                res.SysLogModel.UserHostName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserHostName")));
+        }
+
+        public static SysLogsResponseCollection UserHostName(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_UserHostName", value);
+        }
+
+        public static SysLogsResponseCollection UserHostName_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_UserHostName",
+                res.SysLogModel.UserHostName.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserHostName")));
+        }
+
+        public static SysLogsResponseCollection UserHostName_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_UserHostName", value);
+        }
+
+        public static SysLogsResponseCollection UserHostAddress(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_UserHostAddress",
+                res.SysLogModel.UserHostAddress.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserHostAddress")));
+        }
+
+        public static SysLogsResponseCollection UserHostAddress(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_UserHostAddress", value);
+        }
+
+        public static SysLogsResponseCollection UserHostAddress_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_UserHostAddress",
+                res.SysLogModel.UserHostAddress.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserHostAddress")));
+        }
+
+        public static SysLogsResponseCollection UserHostAddress_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_UserHostAddress", value);
+        }
+
+        public static SysLogsResponseCollection UserLanguage(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_UserLanguage",
+                res.SysLogModel.UserLanguage.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserLanguage")));
+        }
+
+        public static SysLogsResponseCollection UserLanguage(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_UserLanguage", value);
+        }
+
+        public static SysLogsResponseCollection UserLanguage_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_UserLanguage",
+                res.SysLogModel.UserLanguage.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserLanguage")));
+        }
+
+        public static SysLogsResponseCollection UserLanguage_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_UserLanguage", value);
+        }
+
+        public static SysLogsResponseCollection UserAgent(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_UserAgent",
+                res.SysLogModel.UserAgent.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserAgent")));
+        }
+
+        public static SysLogsResponseCollection UserAgent(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_UserAgent", value);
+        }
+
+        public static SysLogsResponseCollection UserAgent_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_UserAgent",
+                res.SysLogModel.UserAgent.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UserAgent")));
+        }
+
+        public static SysLogsResponseCollection UserAgent_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_UserAgent", value);
+        }
+
+        public static SysLogsResponseCollection SessionGuid(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_SessionGuid",
+                res.SysLogModel.SessionGuid.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SessionGuid")));
+        }
+
+        public static SysLogsResponseCollection SessionGuid(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_SessionGuid", value);
+        }
+
+        public static SysLogsResponseCollection SessionGuid_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_SessionGuid",
+                res.SysLogModel.SessionGuid.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "SessionGuid")));
+        }
+
+        public static SysLogsResponseCollection SessionGuid_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_SessionGuid", value);
+        }
+
+        public static SysLogsResponseCollection ErrMessage(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ErrMessage",
+                res.SysLogModel.ErrMessage.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ErrMessage")));
+        }
+
+        public static SysLogsResponseCollection ErrMessage(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ErrMessage", value);
+        }
+
+        public static SysLogsResponseCollection ErrMessage_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ErrMessage",
+                res.SysLogModel.ErrMessage.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ErrMessage")));
+        }
+
+        public static SysLogsResponseCollection ErrMessage_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ErrMessage", value);
+        }
+
+        public static SysLogsResponseCollection ErrStackTrace(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ErrStackTrace",
+                res.SysLogModel.ErrStackTrace.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ErrStackTrace")));
+        }
+
+        public static SysLogsResponseCollection ErrStackTrace(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ErrStackTrace", value);
+        }
+
+        public static SysLogsResponseCollection ErrStackTrace_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ErrStackTrace",
+                res.SysLogModel.ErrStackTrace.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ErrStackTrace")));
+        }
+
+        public static SysLogsResponseCollection ErrStackTrace_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ErrStackTrace", value);
+        }
+
+        public static SysLogsResponseCollection Title(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Title",
+                res.SysLogModel.Title.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Title")));
+        }
+
+        public static SysLogsResponseCollection Title(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Title", value);
+        }
+
+        public static SysLogsResponseCollection Title_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Title",
+                res.SysLogModel.Title.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Title")));
+        }
+
+        public static SysLogsResponseCollection Title_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Title", value);
+        }
+
+        public static SysLogsResponseCollection InDebug(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_InDebug",
+                res.SysLogModel.InDebug.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "InDebug")));
+        }
+
+        public static SysLogsResponseCollection InDebug(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_InDebug", value);
+        }
+
+        public static SysLogsResponseCollection InDebug_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_InDebug",
+                res.SysLogModel.InDebug.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "InDebug")));
+        }
+
+        public static SysLogsResponseCollection InDebug_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_InDebug", value);
+        }
+
+        public static SysLogsResponseCollection AssemblyVersion(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_AssemblyVersion",
+                res.SysLogModel.AssemblyVersion.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AssemblyVersion")));
+        }
+
+        public static SysLogsResponseCollection AssemblyVersion(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_AssemblyVersion", value);
+        }
+
+        public static SysLogsResponseCollection AssemblyVersion_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_AssemblyVersion",
+                res.SysLogModel.AssemblyVersion.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AssemblyVersion")));
+        }
+
+        public static SysLogsResponseCollection AssemblyVersion_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_AssemblyVersion", value);
+        }
+
+        public static SysLogsResponseCollection Comments(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Comments",
+                res.SysLogModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static SysLogsResponseCollection Comments(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Comments", value);
+        }
+
+        public static SysLogsResponseCollection Comments_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Comments",
+                res.SysLogModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static SysLogsResponseCollection Comments_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Comments", value);
+        }
+
+        public static SysLogsResponseCollection UpdatedTime(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_UpdatedTime",
+                res.SysLogModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static SysLogsResponseCollection UpdatedTime(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_UpdatedTime", value);
+        }
+
+        public static SysLogsResponseCollection UpdatedTime_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_UpdatedTime",
+                res.SysLogModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static SysLogsResponseCollection UpdatedTime_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_UpdatedTime", value);
+        }
+
+        public static SysLogsResponseCollection Timestamp(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_Timestamp",
+                res.SysLogModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static SysLogsResponseCollection Timestamp(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_Timestamp", value);
+        }
+
+        public static SysLogsResponseCollection Timestamp_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_Timestamp",
+                res.SysLogModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static SysLogsResponseCollection Timestamp_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_Timestamp", value);
         }
 
         public static TenantsResponseCollection Ver(

@@ -1758,7 +1758,9 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_AssemblyVersion": Column.SysLogs_AssemblyVersion = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_AssemblyVersion, definitionRow, ColumnXls); break;
                     case "SysLogs_BasePriority": Column.SysLogs_BasePriority = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_BasePriority, definitionRow, ColumnXls); break;
                     case "SysLogs_Class": Column.SysLogs_Class = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Class, definitionRow, ColumnXls); break;
+                    case "SysLogs_Comments": Column.SysLogs_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Comments, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
+                    case "SysLogs_Creator": Column.SysLogs_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Creator, definitionRow, ColumnXls); break;
                     case "SysLogs_Elapsed": Column.SysLogs_Elapsed = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Elapsed, definitionRow, ColumnXls); break;
                     case "SysLogs_EndTime": Column.SysLogs_EndTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_EndTime, definitionRow, ColumnXls); break;
                     case "SysLogs_ErrMessage": Column.SysLogs_ErrMessage = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ErrMessage, definitionRow, ColumnXls); break;
@@ -1782,6 +1784,8 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_SysLogType": Column.SysLogs_SysLogType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogType, definitionRow, ColumnXls); break;
                     case "SysLogs_TenantName": Column.SysLogs_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_TenantName, definitionRow, ColumnXls); break;
                     case "SysLogs_Title": Column.SysLogs_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Title, definitionRow, ColumnXls); break;
+                    case "SysLogs_UpdatedTime": Column.SysLogs_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "SysLogs_Updator": Column.SysLogs_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Updator, definitionRow, ColumnXls); break;
                     case "SysLogs_Url": Column.SysLogs_Url = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Url, definitionRow, ColumnXls); break;
                     case "SysLogs_UrlReferer": Column.SysLogs_UrlReferer = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UrlReferer, definitionRow, ColumnXls); break;
                     case "SysLogs_UserAgent": Column.SysLogs_UserAgent = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UserAgent, definitionRow, ColumnXls); break;
@@ -2046,11 +2050,7 @@ namespace Implem.DefinitionAccessor
                     case "Statuses_Updator": Column.Statuses_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Updator, definitionRow, ColumnXls); break;
                     case "Statuses_Ver": Column.Statuses_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Ver, definitionRow, ColumnXls); break;
                     case "Statuses_VerUp": Column.Statuses_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_VerUp, definitionRow, ColumnXls); break;
-                    case "SysLogs_Comments": Column.SysLogs_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Comments, definitionRow, ColumnXls); break;
-                    case "SysLogs_Creator": Column.SysLogs_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Creator, definitionRow, ColumnXls); break;
                     case "SysLogs_Timestamp": Column.SysLogs_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Timestamp, definitionRow, ColumnXls); break;
-                    case "SysLogs_UpdatedTime": Column.SysLogs_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UpdatedTime, definitionRow, ColumnXls); break;
-                    case "SysLogs_Updator": Column.SysLogs_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Updator, definitionRow, ColumnXls); break;
                     case "SysLogs_Ver": Column.SysLogs_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Ver, definitionRow, ColumnXls); break;
                     case "SysLogs_VerUp": Column.SysLogs_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_VerUp, definitionRow, ColumnXls); break;
                     case "Tenants_Comments": Column.Tenants_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Comments, definitionRow, ColumnXls); break;
@@ -2696,6 +2696,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToDecimal();
                             newColumnDefinition.SavedNumFilterStep = newColumnDefinition.NumFilterStep;
                             break;
+                        case "DateFilterSetMode":
+                            newColumnDefinition.DateFilterSetMode = customDefinitionRow.Get("DateFilterSetMode")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedDateFilterSetMode = newColumnDefinition.DateFilterSetMode;
+                            break;
                         case "FullTextType":
                             newColumnDefinition.FullTextType = customDefinitionRow.Get("FullTextType")?.ToInt() ??
                                 data.ToInt();
@@ -2879,6 +2884,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NumFilterMin")) { definition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); definition.SavedNumFilterMin = definition.NumFilterMin; }
             if (definitionRow.ContainsKey("NumFilterMax")) { definition.NumFilterMax = definitionRow["NumFilterMax"].ToDecimal(); definition.SavedNumFilterMax = definition.NumFilterMax; }
             if (definitionRow.ContainsKey("NumFilterStep")) { definition.NumFilterStep = definitionRow["NumFilterStep"].ToDecimal(); definition.SavedNumFilterStep = definition.NumFilterStep; }
+            if (definitionRow.ContainsKey("DateFilterSetMode")) { definition.DateFilterSetMode = definitionRow["DateFilterSetMode"].ToInt(); definition.SavedDateFilterSetMode = definition.DateFilterSetMode; }
             if (definitionRow.ContainsKey("FullTextType")) { definition.FullTextType = definitionRow["FullTextType"].ToInt(); definition.SavedFullTextType = definition.FullTextType; }
             if (definitionRow.ContainsKey("Width")) { definition.Width = definitionRow["Width"].ToInt(); definition.SavedWidth = definition.Width; }
             if (definitionRow.ContainsKey("SettingEnable")) { definition.SettingEnable = definitionRow["SettingEnable"].ToBool(); definition.SavedSettingEnable = definition.SettingEnable; }
@@ -5676,6 +5682,7 @@ namespace Implem.DefinitionAccessor
                         case "NumFilterMin": columnDefinition.NumFilterMin = optionValue.ToDecimal(); break;
                         case "NumFilterMax": columnDefinition.NumFilterMax = optionValue.ToDecimal(); break;
                         case "NumFilterStep": columnDefinition.NumFilterStep = optionValue.ToDecimal(); break;
+                        case "DateFilterSetMode": columnDefinition.DateFilterSetMode = optionValue.ToInt(); break;
                         case "FullTextType": columnDefinition.FullTextType = optionValue.ToInt(); break;
                         case "Width": columnDefinition.Width = optionValue.ToInt(); break;
                         case "SettingEnable": columnDefinition.SettingEnable = optionValue.ToBool(); break;
@@ -8182,6 +8189,7 @@ namespace Implem.DefinitionAccessor
         public decimal NumFilterMin; public decimal SavedNumFilterMin;
         public decimal NumFilterMax; public decimal SavedNumFilterMax;
         public decimal NumFilterStep; public decimal SavedNumFilterStep;
+        public int DateFilterSetMode; public int SavedDateFilterSetMode;
         public int FullTextType; public int SavedFullTextType;
         public int Width; public int SavedWidth;
         public bool SettingEnable; public bool SavedSettingEnable;
@@ -8319,6 +8327,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NumFilterMin")) NumFilterMin = propertyCollection["NumFilterMin"].ToDecimal(); else NumFilterMin = 0;
             if (propertyCollection.ContainsKey("NumFilterMax")) NumFilterMax = propertyCollection["NumFilterMax"].ToDecimal(); else NumFilterMax = 0;
             if (propertyCollection.ContainsKey("NumFilterStep")) NumFilterStep = propertyCollection["NumFilterStep"].ToDecimal(); else NumFilterStep = 0;
+            if (propertyCollection.ContainsKey("DateFilterSetMode")) DateFilterSetMode = propertyCollection["DateFilterSetMode"].ToInt(); else DateFilterSetMode = 0;
             if (propertyCollection.ContainsKey("FullTextType")) FullTextType = propertyCollection["FullTextType"].ToInt(); else FullTextType = 0;
             if (propertyCollection.ContainsKey("Width")) Width = propertyCollection["Width"].ToInt(); else Width = 0;
             if (propertyCollection.ContainsKey("SettingEnable")) SettingEnable = propertyCollection["SettingEnable"].ToBool(); else SettingEnable = false;
@@ -8456,6 +8465,7 @@ namespace Implem.DefinitionAccessor
                     case "NumFilterMin": return NumFilterMin;
                     case "NumFilterMax": return NumFilterMax;
                     case "NumFilterStep": return NumFilterStep;
+                    case "DateFilterSetMode": return DateFilterSetMode;
                     case "FullTextType": return FullTextType;
                     case "Width": return Width;
                     case "SettingEnable": return SettingEnable;
@@ -8593,6 +8603,7 @@ namespace Implem.DefinitionAccessor
             NumFilterMin = SavedNumFilterMin;
             NumFilterMax = SavedNumFilterMax;
             NumFilterStep = SavedNumFilterStep;
+            DateFilterSetMode = SavedDateFilterSetMode;
             FullTextType = SavedFullTextType;
             Width = SavedWidth;
             SettingEnable = SavedSettingEnable;
@@ -8817,7 +8828,9 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_AssemblyVersion;
         public string SysLogs_BasePriority;
         public string SysLogs_Class;
+        public string SysLogs_Comments;
         public string SysLogs_CreatedTime;
+        public string SysLogs_Creator;
         public string SysLogs_Elapsed;
         public string SysLogs_EndTime;
         public string SysLogs_ErrMessage;
@@ -8841,6 +8854,8 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_SysLogType;
         public string SysLogs_TenantName;
         public string SysLogs_Title;
+        public string SysLogs_UpdatedTime;
+        public string SysLogs_Updator;
         public string SysLogs_Url;
         public string SysLogs_UrlReferer;
         public string SysLogs_UserAgent;
@@ -9105,11 +9120,7 @@ namespace Implem.DefinitionAccessor
         public string Statuses_Updator;
         public string Statuses_Ver;
         public string Statuses_VerUp;
-        public string SysLogs_Comments;
-        public string SysLogs_Creator;
         public string SysLogs_Timestamp;
-        public string SysLogs_UpdatedTime;
-        public string SysLogs_Updator;
         public string SysLogs_Ver;
         public string SysLogs_VerUp;
         public string Tenants_Comments;
@@ -9352,7 +9363,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_AssemblyVersion = new ColumnDefinition();
         public ColumnDefinition SysLogs_BasePriority = new ColumnDefinition();
         public ColumnDefinition SysLogs_Class = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Comments = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Creator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Elapsed = new ColumnDefinition();
         public ColumnDefinition SysLogs_EndTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_ErrMessage = new ColumnDefinition();
@@ -9376,6 +9389,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_SysLogType = new ColumnDefinition();
         public ColumnDefinition SysLogs_TenantName = new ColumnDefinition();
         public ColumnDefinition SysLogs_Title = new ColumnDefinition();
+        public ColumnDefinition SysLogs_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Updator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Url = new ColumnDefinition();
         public ColumnDefinition SysLogs_UrlReferer = new ColumnDefinition();
         public ColumnDefinition SysLogs_UserAgent = new ColumnDefinition();
@@ -9640,11 +9655,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Statuses_Updator = new ColumnDefinition();
         public ColumnDefinition Statuses_Ver = new ColumnDefinition();
         public ColumnDefinition Statuses_VerUp = new ColumnDefinition();
-        public ColumnDefinition SysLogs_Comments = new ColumnDefinition();
-        public ColumnDefinition SysLogs_Creator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Timestamp = new ColumnDefinition();
-        public ColumnDefinition SysLogs_UpdatedTime = new ColumnDefinition();
-        public ColumnDefinition SysLogs_Updator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Ver = new ColumnDefinition();
         public ColumnDefinition SysLogs_VerUp = new ColumnDefinition();
         public ColumnDefinition Tenants_Comments = new ColumnDefinition();
