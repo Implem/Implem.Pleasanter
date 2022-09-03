@@ -1,0 +1,14 @@
+﻿{
+    "Id": "PermissionSite5702",
+    "Language": "ja",
+    "Type": "Permissions",
+    "ParentId": "Site57",
+    "ClassA": "",
+    "ClassB": "",
+    "ClassC": "User1",
+    "NumA":  511,
+    "Creator": "User2",
+    "Updator": "User2",
+    "CreatedTime": "36640",
+    "UpdatedTime": "36640"
+}

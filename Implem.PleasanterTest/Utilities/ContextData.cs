@@ -108,8 +108,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 var postedFile = Files.Bytes(Path.Combine(
                     Directories.PleasanterTest(),
-                    "Data",
-                    "Binaries",
+                    "BinaryData",
                     fileName));
                 context.PostedFiles.Add(new PostedFile()
                 {
