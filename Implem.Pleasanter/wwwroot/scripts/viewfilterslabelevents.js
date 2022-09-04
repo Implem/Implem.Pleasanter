@@ -41,7 +41,7 @@
         var data = {};
         data.ViewFilters_Negative = $("#ViewFiltersLabelMenus p").text();
         $p.ajax(
-            $('#ApplicationPath').val() + 'items/' + $p.id() + '/index',
+            location.href,
             'POST',
             data);
     });
@@ -49,7 +49,7 @@
         var data = {};
         data.ViewFilters_Positive = $("#ViewFiltersLabelMenus p").text();
         $p.ajax(
-            $('#ApplicationPath').val() + 'items/' + $p.id() + '/index',
+            location.href,
             'POST',
             data);
     });
