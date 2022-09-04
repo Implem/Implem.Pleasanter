@@ -664,7 +664,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var selected = view?
                 .ColumnFilter(ColumnName)?
                 .Deserialize<List<string>>();
-            if (addNotSet && !Required)
+            if (addNotSet && NotRequiredOrUser())
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
@@ -703,6 +703,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         private bool CanEmpty()
         {
             return !Required && ValidateRequired != true;
+        }
+
+        private bool NotRequiredOrUser()
+        {
+            return !Required || Type == Types.User;
         }
 
         public Choice Choice(string selectedValue, string nullCase = null)
