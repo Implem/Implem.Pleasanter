@@ -1270,21 +1270,18 @@ namespace Implem.Pleasanter.Models
                     ss: ss));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder EditorTabs(
             this HtmlBuilder hb, Context context, SysLogModel sysLogModel)
         {
+            // 履歴の表示機能がないため全般タブのみ出力
             return hb.Ul(id: "EditorTabs", action: () => hb
                 .Li(action: () => hb
                     .A(
                         href: "#FieldSetGeneral",
-                        text: Displays.General(context: context)))
-                .Li(
-                    _using: sysLogModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.Publish,
-                    action: () => hb
-                        .A(
-                            href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList(context: context))));
+                        text: Displays.General(context: context))));
         }
 
         private static HtmlBuilder FieldSetGeneral(
