@@ -4827,27 +4827,40 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddProcessNotification(Context context, ResponseCollection res, string controlId)
         {
-            var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>()
-                ?? new SettingList<Notification>();
-            notifications.Add(new Notification()
+            var invalid = SiteValidators.SetProcessNotification(
+                context: context,
+                ss: SiteSettings);
+            switch (invalid.Type)
             {
-                Id = notifications.MaxOrDefault(o => o.Id) + 1,
-                Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
-                Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
-                Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
-                Token = context.Forms.Data("ProcessNotificationToken"),
-                Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
-            });
-            res
-                .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
-                    .EditProcessNotification(
-                        context: context,
-                        ss: SiteSettings,
-                        notifications: notifications))
-                .Val(
-                    "#ProcessNotifications",
-                    notifications.ToJson())
-                .CloseDialog(target: "#ProcessNotificationDialog");
+                case Error.Types.None:
+                    var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>()
+                        ?? new SettingList<Notification>();
+                    notifications.Add(new Notification()
+                    {
+                        Id = notifications.MaxOrDefault(o => o.Id) + 1,
+                        Type = (Notification.Types)context.Forms.Int("ProcessNotificationType"),
+                        Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject")),
+                        Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress")),
+                        Token = context.Forms.Data("ProcessNotificationToken"),
+                        Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"))
+                    });
+                    res
+                        .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
+                            .EditProcessNotification(
+                                context: context,
+                                ss: SiteSettings,
+                                notifications: notifications))
+                        .Val(
+                            "#ProcessNotifications",
+                            notifications.ToJson())
+                        .CloseDialog(target: "#ProcessNotificationDialog");
+                    break;
+                default:
+                    res.Message(
+                        message: invalid.Message(context: context),
+                        target: "#ProcessNotificationDialog .message-dialog");
+                    break;
+            }
         }
 
         /// <summary>
@@ -4855,23 +4868,36 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateProcessNotification(Context context, ResponseCollection res, string controlId)
         {
-            var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
-            var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
-            notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
-            notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
-            notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
-            notification.Token = context.Forms.Data("ProcessNotificationToken");
-            notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
-            res
-                .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
-                    .EditProcessNotification(
-                        context: context,
-                        ss: SiteSettings,
-                        notifications: notifications))
-                .Val(
-                    "#ProcessNotifications",
-                    notifications.ToJson())
-                .CloseDialog(target: "#ProcessNotificationDialog");
+            var invalid = SiteValidators.SetProcessNotification(
+                context: context,
+                ss: SiteSettings);
+            switch (invalid.Type)
+            {
+                case Error.Types.None:
+                    var notifications = context.Forms.Data("ProcessNotificationsTemp").Deserialize<SettingList<Notification>>();
+                    var notification = notifications?.Get(context.Forms.Int("ProcessNotificationIdTemp"));
+                    notification.Type = (Notification.Types)context.Forms.Int("ProcessNotificationType");
+                    notification.Subject = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationSubject"));
+                    notification.Address = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+                    notification.Token = context.Forms.Data("ProcessNotificationToken");
+                    notification.Body = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessNotificationBody"));
+                    res
+                        .ReplaceAll("#EditProcessNotification", new HtmlBuilder()
+                            .EditProcessNotification(
+                                context: context,
+                                ss: SiteSettings,
+                                notifications: notifications))
+                        .Val(
+                            "#ProcessNotifications",
+                            notifications.ToJson())
+                        .CloseDialog(target: "#ProcessNotificationDialog");
+                    break;
+                default:
+                    res.Message(
+                        message: invalid.Message(context: context),
+                        target: "#ProcessNotificationDialog .message-dialog");
+                    break;
+            }
         }
 
         /// <summary>
@@ -5424,33 +5450,44 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                SiteSettings.Notifications.Add(new Notification(
-                    id: SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
-                    type: (Notification.Types)context.Forms.Int("NotificationType"),
-                    prefix: context.Forms.Data("NotificationPrefix"),
-                    address: SiteSettings.LabelTextToColumnName(
-                        context.Forms.Data("NotificationAddress")),
-                    token: context.Forms.Data("NotificationToken"),
-                    methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
-                    encoding: context.Forms.Data("NotificationEncoding"),
-                    mediaType: context.Forms.Data("NotificationMediaType"),
-                    headers: context.Forms.Data("NotificationRequestHeaders"),
-                    useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
-                    format: SiteSettings.LabelTextToColumnName(
-                        context.Forms.Data("NotificationFormat")),
-                    monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
-                    beforeCondition: context.Forms.Int("BeforeCondition"),
-                    afterCondition: context.Forms.Int("AfterCondition"),
-                    expression: (Notification.Expressions)context.Forms.Int("Expression"),
-                    afterCreate: context.Forms.Bool("NotificationAfterCreate"),
-                    afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
-                    afterDelete: context.Forms.Bool("NotificationAfterDelete"),
-                    afterCopy: context.Forms.Bool("NotificationAfterCopy"),
-                    afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
-                    afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
-                    afterImport: context.Forms.Bool("NotificationAfterImport"),
-                    disabled: context.Forms.Bool("NotificationDisabled")));
-                SetNotificationsResponseCollection(context: context, res: res);
+                var invalid = SiteValidators.SetNotification(
+                    context: context,
+                    ss: SiteSettings);
+                switch (invalid.Type)
+                {
+                    case Error.Types.None:
+                        SiteSettings.Notifications.Add(new Notification(
+                            id: SiteSettings.Notifications.MaxOrDefault(o => o.Id) + 1,
+                            type: (Notification.Types)context.Forms.Int("NotificationType"),
+                            prefix: context.Forms.Data("NotificationPrefix"),
+                            address: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("NotificationAddress")),
+                            token: context.Forms.Data("NotificationToken"),
+                            methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                            encoding: context.Forms.Data("NotificationEncoding"),
+                            mediaType: context.Forms.Data("NotificationMediaType"),
+                            headers: context.Forms.Data("NotificationRequestHeaders"),
+                            useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
+                            format: SiteSettings.LabelTextToColumnName(
+                                context.Forms.Data("NotificationFormat")),
+                            monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
+                            beforeCondition: context.Forms.Int("BeforeCondition"),
+                            afterCondition: context.Forms.Int("AfterCondition"),
+                            expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                            afterCreate: context.Forms.Bool("NotificationAfterCreate"),
+                            afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
+                            afterDelete: context.Forms.Bool("NotificationAfterDelete"),
+                            afterCopy: context.Forms.Bool("NotificationAfterCopy"),
+                            afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
+                            afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
+                            afterImport: context.Forms.Bool("NotificationAfterImport"),
+                            disabled: context.Forms.Bool("NotificationDisabled")));
+                        SetNotificationsResponseCollection(context: context, res: res);
+                        break;
+                    default:
+                        res.Message(invalid.Message(context: context));
+                        break;
+                }
             }
         }
 
@@ -5472,32 +5509,43 @@ namespace Implem.Pleasanter.Models
                 }
                 else
                 {
-                    notification.Update(
-                        type: (Notification.Types)context.Forms.Int("NotificationType"),
-                        prefix: context.Forms.Data("NotificationPrefix"),
-                        address: SiteSettings.LabelTextToColumnName(
-                            context.Forms.Data("NotificationAddress")),
-                        token: context.Forms.Data("NotificationToken"),
-                        methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
-                        encoding: context.Forms.Data("NotificationEncoding"),
-                        mediaType: context.Forms.Data("NotificationMediaType"),
-                        headers: context.Forms.Data("NotificationRequestHeaders"),
-                        useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
-                        format: SiteSettings.LabelTextToColumnName(
-                            context.Forms.Data("NotificationFormat")),
-                        monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
-                        beforeCondition: context.Forms.Int("BeforeCondition"),
-                        afterCondition: context.Forms.Int("AfterCondition"),
-                        expression: (Notification.Expressions)context.Forms.Int("Expression"),
-                        afterCreate: context.Forms.Bool("NotificationAfterCreate"),
-                        afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
-                        afterDelete: context.Forms.Bool("NotificationAfterDelete"),
-                        afterCopy: context.Forms.Bool("NotificationAfterCopy"),
-                        afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
-                        afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
-                        afterImport: context.Forms.Bool("NotificationAfterImport"),
-                        disabled: context.Forms.Bool("NotificationDisabled"));
-                    SetNotificationsResponseCollection(context: context, res: res);
+                    var invalid = SiteValidators.SetNotification(
+                        context: context,
+                        ss: SiteSettings);
+                    switch (invalid.Type)
+                    {
+                        case Error.Types.None:
+                            notification.Update(
+                                type: (Notification.Types)context.Forms.Int("NotificationType"),
+                                prefix: context.Forms.Data("NotificationPrefix"),
+                                address: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("NotificationAddress")),
+                                token: context.Forms.Data("NotificationToken"),
+                                methodType: (Notification.MethodTypes)context.Forms.Int("NotificationMethodType"),
+                                encoding: context.Forms.Data("NotificationEncoding"),
+                                mediaType: context.Forms.Data("NotificationMediaType"),
+                                headers: context.Forms.Data("NotificationRequestHeaders"),
+                                useCustomFormat: context.Forms.Bool("NotificationUseCustomFormat"),
+                                format: SiteSettings.LabelTextToColumnName(
+                                    context.Forms.Data("NotificationFormat")),
+                                monitorChangesColumns: context.Forms.List("MonitorChangesColumnsAll"),
+                                beforeCondition: context.Forms.Int("BeforeCondition"),
+                                afterCondition: context.Forms.Int("AfterCondition"),
+                                expression: (Notification.Expressions)context.Forms.Int("Expression"),
+                                afterCreate: context.Forms.Bool("NotificationAfterCreate"),
+                                afterUpdate: context.Forms.Bool("NotificationAfterUpdate"),
+                                afterDelete: context.Forms.Bool("NotificationAfterDelete"),
+                                afterCopy: context.Forms.Bool("NotificationAfterCopy"),
+                                afterBulkUpdate: context.Forms.Bool("NotificationAfterBulkUpdate"),
+                                afterBulkDelete: context.Forms.Bool("NotificationAfterBulkDelete"),
+                                afterImport: context.Forms.Bool("NotificationAfterImport"),
+                                disabled: context.Forms.Bool("NotificationDisabled"));
+                            SetNotificationsResponseCollection(context: context, res: res);
+                            break;
+                        default:
+                            res.Message(invalid.Message(context: context));
+                            break;
+                    }
                 }
             }
         }
