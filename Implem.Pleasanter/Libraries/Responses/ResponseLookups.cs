@@ -14,6 +14,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
             ss.Links
                 ?.Where(link => $"{ss.ReferenceType}_{link.ColumnName}" == context.Forms.ControlId())
+                .Where(link => link.Lookups != null)
                 .SelectMany(link => link.Lookups)
                 .Where(lookup => lookup.OverwriteForm == true)
                 .ForEach(lookup => res.ClearFormData($"{ss.ReferenceType}_{lookup.To}"));
