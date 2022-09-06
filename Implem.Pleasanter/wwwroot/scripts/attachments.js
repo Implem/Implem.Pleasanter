@@ -19,7 +19,7 @@
 
     var deleteTemp = function (guid) {
         var deleteData = { Guid: guid };
-        $p.ajax(deleteUrl, 'post', deleteData, null, false);
+        $p.ajax(deleteUrl, 'post', deleteData, null, true);
     };
 
     function createStatusbar(status, progressBar, abort) {
@@ -29,15 +29,16 @@
         this.resetProgress = function () {
             this.progressBar.find('div').width(0);
         };
-        this.setProgress = function (progresses) {
-            var totalSize = 0;
-            var progressSize = 0;
-            for (var fileIndex = 0; fileIndex < filesList.length; ++fileIndex) {
-                totalSize += filesList[fileIndex].size;
-                progressSize += progresses[fileIndex];
+        this.updateTime = new Date().getTime();
+        this.setProgress = function () {
+            if ((this.updateTime + 250) > new Date().getTime()) return;
+            this.updateTime = new Date().getTime();
+            var uploaded = 0;
+            for (var index = 0; index < progresses.length; ++index) {
+                uploaded += progresses[index];
             }
-            var progress = progressSize / totalSize;
-            var progressBarWidth = progress * this.progressBar.width();
+            const progress = uploaded / (allUploadSize * 2);
+            const progressBarWidth = progress * this.progressBar.width();
             this.progressBar.find('div').animate({ width: progressBarWidth }, 10);
         };
         this.setAbortCalcHash = function () {
@@ -50,12 +51,15 @@
                 unbindUnloadHandler();
             });
         };
-        this.setAbort = function (uploader) {
-            var sb = this.status;
+        var aboutUploader = [];
+        this.setAbort = function (uploader, uuid) {
+            aboutUploader.push({ uploader: uploader, uuid: uuid });
+            this.abort.off('click.n2');
             this.abort.on('click.n2', function () {
-                uploader.abort();
-                for (var index = 0; index < uuids.length; ++index) {
-                    deleteTemp(uuids[index]);
+                for (var index = 0; index < aboutUploader.length; ++index) {
+                    const v = aboutUploader[index];
+                    v.uploader.abort();
+                    deleteTemp(v.uuid);
                 }
                 controls.statusBar.abort.off('click.n2');
             });
@@ -67,7 +71,6 @@
         const chunkSize = 1000 * 10;
         let offset = 0;
         let blockRead = null;
-        let time = new Date().getTime() - 1000;
         const readContent = function (evt) {
             if (isAborted) {
                 fileClear();
@@ -75,16 +78,13 @@
             }
             const result = new Uint8Array(evt.target.result);
             offset += result.length;
-            if ((time + 250) < new Date().getTime()) {
-                time = new Date().getTime();
-                var progress = parseInt(offset / 2, 10);
-                progresses[fileIndex] = progress;
-                controls.statusBar.setProgress(progresses);
-            }
             hash.update(result);
+            controls.statusBar.setProgress();
             if (offset >= file.size) {
+                progresses[fileIndex] = file.size;
                 func(fileIndex, file, uuid, hash.hex());
             } else {
+                progresses[fileIndex] = offset;
                 blockRead(offset);
             }
         };
@@ -102,82 +102,23 @@
         if ($("#IsNew").length) {
             sendData.formData.IsNew = $("#IsNew").val();
         }
-        input.fileupload({
-            dropZone: $(".control-attachments-upload")
-        })
-            .on('fileuploadprogressall', function (e, data) {
-                var progress = 0;
-                if (filesList.length < 2) {
-                    progress = parseInt((data.loaded / 2) + (file.size / 2), 10);
-                    if (dones[fileIndex]) progress = file.size;
-                    progresses[fileIndex] = progress;
-                    controls.statusBar.setProgress(progresses);
-                } else {
-                    progress = progresses[fileIndex];
-                    if (!progress) progress = parseInt((file.size / 2), 10);
-                    else progress += parseInt((maxChunkSize / 2), 10);
-                    if (progress > file.size) progress = file.size;
-                    progresses[fileIndex] = progress;
-                    controls.statusBar.setProgress(progresses);
-                }
-            })
-            .on('fileuploaddone', function (e, data) {
-                if (!success) {
-                    fileClear();
-                    return false;
-                }
-                if (!data.result.files || isAborted) {
-                    controls.statusBar.status.hide();
-                    success = false;
-                    for (var index = 0; index < uuids.length; ++index) {
-                        deleteTemp(uuids[index]);
-                    }
-                    if (!isAborted) $p.setByJsonElement(data.result[0]);
-                }
-                if (!success) {
-                    fileClear();
-                    return false;
-                }
-                dones[fileIndex] = true;
-                if (dones.filter(function (value) { return !value; }).length > 0) return;
-                var json = data.result.ResponseJson;
-                var url = data.url;
-                var methodType = 'POST';
-                var $control = $(this).parent();
-                var fdata = data.formData;
-                $p.setByJson(url, methodType, fdata, $control, true, JSON.parse(json));
-                isSending = false;
-                unbindUnloadHandler();
-            })
-            .on('fileuploadchunkdone', function (e, data) {
-                if (!data.result.files || isAborted) {
-                    controls.statusBar.status.hide();
-                    success = false;
-                    for (var index = 0; index < uuids.length; ++index) {
-                        deleteTemp(uuids[index]);
-                    }
-                    if (!isAborted) $p.setByJsonElement(data.result[0]);
-                }
-            })
-            .on('fileuploadchunksend', function (e, data) {
-                isSending = true;
-                if (success) return true;
-                fileClear();
-                return false;
-            });
         var ldata = jQuery.extend(true, {}, sendData);
         ldata.formData.uuid = uuid;
         ldata.files = [file];
         ldata.formData.FileHash = fileHash;
+        ldata.formData.FileIndex = fileIndex;
         var jqXHR = input.fileupload('send', ldata);
-        controls.statusBar.setAbort(jqXHR);
+        controls.statusBar.setAbort(jqXHR, uuid);
     }
+
 
     var dones = new Array();
     var fileIndex = 0;
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
         dones.push(false);
     }
+    var allUploadSize = 0;
+
     var success = true;
     var isAborted = false;
     var isSending = false;
@@ -190,7 +131,6 @@
         uuids.push(createUuid());
     }
     var fieldControl = control.closest('.field-control');
-    var input = fieldControl.find("#" + columnName + "\\.input");
     var siteId = fieldControl.closest("#EditorTabsContainer").attr("site-id");
     var url = $('.main-form').attr('action').replace('_action_', 'upload').replace('items', 'binaries');
     var deleteUrl = $('.main-form').attr('action').replace('_action_', 'binaries/deletetemp');
@@ -217,6 +157,7 @@
         fileSizeArray.push(filesList[fileIndex].size);
         fileTypeArray.push(filesList[fileIndex].type);
         progresses.push(0);
+        allUploadSize += filesList[fileIndex].size;
     }
     sendData.formData.fileNames = JSON.stringify(fileNameArray);
     sendData.formData.fileSizes = JSON.stringify(fileSizeArray);
@@ -233,6 +174,48 @@
     controls.statusBar.setAbortCalcHash();
     statusBar.resetProgress();
     $status.show();
+
+    var input = fieldControl.find("#" + columnName + "\\.input");
+    input.fileupload({
+        dropZone: $(".control-attachments-upload")
+    })
+        .on('fileuploadprogress', function (e, data) {
+            progresses[data.formData.FileIndex] = data.total + data.loaded;
+            controls.statusBar.setProgress();
+        })
+        .on('fileuploadstart', function (e, data) {
+            isSending = true;
+        })
+        .on('fileuploaddone', function (e, data) {
+            var fileIndex = data.formData.FileIndex;
+            if (!success) {
+                fileClear();
+                return false;
+            }
+            if (!data.result.files || isAborted) {
+                controls.statusBar.status.hide();
+                success = false;
+                for (var index = 0; index < uuids.length; ++index) {
+                    deleteTemp(uuids[index]);
+                }
+                if (!isAborted) $p.setByJsonElement(data.result[0]);
+            }
+            if (!success) {
+                fileClear();
+                return false;
+            }
+            dones[fileIndex] = true;
+            if (dones.filter(function (value) { return !value; }).length > 0) return;
+            var json = data.result.ResponseJson;
+            var url = data.url;
+            var methodType = 'POST';
+            var $control = $(this).parent();
+            var fdata = data.formData;
+            $p.setByJson(url, methodType, fdata, $control, true, JSON.parse(json));
+            isSending = false;
+            unbindUnloadHandler();
+        });
+
     for (fileIndex = 0; fileIndex < filesList.length; fileIndex++) {
         getMd5(fileIndex, filesList[fileIndex], uuids[fileIndex], upload);
     }
