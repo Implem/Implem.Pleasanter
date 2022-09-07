@@ -2666,10 +2666,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             : join + "," + o.ColumnName).ToList());
         }
 
-        public Dictionary<string, string> ViewFilterOptions(Context context, View view)
+        public Dictionary<string, string> ViewFilterOptions(
+            Context context,
+            View view,
+            bool currentTableOnly)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions().ForEach(join =>
+            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -3385,13 +3388,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> JoinOptions(
             SiteSettings ss = null,
             bool destinations = true,
-            bool sources = true)
+            bool sources = true,
+            bool currentTableOnly = false)
         {
             var hash = new Dictionary<string, string>();
             if (ss == null)
             {
                 ss = this;
                 hash.Add(string.Empty, $"[{Title}]");
+                // JOINされたテーブルを含まず現在のテーブルの項目のみ返却
+                if (currentTableOnly)
+                {
+                    return hash;
+                }
             }
             else
             {
