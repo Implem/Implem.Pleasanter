@@ -10215,7 +10215,7 @@ namespace Implem.Pleasanter.Models
                         labelPositionIsRight: true,
                         _using: prefix.IsNullOrEmpty())
                     .FieldSet(
-                        id: "ViewFiltersFilterConditionSettingsEditor",
+                        id: $"{prefix}ViewFiltersFilterConditionSettingsEditor",
                         css: "fieldset cf both" + (view.KeepFilterState == true
                             ? " hidden"
                             : string.Empty),
