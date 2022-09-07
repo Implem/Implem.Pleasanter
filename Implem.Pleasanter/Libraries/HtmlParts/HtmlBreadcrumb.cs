@@ -100,6 +100,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     context: context,
                                     ss: ss);
                     }
+                case "syslogs":
+                    return Breadcrumb(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        controller: context.Controller,
+                        display: Displays.SysLogs(context: context));
                 case "registrations":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(

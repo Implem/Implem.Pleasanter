@@ -71,18 +71,28 @@ namespace Implem.Pleasanter.Libraries.Responses
                 .SetMemory("formChanged", false, _using: !editOnGrid)
                 .Invoke(invoke)
                 .Message(message)
-                .Messages(context.Messages)
                 .LoadScroll(loadScroll)
                 .ClearFormData(
                     context: context,
                     ss: ss,
                     editOnGrid: editOnGrid)
+                .FilterField(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    controlId: "ViewFilters_Negative",
+                    prefix: "ViewFilters__")
+                .FilterField(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    controlId: "ViewFilters_Positive",
+                    prefix: "ViewFilters__")
                 .ServerScriptResponses(
                     context: context,
                     ss: ss,
                     view: view,
-                    responses: serverScriptModelRow?.Responses)
-                .Log(context.GetLog());
+                    responses: serverScriptModelRow?.Responses);
         }
 
         private static ResponseCollection ClearFormData(

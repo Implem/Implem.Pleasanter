@@ -664,7 +664,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var selected = view?
                 .ColumnFilter(ColumnName)?
                 .Deserialize<List<string>>();
-            if (addNotSet && !Required)
+            if (addNotSet && NotRequiredOrUser())
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
             }
@@ -703,6 +703,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         private bool CanEmpty()
         {
             return !Required && ValidateRequired != true;
+        }
+
+        private bool NotRequiredOrUser()
+        {
+            return !Required || Type == Types.User;
         }
 
         public Choice Choice(string selectedValue, string nullCase = null)
@@ -1074,12 +1079,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 statements: Rds.SelectGroupMembers(
                     column: Rds.GroupMembersColumn().GroupId(),
                     where: Rds.GroupMembersWhere()
-                        .Or(or: Rds.GroupMembersWhere()
-                            .DeptId(context.DeptId)
-                            .UserId(context.UserId))))
-                                .AsEnumerable()
-                                .Select(dataRow => dataRow.Int("GroupId"))
-                                .FirstOrDefault(groupId => ChoiceHash.ContainsKey(groupId.ToString()));
+                        .Add(raw: Permissions.DeptOrUser(tableName: "GroupMembers"))))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Int("GroupId"))
+                            .FirstOrDefault(groupId => ChoiceHash.ContainsKey(groupId.ToString()));
         }
 
         public bool OtherColumn()
@@ -1722,6 +1725,148 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     _as: Joined
                                         ? path + ",ItemTitle"
                                         : "ItemTitle");
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))
+                            {
+                                case "Class":
+                                case "Num":
+                                case "Date":
+                                case "Description":
+                                case "Check":
+                                case "Attachments":
+                                    sql.Add(
+                                        columnBracket: $"\"{columnName}\"",
+                                        tableName: path,
+                                        columnName: columnName,
+                                        _as: _as);
+                                break;
+                            }
+                            break;
+                    }
+                    break;
+                case "SysLogs":
+                    switch (columnName)
+                    {
+                        case "CreatedTime":
+                            sql.SysLogs_CreatedTime(tableName: path, _as: _as);
+                            break;
+                        case "SysLogId":
+                            sql.SysLogs_SysLogId(tableName: path, _as: _as);
+                            break;
+                        case "Ver":
+                            sql.SysLogs_Ver(tableName: path, _as: _as);
+                            break;
+                        case "SysLogType":
+                            sql.SysLogs_SysLogType(tableName: path, _as: _as);
+                            break;
+                        case "OnAzure":
+                            sql.SysLogs_OnAzure(tableName: path, _as: _as);
+                            break;
+                        case "MachineName":
+                            sql.SysLogs_MachineName(tableName: path, _as: _as);
+                            break;
+                        case "ServiceName":
+                            sql.SysLogs_ServiceName(tableName: path, _as: _as);
+                            break;
+                        case "TenantName":
+                            sql.SysLogs_TenantName(tableName: path, _as: _as);
+                            break;
+                        case "Application":
+                            sql.SysLogs_Application(tableName: path, _as: _as);
+                            break;
+                        case "Class":
+                            sql.SysLogs_Class(tableName: path, _as: _as);
+                            break;
+                        case "Method":
+                            sql.SysLogs_Method(tableName: path, _as: _as);
+                            break;
+                        case "RequestData":
+                            sql.SysLogs_RequestData(tableName: path, _as: _as);
+                            break;
+                        case "HttpMethod":
+                            sql.SysLogs_HttpMethod(tableName: path, _as: _as);
+                            break;
+                        case "RequestSize":
+                            sql.SysLogs_RequestSize(tableName: path, _as: _as);
+                            break;
+                        case "ResponseSize":
+                            sql.SysLogs_ResponseSize(tableName: path, _as: _as);
+                            break;
+                        case "Elapsed":
+                            sql.SysLogs_Elapsed(tableName: path, _as: _as);
+                            break;
+                        case "ApplicationAge":
+                            sql.SysLogs_ApplicationAge(tableName: path, _as: _as);
+                            break;
+                        case "ApplicationRequestInterval":
+                            sql.SysLogs_ApplicationRequestInterval(tableName: path, _as: _as);
+                            break;
+                        case "SessionAge":
+                            sql.SysLogs_SessionAge(tableName: path, _as: _as);
+                            break;
+                        case "SessionRequestInterval":
+                            sql.SysLogs_SessionRequestInterval(tableName: path, _as: _as);
+                            break;
+                        case "WorkingSet64":
+                            sql.SysLogs_WorkingSet64(tableName: path, _as: _as);
+                            break;
+                        case "VirtualMemorySize64":
+                            sql.SysLogs_VirtualMemorySize64(tableName: path, _as: _as);
+                            break;
+                        case "ProcessId":
+                            sql.SysLogs_ProcessId(tableName: path, _as: _as);
+                            break;
+                        case "ProcessName":
+                            sql.SysLogs_ProcessName(tableName: path, _as: _as);
+                            break;
+                        case "BasePriority":
+                            sql.SysLogs_BasePriority(tableName: path, _as: _as);
+                            break;
+                        case "Url":
+                            sql.SysLogs_Url(tableName: path, _as: _as);
+                            break;
+                        case "UrlReferer":
+                            sql.SysLogs_UrlReferer(tableName: path, _as: _as);
+                            break;
+                        case "UserHostName":
+                            sql.SysLogs_UserHostName(tableName: path, _as: _as);
+                            break;
+                        case "UserHostAddress":
+                            sql.SysLogs_UserHostAddress(tableName: path, _as: _as);
+                            break;
+                        case "UserLanguage":
+                            sql.SysLogs_UserLanguage(tableName: path, _as: _as);
+                            break;
+                        case "UserAgent":
+                            sql.SysLogs_UserAgent(tableName: path, _as: _as);
+                            break;
+                        case "SessionGuid":
+                            sql.SysLogs_SessionGuid(tableName: path, _as: _as);
+                            break;
+                        case "ErrMessage":
+                            sql.SysLogs_ErrMessage(tableName: path, _as: _as);
+                            break;
+                        case "ErrStackTrace":
+                            sql.SysLogs_ErrStackTrace(tableName: path, _as: _as);
+                            break;
+                        case "InDebug":
+                            sql.SysLogs_InDebug(tableName: path, _as: _as);
+                            break;
+                        case "AssemblyVersion":
+                            sql.SysLogs_AssemblyVersion(tableName: path, _as: _as);
+                            break;
+                        case "Comments":
+                            sql.SysLogs_Comments(tableName: path, _as: _as);
+                            break;
+                        case "Creator":
+                            sql.SysLogs_Creator(tableName: path, _as: _as);
+                            break;
+                        case "Updator":
+                            sql.SysLogs_Updator(tableName: path, _as: _as);
+                            break;
+                        case "UpdatedTime":
+                            sql.SysLogs_UpdatedTime(tableName: path, _as: _as);
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(columnName ?? string.Empty))

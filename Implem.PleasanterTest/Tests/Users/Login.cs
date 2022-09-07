@@ -18,16 +18,16 @@ namespace Implem.PleasanterTest.Tests.Users
             Context context,
             string returnUrl,
             string message,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var results = UserUtilities.HtmlLogin(
                 context: context,
                 returnUrl: returnUrl,
                 message: message);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData => new List<object[]>()
@@ -43,7 +43,7 @@ namespace Implem.PleasanterTest.Tests.Users
                 context,
                 string.Empty,
                 string.Empty,
-                HtmlData.Tests(
+                BaseData.Tests(
                     HtmlData.ExistsOne(selector: "#Users_LoginId"),
                     HtmlData.ExistsOne(selector: "#Users_Password"),
                     HtmlData.ExistsOne(selector: "#Users_RememberMe"),

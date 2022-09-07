@@ -1,17 +1,10 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.PleasanterTest.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Implem.PleasanterTest.Utilities
 {
     public static class HtmlData
     {
-        public static List<HtmlTest> Tests(params HtmlTest[] tests)
-        {
-            return tests.ToList();
-        }
-
         public static HtmlTest ExistsOne(string selector)
         {
             return new HtmlTest()
@@ -46,11 +39,11 @@ namespace Implem.PleasanterTest.Utilities
             {
                 Type = HtmlTest.Types.Text,
                 Selector = selector,
-                TextTests = new TextTest()
+                TextTest = new TextTest()
                 {
                     Type = TextTest.Types.Contains,
                     Value = value
-                }.ToSingleList()
+                }
             };
         }
 

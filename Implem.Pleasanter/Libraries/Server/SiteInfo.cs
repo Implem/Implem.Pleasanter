@@ -510,12 +510,11 @@ namespace Implem.Pleasanter.Libraries.Server
                 context: context,
                 tenantCache: tenantCache,
                 dataRows: dataRows);
-            SetLinks(
-                context: context,
-                tenantCache: tenantCache,
-                sitesUpdatedTime: sitesUpdatedTime);
             if (dataRows.Any())
             {
+                SetLinks(
+                    context: context,
+                    tenantCache: tenantCache);
                 tenantCache.SitesUpdatedTime = dataRows
                     .Max(o => o.Field<DateTime>("UpdatedTime"))
                     .ToString("yyyy/M/d H:m:s.fff");
@@ -555,32 +554,35 @@ namespace Implem.Pleasanter.Libraries.Server
 
         private static void SetLinks(
             Context context,
-            TenantCache tenantCache,
-            DateTime sitesUpdatedTime)
+            TenantCache tenantCache)
         {
             var dataRows = Rds.ExecuteTable(
                 context: context,
-                statements: new SqlStatement[]
-                {
-                    SelectLinks(
-                        context: context,
-                        sitesUpdatedTime: sitesUpdatedTime,
-                        tableName: "DestinationSites"),
-                    SelectLinks(
-                        context: context,
-                        sitesUpdatedTime: sitesUpdatedTime,
-                        tableName: "SourceSites",
-                        unionType: Sqls.UnionTypes.UnionAll)
-                })
-                    .AsEnumerable();
+                statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .DestinationId()
+                        .SourceId(),
+                    join: new SqlJoinCollection(
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
+                            _as: "DestinationSites"),
+                        new SqlJoin(
+                            tableBracket: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
+                            _as: "SourceSites")),
+                    where: Rds.SitesWhere()
+                        .TenantId(context.TenantId, tableName: "DestinationSites")
+                        .TenantId(context.TenantId, tableName: "SourceSites")
+                        .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
+                        .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")))
+                            .AsEnumerable();
             if (dataRows.Any())
             {
                 var destinationKeyValues = new Dictionary<long, List<long>>();
                 var sourceKeyValues = new Dictionary<long, List<long>>();
-                tenantCache.Links?.DestinationKeyValues.ForEach(data =>
-                    destinationKeyValues.Add(data.Key, data.Value));
-                tenantCache.Links?.SourceKeyValues.ForEach(data =>
-                    sourceKeyValues.Add(data.Key, data.Value));
                 foreach (var data in dataRows.GroupBy(dataRow => dataRow.Long("DestinationId")))
                 {
                     destinationKeyValues.AddOrUpdate(
@@ -606,36 +608,6 @@ namespace Implem.Pleasanter.Libraries.Server
                 tenantCache.Links.DestinationKeyValues = destinationKeyValues;
                 tenantCache.Links.SourceKeyValues = sourceKeyValues;
             }
-        }
-
-        private static SqlSelect SelectLinks(
-            Context context,
-            DateTime sitesUpdatedTime,
-            string tableName,
-            Sqls.UnionTypes unionType = Sqls.UnionTypes.None)
-        {
-            return Rds.SelectLinks(
-                column: Rds.LinksColumn()
-                    .DestinationId()
-                    .SourceId(),
-                join: new SqlJoinCollection(
-                    new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"DestinationSites\".\"SiteId\"=\"Links\".\"DestinationId\"",
-                        _as: "DestinationSites"),
-                    new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"SourceSites\".\"SiteId\"=\"Links\".\"SourceId\"",
-                        _as: "SourceSites")),
-                where: Rds.SitesWhere()
-                    .TenantId(context.TenantId, tableName: "DestinationSites")
-                    .TenantId(context.TenantId, tableName: "SourceSites")
-                    .ReferenceType("Wikis", tableName: "DestinationSites", _operator: "<>")
-                    .ReferenceType("Wikis", tableName: "SourceSites", _operator: "<>")
-                    .UpdatedTime(sitesUpdatedTime, tableName: tableName, _operator: ">"),
-                unionType: unionType);
         }
 
         public static void DeleteSiteCaches(Context context, List<long> siteIds)

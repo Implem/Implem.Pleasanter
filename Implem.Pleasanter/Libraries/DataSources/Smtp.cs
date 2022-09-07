@@ -98,6 +98,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }
                 using (var smtpClient = new SmtpClient())
                 {
+                    if (Parameters.Mail.ServerCertificateValidationCallback)
+                    {
+                        // 下記のエラーが発生する環境では、Mail.jsonのServerCertificateValidationCallbackをtrueに設定する
+                        // The server's SSL certificate could not be validated for the following reasons
+                        smtpClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                    }
                     var options = Parameters.Mail.SmtpEnableSsl
                         ? MailKit.Security.SecureSocketOptions.StartTls
                         : MailKit.Security.SecureSocketOptions.None;

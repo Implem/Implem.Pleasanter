@@ -59,6 +59,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             Range = 2
         }
 
+        public static DateFilterSetMode GetDateFilterSetMode(ColumnDefinition columnDefinition)
+        {
+            switch (columnDefinition.DateFilterSetMode)
+            {
+                case 2:
+                    return DateFilterSetMode.Range;
+                default:
+                    return DateFilterSetMode.Default;
+            }
+        }
+
         public static Dictionary<string, string> DateFilterSetModeOptions(Context context)
         {
             return new Dictionary<string, string>

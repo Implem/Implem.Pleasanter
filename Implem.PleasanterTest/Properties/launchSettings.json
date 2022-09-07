@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Implem.PleasanterTest": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

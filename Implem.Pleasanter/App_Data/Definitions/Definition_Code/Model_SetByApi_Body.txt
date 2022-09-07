@@ -13,10 +13,10 @@
 
     if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
     if (data.VerUp != null) VerUp = data.VerUp.ToBool();
-    data.ClassHash?.ForEach(o => GetClass(
+    data.ClassHash?.ForEach(o => SetClass(
         columnName: o.Key,
         value: o.Value));
-    data.NumHash?.ForEach(o => GetNum(
+    data.NumHash?.ForEach(o => SetNum(
         columnName: o.Key,
         value: new Num(
             context: context,
@@ -24,13 +24,13 @@
                 context: context,
                 columnName: o.Key),
             value: o.Value.ToString())));
-    data.DateHash?.ForEach(o => GetDate(
+    data.DateHash?.ForEach(o => SetDate(
         columnName: o.Key,
         value: o.Value.ToDateTime().ToUniversal(context: context)));
-    data.DescriptionHash?.ForEach(o => GetDescription(
+    data.DescriptionHash?.ForEach(o => SetDescription(
         columnName: o.Key,
         value: o.Value));
-    data.CheckHash?.ForEach(o => GetCheck(
+    data.CheckHash?.ForEach(o => SetCheck(
         columnName: o.Key,
         value: o.Value));
     data.AttachmentsHash?.ForEach(o =>
@@ -91,7 +91,7 @@
                     Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
             }
         }
-        GetAttachments(columnName: columnName, value: newAttachments);
+        SetAttachments(columnName: columnName, value: newAttachments);
     });
 
 <!--Model_SetByApi_RecordPermissions-->

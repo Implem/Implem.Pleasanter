@@ -17,7 +17,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -25,10 +25,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsDeleteComment(id: id),
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -60,12 +60,12 @@ namespace Implem.PleasanterTest.Tests.Items
                     forms: FormsUtilities.Get(
                         new KeyValue("ControlId", $"DeleteComment,{testPart.CommentId}")),
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.UpdateResponseType == 0
-                        ? JsonData.ReplaceAll(
-                            target: "#MainContainer",
-                            selector: "#Editor").ToSingleList()
-                        : new List<JsonTest>()
-                        {
+                    baseTests: testPart.UpdateResponseType == 0
+                        ? BaseData.Tests(
+                            JsonData.ReplaceAll(
+                                target: "#MainContainer",
+                                selector: "#Editor"))
+                        : BaseData.Tests(
                             JsonData.ExistsOne(
                                 method: "Html",
                                 target: "#HeaderTitle"),
@@ -77,8 +77,7 @@ namespace Implem.PleasanterTest.Tests.Items
                                 target: "formChanged"),
                             JsonData.ExistsOne(
                                 method: "Remove",
-                                target: $"[id=\"Comment{testPart.CommentId}.wrapper\"]"),
-                        });
+                                target: $"[id=\"Comment{testPart.CommentId}.wrapper\"]")));
             }
         }
 
@@ -86,14 +85,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

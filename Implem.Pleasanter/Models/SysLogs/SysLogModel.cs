@@ -380,9 +380,651 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != AssemblyVersion);
         }
 
+        public string CsvData(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            ExportColumn exportColumn,
+            List<string> mine,
+            bool? encloseDoubleQuotes)
+        {
+            var value = string.Empty;
+            switch (column.Name)
+            {
+                case "CreatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? CreatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SysLogId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SysLogId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Ver":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Ver.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SysLogType":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SysLogType.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "OnAzure":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? OnAzure.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "MachineName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? MachineName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ServiceName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ServiceName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "TenantName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? TenantName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Application":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Application.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Class":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Class.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Method":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Method.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "RequestData":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? RequestData.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "HttpMethod":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? HttpMethod.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "RequestSize":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? RequestSize.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ResponseSize":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ResponseSize.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Elapsed":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Elapsed.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ApplicationAge":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ApplicationAge.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ApplicationRequestInterval":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ApplicationRequestInterval.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SessionAge":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SessionAge.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SessionRequestInterval":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SessionRequestInterval.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "WorkingSet64":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? WorkingSet64.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "VirtualMemorySize64":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? VirtualMemorySize64.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ProcessId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ProcessId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ProcessName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ProcessName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "BasePriority":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? BasePriority.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Url":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Url.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UrlReferer":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UrlReferer.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UserHostName":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UserHostName.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UserHostAddress":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UserHostAddress.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UserLanguage":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UserLanguage.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UserAgent":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UserAgent.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SessionGuid":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SessionGuid.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ErrMessage":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ErrMessage.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ErrStackTrace":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ErrStackTrace.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "InDebug":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? InDebug.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "AssemblyVersion":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? AssemblyVersion.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Comments":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Comments.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Creator":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Creator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Updator":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Updator.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "UpdatedTime":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? UpdatedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetClass(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Num":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetNum(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Date":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetDate(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Description":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetDescription(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Check":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetCheck(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        case "Attachments":
+                            value = ss.ReadColumnAccessControls.Allowed(
+                                context: context,
+                                ss: ss,
+                                column: column,
+                                mine: mine)
+                                    ? GetAttachments(columnName: column.Name).ToExport(
+                                        context: context,
+                                        column: column,
+                                        exportColumn: exportColumn)
+                                    : string.Empty;
+                            break;
+                        default: return string.Empty;
+                    }
+                    break;
+            }
+            return CsvUtilities.EncloseDoubleQuotes(
+                value: value,
+                encloseDoubleQuotes: encloseDoubleQuotes);
+        }
+
+        public List<long> SwitchTargets;
+
+        public SysLogModel()
+        {
+        }
+
         public SysLogModel(
             Context context,
+            SiteSettings ss,
+            Dictionary<string, string> formData = null,
+            bool setByApi = false,
+            MethodTypes methodType = MethodTypes.NotSet)
+        {
+            OnConstructing(context: context);
+            if (formData != null)
+            {
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
+            }
+            if (setByApi) SetByApi(context: context, ss: ss);
+            MethodType = methodType;
+            OnConstructed(context: context);
+        }
+
+        public SysLogModel(
+            Context context,
+            SiteSettings ss,
+            long sysLogId,
+            Dictionary<string, string> formData = null,
+            bool setByApi = false,
+            bool clearSessions = false,
+            List<long> switchTargets = null,
+            MethodTypes methodType = MethodTypes.NotSet)
+        {
+            OnConstructing(context: context);
+            SysLogId = sysLogId;
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Get(context: context,
+                    tableType: Sqls.TableTypes.NormalAndHistory,
+                    where: Rds.SysLogsWhereDefault(
+                        context: context,
+                        sysLogModel: this)
+                            .SysLogs_Ver(context.QueryStrings.Int("ver")), ss: ss);
+            }
+            else
+            {
+                Get(context: context, ss: ss);
+            }
+            if (clearSessions) ClearSessions(context: context);
+            if (formData != null)
+            {
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
+            }
+            if (setByApi) SetByApi(context: context, ss: ss);
+            SwitchTargets = switchTargets;
+            MethodType = methodType;
+            OnConstructed(context: context);
+        }
+
+        public SysLogModel(
+            Context context,
+            SiteSettings ss,
             DataRow dataRow,
+            Dictionary<string, string> formData = null,
             string tableAlias = null)
         {
             OnConstructing(context: context);
@@ -390,8 +1032,16 @@ namespace Implem.Pleasanter.Models
             {
                 Set(
                     context: context,
+                    ss: ss,
                     dataRow: dataRow,
                     tableAlias: tableAlias);
+            }
+            if (formData != null)
+            {
+                SetByForm(
+                    context: context,
+                    ss: ss,
+                    formData: formData);
             }
             OnConstructed(context: context);
         }
@@ -410,6 +1060,7 @@ namespace Implem.Pleasanter.Models
 
         public SysLogModel Get(
             Context context,
+            SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlColumnCollection column = null,
             SqlJoinCollection join = null,
@@ -424,7 +1075,7 @@ namespace Implem.Pleasanter.Models
                 sysLogModel: this);
             column = (column ?? Rds.SysLogsDefaultColumns());
             join = join ?? Rds.SysLogsJoinDefault();
-            Set(context, Repository.ExecuteTable(
+            Set(context, ss, Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectSysLogs(
                     tableType: tableType,
@@ -438,21 +1089,1355 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
+        public SysLogApiModel GetByApi(Context context, SiteSettings ss)
+        {
+            var data = new SysLogApiModel()
+            {
+                ApiVersion = context.ApiVersion
+            };
+            ss.ReadableColumns(context: context, noJoined: true).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
+                    case "SysLogId": data.SysLogId = SysLogId; break;
+                    case "Ver": data.Ver = Ver; break;
+                    case "SysLogType": data.SysLogType = SysLogType.ToInt(); break;
+                    case "OnAzure": data.OnAzure = OnAzure; break;
+                    case "MachineName": data.MachineName = MachineName; break;
+                    case "ServiceName": data.ServiceName = ServiceName; break;
+                    case "TenantName": data.TenantName = TenantName; break;
+                    case "Application": data.Application = Application; break;
+                    case "Class": data.Class = Class; break;
+                    case "Method": data.Method = Method; break;
+                    case "RequestData": data.RequestData = RequestData; break;
+                    case "HttpMethod": data.HttpMethod = HttpMethod; break;
+                    case "RequestSize": data.RequestSize = RequestSize; break;
+                    case "ResponseSize": data.ResponseSize = ResponseSize; break;
+                    case "Elapsed": data.Elapsed = Elapsed; break;
+                    case "ApplicationAge": data.ApplicationAge = ApplicationAge; break;
+                    case "ApplicationRequestInterval": data.ApplicationRequestInterval = ApplicationRequestInterval; break;
+                    case "SessionAge": data.SessionAge = SessionAge; break;
+                    case "SessionRequestInterval": data.SessionRequestInterval = SessionRequestInterval; break;
+                    case "WorkingSet64": data.WorkingSet64 = WorkingSet64; break;
+                    case "VirtualMemorySize64": data.VirtualMemorySize64 = VirtualMemorySize64; break;
+                    case "ProcessId": data.ProcessId = ProcessId; break;
+                    case "ProcessName": data.ProcessName = ProcessName; break;
+                    case "BasePriority": data.BasePriority = BasePriority; break;
+                    case "Url": data.Url = Url; break;
+                    case "UrlReferer": data.UrlReferer = UrlReferer; break;
+                    case "UserHostName": data.UserHostName = UserHostName; break;
+                    case "UserHostAddress": data.UserHostAddress = UserHostAddress; break;
+                    case "UserLanguage": data.UserLanguage = UserLanguage; break;
+                    case "UserAgent": data.UserAgent = UserAgent; break;
+                    case "SessionGuid": data.SessionGuid = SessionGuid; break;
+                    case "ErrMessage": data.ErrMessage = ErrMessage; break;
+                    case "ErrStackTrace": data.ErrStackTrace = ErrStackTrace; break;
+                    case "InDebug": data.InDebug = InDebug; break;
+                    case "AssemblyVersion": data.AssemblyVersion = AssemblyVersion; break;
+                    case "Creator": data.Creator = Creator.Id; break;
+                    case "Updator": data.Updator = Updator.Id; break;
+                    case "UpdatedTime": data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context); break;
+                    case "Comments": data.Comments = Comments.ToLocal(context: context).ToJson(); break;
+                    default: 
+                        data.Value(
+                            context: context,
+                            column: column,
+                            value: GetValue(
+                                context: context,
+                                column: column,
+                                toLocal: true));
+                        break;
+                }
+            });
+            return data;
+        }
+
+        public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.Name)
+            {
+                case "SysLogId":
+                    return SysLogId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EndTime":
+                    return EndTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SysLogType":
+                    return SysLogType.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "OnAzure":
+                    return OnAzure.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MachineName":
+                    return MachineName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ServiceName":
+                    return ServiceName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TenantName":
+                    return TenantName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Application":
+                    return Application.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Class":
+                    return Class.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Method":
+                    return Method.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RequestData":
+                    return RequestData.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "HttpMethod":
+                    return HttpMethod.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RequestSize":
+                    return RequestSize.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ResponseSize":
+                    return ResponseSize.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Elapsed":
+                    return Elapsed.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApplicationAge":
+                    return ApplicationAge.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApplicationRequestInterval":
+                    return ApplicationRequestInterval.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionAge":
+                    return SessionAge.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionRequestInterval":
+                    return SessionRequestInterval.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkingSet64":
+                    return WorkingSet64.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VirtualMemorySize64":
+                    return VirtualMemorySize64.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProcessId":
+                    return ProcessId.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProcessName":
+                    return ProcessName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "BasePriority":
+                    return BasePriority.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Url":
+                    return Url.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UrlReferer":
+                    return UrlReferer.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserHostName":
+                    return UserHostName.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserHostAddress":
+                    return UserHostAddress.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserLanguage":
+                    return UserLanguage.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserAgent":
+                    return UserAgent.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionGuid":
+                    return SessionGuid.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ErrMessage":
+                    return ErrMessage.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ErrStackTrace":
+                    return ErrStackTrace.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "InDebug":
+                    return InDebug.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AssemblyVersion":
+                    return AssemblyVersion.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "CreatedTime":
+                    return CreatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return GetClass(columnName: column.Name).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return GetNum(columnName: column.Name).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return GetDate(columnName: column.Name).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return GetDescription(columnName: column.Name).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return GetCheck(columnName: column.Name).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return GetAttachments(columnName: column.Name).ToDisplay(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
+        public object ToApiDisplayValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.Name)
+            {
+                case "CreatedTime":
+                    return CreatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SysLogId":
+                    return SysLogId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EndTime":
+                    return EndTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SysLogType":
+                    return SysLogType.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "OnAzure":
+                    return OnAzure.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MachineName":
+                    return MachineName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ServiceName":
+                    return ServiceName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TenantName":
+                    return TenantName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Application":
+                    return Application.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Class":
+                    return Class.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Method":
+                    return Method.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RequestData":
+                    return RequestData.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "HttpMethod":
+                    return HttpMethod.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RequestSize":
+                    return RequestSize.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ResponseSize":
+                    return ResponseSize.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Elapsed":
+                    return Elapsed.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApplicationAge":
+                    return ApplicationAge.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApplicationRequestInterval":
+                    return ApplicationRequestInterval.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionAge":
+                    return SessionAge.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionRequestInterval":
+                    return SessionRequestInterval.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkingSet64":
+                    return WorkingSet64.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VirtualMemorySize64":
+                    return VirtualMemorySize64.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProcessId":
+                    return ProcessId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProcessName":
+                    return ProcessName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "BasePriority":
+                    return BasePriority.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Url":
+                    return Url.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UrlReferer":
+                    return UrlReferer.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserHostName":
+                    return UserHostName.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserHostAddress":
+                    return UserHostAddress.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserLanguage":
+                    return UserLanguage.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserAgent":
+                    return UserAgent.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionGuid":
+                    return SessionGuid.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ErrMessage":
+                    return ErrMessage.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ErrStackTrace":
+                    return ErrStackTrace.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "InDebug":
+                    return InDebug.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AssemblyVersion":
+                    return AssemblyVersion.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return GetClass(columnName: column.Name).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return GetNum(columnName: column.Name).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return GetDate(columnName: column.Name).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return GetDescription(columnName: column.Name).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return GetCheck(columnName: column.Name).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return GetAttachments(columnName: column.Name).ToApiDisplayValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
+        public object ToApiValue(Context context, SiteSettings ss, Column column, List<string> mine)
+        {
+            if (!ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: mine))
+            {
+                return string.Empty;
+            }
+            switch (column.Name)
+            {
+                case "CreatedTime":
+                    return CreatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SysLogId":
+                    return SysLogId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Ver":
+                    return Ver.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "StartTime":
+                    return StartTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EndTime":
+                    return EndTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SysLogType":
+                    return SysLogType.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "OnAzure":
+                    return OnAzure.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "MachineName":
+                    return MachineName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ServiceName":
+                    return ServiceName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TenantName":
+                    return TenantName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Application":
+                    return Application.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Class":
+                    return Class.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Method":
+                    return Method.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RequestData":
+                    return RequestData.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "HttpMethod":
+                    return HttpMethod.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "RequestSize":
+                    return RequestSize.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ResponseSize":
+                    return ResponseSize.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Elapsed":
+                    return Elapsed.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApplicationAge":
+                    return ApplicationAge.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ApplicationRequestInterval":
+                    return ApplicationRequestInterval.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionAge":
+                    return SessionAge.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionRequestInterval":
+                    return SessionRequestInterval.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "WorkingSet64":
+                    return WorkingSet64.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VirtualMemorySize64":
+                    return VirtualMemorySize64.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProcessId":
+                    return ProcessId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ProcessName":
+                    return ProcessName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "BasePriority":
+                    return BasePriority.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Url":
+                    return Url.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UrlReferer":
+                    return UrlReferer.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserHostName":
+                    return UserHostName.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserHostAddress":
+                    return UserHostAddress.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserLanguage":
+                    return UserLanguage.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UserAgent":
+                    return UserAgent.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SessionGuid":
+                    return SessionGuid.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ErrMessage":
+                    return ErrMessage.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ErrStackTrace":
+                    return ErrStackTrace.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Title":
+                    return Title.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "InDebug":
+                    return InDebug.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "AssemblyVersion":
+                    return AssemblyVersion.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Comments":
+                    return Comments.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Creator":
+                    return Creator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Updator":
+                    return Updator.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "UpdatedTime":
+                    return UpdatedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "VerUp":
+                    return VerUp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Timestamp":
+                    return Timestamp.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                    {
+                        case "Class":
+                            return GetClass(columnName: column.Name).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Num":
+                            return GetNum(columnName: column.Name).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Date":
+                            return GetDate(columnName: column.Name).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Description":
+                            return GetDescription(columnName: column.Name).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Check":
+                            return GetCheck(columnName: column.Name).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        case "Attachments":
+                            return GetAttachments(columnName: column.Name).ToApiValue(
+                                context: context,
+                                ss: ss,
+                                column: column);
+                        default:
+                            return string.Empty;
+                    }
+            }
+        }
+
+        public ErrorData Create(
+            Context context,
+            SiteSettings ss,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            string noticeType = "Created",
+            bool otherInitValue = false,
+            bool get = true)
+        {
+            var statements = new List<SqlStatement>();
+            statements.AddRange(CreateStatements(
+                context: context,
+                ss: ss,
+                tableType: tableType,
+                param: param,
+                otherInitValue: otherInitValue));
+            var response = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                selectIdentity: true,
+                statements: statements.ToArray());
+            SysLogId = (response.Id ?? SysLogId).ToLong();
+            if (get) Get(context: context, ss: ss);
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public List<SqlStatement> CreateStatements(
+            Context context,
+            SiteSettings ss,
+            string dataTableName = null,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
+            SqlParamCollection param = null,
+            bool otherInitValue = false)
+        {
+            var statements = new List<SqlStatement>();
+            statements.AddRange(new List<SqlStatement>
+            {
+                Rds.InsertSysLogs(
+                    dataTableName: dataTableName,
+                    tableType: tableType,
+                    selectIdentity: true,
+                    param: param ?? Rds.SysLogsParamDefault(
+                        context: context,
+                        ss: ss,
+                        sysLogModel: this,
+                        setDefault: true,
+                        otherInitValue: otherInitValue))
+            });
+            return statements;
+        }
+
+        public ErrorData Update(
+            Context context,
+            SiteSettings ss,
+            SqlParamCollection param = null,
+            List<SqlStatement> additionalStatements = null,
+            bool otherInitValue = false,
+            bool setBySession = true,
+            bool get = true,
+            bool checkConflict = true) 
+        {
+            if (setBySession)
+            {
+                SetBySession(context: context);
+            }
+            var statements = new List<SqlStatement>();
+            statements.AddRange(UpdateStatements(
+                context: context,
+                ss: ss,
+                param: param,
+                otherInitValue: otherInitValue,
+                additionalStatements: additionalStatements,
+                checkConflict: checkConflict));
+            var response = Repository.ExecuteScalar_response(
+                context: context,
+                transactional: true,
+                statements: statements.ToArray());
+            if (response.Event == "Conflicted")
+            {
+                return new ErrorData(
+                    type: Error.Types.UpdateConflicts,
+                    id: SysLogId);
+            }
+            if (get)
+            {
+                Get(context: context, ss: ss);
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
+            string dataTableName = null,
+            SqlParamCollection param = null,
+            bool otherInitValue = false,
+            List<SqlStatement> additionalStatements = null,
+            bool checkConflict = true)
+        {
+            var timestamp = Timestamp.ToDateTime();
+            var statements = new List<SqlStatement>();
+            var where = Rds.SysLogsWhereDefault(
+                context: context,
+                sysLogModel: this)
+                    .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
+            if (Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp))
+            {
+                statements.Add(Rds.SysLogsCopyToStatement(
+                    where: where,
+                    tableType: Sqls.TableTypes.History,
+                    ColumnNames()));
+                Ver++;
+            }
+            statements.AddRange(UpdateStatements(
+                context: context,
+                ss: ss,
+                dataTableName: dataTableName,
+                where: where,
+                param: param,
+                otherInitValue: otherInitValue));
+            if (additionalStatements?.Any() == true)
+            {
+                statements.AddRange(additionalStatements);
+            }
+            return statements;
+        }
+
+        private List<SqlStatement> UpdateStatements(
+            Context context,
+            SiteSettings ss,
+            string dataTableName = null,
+            SqlWhereCollection where = null,
+            SqlParamCollection param = null,
+            bool otherInitValue = false)
+        {
+            return new List<SqlStatement>
+            {
+                Rds.UpdateSysLogs(
+                    dataTableName: dataTableName,
+                    where: where,
+                    param: param ?? Rds.SysLogsParamDefault(
+                        context: context,
+                        ss: ss,
+                        sysLogModel: this,
+                        otherInitValue: otherInitValue)),
+                new SqlStatement(Def.Sql.IfConflicted.Params(SysLogId))
+                {
+                    DataTableName = dataTableName,
+                    IfConflicted = true,
+                    Id = SysLogId
+                }
+            };
+        }
+
+        public ErrorData Delete(Context context, SiteSettings ss, bool notice = false)
+        {
+            var statements = new List<SqlStatement>();
+            var where = Rds.SysLogsWhere().SysLogId(SysLogId);
+            statements.AddRange(new List<SqlStatement>
+            {
+                Rds.DeleteSysLogs(
+                    factory: context,
+                    where: where)
+            });
+            Repository.ExecuteNonQuery(
+                context: context,
+                transactional: true,
+                statements: statements.ToArray());
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public void SetByForm(
+            Context context,
+            SiteSettings ss,
+            Dictionary<string, string> formData)
+        {
+            formData.ForEach(data =>
+            {
+                var key = data.Key;
+                var value = data.Value ?? string.Empty;
+                switch (key)
+                {
+                    case "SysLogs_StartTime": StartTime = value.ToDateTime().ToUniversal(context: context); break;
+                    case "SysLogs_EndTime": EndTime = value.ToDateTime().ToUniversal(context: context); break;
+                    case "SysLogs_SysLogType": SysLogType = (SysLogTypes)value.ToInt(); break;
+                    case "SysLogs_OnAzure": OnAzure = value.ToBool(); break;
+                    case "SysLogs_MachineName": MachineName = value.ToString(); break;
+                    case "SysLogs_ServiceName": ServiceName = value.ToString(); break;
+                    case "SysLogs_TenantName": TenantName = value.ToString(); break;
+                    case "SysLogs_Application": Application = value.ToString(); break;
+                    case "SysLogs_Class": Class = value.ToString(); break;
+                    case "SysLogs_Method": Method = value.ToString(); break;
+                    case "SysLogs_RequestData": RequestData = value.ToString(); break;
+                    case "SysLogs_HttpMethod": HttpMethod = value.ToString(); break;
+                    case "SysLogs_RequestSize": RequestSize = value.ToInt(); break;
+                    case "SysLogs_ResponseSize": ResponseSize = value.ToInt(); break;
+                    case "SysLogs_Elapsed": Elapsed = value.ToDouble(); break;
+                    case "SysLogs_ApplicationAge": ApplicationAge = value.ToDouble(); break;
+                    case "SysLogs_ApplicationRequestInterval": ApplicationRequestInterval = value.ToDouble(); break;
+                    case "SysLogs_SessionAge": SessionAge = value.ToDouble(); break;
+                    case "SysLogs_SessionRequestInterval": SessionRequestInterval = value.ToDouble(); break;
+                    case "SysLogs_WorkingSet64": WorkingSet64 = value.ToLong(); break;
+                    case "SysLogs_VirtualMemorySize64": VirtualMemorySize64 = value.ToLong(); break;
+                    case "SysLogs_ProcessId": ProcessId = value.ToInt(); break;
+                    case "SysLogs_ProcessName": ProcessName = value.ToString(); break;
+                    case "SysLogs_BasePriority": BasePriority = value.ToInt(); break;
+                    case "SysLogs_Url": Url = value.ToString(); break;
+                    case "SysLogs_UrlReferer": UrlReferer = value.ToString(); break;
+                    case "SysLogs_UserHostName": UserHostName = value.ToString(); break;
+                    case "SysLogs_UserHostAddress": UserHostAddress = value.ToString(); break;
+                    case "SysLogs_UserLanguage": UserLanguage = value.ToString(); break;
+                    case "SysLogs_UserAgent": UserAgent = value.ToString(); break;
+                    case "SysLogs_SessionGuid": SessionGuid = value.ToString(); break;
+                    case "SysLogs_ErrMessage": ErrMessage = value.ToString(); break;
+                    case "SysLogs_ErrStackTrace": ErrStackTrace = value.ToString(); break;
+                    case "SysLogs_InDebug": InDebug = value.ToBool(); break;
+                    case "SysLogs_AssemblyVersion": AssemblyVersion = value.ToString(); break;
+                    case "SysLogs_Timestamp": Timestamp = value.ToString(); break;
+                    case "Comments": Comments.Prepend(
+                        context: context,
+                        ss: ss,
+                        body: value); break;
+                    case "VerUp": VerUp = value.ToBool(); break;
+                    default:
+                        if (key.RegexExists("Comment[0-9]+"))
+                        {
+                            Comments.Update(
+                                context: context,
+                                ss: ss,
+                                commentId: key.Substring("Comment".Length).ToInt(),
+                                body: value);
+                        }
+                        else
+                        {
+                            var column = ss.GetColumn(
+                                context: context,
+                                columnName: key.Split_2nd('_'));
+                            switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
+                            {
+                                case "Class":
+                                    SetClass(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Num":
+                                    SetNum(
+                                        columnName: column.ColumnName,
+                                        value: new Num(
+                                            context: context,
+                                            column: column,
+                                            value: value));
+                                    break;
+                                case "Date":
+                                    SetDate(
+                                        columnName: column.ColumnName,
+                                        value: value.ToDateTime().ToUniversal(context: context));
+                                    break;
+                                case "Description":
+                                    SetDescription(
+                                        columnName: column.ColumnName,
+                                        value: value);
+                                    break;
+                                case "Check":
+                                    SetCheck(
+                                        columnName: column.ColumnName,
+                                        value: value.ToBool());
+                                    break;
+                                case "Attachments":
+                                    SetAttachments(
+                                        columnName: column.ColumnName,
+                                        value: value.Deserialize<Attachments>());
+                                    break;
+                            }
+                        }
+                        break;
+                }
+            });
+            if (context.QueryStrings.ContainsKey("ver"))
+            {
+                Ver = context.QueryStrings.Int("ver");
+            }
+            if (context.Action == "deletecomment")
+            {
+                DeleteCommentId = formData.Get("ControlId")?
+                    .Split(',')
+                    ._2nd()
+                    .ToInt() ?? 0;
+                Comments.RemoveAll(o => o.CommentId == DeleteCommentId);
+            }
+        }
+
+        public void SetByApi(Context context, SiteSettings ss)
+        {
+            var data = context.RequestDataString.Deserialize<SysLogApiModel>();
+            if (data == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                return;
+            }
+            if (data.SysLogType != null) SysLogType = (SysLogTypes)data.SysLogType.ToInt().ToInt();
+            if (data.OnAzure != null) OnAzure = data.OnAzure.ToBool().ToBool();
+            if (data.MachineName != null) MachineName = data.MachineName.ToString().ToString();
+            if (data.ServiceName != null) ServiceName = data.ServiceName.ToString().ToString();
+            if (data.TenantName != null) TenantName = data.TenantName.ToString().ToString();
+            if (data.Application != null) Application = data.Application.ToString().ToString();
+            if (data.Class != null) Class = data.Class.ToString().ToString();
+            if (data.Method != null) Method = data.Method.ToString().ToString();
+            if (data.RequestData != null) RequestData = data.RequestData.ToString().ToString();
+            if (data.HttpMethod != null) HttpMethod = data.HttpMethod.ToString().ToString();
+            if (data.RequestSize != null) RequestSize = data.RequestSize.ToInt().ToInt();
+            if (data.ResponseSize != null) ResponseSize = data.ResponseSize.ToInt().ToInt();
+            if (data.Elapsed != null) Elapsed = data.Elapsed.ToDouble().ToDouble();
+            if (data.ApplicationAge != null) ApplicationAge = data.ApplicationAge.ToDouble().ToDouble();
+            if (data.ApplicationRequestInterval != null) ApplicationRequestInterval = data.ApplicationRequestInterval.ToDouble().ToDouble();
+            if (data.SessionAge != null) SessionAge = data.SessionAge.ToDouble().ToDouble();
+            if (data.SessionRequestInterval != null) SessionRequestInterval = data.SessionRequestInterval.ToDouble().ToDouble();
+            if (data.WorkingSet64 != null) WorkingSet64 = data.WorkingSet64.ToLong().ToLong();
+            if (data.VirtualMemorySize64 != null) VirtualMemorySize64 = data.VirtualMemorySize64.ToLong().ToLong();
+            if (data.ProcessId != null) ProcessId = data.ProcessId.ToInt().ToInt();
+            if (data.ProcessName != null) ProcessName = data.ProcessName.ToString().ToString();
+            if (data.BasePriority != null) BasePriority = data.BasePriority.ToInt().ToInt();
+            if (data.Url != null) Url = data.Url.ToString().ToString();
+            if (data.UrlReferer != null) UrlReferer = data.UrlReferer.ToString().ToString();
+            if (data.UserHostName != null) UserHostName = data.UserHostName.ToString().ToString();
+            if (data.UserHostAddress != null) UserHostAddress = data.UserHostAddress.ToString().ToString();
+            if (data.UserLanguage != null) UserLanguage = data.UserLanguage.ToString().ToString();
+            if (data.UserAgent != null) UserAgent = data.UserAgent.ToString().ToString();
+            if (data.SessionGuid != null) SessionGuid = data.SessionGuid.ToString().ToString();
+            if (data.ErrMessage != null) ErrMessage = data.ErrMessage.ToString().ToString();
+            if (data.ErrStackTrace != null) ErrStackTrace = data.ErrStackTrace.ToString().ToString();
+            if (data.InDebug != null) InDebug = data.InDebug.ToBool().ToBool();
+            if (data.AssemblyVersion != null) AssemblyVersion = data.AssemblyVersion.ToString().ToString();
+            if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
+            if (data.VerUp != null) VerUp = data.VerUp.ToBool();
+            data.ClassHash?.ForEach(o => SetClass(
+                columnName: o.Key,
+                value: o.Value));
+            data.NumHash?.ForEach(o => SetNum(
+                columnName: o.Key,
+                value: new Num(
+                    context: context,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: o.Key),
+                    value: o.Value.ToString())));
+            data.DateHash?.ForEach(o => SetDate(
+                columnName: o.Key,
+                value: o.Value.ToDateTime().ToUniversal(context: context)));
+            data.DescriptionHash?.ForEach(o => SetDescription(
+                columnName: o.Key,
+                value: o.Value));
+            data.CheckHash?.ForEach(o => SetCheck(
+                columnName: o.Key,
+                value: o.Value));
+            data.AttachmentsHash?.ForEach(o =>
+            {
+                string columnName = o.Key;
+                Attachments newAttachments = o.Value;
+                Attachments oldAttachments;
+                if (columnName == "Attachments#Uploading")
+                {
+                    var kvp = AttachmentsHash
+                        .FirstOrDefault(x => x.Value
+                            .Any(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st()));
+                    columnName = kvp.Key;
+                    oldAttachments = kvp.Value;
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        var oldAtt = oldAttachments
+                            .FirstOrDefault(att => att.Guid == newAttachments.FirstOrDefault()?.Guid?.Split_1st());
+                        if (oldAtt != null)
+                        {
+                            oldAtt.Deleted = true;
+                            oldAtt.Overwritten = true;
+                        }
+                    }
+                    newAttachments.ForEach(att => att.Guid = att.Guid.Split_2nd());
+                }
+                else
+                {
+                    oldAttachments = AttachmentsHash.Get(columnName);
+                }
+                if (oldAttachments != null)
+                {
+                    var column = ss.GetColumn(
+                        context: context,
+                        columnName: columnName);
+                    var newGuidSet = new HashSet<string>(newAttachments.Select(x => x.Guid).Distinct());
+                    var newNameSet = new HashSet<string>(newAttachments.Select(x => x.Name).Distinct());
+                    newAttachments.ForEach(newAttachment =>
+                    {
+                        newAttachment.AttachmentAction(
+                            context: context,
+                            column: column,
+                            oldAttachments: oldAttachments);
+                    });
+                    if (column.OverwriteSameFileName == true)
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) =>
+                                !newGuidSet.Contains(oldvalue.Guid) &&
+                                !newNameSet.Contains(oldvalue.Name)));
+                    }
+                    else
+                    {
+                        newAttachments.AddRange(oldAttachments.
+                            Where((oldvalue) => !newGuidSet.Contains(oldvalue.Guid)));
+                    }
+                }
+                SetAttachments(columnName: columnName, value: newAttachments);
+            });
+        }
+
+        public string ReplacedDisplayValues(
+            Context context,
+            SiteSettings ss,
+            string value)
+        {
+            ss.IncludedColumns(value: value).ForEach(column =>
+                value = value.Replace(
+                    $"[{column.ColumnName}]",
+                    ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: Mine(context: context))));
+            value = ReplacedContextValues(context, value);
+            return value;
+        }
+
+        private string ReplacedContextValues(Context context, string value)
+        {
+            var url = Locations.ItemEditAbsoluteUri(
+                context: context,
+                id: SysLogId);
+            var mailAddress = MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId);
+            value = value
+                .Replace("{Url}", url)
+                .Replace("{LoginId}", context.User.LoginId)
+                .Replace("{UserName}", context.User.Name)
+                .Replace("{MailAddress}", mailAddress);
+            return value;
+        }
+
         private void SetBySession(Context context)
         {
         }
 
-        private void Set(Context context, DataTable dataTable)
+        private void Set(Context context, SiteSettings ss, DataTable dataTable)
         {
             switch (dataTable.Rows.Count)
             {
-                case 1: Set(context, dataTable.Rows[0]); break;
+                case 1: Set(context, ss, dataTable.Rows[0]); break;
                 case 0: AccessStatus = Databases.AccessStatuses.NotFound; break;
                 default: AccessStatus = Databases.AccessStatuses.Overlap; break;
             }
         }
 
-        private void Set(Context context, DataRow dataRow, string tableAlias = null)
+        private void Set(Context context, SiteSettings ss, DataRow dataRow, string tableAlias = null)
         {
             AccessStatus = Databases.AccessStatuses.Selected;
             foreach (DataColumn dataColumn in dataRow.Table.Columns)
@@ -636,53 +2621,53 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedClass(
+                                    SetSavedClass(
                                         columnName: column.Name,
                                         value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    GetSavedNum(
+                                    SetSavedNum(
                                         columnName: column.Name,
                                         value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    GetSavedDate(
+                                    SetSavedDate(
                                         columnName: column.Name,
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedDescription(
+                                    SetSavedDescription(
                                         columnName: column.Name,
                                         value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    GetSavedCheck(
+                                    SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    GetSavedAttachments(
+                                    SetSavedAttachments(
                                         columnName: column.Name,
                                         value: GetAttachments(columnName: column.Name).ToJson());
                                     break;
@@ -734,6 +2719,19 @@ namespace Implem.Pleasanter.Models
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
+        }
+
+        public override List<string> Mine(Context context)
+        {
+            if (MineCache == null)
+            {
+                var mine = new List<string>();
+                var userId = context.UserId;
+                if (SavedCreator == userId) mine.Add("Creator");
+                if (SavedUpdator == userId) mine.Add("Updator");
+                MineCache = mine;
+            }
+            return MineCache;
         }
 
         /// <summary>

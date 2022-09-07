@@ -570,6 +570,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlId = null,
             string controlCss = null,
             string labelText = null,
+            string labelIcon = null,
             string labelRaw = null,
             bool _checked = false,
             bool disabled = false,
@@ -603,6 +604,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 }
                 else if (labelText != string.Empty)
                 {
+                    if (!labelIcon.IsNullOrEmpty())
+                    {
+                        hb.Span(css: $"ui-icon {labelIcon}");
+                    }
                     hb.Label(
                         attributes: new HtmlAttributes().For(controlId),
                         action: () => hb
@@ -930,7 +935,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     deleted: item.Deleted,
                                     readOnly: readOnly,
                                     allowDelete: allowDelete,
-                                    _using: item.Exists(context: context))))
+                                    _using: (item?.Added == true) || item.Exists(context: context))))
                     .Div(
                         id: columnName + ".status",
                         attributes: new HtmlAttributes()

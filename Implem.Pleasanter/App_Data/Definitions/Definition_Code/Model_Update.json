@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Update",
     "Indent": "2",
-    "Exclude": "Items,SysLogs"
+    "Exclude": "Items"
 }

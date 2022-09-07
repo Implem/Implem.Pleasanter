@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SysLogAdmin",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "System log administration"
+        },
+        {
+            "Language": "zh",
+            "Body": "系统日志管理"
+        },
+        {
+            "Language": "ja",
+            "Body": "システムログの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Systemprotokollverwaltung"
+        },
+        {
+            "Language": "ko",
+            "Body": "시스템 로그 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Administración de registros del sistema"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản trị nhật ký hệ thống"
+        }
+    ]
+}

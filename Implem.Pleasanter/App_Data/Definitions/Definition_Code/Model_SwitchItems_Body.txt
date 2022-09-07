@@ -435,7 +435,7 @@ public string NewJson(Context context)
 {
     if (!context.QueryStrings.Bool("control-auto-postback"))
     {
-        return new ResponseCollection()
+        return new ResponseCollection(context: context)
             .ReplaceAll("#MainContainer", New(context: context))
             .WindowScrollTop()
             .FocusMainForm()
@@ -546,7 +546,7 @@ public string LinkTable(Context context)
 {
     SetSite(context: context);
     var dataTableName = context.Forms.Data("TableId");
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .ReplaceAll("#" + dataTableName, new HtmlBuilder()
             .LinkTable(
                 context: context,
@@ -599,7 +599,7 @@ public string OpenSetNumericRangeDialog(Context context)
         var column = Site.SiteSettings.GetColumn(
             context: context,
             columnName: columnName);
-        return new ResponseCollection()
+        return new ResponseCollection(context: context)
             .Html(
                 "#SetNumericRangeDialog",
                 new HtmlBuilder().SetNumericRangeDialog(
@@ -629,7 +629,7 @@ public string OpenSetDateRangeDialog(Context context)
         var column = Site.SiteSettings.GetColumn(
             context: context,
             columnName: columnName);
-        return new ResponseCollection()
+        return new ResponseCollection(context: context)
             .Html(
                 "#SetDateRangeDialog",
                 new HtmlBuilder().SetDateRangeDialog(
@@ -662,7 +662,7 @@ public ResponseFile Export(Context context)
     }
 }
 
-public string ExportAsync(Context context)
+public string ExportAndMailNotify(Context context)
 {
     SetSite(
         context: context,
@@ -686,7 +686,7 @@ public string ExportAsync(Context context)
     switch (Site.ReferenceType)
     {
         
-<!--Model_ExportAsyncCases-->
+<!--Model_ExportAndMailNotifyCases-->
 
         default:
             return Error.Types.InvalidRequest.MessageJson(context: context);

@@ -43,6 +43,9 @@ namespace Implem.Pleasanter.Libraries.Server
             return value.ToLocal(context: context).ToString(format, context.CultureInfo());
         }
 
+        /// <summary>
+        /// プリザンターを実行しているOSのローカル時間に変換して返す。(UTCに変換するものではない)
+        /// </summary>
         public static DateTime ToUniversal(this DateTime value, Context context)
         {
             if (value.ToOADate() == 0) return value;

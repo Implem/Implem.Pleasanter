@@ -15,50 +15,50 @@ namespace Implem.PleasanterTest.Tests.Users
         [MemberData(nameof(GetData))]
         public void Test(
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.UsersIndex());
             var results = Results(context: context);
-            Assert.True(Compare.Html(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                htmlTests: htmlTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var validHtmlTests = HtmlData.ExistsOne(selector: "#Grid").ToSingleList();
-            var hasNotPermissionMessageHtmlTests = HtmlData.HasNotPermissionMessage().ToSingleList();
+            var validHtmlTests = BaseData.Tests(HtmlData.ExistsOne(selector: "#Grid"));
+            var hasNotPermissionMessageHtmlTests = BaseData.Tests(HtmlData.HasNotPermissionMessage());
             var testParts = new List<TestPart>()
             {
                 new TestPart(
-                    htmlTests: validHtmlTests,
+                    baseTests: validHtmlTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
-                    htmlTests: validHtmlTests,
+                    baseTests: validHtmlTests,
                     userType: UserData.UserTypes.Privileged),
                 new TestPart(
-                    htmlTests: hasNotPermissionMessageHtmlTests,
+                    baseTests: hasNotPermissionMessageHtmlTests,
                     userType: UserData.UserTypes.General1)
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     userModel: testPart.UserModel,
-                    htmlTests: testPart.HtmlTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             UserModel userModel,
-            List<HtmlTest> htmlTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 userModel,
-                htmlTests
+                baseTests
             };
         }
 

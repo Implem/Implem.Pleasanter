@@ -2,7 +2,9 @@
 {
     public #ModelName#Model #ModelName#Model;
 
-    public #TableName#ResponseCollection(#ModelName#Model #modelName#Model)
+    public #TableName#ResponseCollection(
+        Context context,
+        #ModelName#Model #modelName#Model) : base(context: context)
     {
         #ModelName#Model = #modelName#Model;
     }

@@ -257,9 +257,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 demoModel: demoModel,
                 idHash: idHash);
-            SiteInfo.Reflesh(
-                context: context,
-                force: true);
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
@@ -291,12 +288,16 @@ namespace Implem.Pleasanter.Models
                 idHash: idHash);
             InitializePermissions(
                 context: context,
+                demoModel: demoModel,
                 idHash: idHash);
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
         }
 
         /// <summary>
@@ -490,6 +491,9 @@ namespace Implem.Pleasanter.Models
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
+                    // 対象のサイトがアクセス権を継承するかを判定。親があって、かつ Permissions の定義を持たないとき継承する
+                    var inheritPermission = demoDefinition.ParentId != string.Empty
+                        && !IsPermissionDefined(demoDefinition.Id);
                     context.UserId = updator.ToInt();
                     var siteId = Repository.ExecuteScalar_response(
                         context: context,
@@ -512,7 +516,8 @@ namespace Implem.Pleasanter.Models
                                     .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
                                         ? idHash.Get(demoDefinition.ParentId)
                                         : 0)
-                                    .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                    .InheritPermission(idHash, topId, inheritPermission)
+                                    .Publish(demoDefinition.Publish)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
                                     .Comments(Comments(
                                         context: context,
@@ -537,11 +542,11 @@ namespace Implem.Pleasanter.Models
              this Rds.SitesParamCollection self,
              Dictionary<string, long> idHash,
              string topId,
-             string parentId)
+             bool inheritPermission)
         {
-            return parentId == string.Empty
-                ? self.InheritPermission(raw: Def.Sql.Identity)
-                : self.InheritPermission(idHash.Get(topId));
+            return inheritPermission
+                ? self.InheritPermission(idHash.Get(topId))
+                : self.InheritPermission(raw: Def.Sql.Identity);
         }
 
         /// <summary>
@@ -602,6 +607,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))
@@ -654,32 +660,136 @@ namespace Implem.Pleasanter.Models
                                     .Add(columnBracket: "\"NumX\"", name: "NumX", value: demoDefinition.NumX)
                                     .Add(columnBracket: "\"NumY\"", name: "NumY", value: demoDefinition.NumY)
                                     .Add(columnBracket: "\"NumZ\"", name: "NumZ", value: demoDefinition.NumZ)
-                                    .Add(columnBracket: "\"DateA\"", name: "DateA", value: demoDefinition.DateA)
-                                    .Add(columnBracket: "\"DateB\"", name: "DateB", value: demoDefinition.DateB)
-                                    .Add(columnBracket: "\"DateC\"", name: "DateC", value: demoDefinition.DateC)
-                                    .Add(columnBracket: "\"DateD\"", name: "DateD", value: demoDefinition.DateD)
-                                    .Add(columnBracket: "\"DateE\"", name: "DateE", value: demoDefinition.DateE)
-                                    .Add(columnBracket: "\"DateF\"", name: "DateF", value: demoDefinition.DateF)
-                                    .Add(columnBracket: "\"DateG\"", name: "DateG", value: demoDefinition.DateG)
-                                    .Add(columnBracket: "\"DateH\"", name: "DateH", value: demoDefinition.DateH)
-                                    .Add(columnBracket: "\"DateI\"", name: "DateI", value: demoDefinition.DateI)
-                                    .Add(columnBracket: "\"DateJ\"", name: "DateJ", value: demoDefinition.DateJ)
-                                    .Add(columnBracket: "\"DateK\"", name: "DateK", value: demoDefinition.DateK)
-                                    .Add(columnBracket: "\"DateL\"", name: "DateL", value: demoDefinition.DateL)
-                                    .Add(columnBracket: "\"DateM\"", name: "DateM", value: demoDefinition.DateM)
-                                    .Add(columnBracket: "\"DateN\"", name: "DateN", value: demoDefinition.DateN)
-                                    .Add(columnBracket: "\"DateO\"", name: "DateO", value: demoDefinition.DateO)
-                                    .Add(columnBracket: "\"DateP\"", name: "DateP", value: demoDefinition.DateP)
-                                    .Add(columnBracket: "\"DateQ\"", name: "DateQ", value: demoDefinition.DateQ)
-                                    .Add(columnBracket: "\"DateR\"", name: "DateR", value: demoDefinition.DateR)
-                                    .Add(columnBracket: "\"DateS\"", name: "DateS", value: demoDefinition.DateS)
-                                    .Add(columnBracket: "\"DateT\"", name: "DateT", value: demoDefinition.DateT)
-                                    .Add(columnBracket: "\"DateU\"", name: "DateU", value: demoDefinition.DateU)
-                                    .Add(columnBracket: "\"DateV\"", name: "DateV", value: demoDefinition.DateV)
-                                    .Add(columnBracket: "\"DateW\"", name: "DateW", value: demoDefinition.DateW)
-                                    .Add(columnBracket: "\"DateX\"", name: "DateX", value: demoDefinition.DateX)
-                                    .Add(columnBracket: "\"DateY\"", name: "DateY", value: demoDefinition.DateY)
-                                    .Add(columnBracket: "\"DateZ\"", name: "DateZ", value: demoDefinition.DateZ)
+                                    .Add(columnBracket: "\"DateA\"",
+                                        name: "DateA",
+                                        value: demoDefinition.DateA.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateB\"",
+                                        name: "DateB",
+                                        value: demoDefinition.DateB.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateC\"",
+                                        name: "DateC",
+                                        value: demoDefinition.DateC.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateD\"",
+                                        name: "DateD",
+                                        value: demoDefinition.DateD.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateE\"",
+                                        name: "DateE",
+                                        value: demoDefinition.DateE.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateF\"",
+                                        name: "DateF",
+                                        value: demoDefinition.DateF.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateG\"",
+                                        name: "DateG",
+                                        value: demoDefinition.DateG.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateH\"",
+                                        name: "DateH",
+                                        value: demoDefinition.DateH.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateI\"",
+                                        name: "DateI",
+                                        value: demoDefinition.DateI.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateJ\"",
+                                        name: "DateJ",
+                                        value: demoDefinition.DateJ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateK\"",
+                                        name: "DateK",
+                                        value: demoDefinition.DateK.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateL\"",
+                                        name: "DateL",
+                                        value: demoDefinition.DateL.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateM\"",
+                                        name: "DateM",
+                                        value: demoDefinition.DateM.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateN\"",
+                                        name: "DateN",
+                                        value: demoDefinition.DateN.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateO\"",
+                                        name: "DateO",
+                                        value: demoDefinition.DateO.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateP\"",
+                                        name: "DateP",
+                                        value: demoDefinition.DateP.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateQ\"",
+                                        name: "DateQ",
+                                        value: demoDefinition.DateQ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateR\"",
+                                        name: "DateR",
+                                        value: demoDefinition.DateR.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateS\"",
+                                        name: "DateS",
+                                        value: demoDefinition.DateS.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateT\"",
+                                        name: "DateT",
+                                        value: demoDefinition.DateT.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateU\"",
+                                        name: "DateU",
+                                        value: demoDefinition.DateU.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateV\"",
+                                        name: "DateV",
+                                        value: demoDefinition.DateV.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateW\"",
+                                        name: "DateW",
+                                        value: demoDefinition.DateW.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateX\"",
+                                        name: "DateX",
+                                        value: demoDefinition.DateX.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateY\"",
+                                        name: "DateY",
+                                        value: demoDefinition.DateY.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateZ\"",
+                                        name: "DateZ",
+                                        value: demoDefinition.DateZ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
                                     .Add(columnBracket: "\"DescriptionA\"", name: "DescriptionA", value: demoDefinition.DescriptionA)
                                     .Add(columnBracket: "\"DescriptionB\"", name: "DescriptionB", value: demoDefinition.DescriptionB)
                                     .Add(columnBracket: "\"DescriptionC\"", name: "DescriptionC", value: demoDefinition.DescriptionC)
@@ -884,6 +994,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))
@@ -936,32 +1047,136 @@ namespace Implem.Pleasanter.Models
                                     .Add(columnBracket: "\"NumX\"", name: "NumX", value: demoDefinition.NumX)
                                     .Add(columnBracket: "\"NumY\"", name: "NumY", value: demoDefinition.NumY)
                                     .Add(columnBracket: "\"NumZ\"", name: "NumZ", value: demoDefinition.NumZ)
-                                    .Add(columnBracket: "\"DateA\"", name: "DateA", value: demoDefinition.DateA)
-                                    .Add(columnBracket: "\"DateB\"", name: "DateB", value: demoDefinition.DateB)
-                                    .Add(columnBracket: "\"DateC\"", name: "DateC", value: demoDefinition.DateC)
-                                    .Add(columnBracket: "\"DateD\"", name: "DateD", value: demoDefinition.DateD)
-                                    .Add(columnBracket: "\"DateE\"", name: "DateE", value: demoDefinition.DateE)
-                                    .Add(columnBracket: "\"DateF\"", name: "DateF", value: demoDefinition.DateF)
-                                    .Add(columnBracket: "\"DateG\"", name: "DateG", value: demoDefinition.DateG)
-                                    .Add(columnBracket: "\"DateH\"", name: "DateH", value: demoDefinition.DateH)
-                                    .Add(columnBracket: "\"DateI\"", name: "DateI", value: demoDefinition.DateI)
-                                    .Add(columnBracket: "\"DateJ\"", name: "DateJ", value: demoDefinition.DateJ)
-                                    .Add(columnBracket: "\"DateK\"", name: "DateK", value: demoDefinition.DateK)
-                                    .Add(columnBracket: "\"DateL\"", name: "DateL", value: demoDefinition.DateL)
-                                    .Add(columnBracket: "\"DateM\"", name: "DateM", value: demoDefinition.DateM)
-                                    .Add(columnBracket: "\"DateN\"", name: "DateN", value: demoDefinition.DateN)
-                                    .Add(columnBracket: "\"DateO\"", name: "DateO", value: demoDefinition.DateO)
-                                    .Add(columnBracket: "\"DateP\"", name: "DateP", value: demoDefinition.DateP)
-                                    .Add(columnBracket: "\"DateQ\"", name: "DateQ", value: demoDefinition.DateQ)
-                                    .Add(columnBracket: "\"DateR\"", name: "DateR", value: demoDefinition.DateR)
-                                    .Add(columnBracket: "\"DateS\"", name: "DateS", value: demoDefinition.DateS)
-                                    .Add(columnBracket: "\"DateT\"", name: "DateT", value: demoDefinition.DateT)
-                                    .Add(columnBracket: "\"DateU\"", name: "DateU", value: demoDefinition.DateU)
-                                    .Add(columnBracket: "\"DateV\"", name: "DateV", value: demoDefinition.DateV)
-                                    .Add(columnBracket: "\"DateW\"", name: "DateW", value: demoDefinition.DateW)
-                                    .Add(columnBracket: "\"DateX\"", name: "DateX", value: demoDefinition.DateX)
-                                    .Add(columnBracket: "\"DateY\"", name: "DateY", value: demoDefinition.DateY)
-                                    .Add(columnBracket: "\"DateZ\"", name: "DateZ", value: demoDefinition.DateZ)
+                                    .Add(columnBracket: "\"DateA\"",
+                                        name: "DateA",
+                                        value: demoDefinition.DateA.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateB\"",
+                                        name: "DateB",
+                                        value: demoDefinition.DateB.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateC\"",
+                                        name: "DateC",
+                                        value: demoDefinition.DateC.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateD\"",
+                                        name: "DateD",
+                                        value: demoDefinition.DateD.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateE\"",
+                                        name: "DateE",
+                                        value: demoDefinition.DateE.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateF\"",
+                                        name: "DateF",
+                                        value: demoDefinition.DateF.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateG\"",
+                                        name: "DateG",
+                                        value: demoDefinition.DateG.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateH\"",
+                                        name: "DateH",
+                                        value: demoDefinition.DateH.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateI\"",
+                                        name: "DateI",
+                                        value: demoDefinition.DateI.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateJ\"",
+                                        name: "DateJ",
+                                        value: demoDefinition.DateJ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateK\"",
+                                        name: "DateK",
+                                        value: demoDefinition.DateK.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateL\"",
+                                        name: "DateL",
+                                        value: demoDefinition.DateL.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateM\"",
+                                        name: "DateM",
+                                        value: demoDefinition.DateM.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateN\"",
+                                        name: "DateN",
+                                        value: demoDefinition.DateN.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateO\"",
+                                        name: "DateO",
+                                        value: demoDefinition.DateO.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateP\"",
+                                        name: "DateP",
+                                        value: demoDefinition.DateP.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateQ\"",
+                                        name: "DateQ",
+                                        value: demoDefinition.DateQ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateR\"",
+                                        name: "DateR",
+                                        value: demoDefinition.DateR.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateS\"",
+                                        name: "DateS",
+                                        value: demoDefinition.DateS.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateT\"",
+                                        name: "DateT",
+                                        value: demoDefinition.DateT.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateU\"",
+                                        name: "DateU",
+                                        value: demoDefinition.DateU.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateV\"",
+                                        name: "DateV",
+                                        value: demoDefinition.DateV.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateW\"",
+                                        name: "DateW",
+                                        value: demoDefinition.DateW.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateX\"",
+                                        name: "DateX",
+                                        value: demoDefinition.DateX.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateY\"",
+                                        name: "DateY",
+                                        value: demoDefinition.DateY.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateZ\"",
+                                        name: "DateZ",
+                                        value: demoDefinition.DateZ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
                                     .Add(columnBracket: "\"DescriptionA\"", name: "DescriptionA", value: demoDefinition.DescriptionA)
                                     .Add(columnBracket: "\"DescriptionB\"", name: "DescriptionB", value: demoDefinition.DescriptionB)
                                     .Add(columnBracket: "\"DescriptionC\"", name: "DescriptionC", value: demoDefinition.DescriptionC)
@@ -1159,6 +1374,7 @@ namespace Implem.Pleasanter.Models
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
+                .Where(o => IsItemDefinition(o))
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9_]+?#$"))
                 .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
@@ -1173,12 +1389,55 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializePermissions(Context context, Dictionary<string, long> idHash)
+        private static bool IsItemDefinition(DemoDefinition demoDefinition)
+        {
+            switch (demoDefinition.Type) {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    return true;
+                default:
+                   return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializePermissions(
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Permissions")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertPermissions(
+                        param: Rds.PermissionsParam()
+                            .ReferenceId(idHash.Get(demoDefinition.ParentId))
+                            .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
+                            .GroupId(idHash.Get(demoDefinition.ClassB).ToInt())
+                            .UserId(demoDefinition.ClassC == "-1"
+                                ? -1
+                                : idHash.Get(demoDefinition.ClassC).ToInt())
+                            .PermissionType(demoDefinition.NumA)
+                            .Creator(idHash.Get(demoDefinition.Creator).ToInt())
+                            .Updator(idHash.Get(demoDefinition.Updator).ToInt())
+                            .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                context: context,
+                                demoModel: demoModel))
+                            .UpdatedTime(demoDefinition.CreatedTime.DemoTime(
+                                context: context,
+                                demoModel: demoModel)),
+                        addUpdatorParam: false)));
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
-                .Where(o => o.ParentId == string.Empty)
+                .Where(o => o.ParentId == string.Empty && !IsPermissionDefined(o.Id))
                 .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .Select(o => o.Id)
                 .ForEach(id =>
@@ -1191,18 +1450,26 @@ namespace Implem.Pleasanter.Models
                             .DeptId(0)
                             .UserId(idHash.Get(FirstUser(context: context)))
                             .PermissionType(Permissions.Manager())));
-                idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
-                {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        statements: Rds.InsertPermissions(
-                            param: Rds.PermissionsParam()
-                                .ReferenceId(idHash.Get(id))
-                                .DeptId(deptId)
-                                .UserId(0)
-                                .PermissionType(Permissions.General())));
-                });
+                idHash.Where(o => o.Key.StartsWith("Dept"))
+                    .Select(o => o.Value)
+                    .ForEach(deptId =>
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.InsertPermissions(
+                                param: Rds.PermissionsParam()
+                                    .ReferenceId(idHash.Get(id))
+                                    .DeptId(deptId)
+                                    .UserId(0)
+                                    .PermissionType(Permissions.General()))));
             });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool IsPermissionDefined(string siteId)
+        {
+            return Def.DemoDefinitionCollection.Any(o => o.Type == "Permissions" && o.ParentId == siteId);
         }
 
         /// <summary>
@@ -1273,7 +1540,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DateTime DemoTime(this DateTime self, Context context, DemoModel demoModel)
         {
-            return self.AddDays(demoModel.TimeLag).ToUniversal(context: context);
+            return self < Parameters.General.MinTime
+                ? self
+                : self.AddDays(demoModel.TimeLag).ToUniversal(context: context);
         }
     }
 }

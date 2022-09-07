@@ -55,6 +55,12 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string ToExport(
+            this double value, Context context, Column column, ExportColumn exportColumn = null)
+        {
+            return value.ToString(column.StringFormat);
+        }
+
+        public static string ToExport(
             this DateTime value, Context context, Column column, ExportColumn exportColumn = null)
         {
             return value.InRange()

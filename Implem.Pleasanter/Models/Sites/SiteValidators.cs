@@ -237,6 +237,22 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "AddressBook":
+                    case "MailToDefault":
+                    case "MailCcDefault":
+                    case "MailBccDefault":
+                        var address = context.Forms.Get(controlId)
+                            .Split(';')
+                            .Where(o => !o.IsNullOrEmpty())
+                            .Select(o => o.Trim())
+                            .Join();
+                        var badTo = MailAddressValidators.BadMailAddress(
+                            addresses: address);
+                        if (badTo.Type != Error.Types.None) return badTo;
+                        var externalTo = MailAddressValidators.ExternalMailAddress(
+                            addresses: address);
+                        if (externalTo.Type != Error.Types.None) return externalTo;
+                        break;
                 }
             }
             return new ErrorData(type: Error.Types.None);
@@ -423,36 +439,68 @@ namespace Implem.Pleasanter.Models
         {
             if ((Reminder.ReminderTypes)context.Forms.Int("ReminderType") == Reminder.ReminderTypes.Mail)
             {
-                var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
-                ss.IncludedColumns(value: to).ForEach(column =>
-                    to = to.Replace($"[{column.ColumnName}]", string.Empty));
-                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Dept[0-9]+\])"))
-                {
-                    to = to.Replace(match.Value, string.Empty);
-                }
-                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Group[0-9]+\])"))
-                {
-                    to = to.Replace(match.Value, string.Empty);
-                }
-                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[User[0-9]+\])"))
-                {
-                    to = to.Replace(match.Value, string.Empty);
-                }
-                to = to
-                    .Split(',')
-                    .Where(o => !o.IsNullOrEmpty())
-                    .Select(o => o.Trim())
-                    .Join();
                 var badFrom = MailAddressValidators.BadMailAddress(
                     addresses: context.Forms.Data("ReminderFrom"));
                 if (badFrom.Type != Error.Types.None) return badFrom;
-                var badTo = MailAddressValidators.BadMailAddress(
-                    addresses: to);
-                if (badTo.Type != Error.Types.None) return badTo;
-                var externalTo = MailAddressValidators.ExternalMailAddress(
-                    addresses: to);
-                if (externalTo.Type != Error.Types.None) return externalTo;
+                var to = ss.LabelTextToColumnName(context.Forms.Data("ReminderTo"));
+                return SetMailTo(
+                    ss: ss,
+                    to: to);
             }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData SetNotification(Context context, SiteSettings ss)
+        {
+            if ((Notification.Types)context.Forms.Int("NotificationType") == Notification.Types.Mail)
+            {
+                var to = ss.LabelTextToColumnName(context.Forms.Data("NotificationAddress"));
+                return SetMailTo(
+                    ss: ss,
+                    to: to);
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        public static ErrorData SetProcessNotification(Context context, SiteSettings ss)
+        {
+            if ((Notification.Types)context.Forms.Int("ProcessNotificationType") == Notification.Types.Mail)
+            {
+                var to = ss.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
+                return SetMailTo(
+                    ss: ss,
+                    to: to);
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        private static ErrorData SetMailTo(SiteSettings ss, string to)
+        {
+            ss.IncludedColumns(value: to).ForEach(column =>
+                to = to.Replace($"[{column.ColumnName}]", string.Empty));
+            foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Dept[0-9]+\])"))
+            {
+                to = to.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[Group[0-9]+\])"))
+            {
+                to = to.Replace(match.Value, string.Empty);
+            }
+            foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[User[0-9]+\])"))
+            {
+                to = to.Replace(match.Value, string.Empty);
+            }
+            to = to
+                .Split(',')
+                .Where(o => !o.IsNullOrEmpty())
+                .Select(o => o.Trim())
+                .Join();
+            var badTo = MailAddressValidators.BadMailAddress(
+                addresses: to);
+            if (badTo.Type != Error.Types.None) return badTo;
+            var externalTo = MailAddressValidators.ExternalMailAddress(
+                addresses: to);
+            if (externalTo.Type != Error.Types.None) return externalTo;
             return new ErrorData(type: Error.Types.None);
         }
 

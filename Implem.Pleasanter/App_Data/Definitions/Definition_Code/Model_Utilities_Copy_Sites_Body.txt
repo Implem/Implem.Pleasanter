@@ -78,7 +78,7 @@
     SessionUtilities.Set(
         context: context,
         message: Messages.Copied(context: context));
-    var res = new ResponseCollection()
+    var res = new ResponseCollection(context: context)
         .SetMemory("formChanged", false)
         .Href(Locations.ItemEdit(
             context: context,

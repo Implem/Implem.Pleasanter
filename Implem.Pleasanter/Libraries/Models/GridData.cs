@@ -153,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var groups = new Dictionary<string, GroupModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
                 var sites = new Dictionary<string, SiteModel>();
+                var sysLogs = new Dictionary<string, SysLogModel>();
                 var tenants = new Dictionary<string, TenantModel>();
                 var users = new Dictionary<string, UserModel>();
                 var issues = new Dictionary<string, IssueModel>();
@@ -247,6 +248,43 @@ namespace Implem.Pleasanter.Libraries.Models
                                         ss: ss,
                                         column: column,
                                         mine: groupModel.Mine(context: context)));
+                                    break;
+                            }
+                            break;
+                        case "SysLogs":
+                            var sysLogModel = sysLogs.Get(key);
+                            if (sysLogModel == null)
+                            {
+                                sysLogModel = new SysLogModel(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    dataRow: dataRow,
+                                    tableAlias: column.TableAlias);
+                                sysLogs.Add(key, sysLogModel);
+                                ss.ClearColumnAccessControlCaches(baseModel: sysLogModel);
+                            }
+                            switch (valueDisplayType)
+                            {
+                                case ApiColumn.ValueDisplayTypes.Value:
+                                    rowData.AddIfNotConainsKey(columnKey, sysLogModel.ToApiValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: sysLogModel.Mine(context: context)));
+                                    break;
+                                case ApiColumn.ValueDisplayTypes.Text:
+                                    rowData.AddIfNotConainsKey(columnKey, sysLogModel.ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: sysLogModel.Mine(context: context)));
+                                    break;
+                                default:
+                                    rowData.AddIfNotConainsKey(columnKey, sysLogModel.ToApiDisplayValue(
+                                        context: context,
+                                        ss: ss,
+                                        column: column,
+                                        mine: sysLogModel.Mine(context: context)));
                                     break;
                             }
                             break;
@@ -407,6 +445,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var groups = new Dictionary<string, GroupModel>();
                 var registrations = new Dictionary<string, RegistrationModel>();
                 var sites = new Dictionary<string, SiteModel>();
+                var sysLogs = new Dictionary<string, SysLogModel>();
                 var tenants = new Dictionary<string, TenantModel>();
                 var users = new Dictionary<string, UserModel>();
                 var issues = new Dictionary<string, IssueModel>();

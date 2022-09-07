@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Controllers
                 ? BinaryUtilities.UpdateSiteImage(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id))
-                : new ResponseCollection().ToJson();
+                : new ResponseCollection(context: context).ToJson();
             log.Finish(context: context);
             return json;
         }
@@ -103,7 +103,7 @@ namespace Implem.Pleasanter.Controllers
                 ? BinaryUtilities.DeleteSiteImage(
                     context: context,
                     siteModel: new SiteModel(context: context, siteId: id))
-                : new ResponseCollection().ToJson();
+                : new ResponseCollection(context: context).ToJson();
             log.Finish(context: context);
             return json;
         }
@@ -140,18 +140,6 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = BinaryUtilities.DeleteImage(context: context, guid: guid);
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
-        }
-
-        [HttpPost]
-        public string MultiUpload(string reference, long id, ICollection<IFormFile> file)
-        {
-            var context = new Context(files: file);
-            var log = new SysLogModel(context: context);
-            var json = BinaryUtilities.MultiUpload(
-                context: context,
-                id: id);
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
@@ -211,11 +199,13 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var file = BinaryUtilities.DownloadTemp(context: context, guid: guid);
-            log.Finish(context: context, responseSize: file?.FileContents?.Length ?? 0);
-            var result = file != null
-                ? new FileContentResult(System.Text.Encoding.UTF8.GetBytes(file.FileContents), file.ContentType)
-                : null;
+            var file = BinaryUtilities.DownloadTemp(
+                context: context,
+                guid: guid);
+            var result = file?.FileStream();
+            log.Finish(
+                context: context,
+                responseSize: result?.FileContents?.Length ?? 0);
             return result != null
                 ? File(result.FileContents, result.ContentType)
                 : null;

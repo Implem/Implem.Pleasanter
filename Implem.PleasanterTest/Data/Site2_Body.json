@@ -2,6 +2,7 @@
     "Version": 1.017,
     "ReferenceType": "Issues",
     "GridView": 1,
+    "GridEditorType": 10,
     "GridColumns": [
         "IssueId",
         "TitleBody",
@@ -52,7 +53,8 @@
             "CheckA",
             "DescriptionA",
             "AttachmentsA",
-            "Comments"
+            "Comments",
+            "Locked"
         ]
     },
     "TitleColumns": [
@@ -113,6 +115,25 @@
             "TimeSeriesAggregateType": "Total",
             "KambanGroupByY": "ClassC",
             "ApiDataType": 0
+        }
+    ],
+    "Exports": [
+        {
+            "Name": "ExportAsyncテスト用",
+            "Columns": [
+                {
+                    "Id": 1,
+                    "ColumnName": "IssueId"
+                },
+                {
+                    "Id": 2,
+                    "ColumnName": "Title"
+                }
+            ],
+            "Type": 0,
+            "DelimiterType": 0,
+            "ExecutionType": 1,
+            "Id": 1
         }
     ],
     "AllowSeparate": true,

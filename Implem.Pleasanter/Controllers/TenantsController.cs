@@ -49,5 +49,17 @@ namespace Implem.Pleasanter.Controllers
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
+
+        [HttpPost]
+        public string SyncByLdap()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = TenantUtilities.SyncByLdap(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
     }
 }

@@ -325,12 +325,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long siteId,
             NavigationMenu menu)
         {
-            var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
             var canCreateGroups = context.UserSettings?.AllowGroupCreation(context: context) == true;
             var canManageSite = siteId != 0 && context.CanManageSite(
                 ss: ss,
                 site: true);
+            var canManageSysLogs = context.HasPrivilege;
             var canManageDepts = Permissions.CanManageTenant(context: context);
+            var canManageGroups = context.UserSettings?.AllowGroupAdministration(context: context) == true;
             var canManageUsers = Permissions.CanManageUser(context: context);
             var canManageRegistrations = Permissions.CanManageRegistrations(context: context);
             var canManageTenants = Permissions.CanManageTenant(context: context)
@@ -362,6 +363,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         || canUnlockSite;
                 case "SettingsMenu_SiteSettings":
                     return canManageSite;
+                case "SettingsMenu_SysLogAdmin":
+                    return canManageSysLogs;
                 case "SettingsMenu_DeptAdmin":
                     return canManageDepts;
                 case "SettingsMenu_GroupAdmin":

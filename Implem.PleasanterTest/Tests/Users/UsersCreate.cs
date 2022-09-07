@@ -16,22 +16,22 @@ namespace Implem.PleasanterTest.Tests.Users
         public void Test(
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.UsersCreate(),
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = new List<JsonTest>()
+            var baseTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "Response",
@@ -45,7 +45,7 @@ namespace Implem.PleasanterTest.Tests.Users
             {
                 new TestPart(
                     userType: UserData.UserTypes.TenantManager2,
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
             };
             foreach (var testPart in testParts)
             {
@@ -54,20 +54,20 @@ namespace Implem.PleasanterTest.Tests.Users
                         new KeyValue("Users_LoginId", Strings.NewGuid()),
                         new KeyValue("Users_Password", "password")),
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             Forms forms,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 forms,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

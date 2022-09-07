@@ -147,6 +147,10 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
+            if (Parameters.BackgroundService.TimerEnabled())
+            {
+                services.AddHostedService<TimerBackgroundService>();
+            }
             services
                 .AddDataProtection()
                 .PersistKeysToAzureBlobStorage(new Uri("<blobUriWithSasToken>"))
@@ -224,7 +228,7 @@ namespace Implem.Pleasanter.NetCore
                     {
                         Reference = "[A-Za-z][A-Za-z0-9_]*",
                         Id = "[0-9]+",
-                        Controller = "Binaries|OutgoingMails",
+                        Controller = "Binaries|PublishBinaries|OutgoingMails",
                         Action = "[A-Za-z][A-Za-z0-9_]*"
                     }
                 );
@@ -324,6 +328,7 @@ namespace Implem.Pleasanter.NetCore
         {
             Context context = ApplicationStartContext();
             var log = new SysLogModel(context: context);
+            TenantInitializer.Initialize();
             ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);
             ItemsInitializer.Initialize(context: context);

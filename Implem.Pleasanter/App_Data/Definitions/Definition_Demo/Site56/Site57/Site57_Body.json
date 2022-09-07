@@ -1,0 +1,1919 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Results",
+    "GridColumns": [
+        "Title",
+        "ClassA",
+        "Owner",
+        "Manager",
+        "Status",
+        "NumA",
+        "DateA",
+        "ClassB",
+        "DateB",
+        "ClassC",
+        "DateC",
+        "ClassD",
+        "DateD",
+        "ClassF",
+        "DateE"
+    ],
+    "FilterColumns": [
+        "Status",
+        "Owner",
+        "ClassA",
+        "DateA",
+        "ClassB",
+        "DateB",
+        "ClassC",
+        "DateC",
+        "ClassD",
+        "DateD",
+        "ClassF",
+        "DateE"
+    ],
+    "EditorColumnHash": {
+        "General": [
+            "_Section-1",
+            "Status",
+            "Manager",
+            "DescriptionE",
+            "ClassE",
+            "DescriptionH",
+            "Owner",
+            "ClassA",
+            "DateA",
+            "_Section-2",
+            "Title",
+            "NumA",
+            "Body",
+            "DescriptionA",
+            "AttachmentsA",
+            "_Section-3",
+            "ClassB",
+            "DateB",
+            "DescriptionB",
+            "ClassC",
+            "DateC",
+            "DescriptionC",
+            "ClassD",
+            "DateD",
+            "DescriptionD",
+            "ClassF",
+            "DateE"
+        ]
+    },
+    "SectionLatestId": 3,
+    "Sections": [
+        {
+            "Id": 1,
+            "LabelText": "申し送り",
+            "AllowExpand": false,
+            "Expand": true
+        },
+        {
+            "Id": 2,
+            "LabelText": "申請内容",
+            "AllowExpand": false,
+            "Expand": true
+        },
+        {
+            "Id": 3,
+            "LabelText": "承認履歴",
+            "AllowExpand": false,
+            "Expand": true
+        }
+    ],
+    "Columns": [
+        {
+            "ColumnName": "AttachmentsA",
+            "LabelText": "証憑"
+        },
+        {
+            "ColumnName": "Status",
+            "LabelText": "承認段階",
+            "ChoicesText": "100,申請待\n200,課長承認待\n300,部長承認待\n400,役員承認待\n900,経理待\n910,取下\n920,完了"
+        },
+        {
+            "ColumnName": "Manager",
+            "LabelText": "回答者",
+            "DefaultInput": ""
+        },
+        {
+            "ColumnName": "ClassA",
+            "LabelText": "申請部門",
+            "ChoicesText": "[[Depts]]"
+        },
+        {
+            "ColumnName": "NumA",
+            "LabelText": "金額",
+            "Format": "C",
+            "Min": 0,
+            "DateFilterSetMode": 2
+        },
+        {
+            "ColumnName": "DateA",
+            "LabelText": "申請日",
+            "DefaultInput": "0",
+            "GridFormat": "Ymd",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymda",
+            "DateTimeStep": 1
+        },
+        {
+            "ColumnName": "DateB",
+            "LabelText": "課長承認日",
+            "EditorFormat": "Ymdhm",
+            "ExportFormat": "Ymda"
+        },
+        {
+            "ColumnName": "DescriptionA",
+            "LabelText": "起案理由"
+        },
+        {
+            "ColumnName": "DescriptionB",
+            "LabelText": "課長コメント"
+        },
+        {
+            "ColumnName": "Owner",
+            "LabelText": "申請者",
+            "DefaultInput": ""
+        },
+        {
+            "ColumnName": "ClassB",
+            "LabelText": "担当課長",
+            "ChoicesText": "[[Users]]"
+        },
+        {
+            "ColumnName": "ClassC",
+            "LabelText": "担当部長",
+            "ChoicesText": "[[Users]]"
+        },
+        {
+            "ColumnName": "DateC",
+            "LabelText": "部長承認日",
+            "EditorFormat": "Ymdhms"
+        },
+        {
+            "ColumnName": "DescriptionC",
+            "LabelText": "部長コメント"
+        },
+        {
+            "ColumnName": "ClassD",
+            "LabelText": "担当役員",
+            "ChoicesText": "[[Users]]"
+        },
+        {
+            "ColumnName": "DateD",
+            "LabelText": "役員承認日",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "DescriptionD",
+            "LabelText": "役員コメント"
+        },
+        {
+            "ColumnName": "Title",
+            "LabelText": "件名",
+            "ValidateRequired": false
+        },
+        {
+            "ColumnName": "Body",
+            "LabelText": "内訳"
+        },
+        {
+            "ColumnName": "ClassE",
+            "LabelText": "回送元",
+            "ChoicesText": "[[Users]]",
+            "SearchType": "PartialMatch"
+        },
+        {
+            "ColumnName": "DescriptionE",
+            "LabelText": "回答",
+            "ExtendedFieldCss": "emphasize"
+        },
+        {
+            "ColumnName": "ClassF",
+            "LabelText": "経理担当",
+            "ChoicesText": "[[Users]]",
+            "ExtendedControlCss": "disabned",
+            "SearchType": "PartialMatch"
+        },
+        {
+            "ColumnName": "DateE",
+            "LabelText": "経理処理日",
+            "EditorFormat": "Ymdhm"
+        },
+        {
+            "ColumnName": "NumB",
+            "ControlType": "Normal"
+        },
+        {
+            "ColumnName": "DescriptionH",
+            "LabelText": "回送元コメント"
+        }
+    ],
+    "Aggregations": [
+        {
+            "Id": 1,
+            "GroupBy": "Status",
+            "Type": 1,
+            "Target": "NumA"
+        },
+        {
+            "Id": 2,
+            "GroupBy": "ClassA",
+            "Type": 1,
+            "Target": "NumA"
+        }
+    ],
+    "Processes": [
+        {
+            "Id": 1,
+            "Name": "A1_申請(共通)",
+            "DisplayName": "申請",
+            "CurrentStatus": 100,
+            "ChangedStatus": 200,
+            "Description": "申請を行い、課長に承認を依頼する",
+            "Tooltip": "申請を行い、承認を依頼します",
+            "ConfirmationMessage": "記入した内容で申請してよろしいですか",
+            "SuccessMessage": "申請しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "Title",
+                    "Required": true
+                },
+                {
+                    "Id": 2,
+                    "ColumnName": "Body",
+                    "Required": true
+                },
+                {
+                    "Id": 3,
+                    "ColumnName": "NumA",
+                    "Required": true,
+                    "Min": 1,
+                    "Max": 5000000
+                },
+                {
+                    "Id": 4,
+                    "ColumnName": "DescriptionA",
+                    "Required": true
+                }
+            ],
+            "View": {
+                "Id": 0,
+                "Own": true,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateA",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "Owner",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputDept",
+                    "ColumnName": "ClassA",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 5,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassB"
+                },
+                {
+                    "Id": 6,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionA"
+                }
+            ]
+        },
+        {
+            "Id": 2,
+            "Name": "B1_一次承認α",
+            "DisplayName": "承認",
+            "CurrentStatus": 200,
+            "ChangedStatus": 900,
+            "Description": "20万円以下の申請を決裁する",
+            "Tooltip": "最終承認(決裁)を行います",
+            "ConfirmationMessage": "あなたが最終承認者となります。決裁してよいですか",
+            "SuccessMessage": "決裁しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group2#,
+                #Group3#,
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\",200000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateB",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassB",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionB",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 7,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                },
+                {
+                    "Id": 6,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassF"
+                }
+            ]
+        },
+        {
+            "Id": 3,
+            "Name": "B2_一次承認βγ",
+            "DisplayName": "承認",
+            "CurrentStatus": 200,
+            "ChangedStatus": 300,
+            "Description": "20万円を超える申請を一次承認する",
+            "Tooltip": "課長職以上による役職承認を行います",
+            "ConfirmationMessage": "役職承認を行います。よろしいですか",
+            "SuccessMessage": "承認しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group2#,
+                #Group3#,
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"200001,\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateB",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassB",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionB",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 6,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputValue",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                },
+                {
+                    "Id": 7,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 4,
+            "Name": "C1_二次承認β",
+            "DisplayName": "承認",
+            "CurrentStatus": 300,
+            "ChangedStatus": 900,
+            "Description": "100万円以下の申請を決裁する",
+            "Tooltip": "最終承認(決裁)を行います",
+            "ConfirmationMessage": "あなたが最終承認者となります。決裁してよいですか",
+            "SuccessMessage": "決裁しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group3#,
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\",1000000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateC",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassC",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionC",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 7,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                },
+                {
+                    "Id": 6,
+                    "Type": "InputValue",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 5,
+            "Name": "C2_二次承認γ",
+            "DisplayName": "承認",
+            "CurrentStatus": 300,
+            "ChangedStatus": 400,
+            "Description": "100万円を超える申請を二次承認する",
+            "Tooltip": "部長職以上による役職承認を行います",
+            "ConfirmationMessage": "役職承認を行います。よろしいですか",
+            "SuccessMessage": "承認しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group3#,
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"1000001,\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateC",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassC",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionC",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 7,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                },
+                {
+                    "Id": 6,
+                    "Type": "InputValue",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 6,
+            "Name": "D1_三次承認γ",
+            "DisplayName": "承認",
+            "CurrentStatus": 400,
+            "ChangedStatus": 900,
+            "Description": "申請を決裁する",
+            "Tooltip": "最終承認(決裁)を行います",
+            "ConfirmationMessage": "最終承認です。決裁してよいですか",
+            "SuccessMessage": "決裁しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateD",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassD",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionD",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 7,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                },
+                {
+                    "Id": 6,
+                    "Type": "InputValue",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 7,
+            "Name": "00_共通",
+            "DisplayName": "回答者に自身を設定",
+            "CurrentStatus": -1,
+            "ChangedStatus": -1,
+            "Description": "作業者が未指定であるとき、自分を作業者にする",
+            "ExecutionType": 10,
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "Manager": "[\"\\t\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 8,
+            "Name": "A2_申請取下げ(共通)",
+            "DisplayName": "取下",
+            "CurrentStatus": 100,
+            "ChangedStatus": 910,
+            "Description": "取り下げて完了状態とする",
+            "Tooltip": "申請を取下げします。再度申請できません。",
+            "ConfirmationMessage": "申請を取り下げしてよろしいですか",
+            "SuccessMessage": "申請を取り下げました",
+            "ValidationType": 90,
+            "View": {
+                "Id": 0,
+                "Own": true,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "Manager",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputValue",
+                    "ColumnName": "NumA",
+                    "Value": "0"
+                }
+            ]
+        },
+        {
+            "Id": 9,
+            "Name": "B3_課長による差戻(共通)",
+            "DisplayName": "差戻",
+            "CurrentStatus": 200,
+            "ChangedStatus": 100,
+            "Description": "申請者へ差し戻す",
+            "Tooltip": "申請者に差し戻します",
+            "ConfirmationMessage": "申請者に差し戻しますか",
+            "SuccessMessage": "申請を差し戻しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group2#,
+                #Group3#,
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "Owner"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassB",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateB",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionB",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 6,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 12,
+            "Name": "C3_部長による差戻βγ",
+            "DisplayName": "差戻",
+            "CurrentStatus": 300,
+            "ChangedStatus": 200,
+            "Description": "一次承認へ差し戻す",
+            "Tooltip": "一次承認者に差し戻します",
+            "ConfirmationMessage": "差し戻しますか",
+            "SuccessMessage": "差し戻しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group3#,
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassB"
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassC",
+                    "Value": ""
+                },
+                {
+                    "Id": 6,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateC",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 3,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionC",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 2,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 4,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 13,
+            "Name": "D2_役員による差戻γ",
+            "DisplayName": "差戻",
+            "CurrentStatus": 400,
+            "ChangedStatus": 300,
+            "Description": "二次承認へ差し戻します",
+            "Tooltip": "二次承認者に差し戻します",
+            "ConfirmationMessage": "差し戻しますか",
+            "SuccessMessage": "差し戻しました",
+            "ValidateInputs": [
+                {
+                    "Id": 1,
+                    "ColumnName": "DescriptionE",
+                    "Required": true
+                }
+            ],
+            "Groups": [
+                #Group4#
+            ],
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassC"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassD",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateD",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 4,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionD",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 5,
+                    "Type": "CopyValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "DescriptionE"
+                },
+                {
+                    "Id": 6,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionE",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 14,
+            "Name": "E1_経理処理済(共通)",
+            "DisplayName": "支払",
+            "CurrentStatus": 900,
+            "ChangedStatus": 920,
+            "Description": "経理処理を実施したレコードを完了状態とする",
+            "Tooltip": "作業が終わったレコードを完了状態にします",
+            "ConfirmationMessage": "支払に相当する手続を完了していますか",
+            "SuccessMessage": "完了にしました",
+            "Depts": [
+                #Dept4#
+            ],
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateE",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassF",
+                    "Value": ""
+                },
+                {
+                    "Id": 3,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": ""
+                }
+            ]
+        },
+        {
+            "Id": 15,
+            "Name": "E2_経理による差戻α",
+            "DisplayName": "差戻",
+            "CurrentStatus": 900,
+            "ChangedStatus": 200,
+            "Description": "決裁担当課長への差戻し",
+            "Tooltip": "担当課長に差し戻します",
+            "ConfirmationMessage": "課長に差し戻してよいですか",
+            "SuccessMessage": "差し戻しました",
+            "Depts": [
+                #Dept4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\",200000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "経理による差し戻しが行われています。再度ご確認ください。"
+                },
+                {
+                    "Id": 3,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassB"
+                },
+                {
+                    "Id": 4,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassF",
+                    "Value": ""
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateE",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                }
+            ]
+        },
+        {
+            "Id": 16,
+            "Name": "E3_経理による差戻β",
+            "DisplayName": "差戻",
+            "CurrentStatus": 900,
+            "ChangedStatus": 300,
+            "Description": "決裁担当部長への差戻し",
+            "Tooltip": "担当部長に差し戻します",
+            "ConfirmationMessage": "部長に差し戻してよいですか",
+            "SuccessMessage": "差し戻しました",
+            "Depts": [
+                #Dept4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"200001,1000000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "経理による差し戻しが行われています。再度ご確認ください。"
+                },
+                {
+                    "Id": 3,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassC"
+                },
+                {
+                    "Id": 4,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassF",
+                    "Value": ""
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateE",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                }
+            ]
+        },
+        {
+            "Id": 17,
+            "Name": "E4_経理による差戻",
+            "DisplayName": "差戻",
+            "CurrentStatus": 900,
+            "ChangedStatus": 400,
+            "Description": "決裁担当部長への差戻し",
+            "Tooltip": "担当役員に差し戻します",
+            "ConfirmationMessage": "役員に差し戻してよいですか",
+            "SuccessMessage": "差し戻しました",
+            "Depts": [
+                #Dept4#
+            ],
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"1000001,\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "DataChanges": [
+                {
+                    "Id": 1,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassE",
+                    "Value": ""
+                },
+                {
+                    "Id": 2,
+                    "Type": "InputValue",
+                    "ColumnName": "DescriptionH",
+                    "Value": "経理による差し戻しが行われています。内容をご確認ください。"
+                },
+                {
+                    "Id": 3,
+                    "Type": "CopyValue",
+                    "ColumnName": "Manager",
+                    "Value": "ClassD"
+                },
+                {
+                    "Id": 4,
+                    "Type": "InputUser",
+                    "ColumnName": "ClassF",
+                    "Value": ""
+                },
+                {
+                    "Id": 5,
+                    "Type": "InputDateTime",
+                    "ColumnName": "DateE",
+                    "BaseDateTime": "CurrentTime",
+                    "Value": "0,Days"
+                }
+            ]
+        }
+    ],
+    "StatusControls": [
+        {
+            "Id": 1,
+            "Name": "01_申請待(共通)",
+            "Description": "起票時は承認項目を非表示とすべき",
+            "Status": 100,
+            "ColumnHash": {
+                "Status": "ReadOnly",
+                "Owner": "Hidden",
+                "ClassA": "Hidden",
+                "ClassB": "Hidden",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "Hidden",
+                "ClassF": "Hidden",
+                "DateA": "Hidden",
+                "DateB": "Hidden",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionB": "Hidden",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 2,
+            "Name": "02-1_申請後(共通)",
+            "Description": "申請内容は読み込みのみ。一次承認項目のみ表示。",
+            "Status": 200,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "Hidden",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "Hidden",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "Hidden",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Groups": [
+                #Group2#,
+                #Group3#,
+                #Group4#
+            ]
+        },
+        {
+            "Id": 12,
+            "Name": "02-2_申請後(共通)",
+            "Description": "一般社員は読み取り",
+            "Status": 200,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "Hidden",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "Hidden",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "Hidden",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Groups": [
+                #Group1#
+            ]
+        },
+        {
+            "Id": 3,
+            "Name": "03-1_一次承認後βγ",
+            "Description": "申請、一次承認項目は読み込みのみ。二次承認項目を表示",
+            "Status": 300,
+            "ColumnHash": {
+                "ResultId": "ReadOnly",
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Groups": [
+                #Group3#,
+                #Group4#
+            ]
+        },
+        {
+            "Id": 15,
+            "Name": "03-2_一次承認後βγ",
+            "Description": "一般社員、課長は読み取り",
+            "Status": 300,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "ReadOnly",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Groups": [
+                #Group2#,
+                #Group1#
+            ]
+        },
+        {
+            "Id": 4,
+            "Name": "04-1_二次承認後γ",
+            "Description": "申請、一次、二次承認項目は読み込みのみ。最終承認項目を表示",
+            "Status": 400,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Groups": [
+                #Group4#
+            ]
+        },
+        {
+            "Id": 16,
+            "Name": "04-2_二次承認後γ",
+            "Description": "一般社員、課長、部長は読み取り",
+            "Status": 400,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Groups": [
+                #Group2#,
+                #Group3#,
+                #Group1#
+            ]
+        },
+        {
+            "Id": 5,
+            "Name": "05-1-1_経理処理待α",
+            "Description": "一次承認まで表示して読み取り(非経理)",
+            "Status": 900,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\",200000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Depts": [
+                #Dept3#,
+                #Dept5#,
+                #Dept6#,
+                #Dept7#,
+                #Dept8#,
+                #Dept9#
+            ]
+        },
+        {
+            "Id": 13,
+            "Name": "05-1-2_経理処理待α",
+            "Description": "一次承認まで表示",
+            "Status": 900,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\",200000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Depts": [
+                #Dept4#
+            ]
+        },
+        {
+            "Id": 14,
+            "Name": "05-2-1_経理処理待β",
+            "Description": "二次承認まで表示して読み取り(非経理)",
+            "Status": 900,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"200001,1000000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Depts": [
+                #Dept3#,
+                #Dept5#,
+                #Dept6#,
+                #Dept7#,
+                #Dept8#,
+                #Dept9#
+            ]
+        },
+        {
+            "Id": 6,
+            "Name": "05-2-2_経理処理待β",
+            "Description": "二次承認まで表示",
+            "Status": 900,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "Hidden",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "Hidden",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "ReadOnly",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"200001,1000000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Depts": [
+                #Dept4#
+            ]
+        },
+        {
+            "Id": 7,
+            "Name": "05-3-1_経理処理待γ",
+            "Description": "非表示項目なし(非経理)",
+            "Status": 900,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "Hidden",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "ReadOnly",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "ReadOnly",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "ReadOnly",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"1000001,\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "Depts": [
+                #Dept3#,
+                #Dept5#,
+                #Dept6#,
+                #Dept7#,
+                #Dept8#,
+                #Dept9#
+            ]
+        },
+        {
+            "Id": 17,
+            "Name": "05-3-2_経理処理待γ",
+            "Description": "非表示項目なし",
+            "Status": 900,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "Hidden",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "ReadOnly",
+                "ClassE": "ReadOnly",
+                "ClassF": "Hidden",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "ReadOnly",
+                "DateE": "Hidden",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "ReadOnly",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"1000001,\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 8,
+            "Name": "06-1_取下",
+            "Description": "取り下げ時に金額を0とするので読み取り専用のみ設定",
+            "Status": 910,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "ReadOnly",
+                "ClassE": "ReadOnly",
+                "ClassF": "ReadOnly",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "ReadOnly",
+                "DateE": "ReadOnly",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "ReadOnly",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 9,
+            "Name": "06-2_完了α",
+            "Description": "一次承認まで",
+            "Status": 920,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "Hidden",
+                "ClassD": "Hidden",
+                "ClassE": "Hidden",
+                "ClassF": "ReadOnly",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "Hidden",
+                "DateD": "Hidden",
+                "DateE": "ReadOnly",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "Hidden",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\",200000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 10,
+            "Name": "06-3_完了β",
+            "Description": "二次承認まで",
+            "Status": 920,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "ReadOnly",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "Hidden",
+                "ClassE": "Hidden",
+                "ClassF": "ReadOnly",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "Hidden",
+                "DateE": "ReadOnly",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "Hidden",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ColumnFilterHash": {
+                    "NumA": "[\"200001,1000000\"]"
+                },
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        },
+        {
+            "Id": 11,
+            "Name": "06-4_完了γ",
+            "Description": "三次承認まで",
+            "Status": 920,
+            "ReadOnly": true,
+            "ColumnHash": {
+                "Title": "ReadOnly",
+                "Body": "ReadOnly",
+                "Status": "ReadOnly",
+                "Manager": "Hidden",
+                "Owner": "ReadOnly",
+                "ClassA": "ReadOnly",
+                "ClassB": "ReadOnly",
+                "ClassC": "ReadOnly",
+                "ClassD": "ReadOnly",
+                "ClassE": "Hidden",
+                "ClassF": "ReadOnly",
+                "NumA": "ReadOnly",
+                "DateA": "ReadOnly",
+                "DateB": "ReadOnly",
+                "DateC": "ReadOnly",
+                "DateD": "ReadOnly",
+                "DateE": "ReadOnly",
+                "DescriptionA": "ReadOnly",
+                "DescriptionB": "ReadOnly",
+                "DescriptionC": "ReadOnly",
+                "DescriptionD": "ReadOnly",
+                "DescriptionE": "Hidden",
+                "DescriptionH": "Hidden",
+                "AttachmentsA": "ReadOnly"
+            },
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            }
+        }
+    ],
+    "Styles": [
+        {
+            "Title": "emphasize",
+            "All": true,
+            "Body": ".emphasize {\n  font-weight: bolder;\n  color: red;\n}",
+            "Id": 1
+        }
+    ],
+        "ServerScripts": [
+          {
+            "Title": "アクセス権限制御",
+            "Name": "回答者が自身か空白かを判定",
+            "WhenViewProcessing": true,
+            "Body": "const tenantMgr = [#User1#];\nconst expenseDept = #Dept4#;\ntry {\n  const currentUserId = context.UserId;\n  const currentUsersDeptId = context.DeptId;\n  if (tenantMgr.includes(currentUserId)) {\n    // context.Log(\"Tenant Manager\");\n  } else if (currentUsersDeptId === expenseDept) {\n    // context.Log(\"経理部\");\n  } else {\n    view.Filters.Manager = `[\"${currentUserId}\",\"\\t\"]`;\n  }\n} catch (e) {\n  context.Log(e);\n}",
+            "Id": 1
+          }
+        ],
+    "AllowCopy": false,
+    "SwitchRecordWithAjax": true,
+    "UseSearchFilter": false,
+    "NoDisplayIfReadOnly": true,
+    "PermissionForCreating": {
+        "Manager": 7,
+        "ClassA": 7
+    },
+    "PermissionForUpdating": {
+        "Manager": 7,
+        "ClassA": 7
+    },
+    "UpdateColumnAccessControls": [
+        {
+            "ColumnName": "DescriptionE",
+            "Groups": [
+                #Group2#,
+                #Group3#,
+                #Group4#
+            ]
+        }
+    ]
+}

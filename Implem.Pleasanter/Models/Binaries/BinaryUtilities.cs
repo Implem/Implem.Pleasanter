@@ -258,7 +258,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#TenantImageLogoContainer",
                         new HtmlBuilder().SiteImageIcon(
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                    .ReplaceAll(
                        "#Logo",
                        new HtmlBuilder().HeaderLogo(
@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#SiteImageIconContainer",
                         new HtmlBuilder().SiteImageIcon(
@@ -380,7 +380,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                    .ReplaceAll(
                        "#Logo",
                        new HtmlBuilder().HeaderLogo(
@@ -472,7 +472,7 @@ namespace Implem.Pleasanter.Models
                         .Extension(file.Extension)
                         .Size(file.Size)
                         .ContentType(file.ContentType)));
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .InsertText(
                     "#" + context.Forms.ControlId(),
                     "![image]({0})".Params(Locations.ShowFile(
@@ -517,101 +517,9 @@ namespace Implem.Pleasanter.Models
             {
                 Files.DeleteFile(path);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
-                .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static string MultiUpload(Context context, long id)
-        {
-            var controlId = context.Forms.ControlId();
-            var ss = new ItemModel(
-                context: context,
-                referenceId: id).GetSite(
-                    context: context,
-                    initSiteSettings: true)
-                        .SiteSettings;
-            var column = ss.GetColumn(
-                context: context,
-                columnName: context.Forms.Data("ColumnName"));
-            var attachments = context.Forms.Data("AttachmentsData").Deserialize<Attachments>();
-            context.PostedFiles.ForEach(file =>
-            {
-                if (column.OverwriteSameFileName == true)
-                {
-                    OverwriteSameFileName(attachments, file.FileName);
-                }
-                attachments.Add(new Attachment()
-                {
-                    Guid = file.Guid,
-                    Name = file.FileName.Split(System.IO.Path.DirectorySeparatorChar).Last(),
-                    Size = file.Size,
-                    Extention = file.Extension,
-                    ContentType = file.ContentType,
-                    Added = true,
-                    Deleted = false
-                });
-            });
-            var invalid = BinaryValidators.OnUploading(
-                context: context,
-                column: column,
-                attachments: attachments);
-            switch (invalid)
-            {
-                case Error.Types.OverLimitQuantity:
-                    return Messages.ResponseOverLimitQuantity(
-                        context: context,
-                        data: column.LimitQuantity.ToString()).ToJson();
-                case Error.Types.OverLimitSize:
-                    return Messages.ResponseOverLimitSize(
-                        context: context,
-                        data: column.LimitSize.ToString()).ToJson();
-                case Error.Types.OverTotalLimitSize:
-                    return Messages.ResponseOverTotalLimitSize(
-                        context: context,
-                        data: column.TotalLimitSize.ToString()).ToJson();
-                case Error.Types.OverLocalFolderLimitSize:
-                    return Messages.ResponseOverLocalFolderLimitSize(
-                        context: context,
-                        data: column.LocalFolderLimitSize.ToString()).ToJson();
-                case Error.Types.OverLocalFolderTotalLimitSize:
-                    return Messages.ResponseOverLocalFolderTotalLimitSize(
-                        context: context,
-                        data: column.LocalFolderTotalLimitSize.ToString()).ToJson();
-                case Error.Types.OverTenantStorageSize:
-                    return Messages.ResponseOverTenantStorageSize(
-                        context: context,
-                        data: context.ContractSettings.StorageSize.ToString()).ToJson();
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            var hb = new HtmlBuilder();
-            var fieldId = controlId + "Field";
-            return new ResponseCollection()
-                .ReplaceAll("#" + fieldId, new HtmlBuilder()
-                    .FieldAttachments(
-                        context: context,
-                        fieldId: fieldId,
-                        controlId: controlId,
-                        columnName: column.ColumnName,
-                        fieldCss: column.FieldCss
-                            + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                ? " right-align"
-                                : string.Empty),
-                        fieldDescription: column.Description,
-                        labelText: column.LabelText,
-                        value: attachments.ToJson(),
-                        readOnly: Permissions.ColumnPermissionType(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            baseModel: null)
-                                != Permissions.ColumnPermissionTypes.Update))
-                .SetData("#" + controlId)
                 .ToJson();
         }
 
@@ -926,7 +834,7 @@ namespace Implem.Pleasanter.Models
                 });
             });
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
                     .Field(
                         context: context,

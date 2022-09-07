@@ -51,6 +51,11 @@ namespace Implem.PleasanterTest.Utilities
                 context: Context,
                 statements: Rds.SelectTenants(
                     column: Rds.TenantsColumn().TenantId(function: Sqls.Functions.Max)));
+            Rds.ExecuteNonQuery(
+                context: Context,
+                statements: Rds.UpdateTenants(
+                    param: Rds.TenantsParam().ContractSettings("{\"Extensions\":{\"Publish\":true}}"),
+                    where: Rds.TenantsWhere().TenantId(TenantId)));
             Parameters.Security.PrivilegedUsers = new List<string>()
             {
                 $"Tenant{TenantId}_User20"

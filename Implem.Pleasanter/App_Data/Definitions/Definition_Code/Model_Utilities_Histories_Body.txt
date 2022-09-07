@@ -24,11 +24,13 @@
                         ss: ss,
                         columns: columns,
                         #modelName#Model: #modelName#Model)));
-    return new #TableName#ResponseCollection(#modelName#Model)
-        .Html("#FieldSetHistories", hb)
-        .Message(message)
-        .Messages(context.Messages)
-        .ToJson();
+    return new #TableName#ResponseCollection(
+        context: context,
+        #modelName#Model: #modelName#Model)
+            .Html("#FieldSetHistories", hb)
+            .Message(message)
+            .Messages(context.Messages)
+            .ToJson();
 }
 
 private static void HistoriesTableBody(

@@ -17,22 +17,22 @@ namespace Implem.PleasanterTest.Tests.Users
         public void Test(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Users.Values.FirstOrDefault(o => o.Name == title).UserId;
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.UsersDelete(id: id));
             var results = Results(context: context);
-            Assert.True(Compare.Json(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                jsonTests: jsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
         {
-            var jsonTests = new List<JsonTest>()
+            var baseTests = new List<BaseTest>()
             {
                 JsonData.ExistsOne(
                     method: "SetMemory",
@@ -46,27 +46,27 @@ namespace Implem.PleasanterTest.Tests.Users
                 new TestPart(
                     title: "ユーザ21（削除用）",
                     userType: UserData.UserTypes.TenantManager1,
-                    jsonTests: jsonTests),
+                    baseTests: baseTests),
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    jsonTests: testPart.JsonTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<JsonTest> jsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                jsonTests
+                baseTests
             };
         }
 

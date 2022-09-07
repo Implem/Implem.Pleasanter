@@ -17,7 +17,7 @@ else
     SessionUtilities.Set(
         context: context,
         message: Messages.Copied(context: context));
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .Response("id", #modelName#Model.#ModelName#Id.ToString())
         .Href(Locations.ItemEdit(
             context: context,

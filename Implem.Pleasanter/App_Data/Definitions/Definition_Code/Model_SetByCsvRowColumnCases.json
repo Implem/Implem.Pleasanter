@@ -1,0 +1,12 @@
+﻿{
+    "Id": "Model_SetByCsvRowColumnCases",
+    "RepeatType": "Column",
+    "Indent": "6",
+    "Separator": "\\r\\n",
+    "NotUnique": "1",
+    "Form": "1",
+    "Update": "1",
+    "NotUserColumn": "1",
+    "Exclude": "SiteId,Ver,Comments",
+    "ExcludeTypeCs": "Attachments"
+}

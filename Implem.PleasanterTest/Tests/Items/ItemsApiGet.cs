@@ -17,17 +17,17 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
-            List<ApiJsonTest> apiJsonTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsApiGet(id: id));
             var results = GetResults(context: context);
-            Assert.True(Compare.ApiResults(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                apiJsonTests: apiJsonTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -52,20 +52,20 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    apiJsonTests: ApiJsonData.StatusCode(statusCode: 200).ToSingleList());
+                    baseTests: BaseData.Tests(ApiJsonData.StatusCode(statusCode: 200)));
             }
         }
 
         private static object[] TestData(
             string title,
             UserModel userModel,
-            List<ApiJsonTest> apiJsonTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
-                apiJsonTests
+                baseTests
             };
         }
 

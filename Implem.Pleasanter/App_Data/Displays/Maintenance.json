@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Maintenance",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Maintenance"
+        },
+        {
+            "Language": "zh",
+            "Body": "维护"
+        },
+        {
+            "Language": "ja",
+            "Body": "メンテナンス"
+        },
+        {
+            "Language": "de",
+            "Body": "Wartung"
+        },
+        {
+            "Language": "ko",
+            "Body": "유지"
+        },
+        {
+            "Language": "es",
+            "Body": "Mantenimiento"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sự bảo trì"
+        }
+    ]
+}

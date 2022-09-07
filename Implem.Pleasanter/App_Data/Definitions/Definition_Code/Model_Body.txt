@@ -94,6 +94,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_GetByApi-->
 <!--Model_ExportByApi-->
 <!--Model_ToValue-->
+<!--Model_ToValueApiDisplayValue-->
 <!--Model_ToDisplay-->
 <!--Model_ToApiDisplayValue-->
 <!--Model_ToApiValue-->
@@ -116,8 +117,10 @@ namespace Implem.Pleasanter.Models
 <!--Model_SetDefault-->
 <!--Model_SetByForm ( HasIdentity = true ) -->
 <!--Model_SetByForm ( ItemOnly = true ) -->
+<!--Model_SetByCsvRow -->
 <!--Model_SetProcessMatchConditions-->
 <!--Model_GetStatusControl-->
+<!--Model_CopyAndInit-->
 <!--Model_SetByModel-->
 <!--Model_SetByApi-->
 <!--Model_SetByDataChanges-->
@@ -181,53 +184,53 @@ namespace Implem.Pleasanter.Models
                             switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                             {
                                 case "Class":
-                                    GetClass(
+                                    SetClass(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedClass(
+                                    SetSavedClass(
                                         columnName: column.Name,
                                         value: GetClass(columnName: column.Name));
                                     break;
                                 case "Num":
-                                    GetNum(
+                                    SetNum(
                                         columnName: column.Name,
                                         value: new Num(
                                             dataRow: dataRow,
                                             name: column.ColumnName));
-                                    GetSavedNum(
+                                    SetSavedNum(
                                         columnName: column.Name,
                                         value: GetNum(columnName: column.Name).Value);
                                     break;
                                 case "Date":
-                                    GetDate(
+                                    SetDate(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToDateTime());
-                                    GetSavedDate(
+                                    SetSavedDate(
                                         columnName: column.Name,
                                         value: GetDate(columnName: column.Name));
                                     break;
                                 case "Description":
-                                    GetDescription(
+                                    SetDescription(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString());
-                                    GetSavedDescription(
+                                    SetSavedDescription(
                                         columnName: column.Name,
                                         value: GetDescription(columnName: column.Name));
                                     break;
                                 case "Check":
-                                    GetCheck(
+                                    SetCheck(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToBool());
-                                    GetSavedCheck(
+                                    SetSavedCheck(
                                         columnName: column.Name,
                                         value: GetCheck(columnName: column.Name));
                                     break;
                                 case "Attachments":
-                                    GetAttachments(
+                                    SetAttachments(
                                         columnName: column.Name,
                                         value: dataRow[column.ColumnName].ToString()
                                             .Deserialize<Attachments>() ?? new Attachments());
-                                    GetSavedAttachments(
+                                    SetSavedAttachments(
                                         columnName: column.Name,
                                         value: GetAttachments(columnName: column.Name).ToJson());
                                     break;

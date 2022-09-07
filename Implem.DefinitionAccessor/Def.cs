@@ -385,6 +385,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Constructor": Code.Model_Constructor = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Constructor, definitionRow, CodeXls); break;
                     case "Model_ContextTenantId": Code.Model_ContextTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ContextTenantId, definitionRow, CodeXls); break;
                     case "Model_ControlConstraintsType": Code.Model_ControlConstraintsType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ControlConstraintsType, definitionRow, CodeXls); break;
+                    case "Model_CopyAndInit": Code.Model_CopyAndInit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyAndInit, definitionRow, CodeXls); break;
                     case "Model_CopyCases": Code.Model_CopyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyCases, definitionRow, CodeXls); break;
                     case "Model_CopyRowCases": Code.Model_CopyRowCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyRowCases, definitionRow, CodeXls); break;
                     case "Model_CopyWithLinks": Code.Model_CopyWithLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CopyWithLinks, definitionRow, CodeXls); break;
@@ -420,7 +421,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_EditorJsonCases": Code.Model_EditorJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditorJsonCases, definitionRow, CodeXls); break;
                     case "Model_EditSeparateSettingsCases": Code.Model_EditSeparateSettingsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_EditSeparateSettingsCases, definitionRow, CodeXls); break;
                     case "Model_Export": Code.Model_Export = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Export, definitionRow, CodeXls); break;
-                    case "Model_ExportAsyncCases": Code.Model_ExportAsyncCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportAsyncCases, definitionRow, CodeXls); break;
+                    case "Model_ExportAndMailNotifyCases": Code.Model_ExportAndMailNotifyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportAndMailNotifyCases, definitionRow, CodeXls); break;
                     case "Model_ExportByApi": Code.Model_ExportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportByApi, definitionRow, CodeXls); break;
                     case "Model_ExportCases": Code.Model_ExportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportCases, definitionRow, CodeXls); break;
                     case "Model_ExportClassPropertyCases": Code.Model_ExportClassPropertyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ExportClassPropertyCases, definitionRow, CodeXls); break;
@@ -574,6 +575,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_Site": Code.Model_SetByApi_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Site, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
+                    case "Model_SetByCsvRow": Code.Model_SetByCsvRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRow, definitionRow, CodeXls); break;
+                    case "Model_SetByCsvRowColumnCases": Code.Model_SetByCsvRowColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowColumnCases, definitionRow, CodeXls); break;
+                    case "Model_SetByCsvRowUserColumnCases": Code.Model_SetByCsvRowUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowUserColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByDataChanges": Code.Model_SetByDataChanges = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByDataChanges, definitionRow, CodeXls); break;
                     case "Model_SetByForm": Code.Model_SetByForm = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm, definitionRow, CodeXls); break;
                     case "Model_SetByForm_ColumnCases": Code.Model_SetByForm_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByForm_ColumnCases, definitionRow, CodeXls); break;
@@ -663,6 +667,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ToLocal": Code.Model_ToLocal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToLocal, definitionRow, CodeXls); break;
                     case "Model_ToUniversal": Code.Model_ToUniversal = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToUniversal, definitionRow, CodeXls); break;
                     case "Model_ToValue": Code.Model_ToValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToValue, definitionRow, CodeXls); break;
+                    case "Model_ToValueApiDisplayValue": Code.Model_ToValueApiDisplayValue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ToValueApiDisplayValue, definitionRow, CodeXls); break;
                     case "Model_TrashBoxCases": Code.Model_TrashBoxCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxCases, definitionRow, CodeXls); break;
                     case "Model_TrashBoxGridRowsCases": Code.Model_TrashBoxGridRowsCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxGridRowsCases, definitionRow, CodeXls); break;
                     case "Model_TrashBoxJsonCases": Code.Model_TrashBoxJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxJsonCases, definitionRow, CodeXls); break;
@@ -766,9 +771,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_History_Sites": Code.Model_Utilities_History_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_History_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImageLib": Code.Model_Utilities_ImageLib = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImageLib, definitionRow, CodeXls); break;
                     case "Model_Utilities_Import": Code.Model_Utilities_Import = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Import, definitionRow, CodeXls); break;
-                    case "Model_Utilities_ImportColumnCases": Code.Model_Utilities_ImportColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportSettings": Code.Model_Utilities_ImportSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportSettings, definitionRow, CodeXls); break;
-                    case "Model_Utilities_ImportUserColumnCases": Code.Model_Utilities_ImportUserColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportUserColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorCases": Code.Model_Utilities_ImportValidatorCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_ImportValidatorHeaders": Code.Model_Utilities_ImportValidatorHeaders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ImportValidatorHeaders, definitionRow, CodeXls); break;
                     case "Model_Utilities_Index": Code.Model_Utilities_Index = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Index, definitionRow, CodeXls); break;
@@ -1755,7 +1758,9 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_AssemblyVersion": Column.SysLogs_AssemblyVersion = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_AssemblyVersion, definitionRow, ColumnXls); break;
                     case "SysLogs_BasePriority": Column.SysLogs_BasePriority = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_BasePriority, definitionRow, ColumnXls); break;
                     case "SysLogs_Class": Column.SysLogs_Class = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Class, definitionRow, ColumnXls); break;
+                    case "SysLogs_Comments": Column.SysLogs_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Comments, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
+                    case "SysLogs_Creator": Column.SysLogs_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Creator, definitionRow, ColumnXls); break;
                     case "SysLogs_Elapsed": Column.SysLogs_Elapsed = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Elapsed, definitionRow, ColumnXls); break;
                     case "SysLogs_EndTime": Column.SysLogs_EndTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_EndTime, definitionRow, ColumnXls); break;
                     case "SysLogs_ErrMessage": Column.SysLogs_ErrMessage = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ErrMessage, definitionRow, ColumnXls); break;
@@ -1779,6 +1784,8 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_SysLogType": Column.SysLogs_SysLogType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogType, definitionRow, ColumnXls); break;
                     case "SysLogs_TenantName": Column.SysLogs_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_TenantName, definitionRow, ColumnXls); break;
                     case "SysLogs_Title": Column.SysLogs_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Title, definitionRow, ColumnXls); break;
+                    case "SysLogs_UpdatedTime": Column.SysLogs_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "SysLogs_Updator": Column.SysLogs_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Updator, definitionRow, ColumnXls); break;
                     case "SysLogs_Url": Column.SysLogs_Url = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Url, definitionRow, ColumnXls); break;
                     case "SysLogs_UrlReferer": Column.SysLogs_UrlReferer = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UrlReferer, definitionRow, ColumnXls); break;
                     case "SysLogs_UserAgent": Column.SysLogs_UserAgent = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UserAgent, definitionRow, ColumnXls); break;
@@ -2043,11 +2050,7 @@ namespace Implem.DefinitionAccessor
                     case "Statuses_Updator": Column.Statuses_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Updator, definitionRow, ColumnXls); break;
                     case "Statuses_Ver": Column.Statuses_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Ver, definitionRow, ColumnXls); break;
                     case "Statuses_VerUp": Column.Statuses_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_VerUp, definitionRow, ColumnXls); break;
-                    case "SysLogs_Comments": Column.SysLogs_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Comments, definitionRow, ColumnXls); break;
-                    case "SysLogs_Creator": Column.SysLogs_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Creator, definitionRow, ColumnXls); break;
                     case "SysLogs_Timestamp": Column.SysLogs_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Timestamp, definitionRow, ColumnXls); break;
-                    case "SysLogs_UpdatedTime": Column.SysLogs_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_UpdatedTime, definitionRow, ColumnXls); break;
-                    case "SysLogs_Updator": Column.SysLogs_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Updator, definitionRow, ColumnXls); break;
                     case "SysLogs_Ver": Column.SysLogs_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Ver, definitionRow, ColumnXls); break;
                     case "SysLogs_VerUp": Column.SysLogs_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_VerUp, definitionRow, ColumnXls); break;
                     case "Tenants_Comments": Column.Tenants_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Comments, definitionRow, ColumnXls); break;
@@ -2693,6 +2696,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToDecimal();
                             newColumnDefinition.SavedNumFilterStep = newColumnDefinition.NumFilterStep;
                             break;
+                        case "DateFilterSetMode":
+                            newColumnDefinition.DateFilterSetMode = customDefinitionRow.Get("DateFilterSetMode")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedDateFilterSetMode = newColumnDefinition.DateFilterSetMode;
+                            break;
                         case "FullTextType":
                             newColumnDefinition.FullTextType = customDefinitionRow.Get("FullTextType")?.ToInt() ??
                                 data.ToInt();
@@ -2876,6 +2884,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NumFilterMin")) { definition.NumFilterMin = definitionRow["NumFilterMin"].ToDecimal(); definition.SavedNumFilterMin = definition.NumFilterMin; }
             if (definitionRow.ContainsKey("NumFilterMax")) { definition.NumFilterMax = definitionRow["NumFilterMax"].ToDecimal(); definition.SavedNumFilterMax = definition.NumFilterMax; }
             if (definitionRow.ContainsKey("NumFilterStep")) { definition.NumFilterStep = definitionRow["NumFilterStep"].ToDecimal(); definition.SavedNumFilterStep = definition.NumFilterStep; }
+            if (definitionRow.ContainsKey("DateFilterSetMode")) { definition.DateFilterSetMode = definitionRow["DateFilterSetMode"].ToInt(); definition.SavedDateFilterSetMode = definition.DateFilterSetMode; }
             if (definitionRow.ContainsKey("FullTextType")) { definition.FullTextType = definitionRow["FullTextType"].ToInt(); definition.SavedFullTextType = definition.FullTextType; }
             if (definitionRow.ContainsKey("Width")) { definition.Width = definitionRow["Width"].ToInt(); definition.SavedWidth = definition.Width; }
             if (definitionRow.ContainsKey("SettingEnable")) { definition.SettingEnable = definitionRow["SettingEnable"].ToBool(); definition.SavedSettingEnable = definition.SettingEnable; }
@@ -3528,10 +3537,6 @@ namespace Implem.DefinitionAccessor
                     case "Site54_en": Demo.Site54_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site54_en, definitionRow, DemoXls); break;
                     case "Site55": Demo.Site55 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site55, definitionRow, DemoXls); break;
                     case "Site55_en": Demo.Site55_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site55_en, definitionRow, DemoXls); break;
-                    case "Site56": Demo.Site56 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site56, definitionRow, DemoXls); break;
-                    case "Site56_en": Demo.Site56_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site56_en, definitionRow, DemoXls); break;
-                    case "Site57": Demo.Site57 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57, definitionRow, DemoXls); break;
-                    case "Site57_en": Demo.Site57_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57_en, definitionRow, DemoXls); break;
                     case "Site6": Demo.Site6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site6, definitionRow, DemoXls); break;
                     case "Site6_en": Demo.Site6_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site6_en, definitionRow, DemoXls); break;
                     case "Site7": Demo.Site7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site7, definitionRow, DemoXls); break;
@@ -3706,6 +3711,64 @@ namespace Implem.DefinitionAccessor
                     case "WriteOperationDocuments_en": Demo.WriteOperationDocuments_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.WriteOperationDocuments_en, definitionRow, DemoXls); break;
                     case "WriteUserDocuments": Demo.WriteUserDocuments = definitionRow[1].ToString(); SetDemoTable(DemoTable.WriteUserDocuments, definitionRow, DemoXls); break;
                     case "WriteUserDocuments_en": Demo.WriteUserDocuments_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.WriteUserDocuments_en, definitionRow, DemoXls); break;
+                    case "Group1": Demo.Group1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Group1, definitionRow, DemoXls); break;
+                    case "Group2": Demo.Group2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Group2, definitionRow, DemoXls); break;
+                    case "Group3": Demo.Group3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Group3, definitionRow, DemoXls); break;
+                    case "Group4": Demo.Group4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Group4, definitionRow, DemoXls); break;
+                    case "GroupMembers0102": Demo.GroupMembers0102 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0102, definitionRow, DemoXls); break;
+                    case "GroupMembers0103": Demo.GroupMembers0103 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0103, definitionRow, DemoXls); break;
+                    case "GroupMembers0104": Demo.GroupMembers0104 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0104, definitionRow, DemoXls); break;
+                    case "GroupMembers0105": Demo.GroupMembers0105 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0105, definitionRow, DemoXls); break;
+                    case "GroupMembers0106": Demo.GroupMembers0106 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0106, definitionRow, DemoXls); break;
+                    case "GroupMembers0107": Demo.GroupMembers0107 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0107, definitionRow, DemoXls); break;
+                    case "GroupMembers0108": Demo.GroupMembers0108 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0108, definitionRow, DemoXls); break;
+                    case "GroupMembers0112": Demo.GroupMembers0112 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0112, definitionRow, DemoXls); break;
+                    case "GroupMembers0113": Demo.GroupMembers0113 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0113, definitionRow, DemoXls); break;
+                    case "GroupMembers0114": Demo.GroupMembers0114 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0114, definitionRow, DemoXls); break;
+                    case "GroupMembers0115": Demo.GroupMembers0115 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0115, definitionRow, DemoXls); break;
+                    case "GroupMembers0116": Demo.GroupMembers0116 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0116, definitionRow, DemoXls); break;
+                    case "GroupMembers0117": Demo.GroupMembers0117 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0117, definitionRow, DemoXls); break;
+                    case "GroupMembers0209": Demo.GroupMembers0209 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0209, definitionRow, DemoXls); break;
+                    case "GroupMembers0218": Demo.GroupMembers0218 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0218, definitionRow, DemoXls); break;
+                    case "GroupMembers0310": Demo.GroupMembers0310 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0310, definitionRow, DemoXls); break;
+                    case "GroupMembers0319": Demo.GroupMembers0319 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0319, definitionRow, DemoXls); break;
+                    case "GroupMembers0411": Demo.GroupMembers0411 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0411, definitionRow, DemoXls); break;
+                    case "GroupMembers0420": Demo.GroupMembers0420 = definitionRow[1].ToString(); SetDemoTable(DemoTable.GroupMembers0420, definitionRow, DemoXls); break;
+                    case "Site56": Demo.Site56 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site56, definitionRow, DemoXls); break;
+                    case "Site56_en": Demo.Site56_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site56_en, definitionRow, DemoXls); break;
+                    case "Expense1": Demo.Expense1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense1, definitionRow, DemoXls); break;
+                    case "Expense10": Demo.Expense10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense10, definitionRow, DemoXls); break;
+                    case "Expense11": Demo.Expense11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense11, definitionRow, DemoXls); break;
+                    case "Expense12": Demo.Expense12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense12, definitionRow, DemoXls); break;
+                    case "Expense13": Demo.Expense13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense13, definitionRow, DemoXls); break;
+                    case "Expense14": Demo.Expense14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense14, definitionRow, DemoXls); break;
+                    case "Expense2": Demo.Expense2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense2, definitionRow, DemoXls); break;
+                    case "Expense3": Demo.Expense3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense3, definitionRow, DemoXls); break;
+                    case "Expense4": Demo.Expense4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense4, definitionRow, DemoXls); break;
+                    case "Expense5": Demo.Expense5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense5, definitionRow, DemoXls); break;
+                    case "Expense6": Demo.Expense6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense6, definitionRow, DemoXls); break;
+                    case "Expense7": Demo.Expense7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense7, definitionRow, DemoXls); break;
+                    case "Expense8": Demo.Expense8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense8, definitionRow, DemoXls); break;
+                    case "Expense9": Demo.Expense9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Expense9, definitionRow, DemoXls); break;
+                    case "PermissionExpense1": Demo.PermissionExpense1 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense1, definitionRow, DemoXls); break;
+                    case "PermissionExpense10": Demo.PermissionExpense10 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense10, definitionRow, DemoXls); break;
+                    case "PermissionExpense11": Demo.PermissionExpense11 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense11, definitionRow, DemoXls); break;
+                    case "PermissionExpense12": Demo.PermissionExpense12 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense12, definitionRow, DemoXls); break;
+                    case "PermissionExpense13": Demo.PermissionExpense13 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense13, definitionRow, DemoXls); break;
+                    case "PermissionExpense14": Demo.PermissionExpense14 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense14, definitionRow, DemoXls); break;
+                    case "PermissionExpense2": Demo.PermissionExpense2 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense2, definitionRow, DemoXls); break;
+                    case "PermissionExpense3": Demo.PermissionExpense3 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense3, definitionRow, DemoXls); break;
+                    case "PermissionExpense4": Demo.PermissionExpense4 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense4, definitionRow, DemoXls); break;
+                    case "PermissionExpense5": Demo.PermissionExpense5 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense5, definitionRow, DemoXls); break;
+                    case "PermissionExpense6": Demo.PermissionExpense6 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense6, definitionRow, DemoXls); break;
+                    case "PermissionExpense7": Demo.PermissionExpense7 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense7, definitionRow, DemoXls); break;
+                    case "PermissionExpense8": Demo.PermissionExpense8 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense8, definitionRow, DemoXls); break;
+                    case "PermissionExpense9": Demo.PermissionExpense9 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionExpense9, definitionRow, DemoXls); break;
+                    case "PermissionSite5701": Demo.PermissionSite5701 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionSite5701, definitionRow, DemoXls); break;
+                    case "PermissionSite5702": Demo.PermissionSite5702 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionSite5702, definitionRow, DemoXls); break;
+                    case "PermissionSite5703": Demo.PermissionSite5703 = definitionRow[1].ToString(); SetDemoTable(DemoTable.PermissionSite5703, definitionRow, DemoXls); break;
+                    case "Site57": Demo.Site57 = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57, definitionRow, DemoXls); break;
+                    case "Site57_en": Demo.Site57_en = definitionRow[1].ToString(); SetDemoTable(DemoTable.Site57_en, definitionRow, DemoXls); break;
                     default: break;
                 }
             });
@@ -4446,6 +4509,16 @@ namespace Implem.DefinitionAccessor
                                 data.ToDateTime();
                             newDemoDefinition.SavedCompletionTime = newDemoDefinition.CompletionTime;
                             break;
+                        case "Locked":
+                            newDemoDefinition.Locked = customDefinitionRow.Get("Locked")?.ToBool() ??
+                                data.ToBool();
+                            newDemoDefinition.SavedLocked = newDemoDefinition.Locked;
+                            break;
+                        case "Publish":
+                            newDemoDefinition.Publish = customDefinitionRow.Get("Publish")?.ToBool() ??
+                                data.ToBool();
+                            newDemoDefinition.SavedPublish = newDemoDefinition.Publish;
+                            break;
                         case "CreatedTime":
                             newDemoDefinition.CreatedTime = customDefinitionRow.Get("CreatedTime")?.ToDateTime() ??
                                 data.ToDateTime();
@@ -4610,6 +4683,8 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Updator")) { definition.Updator = definitionRow["Updator"].ToString(); definition.SavedUpdator = definition.Updator; }
             if (definitionRow.ContainsKey("StartTime")) { definition.StartTime = definitionRow["StartTime"].ToDateTime(); definition.SavedStartTime = definition.StartTime; }
             if (definitionRow.ContainsKey("CompletionTime")) { definition.CompletionTime = definitionRow["CompletionTime"].ToDateTime(); definition.SavedCompletionTime = definition.CompletionTime; }
+            if (definitionRow.ContainsKey("Locked")) { definition.Locked = definitionRow["Locked"].ToBool(); definition.SavedLocked = definition.Locked; }
+            if (definitionRow.ContainsKey("Publish")) { definition.Publish = definitionRow["Publish"].ToBool(); definition.SavedPublish = definition.Publish; }
             if (definitionRow.ContainsKey("CreatedTime")) { definition.CreatedTime = definitionRow["CreatedTime"].ToDateTime(); definition.SavedCreatedTime = definition.CreatedTime; }
             if (definitionRow.ContainsKey("UpdatedTime")) { definition.UpdatedTime = definitionRow["UpdatedTime"].ToDateTime(); definition.SavedUpdatedTime = definition.UpdatedTime; }
         }
@@ -5607,6 +5682,7 @@ namespace Implem.DefinitionAccessor
                         case "NumFilterMin": columnDefinition.NumFilterMin = optionValue.ToDecimal(); break;
                         case "NumFilterMax": columnDefinition.NumFilterMax = optionValue.ToDecimal(); break;
                         case "NumFilterStep": columnDefinition.NumFilterStep = optionValue.ToDecimal(); break;
+                        case "DateFilterSetMode": columnDefinition.DateFilterSetMode = optionValue.ToInt(); break;
                         case "FullTextType": columnDefinition.FullTextType = optionValue.ToInt(); break;
                         case "Width": columnDefinition.Width = optionValue.ToInt(); break;
                         case "SettingEnable": columnDefinition.SettingEnable = optionValue.ToBool(); break;
@@ -5777,6 +5853,8 @@ namespace Implem.DefinitionAccessor
                         case "Updator": demoDefinition.Updator = optionValue.ToString(); break;
                         case "StartTime": demoDefinition.StartTime = optionValue.ToDateTime(); break;
                         case "CompletionTime": demoDefinition.CompletionTime = optionValue.ToDateTime(); break;
+                        case "Locked": demoDefinition.Locked = optionValue.ToBool(); break;
+                        case "Publish": demoDefinition.Publish = optionValue.ToBool(); break;
                         case "CreatedTime": demoDefinition.CreatedTime = optionValue.ToDateTime(); break;
                         case "UpdatedTime": demoDefinition.UpdatedTime = optionValue.ToDateTime(); break;
                     }
@@ -6599,6 +6677,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Constructor;
         public string Model_ContextTenantId;
         public string Model_ControlConstraintsType;
+        public string Model_CopyAndInit;
         public string Model_CopyCases;
         public string Model_CopyRowCases;
         public string Model_CopyWithLinks;
@@ -6634,7 +6713,7 @@ namespace Implem.DefinitionAccessor
         public string Model_EditorJsonCases;
         public string Model_EditSeparateSettingsCases;
         public string Model_Export;
-        public string Model_ExportAsyncCases;
+        public string Model_ExportAndMailNotifyCases;
         public string Model_ExportByApi;
         public string Model_ExportCases;
         public string Model_ExportClassPropertyCases;
@@ -6788,6 +6867,9 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_Site;
         public string Model_SetByApiExec;
         public string Model_SetByApiParameter;
+        public string Model_SetByCsvRow;
+        public string Model_SetByCsvRowColumnCases;
+        public string Model_SetByCsvRowUserColumnCases;
         public string Model_SetByDataChanges;
         public string Model_SetByForm;
         public string Model_SetByForm_ColumnCases;
@@ -6877,6 +6959,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ToLocal;
         public string Model_ToUniversal;
         public string Model_ToValue;
+        public string Model_ToValueApiDisplayValue;
         public string Model_TrashBoxCases;
         public string Model_TrashBoxGridRowsCases;
         public string Model_TrashBoxJsonCases;
@@ -6980,9 +7063,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_History_Sites;
         public string Model_Utilities_ImageLib;
         public string Model_Utilities_Import;
-        public string Model_Utilities_ImportColumnCases;
         public string Model_Utilities_ImportSettings;
-        public string Model_Utilities_ImportUserColumnCases;
         public string Model_Utilities_ImportValidatorCases;
         public string Model_Utilities_ImportValidatorHeaders;
         public string Model_Utilities_Index;
@@ -7353,6 +7434,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Constructor = new CodeDefinition();
         public CodeDefinition Model_ContextTenantId = new CodeDefinition();
         public CodeDefinition Model_ControlConstraintsType = new CodeDefinition();
+        public CodeDefinition Model_CopyAndInit = new CodeDefinition();
         public CodeDefinition Model_CopyCases = new CodeDefinition();
         public CodeDefinition Model_CopyRowCases = new CodeDefinition();
         public CodeDefinition Model_CopyWithLinks = new CodeDefinition();
@@ -7388,7 +7470,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_EditorJsonCases = new CodeDefinition();
         public CodeDefinition Model_EditSeparateSettingsCases = new CodeDefinition();
         public CodeDefinition Model_Export = new CodeDefinition();
-        public CodeDefinition Model_ExportAsyncCases = new CodeDefinition();
+        public CodeDefinition Model_ExportAndMailNotifyCases = new CodeDefinition();
         public CodeDefinition Model_ExportByApi = new CodeDefinition();
         public CodeDefinition Model_ExportCases = new CodeDefinition();
         public CodeDefinition Model_ExportClassPropertyCases = new CodeDefinition();
@@ -7542,6 +7624,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_Site = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
+        public CodeDefinition Model_SetByCsvRow = new CodeDefinition();
+        public CodeDefinition Model_SetByCsvRowColumnCases = new CodeDefinition();
+        public CodeDefinition Model_SetByCsvRowUserColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByDataChanges = new CodeDefinition();
         public CodeDefinition Model_SetByForm = new CodeDefinition();
         public CodeDefinition Model_SetByForm_ColumnCases = new CodeDefinition();
@@ -7631,6 +7716,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ToLocal = new CodeDefinition();
         public CodeDefinition Model_ToUniversal = new CodeDefinition();
         public CodeDefinition Model_ToValue = new CodeDefinition();
+        public CodeDefinition Model_ToValueApiDisplayValue = new CodeDefinition();
         public CodeDefinition Model_TrashBoxCases = new CodeDefinition();
         public CodeDefinition Model_TrashBoxGridRowsCases = new CodeDefinition();
         public CodeDefinition Model_TrashBoxJsonCases = new CodeDefinition();
@@ -7734,9 +7820,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_History_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImageLib = new CodeDefinition();
         public CodeDefinition Model_Utilities_Import = new CodeDefinition();
-        public CodeDefinition Model_Utilities_ImportColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportSettings = new CodeDefinition();
-        public CodeDefinition Model_Utilities_ImportUserColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_ImportValidatorHeaders = new CodeDefinition();
         public CodeDefinition Model_Utilities_Index = new CodeDefinition();
@@ -8105,6 +8189,7 @@ namespace Implem.DefinitionAccessor
         public decimal NumFilterMin; public decimal SavedNumFilterMin;
         public decimal NumFilterMax; public decimal SavedNumFilterMax;
         public decimal NumFilterStep; public decimal SavedNumFilterStep;
+        public int DateFilterSetMode; public int SavedDateFilterSetMode;
         public int FullTextType; public int SavedFullTextType;
         public int Width; public int SavedWidth;
         public bool SettingEnable; public bool SavedSettingEnable;
@@ -8242,6 +8327,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NumFilterMin")) NumFilterMin = propertyCollection["NumFilterMin"].ToDecimal(); else NumFilterMin = 0;
             if (propertyCollection.ContainsKey("NumFilterMax")) NumFilterMax = propertyCollection["NumFilterMax"].ToDecimal(); else NumFilterMax = 0;
             if (propertyCollection.ContainsKey("NumFilterStep")) NumFilterStep = propertyCollection["NumFilterStep"].ToDecimal(); else NumFilterStep = 0;
+            if (propertyCollection.ContainsKey("DateFilterSetMode")) DateFilterSetMode = propertyCollection["DateFilterSetMode"].ToInt(); else DateFilterSetMode = 0;
             if (propertyCollection.ContainsKey("FullTextType")) FullTextType = propertyCollection["FullTextType"].ToInt(); else FullTextType = 0;
             if (propertyCollection.ContainsKey("Width")) Width = propertyCollection["Width"].ToInt(); else Width = 0;
             if (propertyCollection.ContainsKey("SettingEnable")) SettingEnable = propertyCollection["SettingEnable"].ToBool(); else SettingEnable = false;
@@ -8379,6 +8465,7 @@ namespace Implem.DefinitionAccessor
                     case "NumFilterMin": return NumFilterMin;
                     case "NumFilterMax": return NumFilterMax;
                     case "NumFilterStep": return NumFilterStep;
+                    case "DateFilterSetMode": return DateFilterSetMode;
                     case "FullTextType": return FullTextType;
                     case "Width": return Width;
                     case "SettingEnable": return SettingEnable;
@@ -8516,6 +8603,7 @@ namespace Implem.DefinitionAccessor
             NumFilterMin = SavedNumFilterMin;
             NumFilterMax = SavedNumFilterMax;
             NumFilterStep = SavedNumFilterStep;
+            DateFilterSetMode = SavedDateFilterSetMode;
             FullTextType = SavedFullTextType;
             Width = SavedWidth;
             SettingEnable = SavedSettingEnable;
@@ -8740,7 +8828,9 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_AssemblyVersion;
         public string SysLogs_BasePriority;
         public string SysLogs_Class;
+        public string SysLogs_Comments;
         public string SysLogs_CreatedTime;
+        public string SysLogs_Creator;
         public string SysLogs_Elapsed;
         public string SysLogs_EndTime;
         public string SysLogs_ErrMessage;
@@ -8764,6 +8854,8 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_SysLogType;
         public string SysLogs_TenantName;
         public string SysLogs_Title;
+        public string SysLogs_UpdatedTime;
+        public string SysLogs_Updator;
         public string SysLogs_Url;
         public string SysLogs_UrlReferer;
         public string SysLogs_UserAgent;
@@ -9028,11 +9120,7 @@ namespace Implem.DefinitionAccessor
         public string Statuses_Updator;
         public string Statuses_Ver;
         public string Statuses_VerUp;
-        public string SysLogs_Comments;
-        public string SysLogs_Creator;
         public string SysLogs_Timestamp;
-        public string SysLogs_UpdatedTime;
-        public string SysLogs_Updator;
         public string SysLogs_Ver;
         public string SysLogs_VerUp;
         public string Tenants_Comments;
@@ -9275,7 +9363,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_AssemblyVersion = new ColumnDefinition();
         public ColumnDefinition SysLogs_BasePriority = new ColumnDefinition();
         public ColumnDefinition SysLogs_Class = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Comments = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Creator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Elapsed = new ColumnDefinition();
         public ColumnDefinition SysLogs_EndTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_ErrMessage = new ColumnDefinition();
@@ -9299,6 +9389,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_SysLogType = new ColumnDefinition();
         public ColumnDefinition SysLogs_TenantName = new ColumnDefinition();
         public ColumnDefinition SysLogs_Title = new ColumnDefinition();
+        public ColumnDefinition SysLogs_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Updator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Url = new ColumnDefinition();
         public ColumnDefinition SysLogs_UrlReferer = new ColumnDefinition();
         public ColumnDefinition SysLogs_UserAgent = new ColumnDefinition();
@@ -9563,11 +9655,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Statuses_Updator = new ColumnDefinition();
         public ColumnDefinition Statuses_Ver = new ColumnDefinition();
         public ColumnDefinition Statuses_VerUp = new ColumnDefinition();
-        public ColumnDefinition SysLogs_Comments = new ColumnDefinition();
-        public ColumnDefinition SysLogs_Creator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Timestamp = new ColumnDefinition();
-        public ColumnDefinition SysLogs_UpdatedTime = new ColumnDefinition();
-        public ColumnDefinition SysLogs_Updator = new ColumnDefinition();
         public ColumnDefinition SysLogs_Ver = new ColumnDefinition();
         public ColumnDefinition SysLogs_VerUp = new ColumnDefinition();
         public ColumnDefinition Tenants_Comments = new ColumnDefinition();
@@ -9747,6 +9835,8 @@ namespace Implem.DefinitionAccessor
         public string Updator; public string SavedUpdator;
         public DateTime StartTime; public DateTime SavedStartTime;
         public DateTime CompletionTime; public DateTime SavedCompletionTime;
+        public bool Locked; public bool SavedLocked;
+        public bool Publish; public bool SavedPublish;
         public DateTime CreatedTime; public DateTime SavedCreatedTime;
         public DateTime UpdatedTime; public DateTime SavedUpdatedTime;
 
@@ -9901,6 +9991,8 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Updator")) Updator = propertyCollection["Updator"].ToString(); else Updator = string.Empty;
             if (propertyCollection.ContainsKey("StartTime")) StartTime = propertyCollection["StartTime"].ToDateTime(); else StartTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("CompletionTime")) CompletionTime = propertyCollection["CompletionTime"].ToDateTime(); else CompletionTime = 0.ToDateTime();
+            if (propertyCollection.ContainsKey("Locked")) Locked = propertyCollection["Locked"].ToBool(); else Locked = false;
+            if (propertyCollection.ContainsKey("Publish")) Publish = propertyCollection["Publish"].ToBool(); else Publish = false;
             if (propertyCollection.ContainsKey("CreatedTime")) CreatedTime = propertyCollection["CreatedTime"].ToDateTime(); else CreatedTime = 0.ToDateTime();
             if (propertyCollection.ContainsKey("UpdatedTime")) UpdatedTime = propertyCollection["UpdatedTime"].ToDateTime(); else UpdatedTime = 0.ToDateTime();
         }
@@ -10055,6 +10147,8 @@ namespace Implem.DefinitionAccessor
                     case "Updator": return Updator;
                     case "StartTime": return StartTime;
                     case "CompletionTime": return CompletionTime;
+                    case "Locked": return Locked;
+                    case "Publish": return Publish;
                     case "CreatedTime": return CreatedTime;
                     case "UpdatedTime": return UpdatedTime;
                     default: return null;
@@ -10209,6 +10303,8 @@ namespace Implem.DefinitionAccessor
             Updator = SavedUpdator;
             StartTime = SavedStartTime;
             CompletionTime = SavedCompletionTime;
+            Locked = SavedLocked;
+            Publish = SavedPublish;
             CreatedTime = SavedCreatedTime;
             UpdatedTime = SavedUpdatedTime;
         }
@@ -10834,10 +10930,6 @@ namespace Implem.DefinitionAccessor
         public string Site54_en;
         public string Site55;
         public string Site55_en;
-        public string Site56;
-        public string Site56_en;
-        public string Site57;
-        public string Site57_en;
         public string Site6;
         public string Site6_en;
         public string Site7;
@@ -11012,6 +11104,64 @@ namespace Implem.DefinitionAccessor
         public string WriteOperationDocuments_en;
         public string WriteUserDocuments;
         public string WriteUserDocuments_en;
+        public string Group1;
+        public string Group2;
+        public string Group3;
+        public string Group4;
+        public string GroupMembers0102;
+        public string GroupMembers0103;
+        public string GroupMembers0104;
+        public string GroupMembers0105;
+        public string GroupMembers0106;
+        public string GroupMembers0107;
+        public string GroupMembers0108;
+        public string GroupMembers0112;
+        public string GroupMembers0113;
+        public string GroupMembers0114;
+        public string GroupMembers0115;
+        public string GroupMembers0116;
+        public string GroupMembers0117;
+        public string GroupMembers0209;
+        public string GroupMembers0218;
+        public string GroupMembers0310;
+        public string GroupMembers0319;
+        public string GroupMembers0411;
+        public string GroupMembers0420;
+        public string Site56;
+        public string Site56_en;
+        public string Expense1;
+        public string Expense10;
+        public string Expense11;
+        public string Expense12;
+        public string Expense13;
+        public string Expense14;
+        public string Expense2;
+        public string Expense3;
+        public string Expense4;
+        public string Expense5;
+        public string Expense6;
+        public string Expense7;
+        public string Expense8;
+        public string Expense9;
+        public string PermissionExpense1;
+        public string PermissionExpense10;
+        public string PermissionExpense11;
+        public string PermissionExpense12;
+        public string PermissionExpense13;
+        public string PermissionExpense14;
+        public string PermissionExpense2;
+        public string PermissionExpense3;
+        public string PermissionExpense4;
+        public string PermissionExpense5;
+        public string PermissionExpense6;
+        public string PermissionExpense7;
+        public string PermissionExpense8;
+        public string PermissionExpense9;
+        public string PermissionSite5701;
+        public string PermissionSite5702;
+        public string PermissionSite5703;
+        public string Site57;
+        public string Site57_en;
     }
 
     public class DemoTable
@@ -11634,10 +11784,6 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition Site54_en = new DemoDefinition();
         public DemoDefinition Site55 = new DemoDefinition();
         public DemoDefinition Site55_en = new DemoDefinition();
-        public DemoDefinition Site56 = new DemoDefinition();
-        public DemoDefinition Site56_en = new DemoDefinition();
-        public DemoDefinition Site57 = new DemoDefinition();
-        public DemoDefinition Site57_en = new DemoDefinition();
         public DemoDefinition Site6 = new DemoDefinition();
         public DemoDefinition Site6_en = new DemoDefinition();
         public DemoDefinition Site7 = new DemoDefinition();
@@ -11812,6 +11958,64 @@ namespace Implem.DefinitionAccessor
         public DemoDefinition WriteOperationDocuments_en = new DemoDefinition();
         public DemoDefinition WriteUserDocuments = new DemoDefinition();
         public DemoDefinition WriteUserDocuments_en = new DemoDefinition();
+        public DemoDefinition Group1 = new DemoDefinition();
+        public DemoDefinition Group2 = new DemoDefinition();
+        public DemoDefinition Group3 = new DemoDefinition();
+        public DemoDefinition Group4 = new DemoDefinition();
+        public DemoDefinition GroupMembers0102 = new DemoDefinition();
+        public DemoDefinition GroupMembers0103 = new DemoDefinition();
+        public DemoDefinition GroupMembers0104 = new DemoDefinition();
+        public DemoDefinition GroupMembers0105 = new DemoDefinition();
+        public DemoDefinition GroupMembers0106 = new DemoDefinition();
+        public DemoDefinition GroupMembers0107 = new DemoDefinition();
+        public DemoDefinition GroupMembers0108 = new DemoDefinition();
+        public DemoDefinition GroupMembers0112 = new DemoDefinition();
+        public DemoDefinition GroupMembers0113 = new DemoDefinition();
+        public DemoDefinition GroupMembers0114 = new DemoDefinition();
+        public DemoDefinition GroupMembers0115 = new DemoDefinition();
+        public DemoDefinition GroupMembers0116 = new DemoDefinition();
+        public DemoDefinition GroupMembers0117 = new DemoDefinition();
+        public DemoDefinition GroupMembers0209 = new DemoDefinition();
+        public DemoDefinition GroupMembers0218 = new DemoDefinition();
+        public DemoDefinition GroupMembers0310 = new DemoDefinition();
+        public DemoDefinition GroupMembers0319 = new DemoDefinition();
+        public DemoDefinition GroupMembers0411 = new DemoDefinition();
+        public DemoDefinition GroupMembers0420 = new DemoDefinition();
+        public DemoDefinition Site56 = new DemoDefinition();
+        public DemoDefinition Site56_en = new DemoDefinition();
+        public DemoDefinition Expense1 = new DemoDefinition();
+        public DemoDefinition Expense10 = new DemoDefinition();
+        public DemoDefinition Expense11 = new DemoDefinition();
+        public DemoDefinition Expense12 = new DemoDefinition();
+        public DemoDefinition Expense13 = new DemoDefinition();
+        public DemoDefinition Expense14 = new DemoDefinition();
+        public DemoDefinition Expense2 = new DemoDefinition();
+        public DemoDefinition Expense3 = new DemoDefinition();
+        public DemoDefinition Expense4 = new DemoDefinition();
+        public DemoDefinition Expense5 = new DemoDefinition();
+        public DemoDefinition Expense6 = new DemoDefinition();
+        public DemoDefinition Expense7 = new DemoDefinition();
+        public DemoDefinition Expense8 = new DemoDefinition();
+        public DemoDefinition Expense9 = new DemoDefinition();
+        public DemoDefinition PermissionExpense1 = new DemoDefinition();
+        public DemoDefinition PermissionExpense10 = new DemoDefinition();
+        public DemoDefinition PermissionExpense11 = new DemoDefinition();
+        public DemoDefinition PermissionExpense12 = new DemoDefinition();
+        public DemoDefinition PermissionExpense13 = new DemoDefinition();
+        public DemoDefinition PermissionExpense14 = new DemoDefinition();
+        public DemoDefinition PermissionExpense2 = new DemoDefinition();
+        public DemoDefinition PermissionExpense3 = new DemoDefinition();
+        public DemoDefinition PermissionExpense4 = new DemoDefinition();
+        public DemoDefinition PermissionExpense5 = new DemoDefinition();
+        public DemoDefinition PermissionExpense6 = new DemoDefinition();
+        public DemoDefinition PermissionExpense7 = new DemoDefinition();
+        public DemoDefinition PermissionExpense8 = new DemoDefinition();
+        public DemoDefinition PermissionExpense9 = new DemoDefinition();
+        public DemoDefinition PermissionSite5701 = new DemoDefinition();
+        public DemoDefinition PermissionSite5702 = new DemoDefinition();
+        public DemoDefinition PermissionSite5703 = new DemoDefinition();
+        public DemoDefinition Site57 = new DemoDefinition();
+        public DemoDefinition Site57_en = new DemoDefinition();
     }
 
     public class TemplateDefinition

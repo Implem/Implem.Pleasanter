@@ -5,5 +5,5 @@
     "RepeatType": "Table",
     "NotItem": "1",
     "GenericUi": "1",
-    "Exclude": "Tenants"
+    "Exclude": "Tenants,SysLogs"
 }

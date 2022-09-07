@@ -40,7 +40,8 @@ namespace Implem.PleasanterTest.Utilities
             string fileName = null,
             string contentType = null,
             bool setItemProperties = true,
-            bool setPermissions = true)
+            bool setPermissions = true,
+            bool setPublish = true)
         {
             var userModel = userId > 0
                 ? UserData.Get(userId: userId)
@@ -107,8 +108,7 @@ namespace Implem.PleasanterTest.Utilities
             {
                 var postedFile = Files.Bytes(Path.Combine(
                     Directories.PleasanterTest(),
-                    "Data",
-                    "Binaries",
+                    "BinaryData",
                     fileName));
                 context.PostedFiles.Add(new PostedFile()
                 {
@@ -126,6 +126,7 @@ namespace Implem.PleasanterTest.Utilities
             }
             if (setItemProperties) context.SetItemProperties();
             if (setPermissions) context.SetPermissions();
+            if (setPublish) context.SetPublish();
             return context;
         }
     }

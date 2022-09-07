@@ -18,7 +18,7 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<TextTest> textTests)
+            List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
@@ -27,10 +27,10 @@ namespace Implem.PleasanterTest.Tests.Items
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
-            Assert.True(Compare.Text(
+            Assert.True(Tester.Test(
                 context: context,
                 results: results,
-                textTests: textTests));
+                baseTests: baseTests));
         }
 
         public static IEnumerable<object[]> GetData()
@@ -44,13 +44,13 @@ namespace Implem.PleasanterTest.Tests.Items
                     .OrderByDescending(o => o.SiteId)
                     .Select(o => o.SiteId.ToString())
                     .ToJson()));
-            var textTests = TextData.Tests(TextData.Equals(value: "[]"));
+            var baseTests = BaseData.Tests(JsonData.ExistsOne(method: "Log"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     title: "商談管理の例",
                     forms: forms,
-                    textTests: textTests,
+                    baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)
@@ -59,7 +59,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     title: testPart.Title,
                     forms: testPart.Forms,
                     userModel: testPart.UserModel,
-                    textTests: testPart.TextTests);
+                    baseTests: testPart.BaseTests);
             }
         }
 
@@ -67,14 +67,14 @@ namespace Implem.PleasanterTest.Tests.Items
             string title,
             Forms forms,
             UserModel userModel,
-            List<TextTest> textTests)
+            List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 forms,
                 userModel,
-                textTests
+                baseTests
             };
         }
 

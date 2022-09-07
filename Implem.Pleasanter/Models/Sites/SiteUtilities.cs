@@ -143,6 +143,14 @@ namespace Implem.Pleasanter.Models
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .Div(attributes: new HtmlAttributes()
+                        .Id("SetNumericRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.NumericRange(context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("SetDateRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.DateRange(context)))
+                    .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
@@ -170,7 +178,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -275,7 +283,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return (res ?? new ResponseCollection())
+            return (res ?? new ResponseCollection(context: context))
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -319,7 +327,6 @@ namespace Implem.Pleasanter.Models
                 .Paging("#Grid")
                 .Message(message)
                 .Messages(context.Messages)
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -411,7 +418,6 @@ namespace Implem.Pleasanter.Models
                         message: Messages.NotFound(context: context),
                         target: "row_" + siteId)
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -429,7 +435,6 @@ namespace Implem.Pleasanter.Models
                             checkRow: false,
                             idColumn: "SiteId"))
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -466,7 +471,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -922,16 +927,17 @@ namespace Implem.Pleasanter.Models
             siteModel.MethodType = siteModel.SiteId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            return new SitesResponseCollection(siteModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, siteModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .Log(context.GetLog());
+            return new SitesResponseCollection(
+                context: context,
+                siteModel: siteModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, siteModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static HtmlBuilder ReferenceType(
@@ -1032,7 +1038,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Created(
                             context: context,
                             data: siteModel.Title.Value));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Response("id", siteModel.SiteId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -1124,7 +1130,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new SitesResponseCollection(siteModel);
+                    var res = new SitesResponseCollection(
+                        context: context,
+                        siteModel: siteModel);
                     ss.Publish = siteModel.Publish;
                     res
                         .ReplaceAll("#Breadcrumb", new HtmlBuilder().Breadcrumb(
@@ -1328,7 +1336,7 @@ namespace Implem.Pleasanter.Models
             SessionUtilities.Set(
                 context: context,
                 message: Messages.Copied(context: context));
-            var res = new ResponseCollection()
+            var res = new ResponseCollection(context: context)
                 .SetMemory("formChanged", false)
                 .Href(Locations.ItemEdit(
                     context: context,
@@ -1357,7 +1365,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: siteModel.Title.MessageDisplay(context: context)));
-                    var res = new SitesResponseCollection(siteModel);
+                    var res = new SitesResponseCollection(
+                        context: context,
+                        siteModel: siteModel);
                     res
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemIndex(
@@ -1506,7 +1516,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,
@@ -1545,11 +1555,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 siteModel: siteModel)));
-            return new SitesResponseCollection(siteModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new SitesResponseCollection(
+                context: context,
+                siteModel: siteModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(
@@ -2104,7 +2116,7 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html("#SiteMenu", new HtmlBuilder().TemplateTabsContainer(
                     context: context,
                     ss: ss))
@@ -2528,7 +2540,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string SiteMenuResponse(Context context, SiteModel siteModel)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     context: context,
@@ -2627,7 +2639,7 @@ namespace Implem.Pleasanter.Models
                 destinationId: destinationSiteModel.SiteId);
             return toParent
                 ? "[]"
-                : new ResponseCollection()
+                : new ResponseCollection(context: context)
                     .ReplaceAll(
                         "[data-value=\"" + destinationSiteModel.SiteId + "\"]",
                         siteModel.ReplaceSiteMenu(
@@ -2676,7 +2688,7 @@ namespace Implem.Pleasanter.Models
             var columns = sourceSiteModel.SiteSettings.Columns
                 .Where(o => o.ColumnName.StartsWith("Class"));
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html("#LinkDialog", hb.Div(action: () => hb
                     .FieldSet(
                         css: "fieldset",
@@ -2866,7 +2878,7 @@ namespace Implem.Pleasanter.Models
                         .Distinct()
                         .ToDictionary(o => o, o => sourceSiteModel.SiteId))
                 });
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .CloseDialog()
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     context: context,
@@ -2907,7 +2919,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteModel: siteModel,
                 ownerId: ownerId);
-            return new ResponseCollection().ToJson();
+            return new ResponseCollection(context: context).ToJson();
         }
 
         /// <summary>
@@ -2932,7 +2944,7 @@ namespace Implem.Pleasanter.Models
         private static string SiteMenuError(
             Context context, long id, SiteModel siteModel, ErrorData invalid)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ReplaceAll("#SiteMenu", new HtmlBuilder().SiteMenu(
                     context: context,
                     siteModel: id != 0 ? siteModel : null,
@@ -3833,7 +3845,7 @@ namespace Implem.Pleasanter.Models
                 .FirstOrDefault(o => o.Id == context.Forms.List(controlId).FirstOrDefault());
             return template != null
                 ? PreviewTemplate(context: context, template: template, controlId: controlId)
-                : new ResponseCollection()
+                : new ResponseCollection(context: context)
                     .Html(
                         "#" + controlId + "Viewer .description",
                         Displays.SelectTemplate(context: context))
@@ -3875,7 +3887,7 @@ namespace Implem.Pleasanter.Models
                         body: template.Body).ToString();
                     break;
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#" + controlId + "Viewer .description",
                     hb.Text(text: Strings.CoalesceEmpty(
@@ -4052,7 +4064,7 @@ namespace Implem.Pleasanter.Models
                                 .FieldSet(
                                     attributes: new HtmlAttributes()
                                         .Id("FieldSetRecordAccessControl")
-                                        .DataAction("PermissionForCreating")
+                                        .DataAction("PermissionForRecord")
                                         .DataMethod("post"),
                                     _using: EnableAdvancedPermissions(
                                         context: context, siteModel: siteModel))
@@ -4564,6 +4576,14 @@ namespace Implem.Pleasanter.Models
                             icon: "ui-icon-gear",
                             action: "SetSiteSettings",
                             method: "put")
+                        .Button(
+                            controlId: "CopyBulkUpdateColumns",
+                            text: Displays.Copy(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
+                            icon: "ui-icon-trash",
+                            action: "SetSiteSettings",
+                            method: "post")
                         .Button(
                             controlId: "DeleteBulkUpdateColumns",
                             text: Displays.Delete(context: context),
@@ -7229,6 +7249,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopySummaries",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditSummary', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteSummaries",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
@@ -7675,6 +7703,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyFormulas",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditFormula', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteFormulas",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
@@ -7902,6 +7938,14 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         onClick: "$p.openProcessDialog($(this));",
                         icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "CopyProcesses",
+                        controlCss: "button-icon",
+                        text: Displays.Copy(context: context),
+                        onClick: "$p.setAndSend('#EditProcess', $(this));",
+                        icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -8735,6 +8779,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyProcessDataChanges",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditProcessDataChange', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteProcessDataChanges",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -9267,6 +9319,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
+                        controlId: "CopyStatusControls",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditStatusControl', $(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteStatusControls",
                         controlCss: "button-icon",
                         text: Displays.Delete(context: context),
@@ -9674,7 +9734,7 @@ namespace Implem.Pleasanter.Models
                             listItemCollection: ss.ViewSelectableOptions(),
                             commandOptionPositionIsTop: true,
                             commandOptionAction: () => hb
-                                .Div(css: "command-center", action: () => hb
+                                .Div(css: "command-left", action: () => hb
                                     .Button(
                                         controlId: "MoveUpViews",
                                         text: Displays.MoveUp(context: context),
@@ -9701,6 +9761,14 @@ namespace Implem.Pleasanter.Models
                                         controlCss: "button-icon",
                                         onClick: "$p.openViewDialog($(this));",
                                         icon: "ui-icon-gear",
+                                        action: "SetSiteSettings",
+                                        method: "put")
+                                    .Button(
+                                        controlId: "CopyViews",
+                                        text: Displays.Copy(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.send($(this));",
+                                        icon: "ui-icon-trash",
                                         action: "SetSiteSettings",
                                         method: "put")
                                     .Button(
@@ -10863,7 +10931,9 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static ResponseCollection ViewResponses(
-            this ResponseCollection res, SiteSettings ss, IEnumerable<int> selected = null)
+            this ResponseCollection res,
+            SiteSettings ss,
+            IEnumerable<int> selected = null)
         {
             return res
                 .Html("#Views", new HtmlBuilder().SelectableItems(
@@ -10969,6 +11039,14 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
+                    .Button(
+                        controlId: "CopyNotifications",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditNotification', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
                     .Button(
                         controlId: "DeleteNotifications",
                         text: Displays.Delete(context: context),
@@ -11447,6 +11525,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyReminders",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditReminder', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete")
+                    .Button(
                         controlId: "DeleteReminders",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -11900,6 +11986,14 @@ namespace Implem.Pleasanter.Models
                         text: Displays.New(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.openExportDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "CopyExports",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditExport', $(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
@@ -12731,6 +12825,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyStyles",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditStyle', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteStyles",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -13057,6 +13159,14 @@ namespace Implem.Pleasanter.Models
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
+                        controlId: "CopyScripts",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
                         controlId: "DeleteScripts",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
@@ -13377,6 +13487,14 @@ namespace Implem.Pleasanter.Models
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
+                    .Button(
+                        controlId: "CopyServerScripts",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditServerScript', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
                     .Button(
                         controlId: "DeleteServerScripts",
                         text: Displays.Delete(context: context),
@@ -14312,7 +14430,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.SitesParam()
                         .LockedTime(DateTime.Now)
                         .LockedUser(context.UserId)));
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Href(Locations.ItemIndex(
                     context: context,
                     id: ss.SiteId))
@@ -14341,7 +14459,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.SitesParam()
                         .LockedTime(DateTime.Now)
                         .LockedUser(raw: "null")));
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Href(Locations.ItemIndex(
                     context: context,
                     id: ss.SiteId))
@@ -14370,7 +14488,7 @@ namespace Implem.Pleasanter.Models
                     param: Rds.SitesParam()
                         .LockedTime(DateTime.Now)
                         .LockedUser(raw: "null")));
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Href(Locations.ItemIndex(
                     context: context,
                     id: ss.SiteId))
