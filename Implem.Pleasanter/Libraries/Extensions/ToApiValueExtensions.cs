@@ -1,4 +1,5 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 namespace Implem.Pleasanter.Libraries.Extensions
@@ -29,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Extensions
             SiteSettings ss,
             Column column)
         {
-            return self;
+            return self.ToLocal(context: context);
         }
 
         public static object ToApiValue(
