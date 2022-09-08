@@ -171,7 +171,9 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                 ?? SiteInfo.UserName(
                                     context: context,
                                     userId: Id)))
-                : hb.Td(action: () => { });
+                : hb.Td(
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    action: () => { });
         }
 
         public string GridText(Context context, Column column)
