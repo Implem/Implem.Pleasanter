@@ -9,11 +9,11 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static string Top(Context context)
         {
-            return Permissions.PrivilegedUsers(context.LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers
-                ? Get(context: context)
-                : !Parameters.Locations.TopUrl.IsNullOrEmpty()
-                    ? Get(context: context, Parameters.Locations.TopUrl)
-                    : Get(context: context);
+            return (Permissions.PrivilegedUsers(context.LoginId)
+                && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
+                    || Parameters.Locations.TopUrl.IsNullOrEmpty()
+                        ? Get(context: context)
+                        : Get(context: context, Parameters.Locations.TopUrl);
         }
 
         public static string BaseUrl(Context context)
