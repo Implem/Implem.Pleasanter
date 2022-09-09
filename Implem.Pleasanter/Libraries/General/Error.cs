@@ -60,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.General
             LoginIdAlreadyUse,
             MailAddressHasNotSet,
             NoLinks,
+            NotContainKeyColumn,
             NotFound,
             NotLockedRecord,
             NotMatchRegex,
@@ -317,6 +318,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.NoLinks:
                     return Messages.NoLinks(
+                        context: context,
+                        data: data);
+                case Types.NotContainKeyColumn:
+                    return Messages.NotContainKeyColumn(
                         context: context,
                         data: data);
                 case Types.NotFound:
