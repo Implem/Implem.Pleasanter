@@ -1542,7 +1542,7 @@ namespace Implem.Pleasanter.Models
         {
             return self < Parameters.General.MinTime
                 ? self
-                : self.AddDays(demoModel.TimeLag).ToUniversal(context: context);
+                : self.AddDays(demoModel.TimeLag).ToDateTime().ToUniversal(context: context);
         }
     }
 }
