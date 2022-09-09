@@ -8652,6 +8652,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 prefix: "Process",
+                currentTableOnly: true,
                 action: () => hb
                     .FieldTextBox(
                         controlId: "ProcessErrorMessage",
@@ -9629,7 +9630,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 view: view,
-                prefix: "StatusControl");
+                prefix: "StatusControl",
+                currentTableOnly: true);
         }
 
         /// <summary>
@@ -10132,6 +10134,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             string prefix = "",
+            bool currentTableOnly = false,
             Action action = null)
         {
             return hb.FieldSet(id: $"{prefix}ViewFiltersTab", action: () =>
@@ -10212,7 +10215,7 @@ namespace Implem.Pleasanter.Models
                         labelPositionIsRight: true,
                         _using: prefix.IsNullOrEmpty())
                     .FieldSet(
-                        id: "ViewFiltersFilterConditionSettingsEditor",
+                        id: $"{prefix}ViewFiltersFilterConditionSettingsEditor",
                         css: "fieldset cf both" + (view.KeepFilterState == true
                             ? " hidden"
                             : string.Empty),
@@ -10282,7 +10285,8 @@ namespace Implem.Pleasanter.Models
                                         controlCss: " always-send",
                                         optionCollection: ss.ViewFilterOptions(
                                             context: context,
-                                            view: view))
+                                            view: view,
+                                            currentTableOnly: currentTableOnly))
                                     .Button(
                                         controlId: $"Add{prefix}ViewFilter",
                                         controlCss: "button-icon",
