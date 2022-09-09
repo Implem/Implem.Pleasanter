@@ -2458,7 +2458,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     query: "(\"{0}\".\"{1}\"" + (negative
                                         ? context.Sqls.NotLike
                                         : context.Sqls.Like)
-                                            + "@{3}{4}" + context.Sqls.Escape + ")"
+                                            + "@{3}{4}" + context.Sqls.Escape
                                             +" or " + context.Sqls.IsNull + "(\"{0}\".\"{1}\", \'\') = \'\'" + ")");
                             }
                             break;
