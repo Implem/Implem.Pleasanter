@@ -47,6 +47,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : Locations.Top(context: context);
                 case "tenants":
                     return AdminsOrTop(context: context);
+                case "syslogs":
                 case "depts":
                 case "groups":
                 case "users":

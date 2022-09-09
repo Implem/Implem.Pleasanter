@@ -14,7 +14,7 @@
         default: return invalid.MessageJson(context: context);
     }
     var idInTitle = ss.TitleColumns?.Contains("#ModelName#Id") == true;
-    var res = new ResponseCollection();
+    var res = new ResponseCollection(context: context);
     Csv csv;
     try
     {
@@ -74,6 +74,10 @@
         var importKeyColumnName = context.Forms.Data("Key");
         var importKeyColumn = columnHash
             .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+        if (updatableImport && importKeyColumn.Value == null)
+        {
+            return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
+        }
         var csvRows = csv.Rows
             .Select((o, i) => new { Index = i, Row = o })
             .ToDictionary(o => o.Index, o => o.Row);

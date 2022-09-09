@@ -1,0 +1,14 @@
+﻿{
+    "Id": "PermissionExpense5",
+    "Language": "ja",
+    "Type": "Permissions",
+    "ParentId": "Expense5",
+    "ClassA": "Dept8",
+    "ClassB": "",
+    "ClassC": "",
+    "NumA": 1,
+    "Creator": "User16",
+    "Updator": "User2",
+    "CreatedTime": "2000-05-02T19:12:24.000Z",
+    "UpdatedTime": "2000-05-07T00:53:52.000Z"
+}

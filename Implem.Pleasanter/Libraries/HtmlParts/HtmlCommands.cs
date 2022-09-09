@@ -81,6 +81,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         switch (context.Controller)
                         {
+                            case "syslogs":
+                                hb.Common(
+                                    context: context,
+                                    ss: ss,
+                                    view: view,
+                                    readOnly: readOnly,
+                                    updateButton: updateButton,
+                                    copyButton: copyButton,
+                                    moveButton: moveButton,
+                                    mailButton: mailButton,
+                                    deleteButton: deleteButton,
+                                    serverScriptModelRow: serverScriptModelRow);
+                                switch (context.Action)
+                                {
+                                    case "index":
+                                        hb
+                                            .Button(
+                                                controlId: "OpenExportSelectorDialogCommand",
+                                                text: Displays.Export(context: context),
+                                                controlCss: "button-icon",
+                                                accessKey: "x",
+                                                onClick: "$p.openExportSelectorDialog($(this));",
+                                                icon: "ui-icon-arrowreturnthick-1-w",
+                                                action: "OpenExportSelectorDialog",
+                                                method: "post",
+                                                _using: context.HasPrivilege);
+                                        break;
+                                }
+                                break;
                             case "users":
                                 hb.Common(
                                     context: context,

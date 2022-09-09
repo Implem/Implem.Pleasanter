@@ -65,7 +65,7 @@ namespace Implem.Pleasanter.Models
             switch (controlId)
             {
                 case "SourcePermissions":
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Append(selector, hb.SelectableItems(
                             listItemCollection: permissions
                                 .Page(offset)
@@ -78,7 +78,7 @@ namespace Implem.Pleasanter.Models
                                 .ToString())
                         .ToJson();
                 default:
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Html(selector, hb.Permission(
                             context: context,
                             siteModel: siteModel,
@@ -735,7 +735,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var selectedCurrentPermissions = context.Forms.List("CurrentPermissions");
             var selectedSourcePermissions = context.Forms.List("SourcePermissions");
             if (context.Forms.ControlId() != "AddPermissions" &&
@@ -952,7 +952,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var currentPermissions = CurrentPermissions(
                 context: context,
                 referenceId: referenceId);
@@ -1003,7 +1003,7 @@ namespace Implem.Pleasanter.Models
                 siteModel: siteModel,
                 referenceId: referenceId);
             var site = itemModel.ReferenceType == "Sites";
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var selected = context.Forms.List("CurrentPermissions");
             if (selected.Any(o => o.StartsWith($"User,{context.UserId},")))
             {
@@ -1225,7 +1225,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#FieldSetRecordAccessControl",
                     new HtmlBuilder().FieldSetRecordAccessControl(
@@ -1484,7 +1484,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var selectedCurrentPermissionForCreating = context.Forms.List("CurrentPermissionForCreating");
             var selectedSourcePermissionForCreating = context.Forms.List("SourcePermissionForCreating");
             if (context.Forms.ControlId() != "AddPermissionForCreating" &&
@@ -1580,7 +1580,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string OpenPermissionForCreatingDialog(Context context, long referenceId)
         {
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var selected = context.Forms.List("CurrentPermissionForCreating");
             if (!selected.Any())
             {
@@ -1696,7 +1696,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var selectedCurrentPermissionForUpdating = context.Forms.List("CurrentPermissionForUpdating");
             var selectedSourcePermissionForUpdating = context.Forms.List("SourcePermissionForUpdating");
             if (context.Forms.ControlId() != "AddPermissionForUpdating" &&
@@ -1792,7 +1792,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string OpenPermissionForUpdatingDialog(Context context, long referenceId)
         {
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var selected = context.Forms.List("CurrentPermissionForUpdating");
             if (!selected.Any())
             {
@@ -1900,7 +1900,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#FieldSetColumnAccessControl",
                     new HtmlBuilder().ColumnAccessControl(
@@ -2005,7 +2005,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var type = context.Forms.Data("ColumnAccessControlType");
             var selected = context.Forms.List("ColumnAccessControl")
                 .Select(o => o.Deserialize<ColumnAccessControl>())
@@ -2106,7 +2106,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.HasNotPermission.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var type = ColumnAccessControlType(context: context);
             var selected = context.Forms.List(type + "ColumnAccessControl");
             if (!selected.Any())
@@ -2376,7 +2376,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var currentPermissions = CurrentColumnAccessControlAll(context: context);
             var sourcePermissions = SourceCollection(
                 context: context,

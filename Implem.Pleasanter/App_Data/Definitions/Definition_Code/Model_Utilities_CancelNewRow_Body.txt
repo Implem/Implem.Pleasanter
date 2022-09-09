@@ -1,6 +1,6 @@
 ﻿public static string CancelNewRow(Context context, SiteSettings ss, long id)
 {
-    var res = new ResponseCollection()
+    var res = new ResponseCollection(context: context)
         .Remove($"[data-id=\"{id}\"][data-latest]")
         .ClearFormData("CancelRowId");
     new FormDataSet(

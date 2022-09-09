@@ -146,7 +146,7 @@ public static string IndexJson(Context context, SiteSettings ss)
         context: context,
         view: view,
         gridData: gridData);
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .ViewMode(
             context: context,
             ss: ss,
@@ -259,7 +259,7 @@ public static string GridRows(
 
 <!--Model_Utilities_GridNewRowParameters-->
 
-    return (res ?? new ResponseCollection())
+    return (res ?? new ResponseCollection(context: context))
         .Remove(".grid tr", _using: offset == 0)
         .ClearFormData("GridOffset")
         .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -312,7 +312,6 @@ public static string GridRows(
         .Paging("#Grid")
         .Message(message)
         .Messages(context.Messages)
-        .Log(context.GetLog())
         .ToJson();
 }
 
@@ -423,7 +422,6 @@ public static string ReloadRow(Context context, SiteSettings ss, long #modelName
                 message: Messages.NotFound(context: context),
                 target: "row_" + #modelName#Id)
             .Messages(context.Messages)
-            .Log(context.GetLog())
             .ToJson()
         : res
             .ReplaceAll(
@@ -441,6 +439,5 @@ public static string ReloadRow(Context context, SiteSettings ss, long #modelName
                     checkRow: false,
                     idColumn: "#ModelName#Id"))
             .Messages(context.Messages)
-            .Log(context.GetLog())
             .ToJson();
 }

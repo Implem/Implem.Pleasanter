@@ -3575,7 +3575,7 @@ namespace Implem.Pleasanter.Models
                                 .Focus("#SecondaryAuthenticationCode")
                                 .ToJson()
                             : PasswordExpired()
-                                ? OpenChangePasswordAtLoginDialog()
+                                ? OpenChangePasswordAtLoginDialog(context: context)
                                 : Allow(
                                     context: context,
                                     returnUrl: GetReturnUrl(returnUrl: returnUrl),
@@ -3583,7 +3583,7 @@ namespace Implem.Pleasanter.Models
                 }
                 else if (PasswordExpired())
                 {
-                    return OpenChangePasswordAtLoginDialog();
+                    return OpenChangePasswordAtLoginDialog(context: context);
                 }
                 else
                 {
@@ -3822,7 +3822,7 @@ namespace Implem.Pleasanter.Models
         private string TenantsDropDown(
             Context context, Dictionary<string, string> tenantOptions)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html("#Tenants", new HtmlBuilder().FieldDropDown(
                     context: context,
                     controlId: "SelectedTenantId",
@@ -4015,7 +4015,7 @@ namespace Implem.Pleasanter.Models
             UpdateSecondaryAuthenticationCode(context: context);
             NotificationSecondaryAuthenticationCode(context: context);
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Css(
                     target: "#Logins",
                     name: "display",
@@ -4078,14 +4078,16 @@ namespace Implem.Pleasanter.Models
             SetFormsAuthentication(
                 context: context,
                 createPersistentCookie: createPersistentCookie);
-            return new UsersResponseCollection(this)
-                .CloseDialog(_using: atLogin)
-                .Message(
-                    message: Messages.LoginIn(context: context),
-                    target: "#LoginMessage")
-                .Href(returnUrl.IsNullOrEmpty()
-                    ? Locations.Top(context: context)
-                    : returnUrl).ToJson();
+            return new UsersResponseCollection(
+                context: context,
+                userModel: this)
+                    .CloseDialog(_using: atLogin)
+                    .Message(
+                        message: Messages.LoginIn(context: context),
+                        target: "#LoginMessage")
+                    .Href(returnUrl.IsNullOrEmpty()
+                        ? Locations.Top(context: context)
+                        : returnUrl).ToJson();
         }
 
         /// <summary>
@@ -4223,9 +4225,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private string OpenChangePasswordAtLoginDialog()
+        private string OpenChangePasswordAtLoginDialog(Context context)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Invoke("openChangePasswordDialog")
                 .ToJson();
         }

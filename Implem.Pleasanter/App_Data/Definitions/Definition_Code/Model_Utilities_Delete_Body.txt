@@ -19,7 +19,9 @@
                 message: Messages.Deleted(
                     context: context,
                     data: #modelName#Model.Title.MessageDisplay(context: context)));
-            var res = new #TableName#ResponseCollection(#modelName#Model);
+            var res = new #TableName#ResponseCollection(
+                context: context,
+                #modelName#Model: #modelName#Model);
 
 <!--Model_Utilities_RedirectAfterDelete-->
 

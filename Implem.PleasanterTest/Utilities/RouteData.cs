@@ -1464,6 +1464,46 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> PublishesOpenSetNumericRangeDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "opensetnumericrangedialog" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishesOpenSetDateRangeDialog(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "opensetdaterangedialog" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishesSearchDropDown(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "searchdropdown" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishesSelectSearchDropDown(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishes" },
+                { "action", "selectsearchdropdown" },
+                { "id", id.ToString() }
+            };
+        }
+
         public static Dictionary<string, string> PublishesGridRows(long id)
         {
             return new Dictionary<string, string>()
@@ -1480,6 +1520,46 @@ namespace Implem.PleasanterTest.Utilities
             {
                 { "controller", "publishes" },
                 { "action", "edit" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishBinariesSiteImageThumbnail(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishbinaries" },
+                { "action", "siteimagethumbnail" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishBinariesSiteImageIcon(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishbinaries" },
+                { "action", "siteimageicon" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishBinariesDownload(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishbinaries" },
+                { "action", "download" },
+                { "id", id.ToString() }
+            };
+        }
+
+        public static Dictionary<string, string> PublishBinariesShow(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "publishbinaries" },
+                { "action", "show" },
                 { "id", id.ToString() }
             };
         }

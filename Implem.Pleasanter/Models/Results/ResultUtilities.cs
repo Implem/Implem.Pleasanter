@@ -190,7 +190,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -334,7 +334,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss);
                 }
             }
-            return (res ?? new ResponseCollection())
+            return (res ?? new ResponseCollection(context: context))
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -391,7 +391,6 @@ namespace Implem.Pleasanter.Models
                 .Paging("#Grid")
                 .Message(message)
                 .Messages(context.Messages)
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -578,7 +577,6 @@ namespace Implem.Pleasanter.Models
                         message: Messages.NotFound(context: context),
                         target: "row_" + resultId)
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -596,7 +594,6 @@ namespace Implem.Pleasanter.Models
                             checkRow: false,
                             idColumn: "ResultId"))
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -633,7 +630,7 @@ namespace Implem.Pleasanter.Models
         {
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -1223,23 +1220,9 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
-                    var newResult = new ResultModel(
-                        context: context,
-                        ss: ss,
-                        methodType: BaseModel.MethodTypes.New);
-                    newResult.SetByModel(resultModel);
-                    resultModel = newResult;
-                    resultModel.SetCopyDefault(
+                    resultModel = resultModel.CopyAndInit(
                         context: context,
                         ss: ss);
-                    resultModel.ResultId = 0;
-                    resultModel.Ver = 1;
-                    resultModel.Comments = new Comments();
-                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
-                    resultModel.SetBySettings(
-                        context: context,
-                        ss: ss,
-                        copyByDefaultOnly: true);
                 }
                 else
                 {
@@ -2148,21 +2131,9 @@ namespace Implem.Pleasanter.Models
                         siteId: ss.SiteId,
                         id: resultModel.ResultId))
                 {
-                    resultModel.SetCopyDefault(
+                    resultModel = resultModel.CopyAndInit(
                         context: context,
                         ss: ss);
-                    resultModel.SetByForm(
-                        context: context,
-                        ss: ss,
-                        formData: context.Forms);
-                    resultModel.SetBySettings(
-                        context: context,
-                        ss: ss,
-                        formData: context.Forms);
-                    resultModel.ResultId = 0;
-                    resultModel.Ver = 1;
-                    resultModel.Comments = new Comments();
-                    resultModel.AccessStatus = Databases.AccessStatuses.Initialized;
                 }
                 else
                 {
@@ -2191,31 +2162,33 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     resultModel: resultModel)
                 : editInDialog
-                    ? new ResultsResponseCollection(resultModel)
-                        .Response("id", resultModel.ResultId.ToString())
-                        .Html("#EditInDialogBody", Editor(
-                            context: context,
-                            ss: ss,
-                            resultModel: resultModel,
-                            editInDialog: editInDialog))
-                        .Invoke("openEditorDialog")
-                        .Messages(context.Messages)
-                        .Events("on_editor_load")
-                        .Log(context.GetLog())
-                    : new ResultsResponseCollection(resultModel)
-                        .Response("id", resultModel.ResultId.ToString())
-                        .Invoke("clearDialogs")
-                        .ReplaceAll("#MainContainer", Editor(context, ss, resultModel))
-                        .Val("#Id", resultModel.ResultId.ToString())
-                        .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                        .SetMemory("formChanged", false)
-                        .Invoke("setCurrentIndex")
-                        .Invoke("initRelatingColumnEditor")
-                        .Message(message)
-                        .Messages(context.Messages)
-                        .ClearFormData()
-                        .Events("on_editor_load")
-                        .Log(context.GetLog());
+                    ? new ResultsResponseCollection(
+                        context: context,
+                        resultModel: resultModel)
+                            .Response("id", resultModel.ResultId.ToString())
+                            .Html("#EditInDialogBody", Editor(
+                                context: context,
+                                ss: ss,
+                                resultModel: resultModel,
+                                editInDialog: editInDialog))
+                            .Invoke("openEditorDialog")
+                            .Messages(context.Messages)
+                            .Events("on_editor_load")
+                    : new ResultsResponseCollection(
+                        context: context,
+                        resultModel: resultModel)
+                            .Response("id", resultModel.ResultId.ToString())
+                            .Invoke("clearDialogs")
+                            .ReplaceAll("#MainContainer", Editor(context, ss, resultModel))
+                            .Val("#Id", resultModel.ResultId.ToString())
+                            .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                            .SetMemory("formChanged", false)
+                            .Invoke("setCurrentIndex")
+                            .Invoke("initRelatingColumnEditor")
+                            .Message(message)
+                            .Messages(context.Messages)
+                            .ClearFormData()
+                            .Events("on_editor_load");
         }
 
         private static ResponseCollection EditorFields(
@@ -2231,14 +2204,14 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default:
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Message(invalid.Message(context: context))
                         .Messages(context.Messages);
             }
             var serverScriptModelRow = resultModel.SetByBeforeOpeningPageServerScript(
                 context: context,
                 ss: ss);
-            var ret = new ResponseCollection()
+            var ret = new ResponseCollection(context: context)
                 .FieldResponse(
                     context: context,
                     ss: ss,
@@ -2257,8 +2230,7 @@ namespace Implem.Pleasanter.Models
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
                 .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
-                .Messages(context.Messages)
-                .Log(context.GetLog());
+                .Messages(context.Messages);
             return ret;
         }
 
@@ -2663,7 +2635,7 @@ namespace Implem.Pleasanter.Models
 
         public static string CancelNewRow(Context context, SiteSettings ss, long id)
         {
-            var res = new ResponseCollection()
+            var res = new ResponseCollection(context: context)
                 .Remove($"[data-id=\"{id}\"][data-latest]")
                 .ClearFormData("CancelRowId");
             new FormDataSet(
@@ -2918,7 +2890,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         value: message.Text);
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Message(message: message)
                         .ToJson();
                 }
@@ -2939,9 +2911,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultModel: resultModel,
                             process: processes?.FirstOrDefault()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Response("id", resultModel.ResultId.ToString())
                         .SetMemory("formChanged", false)
+                        .Messages(context.Messages)
                         .Href(Locations.Edit(
                             context: context,
                             controller: context.Controller,
@@ -2969,7 +2942,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        return new ResponseCollection().Message(
+                        return new ResponseCollection(context: context).Message(
                             message: new Message()
                             {
                                 Id = "MessageWhenDuplicated",
@@ -3154,7 +3127,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         value: message.Text);
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Message(message: message)
                         .ToJson();
                 }
@@ -3168,7 +3141,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new ResultsResponseCollection(resultModel);
+                    var res = new ResultsResponseCollection(
+                        context: context,
+                        resultModel: resultModel);
                     switch (Parameters.General.UpdateResponseType)
                     {
                         case 1:
@@ -3199,7 +3174,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        return new ResponseCollection().Message(
+                        return new ResponseCollection(context: context).Message(
                             message: new Message()
                             {
                                 Id = "MessageWhenDuplicated",
@@ -3374,7 +3349,7 @@ namespace Implem.Pleasanter.Models
             var optionCollection = ss.GetAllowBulkUpdateOptions(context: context);
             var target = optionCollection.FirstOrDefault().Key;
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#BulkUpdateSelectorDialog",
                     hb.BulkUpdateSelectorDialog(
@@ -3395,7 +3370,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#BulkUpdateSelectedField",
                     new HtmlBuilder().BulkUpdateEditor(
@@ -3846,7 +3821,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 ss: ss))
                                     .ToArray());
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
@@ -3883,7 +3858,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     data: responses.Count().ToString()))
                 .Messages(context.Messages)
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -4178,7 +4152,7 @@ namespace Implem.Pleasanter.Models
                         SessionUtilities.Set(
                             context: context,
                             message: Messages.Copied(context: context));
-                        return new ResponseCollection()
+                        return new ResponseCollection(context: context)
                             .Response("id", resultModel.ResultId.ToString())
                             .Href(Locations.ItemEdit(
                                 context: context,
@@ -4200,7 +4174,7 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        return new ResponseCollection().Message(
+                        return new ResponseCollection(context: context).Message(
                             message: new Message()
                             {
                                 Id = "MessageWhenDuplicated",
@@ -4270,7 +4244,7 @@ namespace Implem.Pleasanter.Models
                             message: Messages.Moved(
                                 context: context,
                                 data: resultModel.Title.MessageDisplay(context: context)));
-                        return new ResponseCollection()
+                        return new ResponseCollection(context: context)
                             .Response("id", resultModel.ResultId.ToString())
                             .Href(Locations.ItemEdit(
                                 context: context,
@@ -4310,7 +4284,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
-                    var res = new ResultsResponseCollection(resultModel);
+                    var res = new ResultsResponseCollection(
+                        context: context,
+                        resultModel: resultModel);
                     res
                         .SetMemory("formChanged", false)
                         .Invoke("back");
@@ -4648,7 +4624,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,
@@ -4687,11 +4663,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 resultModel: resultModel)));
-            return new ResultsResponseCollection(resultModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new ResultsResponseCollection(
+                context: context,
+                resultModel: resultModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(
@@ -5613,7 +5591,7 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var idInTitle = ss.TitleColumns?.Contains("ResultId") == true;
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             Csv csv;
             try
             {
@@ -5673,6 +5651,10 @@ namespace Implem.Pleasanter.Models
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                if (updatableImport && importKeyColumn.Value == null)
+                {
+                    return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
+                }
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);
@@ -5798,7 +5780,7 @@ namespace Implem.Pleasanter.Models
                                     }
                                     else
                                     {
-                                        return new ResponseCollection().Message(
+                                        return new ResponseCollection(context: context).Message(
                                             message: new Message()
                                             {
                                                 Id = "MessageWhenDuplicated",
@@ -5846,7 +5828,7 @@ namespace Implem.Pleasanter.Models
                                 }
                                 else
                                 {
-                                    return new ResponseCollection().Message(
+                                    return new ResponseCollection(context: context).Message(
                                         message: new Message()
                                         {
                                             Id = "MessageWhenDuplicated",
@@ -5929,7 +5911,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#ExportSelectorDialog",
                     new HtmlBuilder().ExportSelectorDialog(
@@ -6364,7 +6346,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         dataRows: dataRows);
             return inRange
-                ? new ResponseCollection()
+                ? new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -6391,7 +6373,7 @@ namespace Implem.Pleasanter.Models
                                 changedItemId: changedItemId))
                     .Events("on_calendar_load")
                     .ToJson()
-                : new ResponseCollection()
+                : new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -6703,7 +6685,7 @@ namespace Implem.Pleasanter.Models
                         dataRows: dataRows);
             var bodyOnly = context.Forms.ControlId().StartsWith("Crosstab");
             return inRangeX && inRangeY
-                ? new ResponseCollection()
+                ? new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -6738,7 +6720,7 @@ namespace Implem.Pleasanter.Models
                                 dataRows: dataRows))
                     .Events("on_crosstab_load")
                     .ToJson()
-                : new ResponseCollection()
+                : new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -6992,7 +6974,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 limit: Parameters.General.TimeSeriesLimit)
-                    ? new ResponseCollection()
+                    ? new ResponseCollection(context: context)
                         .ViewMode(
                             context: context,
                             ss: ss,
@@ -7009,7 +6991,7 @@ namespace Implem.Pleasanter.Models
                                     inRange: true))
                         .Events("on_timeseries_load")
                         .ToJson()
-                    : new ResponseCollection()
+                    : new ResponseCollection(context: context)
                         .ViewMode(
                             context: context,
                             ss: ss,
@@ -7192,7 +7174,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 limit: Parameters.General.KambanLimit)
-                    ? new ResponseCollection()
+                    ? new ResponseCollection(context: context)
                         .ViewMode(
                             context: context,
                             ss: ss,
@@ -7211,7 +7193,7 @@ namespace Implem.Pleasanter.Models
                                         : 0))
                         .Events("on_kamban_load")
                         .ToJson()
-                    : new ResponseCollection()
+                    : new ResponseCollection(context: context)
                         .ViewMode(
                             context: context,
                             ss: ss,
@@ -7544,7 +7526,7 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -7612,7 +7594,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             dataRow: dataRow));
-            return (new ResponseCollection())
+            return (new ResponseCollection(context: context))
                 .Append("#ImageLib", hb)
                 .Val("#ImageLibOffset", ss.ImageLibNextOffset(
                     offset,

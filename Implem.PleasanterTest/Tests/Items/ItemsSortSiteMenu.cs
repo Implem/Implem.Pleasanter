@@ -44,7 +44,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     .OrderByDescending(o => o.SiteId)
                     .Select(o => o.SiteId.ToString())
                     .ToJson()));
-            var baseTests = BaseData.Tests(TextData.Equals(value: "[]"));
+            var baseTests = BaseData.Tests(JsonData.ExistsOne(method: "Log"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(

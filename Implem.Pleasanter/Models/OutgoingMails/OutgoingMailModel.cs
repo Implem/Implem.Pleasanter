@@ -801,17 +801,19 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.Restricted.MessageJson(context: context);
             }
-            return new OutgoingMailsResponseCollection(this)
-                .Html("#OutgoingMails_MailAddresses",
-                    new HtmlBuilder().SelectableItems(
-                        listItemCollection: OutgoingMailUtilities.Destinations(
-                            context: context,
-                            ss: ss,
-                            referenceId: siteModel.InheritPermission,
-                            addressBook: OutgoingMailUtilities.AddressBook(ss),
-                            searchRange: DestinationSearchRange,
-                            searchText: DestinationSearchText),
-                        selectedValueTextCollection: new List<string>())).ToJson();
+            return new OutgoingMailsResponseCollection(
+                context: context,
+                outgoingMailModel: this)
+                    .Html("#OutgoingMails_MailAddresses",
+                        new HtmlBuilder().SelectableItems(
+                            listItemCollection: OutgoingMailUtilities.Destinations(
+                                context: context,
+                                ss: ss,
+                                referenceId: siteModel.InheritPermission,
+                                addressBook: OutgoingMailUtilities.AddressBook(ss),
+                                searchRange: DestinationSearchRange,
+                                searchText: DestinationSearchText),
+                            selectedValueTextCollection: new List<string>())).ToJson();
         }
 
         /// <summary>

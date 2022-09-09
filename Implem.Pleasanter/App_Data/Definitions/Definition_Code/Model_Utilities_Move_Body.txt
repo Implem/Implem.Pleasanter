@@ -55,7 +55,7 @@
                     message: Messages.Moved(
                         context: context,
                         data: #modelName#Model.Title.MessageDisplay(context: context)));
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Response("id", #modelName#Model.#ModelName#Id.ToString())
                     .Href(Locations.ItemEdit(
                         context: context,
