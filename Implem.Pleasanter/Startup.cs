@@ -1,4 +1,5 @@
 ﻿using Azure.Identity;
+using Azure.Storage.Blobs;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.BackgroundServices;
@@ -151,10 +152,20 @@ namespace Implem.Pleasanter.NetCore
             {
                 services.AddHostedService<TimerBackgroundService>();
             }
-            services
-                .AddDataProtection()
-                .PersistKeysToAzureBlobStorage(new Uri("<blobUriWithSasToken>"))
-                .ProtectKeysWithAzureKeyVault(new Uri("<keyIdentifier>"), new DefaultAzureCredential());
+            
+            var blobContainerUri = configuration["DataProtectionBlobContainerUri"];
+            var keyIdentifier = configuration["DataProtectionKeyIdentifier"];
+            if (!blobContainerUri.IsNullOrEmpty()
+                && !keyIdentifier.IsNullOrEmpty())
+            {
+                var blobContainer = new BlobContainerClient(new Uri(blobContainerUri), new DefaultAzureCredential());
+                blobContainer.CreateIfNotExists();
+                var blobClient = blobContainer.GetBlobClient("keys.xml");
+                services
+                    .AddDataProtection()
+                    .PersistKeysToAzureBlobStorage(blobClient)
+                    .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
