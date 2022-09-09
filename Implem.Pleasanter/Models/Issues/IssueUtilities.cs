@@ -5984,6 +5984,10 @@ namespace Implem.Pleasanter.Models
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                if (updatableImport && importKeyColumn.Value == null)
+                {
+                    return Messages.ResponseNotContainKeyColumn(context: context).ToJson();
+                }
                 var csvRows = csv.Rows
                     .Select((o, i) => new { Index = i, Row = o })
                     .ToDictionary(o => o.Index, o => o.Row);

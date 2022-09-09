@@ -45,6 +45,9 @@ namespace Implem.Pleasanter.Libraries.Server
 
         /// <summary>
         /// プリザンターを実行しているOSのローカル時間に変換して返す。(UTCに変換するものではない)
+        /// 
+        /// 汎用的に動作するためには value にセットされる DateTime の Kind プロパティが Unspecified である必要があります。
+        /// 厳密には value.Kind が Unspecified でない場合 TimeZoneInfo.ConvertTime の第二引数のタイムゾーンと合致していないと Exception になります。
         /// </summary>
         public static DateTime ToUniversal(this DateTime value, Context context)
         {
