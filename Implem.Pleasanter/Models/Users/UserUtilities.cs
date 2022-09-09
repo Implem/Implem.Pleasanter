@@ -145,6 +145,14 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss)
                     .Div(attributes: new HtmlAttributes()
+                        .Id("SetNumericRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.NumericRange(context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("SetDateRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.DateRange(context)))
+                    .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
@@ -172,7 +180,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -281,7 +289,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return (res ?? new ResponseCollection())
+            return (res ?? new ResponseCollection(context: context))
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -325,7 +333,6 @@ namespace Implem.Pleasanter.Models
                 .Paging("#Grid")
                 .Message(message)
                 .Messages(context.Messages)
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -416,7 +423,6 @@ namespace Implem.Pleasanter.Models
                         message: Messages.NotFound(context: context),
                         target: "row_" + userId)
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -434,7 +440,6 @@ namespace Implem.Pleasanter.Models
                             checkRow: false,
                             idColumn: "UserId"))
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -2034,16 +2039,17 @@ namespace Implem.Pleasanter.Models
             userModel.MethodType = userModel.UserId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            return new UsersResponseCollection(userModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, ss, userModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .Log(context.GetLog());
+            return new UsersResponseCollection(
+                context: context,
+                userModel: userModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, ss, userModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         /// <summary>
@@ -2477,9 +2483,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             userModel: userModel,
                             process: processes?.FirstOrDefault()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Response("id", userModel.UserId.ToString())
                         .SetMemory("formChanged", false)
+                        .Messages(context.Messages)
                         .Href(Locations.Edit(
                             context: context,
                             controller: context.Controller,
@@ -2550,7 +2557,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new UsersResponseCollection(userModel);
+                    var res = new UsersResponseCollection(
+                        context: context,
+                        userModel: userModel);
                     return ResponseByUpdate(res, context, ss, userModel, processes)
                         .PrependComment(
                             context: context,
@@ -2687,7 +2696,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: userModel.Title.MessageDisplay(context: context)));
-                    var res = new UsersResponseCollection(userModel);
+                    var res = new UsersResponseCollection(
+                        context: context,
+                        userModel: userModel);
                     res
                         .SetMemory("formChanged", false)
                         .Invoke("back");
@@ -2725,11 +2736,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 userModel: userModel)));
-            return new UsersResponseCollection(userModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new UsersResponseCollection(
+                context: context,
+                userModel: userModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(
@@ -2942,7 +2955,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var res = new ResponseCollection();
+            var res = new ResponseCollection(context: context);
             Csv csv;
             try
             {
@@ -3306,7 +3319,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#ExportSelectorDialog",
                     new HtmlBuilder().ExportSelectorDialog(
@@ -3400,7 +3413,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#ChangePasswordDialog",
                     new HtmlBuilder().ChangePasswordDialog(
@@ -3443,22 +3456,24 @@ namespace Implem.Pleasanter.Models
             var error = userModel.ChangePassword(context: context);
             return error.Has()
                 ? error.MessageJson(context: context)
-                : new UsersResponseCollection(userModel)
-                    .OldPassword(context: context, value: string.Empty)
-                    .ChangedPassword(context: context, value: string.Empty)
-                    .ChangedPasswordValidator(context: context, value: string.Empty)
-                    .Ver(context: context, ss: ss)
-                    .Timestamp(context: context, ss: ss)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
-                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
-                        context: context,
-                        baseModel: userModel,
-                        tableName: "Users"))
-                    .CloseDialog()
-                    .ClearFormData()
-                    .Message(Messages.ChangingPasswordComplete(context: context))
-                    .ToJson();
+                : new UsersResponseCollection(
+                    context: context,
+                    userModel: userModel)
+                        .OldPassword(context: context, value: string.Empty)
+                        .ChangedPassword(context: context, value: string.Empty)
+                        .ChangedPasswordValidator(context: context, value: string.Empty)
+                        .Ver(context: context, ss: ss)
+                        .Timestamp(context: context, ss: ss)
+                        .Val("#VerUp", false)
+                        .Disabled("#VerUp", false)
+                        .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                            context: context,
+                            baseModel: userModel,
+                            tableName: "Users"))
+                        .CloseDialog()
+                        .ClearFormData()
+                        .Message(Messages.ChangingPasswordComplete(context: context))
+                        .ToJson();
         }
 
         /// <summary>
@@ -3533,23 +3548,25 @@ namespace Implem.Pleasanter.Models
             var error = userModel.ResetPassword(context: context);
             return error.Has()
                 ? error.MessageJson(context: context)
-                : new UsersResponseCollection(userModel)
-                    .PasswordExpirationTime(context: context, ss: ss)
-                    .PasswordChangeTime(context: context, ss: ss)
-                    .AfterResetPassword(context: context, value: string.Empty)
-                    .AfterResetPasswordValidator(context: context, value: string.Empty)
-                    .Ver(context: context, ss: ss)
-                    .Timestamp(context: context, ss: ss)
-                    .Val("#VerUp", false)
-                    .Disabled("#VerUp", false)
-                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
-                        context: context,
-                        baseModel: userModel,
-                        tableName: "Users"))
-                    .CloseDialog()
-                    .ClearFormData()
-                    .Message(Messages.PasswordResetCompleted(context: context))
-                    .ToJson();
+                : new UsersResponseCollection(
+                    context: context,
+                    userModel: userModel)
+                        .PasswordExpirationTime(context: context, ss: ss)
+                        .PasswordChangeTime(context: context, ss: ss)
+                        .AfterResetPassword(context: context, value: string.Empty)
+                        .AfterResetPasswordValidator(context: context, value: string.Empty)
+                        .Ver(context: context, ss: ss)
+                        .Timestamp(context: context, ss: ss)
+                        .Val("#VerUp", false)
+                        .Disabled("#VerUp", false)
+                        .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
+                            context: context,
+                            baseModel: userModel,
+                            tableName: "Users"))
+                        .CloseDialog()
+                        .ClearFormData()
+                        .Message(Messages.PasswordResetCompleted(context: context))
+                        .ToJson();
         }
 
         /// <summary>
@@ -3582,7 +3599,10 @@ namespace Implem.Pleasanter.Models
                 selected: selected);
             return error.Has()
                 ? error.MessageJson(context: context)
-                : ResponseMailAddresses(userModel, selected);
+                : ResponseMailAddresses(
+                    context: context,
+                    userModel: userModel,
+                    selected: selected);
         }
 
         /// <summary>
@@ -3607,16 +3627,21 @@ namespace Implem.Pleasanter.Models
                 selected: selected);
             return error.Has()
                 ? error.MessageJson(context: context)
-                : ResponseMailAddresses(userModel, selected);
+                : ResponseMailAddresses(
+                    context: context,
+                    userModel: userModel,
+                    selected: selected);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static string ResponseMailAddresses(
-            UserModel userModel, IEnumerable<string> selected)
+            Context context,
+            UserModel userModel,
+            IEnumerable<string> selected)
         {
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#MailAddresses",
                     new HtmlBuilder().SelectableItems(
@@ -4151,7 +4176,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .ReplaceAll(
                         "#EditorTabsContainer",
                         new HtmlBuilder().ApiEditor(
@@ -4183,7 +4208,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .ReplaceAll(
                         "#EditorTabsContainer",
                         new HtmlBuilder().ApiEditor(
@@ -4365,7 +4390,7 @@ namespace Implem.Pleasanter.Models
                     key: "SwitchLoginId",
                     value: userModel.LoginId);
                 context = new Context();
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                         context: context,
                         ss: null))
@@ -4380,7 +4405,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     key: "SwitchLoginId",
                     page: false);
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Message(Messages.InvalidRequest(context: context))
                     .ToJson();
             }
@@ -4404,7 +4429,7 @@ namespace Implem.Pleasanter.Models
                 key: "SwitchLoginId",
                 page: false);
             context = new Context();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ReplaceAll("#Warnings", new HtmlBuilder().Warnings(
                     context: context,
                     ss: null))
@@ -4430,7 +4455,7 @@ namespace Implem.Pleasanter.Models
                         .UserSettings(context.UserSettings.RecordingJson()),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
-            return new ResponseCollection().ToJson();
+            return new ResponseCollection(context: context).ToJson();
         }
 
         /// <summary>

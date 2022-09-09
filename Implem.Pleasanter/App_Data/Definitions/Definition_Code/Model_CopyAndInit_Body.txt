@@ -1,0 +1,30 @@
+﻿public #ModelName#Model CopyAndInit(
+    Context context,
+    SiteSettings ss)
+{
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        methodType: MethodTypes.New);
+    #modelName#Model.SetByModel(this);
+    #modelName#Model.#ModelName#Id = 0;
+    #modelName#Model.Ver = 1;
+    #modelName#Model.Comments = new Comments();
+    #modelName#Model.AccessStatus = Databases.AccessStatuses.Initialized;
+    #modelName#Model.SetCopyDefault(
+        context: context,
+        ss: ss);
+    #modelName#Model.SetByForm(
+        context: context,
+        ss: ss,
+        formData: context.Forms);
+    #modelName#Model.SetBySettings(
+        context: context,
+        ss: ss,
+        formData: context.Forms);
+    #modelName#Model.SetByStatusControls(
+        context: context,
+        ss: ss,
+        force: true);
+    return #modelName#Model;
+}

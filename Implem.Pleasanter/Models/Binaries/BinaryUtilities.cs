@@ -258,7 +258,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#TenantImageLogoContainer",
                         new HtmlBuilder().SiteImageIcon(
@@ -301,7 +301,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                    .ReplaceAll(
                        "#Logo",
                        new HtmlBuilder().HeaderLogo(
@@ -341,7 +341,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#SiteImageIconContainer",
                         new HtmlBuilder().SiteImageIcon(
@@ -380,7 +380,7 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                    .ReplaceAll(
                        "#Logo",
                        new HtmlBuilder().HeaderLogo(
@@ -472,7 +472,7 @@ namespace Implem.Pleasanter.Models
                         .Extension(file.Extension)
                         .Size(file.Size)
                         .ContentType(file.ContentType)));
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .InsertText(
                     "#" + context.Forms.ControlId(),
                     "![image]({0})".Params(Locations.ShowFile(
@@ -517,7 +517,7 @@ namespace Implem.Pleasanter.Models
             {
                 Files.DeleteFile(path);
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Message(Messages.DeletedImage(context: context))
                 .Remove($"#ImageLib .item[data-id=\"{guid}\"]")
                 .ToJson();
@@ -834,7 +834,7 @@ namespace Implem.Pleasanter.Models
                 });
             });
             var hb = new HtmlBuilder();
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ReplaceAll($"#{controlId}Field", new HtmlBuilder()
                     .Field(
                         context: context,

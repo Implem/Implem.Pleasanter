@@ -2,5 +2,5 @@
     "Id": "Model_SetByForm",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Items,SysLogs"
+    "Exclude": "Items"
 }

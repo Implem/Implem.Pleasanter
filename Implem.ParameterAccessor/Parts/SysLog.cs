@@ -8,5 +8,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool LoginSuccess;
         public bool LoginFailure;
         public bool SignOut;
+        public int ExportLimit;
     }
 }

@@ -343,6 +343,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ReferenceType = "SysLogs"
             };
             ss.Init(context: context);
+            ss.SetLinks(context: context);
+            ss.SetChoiceHash(context: context, withLink: false);
+            ss.PermissionType = Permissions.Admins(context: context);
             return ss;
         }
 

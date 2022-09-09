@@ -1256,16 +1256,17 @@ namespace Implem.Pleasanter.Models
             wikiModel.MethodType = wikiModel.WikiId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            return new WikisResponseCollection(wikiModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, ss, wikiModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .Log(context.GetLog());
+            return new WikisResponseCollection(
+                context: context,
+                wikiModel: wikiModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, ss, wikiModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         public static ResponseCollection FieldResponse(
@@ -1553,7 +1554,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new WikisResponseCollection(wikiModel);
+                    var res = new WikisResponseCollection(
+                        context: context,
+                        wikiModel: wikiModel);
                     res.ReplaceAll("#Breadcrumb", new HtmlBuilder()
                         .Breadcrumb(context: context, ss: ss));
                     return ResponseByUpdate(res, context, ss, wikiModel, processes)
@@ -1720,7 +1723,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: wikiModel.Title.MessageDisplay(context: context)));
-                    var res = new WikisResponseCollection(wikiModel);
+                    var res = new WikisResponseCollection(
+                        context: context,
+                        wikiModel: wikiModel);
                     res
                         .SetMemory("formChanged", false)
                         .Invoke("back");
@@ -1960,7 +1965,7 @@ namespace Implem.Pleasanter.Models
                         message: Messages.RestoredFromHistory(
                             context: context,
                             data: ver.First().ToString()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .SetMemory("formChanged", false)
                         .Href(Locations.ItemEdit(
                             context: context,
@@ -1999,11 +2004,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 wikiModel: wikiModel)));
-            return new WikisResponseCollection(wikiModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new WikisResponseCollection(
+                context: context,
+                wikiModel: wikiModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(

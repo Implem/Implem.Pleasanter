@@ -3,5 +3,5 @@
     "RepeatType": "Table",
     "Indent": "1",
     "Separator": "\\r\\n",
-    "Exclude": "Items,SysLogs"
+    "Exclude": "Items"
 }

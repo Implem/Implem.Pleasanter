@@ -55,7 +55,7 @@ public static string TimeSeriesJson(Context context, SiteSettings ss)
         ss: ss,
         view: view,
         limit: Parameters.General.TimeSeriesLimit)
-            ? new ResponseCollection()
+            ? new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -72,7 +72,7 @@ public static string TimeSeriesJson(Context context, SiteSettings ss)
                             inRange: true))
                 .Events("on_timeseries_load")
                 .ToJson()
-            : new ResponseCollection()
+            : new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,

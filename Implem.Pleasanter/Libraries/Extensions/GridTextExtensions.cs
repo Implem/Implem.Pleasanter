@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Extensions
@@ -33,6 +34,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
         }
 
         public static string GridText(this long value, Context context, Column column)
+        {
+            return value.ToString(column.StringFormat) + column.Unit;
+        }
+
+        public static string GridText(this double value, Context context, Column column)
         {
             return value.ToString(column.StringFormat) + column.Unit;
         }
@@ -80,6 +86,11 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return value
                 .Select(o => $"[{o.Name}]({Locations.Get(context, "binaries", o.Guid, "download")})")
                 .Join("\n");
+        }
+
+        public static string GridText(this Enum value, Context context, Column column)
+        {
+            return value.ToString() + column.Unit;
         }
     }
 }

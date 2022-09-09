@@ -26,7 +26,7 @@ namespace Implem.PleasanterTools
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
-            return new ResponseCollection().ToJson();
+            return new ResponseCollection(context: Context).ToJson();
         }
 
         public string DeleteLog()

@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -35,8 +36,18 @@ namespace Implem.PleasanterFilters
             {
             }
             filterContext.ExceptionHandled = true;
-            filterContext.Result = new RedirectResult(
-                Locations.ApplicationError(context: context));
+            if (context.Ajax)
+            {
+                filterContext.Result = new ContentResult()
+                {
+                    Content = Error.Types.ApplicationError.MessageJson(context: context),
+                    StatusCode = 500
+                };
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult(Locations.ApplicationError(context: context));
+            }
         }
 
         private static long CanManageSiteId(Context context)

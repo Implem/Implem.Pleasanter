@@ -594,7 +594,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                                 where: Rds.SitesWhere()
                                     .SiteId(sub: Rds.SelectItems(
                                         column: Rds.ItemsColumn().SiteId(),
-                                        where: Controller == "publishes"
+                                        where: Guid.IsNullOrEmpty()
                                             ? Rds.ItemsWhere().ReferenceId(Id)
                                             : Rds.ItemsWhere().ReferenceId(sub: Rds.SelectBinaries(
                                                 column: Rds.BinariesColumn().ReferenceId(),

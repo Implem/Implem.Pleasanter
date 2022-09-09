@@ -118,6 +118,7 @@
     "NumFilterMin": "decimal",
     "NumFilterMax": "decimal",
     "NumFilterStep": "decimal",
+    "DateFilterSetMode": "int",
     "FullTextType": "int",
     "Width": "int",
     "SettingEnable": "bool",

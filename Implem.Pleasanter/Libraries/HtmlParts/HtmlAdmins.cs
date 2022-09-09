@@ -37,6 +37,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     action: () => hb
                                         .Div(action: () => hb
                                             .Text(Displays.Tenants(context: context)))))
+                            .Li(
+                                css: "nav-site", action: () => hb
+                                    .A(
+                                        attributes: new HtmlAttributes()
+                                            .Href(Locations.Index(
+                                                context: context,
+                                                controller: "SysLogs")),
+                                        action: () => hb
+                                            .Div(action: () => hb
+                                            .Text(Displays.SysLogs(context: context)))
+                                            .StackStyles()),
+                                _using: context.HasPrivilege)
                             .Li(css: "nav-site", action: () => hb
                                 .A(
                                     attributes: new HtmlAttributes()
@@ -80,8 +92,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             .Div(action: () => hb
                                                 .Text(Displays.Registrations(context: context)))
                                             .StackStyles()),
-                                _using: Parameters.Registration.Enabled)
-                            ))
+                                _using: Parameters.Registration.Enabled)))
                     .MainCommands(
                         context: context,
                         ss: ss,

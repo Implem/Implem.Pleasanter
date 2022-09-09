@@ -14,16 +14,19 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: css);
         }
 
-        private static ResponseCollection ResponseMessage(Message message, string target = null)
+        private static ResponseCollection ResponseMessage(
+            Context context,
+            Message message,
+            string target = null)
         {
-            return new ResponseCollection().Message(
+            return new ResponseCollection(context: context).Message(
                 message: message,
                 target: target);
         }
 
         public static ResponseCollection ResponseMessage(this PasswordPolicy policy, Context context)
         {
-            return new ResponseCollection().Message(policy.Languages?.Any() == true
+            return new ResponseCollection(context: context).Message(policy.Languages?.Any() == true
                 ? new Message(
                     id: null,
                     text: policy.Display(context: context),

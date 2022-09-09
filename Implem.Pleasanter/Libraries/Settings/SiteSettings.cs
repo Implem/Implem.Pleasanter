@@ -1487,7 +1487,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.NumFilterStep = column.NumFilterStep;
                     }
-                    if (column.DateFilterSetMode != ColumnUtilities.DateFilterSetMode.Default)
+                    if (column.DateFilterSetMode != ColumnUtilities.GetDateFilterSetMode(columnDefinition: columnDefinition))
                     {
                         enabled = true;
                         newColumn.DateFilterSetMode = column.DateFilterSetMode;
@@ -1775,8 +1775,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.Id = column.Id ?? columnDefinition.Id;
                 column.No = columnDefinition.No;
                 column.Id_Ver =
-                    (columnDefinition.Unique && columnDefinition.TypeName == "bigint") ||
-                    columnDefinition.ColumnName == "Ver";
+                    ((columnDefinition.Unique || columnDefinition.Pk > 0)
+                        && columnDefinition.TypeName == "bigint")
+                            || columnDefinition.ColumnName == "Ver";
                 column.ColumnName = column.ColumnName ?? columnDefinition.ColumnName;
                 column.LabelText = ModifiedLabelText(
                     context: context,
@@ -1837,7 +1838,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.NumFilterMin = column.NumFilterMin ?? columnDefinition.NumFilterMin;
                 column.NumFilterMax = column.NumFilterMax ?? columnDefinition.NumFilterMax;
                 column.NumFilterStep = column.NumFilterStep ?? columnDefinition.NumFilterStep;
-                column.DateFilterSetMode = column.DateFilterSetMode ?? ColumnUtilities.DateFilterSetMode.Default;
+                column.DateFilterSetMode = column.DateFilterSetMode ?? ColumnUtilities.GetDateFilterSetMode(columnDefinition: columnDefinition);
                 column.SearchType = column.SearchType ?? column.SearchTypeDefault();
                 column.FullTextType = column.FullTextType ?? (Column.FullTextTypes)columnDefinition.FullTextType;
                 column.DateFilterMinSpan = column.DateFilterMinSpan ?? Parameters.General.DateFilterMinSpan;
@@ -2658,10 +2659,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                             : join + "," + o.ColumnName).ToList());
         }
 
-        public Dictionary<string, string> ViewFilterOptions(Context context, View view)
+        public Dictionary<string, string> ViewFilterOptions(
+            Context context,
+            View view,
+            bool currentTableOnly)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions().ForEach(join =>
+            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -3377,13 +3381,18 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> JoinOptions(
             SiteSettings ss = null,
             bool destinations = true,
-            bool sources = true)
+            bool sources = true,
+            bool currentTableOnly = false)
         {
             var hash = new Dictionary<string, string>();
             if (ss == null)
             {
                 ss = this;
                 hash.Add(string.Empty, $"[{Title}]");
+                if (currentTableOnly)
+                {
+                    return hash;
+                }
             }
             else
             {
