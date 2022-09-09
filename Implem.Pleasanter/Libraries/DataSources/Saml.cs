@@ -451,14 +451,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
             if (Parameters.Authentication.RejectUnregisteredUser)
             {
-                var userExists = Repository.ExecuteScalar_int(
+                var exists = Repository.ExecuteScalar_int(
                     context: context,
                     statements: Rds.SelectUsers(
                         column: Rds.UsersColumn().UsersCount(),
                         where: Rds.UsersWhere()
-                        .TenantId(tenant.TenantId)
-                        .LoginId(loginId.Value))) > 0;
-                if (!userExists)
+                            .TenantId(tenant.TenantId)
+                            .LoginId(loginId.Value))) > 0;
+                if (!exists)
                 {
                     return (null, Responses.Locations.SamlLoginFailed(context: context), null);
                 }
