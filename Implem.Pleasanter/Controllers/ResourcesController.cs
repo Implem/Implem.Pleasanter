@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 key: "Responsive",
                 value: responsive?.ToString());
-            return new ResponseCollection().ToJson();
+            return new ResponseCollection(context: context).ToJson();
         }
     }
 }

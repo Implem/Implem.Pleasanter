@@ -660,7 +660,7 @@ namespace Implem.DefinitionAccessor
         public static XlsIo DefinitionFile(string name)
         {
             var path = Path.Combine(Directories.Definitions(), $"Definition_{name}");
-            var xlsIo = new XlsIo(path);
+            var xlsIo = new XlsIo(path, name);
             if (name == "Column")
             {
                 SetColumnDefinitionAdditional(xlsIo);

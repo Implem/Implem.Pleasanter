@@ -36,7 +36,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 return Messages.ResponseInvalidRequest(context: context).ToJson();
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#ImportSitePackageDialog",
                     new HtmlBuilder().ImportSitePackageDialog(
@@ -385,7 +385,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             sitePackage.HeaderInfo.Convertors.Count().ToString(),
                             dataCount.ToString()
                         }));
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Href(url: Locations.ItemIndex(
                         context: context,
                         id: ss.SiteId))
@@ -644,7 +644,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             {
                 return Messages.ResponseInvalidRequest(context: context).ToJson();
             }
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Html(
                     "#ExportSitePackageDialog",
                     new HtmlBuilder().ExportSitePackageDialog(

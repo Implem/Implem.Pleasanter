@@ -1,11 +1,14 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Pleasanter.Libraries.General;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
-using Implem.Pleasanter.Models;
-using System;
-using System.Web.Mvc;
-using System.Web.SessionState;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+using System;
+using System.Net;
+using System.Web.Mvc;
+using System.Web.SessionState;
+
 namespace Implem.Pleasanter.Filters
 {
     public class HandleErrorExAttribute : FilterAttribute, IExceptionFilter, IRequiresSessionState
@@ -35,8 +38,18 @@ namespace Implem.Pleasanter.Filters
             {
             }
             filterContext.ExceptionHandled = true;
-            filterContext.Result = new RedirectResult(
-                Locations.ApplicationError(context: context));
+            if (context.Ajax)
+            {
+                filterContext.Result = new ContentResult()
+                {
+                    Content = Error.Types.ApplicationError.MessageJson(context: context),
+                };
+                filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+            else
+            {
+                filterContext.Result = new RedirectResult(Locations.ApplicationError(context: context));
+            }
         }
 
         private static long CanManageSiteId(Context context)

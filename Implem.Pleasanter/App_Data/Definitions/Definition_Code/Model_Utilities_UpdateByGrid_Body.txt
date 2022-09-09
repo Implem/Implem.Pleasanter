@@ -244,7 +244,7 @@ private static string UpdateByGridSuccess(
                         context: context,
                         ss: ss))
                             .ToArray());
-    var res = new ResponseCollection();
+    var res = new ResponseCollection(context: context);
     var view = Views.GetBySession(
         context: context,
         ss: ss);
@@ -281,6 +281,5 @@ private static string UpdateByGridSuccess(
             context: context,
             data: responses.Count().ToString()))
         .Messages(context.Messages)
-        .Log(context.GetLog())
         .ToJson();
 }

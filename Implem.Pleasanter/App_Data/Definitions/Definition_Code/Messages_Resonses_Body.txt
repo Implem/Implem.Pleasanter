@@ -2,6 +2,7 @@
     Context context, string target = null, params string[] data)
 {
     return ResponseMessage(
+        context: context,
         message: #DisplayId#(
             context: context,
             data: data),

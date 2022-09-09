@@ -6119,6 +6119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotContainKeyColumn(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotContainKeyColumn",
+                data: data);
+        }
+
         public static string NotFound(
             Context context,
             params string[] data)
@@ -8436,6 +8446,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Synchronize",
+                data: data);
+        }
+
+        public static string SysLogAdmin(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogAdmin",
                 data: data);
         }
 

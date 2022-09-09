@@ -716,7 +716,7 @@ namespace Implem.Pleasanter.Models
         {
             if (!context.QueryStrings.Bool("control-auto-postback"))
             {
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .ReplaceAll("#MainContainer", New(context: context))
                     .WindowScrollTop()
                     .FocusMainForm()
@@ -879,7 +879,7 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(context: context);
             var dataTableName = context.Forms.Data("TableId");
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ReplaceAll("#" + dataTableName, new HtmlBuilder()
                     .LinkTable(
                         context: context,
@@ -944,7 +944,7 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#SetNumericRangeDialog",
                         new HtmlBuilder().SetNumericRangeDialog(
@@ -974,7 +974,7 @@ namespace Implem.Pleasanter.Models
                 var column = Site.SiteSettings.GetColumn(
                     context: context,
                     columnName: columnName);
-                return new ResponseCollection()
+                return new ResponseCollection(context: context)
                     .Html(
                         "#SetDateRangeDialog",
                         new HtmlBuilder().SetDateRangeDialog(
@@ -1822,7 +1822,7 @@ namespace Implem.Pleasanter.Models
         public string MoveTargets(Context context)
         {
             SetSite(context: context);
-            return new ResponseCollection().Html("#MoveTargets", new HtmlBuilder()
+            return new ResponseCollection(context: context).Html("#MoveTargets", new HtmlBuilder()
                 .OptionCollection(
                     context: context,
                     optionCollection: Site.SiteSettings.MoveTargetsSelectableOptions(

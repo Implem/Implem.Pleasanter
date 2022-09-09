@@ -14,7 +14,7 @@
     var optionCollection = ss.GetAllowBulkUpdateOptions(context: context);
     var target = optionCollection.FirstOrDefault().Key;
     var hb = new HtmlBuilder();
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .Html(
             "#BulkUpdateSelectorDialog",
             hb.BulkUpdateSelectorDialog(
@@ -35,7 +35,7 @@ public static string BulkUpdateSelectChanged(Context context, SiteSettings ss)
     {
         return Messages.ResponseHasNotPermission(context: context).ToJson();
     }
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .Html(
             "#BulkUpdateSelectedField",
             new HtmlBuilder().BulkUpdateEditor(

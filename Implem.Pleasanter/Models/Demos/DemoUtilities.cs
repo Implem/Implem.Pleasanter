@@ -30,7 +30,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string Register(Context context, bool async = true)
+        public static string Register(
+            Context context,
+            bool async = true,
+            bool sendMail = true)
         {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
@@ -80,7 +83,8 @@ namespace Implem.Pleasanter.Models
                     Bcc = Parameters.Mail.SupportFrom
                 },
                 userHash: userHash,
-                async: async);
+                async: async,
+                sendMail: sendMail);
             return Messages.ResponseSentAcceptanceMail(context: context)
                 .Remove("#DemoForm")
                 .ToJson();
@@ -166,7 +170,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             OutgoingMailModel outgoingMailModel,
             Dictionary<string, string> userHash,
-            bool async)
+            bool async,
+            bool sendMail)
         {
             System.Diagnostics.Debug.WriteLine(outgoingMailModel.Body);
             var idHash = new Dictionary<string, long>();
@@ -179,7 +184,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         outgoingMailModel: outgoingMailModel,
                         userHash: userHash,
-                        idHash: idHash);
+                        idHash: idHash,
+                        sendMail: sendMail);
                 });
             }
             else
@@ -189,7 +195,8 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     outgoingMailModel: outgoingMailModel,
                     userHash: userHash,
-                    idHash: idHash);
+                    idHash: idHash,
+                    sendMail: sendMail);
             }
         }
 
@@ -201,7 +208,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             OutgoingMailModel outgoingMailModel,
             Dictionary<string, string> userHash,
-            Dictionary<string, long> idHash)
+            Dictionary<string, long> idHash,
+            bool sendMail)
         {
             try
             {
@@ -209,9 +217,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     userHash: userHash,
                     idHash: idHash);
-                outgoingMailModel.Send(
-                    context: context,
-                    ss: new SiteSettings());
+                if (sendMail)
+                {
+                    outgoingMailModel.Send(
+                        context: context,
+                        ss: new SiteSettings());
+                }
             }
             catch (Exception e)
             {
@@ -238,9 +249,10 @@ namespace Implem.Pleasanter.Models
                 demoModel: demoModel,
                 userHash: userHash,
                 idHash: idHash);
-            SiteInfo.Reflesh(
+            InitializeGroups(
                 context: context,
-                force: true);
+                demoModel: demoModel,
+                idHash: idHash);
             var ssHash = InitializeSites(
                 context: context,
                 demoModel: demoModel,
@@ -263,6 +275,12 @@ namespace Implem.Pleasanter.Models
                         parentId: o.Id,
                         idHash: idHash,
                         ssHash: ssHash);
+                    InitializeWikis(
+                        context: context,
+                        demoModel: demoModel,
+                        parentId: o.Id,
+                        idHash: idHash,
+                        ssHash: ssHash);
                 });
             InitializeLinks(
                 context: context,
@@ -270,12 +288,16 @@ namespace Implem.Pleasanter.Models
                 idHash: idHash);
             InitializePermissions(
                 context: context,
+                demoModel: demoModel,
                 idHash: idHash);
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateDemos(
                     param: Rds.DemosParam().Initialized(true),
                     where: Rds.DemosWhere().Passphrase(demoModel.Passphrase.TrimEnd())));
+            SiteInfo.Reflesh(
+                context: context,
+                force: true);
         }
 
         /// <summary>
@@ -292,15 +314,19 @@ namespace Implem.Pleasanter.Models
                     demoDefinition.Id, Repository.ExecuteScalar_response(
                         context: context,
                         selectIdentity: true,
-                        statements: new SqlStatement[]
-                        {
-                            Rds.InsertDepts(
-                                selectIdentity: true,
-                                param: Rds.DeptsParam()
-                                    .TenantId(demoModel.TenantId)
-                                    .DeptCode(demoDefinition.ClassA)
-                                    .DeptName(demoDefinition.Title))
-                        }).Id.ToLong()));
+                        statements: Rds.InsertDepts(
+                            selectIdentity: true,
+                            param: Rds.DeptsParam()
+                                .TenantId(demoModel.TenantId)
+                                .DeptCode(demoDefinition.ClassA)
+                                .DeptName(demoDefinition.Title)
+                                .Disabled(demoDefinition.CheckD)
+                                .Comments(Comments(
+                                    context: context,
+                                    demoModel: demoModel,
+                                    idHash: idHash,
+                                    parentId: demoDefinition.Id))))
+                                        .Id.ToLong()));
         }
 
         /// <summary>
@@ -335,7 +361,14 @@ namespace Implem.Pleasanter.Models
                                     .Name(demoDefinition.Title)
                                     .Language(context.Language)
                                     .DeptId(idHash.Get(demoDefinition.ParentId).ToInt())
-                                    .TenantManager(demoDefinition.ClassD == "1")),
+                                    .TenantManager(demoDefinition.ClassD == "1")
+                                    .Disabled(demoDefinition.CheckD)
+                                    .Lockout(demoDefinition.CheckL)
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))),
                             Rds.InsertMailAddresses(
                                 param: Rds.MailAddressesParam()
                                     .OwnerId(raw: Def.Sql.Identity)
@@ -355,6 +388,48 @@ namespace Implem.Pleasanter.Models
                                 .Where(o => o.Type == "Users")
                                 .FirstOrDefault()?
                                 .Id))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializeGroups(
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, long> idHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Groups")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => idHash.Add(
+                    demoDefinition.Id, Repository.ExecuteScalar_response(
+                        context: context,
+                        selectIdentity: true,
+                        statements: Rds.InsertGroups(
+                            selectIdentity: true,
+                            param: Rds.GroupsParam()
+                                .TenantId(demoModel.TenantId)
+                                .GroupName(demoDefinition.Title)
+                                .Disabled(demoDefinition.CheckD)
+                                .Comments(Comments(
+                                    context: context,
+                                    demoModel: demoModel,
+                                    idHash: idHash,
+                                    parentId: demoDefinition.Id))))
+                                    .Id.ToLong()));
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "GroupMembers")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertGroupMembers(
+                        param: Rds.GroupMembersParam()
+                            .GroupId(idHash.Get(demoDefinition.ParentId).ToInt())
+                            .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
+                            .UserId(idHash.Get(demoDefinition.ClassB).ToInt())
+                            .Admin(demoDefinition.CheckA))));
         }
 
         /// <summary>
@@ -416,6 +491,8 @@ namespace Implem.Pleasanter.Models
                 {
                     var creator = idHash.Get(demoDefinition.Creator);
                     var updator = idHash.Get(demoDefinition.Updator);
+                    var inheritPermission = demoDefinition.ParentId != string.Empty
+                        && !IsPermissionDefined(demoDefinition.Id);
                     context.UserId = updator.ToInt();
                     var siteId = Repository.ExecuteScalar_response(
                         context: context,
@@ -438,8 +515,14 @@ namespace Implem.Pleasanter.Models
                                     .ParentId(idHash.ContainsKey(demoDefinition.ParentId)
                                         ? idHash.Get(demoDefinition.ParentId)
                                         : 0)
-                                    .InheritPermission(idHash, topId, demoDefinition.ParentId)
+                                    .InheritPermission(idHash, topId, inheritPermission)
+                                    .Publish(demoDefinition.Publish)
                                     .SiteSettings(demoDefinition.Body.Replace(idHash))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
                                     .Creator(creator)
                                     .Updator(updator),
                                 addUpdatorParam: false)
@@ -458,11 +541,11 @@ namespace Implem.Pleasanter.Models
              this Rds.SitesParamCollection self,
              Dictionary<string, long> idHash,
              string topId,
-             string parentId)
+             bool inheritPermission)
         {
-            return parentId == string.Empty
-                ? self.InheritPermission(raw: Def.Sql.Identity)
-                : self.InheritPermission(idHash.Get(topId));
+            return inheritPermission
+                ? self.InheritPermission(idHash.Get(topId))
+                : self.InheritPermission(raw: Def.Sql.Identity);
         }
 
         /// <summary>
@@ -523,6 +606,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))
@@ -575,32 +659,136 @@ namespace Implem.Pleasanter.Models
                                     .Add(columnBracket: "\"NumX\"", name: "NumX", value: demoDefinition.NumX)
                                     .Add(columnBracket: "\"NumY\"", name: "NumY", value: demoDefinition.NumY)
                                     .Add(columnBracket: "\"NumZ\"", name: "NumZ", value: demoDefinition.NumZ)
-                                    .Add(columnBracket: "\"DateA\"", name: "DateA", value: demoDefinition.DateA)
-                                    .Add(columnBracket: "\"DateB\"", name: "DateB", value: demoDefinition.DateB)
-                                    .Add(columnBracket: "\"DateC\"", name: "DateC", value: demoDefinition.DateC)
-                                    .Add(columnBracket: "\"DateD\"", name: "DateD", value: demoDefinition.DateD)
-                                    .Add(columnBracket: "\"DateE\"", name: "DateE", value: demoDefinition.DateE)
-                                    .Add(columnBracket: "\"DateF\"", name: "DateF", value: demoDefinition.DateF)
-                                    .Add(columnBracket: "\"DateG\"", name: "DateG", value: demoDefinition.DateG)
-                                    .Add(columnBracket: "\"DateH\"", name: "DateH", value: demoDefinition.DateH)
-                                    .Add(columnBracket: "\"DateI\"", name: "DateI", value: demoDefinition.DateI)
-                                    .Add(columnBracket: "\"DateJ\"", name: "DateJ", value: demoDefinition.DateJ)
-                                    .Add(columnBracket: "\"DateK\"", name: "DateK", value: demoDefinition.DateK)
-                                    .Add(columnBracket: "\"DateL\"", name: "DateL", value: demoDefinition.DateL)
-                                    .Add(columnBracket: "\"DateM\"", name: "DateM", value: demoDefinition.DateM)
-                                    .Add(columnBracket: "\"DateN\"", name: "DateN", value: demoDefinition.DateN)
-                                    .Add(columnBracket: "\"DateO\"", name: "DateO", value: demoDefinition.DateO)
-                                    .Add(columnBracket: "\"DateP\"", name: "DateP", value: demoDefinition.DateP)
-                                    .Add(columnBracket: "\"DateQ\"", name: "DateQ", value: demoDefinition.DateQ)
-                                    .Add(columnBracket: "\"DateR\"", name: "DateR", value: demoDefinition.DateR)
-                                    .Add(columnBracket: "\"DateS\"", name: "DateS", value: demoDefinition.DateS)
-                                    .Add(columnBracket: "\"DateT\"", name: "DateT", value: demoDefinition.DateT)
-                                    .Add(columnBracket: "\"DateU\"", name: "DateU", value: demoDefinition.DateU)
-                                    .Add(columnBracket: "\"DateV\"", name: "DateV", value: demoDefinition.DateV)
-                                    .Add(columnBracket: "\"DateW\"", name: "DateW", value: demoDefinition.DateW)
-                                    .Add(columnBracket: "\"DateX\"", name: "DateX", value: demoDefinition.DateX)
-                                    .Add(columnBracket: "\"DateY\"", name: "DateY", value: demoDefinition.DateY)
-                                    .Add(columnBracket: "\"DateZ\"", name: "DateZ", value: demoDefinition.DateZ)
+                                    .Add(columnBracket: "\"DateA\"",
+                                        name: "DateA",
+                                        value: demoDefinition.DateA.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateB\"",
+                                        name: "DateB",
+                                        value: demoDefinition.DateB.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateC\"",
+                                        name: "DateC",
+                                        value: demoDefinition.DateC.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateD\"",
+                                        name: "DateD",
+                                        value: demoDefinition.DateD.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateE\"",
+                                        name: "DateE",
+                                        value: demoDefinition.DateE.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateF\"",
+                                        name: "DateF",
+                                        value: demoDefinition.DateF.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateG\"",
+                                        name: "DateG",
+                                        value: demoDefinition.DateG.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateH\"",
+                                        name: "DateH",
+                                        value: demoDefinition.DateH.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateI\"",
+                                        name: "DateI",
+                                        value: demoDefinition.DateI.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateJ\"",
+                                        name: "DateJ",
+                                        value: demoDefinition.DateJ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateK\"",
+                                        name: "DateK",
+                                        value: demoDefinition.DateK.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateL\"",
+                                        name: "DateL",
+                                        value: demoDefinition.DateL.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateM\"",
+                                        name: "DateM",
+                                        value: demoDefinition.DateM.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateN\"",
+                                        name: "DateN",
+                                        value: demoDefinition.DateN.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateO\"",
+                                        name: "DateO",
+                                        value: demoDefinition.DateO.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateP\"",
+                                        name: "DateP",
+                                        value: demoDefinition.DateP.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateQ\"",
+                                        name: "DateQ",
+                                        value: demoDefinition.DateQ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateR\"",
+                                        name: "DateR",
+                                        value: demoDefinition.DateR.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateS\"",
+                                        name: "DateS",
+                                        value: demoDefinition.DateS.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateT\"",
+                                        name: "DateT",
+                                        value: demoDefinition.DateT.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateU\"",
+                                        name: "DateU",
+                                        value: demoDefinition.DateU.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateV\"",
+                                        name: "DateV",
+                                        value: demoDefinition.DateV.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateW\"",
+                                        name: "DateW",
+                                        value: demoDefinition.DateW.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateX\"",
+                                        name: "DateX",
+                                        value: demoDefinition.DateX.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateY\"",
+                                        name: "DateY",
+                                        value: demoDefinition.DateY.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateZ\"",
+                                        name: "DateZ",
+                                        value: demoDefinition.DateZ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
                                     .Add(columnBracket: "\"DescriptionA\"", name: "DescriptionA", value: demoDefinition.DescriptionA)
                                     .Add(columnBracket: "\"DescriptionB\"", name: "DescriptionB", value: demoDefinition.DescriptionB)
                                     .Add(columnBracket: "\"DescriptionC\"", name: "DescriptionC", value: demoDefinition.DescriptionC)
@@ -805,6 +993,7 @@ namespace Implem.Pleasanter.Models
                                     .Status(demoDefinition.Status)
                                     .Manager(idHash.Get(demoDefinition.Manager))
                                     .Owner(idHash.Get(demoDefinition.Owner))
+                                    .Locked(demoDefinition.Locked)
                                     .Add(columnBracket: "\"ClassA\"", name: "ClassA", value: demoDefinition.ClassA.Replace(idHash))
                                     .Add(columnBracket: "\"ClassB\"", name: "ClassB", value: demoDefinition.ClassB.Replace(idHash))
                                     .Add(columnBracket: "\"ClassC\"", name: "ClassC", value: demoDefinition.ClassC.Replace(idHash))
@@ -857,32 +1046,136 @@ namespace Implem.Pleasanter.Models
                                     .Add(columnBracket: "\"NumX\"", name: "NumX", value: demoDefinition.NumX)
                                     .Add(columnBracket: "\"NumY\"", name: "NumY", value: demoDefinition.NumY)
                                     .Add(columnBracket: "\"NumZ\"", name: "NumZ", value: demoDefinition.NumZ)
-                                    .Add(columnBracket: "\"DateA\"", name: "DateA", value: demoDefinition.DateA)
-                                    .Add(columnBracket: "\"DateB\"", name: "DateB", value: demoDefinition.DateB)
-                                    .Add(columnBracket: "\"DateC\"", name: "DateC", value: demoDefinition.DateC)
-                                    .Add(columnBracket: "\"DateD\"", name: "DateD", value: demoDefinition.DateD)
-                                    .Add(columnBracket: "\"DateE\"", name: "DateE", value: demoDefinition.DateE)
-                                    .Add(columnBracket: "\"DateF\"", name: "DateF", value: demoDefinition.DateF)
-                                    .Add(columnBracket: "\"DateG\"", name: "DateG", value: demoDefinition.DateG)
-                                    .Add(columnBracket: "\"DateH\"", name: "DateH", value: demoDefinition.DateH)
-                                    .Add(columnBracket: "\"DateI\"", name: "DateI", value: demoDefinition.DateI)
-                                    .Add(columnBracket: "\"DateJ\"", name: "DateJ", value: demoDefinition.DateJ)
-                                    .Add(columnBracket: "\"DateK\"", name: "DateK", value: demoDefinition.DateK)
-                                    .Add(columnBracket: "\"DateL\"", name: "DateL", value: demoDefinition.DateL)
-                                    .Add(columnBracket: "\"DateM\"", name: "DateM", value: demoDefinition.DateM)
-                                    .Add(columnBracket: "\"DateN\"", name: "DateN", value: demoDefinition.DateN)
-                                    .Add(columnBracket: "\"DateO\"", name: "DateO", value: demoDefinition.DateO)
-                                    .Add(columnBracket: "\"DateP\"", name: "DateP", value: demoDefinition.DateP)
-                                    .Add(columnBracket: "\"DateQ\"", name: "DateQ", value: demoDefinition.DateQ)
-                                    .Add(columnBracket: "\"DateR\"", name: "DateR", value: demoDefinition.DateR)
-                                    .Add(columnBracket: "\"DateS\"", name: "DateS", value: demoDefinition.DateS)
-                                    .Add(columnBracket: "\"DateT\"", name: "DateT", value: demoDefinition.DateT)
-                                    .Add(columnBracket: "\"DateU\"", name: "DateU", value: demoDefinition.DateU)
-                                    .Add(columnBracket: "\"DateV\"", name: "DateV", value: demoDefinition.DateV)
-                                    .Add(columnBracket: "\"DateW\"", name: "DateW", value: demoDefinition.DateW)
-                                    .Add(columnBracket: "\"DateX\"", name: "DateX", value: demoDefinition.DateX)
-                                    .Add(columnBracket: "\"DateY\"", name: "DateY", value: demoDefinition.DateY)
-                                    .Add(columnBracket: "\"DateZ\"", name: "DateZ", value: demoDefinition.DateZ)
+                                    .Add(columnBracket: "\"DateA\"",
+                                        name: "DateA",
+                                        value: demoDefinition.DateA.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateB\"",
+                                        name: "DateB",
+                                        value: demoDefinition.DateB.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateC\"",
+                                        name: "DateC",
+                                        value: demoDefinition.DateC.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateD\"",
+                                        name: "DateD",
+                                        value: demoDefinition.DateD.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateE\"",
+                                        name: "DateE",
+                                        value: demoDefinition.DateE.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateF\"",
+                                        name: "DateF",
+                                        value: demoDefinition.DateF.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateG\"",
+                                        name: "DateG",
+                                        value: demoDefinition.DateG.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateH\"",
+                                        name: "DateH",
+                                        value: demoDefinition.DateH.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateI\"",
+                                        name: "DateI",
+                                        value: demoDefinition.DateI.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateJ\"",
+                                        name: "DateJ",
+                                        value: demoDefinition.DateJ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateK\"",
+                                        name: "DateK",
+                                        value: demoDefinition.DateK.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateL\"",
+                                        name: "DateL",
+                                        value: demoDefinition.DateL.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateM\"",
+                                        name: "DateM",
+                                        value: demoDefinition.DateM.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateN\"",
+                                        name: "DateN",
+                                        value: demoDefinition.DateN.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateO\"",
+                                        name: "DateO",
+                                        value: demoDefinition.DateO.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateP\"",
+                                        name: "DateP",
+                                        value: demoDefinition.DateP.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateQ\"",
+                                        name: "DateQ",
+                                        value: demoDefinition.DateQ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateR\"",
+                                        name: "DateR",
+                                        value: demoDefinition.DateR.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateS\"",
+                                        name: "DateS",
+                                        value: demoDefinition.DateS.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateT\"",
+                                        name: "DateT",
+                                        value: demoDefinition.DateT.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateU\"",
+                                        name: "DateU",
+                                        value: demoDefinition.DateU.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateV\"",
+                                        name: "DateV",
+                                        value: demoDefinition.DateV.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateW\"",
+                                        name: "DateW",
+                                        value: demoDefinition.DateW.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateX\"",
+                                        name: "DateX",
+                                        value: demoDefinition.DateX.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateY\"",
+                                        name: "DateY",
+                                        value: demoDefinition.DateY.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
+                                    .Add(columnBracket: "\"DateZ\"",
+                                        name: "DateZ",
+                                        value: demoDefinition.DateZ.DemoTime(
+                                            context: context,
+                                            demoModel: demoModel))
                                     .Add(columnBracket: "\"DescriptionA\"", name: "DescriptionA", value: demoDefinition.DescriptionA)
                                     .Add(columnBracket: "\"DescriptionB\"", name: "DescriptionB", value: demoDefinition.DescriptionB)
                                     .Add(columnBracket: "\"DescriptionC\"", name: "DescriptionC", value: demoDefinition.DescriptionC)
@@ -973,6 +1266,86 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static void InitializeWikis(
+            Context context,
+            DemoModel demoModel,
+            string parentId,
+            Dictionary<string, long> idHash,
+            Dictionary<long, SiteSettings> ssHash)
+        {
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .Where(o => o.ParentId == parentId)
+                .Where(o => o.Type == "Wikis")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition =>
+                {
+                    var creator = idHash.Get(demoDefinition.Creator);
+                    var updator = idHash.Get(demoDefinition.Updator);
+                    context.UserId = updator.ToInt();
+                    var wikiId = Repository.ExecuteScalar_response(
+                        context: context,
+                        selectIdentity: true,
+                        statements: new SqlStatement[]
+                        {
+                            Rds.InsertItems(
+                                selectIdentity: true,
+                                param: Rds.ItemsParam()
+                                    .ReferenceType("Wikis")
+                                    .SiteId(idHash.Get(demoDefinition.ParentId))
+                                    .Creator(creator)
+                                    .Updator(updator)
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
+                                addUpdatorParam: false),
+                            Rds.InsertWikis(
+                                param: Rds.WikisParam()
+                                    .SiteId(idHash.Get(demoDefinition.ParentId))
+                                    .WikiId(raw: Def.Sql.Identity)
+                                    .Title(demoDefinition.Title)
+                                    .Body(demoDefinition.Body.Replace(idHash))
+                                    .Comments(Comments(
+                                        context: context,
+                                        demoModel: demoModel,
+                                        idHash: idHash,
+                                        parentId: demoDefinition.Id))
+                                    .Creator(creator)
+                                    .Updator(updator)
+                                    .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel))
+                                    .UpdatedTime(demoDefinition.UpdatedTime.DemoTime(
+                                        context: context,
+                                        demoModel: demoModel)),
+                                addUpdatorParam: false)
+                        }).Id.ToLong();
+                    idHash.Add(demoDefinition.Id, wikiId);
+                    var ss = ssHash.Get(idHash.Get(demoDefinition.ParentId));
+                    var wikiModel = new WikiModel(
+                        context: context,
+                        ss: ss,
+                        wikiId: wikiId);
+                    var fullText = wikiModel.FullText(context: context, ss: ss);
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        statements: Rds.UpdateItems(
+                            param: Rds.ItemsParam()
+                                .SiteId(wikiModel.SiteId)
+                                .Title(wikiModel.Title.DisplayValue)
+                                .FullText(fullText, _using: fullText != null),
+                            where: Rds.ItemsWhere().ReferenceId(wikiModel.WikiId),
+                            addUpdatorParam: false,
+                            addUpdatedTimeParam: false));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static void InitializeLinks(
             Context context, DemoModel demoModel, Dictionary<string, long> idHash)
         {
@@ -1000,6 +1373,7 @@ namespace Implem.Pleasanter.Models
                             .SourceId(idHash.Get(demoDefinition.Id)))));
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
+                .Where(o => IsItemDefinition(o))
                 .Where(o => o.ClassA.RegexExists("^#[A-Za-z0-9_]+?#$"))
                 .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .ForEach(demoDefinition =>
@@ -1014,12 +1388,55 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void InitializePermissions(Context context, Dictionary<string, long> idHash)
+        private static bool IsItemDefinition(DemoDefinition demoDefinition)
+        {
+            switch (demoDefinition.Type) {
+                case "Sites":
+                case "Issues":
+                case "Results":
+                case "Wikis":
+                    return true;
+                default:
+                   return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void InitializePermissions(
+            Context context,
+            DemoModel demoModel,
+            Dictionary<string, long> idHash)
         {
             Def.DemoDefinitionCollection
                 .Where(o => o.Language == context.Language)
+                .Where(o => o.Type == "Permissions")
+                .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
+                .ForEach(demoDefinition => Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.InsertPermissions(
+                        param: Rds.PermissionsParam()
+                            .ReferenceId(idHash.Get(demoDefinition.ParentId))
+                            .DeptId(idHash.Get(demoDefinition.ClassA).ToInt())
+                            .GroupId(idHash.Get(demoDefinition.ClassB).ToInt())
+                            .UserId(demoDefinition.ClassC == "-1"
+                                ? -1
+                                : idHash.Get(demoDefinition.ClassC).ToInt())
+                            .PermissionType(demoDefinition.NumA)
+                            .Creator(idHash.Get(demoDefinition.Creator).ToInt())
+                            .Updator(idHash.Get(demoDefinition.Updator).ToInt())
+                            .CreatedTime(demoDefinition.CreatedTime.DemoTime(
+                                context: context,
+                                demoModel: demoModel))
+                            .UpdatedTime(demoDefinition.CreatedTime.DemoTime(
+                                context: context,
+                                demoModel: demoModel)),
+                        addUpdatorParam: false)));
+            Def.DemoDefinitionCollection
+                .Where(o => o.Language == context.Language)
                 .Where(o => o.Type == "Sites")
-                .Where(o => o.ParentId == string.Empty)
+                .Where(o => o.ParentId == string.Empty && !IsPermissionDefined(o.Id))
                 .OrderBy(o => o.Id.RegexFirst("[0-9]+").ToInt())
                 .Select(o => o.Id)
                 .ForEach(id =>
@@ -1032,18 +1449,26 @@ namespace Implem.Pleasanter.Models
                             .DeptId(0)
                             .UserId(idHash.Get(FirstUser(context: context)))
                             .PermissionType(Permissions.Manager())));
-                idHash.Where(o => o.Key.StartsWith("Dept")).Select(o => o.Value).ForEach(deptId =>
-                {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        statements: Rds.InsertPermissions(
-                            param: Rds.PermissionsParam()
-                                .ReferenceId(idHash.Get(id))
-                                .DeptId(deptId)
-                                .UserId(0)
-                                .PermissionType(Permissions.General())));
-                });
+                idHash.Where(o => o.Key.StartsWith("Dept"))
+                    .Select(o => o.Value)
+                    .ForEach(deptId =>
+                        Repository.ExecuteNonQuery(
+                            context: context,
+                            statements: Rds.InsertPermissions(
+                                param: Rds.PermissionsParam()
+                                    .ReferenceId(idHash.Get(id))
+                                    .DeptId(deptId)
+                                    .UserId(0)
+                                    .PermissionType(Permissions.General()))));
             });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool IsPermissionDefined(string siteId)
+        {
+            return Def.DemoDefinitionCollection.Any(o => o.Type == "Permissions" && o.ParentId == siteId);
         }
 
         /// <summary>
@@ -1114,7 +1539,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DateTime DemoTime(this DateTime self, Context context, DemoModel demoModel)
         {
-            return self.AddDays(demoModel.TimeLag).ToUniversal(context: context);
+            return self < Parameters.General.MinTime
+                ? self
+                : self.AddDays(demoModel.TimeLag).ToDateTime().ToUniversal(context: context);
         }
     }
 }

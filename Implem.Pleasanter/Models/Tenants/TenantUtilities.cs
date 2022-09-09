@@ -851,16 +851,17 @@ namespace Implem.Pleasanter.Models
             tenantModel.MethodType = tenantModel.TenantId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            return new TenantsResponseCollection(tenantModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, ss, tenantModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .Log(context.GetLog());
+            return new TenantsResponseCollection(
+                context: context,
+                tenantModel: tenantModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, ss, tenantModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int tenantId)
@@ -1139,9 +1140,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             tenantModel: tenantModel,
                             process: processes?.FirstOrDefault()));
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Response("id", tenantModel.TenantId.ToString())
                         .SetMemory("formChanged", false)
+                        .Messages(context.Messages)
                         .Href(Locations.Edit(
                             context: context,
                             controller: context.Controller,
@@ -1207,7 +1209,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new TenantsResponseCollection(tenantModel);
+                    var res = new TenantsResponseCollection(
+                        context: context,
+                        tenantModel: tenantModel);
                     return ResponseByUpdate(res, context, ss, tenantModel, processes)
                         .PrependComment(
                             context: context,
@@ -1344,7 +1348,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: tenantModel.Title.MessageDisplay(context: context)));
-                    var res = new TenantsResponseCollection(tenantModel);
+                    var res = new TenantsResponseCollection(
+                        context: context,
+                        tenantModel: tenantModel);
                     res
                         .SetMemory("formChanged", false)
                         .Invoke("back");
@@ -1382,11 +1388,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 tenantModel: tenantModel)));
-            return new TenantsResponseCollection(tenantModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new TenantsResponseCollection(
+                context: context,
+                tenantModel: tenantModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(

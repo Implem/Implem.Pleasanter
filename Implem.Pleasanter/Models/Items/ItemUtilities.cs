@@ -33,7 +33,7 @@ namespace Implem.Pleasanter.Models
             var formDataSet = new FormDataSet(
                 context: context,
                 ss: ss);
-            var res = new ResponseCollection().ClearFormData("Id");
+            var res = new ResponseCollection(context: context).ClearFormData("Id");
             formDataSet
                 .Where(o => !o.Suffix.IsNullOrEmpty())
                 .Where(o => o.Id == id)

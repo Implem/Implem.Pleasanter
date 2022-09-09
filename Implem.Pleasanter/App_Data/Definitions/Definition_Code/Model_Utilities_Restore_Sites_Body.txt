@@ -135,7 +135,7 @@ public static string RestoreFromHistory(Context context, SiteSettings ss, long s
                 message: Messages.RestoredFromHistory(
                     context: context,
                     data: ver.First().ToString()));
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .SetMemory("formChanged", false)
                 .Href(Locations.ItemEdit(
                     context: context,

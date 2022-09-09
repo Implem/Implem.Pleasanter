@@ -160,6 +160,20 @@ namespace Implem.Pleasanter.Libraries.Extensions
             this HtmlBuilder hb,
             Context context,
             Column column,
+            double value,
+            int? tabIndex,
+            ServerScriptModelColumn serverScriptModelColumn = null)
+        {
+            return hb.Td(
+                css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                action: () => hb
+                    .Text(text: value.ToString(column.StringFormat) + column.Unit));
+        }
+
+        public static HtmlBuilder Td(
+            this HtmlBuilder hb,
+            Context context,
+            Column column,
             DateTime value,
             int? tabIndex,
             ServerScriptModelColumn serverScriptModelColumn = null)

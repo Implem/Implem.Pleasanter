@@ -18,7 +18,7 @@
         case Error.Types.None: break;
         default: return invalid.MessageJson(context: context);
     }
-    return new ResponseCollection()
+    return new ResponseCollection(context: context)
         .Html(
             "#SeparateSettingsDialog",
             new HtmlBuilder().SeparateSettings(

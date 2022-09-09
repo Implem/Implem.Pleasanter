@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_Index_NoSort",
     "Indent": "7",
-    "Include": "Sites"
+    "Include": "Sites,SysLogs"
 }

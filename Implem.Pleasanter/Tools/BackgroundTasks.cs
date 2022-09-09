@@ -22,7 +22,7 @@ namespace Implem.Pleasanter.Tools
                 Thread.Sleep(Parameters.BackgroundTask.Interval);
                 LatestTime = DateTime.Now;
             }
-            return new ResponseCollection().ToJson();
+            return new ResponseCollection(context: context).ToJson();
         }
     }
 }

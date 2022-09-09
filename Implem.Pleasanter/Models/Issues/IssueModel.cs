@@ -910,9 +910,20 @@ namespace Implem.Pleasanter.Models
             {
                 return string.Empty;
             }
-            return PropertyValue(
-                context: context,
-                column: column);
+            switch (column.TypeName)
+            {
+                case "datetime":
+                    return ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ?.ToString() ?? String.Empty;
+                default:
+                    return PropertyValue(
+                        context: context,
+                        column: column);
+            }
         }
 
         public string ToDisplay(Context context, SiteSettings ss, Column column, List<string> mine)
@@ -2860,6 +2871,37 @@ namespace Implem.Pleasanter.Models
                     ss: ss);
             }
             return StatusControlHash.Get(column.ColumnName);
+        }
+
+        public IssueModel CopyAndInit(
+            Context context,
+            SiteSettings ss)
+        {
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                methodType: MethodTypes.New);
+            issueModel.SetByModel(this);
+            issueModel.IssueId = 0;
+            issueModel.Ver = 1;
+            issueModel.Comments = new Comments();
+            issueModel.AccessStatus = Databases.AccessStatuses.Initialized;
+            issueModel.SetCopyDefault(
+                context: context,
+                ss: ss);
+            issueModel.SetByForm(
+                context: context,
+                ss: ss,
+                formData: context.Forms);
+            issueModel.SetBySettings(
+                context: context,
+                ss: ss,
+                formData: context.Forms);
+            issueModel.SetByStatusControls(
+                context: context,
+                ss: ss,
+                force: true);
+            return issueModel;
         }
 
         public void SetByModel(IssueModel issueModel)

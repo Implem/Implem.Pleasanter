@@ -364,6 +364,21 @@ namespace Implem.Pleasanter.Controllers
                     tenant.TenantId = Parameters.Authentication.SamlParameters.SamlTenantId;
                 }
             }
+            if (Parameters.Authentication.RejectUnregisteredUser)
+            {
+                var exists = Repository.ExecuteScalar_int(
+                    context: context,
+                    statements: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UsersCount(),
+                        where: Rds.UsersWhere()
+                            .TenantId(tenant.TenantId)
+                            .LoginId(loginId.Value))) > 0;
+                if (!exists)
+                {
+                    log.Finish(context: context);
+                    return new RedirectResult(Locations.SamlLoginFailed(context: context));
+                }
+            }
             try
             {
                 Saml.UpdateOrInsert(

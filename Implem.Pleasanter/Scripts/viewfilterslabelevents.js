@@ -27,21 +27,30 @@
                     ? $this.outerWidth()
                     : $menuNegative.outerWidth())
                 .show();
-        }, 700, $(this));
+        }, 200, $(this));
     });
-    $(document).on('mouseenter', '#ViewFilters', function () {
+    $(document).on('mouseenter', '#ViewFiltersLabelMenus', function () {
         clearInterval(intervalTimer);
     });
     $(document).on('mouseleave', '.menu-negative', function () {
-        if (!$('.ui-multiselect-menu:visible').length) {
+        clearTimeout(timer);
+        clearInterval(intervalTimer);
+        intervalTimer = setInterval(function () {
             $('.menu-negative:visible').hide();
-        }
+        }, 200);
+    });
+    $(document).on('mouseleave', '#ViewFilters label', function () {
+        clearTimeout(timer);
+        clearInterval(intervalTimer);
+        intervalTimer = setInterval(function () {
+            $('.menu-negative:visible').hide();
+        }, 200);
     });
     $(document).on('click', '.menu-negative > li.negative', function (e) {
         var data = {};
         data.ViewFilters_Negative = $("#ViewFiltersLabelMenus p").text();
         $p.ajax(
-            $('#ApplicationPath').val() + 'items/' + $p.id() + '/index',
+            location.href,
             'POST',
             data);
     });
@@ -49,7 +58,7 @@
         var data = {};
         data.ViewFilters_Positive = $("#ViewFiltersLabelMenus p").text();
         $p.ajax(
-            $('#ApplicationPath').val() + 'items/' + $p.id() + '/index',
+            location.href,
             'POST',
             data);
     });

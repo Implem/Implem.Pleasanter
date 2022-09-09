@@ -17,31 +17,33 @@
             ss: ss,
             #modelName#Model: #modelName#Model)
         : editInDialog
-            ? new #TableName#ResponseCollection(#modelName#Model)
-                .Response("id", #modelName#Model.#ModelName#Id.ToString())
-                .Html("#EditInDialogBody", Editor(
-                    context: context,
-                    ss: ss,
-                    #modelName#Model: #modelName#Model,
-                    editInDialog: editInDialog))
-                .Invoke("openEditorDialog")
-                .Messages(context.Messages)
-                .Events("on_editor_load")
-                .Log(context.GetLog())
-            : new #TableName#ResponseCollection(#modelName#Model)
-                .Response("id", #modelName#Model.#ModelName#Id.ToString())
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, <!--Model_SiteSettings-->#modelName#Model))
-                .Val("#Id", #modelName#Model.#ModelName#Id.ToString())
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Invoke("initRelatingColumnEditor")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData()
-                .Events("on_editor_load")
-                .Log(context.GetLog());
+            ? new #TableName#ResponseCollection(
+                context: context,
+                #modelName#Model: #modelName#Model)
+                    .Response("id", #modelName#Model.#ModelName#Id.ToString())
+                    .Html("#EditInDialogBody", Editor(
+                        context: context,
+                        ss: ss,
+                        #modelName#Model: #modelName#Model,
+                        editInDialog: editInDialog))
+                    .Invoke("openEditorDialog")
+                    .Messages(context.Messages)
+                    .Events("on_editor_load")
+            : new #TableName#ResponseCollection(
+                context: context,
+                #modelName#Model: #modelName#Model)
+                    .Response("id", #modelName#Model.#ModelName#Id.ToString())
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, <!--Model_SiteSettings-->#modelName#Model))
+                    .Val("#Id", #modelName#Model.#ModelName#Id.ToString())
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Invoke("initRelatingColumnEditor")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData()
+                    .Events("on_editor_load");
 }
 
 private static ResponseCollection EditorFields(
@@ -57,14 +59,14 @@ private static ResponseCollection EditorFields(
     {
         case Error.Types.None: break;
         default:
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .Message(invalid.Message(context: context))
                 .Messages(context.Messages);
     }
     var serverScriptModelRow = #modelName#Model.SetByBeforeOpeningPageServerScript(
         context: context,
         ss: ss);
-    var ret = new ResponseCollection()
+    var ret = new ResponseCollection(context: context)
         .FieldResponse(
             context: context,
             ss: ss,
@@ -83,8 +85,7 @@ private static ResponseCollection EditorFields(
                 serverScriptModelRow: serverScriptModelRow),
             _using: ss.SwitchCommandButtonsAutoPostBack == true)
         .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
-        .Messages(context.Messages)
-        .Log(context.GetLog());
+        .Messages(context.Messages);
     return ret;
 }
 

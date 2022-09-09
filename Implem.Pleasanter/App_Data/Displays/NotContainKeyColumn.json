@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotContainKeyColumn",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "It does not contain key column."
+        },
+        {
+            "Language": "zh",
+            "Body": "它不包含键列。"
+        },
+        {
+            "Language": "ja",
+            "Body": "キーに指定した項目が含まれていません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Es enthält keine Schlüsselspalte."
+        },
+        {
+            "Language": "ko",
+            "Body": "키 열이 포함되어 있지 않습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No contiene columna clave."
+        },
+        {
+            "Language": "vn",
+            "Body": "Nó không chứa cột chính."
+        }
+    ]
+}

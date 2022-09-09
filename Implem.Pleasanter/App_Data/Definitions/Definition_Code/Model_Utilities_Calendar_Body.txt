@@ -182,7 +182,7 @@ public static string CalendarJson(
                 context: context,
                 dataRows: dataRows);
     return inRange
-        ? new ResponseCollection()
+        ? new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -209,7 +209,7 @@ public static string CalendarJson(
                         changedItemId: changedItemId))
             .Events("on_calendar_load")
             .ToJson()
-        : new ResponseCollection()
+        : new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,

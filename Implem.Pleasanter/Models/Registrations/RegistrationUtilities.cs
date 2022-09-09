@@ -142,6 +142,14 @@ namespace Implem.Pleasanter.Models
                         id: ss.SiteId)
                     .MoveDialog(context: context, bulk: true)
                     .Div(attributes: new HtmlAttributes()
+                        .Id("SetNumericRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.NumericRange(context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("SetDateRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.DateRange(context)))
+                    .Div(attributes: new HtmlAttributes()
                         .Id("ExportSelectorDialog")
                         .Class("dialog")
                         .Title(Displays.Export(context: context)))
@@ -169,7 +177,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            return new ResponseCollection()
+            return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
@@ -274,7 +282,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return (res ?? new ResponseCollection())
+            return (res ?? new ResponseCollection(context: context))
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -318,7 +326,6 @@ namespace Implem.Pleasanter.Models
                 .Paging("#Grid")
                 .Message(message)
                 .Messages(context.Messages)
-                .Log(context.GetLog())
                 .ToJson();
         }
 
@@ -409,7 +416,6 @@ namespace Implem.Pleasanter.Models
                         message: Messages.NotFound(context: context),
                         target: "row_" + registrationId)
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson()
                 : res
                     .ReplaceAll(
@@ -427,7 +433,6 @@ namespace Implem.Pleasanter.Models
                             checkRow: false,
                             idColumn: "RegistrationId"))
                     .Messages(context.Messages)
-                    .Log(context.GetLog())
                     .ToJson();
         }
 
@@ -1421,16 +1426,17 @@ namespace Implem.Pleasanter.Models
             registrationModel.MethodType = registrationModel.RegistrationId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            return new RegistrationsResponseCollection(registrationModel)
-                .Invoke("clearDialogs")
-                .ReplaceAll("#MainContainer", Editor(context, ss, registrationModel))
-                .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                .SetMemory("formChanged", false)
-                .Invoke("setCurrentIndex")
-                .Message(message)
-                .Messages(context.Messages)
-                .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"))
-                .Log(context.GetLog());
+            return new RegistrationsResponseCollection(
+                context: context,
+                registrationModel: registrationModel)
+                    .Invoke("clearDialogs")
+                    .ReplaceAll("#MainContainer", Editor(context, ss, registrationModel))
+                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
+                    .SetMemory("formChanged", false)
+                    .Invoke("setCurrentIndex")
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
         }
 
         private static List<int> GetSwitchTargets(Context context, SiteSettings ss, int registrationId)
@@ -1756,7 +1762,7 @@ namespace Implem.Pleasanter.Models
                     {
                         outgoingMailModel.Send(context: context, ss: new SiteSettings());
                     });
-                    return new ResponseCollection()
+                    return new ResponseCollection(context: context)
                         .Response("id", registrationModel.RegistrationId.ToString())
                         .SetMemory("formChanged", false)
                         .Href(Locations.Edit(
@@ -1819,7 +1825,9 @@ namespace Implem.Pleasanter.Models
             switch (errorData.Type)
             {
                 case Error.Types.None:
-                    var res = new RegistrationsResponseCollection(registrationModel);
+                    var res = new RegistrationsResponseCollection(
+                        context: context,
+                        registrationModel: registrationModel);
                     return ResponseByUpdate(res, context, ss, registrationModel, processes)
                         .PrependComment(
                             context: context,
@@ -1956,7 +1964,9 @@ namespace Implem.Pleasanter.Models
                         message: Messages.Deleted(
                             context: context,
                             data: registrationModel.Title.MessageDisplay(context: context)));
-                    var res = new RegistrationsResponseCollection(registrationModel);
+                    var res = new RegistrationsResponseCollection(
+                        context: context,
+                        registrationModel: registrationModel);
                     res
                         .SetMemory("formChanged", false)
                         .Invoke("back");
@@ -1994,11 +2004,13 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 columns: columns,
                                 registrationModel: registrationModel)));
-            return new RegistrationsResponseCollection(registrationModel)
-                .Html("#FieldSetHistories", hb)
-                .Message(message)
-                .Messages(context.Messages)
-                .ToJson();
+            return new RegistrationsResponseCollection(
+                context: context,
+                registrationModel: registrationModel)
+                    .Html("#FieldSetHistories", hb)
+                    .Message(message)
+                    .Messages(context.Messages)
+                    .ToJson();
         }
 
         private static void HistoriesTableBody(
@@ -2318,7 +2330,9 @@ namespace Implem.Pleasanter.Models
                     }.Send(
                         context: context,
                         ss: new SiteSettings());
-                    var res = new RegistrationsResponseCollection(registrationModel);
+                    var res = new RegistrationsResponseCollection(
+                        context: context,
+                        registrationModel: registrationModel);
                     return ResponseByApprovalRequest(
                         context: context,
                         ss: ss,
@@ -2404,7 +2418,9 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: new SiteSettings());
             registrationModel.Approval(context: context);
-            var res = new RegistrationsResponseCollection(registrationModel);
+            var res = new RegistrationsResponseCollection(
+                context: context,
+                registrationModel: registrationModel);
             return ResponseByApproval(res, context, ss, registrationModel)
                 .PrependComment(
                     context: context,
