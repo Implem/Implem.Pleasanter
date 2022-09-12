@@ -71,7 +71,7 @@
         },
         {
             "ColumnName": "Status",
-            "ChoicesText": "200,In_preparation,Preparation,status-inprogress\n300,Wait_an_approval,Waiting,status-review\n900,Approved,Approved,status-closed\n910,Pending,Pending,status-rejected"
+            "ChoicesText": "100,In_preparation,Preparation,status-inprogress\n300,Wait_an_approval,Waiting,status-review\n900,Approved,Approved,status-closed\n910,Pending,Pending,status-rejected"
         }
     ],
     "Aggregations": [
