@@ -153,8 +153,8 @@ namespace Implem.Pleasanter.NetCore
                 services.AddHostedService<TimerBackgroundService>();
             }
             
-            var blobContainerUri = configuration["DataProtectionBlobContainerUri"];
-            var keyIdentifier = configuration["DataProtectionKeyIdentifier"];
+            var blobContainerUri = Parameters.Security.DataProtection.BlobContainerUri;
+            var keyIdentifier = Parameters.Security.DataProtection.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
                 && !keyIdentifier.IsNullOrEmpty())
             {
