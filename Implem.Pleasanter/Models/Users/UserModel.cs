@@ -2502,6 +2502,11 @@ namespace Implem.Pleasanter.Models
                 }
             }
             if (get) Get(context: context, ss: ss);
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel != null)
+            {
+                UpdateMailAddresses(context: context, userApiModel: userApiModel);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2585,9 +2590,17 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
             if (updateMailAddresses)
             {
-                UpdateMailAddresses(context: context);
+                if (userApiModel != null)
+                {
+                    UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                }
+                else
+                {
+                    UpdateMailAddresses(context: context);
+                }
             }
             if (refleshSiteInfo)
             {
@@ -3465,6 +3478,45 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     transactional: true,
                     statements: statements.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateMailAddresses(Context context, UserApiModel userApiModel)
+        {
+            if (UserId > 0 && userApiModel.MailAddresses.Any())
+            {
+                var mailAddresses = userApiModel.MailAddresses
+                    .OrderBy(o => o)
+                    .Join();
+                var where = Rds.MailAddressesWhere()
+                    .OwnerId(UserId)
+                    .OwnerType("Users");
+                if (new MailAddressCollection(
+                    context: context,
+                    where: where)
+                        .Select(o => o.MailAddress)
+                        .OrderBy(o => o)
+                        .Join() != mailAddresses)
+                {
+                    var statements = new List<SqlStatement>()
+                    {
+                        Rds.PhysicalDeleteMailAddresses(where: where)
+                    };
+                    userApiModel.MailAddresses
+                        .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
+                        .ForEach(mailAddress =>
+                            statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                                .OwnerId(UserId)
+                                .OwnerType("Users")
+                                .MailAddress(mailAddress))));
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: statements.ToArray());
+                }
             }
         }
 

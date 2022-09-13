@@ -1,6 +1,14 @@
-﻿if (updateMailAddresses)
+﻿var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+if (updateMailAddresses)
 {
-    UpdateMailAddresses(context: context);
+    if (userApiModel != null)
+    {
+        UpdateMailAddresses(context: context, userApiModel: userApiModel);
+    }
+    else
+    {
+        UpdateMailAddresses(context: context);
+    }
 }
 if (refleshSiteInfo)
 {

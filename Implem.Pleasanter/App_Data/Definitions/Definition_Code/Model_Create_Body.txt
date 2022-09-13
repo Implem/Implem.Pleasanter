@@ -48,6 +48,7 @@
 
 <!--Model_ReloadPermissions-->
 <!--Model_InsertItemsAfter-->
+<!--Model_OnCreated_Users-->
 <!--Model_OnCreated_ServerScript-->
 <!--Model_SetProcessMatchConditionsExec-->
 
