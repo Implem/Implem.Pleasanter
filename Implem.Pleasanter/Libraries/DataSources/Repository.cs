@@ -116,24 +116,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                     };
                                 }
                                 count = statement is SqlDelete
-                                ? context.SqlResult.DeleteCount(
-                                    data: Rds.ExecuteTable(
-                                        context: context,
-                                        dbTransaction: transaction,
-                                        dbConnection: connection,
-                                        statements: statement))
-                                : statement is SqlRestore
-                                ? context.SqlResult.RestoreCount(
-                                    data: Rds.ExecuteTable(
-                                        context: context,
-                                        dbTransaction: transaction,
-                                        dbConnection: connection,
-                                        statements: statement))
-                                : Rds.ExecuteNonQuery(
-                                    context: context,
-                                    dbTransaction: transaction,
-                                    dbConnection: connection,
-                                    statements: statement);
+                                    ? context.SqlResult.DeleteCount(
+                                        data: Rds.ExecuteTable(
+                                            context: context,
+                                            dbTransaction: transaction,
+                                            dbConnection: connection,
+                                            statements: statement))
+                                    : statement is SqlRestore
+                                        ? context.SqlResult.RestoreCount(
+                                            data: Rds.ExecuteTable(
+                                                context: context,
+                                                dbTransaction: transaction,
+                                                dbConnection: connection,
+                                                statements: statement))
+                                        : Rds.ExecuteNonQuery(
+                                            context: context,
+                                            dbTransaction: transaction,
+                                            dbConnection: connection,
+                                            statements: statement);
                             }
                         }
                     }
