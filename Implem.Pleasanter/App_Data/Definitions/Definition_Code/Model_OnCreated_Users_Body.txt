@@ -1,5 +1,8 @@
 ﻿var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
 if (userApiModel != null)
 {
-    UpdateMailAddresses(context: context, userApiModel: userApiModel);
+    if (userApiModel.MailAddresses != null)
+    {
+        UpdateMailAddresses(context: context, userApiModel: userApiModel);
+    }
 }

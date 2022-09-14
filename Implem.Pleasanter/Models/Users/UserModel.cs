@@ -2505,7 +2505,10 @@ namespace Implem.Pleasanter.Models
             var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
             if (userApiModel != null)
             {
-                UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                if (userApiModel.MailAddresses != null)
+                {
+                    UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                }
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -2595,7 +2598,10 @@ namespace Implem.Pleasanter.Models
             {
                 if (userApiModel != null)
                 {
-                    UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                    if (userApiModel.MailAddresses != null)
+                    {
+                        UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                    }
                 }
                 else
                 {
@@ -3486,7 +3492,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateMailAddresses(Context context, UserApiModel userApiModel)
         {
-            if (UserId > 0 && userApiModel.MailAddresses.Any())
+            if (UserId > 0)
             {
                 var mailAddresses = userApiModel.MailAddresses
                     .OrderBy(o => o)
@@ -3505,13 +3511,16 @@ namespace Implem.Pleasanter.Models
                     {
                         Rds.PhysicalDeleteMailAddresses(where: where)
                     };
-                    userApiModel.MailAddresses
-                        .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
-                        .ForEach(mailAddress =>
-                            statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
-                                .OwnerId(UserId)
-                                .OwnerType("Users")
-                                .MailAddress(mailAddress))));
+                    if (userApiModel.MailAddresses.Any())
+                    {
+                        userApiModel.MailAddresses
+                            .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
+                            .ForEach(mailAddress =>
+                                statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                                    .OwnerId(UserId)
+                                    .OwnerType("Users")
+                                    .MailAddress(mailAddress))));
+                    }
                     Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
