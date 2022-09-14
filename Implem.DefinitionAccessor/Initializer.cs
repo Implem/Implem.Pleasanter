@@ -169,18 +169,18 @@ namespace Implem.DefinitionAccessor
                 Parameters.CommercialLicense()
                     ? "ee"
                     : "com");
-            if(Parameters.Security.DataProtection == null)
+            if(Parameters.Security.AspNetCoreDataProtection == null)
             {
-                Parameters.Security.DataProtection = new DataProtection();
+                Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
             }
-            Parameters.Security.DataProtection.BlobContainerUri = Strings.CoalesceEmpty(
-                Parameters.Security.DataProtection.BlobContainerUri,
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_DataProtection_BlobContainerUri"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_DataProtection_BlobContainerUri"));
-            Parameters.Security.DataProtection.KeyIdentifier = Strings.CoalesceEmpty(
-                Parameters.Security.DataProtection.KeyIdentifier,
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_DataProtection_KeyIdentifier"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_DataProtection_KeyIdentifier"));
+            Parameters.Security.AspNetCoreDataProtection.BlobContainerUri = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.BlobContainerUri,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_BlobContainerUri"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_BlobContainerUri"));
+            Parameters.Security.AspNetCoreDataProtection.KeyIdentifier = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.KeyIdentifier,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyIdentifier"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyIdentifier"));
 
         }
 

@@ -18,6 +18,6 @@ namespace Implem.ParameterAccessor.Parts
         public int EnforcePasswordHistories;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
-        public DataProtection DataProtection;
+        public AspNetCoreDataProtection AspNetCoreDataProtection;
     }
 }

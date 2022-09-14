@@ -7,8 +7,8 @@
     "PasswordExpirationPeriod": 0,
     "JoeAccountCheck": true,
     "TokenCheck": false,
-    "SecureCookies": false,
-    "DisableMvcResponseHeader": false,
+    "SecureCookies": true,
+    "DisableMvcResponseHeader": true,
     "DisableDeletingSiteAuthentication": false,
     "AccessControlAllowOrigin": null,
     "EnforcePasswordHistories": 0,
@@ -87,7 +87,7 @@
         "AuthenticationCodeLength": 8,
         "AuthenticationCodeExpirationPeriod": 300
     },
-    "DataProtection": {
+    "AspNetCoreDataProtection": {
         "BlobContainerUri": null,
         "KeyIdentifier": null
     }
