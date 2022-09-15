@@ -4847,6 +4847,7 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param);
             var guid = Strings.NewGuid();
+            var siteIds = ss.GetIntegratedSites(context: context);
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -4854,7 +4855,7 @@ namespace Implem.Pleasanter.Models
                 {
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere()
-                            .SiteId(ss.SiteId)
+                            .SiteId_In(siteIds)
                             .ReferenceId_In(sub: sub),
                         param: Rds.ItemsParam()
                             .ReferenceType(guid)),
@@ -4865,7 +4866,7 @@ namespace Implem.Pleasanter.Models
                     Rds.RowCount(),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere()
-                            .SiteId(ss.SiteId)
+                            .SiteId_In(siteIds)
                             .ReferenceType(guid),
                         param: Rds.ItemsParam()
                             .SiteId(siteId)
