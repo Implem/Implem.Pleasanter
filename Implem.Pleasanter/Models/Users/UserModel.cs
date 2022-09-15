@@ -3511,16 +3511,13 @@ namespace Implem.Pleasanter.Models
                     {
                         Rds.PhysicalDeleteMailAddresses(where: where)
                     };
-                    if (userApiModel.MailAddresses.Any())
-                    {
-                        userApiModel.MailAddresses
-                            .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
-                            .ForEach(mailAddress =>
-                                statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
-                                    .OwnerId(UserId)
-                                    .OwnerType("Users")
-                                    .MailAddress(mailAddress))));
-                    }
+                    userApiModel.MailAddresses
+                        .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
+                        .ForEach(mailAddress =>
+                            statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                                .OwnerId(UserId)
+                                .OwnerType("Users")
+                                .MailAddress(mailAddress))));
                     Repository.ExecuteNonQuery(
                         context: context,
                         transactional: true,
