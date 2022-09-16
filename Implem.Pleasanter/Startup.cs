@@ -160,7 +160,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 var blobContainer = new BlobContainerClient(new Uri(blobContainerUri), new DefaultAzureCredential());
                 blobContainer.CreateIfNotExists();
-                var blobClient = blobContainer.GetBlobClient("keys.xml");
+                var blobClient = blobContainer.GetBlobClient(Parameters.Security.AspNetCoreDataProtection.KeyFileName);
                 services
                     .AddDataProtection()
                     .PersistKeysToAzureBlobStorage(blobClient)

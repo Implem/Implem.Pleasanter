@@ -181,7 +181,6 @@ namespace Implem.DefinitionAccessor
                 Parameters.Security.AspNetCoreDataProtection.KeyIdentifier,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyIdentifier"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyIdentifier"));
-
         }
 
         public static void ReloadParameters()

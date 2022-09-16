@@ -7,8 +7,8 @@
     "PasswordExpirationPeriod": 0,
     "JoeAccountCheck": true,
     "TokenCheck": false,
-    "SecureCookies": true,
-    "DisableMvcResponseHeader": true,
+    "SecureCookies": false,
+    "DisableMvcResponseHeader": false,
     "DisableDeletingSiteAuthentication": false,
     "AccessControlAllowOrigin": null,
     "EnforcePasswordHistories": 0,
@@ -89,6 +89,7 @@
     },
     "AspNetCoreDataProtection": {
         "BlobContainerUri": null,
-        "KeyIdentifier": null
+        "KeyIdentifier": null,
+        "KeyFileName": "Keys.xml"
     }
 }
