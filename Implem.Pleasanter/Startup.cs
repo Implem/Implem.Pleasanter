@@ -153,14 +153,14 @@ namespace Implem.Pleasanter.NetCore
                 services.AddHostedService<TimerBackgroundService>();
             }
             
-            var blobContainerUri = Parameters.Security.AspNetCoreDataProtection.BlobContainerUri;
-            var keyIdentifier = Parameters.Security.AspNetCoreDataProtection.KeyIdentifier;
+            var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
+            var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
                 && !keyIdentifier.IsNullOrEmpty())
             {
                 var blobContainer = new BlobContainerClient(new Uri(blobContainerUri), new DefaultAzureCredential());
                 blobContainer.CreateIfNotExists();
-                var blobClient = blobContainer.GetBlobClient(Parameters.Security.AspNetCoreDataProtection.KeyFileName);
+                var blobClient = blobContainer.GetBlobClient(Parameters.Security.AspNetCoreDataProtection?.KeyFileName ?? "keys.xml");
                 services
                     .AddDataProtection()
                     .PersistKeysToAzureBlobStorage(blobClient)
