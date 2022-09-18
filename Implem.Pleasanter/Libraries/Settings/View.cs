@@ -1743,7 +1743,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             Dictionary<string, string> columnFilterHash,
             long? siteId,
             long? id,
-            DateTime? timestamp)
+            DateTime? timestamp,
+            string filterColumnName = null)
         {
             columnFilterHash?
                 .Select(data => new
@@ -1752,13 +1753,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         columnName: data.Key),
                     ColumnName = data.Key,
+                    FilterColumnName = filterColumnName.IsNullOrEmpty()
+                        ? data.Key
+                        : filterColumnName + "\\" + data.Key,
                     data.Value,
                     Or = data.Key.StartsWith("or_"),
                     And = data.Key.StartsWith("and_"),
                     Eq = data.Key.StartsWith("eq_"),
                     NotEq = data.Key.StartsWith("notEq_"),
                     Groups = data.Key == "Groups",
-                    OnSelectingWhere = data.Key == "OnSelectingWhere"
+                    OnSelectingWhere = data.Key == "OnSelectingWhere",
                 })
                 .Where(o => o.Column != null
                     || o.Or
@@ -1771,7 +1775,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     var negative = UseNegativeFilters(
                         ss: ss,
-                        name: data.Column.ColumnName) == true;
+                        name: data.FilterColumnName) == true;
                     if (data.Or)
                     {
                         var orColumnFilterHash = data.Value.Deserialize<Dictionary<string, string>>();
@@ -1785,7 +1789,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 columnFilterHash: orColumnFilterHash,
                                 siteId: siteId,
                                 id: id,
-                                timestamp: timestamp);
+                                timestamp: timestamp,
+                                filterColumnName: data.FilterColumnName);
                             if (or.Any()) where.Or(or: or);
                         }
                     }
@@ -1802,7 +1807,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 columnFilterHash: andColumnFilterHash,
                                 siteId: siteId,
                                 id: id,
-                                timestamp: timestamp);
+                                timestamp: timestamp,
+                                filterColumnName: data.FilterColumnName);
                             if (and.Any()) where.Add(and: and);
                         }
                     }
