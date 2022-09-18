@@ -411,9 +411,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static void SetColumnFilterHashValues(
             Context context,
             View view,
-            ExpandoObject columnFilterHash,
-            bool noMerge)
+            ServerScriptModel data)
         {
+            var columnFilterHash = data.View.Filters;
+            var noMerge = data.View.FiltersCleared;
             // サーバスクリプトでview.ClearFilters()が呼ばれた後はnoMerge=tureで渡されてくる。
             // フィルタは既にクリアされているので、ここでフィルタをマージしないようにする。
             if (noMerge)
@@ -434,7 +435,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 }
                 view.ColumnFilterHash[columnFilter.Key] = Value(columnFilterHash, columnFilter.Key).ToString();
                 // サーバスクリプトでフィルタした際は否定条件をクリアする
-                view.ColumnFilterNegatives?.RemoveAll(o => o == columnFilter.Key);
+                data.View.ClearColumnFilterNegatives(view: view);
             });
         }
 
@@ -707,8 +708,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 SetColumnFilterHashValues(
                     context: context,
                     view: view,
-                    columnFilterHash: data.View.Filters,
-                    noMerge: data.View.FiltersCleared);
+                    data: data);
                 SetColumnSearchTypeHashValues(
                     context: context,
                     view: view,
