@@ -169,6 +169,18 @@ namespace Implem.DefinitionAccessor
                 Parameters.CommercialLicense()
                     ? "ee"
                     : "com");
+            if(Parameters.Security.AspNetCoreDataProtection == null)
+            {
+                Parameters.Security.AspNetCoreDataProtection = new AspNetCoreDataProtection();
+            }
+            Parameters.Security.AspNetCoreDataProtection.BlobContainerUri = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.BlobContainerUri,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_BlobContainerUri"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_BlobContainerUri"));
+            Parameters.Security.AspNetCoreDataProtection.KeyIdentifier = Strings.CoalesceEmpty(
+                Parameters.Security.AspNetCoreDataProtection.KeyIdentifier,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyIdentifier"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyIdentifier"));
         }
 
         public static void ReloadParameters()
