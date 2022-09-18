@@ -520,7 +520,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         filterName = filterName.Replace("_NumericRange", string.Empty);
                                         filterName = filterName.Replace("_DateRange", string.Empty);
                                     }
-                                    if (ColumnFilterNegatives?.Contains(filterName) != true)
+                                    if (UseNegativeFilters(
+                                        ss: ss,
+                                        name: filterName) != true)
                                     {
                                         if (ColumnFilterNegatives == null)
                                         {
@@ -542,7 +544,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         filterName = filterName.Replace("_NumericRange", string.Empty);
                                         filterName = filterName.Replace("_DateRange", string.Empty);
                                     }
-                                    if (ColumnFilterNegatives?.Contains(filterName) == true)
+                                    if (UseNegativeFilters(
+                                        ss: ss,
+                                        name: filterName) == true)
                                     {
                                         ColumnFilterNegatives.Remove(filterName);
                                     }
@@ -1505,10 +1509,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(
                     tableName: ss.ReferenceType,
                     columnBrackets: "\"Status\"".ToSingleArray(),
-                    _operator: ((ColumnFilterNegatives?.Contains("ViewFilters_Incomplete") == true)
-                        ? ">="
-                        : "<")
-                            + Parameters.General.CompletionCode);
+                    _operator: ((UseNegativeFilters(
+                        ss: ss,
+                        name: "ViewFilters_Incomplete") == true)
+                            ? ">="
+                            : "<")
+                                + Parameters.General.CompletionCode);
             }
             if (Own == true && HasOwnColumns(context, ss))
             {
@@ -1517,12 +1523,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                     columnBrackets: new string[] { "\"Manager\"", "\"Owner\"" },
                     name: "_U",
                     value: context.UserId,
-                    _operator: (ColumnFilterNegatives?.Contains("ViewFilters_Own") == true)
-                        ? "!="
-                        : "=",
-                    multiColumnOperator: (ColumnFilterNegatives?.Contains("ViewFilters_Own") == true)
-                        ? " and "
-                        : " or ");
+                    _operator: (UseNegativeFilters(
+                        ss: ss,
+                        name: "ViewFilters_Own") == true)
+                            ? "!="
+                            : "=",
+                    multiColumnOperator: (UseNegativeFilters(
+                        ss: ss,
+                        name: "ViewFilters_Own") == true)
+                            ? " and "
+                            : " or ");
             }
             if (NearCompletionTime == true && HasNearCompletionTimeColumns(
                 context: context,
@@ -1531,22 +1541,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(
                     tableName: ss.ReferenceType,
                     columnBrackets: "\"CompletionTime\"".ToSingleArray(),
-                    _operator: ((ColumnFilterNegatives?.Contains("ViewFilters_NearCompletionTime") == true)
-                        ? " not between"
-                        : " between")
-                            + " '{0}' and '{1}'".Params(
-                                DateTime.Now.ToLocal(context: context).Date
-                                    .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
-                                DateTime.Now.ToLocal(context: context).Date
-                                    .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
-                                    .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
-                                    .ToString("yyyy/M/d H:m:s.fff")));
+                    _operator: ((UseNegativeFilters(
+                        ss: ss,
+                        name: "ViewFilters_NearCompletionTime") == true)
+                            ? " not between"
+                            : " between")
+                                + " '{0}' and '{1}'".Params(
+                                    DateTime.Now.ToLocal(context: context).Date
+                                        .AddDays(ss.NearCompletionTimeBeforeDays.ToInt() * (-1)),
+                                    DateTime.Now.ToLocal(context: context).Date
+                                        .AddDays(ss.NearCompletionTimeAfterDays.ToInt() + 1)
+                                        .AddMilliseconds(Parameters.Rds.MinimumTime * -1)
+                                        .ToString("yyyy/M/d H:m:s.fff")));
             }
             if (Delay == true && HasDelayColumns(
                 context: context,
                 ss: ss))
             {
-                if (ColumnFilterNegatives?.Contains("ViewFilters_Delay") == true)
+                if (UseNegativeFilters(
+                    ss: ss,
+                    name: "ViewFilters_Delay") == true)
                 {
                     where.Or(or: new SqlWhereCollection()
                         .Add(
@@ -1581,7 +1595,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss))
             {
-                if (ColumnFilterNegatives?.Contains("ViewFilters_Overdue") == true)
+                if (UseNegativeFilters(
+                    ss: ss,
+                    name: "ViewFilters_Overdue") == true)
                 {
                     where.Or(or: new SqlWhereCollection()
                         .Add(
@@ -1753,7 +1769,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     || o.OnSelectingWhere)
                 .ForEach(data =>
                 {
-                    var negative = ColumnFilterNegatives?.Contains(data.Column.ColumnName) == true;
+                    var negative = UseNegativeFilters(
+                        ss: ss,
+                        name: data.Column.ColumnName) == true;
                     if (data.Or)
                     {
                         var orColumnFilterHash = data.Value.Deserialize<Dictionary<string, string>>();
@@ -2894,7 +2912,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             SqlWhereCollection where,
             bool itemJoin)
         {
-            var negative = ColumnFilterNegatives?.Contains("ViewFilters_Search") == true;
+            var negative = UseNegativeFilters(
+                ss: ss,
+                name: "ViewFilters_Search") == true;
             var collection = new SqlWhereCollection();
             Search?
                 .Replace("　", " ")
@@ -3082,6 +3102,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         break;
                 }
             }
+        }
+
+        public bool UseNegativeFilters(SiteSettings ss, string name)
+        {
+            return ss.UseNegativeFilters == true
+                && ColumnFilterNegatives?.Contains(name) == true;
         }
     }
 }

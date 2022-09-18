@@ -26,8 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: () => hb
                                 .ViewFiltersLabelMenus(
                                     context: context,
-                                    ss: ss,
-                                    view: view)
+                                    ss: ss)
                                 .DisplayControl(
                                     context: context,
                                     view: view,
@@ -125,9 +124,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             View view)
         {
-            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Incomplete") == true
-                ? "ui-icon-info"
-                : string.Empty;
+            var labelIcon = LabelIcon(
+                ss: ss,
+                view: view,
+                name: "ViewFilters_Incomplete");
             return ss.UseIncompleteFilter == true
                 ? hb
                     .FieldCheckBox(
@@ -148,11 +148,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder Own(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
-            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Own") == true
-                ? "ui-icon-info"
-                : string.Empty;
+            var labelIcon = LabelIcon(
+                ss: ss,
+                view: view,
+                name: "ViewFilters_Own");
             return ss.UseOwnFilter == true
                 ? hb
                     .FieldCheckBox(
@@ -173,11 +177,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         }
 
         public static HtmlBuilder NearCompletionTime(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view)
         {
-            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_NearCompletionTime") == true
-                ? "ui-icon-info"
-                : string.Empty;
+            var labelIcon = LabelIcon(
+                ss: ss,
+                view: view,
+                name: "ViewFilters_NearCompletionTime");
             return ss.UseNearCompletionTimeFilter == true
                 ? hb
                     .FieldCheckBox(
@@ -200,9 +208,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Delay(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Delay") == true
-                ? "ui-icon-info"
-                : string.Empty;
+            var labelIcon = LabelIcon(
+                ss: ss,
+                view: view,
+                name: "ViewFilters_Delay");
             return ss.UseDelayFilter == true
                 ? hb
                     .FieldCheckBox(
@@ -225,9 +234,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder Limit(
             this HtmlBuilder hb, Context context, SiteSettings ss, View view)
         {
-            var labelIcon = view.ColumnFilterNegatives?.Contains("ViewFilters_Overdue") == true
-                ? "ui-icon-info"
-                : string.Empty;
+            var labelIcon = LabelIcon(
+                ss: ss,
+                view: view,
+                name: "ViewFilters_Overdue");
             return ss.UseOverdueFilter == true
                 ? hb
                     .FieldCheckBox(
@@ -330,9 +340,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var idPrefix = onGridHeader ? "ViewFiltersOnGridHeader__" : "ViewFilters__";
             var action = onGridHeader ? "GridRows" : null;
             var controlOnly = onGridHeader;
-            var labelIcon = view.ColumnFilterNegatives?.Contains(column.ColumnName) == true
-                ? "ui-icon-info"
-                : string.Empty;
+            string labelIcon = LabelIcon(
+                ss: ss,
+                view: view,
+                name: column.ColumnName);
             switch (column.TypeName.CsTypeSummary())
             {
                 case Types.CsBool:
@@ -711,6 +722,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controlId: "UseFilterButton",
                         value: "1")
                 : hb;
+        }
+
+        private static string LabelIcon(SiteSettings ss, View view, string name)
+        {
+            return view.UseNegativeFilters(
+                ss: ss,
+                name: name) == true
+                    ? "ui-icon-info"
+                    : string.Empty;
         }
     }
 }
