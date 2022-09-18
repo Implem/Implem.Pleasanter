@@ -433,6 +433,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     view.ColumnFilterHash = new Dictionary<string, string>();
                 }
                 view.ColumnFilterHash[columnFilter.Key] = Value(columnFilterHash, columnFilter.Key).ToString();
+                // サーバスクリプトでフィルタした際は否定条件をクリアする
+                view.ColumnFilterNegatives?.RemoveAll(o => o == columnFilter.Key);
             });
         }
 
