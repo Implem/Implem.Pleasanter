@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public string OnSelectingOrderBy;
         public Dictionary<string, string> ColumnPlaceholders;
         public readonly ExpandoObject Filters = new ExpandoObject();
+        public readonly Dictionary<string, bool> FilterNegatives = new Dictionary<string, bool>();
         public readonly ExpandoObject SearchTypes = new ExpandoObject();
         public readonly ExpandoObject Sorters = new ExpandoObject();
         // ClearFilters()呼んだ時trueになる。サーバスクリプトからは変更禁止にしたいのでprivate setにしてある。
@@ -42,6 +43,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             //ExpandoObjectにはクリア系メソッドが無いのでキャストしてクリアする
             ((IDictionary<string, object>)Filters).Clear();
             FiltersCleared = true;
+        }
+
+        public void FilterNegative(string name, bool negative = true)
+        {
+            FilterNegatives.AddOrUpdate(name, negative);
         }
 
         /// <summary>

@@ -408,8 +408,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: column.ColumnName)));
         }
 
-        private static void SetColumnFilterHashValues(
-            Context context,
+        private static void SetColumnFilterHash(
             View view,
             ServerScriptModel data)
         {
@@ -439,8 +438,31 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             });
         }
 
-        private static void SetColumnSearchTypeHashValues(
-            Context context,
+        private static void SetColumnFilterNegatives(
+            View view,
+            ServerScriptModel data)
+        {
+            data.View.FilterNegatives?.ForEach(filterNegative =>
+            {
+                if (filterNegative.Value)
+                {
+                    if (view.ColumnFilterNegatives?.Contains(filterNegative.Key) != true)
+                    {
+                        if (view.ColumnFilterNegatives == null)
+                        {
+                            view.ColumnFilterNegatives = new List<string>();
+                        }
+                        view.ColumnFilterNegatives.Add(filterNegative.Key);
+                    }
+                }
+                else
+                {
+                    view.ColumnFilterNegatives?.RemoveAll(o => o == filterNegative.Key);
+                }
+            });
+        }
+
+        private static void SetColumnSearchTypeHash(
             View view,
             ExpandoObject columnSearchTypeHash)
         {
@@ -454,8 +476,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             });
         }
 
-        private static void SetColumnSorterHashValues(
-            Context context,
+        private static void SetColumnSorterHash(
             View view,
             ExpandoObject columnSorterHash)
         {
@@ -705,16 +726,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 view.OnSelectingWhere = data.View.OnSelectingWhere;
                 view.OnSelectingOrderBy = data.View.OnSelectingOrderBy;
                 view.ColumnPlaceholders = data.View.ColumnPlaceholders;
-                SetColumnFilterHashValues(
-                    context: context,
+                SetColumnFilterHash(
                     view: view,
                     data: data);
-                SetColumnSearchTypeHashValues(
-                    context: context,
+                SetColumnFilterNegatives(
+                    view: view,
+                    data: data);
+                SetColumnSearchTypeHash(
                     view: view,
                     columnSearchTypeHash: data.View.SearchTypes);
-                SetColumnSorterHashValues(
-                    context: context,
+                SetColumnSorterHash(
                     view: view,
                     columnSorterHash: data.View.Sorters);
             }
