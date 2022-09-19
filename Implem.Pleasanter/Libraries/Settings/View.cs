@@ -2890,10 +2890,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         withoutWiki: true))
                     {
+                        SqlJoinCollection join = null;
+                        if (tableName.Contains("~"))
+                        {
+                            // 親テーブルのリンク項目でソートする場合にはサブクエリのselectにjoinが必要
+                            join = ss.SqlJoinCollection(
+                                context: context,
+                                tableNames: tableName.ToSingleList());
+                        }
                         orderBy.Add(new SqlOrderBy(
                             orderType: data.Value,
                             sub: Rds.SelectItems(
                                 column: Rds.ItemsColumn().Title(),
+                                join: join,
                                 where: Rds.ItemsWhere()
                                     .SiteId_In(column.SiteSettings.Links
                                         .Where(o => o.SiteId > 0)
