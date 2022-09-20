@@ -54,6 +54,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Utilities_UpdatedMessage-->
 <!--Model_Utilities_BulkUpdate-->
 <!--Model_Utilities_UpdateByGrid-->
+<!--Model_Utilities_BulkProcess-->
 <!--Model_Utilities_UpdateByApi-->
 <!--Model_Utilities_UpsertByApi-->
 <!--Model_Utilities_Copy-->

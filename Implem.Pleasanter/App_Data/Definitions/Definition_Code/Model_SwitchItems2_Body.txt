@@ -384,6 +384,22 @@ public string UpdateByGrid(Context context)
     }
 }
 
+public string BulkProcess(Context context)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    switch (Site.SiteSettings.ReferenceType)
+    {
+
+<!--Model_BulkProcessCases-->
+
+        default:
+            return Messages.ResponseNotFound(context: context).ToJson();
+    }
+}
+
+
 public ContentResultInheritance UpdateByApi(Context context, string referenceType = null)
 {
     SetSite(

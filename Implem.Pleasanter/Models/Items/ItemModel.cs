@@ -1643,7 +1643,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings);
                 case "Results":
-                    return ResultUtilities.BulkUpdate(
+                    return ResultUtilities.BulkProcess(
                         context: context,
                         ss: Site.SiteSettings);
                 default:
