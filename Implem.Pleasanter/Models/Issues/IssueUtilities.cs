@@ -4049,6 +4049,90 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        public static string BulkProcess(Context context, SiteSettings ss)
+        {
+            if (!context.CanUpdate(ss: ss))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var processId = context.Forms.Int("BulkProcessingItems");
+            var process = ss.Processes
+                .Where(o => o.Accessable(context: context))
+                .FirstOrDefault(o => o.Id == processId);
+            if (process == null)
+            {
+                return Messages.NotFound(context: context).ToJson();
+            }
+            var selectedWhere = SelectedWhere(
+                context: context,
+                ss: ss);
+            if (selectedWhere == null)
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var where = view.Where(
+                context: context,
+                ss: ss,
+                where: selectedWhere,
+                itemJoin: false);
+            var param = view.Param(
+                context: context,
+                ss: ss);
+            // TODO ロックレコードのチェックは未テスト
+            var invalid = ExistsLockedRecord(
+                context: context,
+                ss: ss,
+                where: where,
+                param: param,
+                orderBy: view.OrderBy(
+                    context: context,
+                    ss: ss));
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            foreach (var issueModel in new IssueCollection(
+                context: context,
+                ss: ss,
+                where: where))
+            {
+                var match = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (match)
+                {
+                    var previousTitle = issueModel.Title.DisplayValue;
+                    issueModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                    var errorData = issueModel.Update(
+                        context: context,
+                        ss: ss,
+                        processes: process.ToSingleList(),
+                        notice: true,
+                        previousTitle: previousTitle);
+                }
+                else
+                {
+                    // TODO
+                    // エラーのレコードの記録（あとでメッセージ出力）
+                    // ブレイク
+                }
+            };
+            // TODO メッセージ
+            var res = GridRows(
+                context: context,
+                ss: ss,
+                clearCheck: true);
+            return res;
+        }
+
         public static ContentResultInheritance UpdateByApi(
             Context context,
             SiteSettings ss,

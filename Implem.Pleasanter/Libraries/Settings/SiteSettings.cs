@@ -2915,6 +2915,27 @@ namespace Implem.Pleasanter.Libraries.Settings
                         attributes: ProcessValidateInputColumnAttributes(column: column)));
         }
 
+        public Dictionary<string, ControlData> BulkProcessingItems(Context context)
+        {
+            var items = Processes
+                .Where(process => process.Accessable(context: context))
+                .Where(process => process.AllowBulkProcessing == true)
+                .ToDictionary(
+                    process => process.Id.ToString(),
+                    process => new ControlData(Strings.CoalesceEmpty(process.DisplayName, process.Name)));
+            return items.Any()
+                ? new Dictionary<string, ControlData>()
+                {
+                    {
+                        string.Empty,
+                        new ControlData($"({Displays.SelectBulkProcessing(context: context)})")
+                    }
+                }
+                    .Concat(items)
+                    .ToDictionary(o => o.Key, o => o.Value)
+                : null;
+        }
+
         private IEnumerable<Column> ProcessValidateInputColumns()
         {
             return Columns

@@ -26,6 +26,43 @@ namespace Implem.Pleasanter.Libraries.Requests
                     view: view);
                 return view;
             }
+            var processId = context.Forms.Int("BulkProcessingItems");
+            if (processId > 0)
+            {
+                var process = ss.Processes
+                    .Where(o => o.Accessable(context: context))
+                    .FirstOrDefault(o => o.Id == processId);
+                if (process != null)
+                {
+                    if (view == null)
+                    {
+                        view = new View(
+                            context: context,
+                            ss: ss);
+                    }
+                    view.Incomplete = process.View?.Incomplete;
+                    view.Own = process.View?.Own;
+                    view.NearCompletionTime = process.View?.NearCompletionTime;
+                    view.Delay = process.View?.Delay;
+                    view.Overdue = process.View?.Overdue;
+                    view.ColumnFilterHash = process.View?.ColumnFilterHash
+                        ?? new System.Collections.Generic.Dictionary<string, string>();
+                    view.ColumnFilterSearchTypes = process.View?.ColumnFilterSearchTypes
+                        ?? new System.Collections.Generic.Dictionary<string, Column.SearchTypes>();
+                    switch (process.CurrentStatus)
+                    {
+                        case -1:
+                            break;
+                        case 0:
+                            view.ColumnFilterHash.AddOrUpdate("Status", $"[\"\t\"]");
+                            break;
+                        default:
+                            view.ColumnFilterHash.AddOrUpdate("Status", $"[\"{process.CurrentStatus}\"]");
+                            break;
+                    }
+                    return view;
+                }
+            }
             if (context.Forms.ControlId() == "ViewSelector"
                 || context.QueryStrings.ContainsKey("ViewSelector"))
             {

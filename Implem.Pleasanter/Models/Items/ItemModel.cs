@@ -1631,6 +1631,26 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string BulkProcess(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            switch (Site.SiteSettings.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.BulkProcess(
+                        context: context,
+                        ss: Site.SiteSettings);
+                case "Results":
+                    return ResultUtilities.BulkUpdate(
+                        context: context,
+                        ss: Site.SiteSettings);
+                default:
+                    return Messages.ResponseNotFound(context: context).ToJson();
+            }
+        }
+
         public ContentResultInheritance UpdateByApi(Context context, string referenceType = null)
         {
             SetSite(

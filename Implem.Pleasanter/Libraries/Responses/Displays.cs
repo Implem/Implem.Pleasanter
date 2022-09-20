@@ -359,6 +359,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AllowBulkProcessing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AllowBulkProcessing",
+                data: data);
+        }
+
         public static string AllowBulkUpdate(
             Context context,
             params string[] data)
@@ -426,16 +436,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "AllowLockTable",
-                data: data);
-        }
-
-        public static string UseNegativeFilters(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "UseNegativeFilters",
                 data: data);
         }
 
@@ -3266,6 +3266,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "ExcludeOverdue",
+                data: data);
+        }
+
+        public static string Execute(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Execute",
                 data: data);
         }
 
@@ -7759,6 +7769,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SelectBulkProcessing(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SelectBulkProcessing",
+                data: data);
+        }
+
         public static string SelectFile(
             Context context,
             params string[] data)
@@ -9146,6 +9166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "UseNearCompletionTimeFilter",
+                data: data);
+        }
+
+        public static string UseNegativeFilters(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseNegativeFilters",
                 data: data);
         }
 
