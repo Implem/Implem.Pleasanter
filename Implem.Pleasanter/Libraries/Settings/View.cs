@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.ServerScripts;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -3123,6 +3124,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ss.UseNegativeFilters == true
                 && ColumnFilterNegatives?.Contains(name) == true;
+        }
+
+        public void CopyViewFiletrs(View view)
+        {
+            view.Own = Own;
+            view.NearCompletionTime = NearCompletionTime;
+            view.Delay = Delay;
+            view.Overdue = Overdue;
+            view.ColumnFilterHash = ColumnFilterHash?.ToDictionary(
+                o => o.Key,
+                o => o.Value)
+                    ?? new Dictionary<string, string>();
+            view.ColumnFilterSearchTypes = ColumnFilterSearchTypes?.ToDictionary(
+                o => o.Key,
+                o => o.Value)
+                    ?? new Dictionary<string, Column.SearchTypes>();
         }
     }
 }

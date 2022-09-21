@@ -4081,7 +4081,6 @@ namespace Implem.Pleasanter.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
-            // TODO ロックレコードのチェックは未テスト
             var invalid = ExistsLockedRecord(
                 context: context,
                 ss: ss,
@@ -4095,6 +4094,7 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var count = 0;
             foreach (var issueModel in new IssueCollection(
                 context: context,
                 ss: ss,
@@ -4117,15 +4117,34 @@ namespace Implem.Pleasanter.Models
                         processes: process.ToSingleList(),
                         notice: true,
                         previousTitle: previousTitle);
+                    count++;
                 }
                 else
                 {
-                    // TODO
-                    // エラーのレコードの記録（あとでメッセージ出力）
-                    // ブレイク
+                    context.Messages.Add(
+                        Messages.BulkProcessed(
+                            context: context,
+                            data: new string[]
+                            {
+                                process.GetSuccessMessage(context:context).Text,
+                                count.ToString()
+                            }));
+                    context.Messages.Add(process.GetErrorMessage(context: context));
+                    var errorResult = GridRows(
+                        context: context,
+                        ss: ss,
+                        clearCheck: true);
+                    return errorResult;
                 }
             };
-            // TODO メッセージ
+            context.Messages.Add(
+                Messages.BulkProcessed(
+                    context: context,
+                    data: new string[]
+                    {
+                        process.GetSuccessMessage(context:context).Text,
+                        count.ToString()
+                    }));
             var res = GridRows(
                 context: context,
                 ss: ss,

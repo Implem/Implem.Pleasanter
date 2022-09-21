@@ -1369,6 +1369,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string BulkProcessed(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "BulkProcessed",
+                data: data);
+        }
+
         public static string BulkRestored(
             Context context,
             params string[] data)

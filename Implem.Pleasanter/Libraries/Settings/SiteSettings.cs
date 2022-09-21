@@ -2922,7 +2922,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(process => process.AllowBulkProcessing == true)
                 .ToDictionary(
                     process => process.Id.ToString(),
-                    process => new ControlData(Strings.CoalesceEmpty(process.DisplayName, process.Name)));
+                    process => new ControlData(process.GetDisplayName()));
             return items.Any()
                 ? new Dictionary<string, ControlData>()
                 {

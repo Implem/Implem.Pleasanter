@@ -40,15 +40,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             context: context,
                             ss: ss);
                     }
-                    view.Incomplete = process.View?.Incomplete;
-                    view.Own = process.View?.Own;
-                    view.NearCompletionTime = process.View?.NearCompletionTime;
-                    view.Delay = process.View?.Delay;
-                    view.Overdue = process.View?.Overdue;
-                    view.ColumnFilterHash = process.View?.ColumnFilterHash
-                        ?? new System.Collections.Generic.Dictionary<string, string>();
-                    view.ColumnFilterSearchTypes = process.View?.ColumnFilterSearchTypes
-                        ?? new System.Collections.Generic.Dictionary<string, Column.SearchTypes>();
+                    process.View?.CopyViewFiletrs(view: view);
                     switch (process.CurrentStatus)
                     {
                         case -1:
