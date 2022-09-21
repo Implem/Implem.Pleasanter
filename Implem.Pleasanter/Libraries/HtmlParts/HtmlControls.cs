@@ -217,12 +217,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Div(attributes: new HtmlAttributes()
                         .Id(controlId + ".viewer")
                         .Class("control-markup not-send")
-                       .OnDblClick($"$p.editMarkdown($('#{controlId}'));"))
+                        .OnDblClick($"$p.editMarkdown($('#{controlId}'));"))
                     .Div(
                         attributes: new HtmlAttributes()
                             .Id(controlId + ".editor")
                             .Class("ui-icon ui-icon-pencil button-edit-markdown")
-                           .OnClick($"$p.editMarkdown($('#{controlId}'));"),
+                            .OnClick($"$p.editMarkdown($('#{controlId}'));"),
                        _using: !readOnly);
             }
             hb

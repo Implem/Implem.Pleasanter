@@ -90,6 +90,7 @@ private static int BulkMove(
         where: where,
         param: param);
     var guid = Strings.NewGuid();
+    var siteIds = ss.GetIntegratedSites(context: context);
     return Repository.ExecuteScalar_response(
         context: context,
         transactional: true,
@@ -97,7 +98,7 @@ private static int BulkMove(
         {
             Rds.UpdateItems(
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(siteIds)
                     .ReferenceId_In(sub: sub),
                 param: Rds.ItemsParam()
                     .ReferenceType(guid)),
@@ -108,7 +109,7 @@ private static int BulkMove(
             Rds.RowCount(),
             Rds.UpdateItems(
                 where: Rds.ItemsWhere()
-                    .SiteId(ss.SiteId)
+                    .SiteId_In(siteIds)
                     .ReferenceType(guid),
                 param: Rds.ItemsParam()
                     .SiteId(siteId)

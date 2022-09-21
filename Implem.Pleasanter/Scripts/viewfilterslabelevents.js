@@ -2,6 +2,9 @@
     var timer;
     var intervalTimer;
     $(document).on('mouseenter', '#ViewFilters label', function () {
+        if (!$("#ViewFiltersLabelMenus").length) {
+            return;
+        }
         clearTimeout(timer);
         clearInterval(intervalTimer);
         if ($(".menu-negative:visible").length) {

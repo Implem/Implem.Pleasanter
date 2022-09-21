@@ -6627,6 +6627,7 @@
     <Content Include="App_Data\Displays\Unlimited.json" />
     <Content Include="App_Data\Displays\SysLogAdmin.json" />
     <Content Include="App_Data\Displays\NotContainKeyColumn.json" />
+    <Content Include="App_Data\Displays\UseNegativeFilters.json" />
     <Content Include="Tools\BackgroundTasks.ps1" />
     <Content Include="Tools\SyncByLdap.ps1" />
     <Content Include="Views\Users\EditApi.cshtml" />

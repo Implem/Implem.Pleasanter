@@ -4984,6 +4984,11 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.UseFiltersArea(context: context),
                     _checked: ss.UseFiltersArea == true)
                 .FieldCheckBox(
+                    controlId: "UseNegativeFilters",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseNegativeFilters(context: context),
+                    _checked: ss.UseNegativeFilters == true)
+                .FieldCheckBox(
                     controlId: "UseGridHeaderFilters",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseGridHeaderFilters(context: context),

@@ -2968,6 +2968,9 @@ namespace Implem.Pleasanter.Models
                                     tenantId: context.TenantId,
                                     deptCode: recordingData).Id;
                                 break;
+                            case "Theme":
+                                userModel.Theme = recordingData.ToString();
+                                break;
                             case "Body":
                                 userModel.Body = recordingData.ToString();
                                 break;
