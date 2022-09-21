@@ -217,6 +217,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? UseFilterButton;
         public bool? UseFiltersArea;
         public bool? UseGridHeaderFilters;
+        public bool? UseNegativeFilters;
         public bool? UseRelatingColumnsOnFilter;
         public bool? UseIncompleteFilter;
         public bool? UseOwnFilter;
@@ -375,6 +376,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             UseFilterButton = UseFilterButton ?? false;
             UseFiltersArea = UseFiltersArea ?? true;
             UseGridHeaderFilters = UseGridHeaderFilters ?? false;
+            UseNegativeFilters = UseNegativeFilters ?? Parameters.General.UseNegativeFilters;
             UseRelatingColumnsOnFilter = UseRelatingColumnsOnFilter ?? false;
             UseIncompleteFilter = UseIncompleteFilter ?? true;
             UseOwnFilter = UseOwnFilter ?? true;
@@ -845,6 +847,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (UseGridHeaderFilters == true)
             {
                 ss.UseGridHeaderFilters = UseGridHeaderFilters;
+            }
+            if (UseNegativeFilters != Parameters.General.UseNegativeFilters)
+            {
+                ss.UseNegativeFilters = UseNegativeFilters;
             }
             if (UseRelatingColumnsOnFilter == true)
             {
@@ -3502,6 +3508,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "UseFilterButton": UseFilterButton = value.ToBool(); break;
                 case "UseFiltersArea": UseFiltersArea = value.ToBool(); break;
                 case "UseGridHeaderFilters": UseGridHeaderFilters = value.ToBool(); break;
+                case "UseNegativeFilters": UseNegativeFilters = value.ToBool(); break;
                 case "UseRelatingColumnsOnFilter": UseRelatingColumnsOnFilter = value.ToBool(); break;
                 case "UseIncompleteFilter": UseIncompleteFilter = value.ToBool(); break;
                 case "UseOwnFilter": UseOwnFilter = value.ToBool(); break;

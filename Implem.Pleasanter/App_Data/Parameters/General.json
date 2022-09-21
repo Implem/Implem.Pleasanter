@@ -37,6 +37,7 @@
     "AllowStandardExport": true,
     "ImportMax": 0,
     "ViewerSwitchingType": 1,
+    "UseNegativeFilters": false,
     "AllowCopy": true,
     "AllowReferenceCopy": false,
     "CharToAddWhenCopying": " - コピー",
