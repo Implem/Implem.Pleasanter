@@ -893,6 +893,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelIcon = null,
             bool controlOnly = false,
             string tagControlContainer = "div",
+            string onFieldDblClick = null,
             bool validateRequired = false,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
@@ -907,6 +908,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     fieldCss: fieldCss,
                     fieldDescription: fieldDescription,
                     controlOnly: controlOnly,
+                    onFieldDblClick: onFieldDblClick,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                     extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                     extendedHtmlAfterControl: extendedHtmlAfterControl,
@@ -953,6 +955,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string fieldCss = null,
             string fieldDescription = null,
             bool controlOnly = false,
+            string onFieldDblClick = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
@@ -968,7 +971,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Class(!controlOnly
                             ? Css.Class("field-normal", fieldCss)
                             : fieldCss)
-                        .Title(fieldDescription),
+                        .Title(fieldDescription)
+                        .OnDblClick(onFieldDblClick),
                     action: () =>
                     {
                         hb.Raw(text: extendedHtmlBeforeLabel);
@@ -1413,6 +1417,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool disabled = false,
             bool alwaysSend = false,
             string onChange = null,
+            string onFieldDblClick = null,
             bool validateRequired = false,
             string action = null,
             string method = null,
@@ -1436,6 +1441,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelTitle: labelTitle,
                     labelIcon: labelIcon,
                     controlOnly: controlOnly,
+                    onFieldDblClick: onFieldDblClick,
                     validateRequired: validateRequired,
                     extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                     extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
