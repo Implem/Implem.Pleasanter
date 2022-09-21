@@ -71,7 +71,7 @@
         },
         {
             "ColumnName": "Status",
-            "ChoicesText": "200,作成中,作,status-inprogress\n300,承認待ち,待,status-review\n900,承認済み,済,status-closed\n910,保留,留,status-rejected"
+            "ChoicesText": "100,作成中,作,status-inprogress\n300,承認待ち,待,status-review\n900,承認済み,済,status-closed\n910,保留,留,status-rejected"
         }
     ],
     "Aggregations": [

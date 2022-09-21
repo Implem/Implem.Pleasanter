@@ -52,9 +52,9 @@ $p.apply = function () {
             $p.changeMultiSelect($(this))
         }
     }).addClass('applied');
-    $('.field-normal .ui-widget.ui-state-default.ui-multiselect').css('width', '100%');
-    $('.field-wide .ui-widget.ui-state-default.ui-multiselect').css('width', '100%');
-    $('.field-auto-thin .ui-widget.ui-state-default.ui-multiselect').css('width', '140px');
+    $('.field-normal .ui-widget.ui-state-default.ui-multiselect').css('width', '100%').removeAttr('title');
+    $('.field-wide .ui-widget.ui-state-default.ui-multiselect').css('width', '100%').removeAttr('title');
+    $('.field-auto-thin .ui-widget.ui-state-default.ui-multiselect').css('width', '140px').removeAttr('title');
     $('.datepicker:not(.applied)').each(function () {
         var $control = $(this);
         var $step = parseInt($control.attr('data-step'), 10);

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UseNegativeFilters",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Use negative filters"
+        },
+        {
+            "Language": "zh",
+            "Body": "使用负面过滤器"
+        },
+        {
+            "Language": "ja",
+            "Body": "否定フィルタを使用する"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden Sie Negativfilter"
+        },
+        {
+            "Language": "ko",
+            "Body": "제외 필터 사용"
+        },
+        {
+            "Language": "es",
+            "Body": "Usa filtros negativos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Sử dụng bộ lọc phủ định"
+        }
+    ]
+}

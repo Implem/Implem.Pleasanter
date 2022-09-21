@@ -35,6 +35,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 addSelectedValue: false,
                 insertBlank: ss.AllowViewReset != false,
                 onChange: "$p.changeViewSelector($(this));",
+                onFieldDblClick: "$('#ViewSelector').change()",
                 method: "post",
                 _using: ss.Views?.Any() == true);
         }

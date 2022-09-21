@@ -78,7 +78,6 @@
                     "X509FindType": "FindByThumbprint",
                     "FindValue": null
                 }
-
             }
         ]
     }

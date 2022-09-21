@@ -520,7 +520,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, List<int>> columns,
-            Dictionary<string, Permissions.Types> permissions)
+            Dictionary<string, Permissions.Types> permissions,
+            long referenceId = 0)
         {
             var insertSet = new List<PermissionModel>();
             permissions?.ForEach(data =>
@@ -530,7 +531,7 @@ namespace Implem.Pleasanter.Models
                     case "Dept":
                         insertSet.Add(new PermissionModel(
                             context: context,
-                            referenceId: 0,
+                            referenceId: referenceId,
                             deptId: context.DeptId,
                             groupId: 0,
                             userId: 0,
@@ -540,7 +541,7 @@ namespace Implem.Pleasanter.Models
                         Groups(context: context).ForEach(groupId =>
                             insertSet.Add(new PermissionModel(
                                 context: context,
-                                referenceId: 0,
+                                referenceId: referenceId,
                                 deptId: 0,
                                 groupId: groupId,
                                 userId: 0,
@@ -549,7 +550,7 @@ namespace Implem.Pleasanter.Models
                     case "User":
                         insertSet.Add(new PermissionModel(
                             context: context,
-                            referenceId: 0,
+                            referenceId: referenceId,
                             deptId: 0,
                             groupId: 0,
                             userId: context.UserId,
@@ -571,7 +572,7 @@ namespace Implem.Pleasanter.Models
                                         {
                                             insertSet.Add(new PermissionModel(
                                                 context: context,
-                                                referenceId: 0,
+                                                referenceId: referenceId,
                                                 deptId: dept.Id,
                                                 groupId: 0,
                                                 userId: 0,
@@ -586,7 +587,7 @@ namespace Implem.Pleasanter.Models
                                         {
                                             insertSet.Add(new PermissionModel(
                                                 context: context,
-                                                referenceId: 0,
+                                                referenceId: referenceId,
                                                 deptId: 0,
                                                 groupId: group.Id,
                                                 userId: 0,
@@ -601,7 +602,7 @@ namespace Implem.Pleasanter.Models
                                         {
                                             insertSet.Add(new PermissionModel(
                                                 context: context,
-                                                referenceId: 0,
+                                                referenceId: referenceId,
                                                 deptId: 0,
                                                 groupId: 0,
                                                 userId: user.Id,
@@ -641,7 +642,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 columns: columns,
-                permissions: permissions));
+                permissions: permissions,
+                referenceId: referenceId));
             return statements;
         }
 

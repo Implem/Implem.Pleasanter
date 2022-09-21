@@ -1,4 +1,6 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Azure.Identity;
+using Azure.Storage.Blobs;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.BackgroundServices;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -12,6 +14,7 @@ using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -147,6 +150,20 @@ namespace Implem.Pleasanter.NetCore
             if (Parameters.BackgroundService.TimerEnabled())
             {
                 services.AddHostedService<TimerBackgroundService>();
+            }
+            
+            var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
+            var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
+            if (!blobContainerUri.IsNullOrEmpty()
+                && !keyIdentifier.IsNullOrEmpty())
+            {
+                var blobContainer = new BlobContainerClient(new Uri(blobContainerUri), new DefaultAzureCredential());
+                blobContainer.CreateIfNotExists();
+                var blobClient = blobContainer.GetBlobClient(Parameters.Security.AspNetCoreDataProtection?.KeyFileName ?? "keys.xml");
+                services
+                    .AddDataProtection()
+                    .PersistKeysToAzureBlobStorage(blobClient)
+                    .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
             }
         }
 
