@@ -129,10 +129,11 @@ namespace Implem.Pleasanter.Libraries.Security
             return (Types)type;
         }
 
-        public static SqlWhereCollection SetCanReadWhere(
+        public static SqlWhereCollection SetPermissionsWhere(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
+            Types permissionType,
             bool checkPermission = true)
         {
             if (ss.ColumnHash.ContainsKey("TenantId"))
@@ -156,11 +157,18 @@ namespace Implem.Pleasanter.Libraries.Security
                         where.Add(
                             tableName: ss.ReferenceType,
                             raw: $"\"{ss.ReferenceType}\".\"SiteId\"={ss.SiteId}");
-                        if (!context.CanRead(ss: ss, site: true) && checkPermission)
+                        // Itemsの場合にはサイトの権限のチェック、それ以外の場合にはテナント管理などの権限をチェック
+                        if (!CheckSitePermission(
+                            context: context,
+                            ss: ss,
+                            permissionType: permissionType) && checkPermission)
                         {
+                            // サイトの権限をもっていない場合にはレコードのアクセス権が存在するか確認するWhereが追加になる
                             where.CheckRecordPermission(
                                 context: context,
-                                ss: ss);
+                                ss: ss,
+                                // すでに保有しているサイトの権限以外の権限をレコードの権限としてもっているか(XOR)確認
+                                permissionType: permissionType ^ ((ss.PermissionType ?? Types.NotSet) & permissionType));
                         }
                     }
                     else
@@ -200,6 +208,18 @@ namespace Implem.Pleasanter.Libraries.Security
                 }
             }
             return where;
+        }
+
+        private static bool CheckSitePermission(Context context, SiteSettings ss, Types permissionType)
+        {
+            return context.Controller == "items"
+                ? context.ItemsCan(
+                    ss: ss,
+                    type: permissionType,
+                    site: true)
+                : context.CanRead(
+                    ss: ss,
+                    site: true);
         }
 
         public static SqlWhereCollection SiteDeptWhere(
@@ -261,6 +281,7 @@ namespace Implem.Pleasanter.Libraries.Security
             this SqlWhereCollection where,
             Context context,
             SiteSettings ss,
+            Types permissionType,
             List<long> siteIdList = null)
         {
             return where.Add(
@@ -268,6 +289,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 subLeft: CheckRecordPermission(
                     context: context,
                     idColumnBracket: ss.IdColumnBracket(),
+                    permissionType: permissionType,
                     siteIdList: siteIdList),
                 _operator: null);
         }
@@ -275,8 +297,10 @@ namespace Implem.Pleasanter.Libraries.Security
         public static SqlExists CheckRecordPermission(
             Context context,
             string idColumnBracket,
+            Types permissionType = Types.Read,
             List<long> siteIdList = null)
         {
+            var type = permissionType.ToInt().ToString();
             return Rds.ExistsPermissions(
                 where: Rds.PermissionsWhere()
                     .ReferenceId(raw: idColumnBracket)
@@ -287,7 +311,8 @@ namespace Implem.Pleasanter.Libraries.Security
                                 .ReferenceId(raw: "\"Permissions\".\"ReferenceId\"")
                                 .SiteId_In(siteIdList)),
                         _using: siteIdList?.Any() == true)
-                    .PermissionType(_operator: " & 1=1")
+                    // PermissionTypeとの論理積をとりビットが立っているか確認する
+                    .PermissionType(_operator: $" & {type}={type}")
                     .PermissionsWhere(context: context));
         }
 
@@ -453,7 +478,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.Can(
+                        return context.ItemsCan(
                             ss: ss,
                             type: Types.Read,
                             site: site);
@@ -485,7 +510,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.Can(ss: ss, type: Types.Create, site: site);
+                        return context.ItemsCan(ss: ss, type: Types.Create, site: site);
                     }
             }
         }
@@ -516,7 +541,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.Can(ss: ss, type: Types.Update, site: site);
+                        return context.ItemsCan(ss: ss, type: Types.Update, site: site);
                     }
             }
         }
@@ -551,7 +576,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.Can(ss: ss, type: Types.Delete, site: site);
+                        return context.ItemsCan(ss: ss, type: Types.Delete, site: site);
                     }
             }
         }
@@ -581,7 +606,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.Can(ss: ss, type: Types.SendMail, site: site);
+                        return context.ItemsCan(ss: ss, type: Types.SendMail, site: site);
                     }
             }
         }
@@ -602,7 +627,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context);
                 default:
-                    return context.Can(ss: ss, type: Types.Import, site: site);
+                    return context.ItemsCan(ss: ss, type: Types.Import, site: site);
             }
         }
 
@@ -622,18 +647,18 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "users":
                     return CanManageTenant(context: context);
                 default:
-                    return context.Can(ss: ss, type: Types.Export, site: site);
+                    return context.ItemsCan(ss: ss, type: Types.Export, site: site);
             }
         }
 
         public static bool CanManageSite(this Context context, SiteSettings ss, bool site = false)
         {
-            return context.Can(ss: ss, type: Types.ManageSite, site: site);
+            return context.ItemsCan(ss: ss, type: Types.ManageSite, site: site);
         }
 
         public static bool CanManagePermission(this Context context, SiteSettings ss, bool site = false)
         {
-            return context.Can(ss: ss, type: Types.ManagePermission, site: site);
+            return context.ItemsCan(ss: ss, type: Types.ManagePermission, site: site);
         }
 
         public static ColumnPermissionTypes ColumnPermissionType(
@@ -724,7 +749,10 @@ namespace Implem.Pleasanter.Libraries.Security
                     || context.HasPrivilege);
         }
 
-        private static bool Can(
+        /// <summary>
+        /// Items以外(Tenants/Depts/Groups/Users等)では使用しない
+        /// </summary>
+        private static bool ItemsCan(
             this Context context,
             SiteSettings ss,
             Types type, bool site)

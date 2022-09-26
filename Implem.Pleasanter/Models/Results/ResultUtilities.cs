@@ -3863,7 +3863,7 @@ namespace Implem.Pleasanter.Models
 
         public static string BulkProcess(Context context, SiteSettings ss)
         {
-            if (!context.CanUpdate(ss: ss))
+            if (!context.HasPermission(ss: ss))
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }

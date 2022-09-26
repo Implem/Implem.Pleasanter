@@ -1483,11 +1483,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 itemJoin: itemJoin);
-            Permissions.SetCanReadWhere(
+            Permissions.SetPermissionsWhere(
                 context: context,
                 ss: ss,
                 where: where,
-                checkPermission: checkPermission);
+                permissionType: GetPermissionType(
+                    context: context,
+                    ss: ss));
             if (requestSearchCondition
                 && RequestSearchCondition(
                     context: context,
@@ -1496,6 +1498,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(raw: "(0=1)");
             }
             return where;
+        }
+
+        /// <summary>
+        /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
+        /// </summary>
+        private Permissions.Types GetPermissionType(Context context, SiteSettings ss)
+        {
+            var process = ss.Processes
+                .Where(o => o.Accessable(context: context))
+                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
+            var permissionType = process == null
+                ? Permissions.Types.Read
+                : Permissions.Types.Read | Permissions.Types.Update;
+            return permissionType;
         }
 
         private void SetGeneralsWhere(
