@@ -4057,7 +4057,7 @@ namespace Implem.Pleasanter.Models
             }
             var processId = context.Forms.Int("BulkProcessingItems");
             var process = ss.Processes
-                .Where(o => o.Accessable(context: context))
+                ?.Where(o => o.Accessable(context: context))
                 .FirstOrDefault(o => o.Id == processId);
             if (process == null)
             {
