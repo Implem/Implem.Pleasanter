@@ -997,6 +997,28 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ErrorData OnApiUpdatingMailAddress(UserApiModel userApiModel)
+        {
+            foreach (string mailAddress in userApiModel.MailAddresses)
+            {
+                var errorData = MailAddressValidators.BadMailAddress(
+                    addresses: mailAddress,
+                    only: true);
+                if (errorData.Type.Has())
+                {
+                    return errorData;
+                }
+                if (mailAddress.Trim() == string.Empty)
+                {
+                    return new ErrorData(type: Error.Types.InputMailAddress);
+                }
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ErrorData OnApiDeleting(Context context, UserModel userModel)
         {
             if ((!Parameters.Api.Enabled

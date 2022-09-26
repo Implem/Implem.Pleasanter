@@ -13,6 +13,7 @@
     bool get = true)
 {
 <!--Model_OnCreating_ServerScript-->
+<!--Model_OnApiCreatingMailAddress_Users-->
 <!--Model_SetTenantIdByContext-->
 <!--Model_OnCreating_Binaries-->
 <!--Model_OnCreating_Users-->

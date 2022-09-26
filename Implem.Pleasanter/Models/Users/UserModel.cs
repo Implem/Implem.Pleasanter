@@ -2463,6 +2463,16 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel != null &&
+                userApiModel.MailAddresses != null)
+            {
+                var errorData = UserValidators.OnApiUpdatingMailAddress(userApiModel: userApiModel);
+                if (errorData.Type != Error.Types.None)
+                {
+                    return errorData;
+                }
+            }
             TenantId = context.TenantId;
             if (Parameters.Security.EnforcePasswordHistories > 0)
             {
@@ -2502,7 +2512,6 @@ namespace Implem.Pleasanter.Models
                 }
             }
             if (get) Get(context: context, ss: ss);
-            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
             if (userApiModel != null)
             {
                 if (userApiModel.MailAddresses != null)
@@ -2553,6 +2562,17 @@ namespace Implem.Pleasanter.Models
             bool get = true,
             bool checkConflict = true) 
         {
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (updateMailAddresses &&
+                userApiModel != null &&
+                userApiModel.MailAddresses != null)
+            {
+                var errorData = UserValidators.OnApiUpdatingMailAddress(userApiModel: userApiModel);
+                if (errorData.Type != Error.Types.None)
+                {
+                    return errorData;
+                }
+            }
             if (setBySession)
             {
                 SetBySession(context: context);
@@ -2593,7 +2613,6 @@ namespace Implem.Pleasanter.Models
             {
                 Get(context: context, ss: ss);
             }
-            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
             if (updateMailAddresses)
             {
                 if (userApiModel != null)
