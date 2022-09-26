@@ -2918,12 +2918,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> BulkProcessingItems(Context context)
         {
             var items = Processes
-                .Where(process => process.Accessable(context: context))
+                ?.Where(process => process.Accessable(context: context))
                 .Where(process => process.AllowBulkProcessing == true)
                 .ToDictionary(
                     process => process.Id.ToString(),
                     process => new ControlData(process.GetDisplayName()));
-            return items.Any()
+            return items?.Any() == true
                 ? new Dictionary<string, ControlData>()
                 {
                     {

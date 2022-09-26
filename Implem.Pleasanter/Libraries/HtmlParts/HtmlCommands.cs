@@ -302,7 +302,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         case "index":
                                             var bulkProcessingItems = ss.BulkProcessingItems(context: context);
                                             var process = ss.Processes
-                                                .Where(o => o.Accessable(context: context))
+                                                ?.Where(o => o.Accessable(context: context))
                                                 .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
                                             if (process == null)
                                             {
