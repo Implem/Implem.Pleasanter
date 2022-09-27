@@ -429,6 +429,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UseNegativeFilters(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UseNegativeFilters",
+                data: data);
+        }
+
         public static string AllowPhysicalDeleteHistories(
             Context context,
             params string[] data)

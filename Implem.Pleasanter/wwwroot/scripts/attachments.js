@@ -198,7 +198,11 @@
                 for (var index = 0; index < uuids.length; ++index) {
                     deleteTemp(uuids[index]);
                 }
-                if (!isAborted) $p.setByJsonElement(data.result[0]);
+                if (!isAborted) {
+                    $.each(data.result, function () {
+                        $p.setByJsonElement(this);
+                    });
+                }
             }
             if (!success) {
                 fileClear();
