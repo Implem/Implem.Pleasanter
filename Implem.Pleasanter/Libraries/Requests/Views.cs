@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             context: context,
                             ss: ss);
                     }
-                    process.View?.CopyViewFiletrs(view: view);
+                    process.View?.CopyViewFilters(view: view);
                     switch (process.CurrentStatus)
                     {
                         case -1:

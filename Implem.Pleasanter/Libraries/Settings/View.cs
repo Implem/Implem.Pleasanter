@@ -3142,7 +3142,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 && ColumnFilterNegatives?.Contains(name) == true;
         }
 
-        public void CopyViewFiletrs(View view)
+        public void CopyViewFilters(View view)
         {
             view.Own = Own;
             view.NearCompletionTime = NearCompletionTime;

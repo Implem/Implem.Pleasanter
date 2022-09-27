@@ -4094,17 +4094,24 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var count = 0;
+            var succeeded = 0;
+            Message errorMessage = null;
             foreach (var issueModel in new IssueCollection(
                 context: context,
                 ss: ss,
                 where: where))
             {
+                // 前回の処理でエラーが起きていたら次の処理をせずに中断
+                if (errorMessage != null) break;
                 var match = issueModel.GetProcessMatchConditions(
                     context: context,
                     ss: ss,
                     process: process);
-                if (match)
+                if (!match)
+                {
+                    errorMessage = process.GetErrorMessage(context: context);
+                }
+                else
                 {
                     var previousTitle = issueModel.Title.DisplayValue;
                     issueModel.SetByProcess(
@@ -4117,34 +4124,59 @@ namespace Implem.Pleasanter.Models
                         processes: process.ToSingleList(),
                         notice: true,
                         previousTitle: previousTitle);
-                    count++;
-                }
-                else
-                {
-                    context.Messages.Add(
-                        Messages.BulkProcessed(
-                            context: context,
-                            data: new string[]
+                    switch (errorData.Type)
+                    {
+                        case Error.Types.None:
+                            succeeded++;
+                            break;
+                        case Error.Types.Duplicated:
+                            var duplicatedColumn = ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName);
+                            if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
                             {
-                                process.GetSuccessMessage(context:context).Text,
-                                count.ToString()
-                            }));
-                    context.Messages.Add(process.GetErrorMessage(context: context));
-                    var errorResult = GridRows(
-                        context: context,
-                        ss: ss,
-                        clearCheck: true);
-                    return errorResult;
+                                errorMessage = Messages.Duplicated(
+                                    context: context,
+                                    data: ss.GetColumn(
+                                        context: context,
+                                        columnName: errorData.ColumnName)?.LabelText);
+                            }
+                            else
+                            {
+                                errorMessage = new Message()
+                                {
+                                    Id = "MessageWhenDuplicated",
+                                    Text = duplicatedColumn.MessageWhenDuplicated,
+                                    Css = "alert-error"
+                                };
+                            }
+                            break;
+                        case Error.Types.UpdateConflicts:
+                            errorMessage = Messages.UpdateConflicts(
+                                context: context,
+                                data: issueModel.Updator.Name);
+                            break;
+                        default:
+                            errorMessage = errorData.Message(context: context);
+                            break;
+                    }
                 }
             };
-            context.Messages.Add(
-                Messages.BulkProcessed(
-                    context: context,
-                    data: new string[]
-                    {
-                        process.GetSuccessMessage(context:context).Text,
-                        count.ToString()
-                    }));
+            if (errorMessage != null)
+            {
+                context.Messages.Add(errorMessage);
+            }
+            if (succeeded > 0)
+            {
+                context.Messages.Add(
+                    Messages.BulkProcessed(
+                        context: context,
+                        data: new string[]
+                        {
+                            process.GetSuccessMessage(context:context).Text,
+                            succeeded.ToString()
+                        }));
+            }
             var res = GridRows(
                 context: context,
                 ss: ss,
