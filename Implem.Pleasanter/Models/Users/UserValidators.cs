@@ -1010,7 +1010,9 @@ namespace Implem.Pleasanter.Models
                 }
                 if (mailAddress.Trim() == string.Empty)
                 {
-                    return new ErrorData(type: Error.Types.InputMailAddress);
+                    return new ErrorData(
+                        type: Error.Types.BadMailAddress,
+                        data: new string[] { mailAddress });
                 }
             }
             return new ErrorData(type: Error.Types.None);
