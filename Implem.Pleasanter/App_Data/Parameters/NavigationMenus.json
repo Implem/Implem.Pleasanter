@@ -102,7 +102,7 @@
             {
                 "MenuId": "SettingsMenu_SysLogAdmin",
                 "Name": "SysLogAdmin",
-                "Icon": "ui-icon ui-icon-trash",
+                "Icon": "ui-icon ui-icon-gear",
                 "LinkParams": [ "SysLogs" ]
             },
             {
