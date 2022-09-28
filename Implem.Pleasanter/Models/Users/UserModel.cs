@@ -2463,6 +2463,16 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool get = true)
         {
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel != null &&
+                userApiModel.MailAddresses != null)
+            {
+                var errorData = UserValidators.OnApiUpdatingMailAddress(userApiModel: userApiModel);
+                if (errorData.Type != Error.Types.None)
+                {
+                    return errorData;
+                }
+            }
             TenantId = context.TenantId;
             if (Parameters.Security.EnforcePasswordHistories > 0)
             {
@@ -2502,6 +2512,13 @@ namespace Implem.Pleasanter.Models
                 }
             }
             if (get) Get(context: context, ss: ss);
+            if (userApiModel != null)
+            {
+                if (userApiModel.MailAddresses != null)
+                {
+                    UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                }
+            }
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -2545,6 +2562,17 @@ namespace Implem.Pleasanter.Models
             bool get = true,
             bool checkConflict = true) 
         {
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (updateMailAddresses &&
+                userApiModel != null &&
+                userApiModel.MailAddresses != null)
+            {
+                var errorData = UserValidators.OnApiUpdatingMailAddress(userApiModel: userApiModel);
+                if (errorData.Type != Error.Types.None)
+                {
+                    return errorData;
+                }
+            }
             if (setBySession)
             {
                 SetBySession(context: context);
@@ -2587,7 +2615,17 @@ namespace Implem.Pleasanter.Models
             }
             if (updateMailAddresses)
             {
-                UpdateMailAddresses(context: context);
+                if (userApiModel != null)
+                {
+                    if (userApiModel.MailAddresses != null)
+                    {
+                        UpdateMailAddresses(context: context, userApiModel: userApiModel);
+                    }
+                }
+                else
+                {
+                    UpdateMailAddresses(context: context);
+                }
             }
             if (refleshSiteInfo)
             {
@@ -3465,6 +3503,45 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     transactional: true,
                     statements: statements.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateMailAddresses(Context context, UserApiModel userApiModel)
+        {
+            if (UserId > 0)
+            {
+                var mailAddresses = userApiModel.MailAddresses
+                    .OrderBy(o => o)
+                    .Join();
+                var where = Rds.MailAddressesWhere()
+                    .OwnerId(UserId)
+                    .OwnerType("Users");
+                if (new MailAddressCollection(
+                    context: context,
+                    where: where)
+                        .Select(o => o.MailAddress)
+                        .OrderBy(o => o)
+                        .Join() != mailAddresses)
+                {
+                    var statements = new List<SqlStatement>()
+                    {
+                        Rds.PhysicalDeleteMailAddresses(where: where)
+                    };
+                    userApiModel.MailAddresses
+                        .Where(mailAddress => !Libraries.Mails.Addresses.GetBody(mailAddress).IsNullOrEmpty())
+                        .ForEach(mailAddress =>
+                            statements.Add(Rds.InsertMailAddresses(param: Rds.MailAddressesParam()
+                                .OwnerId(UserId)
+                                .OwnerType("Users")
+                                .MailAddress(mailAddress))));
+                    Repository.ExecuteNonQuery(
+                        context: context,
+                        transactional: true,
+                        statements: statements.ToArray());
+                }
             }
         }
 
