@@ -10,6 +10,7 @@ using Implem.Pleasanter.Libraries.ServerScripts;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -1482,11 +1483,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: ss,
                 where: where,
                 itemJoin: itemJoin);
-            Permissions.SetCanReadWhere(
+            Permissions.SetPermissionsWhere(
                 context: context,
                 ss: ss,
                 where: where,
-                checkPermission: checkPermission);
+                permissionType: GetPermissionType(
+                    context: context,
+                    ss: ss));
             if (requestSearchCondition
                 && RequestSearchCondition(
                     context: context,
@@ -1495,6 +1498,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where.Add(raw: "(0=1)");
             }
             return where;
+        }
+
+        /// <summary>
+        /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
+        /// </summary>
+        private Permissions.Types GetPermissionType(Context context, SiteSettings ss)
+        {
+            var process = ss.Processes
+                ?.Where(o => o.Accessable(context: context))
+                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
+            var permissionType = process == null
+                ? Permissions.Types.Read
+                : Permissions.Types.Read | Permissions.Types.Update;
+            return permissionType;
         }
 
         private void SetGeneralsWhere(
@@ -3123,6 +3140,22 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return ss.UseNegativeFilters == true
                 && ColumnFilterNegatives?.Contains(name) == true;
+        }
+
+        public void CopyViewFilters(View view)
+        {
+            view.Own = Own;
+            view.NearCompletionTime = NearCompletionTime;
+            view.Delay = Delay;
+            view.Overdue = Overdue;
+            view.ColumnFilterHash = ColumnFilterHash?.ToDictionary(
+                o => o.Key,
+                o => o.Value)
+                    ?? new Dictionary<string, string>();
+            view.ColumnFilterSearchTypes = ColumnFilterSearchTypes?.ToDictionary(
+                o => o.Key,
+                o => o.Value)
+                    ?? new Dictionary<string, Column.SearchTypes>();
         }
     }
 }

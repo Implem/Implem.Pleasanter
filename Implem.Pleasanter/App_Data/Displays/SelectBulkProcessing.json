@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SelectBulkProcessing",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Select bulk processing"
+        },
+        {
+            "Language": "zh",
+            "Body": "选择批量处理"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括処理を選択"
+        },
+        {
+            "Language": "de",
+            "Body": "Massenverarbeitung auswählen"
+        },
+        {
+            "Language": "ko",
+            "Body": "일괄 처리 선택"
+        },
+        {
+            "Language": "es",
+            "Body": "Seleccionar procesamiento masivo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chọn xử lý hàng loạt"
+        }
+    ]
+}

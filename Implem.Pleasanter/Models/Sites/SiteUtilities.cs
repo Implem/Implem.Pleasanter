@@ -8032,7 +8032,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.ExecutionTypes(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.ActionTypes(context: context)))));
+                        .Text(text: Displays.ActionTypes(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AllowBulkProcessing(context: context)))));
         }
 
         /// <summary>
@@ -8100,7 +8102,11 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: Displays.Get(
                                         context: context,
                                         id: process.ActionType?.ToString()
-                                            ?? Process.ActionTypes.Save.ToString()))));
+                                            ?? Process.ActionTypes.Save.ToString())))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: process.AllowBulkProcessing == true)));
                     });
                 });
             }
@@ -8347,7 +8353,12 @@ namespace Implem.Pleasanter.Models
                                 Displays.None(context: context)
                             }
                         },
-                        selectedValue: process.ActionType.ToInt().ToString())));
+                        selectedValue: process.ActionType.ToInt().ToString())
+                    .FieldCheckBox(
+                        controlId: "ProcessAllowBulkProcessing",
+                        controlCss: " always-send",
+                        labelText: Displays.AllowBulkProcessing(context: context),
+                        _checked: process.AllowBulkProcessing == true)));
         }
 
         /// <summary>

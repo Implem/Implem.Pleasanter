@@ -1,0 +1,134 @@
+﻿public static string BulkProcess(Context context, SiteSettings ss)
+{
+    if (!context.HasPermission(ss: ss))
+    {
+        return Messages.ResponseHasNotPermission(context: context).ToJson();
+    }
+    var processId = context.Forms.Int("BulkProcessingItems");
+    var process = ss.Processes
+        ?.Where(o => o.Accessable(context: context))
+        .FirstOrDefault(o => o.Id == processId);
+    if (process == null)
+    {
+        return Messages.NotFound(context: context).ToJson();
+    }
+    var selectedWhere = SelectedWhere(
+        context: context,
+        ss: ss);
+    if (selectedWhere == null)
+    {
+        return Messages.ResponseSelectTargets(context: context).ToJson();
+    }
+    var view = Views.GetBySession(
+        context: context,
+        ss: ss);
+    var where = view.Where(
+        context: context,
+        ss: ss,
+        where: selectedWhere,
+        itemJoin: false);
+    var param = view.Param(
+        context: context,
+        ss: ss);
+    var invalid = ExistsLockedRecord(
+        context: context,
+        ss: ss,
+        where: where,
+        param: param,
+        orderBy: view.OrderBy(
+            context: context,
+            ss: ss));
+    switch (invalid.Type)
+    {
+        case Error.Types.None: break;
+        default: return invalid.MessageJson(context: context);
+    }
+    var succeeded = 0;
+    Message errorMessage = null;
+    foreach (var #modelName#Model in new #ModelName#Collection(
+        context: context,
+        ss: ss,
+        where: where))
+    {
+        // 前回の処理でエラーが起きていたら次の処理をせずに中断
+        if (errorMessage != null) break;
+        var match = #modelName#Model.GetProcessMatchConditions(
+            context: context,
+            ss: ss,
+            process: process);
+        if (!match)
+        {
+            errorMessage = process.GetErrorMessage(context: context);
+        }
+        else
+        {
+            var previousTitle = #modelName#Model.Title.DisplayValue;
+            #modelName#Model.SetByProcess(
+                context: context,
+                ss: ss,
+                process: process);
+            var errorData = #modelName#Model.Update(
+                context: context,
+                ss: ss,
+                processes: process.ToSingleList(),
+                notice: true,
+                previousTitle: previousTitle);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    succeeded++;
+                    break;
+                case Error.Types.Duplicated:
+                    var duplicatedColumn = ss.GetColumn(
+                        context: context,
+                        columnName: errorData.ColumnName);
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        errorMessage = Messages.Duplicated(
+                            context: context,
+                            data: ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText);
+                    }
+                    else
+                    {
+                        errorMessage = new Message()
+                        {
+                            Id = "MessageWhenDuplicated",
+                            Text = duplicatedColumn.MessageWhenDuplicated,
+                            Css = "alert-error"
+                        };
+                    }
+                    break;
+                case Error.Types.UpdateConflicts:
+                    errorMessage = Messages.UpdateConflicts(
+                        context: context,
+                        data: #modelName#Model.Updator.Name);
+                    break;
+                default:
+                    errorMessage = errorData.Message(context: context);
+                    break;
+            }
+        }
+    };
+    if (errorMessage != null)
+    {
+        context.Messages.Add(errorMessage);
+    }
+    if (succeeded > 0)
+    {
+        context.Messages.Add(
+            Messages.BulkProcessed(
+                context: context,
+                data: new string[]
+                {
+                    process.GetSuccessMessage(context:context).Text,
+                    succeeded.ToString()
+                }));
+    }
+    var res = GridRows(
+        context: context,
+        ss: ss,
+        clearCheck: true);
+    return res;
+}

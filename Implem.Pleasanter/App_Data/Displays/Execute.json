@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Execute",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Execute"
+        },
+        {
+            "Language": "zh",
+            "Body": "执行"
+        },
+        {
+            "Language": "ja",
+            "Body": "実行"
+        },
+        {
+            "Language": "de",
+            "Body": "Ausführen"
+        },
+        {
+            "Language": "ko",
+            "Body": "실행하다"
+        },
+        {
+            "Language": "es",
+            "Body": "Ejecutar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hành hình"
+        }
+    ]
+}

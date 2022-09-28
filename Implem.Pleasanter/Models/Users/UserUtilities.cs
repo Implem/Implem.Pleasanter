@@ -4581,7 +4581,7 @@ namespace Implem.Pleasanter.Models
             var errorData = userModel.Update(
                 context: context,
                 ss: ss,
-                updateMailAddresses: false);
+                updateMailAddresses: true);
             switch (errorData.Type)
             {
                 case Error.Types.None:
