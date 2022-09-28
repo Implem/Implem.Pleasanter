@@ -57,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 case "BulkProcessingItems":
                     var processId = context.Forms.Int("BulkProcessingItems");
                     var process = ss.Processes
-                        .Where(o => o.Accessable(context: context))
+                        ?.Where(o => o.Accessable(context: context))
                         .FirstOrDefault(o => o.Id == processId);
                     return process == null
                         ? res.ReplaceAll("#ViewFilters",

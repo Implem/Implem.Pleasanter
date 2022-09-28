@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (processId > 0)
             {
                 var process = ss.Processes
-                    .Where(o => o.Accessable(context: context))
+                    ?.Where(o => o.Accessable(context: context))
                     .FirstOrDefault(o => o.Id == processId);
                 if (process != null)
                 {
