@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Threading;
@@ -16,17 +15,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             await Task.Run(() =>
             {
-                var context = new Context(
-                    request: false,
-                    sessionStatus: false,
-                    sessionData: false,
-                    user: false,
-                    item: false);
-                var log = new SysLogModel(
+                var context = CreateContext();
+                var log = CreateSysLogModel(
                     context: context,
-                    method: nameof(ExecuteAsync),
-                    message: "ExecuteAsync() Called.",
-                    sysLogType: SysLogModel.SysLogTypes.Info);
+                    message: "exec SyncByLdap().");
                 var json = UserUtilities.SyncByLdap(context: context);
                 log.Finish(
                     context: context,
@@ -37,6 +29,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         override public IList<string> GetTimeList()
         {
             return Parameters.BackgroundService.SyncByLdapTime;
+        }
+
+        public override bool Enabled()
+        {
+            return Parameters.BackgroundService.SyncByLdap;
         }
     }
 }

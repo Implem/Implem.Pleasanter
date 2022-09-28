@@ -60,6 +60,7 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
         public readonly string Name; 
         public MockTimerBackgroundService Parent;
         public List<string> TimeList = new List<string>();
+        public bool Enable = true;
 
         public StubTimer(string name, MockTimerBackgroundService parent)
         {
@@ -78,20 +79,30 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
         {
             return TimeList;
         }
+
+        public override bool Enabled()
+        {
+            return Enable;
+        }
+
     }
 
     public class TimerBackgroundServiceTest
     {
 
         [Fact]
-        public async void WaitNextTimerThenExecuteAsync_TimerEmpty_DoesNotThrowException()
+        public void AddTimer_TimerDisabled_TimerIsNotAdded()
         {
             //Arrange
             var targetMock = new MockTimerBackgroundService();
+            var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
+            timer1.Enable = false;//無効化
+            timer1.TimeList.Add("03:00");
             //Act
-            var exception = await Record.ExceptionAsync(() => targetMock.WaitNextTimerThenExecuteAsync(CancellationToken.None));
+            targetMock.AddTimer_(timer: timer1);
             //Assert
-            Assert.Null(exception);
+            //timer1はEnabled()=falseなのでタイマーリストに追加されないはず
+            Assert.False(targetMock.GetTimerList().Any());
         }
 
         [Fact]
@@ -117,6 +128,17 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
                 DateTime.Parse("2022-08-13 01:00"),
             };
             Assert.Equal(expectedScheduledTimeList, targetMock.GetTimerList().Select(t => t.DateTime));
+        }
+
+        [Fact]
+        public async void WaitNextTimerThenExecuteAsync_TimerEmpty_DoesNotThrowException()
+        {
+            //Arrange
+            var targetMock = new MockTimerBackgroundService();
+            //Act
+            var exception = await Record.ExceptionAsync(() => targetMock.WaitNextTimerThenExecuteAsync(CancellationToken.None));
+            //Assert
+            Assert.Null(exception);
         }
 
         [Fact]
