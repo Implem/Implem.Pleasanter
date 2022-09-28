@@ -16,6 +16,7 @@
     bool checkConflict = true) 
 {
 <!--Model_OnUpdating_ServerScript-->
+<!--Model_OnApiUpdatingMailAddress_Users-->
 <!--Model_CheckNotificationConditions-->
 
     if (setBySession)

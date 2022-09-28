@@ -50,6 +50,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string OnClick { get; set; }
         public ExecutionTypes? ExecutionType { get; set; }
         public ActionTypes? ActionType { get; set; }
+        public bool? AllowBulkProcessing { get; set; }
         public ValidationTypes? ValidationType { get; set; }
         public SettingList<ValidateInput> ValidateInputs { get; set; }
         public List<int> Depts { get; set; }
@@ -80,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string onClick,
             ExecutionTypes? executionType,
             ActionTypes? actionType,
+            bool? allowBulkProcessing,
             ValidationTypes? validationType,
             SettingList<ValidateInput> validateInputs,
             List<Permission> permissions,
@@ -101,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             OnClick = onClick;
             ExecutionType = executionType;
             ActionType = actionType;
+            AllowBulkProcessing = allowBulkProcessing;
             ValidationType = validationType;
             ValidateInputs = validateInputs;
             SetPermissions(permissions: permissions);
@@ -123,6 +126,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string onClick,
             ExecutionTypes? executionType,
             ActionTypes? actionType,
+            bool? allowBulkProcessing,
             ValidationTypes? validationType,
             SettingList<ValidateInput> validateInputs,
             List<Permission> permissions,
@@ -143,6 +147,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             OnClick = onClick;
             ExecutionType = executionType;
             ActionType = actionType;
+            AllowBulkProcessing = allowBulkProcessing;
             ValidationType = validationType;
             ValidateInputs = validateInputs;
             SetPermissions(permissions: permissions);
@@ -257,6 +262,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ActionType != ActionTypes.Save)
             {
                 process.ActionType = ActionType;
+            }
+            if (AllowBulkProcessing == true)
+            {
+                process.AllowBulkProcessing = AllowBulkProcessing;
             }
             if (ValidationType != ValidationTypes.Merge)
             {

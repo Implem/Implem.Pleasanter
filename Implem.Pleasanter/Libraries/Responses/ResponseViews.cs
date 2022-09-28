@@ -2,6 +2,8 @@
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
+using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.Responses
 {
     public static class ResponseViews
@@ -51,6 +53,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 _checked: view.ShowHistory == true,
                                 labelText: Displays.ShowHistory(context: context),
                                 _using: ss.HistoryOnGrid == true));
+                case "BulkProcessingItems":
+                    var processId = context.Forms.Int("BulkProcessingItems");
+                    var process = ss.Processes
+                        ?.Where(o => o.Accessable(context: context))
+                        .FirstOrDefault(o => o.Id == processId);
+                    return process == null
+                        ? res.ReplaceAll("#ViewFilters",
+                            new HtmlBuilder().ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view))
+                        : res.ReplaceAll("#ViewFilters",
+                            new HtmlBuilder().Div(
+                                id: "ViewFilters",
+                                css: "always-hidden"));
                 default:
                     return res;
             }

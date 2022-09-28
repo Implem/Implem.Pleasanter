@@ -214,6 +214,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-success");
         }
 
+        public static Message BulkProcessed(Context context, params string[] data)
+        {
+            return Get(
+                id: "BulkProcessed",
+                text: Displays.BulkProcessed(
+                    context: context,
+                    data: data),
+                css: "alert-success");
+        }
+
         public static Message BulkRestored(Context context, params string[] data)
         {
             return Get(
@@ -1737,6 +1747,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: BulkMoved(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseBulkProcessed(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: BulkProcessed(
                     context: context,
                     data: data),
                 target: target);
