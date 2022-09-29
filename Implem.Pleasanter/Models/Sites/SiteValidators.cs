@@ -494,6 +494,7 @@ namespace Implem.Pleasanter.Models
             }
             if (notification)
             {
+                //通知機能のみ[RelatedUsers]の指定が可能なため、[RelatedUsers]の指定をチェック。
                 foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[RelatedUsers\])"))
                 {
                     to = to.Replace(match.Value, string.Empty);
