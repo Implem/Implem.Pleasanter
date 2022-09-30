@@ -1,6 +1,16 @@
 ﻿if (updateMailAddresses)
 {
-    UpdateMailAddresses(context: context);
+    if (userApiModel != null)
+    {
+        if (userApiModel.MailAddresses != null)
+        {
+            UpdateMailAddresses(context: context, userApiModel: userApiModel);
+        }
+    }
+    else
+    {
+        UpdateMailAddresses(context: context);
+    }
 }
 if (refleshSiteInfo)
 {

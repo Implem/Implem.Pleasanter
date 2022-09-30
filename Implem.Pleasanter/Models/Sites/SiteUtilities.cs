@@ -4990,6 +4990,11 @@ namespace Implem.Pleasanter.Models
                     labelText: Displays.UseFiltersArea(context: context),
                     _checked: ss.UseFiltersArea == true)
                 .FieldCheckBox(
+                    controlId: "UseNegativeFilters",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.UseNegativeFilters(context: context),
+                    _checked: ss.UseNegativeFilters == true)
+                .FieldCheckBox(
                     controlId: "UseGridHeaderFilters",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.UseGridHeaderFilters(context: context),
@@ -7382,44 +7387,41 @@ namespace Implem.Pleasanter.Models
                             o["SiteId"].ToLong() == summary.SiteId);
                         var destinationSs = SiteSettingsUtilities.Get(
                             context: context, dataRow: dataRow);
-                        if (destinationSs != null)
-                        {
-                            hb.Tr(
-                                css: "grid-row",
-                                attributes: new HtmlAttributes()
-                                    .DataId(summary.Id.ToString()),
-                                action: () => hb
-                                    .Td(action: () => hb
-                                        .CheckBox(
-                                            controlCss: "select",
-                                            _checked: selected?.Contains(summary.Id) == true))
-                                    .Td(action: () => hb
-                                        .Text(text: summary.Id.ToString()))
-                                    .Td(action: () => hb
-                                        .Text(text: dataRow["Title"].ToString()))
-                                    .Td(action: () => hb
-                                        .Text(text: destinationSs.GetColumn(
-                                            context: context,
-                                            columnName: summary.DestinationColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: destinationSs.Views?.Get(
-                                            summary.DestinationCondition)?.Name))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.GetColumn(
-                                            context: context,
-                                            columnName: summary.LinkColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: SummaryType(
-                                            context: context,
-                                            type: summary.Type)))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.GetColumn(
-                                            context: context,
-                                            columnName: summary.SourceColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.Views?.Get(
-                                            summary.SourceCondition)?.Name)));
-                        }
+                        hb.Tr(
+                            css: "grid-row",
+                            attributes: new HtmlAttributes()
+                                .DataId(summary.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "select",
+                                        _checked: selected?.Contains(summary.Id) == true))
+                                .Td(action: () => hb
+                                    .Text(text: summary.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: dataRow?["Title"].ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: destinationSs?.GetColumn(
+                                        context: context,
+                                        columnName: summary.DestinationColumn)?.LabelText))
+                                .Td(action: () => hb
+                                    .Text(text: destinationSs?.Views?.Get(
+                                        summary.DestinationCondition)?.Name))
+                                .Td(action: () => hb
+                                    .Text(text: ss.GetColumn(
+                                        context: context,
+                                        columnName: summary.LinkColumn)?.LabelText))
+                                .Td(action: () => hb
+                                    .Text(text: SummaryType(
+                                        context: context,
+                                        type: summary.Type)))
+                                .Td(action: () => hb
+                                    .Text(text: ss.GetColumn(
+                                        context: context,
+                                        columnName: summary.SourceColumn)?.LabelText))
+                                .Td(action: () => hb
+                                    .Text(text: ss.Views?.Get(
+                                        summary.SourceCondition)?.Name)));
                     });
                 });
             }
@@ -8027,7 +8029,9 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.ExecutionTypes(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.ActionTypes(context: context)))));
+                        .Text(text: Displays.ActionTypes(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.AllowBulkProcessing(context: context)))));
         }
 
         /// <summary>
@@ -8095,7 +8099,11 @@ namespace Implem.Pleasanter.Models
                                     .Text(text: Displays.Get(
                                         context: context,
                                         id: process.ActionType?.ToString()
-                                            ?? Process.ActionTypes.Save.ToString()))));
+                                            ?? Process.ActionTypes.Save.ToString())))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: process.AllowBulkProcessing == true)));
                     });
                 });
             }
@@ -8342,7 +8350,12 @@ namespace Implem.Pleasanter.Models
                                 Displays.None(context: context)
                             }
                         },
-                        selectedValue: process.ActionType.ToInt().ToString())));
+                        selectedValue: process.ActionType.ToInt().ToString())
+                    .FieldCheckBox(
+                        controlId: "ProcessAllowBulkProcessing",
+                        controlCss: " always-send",
+                        labelText: Displays.AllowBulkProcessing(context: context),
+                        _checked: process.AllowBulkProcessing == true)));
         }
 
         /// <summary>

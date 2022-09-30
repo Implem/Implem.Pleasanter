@@ -666,6 +666,21 @@ namespace Implem.Pleasanter.Controllers
         }
 
         [HttpPost]
+        public string BulkProcess(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .BulkProcess(context: context);
+            log.Finish(
+                context: context,
+                responseSize: json.Length);
+            return json;
+        }
+
+        [HttpPost]
         public string Copy(long id)
         {
             var context = new Context();

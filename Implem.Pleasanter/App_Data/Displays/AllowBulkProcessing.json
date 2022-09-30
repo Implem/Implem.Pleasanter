@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AllowBulkProcessing",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Allow bulk processing"
+        },
+        {
+            "Language": "zh",
+            "Body": "允许批量处理"
+        },
+        {
+            "Language": "ja",
+            "Body": "一括処理を許可"
+        },
+        {
+            "Language": "de",
+            "Body": "Massenverarbeitung zulassen"
+        },
+        {
+            "Language": "ko",
+            "Body": "일괄 처리 허용"
+        },
+        {
+            "Language": "es",
+            "Body": "Permitir procesamiento masivo"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cho phép xử lý hàng loạt"
+        }
+    ]
+}

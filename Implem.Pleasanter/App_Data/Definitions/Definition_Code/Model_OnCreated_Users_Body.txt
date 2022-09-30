@@ -1,0 +1,7 @@
+﻿if (userApiModel != null)
+{
+    if (userApiModel.MailAddresses != null)
+    {
+        UpdateMailAddresses(context: context, userApiModel: userApiModel);
+    }
+}

@@ -372,6 +372,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_BulkDeleteByApiCases": Code.Model_BulkDeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_BulkDeleteCases": Code.Model_BulkDeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkDeleteCases, definitionRow, CodeXls); break;
                     case "Model_BulkMoveCases": Code.Model_BulkMoveCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkMoveCases, definitionRow, CodeXls); break;
+                    case "Model_BulkProcessCases": Code.Model_BulkProcessCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkProcessCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateCases": Code.Model_BulkUpdateCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateCases, definitionRow, CodeXls); break;
                     case "Model_BulkUpdateSelectChangedCases": Code.Model_BulkUpdateSelectChangedCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BulkUpdateSelectChangedCases, definitionRow, CodeXls); break;
                     case "Model_BurnDownCases": Code.Model_BurnDownCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_BurnDownCases, definitionRow, CodeXls); break;
@@ -707,6 +708,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_BulkDelete": Code.Model_Utilities_BulkDelete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDelete, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkDeleteByApi": Code.Model_Utilities_BulkDeleteByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkDeleteByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkMove": Code.Model_Utilities_BulkMove = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkMove, definitionRow, CodeXls); break;
+                    case "Model_Utilities_BulkProcess": Code.Model_Utilities_BulkProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkProcess, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate": Code.Model_Utilities_BulkUpdate = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate, definitionRow, CodeXls); break;
                     case "Model_Utilities_BulkUpdate_ColumnCases": Code.Model_Utilities_BulkUpdate_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BulkUpdate_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_Utilities_BurnDown": Code.Model_Utilities_BurnDown = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_BurnDown, definitionRow, CodeXls); break;
@@ -6664,6 +6666,7 @@ namespace Implem.DefinitionAccessor
         public string Model_BulkDeleteByApiCases;
         public string Model_BulkDeleteCases;
         public string Model_BulkMoveCases;
+        public string Model_BulkProcessCases;
         public string Model_BulkUpdateCases;
         public string Model_BulkUpdateSelectChangedCases;
         public string Model_BurnDownCases;
@@ -6999,6 +7002,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_BulkDelete;
         public string Model_Utilities_BulkDeleteByApi;
         public string Model_Utilities_BulkMove;
+        public string Model_Utilities_BulkProcess;
         public string Model_Utilities_BulkUpdate;
         public string Model_Utilities_BulkUpdate_ColumnCases;
         public string Model_Utilities_BurnDown;
@@ -7421,6 +7425,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_BulkDeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_BulkDeleteCases = new CodeDefinition();
         public CodeDefinition Model_BulkMoveCases = new CodeDefinition();
+        public CodeDefinition Model_BulkProcessCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateCases = new CodeDefinition();
         public CodeDefinition Model_BulkUpdateSelectChangedCases = new CodeDefinition();
         public CodeDefinition Model_BurnDownCases = new CodeDefinition();
@@ -7756,6 +7761,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_BulkDelete = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkDeleteByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkMove = new CodeDefinition();
+        public CodeDefinition Model_Utilities_BulkProcess = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate = new CodeDefinition();
         public CodeDefinition Model_Utilities_BulkUpdate_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_Utilities_BurnDown = new CodeDefinition();

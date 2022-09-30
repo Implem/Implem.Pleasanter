@@ -63,6 +63,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 ((IDictionary<string, object>)View.Sorters)[columnSorter.Key] = Enum.GetName(
                     typeof(SqlOrderBy.Types),
                     columnSorter.Value));
+            View.SetInitialized();
             ((INotifyPropertyChanged)Model).PropertyChanged += DataPropertyChanged;
             Context = new ServerScriptModelContext(
                 context: context,

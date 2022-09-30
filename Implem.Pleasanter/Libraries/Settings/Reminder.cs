@@ -537,6 +537,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var where = view.Where(
                 context: context,
                 ss: ss,
+                // リマインダーはログインユーザが存在しないためアクセス権のチェックをバイパスする
                 checkPermission: false,
                 requestSearchCondition: false)
                     .Add(

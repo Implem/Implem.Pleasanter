@@ -2,6 +2,10 @@
     var timer;
     var intervalTimer;
     $(document).on('mouseenter', '#ViewFilters label', function () {
+        // 否定フィルタを使用するスイッチがオフの場合は動作させない
+        if (!$("#ViewFiltersLabelMenus").length) {
+            return;
+        }
         clearTimeout(timer);
         clearInterval(intervalTimer);
         if ($(".menu-negative:visible").length) {

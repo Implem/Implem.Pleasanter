@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -299,96 +300,130 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     switch (context.Action)
                                     {
                                         case "index":
-                                            hb
-                                                .Button(
-                                                    serverScriptModelRow: serverScriptModelRow,
-                                                    commandDisplayTypes: view?.BulkMoveTargetsCommand,
-                                                    controlId: "BulkMoveTargetsCommand",
-                                                    text: Displays.BulkMove(context: context),
-                                                    controlCss: "button-icon open-dialog",
-                                                    accessKey: "o",
-                                                    onClick: "$p.moveTargets($(this));",
-                                                    icon: "ui-icon-transferthick-e-w",
-                                                    selector: "#MoveDialog",
-                                                    action: "MoveTargets",
-                                                    method: "get",
-                                                    _using: ss.MoveTargets?.Any() == true
-                                                        && context.CanUpdate(ss: ss)
-                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                        && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
-                                                            .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
-                                                        && !readOnly)
-                                                .Button(
-                                                    serverScriptModelRow: serverScriptModelRow,
-                                                    commandDisplayTypes: view?.BulkDeleteCommand,
-                                                    controlId: "BulkDeleteCommand",
-                                                    text: Displays.BulkDelete(context: context),
-                                                    controlCss: "button-icon",
-                                                    accessKey: "r",
-                                                    onClick: "$p.send($(this));",
-                                                    icon: "ui-icon-trash",
-                                                    action: "BulkDelete",
-                                                    method: "delete",
-                                                    confirm: "ConfirmDelete",
-                                                    _using: context.CanDelete(ss: ss)
-                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                        && !readOnly)
-                                                .Button(
-                                                    serverScriptModelRow: serverScriptModelRow,
-                                                    commandDisplayTypes: view?.EditImportSettings,
-                                                    controlId: "EditImportSettings",
-                                                    text: Displays.Import(context: context),
-                                                    controlCss: "button-icon",
-                                                    accessKey: "w",
-                                                    onClick: "$p.openImportSettingsDialog($(this));",
-                                                    icon: "ui-icon-arrowreturnthick-1-e",
-                                                    selector: "#ImportSettingsDialog",
-                                                    _using: context.CanImport(ss: ss)
-                                                        && !readOnly)
-                                                .Button(
-                                                    serverScriptModelRow: serverScriptModelRow,
-                                                    commandDisplayTypes: view?.OpenExportSelectorDialogCommand,
-                                                    controlId: "OpenExportSelectorDialogCommand",
-                                                    text: Displays.Export(context: context),
-                                                    controlCss: "button-icon",
-                                                    accessKey: "x",
-                                                    onClick: "$p.openExportSelectorDialog($(this));",
-                                                    icon: "ui-icon-arrowreturnthick-1-w",
-                                                    action: "OpenExportSelectorDialog",
-                                                    method: "post",
-                                                    _using: context.CanExport(ss: ss)
-                                                        && ExportUtilities.HasExportableTemplates(
-                                                            context:context,
-                                                            ss:ss))
-                                                .Button(
-                                                    serverScriptModelRow: serverScriptModelRow,
-                                                    commandDisplayTypes: view?.OpenBulkUpdateSelectorDialogCommand,
-                                                    controlId: "OpenBulkUpdateSelectorDialogCommand",
-                                                    text: Displays.BulkUpdate(context: context),
-                                                    controlCss: "button-icon",
-                                                    accessKey: "s",
-                                                    onClick: "$p.openBulkUpdateSelectorDialog($(this));",
-                                                    icon: "ui-icon-disk",
-                                                    action: "OpenBulkUpdateSelectorDialog",
-                                                    method: "post",
-                                                    _using: context.CanUpdate(ss: ss) 
-                                                        && ss.GetAllowBulkUpdateOptions(context: context)?.Any() == true
-                                                        && !readOnly)
-                                                .Button(
-                                                    serverScriptModelRow: serverScriptModelRow,
-                                                    commandDisplayTypes: view?.EditOnGridCommand,
-                                                    controlId: "EditOnGridCommand",
-                                                    text: Displays.EditMode(context: context),
-                                                    controlCss: "button-icon",
-                                                    onClick: "$p.editOnGrid($(this),1);",
-                                                    icon: "ui-icon-arrowreturnthick-1-w",
-                                                    action: "Index",
-                                                    method: "post",
-                                                    _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
-                                                        && context.CanUpdate(ss: ss)
-                                                        && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
-                                                        && ss.IntegratedSites?.Any() != true
-                                                        && !readOnly);
+                                            var bulkProcessingItems = ss.BulkProcessingItems(context: context);
+                                            var process = ss.Processes
+                                                ?.Where(o => o.Accessable(context: context))
+                                                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
+                                            if (process == null)
+                                            {
+                                                hb
+                                                    .Button(
+                                                        serverScriptModelRow: serverScriptModelRow,
+                                                        commandDisplayTypes: view?.BulkMoveTargetsCommand,
+                                                        controlId: "BulkMoveTargetsCommand",
+                                                        text: Displays.BulkMove(context: context),
+                                                        controlCss: "button-icon open-dialog",
+                                                        accessKey: "o",
+                                                        onClick: "$p.moveTargets($(this));",
+                                                        icon: "ui-icon-transferthick-e-w",
+                                                        selector: "#MoveDialog",
+                                                        action: "MoveTargets",
+                                                        method: "get",
+                                                        _using: ss.MoveTargets?.Any() == true
+                                                            && context.CanUpdate(ss: ss)
+                                                            && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                            && ss.MoveTargetsOptions(sites: ss.NumberOfMoveTargetsTable(context: context))
+                                                                .Any(o => ss.MoveTargets.Contains(o.Key.ToLong()))
+                                                            && !readOnly)
+                                                    .Button(
+                                                        serverScriptModelRow: serverScriptModelRow,
+                                                        commandDisplayTypes: view?.BulkDeleteCommand,
+                                                        controlId: "BulkDeleteCommand",
+                                                        text: Displays.BulkDelete(context: context),
+                                                        controlCss: "button-icon",
+                                                        accessKey: "r",
+                                                        onClick: "$p.send($(this));",
+                                                        icon: "ui-icon-trash",
+                                                        action: "BulkDelete",
+                                                        method: "delete",
+                                                        confirm: "ConfirmDelete",
+                                                        _using: context.CanDelete(ss: ss)
+                                                            && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                            && !readOnly)
+                                                    .Button(
+                                                        serverScriptModelRow: serverScriptModelRow,
+                                                        commandDisplayTypes: view?.EditImportSettings,
+                                                        controlId: "EditImportSettings",
+                                                        text: Displays.Import(context: context),
+                                                        controlCss: "button-icon",
+                                                        accessKey: "w",
+                                                        onClick: "$p.openImportSettingsDialog($(this));",
+                                                        icon: "ui-icon-arrowreturnthick-1-e",
+                                                        selector: "#ImportSettingsDialog",
+                                                        _using: context.CanImport(ss: ss)
+                                                            && !readOnly)
+                                                    .Button(
+                                                        serverScriptModelRow: serverScriptModelRow,
+                                                        commandDisplayTypes: view?.OpenExportSelectorDialogCommand,
+                                                        controlId: "OpenExportSelectorDialogCommand",
+                                                        text: Displays.Export(context: context),
+                                                        controlCss: "button-icon",
+                                                        accessKey: "x",
+                                                        onClick: "$p.openExportSelectorDialog($(this));",
+                                                        icon: "ui-icon-arrowreturnthick-1-w",
+                                                        action: "OpenExportSelectorDialog",
+                                                        method: "post",
+                                                        _using: context.CanExport(ss: ss)
+                                                            && ExportUtilities.HasExportableTemplates(
+                                                                context: context,
+                                                                ss: ss))
+                                                    .Button(
+                                                        serverScriptModelRow: serverScriptModelRow,
+                                                        commandDisplayTypes: view?.OpenBulkUpdateSelectorDialogCommand,
+                                                        controlId: "OpenBulkUpdateSelectorDialogCommand",
+                                                        text: Displays.BulkUpdate(context: context),
+                                                        controlCss: "button-icon",
+                                                        accessKey: "s",
+                                                        onClick: "$p.openBulkUpdateSelectorDialog($(this));",
+                                                        icon: "ui-icon-disk",
+                                                        action: "OpenBulkUpdateSelectorDialog",
+                                                        method: "post",
+                                                        _using: context.CanUpdate(ss: ss)
+                                                            && ss.GetAllowBulkUpdateOptions(context: context)?.Any() == true
+                                                            && !readOnly)
+                                                    .Button(
+                                                        serverScriptModelRow: serverScriptModelRow,
+                                                        commandDisplayTypes: view?.EditOnGridCommand,
+                                                        controlId: "EditOnGridCommand",
+                                                        text: Displays.EditMode(context: context),
+                                                        controlCss: "button-icon",
+                                                        onClick: "$p.editOnGrid($(this),1);",
+                                                        icon: "ui-icon-arrowreturnthick-1-w",
+                                                        action: "Index",
+                                                        method: "post",
+                                                        _using: ss.GridEditorType == SiteSettings.GridEditorTypes.Grid
+                                                            && context.CanUpdate(ss: ss)
+                                                            && !ss.GridColumnsHasSources(gridColumns: view?.GridColumns)
+                                                            && ss.IntegratedSites?.Any() != true
+                                                            && !readOnly);
+                                            }
+                                            hb.DropDown(
+                                                context: context,
+                                                controlId: "BulkProcessingItems",
+                                                controlCss: " auto-postback always-send w150",
+                                                optionCollection: bulkProcessingItems,
+                                                selectedValue: process?.Id.ToString(),
+                                                method: "post",
+                                                _using: bulkProcessingItems?.Any() == true);
+                                            if (process != null)
+                                            {
+                                                hb
+                                                    .Button(
+                                                        controlId: "BulkProcessCommand",
+                                                        text: Displays.Execute(context: context),
+                                                        controlCss: "button-icon",
+                                                        onClick: "$p.send($(this));",
+                                                        icon: "ui-icon-disk",
+                                                        action: "BulkProcess",
+                                                        method: "post",
+                                                        confirm: process.ConfirmationMessage)
+                                                    .Button(
+                                                        controlId: "BulkProcessCancelCommand",
+                                                        text: Displays.ListMode(context: context),
+                                                        controlCss: "button-icon",
+                                                        onClick: "$('#BulkProcessingItems').val('').change();",
+                                                        icon: "ui-icon-arrowreturnthick-1-w");
+                                            }
                                             break;
                                         case "crosstab":
                                             hb.Button(

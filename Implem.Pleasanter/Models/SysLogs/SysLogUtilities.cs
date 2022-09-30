@@ -2415,7 +2415,7 @@ namespace Implem.Pleasanter.Models
                 fileDownloadName: ExportUtilities.FileName(
                     context: context,
                     title: ss.Title,
-                    name: Displays.Depts(context: context)),
+                    name: Displays.SysLogs(context: context)),
                 encoding: context.QueryStrings.Data("encoding"));
         }
 

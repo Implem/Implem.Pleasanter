@@ -42,6 +42,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool AllowStandardExport;
         public int ImportMax;
         public int ViewerSwitchingType;
+        public bool UseNegativeFilters;
         public bool AllowCopy;
         public bool AllowReferenceCopy;
         public string CharToAddWhenCopying;

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "BulkProcessed",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "{0}: {1} items have been processed at once."
+        },
+        {
+            "Language": "zh",
+            "Body": "{0}: 一次处理了 {1} 个项目。"
+        },
+        {
+            "Language": "ja",
+            "Body": "{0}: {1} 件 一括処理しました。"
+        },
+        {
+            "Language": "de",
+            "Body": "{0}: {1} Elemente wurden gleichzeitig verarbeitet."
+        },
+        {
+            "Language": "ko",
+            "Body": "{0}: 한 번에 {1}개의 항목이 처리되었습니다.."
+        },
+        {
+            "Language": "es",
+            "Body": "{0}: Se han procesado {1} elementos a la vez."
+        },
+        {
+            "Language": "vn",
+            "Body": "{0}: {1} mục đã được xử lý cùng một lúc."
+        }
+    ]
+}
