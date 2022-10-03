@@ -15,6 +15,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         public readonly ServerScriptModelGrid Grid = new ServerScriptModelGrid();
         public readonly ExpandoObject Model = new ExpandoObject();
+        public readonly ExpandoObject Saved = new ExpandoObject();
         public readonly ServerScriptModelDepts Depts;
         public readonly ServerScriptModelGroups Groups;
         public readonly ServerScriptModelUsers Users;
@@ -39,6 +40,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             SiteSettings ss,
             GridData gridData,
             IEnumerable<(string Name, object Value)> data,
+            IEnumerable<(string Name, object Value)> saved,
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             View view,
             string condition,
@@ -47,6 +49,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             Grid.TotalCount = gridData?.TotalCount ?? 0;
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
+            saved?.ForEach(datam => ((IDictionary<string, object>)Saved)[datam.Name] = datam.Value);
             Depts = new ServerScriptModelDepts(context: context);
             Groups = new ServerScriptModelGroups(context: context);
             Users = new ServerScriptModelUsers(context: context);
