@@ -4,5 +4,5 @@
     "SyncByLdap": false,
     "SyncByLdapTime": [ "02:00" ],
     "DeleteSysLog": false,
-    "DeleteSysLogTime": [ "03:00" ]
+    "DeleteSysLogTime": [ "02:00" ]
 }

@@ -1,6 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Libraries.DataSources;
-using System;
+using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,13 +21,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     message: "delete SysLog.");
                 if (Parameters.SysLog.RetentionPeriod > 0)
                 {
-                    Repository.ExecuteNonQuery(
-                        context: context,
-                        statements: Rds.PhysicalDeleteSysLogs(
-                            where: Rds.SysLogsWhere().CreatedTime(
-                                DateTime.Now.Date.AddDays(
-                                    Parameters.SysLog.RetentionPeriod * -1),
-                                _operator: "<")));
+                    SysLogUtilities.PhysicalDelete(context);
                 }
                 log.Finish(context: context);
             }, stoppingToken);
