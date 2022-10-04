@@ -25,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         public TimerBackgroundService()
         {
             AddTimer(timer: new SyncByLdapExecutionTimer());
+            AddTimer(timer: new SysLogDeleteTimer());
         }
 
         private void SortTimerList()
@@ -44,6 +45,10 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         protected void AddTimer(ExecutionTimerBase timer)
         {
+            if (!timer.Enabled())
+            {
+                return;
+            }
             try
             {
                 foreach (var timeString in timer.GetTimeList())

@@ -2425,16 +2425,24 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.SysLog.RetentionPeriod > 0
                 && (force || (DateTime.Now - Applications.SysLogsMaintenanceDate).Days > 0))
-            { 
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    statements: Rds.PhysicalDeleteSysLogs(
-                        where: Rds.SysLogsWhere().CreatedTime(
-                            DateTime.Now.Date.AddDays(
-                                Parameters.SysLog.RetentionPeriod * -1),
-                            _operator: "<")));
+            {
+                PhysicalDelete(context: context);
                 Applications.SysLogsMaintenanceDate = DateTime.Now.Date;
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void PhysicalDelete(Context context)
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.PhysicalDeleteSysLogs(
+                    where: Rds.SysLogsWhere().CreatedTime(
+                        DateTime.Now.Date.AddDays(
+                            Parameters.SysLog.RetentionPeriod * -1),
+                        _operator: "<")));
         }
     }
 }

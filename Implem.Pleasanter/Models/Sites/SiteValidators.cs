@@ -457,7 +457,8 @@ namespace Implem.Pleasanter.Models
                 var to = ss.LabelTextToColumnName(context.Forms.Data("NotificationAddress"));
                 return SetMailTo(
                     ss: ss,
-                    to: to);
+                    to: to,
+                    notification: true);
             }
             return new ErrorData(type: Error.Types.None);
         }
@@ -469,12 +470,13 @@ namespace Implem.Pleasanter.Models
                 var to = ss.LabelTextToColumnName(context.Forms.Data("ProcessNotificationAddress"));
                 return SetMailTo(
                     ss: ss,
-                    to: to);
+                    to: to,
+                    notification: true);
             }
             return new ErrorData(type: Error.Types.None);
         }
 
-        private static ErrorData SetMailTo(SiteSettings ss, string to)
+        private static ErrorData SetMailTo(SiteSettings ss, string to, bool notification = false)
         {
             ss.IncludedColumns(value: to).ForEach(column =>
                 to = to.Replace($"[{column.ColumnName}]", string.Empty));
@@ -489,6 +491,13 @@ namespace Implem.Pleasanter.Models
             foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[User[0-9]+\])"))
             {
                 to = to.Replace(match.Value, string.Empty);
+            }
+            if (notification)
+            {
+                foreach (System.Text.RegularExpressions.Match match in to.RegexMatches(@"(\[RelatedUsers\])"))
+                {
+                    to = to.Replace(match.Value, string.Empty);
+                }
             }
             to = to
                 .Split(',')

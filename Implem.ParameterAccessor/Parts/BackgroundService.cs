@@ -8,10 +8,12 @@ namespace Implem.ParameterAccessor.Parts
         public int ReminderIgnoreConsecutiveExceptionCount;
         public bool SyncByLdap;
         public List<string> SyncByLdapTime;
+        public bool DeleteSysLog;
+        public List<string> DeleteSysLogTime;
 
         public bool TimerEnabled()
         {
-            return SyncByLdap;
+            return SyncByLdap || DeleteSysLog;
         }
     }
 }

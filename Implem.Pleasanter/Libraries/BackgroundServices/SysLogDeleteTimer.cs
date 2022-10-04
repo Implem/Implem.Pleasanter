@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
-    public class SyncByLdapExecutionTimer : ExecutionTimerBase
+    public class SysLogDeleteTimer : ExecutionTimerBase
     {
         override public async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -15,22 +15,23 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var context = CreateContext();
                 var log = CreateSysLogModel(
                     context: context,
-                    message: "exec SyncByLdap().");
-                var json = UserUtilities.SyncByLdap(context: context);
-                log.Finish(
-                    context: context,
-                    responseSize: json.Length);
+                    message: "delete SysLog.");
+                if (Parameters.SysLog.RetentionPeriod > 0)
+                {
+                    SysLogUtilities.PhysicalDelete(context);
+                }
+                log.Finish(context: context);
             }, stoppingToken);
         }
 
         override public IList<string> GetTimeList()
         {
-            return Parameters.BackgroundService.SyncByLdapTime;
+            return Parameters.BackgroundService.DeleteSysLogTime;
         }
 
         public override bool Enabled()
         {
-            return Parameters.BackgroundService.SyncByLdap;
+            return Parameters.BackgroundService.DeleteSysLog;
         }
     }
 }
