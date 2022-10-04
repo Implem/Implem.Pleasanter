@@ -34,12 +34,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .FirstOrDefault(o => o.Id == processId);
                 if (process != null)
                 {
-                    if (view == null)
-                    {
-                        view = new View(
-                            context: context,
-                            ss: ss);
-                    }
+                    view = GetSessionView(
+                        context: context,
+                        ss: ss,
+                        useUsersView: useUsersView);
                     process.View?.CopyViewFilters(view: view);
                     switch (process.CurrentStatus)
                     {

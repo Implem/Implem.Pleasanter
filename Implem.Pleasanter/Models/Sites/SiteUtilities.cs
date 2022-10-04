@@ -7387,44 +7387,41 @@ namespace Implem.Pleasanter.Models
                             o["SiteId"].ToLong() == summary.SiteId);
                         var destinationSs = SiteSettingsUtilities.Get(
                             context: context, dataRow: dataRow);
-                        if (destinationSs != null)
-                        {
-                            hb.Tr(
-                                css: "grid-row",
-                                attributes: new HtmlAttributes()
-                                    .DataId(summary.Id.ToString()),
-                                action: () => hb
-                                    .Td(action: () => hb
-                                        .CheckBox(
-                                            controlCss: "select",
-                                            _checked: selected?.Contains(summary.Id) == true))
-                                    .Td(action: () => hb
-                                        .Text(text: summary.Id.ToString()))
-                                    .Td(action: () => hb
-                                        .Text(text: dataRow["Title"].ToString()))
-                                    .Td(action: () => hb
-                                        .Text(text: destinationSs.GetColumn(
-                                            context: context,
-                                            columnName: summary.DestinationColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: destinationSs.Views?.Get(
-                                            summary.DestinationCondition)?.Name))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.GetColumn(
-                                            context: context,
-                                            columnName: summary.LinkColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: SummaryType(
-                                            context: context,
-                                            type: summary.Type)))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.GetColumn(
-                                            context: context,
-                                            columnName: summary.SourceColumn)?.LabelText))
-                                    .Td(action: () => hb
-                                        .Text(text: ss.Views?.Get(
-                                            summary.SourceCondition)?.Name)));
-                        }
+                        hb.Tr(
+                            css: "grid-row",
+                            attributes: new HtmlAttributes()
+                                .DataId(summary.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "select",
+                                        _checked: selected?.Contains(summary.Id) == true))
+                                .Td(action: () => hb
+                                    .Text(text: summary.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: dataRow?["Title"].ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: destinationSs?.GetColumn(
+                                        context: context,
+                                        columnName: summary.DestinationColumn)?.LabelText))
+                                .Td(action: () => hb
+                                    .Text(text: destinationSs?.Views?.Get(
+                                        summary.DestinationCondition)?.Name))
+                                .Td(action: () => hb
+                                    .Text(text: ss.GetColumn(
+                                        context: context,
+                                        columnName: summary.LinkColumn)?.LabelText))
+                                .Td(action: () => hb
+                                    .Text(text: SummaryType(
+                                        context: context,
+                                        type: summary.Type)))
+                                .Td(action: () => hb
+                                    .Text(text: ss.GetColumn(
+                                        context: context,
+                                        columnName: summary.SourceColumn)?.LabelText))
+                                .Td(action: () => hb
+                                    .Text(text: ss.Views?.Get(
+                                        summary.SourceCondition)?.Name)));
                     });
                 });
             }

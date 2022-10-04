@@ -289,6 +289,206 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return values.ToArray();
         }
 
+        public static IEnumerable<(string Name, object Value)> SavedValues(
+            Context context,
+            SiteSettings ss,
+            BaseItemModel model)
+        {
+            var mine = model?.Mine(context: context);
+            var values = new List<(string, object)>();
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.SiteId),
+                value: model.SavedSiteId,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Title),
+                value: model.SavedTitle,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Body),
+                value: model.SavedBody,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Ver),
+                value: model.SavedVer,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Creator),
+                value: model.SavedCreator,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.Updator),
+                value: model.SavedUpdator,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.CreatedTime),
+                value: model.SavedCreatedTime,
+                mine: mine));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: nameof(model.UpdatedTime),
+                value: model.SavedUpdatedTime,
+                mine: mine));
+            values.AddRange(model
+                .ClassHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value,
+                    mine: mine)));
+            values.AddRange(model
+                .SavedNumHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value
+                        ?? (ss?.GetColumn(
+                            context: context,
+                            columnName: element.Key)
+                                ?.Nullable == true
+                                    ? (decimal?)null
+                                    : 0),
+                    mine: mine)));
+            values.AddRange(model
+                .SavedDateHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value,
+                    mine: mine)));
+            values.AddRange(model
+                .SavedDescriptionHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value,
+                    mine: mine)));
+            values.AddRange(model
+                .SavedCheckHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value,
+                    mine: mine)));
+            if (model is IssueModel issueModel)
+            {
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.IssueId),
+                    value: issueModel.SavedIssueId,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.StartTime),
+                    value: issueModel.SavedStartTime,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.CompletionTime),
+                    value: issueModel.SavedCompletionTime,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.WorkValue),
+                    value: issueModel.SavedWorkValue,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.ProgressRate),
+                    value: issueModel.SavedProgressRate,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.RemainingWorkValue),
+                    value: issueModel.SavedRemainingWorkValue,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.Status),
+                    value: issueModel.SavedStatus,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.Manager),
+                    value: issueModel.SavedManager,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.Owner),
+                    value: issueModel.SavedOwner,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(IssueModel.Locked),
+                    value: issueModel.SavedLocked,
+                    mine: mine));
+            }
+            if (model is ResultModel resultModel)
+            {
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.ResultId),
+                    value: resultModel.SavedResultId,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Status),
+                    value: resultModel.SavedStatus,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Manager),
+                    value: resultModel.SavedManager,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Owner),
+                    value: resultModel.SavedOwner,
+                    mine: mine));
+                values.Add(ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(ResultModel.Locked),
+                    value: resultModel.SavedLocked,
+                    mine: mine));
+            }
+            return values.ToArray();
+        }
+
         public static IEnumerable<(string Name, ServerScriptModelColumn Value)> Columns(
             Context context, SiteSettings ss, BaseItemModel model)
         {
@@ -804,6 +1004,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     context: context,
                     ss: ss,
                     model: itemModel),
+                saved: SavedValues(
+                    context: context,
+                    ss: ss,
+                    model: itemModel),
                 columns: Columns(
                     context: context,
                     ss: ss,
@@ -821,6 +1025,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
+                        engine.AddHostObject("saved", model.Saved);
                         engine.AddHostObject("depts", model.Depts);
                         engine.AddHostObject("groups", model.Groups);
                         engine.AddHostObject("users", model.Users);
