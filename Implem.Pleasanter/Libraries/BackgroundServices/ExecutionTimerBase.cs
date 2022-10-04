@@ -1,7 +1,6 @@
 ﻿using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             return new SysLogModel(
                 context: context,
                 method: nameof(CreateSysLogModel),
-                message: $"{MethodBase.GetCurrentMethod().DeclaringType.FullName}.{callerMemberName} , {message}",
+                message: $"{GetType().FullName}.{callerMemberName} , {message}",
                 sysLogType: SysLogModel.SysLogTypes.Info);
         }
     }

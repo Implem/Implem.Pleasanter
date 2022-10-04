@@ -84,7 +84,6 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
         {
             return Enable;
         }
-
     }
 
     public class TimerBackgroundServiceTest
@@ -96,7 +95,8 @@ namespace Implem.PleasanterTest.Tests.BackgroundService
             //Arrange
             var targetMock = new MockTimerBackgroundService();
             var timer1 = new StubTimer(name: "Timer1", parent: targetMock);
-            timer1.Enable = false;//無効化
+            //timer1は無効化しておく
+            timer1.Enable = false;
             timer1.TimeList.Add("03:00");
             //Act
             targetMock.AddTimer_(timer: timer1);
