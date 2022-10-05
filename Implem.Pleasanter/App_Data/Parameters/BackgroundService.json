@@ -5,4 +5,6 @@
     "SyncByLdapTime": [ "02:00" ],
     "DeleteSysLogs": false,
     "DeleteSysLogsTime": [ "02:00" ]
+    "DeleteTemporaryFiles": false,
+    "DeleteTemporaryFilesTime": [ "02:00" ]
 }
