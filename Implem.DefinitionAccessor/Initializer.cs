@@ -981,7 +981,7 @@ namespace Implem.DefinitionAccessor
             }
         }
 
-        private static void DeleteTemporaryFiles()
+        public static void DeleteTemporaryFiles()
         {
             Files.DeleteTemporaryFiles(
                 Directories.Temp(), Parameters.General.DeleteTempOldThan);
