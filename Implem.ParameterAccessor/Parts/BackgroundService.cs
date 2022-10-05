@@ -16,7 +16,9 @@ namespace Implem.ParameterAccessor.Parts
         public bool TimerEnabled()
         {
             //TimerBackgroundServiceを使うものをここの条件に追加
-            return SyncByLdap || DeleteSysLog || DeleteTemporaryFiles;
+            return SyncByLdap
+                || DeleteSysLog
+                || DeleteTemporaryFiles;
         }
     }
 }
