@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,9 +6,9 @@ using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     /// <summary>
-    /// SysLog削除を毎日定時に呼び出すクラス
+    /// テンポラリファイル削除を毎日定時に呼び出すクラス
     /// </summary>
-    public class SysLogDeleteTimer : ExecutionTimerBase
+    public class DeleteTemporaryFilesTimer : ExecutionTimerBase
     {
         override public async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -18,23 +17,20 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var context = CreateContext();
                 var log = CreateSysLogModel(
                     context: context,
-                    message: "delete SysLog.");
-                if (Parameters.SysLog.RetentionPeriod > 0)
-                {
-                    SysLogUtilities.PhysicalDelete(context);
-                }
+                    message: "delete temporary files.");
+                Initializer.DeleteTemporaryFiles();
                 log.Finish(context: context);
             }, stoppingToken);
         }
 
         override public IList<string> GetTimeList()
         {
-            return Parameters.BackgroundService.DeleteSysLogTime;
+            return Parameters.BackgroundService.DeleteTemporaryFilesTime;
         }
 
         public override bool Enabled()
         {
-            return Parameters.BackgroundService.DeleteSysLog;
+            return Parameters.BackgroundService.DeleteTemporaryFiles;
         }
     }
 }
