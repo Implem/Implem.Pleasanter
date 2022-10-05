@@ -17,7 +17,7 @@ namespace Implem.ParameterAccessor.Parts
         {
             //TimerBackgroundServiceを使うものをここの条件に追加
             return SyncByLdap
-                || DeleteSysLog
+                || DeleteSysLogs
                 || DeleteTemporaryFiles;
         }
     }
