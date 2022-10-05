@@ -9,7 +9,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
     /// <summary>
     /// SysLog削除を毎日定時に呼び出すクラス
     /// </summary>
-    public class SysLogDeleteTimer : ExecutionTimerBase
+    public class SysLogsDeleteTimer : ExecutionTimerBase
     {
         override public async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -29,12 +29,12 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
 
         override public IList<string> GetTimeList()
         {
-            return Parameters.BackgroundService.DeleteSysLogTime;
+            return Parameters.BackgroundService.DeleteSysLogsTime;
         }
 
         public override bool Enabled()
         {
-            return Parameters.BackgroundService.DeleteSysLog;
+            return Parameters.BackgroundService.DeleteSysLogs;
         }
     }
 }
