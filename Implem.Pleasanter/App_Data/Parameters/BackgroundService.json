@@ -3,6 +3,6 @@
     "ReminderIgnoreConsecutiveExceptionCount": 30,
     "SyncByLdap": false,
     "SyncByLdapTime": [ "02:00" ],
-    "DeleteSysLog": false,
-    "DeleteSysLogTime": [ "02:00" ]
+    "DeleteSysLogs": false,
+    "DeleteSysLogsTime": [ "02:00" ]
 }

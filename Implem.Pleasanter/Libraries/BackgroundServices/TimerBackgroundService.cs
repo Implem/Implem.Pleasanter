@@ -29,7 +29,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         {
             // 呼び出すExecutionTimer実装クラスをここに追加する。
             AddTimer(timer: new SyncByLdapExecutionTimer());
-            AddTimer(timer: new SysLogDeleteTimer());
+            AddTimer(timer: new SysLogsDeleteTimer());
         }
 
         private void SortTimerList()
