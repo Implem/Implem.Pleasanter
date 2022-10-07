@@ -7169,6 +7169,9 @@ namespace Implem.Pleasanter.Models
                 columnName: view.GetTimeSeriesValue(
                     context: context,
                     ss: ss));
+            var chartType = view.GetTimeSeriesChartType(
+                context: context,
+                ss: ss);
             var dataRows = TimeSeriesDataRows(
                 context: context,
                 ss: ss,
@@ -7186,6 +7189,7 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    chartType: chartType,
                     dataRows: dataRows,
                     inRange: inRange)
                 : hb.TimeSeriesBody(

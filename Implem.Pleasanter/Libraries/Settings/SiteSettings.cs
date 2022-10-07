@@ -3365,6 +3365,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
+        public Dictionary<string, string> TimeSeriesChartTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "StackedAreaChart", Displays.StackedAreaChart(context: context) },
+                { "LineChart", Displays.LineChart(context: context) }
+            };
+        }
+
         public Dictionary<string, string> KambanGroupByOptions(
             Context context, bool addNothing = false)
         {

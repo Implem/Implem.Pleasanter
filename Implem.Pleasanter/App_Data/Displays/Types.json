@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Types",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Type"
+        },
+        {
+            "Language": "zh",
+            "Body": "类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "種類"
+        },
+        {
+            "Language": "de",
+            "Body": "Typ"
+        },
+        {
+            "Language": "ko",
+            "Body": "유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Escribe"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại hình"
+        }
+    ]
+}

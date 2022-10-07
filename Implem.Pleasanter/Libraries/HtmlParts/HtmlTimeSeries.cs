@@ -17,6 +17,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy,
             string aggregationType,
             Column value,
+            string chartType,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -50,6 +51,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.AggregationTarget(context: context),
                     optionCollection: ss.TimeSeriesValueOptions(context: context),
                     selectedValue: value?.ColumnName,
+                    addSelectedValue: false,
+                    method: "post")
+                .FieldDropDown(
+                    context: context,
+                    fieldId: "TimeSeriesChartTypeField",
+                    controlId: "TimeSeriesChartType",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.Types(context: context),
+                    optionCollection: ss.TimeSeriesChartTypeOptions(context: context),
+                    selectedValue: chartType,
                     addSelectedValue: false,
                     method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb

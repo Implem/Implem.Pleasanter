@@ -98,6 +98,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesGroupBy;
         public string TimeSeriesAggregateType;
         public string TimeSeriesValue;
+        public string TimeSeriesChartType;
         public string KambanGroupByX;
         public string KambanGroupByY;
         public string KambanAggregateType;
@@ -308,6 +309,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : options.FirstOrDefault().Key;
             }
             return TimeSeriesValue;
+        }
+
+        public string GetTimeSeriesChartType(Context context, SiteSettings ss)
+        {
+            var options = ss.TimeSeriesChartTypeOptions(context: context);
+            if (TimeSeriesChartType.IsNullOrEmpty())
+            {
+                TimeSeriesChartType = options.ContainsKey(Definition(ss, "TimeSeries")?.Option4)
+                    ? Definition(ss, "TimeSeries")?.Option4
+                    : options.FirstOrDefault().Key;
+            }
+            return TimeSeriesChartType;
         }
 
         public string GetKambanGroupByX(Context context, SiteSettings ss)

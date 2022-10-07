@@ -5219,6 +5219,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string LineChart(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LineChart",
+                data: data);
+        }
+
         public static string LineGroup(
             Context context,
             params string[] data)
@@ -8209,6 +8219,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string StackedAreaChart(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "StackedAreaChart",
+                data: data);
+        }
+
         public static string Standard(
             Context context,
             params string[] data)
@@ -8896,6 +8916,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tuesday",
+                data: data);
+        }
+
+        public static string Types(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Types",
                 data: data);
         }
 
