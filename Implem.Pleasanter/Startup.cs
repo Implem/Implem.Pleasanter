@@ -91,6 +91,7 @@ namespace Implem.Pleasanter.NetCore
                     .AddSaml2(options =>
                     {
                         Saml.SetSPOptions(options);
+                        Saml.RegisterSamlConfiguration(options);
                     });
             }
             else

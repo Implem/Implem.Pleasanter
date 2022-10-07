@@ -12,6 +12,7 @@ using Sustainsys.Saml2.Configuration;
 using Sustainsys.Saml2.Metadata;
 using Sustainsys.Saml2.WebSso;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -22,6 +23,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Saml
     {
+        public static ConcurrentDictionary<string, Sustainsys.Saml2.IdentityProvider> IdpCache
+            = new ConcurrentDictionary<string, Sustainsys.Saml2.IdentityProvider>();
+
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
@@ -247,8 +251,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 = paramSPOptions.OutboundSigningAlgorithm
                 ?? options.SPOptions.OutboundSigningAlgorithm;
             options.SPOptions.PublicOrigin
-                = paramSPOptions.PublicOrigin.IsNullOrEmpty()? null: new Uri(paramSPOptions.PublicOrigin);
-            if(paramSPOptions.IgnoreMissingInResponseTo == true)
+                = paramSPOptions.PublicOrigin.IsNullOrEmpty() ? null : new Uri(paramSPOptions.PublicOrigin);
+            if (paramSPOptions.IgnoreMissingInResponseTo == true)
             {
                 options.SPOptions.Compatibility.IgnoreMissingInResponseTo = true;
             }
@@ -345,11 +349,93 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return null;
             }
+            //Cacheに存在している場合、設定内容が変更されていなければChacheのデータを返す
+            if (IdpCache.TryGetValue(entityId.Id, out Sustainsys.Saml2.IdentityProvider cachedIdp))
+            {
+                if (cachedIdp.EntityId.Id == entityId.Id
+                    && cachedIdp.SingleSignOnServiceUrl == new Uri(loginUrl)
+                    && cachedIdp.MetadataLocation == metadataLocation)
+                {
+                    return cachedIdp;
+                }
+            }
+            //Cacheに存在していない、または設定内容が変わっている場合、新規に作成したIDPを返し、Cacheに追加する
             var idp = new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions);
             idp.SingleSignOnServiceUrl = new Uri(loginUrl);
             idp.MetadataLocation = metadataLocation;
             idp.LoadMetadata = true;
+            IdpCache.AddOrUpdate(entityId.Id, _ => idp, (_, __) => idp);
             return idp;
+        }
+
+        public static void RegisterSamlConfiguration(Saml2Options options)
+        {
+            if (Parameters.Authentication.Provider != "SAML-MultiTenant") { return; }
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
+            //SAML認証設定のあるテナントを取得し、その情報からIDPオブジェクトを作成する
+            //作成したIDPオブジェクトはCacheとしてメモリ上に保持される
+            foreach (var tenant in new TenantCollection(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                where: Rds.TenantsWhere()
+                    .Comments(_operator: " is not null")
+                    .Comments("", _operator: "<>")))
+            {
+                try
+                {
+                    SetIdpConfiguration(context, options, tenant.TenantId);
+                }
+                catch (Exception e)
+                {
+                    new SysLogModel(context: context, e);
+                }
+            }
+        }
+
+        public static void SetIdpConfiguration(Context context, Saml2Options options, int tenantId)
+        {
+            var contractSettings = GetTenantSamlSettings(context, tenantId);
+            if (contractSettings == null)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(SetIdpConfiguration),
+                    message: $"Saml settings is incomplete. [tenantId: {tenantId}]",
+                    sysLogType: SysLogModel.SysLogTypes.Warning);
+                return;
+            }
+            var metadataLocation = SetSamlMetadataFile(context, contractSettings.SamlMetadataGuid);
+            var entityId = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1);
+            var idp = GetSamlIdp(
+                options: options,
+                entityId: new EntityId(entityId),
+                rd: new Dictionary<string, string>
+                    {
+                        { "idp", entityId },
+                        { "SamlLoginUrl", contractSettings.SamlLoginUrl },
+                        { "SamlMetadataLocation", metadataLocation }
+                    });
+            if (idp == null)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(SetIdpConfiguration),
+                    message: $"Saml settings is incomplete. {contractSettings.Name}, SamlLoginUrl={contractSettings.SamlLoginUrl}, Metadata={contractSettings.SamlMetadataGuid}",
+                    sysLogType: SysLogModel.SysLogTypes.Warning);
+            }
+            else
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(SetIdpConfiguration),
+                    message: $"{contractSettings.Name}, EntityId={idp.EntityId}, Metadata={contractSettings.SamlMetadataGuid}",
+                    sysLogType: SysLogModel.SysLogTypes.Info);
+            }
         }
 
         public static ContractSettings GetTenantSamlSettings(Context context, int tenantId)
@@ -362,7 +448,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return null;
             }
-            return contractSettings; 
+            return contractSettings;
         }
 
         public static ContractSettings GetTenantSamlSettings(Context context, string ssocode)
