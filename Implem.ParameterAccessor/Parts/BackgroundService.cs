@@ -12,13 +12,17 @@ namespace Implem.ParameterAccessor.Parts
         public List<string> DeleteSysLogsTime;
         public bool DeleteTemporaryFiles;
         public List<string> DeleteTemporaryFilesTime;
+        public bool DeleteTrashBox;
+        public List<string> DeleteTrashBoxTime;
+        public int DeleteTrashBoxRetentionPeriod;
 
         public bool TimerEnabled()
         {
             //TimerBackgroundServiceを使うものをここの条件に追加
             return SyncByLdap
                 || DeleteSysLogs
-                || DeleteTemporaryFiles;
+                || DeleteTemporaryFiles
+                || DeleteTrashBox;
         }
     }
 }
