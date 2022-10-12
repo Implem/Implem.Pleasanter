@@ -138,7 +138,9 @@ $p.setAndSend = function (selector, $control) {
 
 $p.setMustData = function ($form, action) {
     if (action !== undefined && action.toLowerCase() === 'create') {
-        $form.find('[class*="control-"]').each(function () {
+        // 新規作成時はコントロールの値を全て送信する
+        // 読み取り専用(SPAN)でCssClassにalways-sendの設定がないものを除く
+        $form.find('[class*="control-"]:not(span:not(.always-send))').each(function () {
             $p.setData($(this));
         });
     } else if (action !== undefined && action.toLowerCase() === 'bulkupdate') {
