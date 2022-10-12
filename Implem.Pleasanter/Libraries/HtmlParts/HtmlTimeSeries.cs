@@ -64,6 +64,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     selectedValue: chartType,
                     addSelectedValue: false,
                     method: "post")
+                .FieldDropDown(
+                    context: context,
+                    fieldId: "TimeSeriesHorizontalAxisField",
+                    controlId: "TimeSeriesHorizontalAxis",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.HorizontalAxis(context: context),
+                    optionCollection: ss.TimeSeriesHorizontalAxisOptions(context: context),
+                    selectedValue: chartType,
+                    addSelectedValue: false,
+                    method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .TimeSeriesBody(
                         context: context,
@@ -71,6 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupBy: groupBy,
                         aggregationType: aggregationType,
                         value: value,
+                        horizontalAxis: "Histories",
                         dataRows: dataRows,
                         inRange: inRange)));
         }
@@ -82,6 +94,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy,
             string aggregationType,
             Column value,
+            string horizontalAxis,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -93,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    horizontalAxis: horizontalAxis,
                     dataRows: dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
@@ -101,7 +115,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: timeSeries.Json(
                             context: context,
                             groupBy: groupBy,
-                            value: value));
+                            value: value,
+                            horizontalAxis: horizontalAxis));
             }
             else
             {

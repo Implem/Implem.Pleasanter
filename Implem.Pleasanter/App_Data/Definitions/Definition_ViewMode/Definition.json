@@ -47,7 +47,9 @@
         "Name": "TimeSeries",
         "Option1": "Owner",
         "Option2": "Count",
-        "Option3": "RemainingWorkValue"
+        "Option3": "RemainingWorkValue",
+        "Option4": "AreaChart",
+        "Option5": "Histories"
     },
     {
         "Id": "Issues_Kamban",

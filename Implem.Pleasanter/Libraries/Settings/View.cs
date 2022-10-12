@@ -99,6 +99,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesAggregateType;
         public string TimeSeriesValue;
         public string TimeSeriesChartType;
+        public string TimeSeriesHorizontalAxis;
         public string KambanGroupByX;
         public string KambanGroupByY;
         public string KambanAggregateType;
@@ -321,6 +322,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     : options.FirstOrDefault().Key;
             }
             return TimeSeriesChartType;
+        }
+
+        public string GetTimeSeriesHorizontalAxis(Context context, SiteSettings ss)
+        {
+            var options = ss.TimeSeriesHorizontalAxisOptions(context: context);
+            if (TimeSeriesHorizontalAxis.IsNullOrEmpty())
+            {
+                TimeSeriesHorizontalAxis = options.ContainsKey(Definition(ss, "TimeSeries")?.Option5)
+                    ? Definition(ss, "TimeSeries")?.Option5
+                    : options.FirstOrDefault().Key;
+            }
+            return TimeSeriesHorizontalAxis;
         }
 
         public string GetKambanGroupByX(Context context, SiteSettings ss)
@@ -704,6 +717,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "TimeSeriesValue":
                                 TimeSeriesValue = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "TimeSeriesChartType":
+                                TimeSeriesChartType = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "TimeSeriesHorizontalAxis":
+                                TimeSeriesHorizontalAxis = String(
                                     context: context,
                                     controlId: controlId);
                                 break;

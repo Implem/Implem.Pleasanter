@@ -4149,6 +4149,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HorizontalAxis(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HorizontalAxis",
+                data: data);
+        }
+
         public static string HourAgo(
             Context context,
             params string[] data)

@@ -46,6 +46,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column groupBy,
             string aggregationType,
             Column value,
+            string horizontalAxis,
             IEnumerable<DataRow> dataRows)
         {
             SiteSettings = ss;
@@ -60,12 +61,24 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         .ToDateTime()
                         .ToLocal(context: context)
                         .Date,
+                    horizontalAxis: (horizontalAxis == "Histories"
+                        ? DateTime.MinValue
+                        : dataRow["HorizontalAxis"]
+                            .ToDateTime()
+                            .ToLocal(context: context)
+                            .Date),
                     index: dataRow[groupBy.ColumnName].ToString(),
                     value: dataRow[value.ColumnName].ToDecimal(),
-                    isHistory: dataRow["IsHistory"].ToBool())));
+                    isHistory: (horizontalAxis == "Histories"
+                        ? dataRow["IsHistory"].ToBool()
+                        : false))));
             if (this.Any())
             {
-                MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
+                MinTime = (horizontalAxis == "Histories"
+                    ? this.Select(o => o.UpdatedTime).Min().AddDays(-1)
+                    : this
+                        .Where(o => o.HorizontalAxis != DateTime.Parse("1899/12/30 0:00:00"))
+                        .Select(o => o.HorizontalAxis).Min().AddDays(-1));
                 MaxTime = DateTime.Today;
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
                 this
@@ -83,7 +96,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }
         }
 
-        public string Json(Context context, Column groupBy, Column value)
+        public string Json(
+            Context context,
+            Column groupBy,
+            Column value,
+            string horizontalAxis)
         {
             var elements = new List<Element>();
             var choices = groupBy
@@ -111,7 +128,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 {
                     decimal y = 0;
                     var currentTime = MinTime.AddDays(d);
-                    var targets = Targets(currentTime);
+                    var targets = Targets(
+                        currentTime,
+                        horizontalAxis);
                     indexes.Select(o => o.Key).ForEach(index =>
                     {
                         var data = GetData(targets.Where(o => o.Index == index));
@@ -156,20 +175,34 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     : data.ToString());
         }
 
-        private IEnumerable<TimeSeriesElement> Targets(DateTime currentTime)
+        private IEnumerable<TimeSeriesElement> Targets(
+            DateTime currentTime,
+            string horizontalAxis = "")
         {
             var processed = new HashSet<long>();
             var ret = new List<TimeSeriesElement>();
-            this.Where(o => o.UpdatedTime <= currentTime)
+            this.Where(o => (horizontalAxis == "Histories"
+                    ? o.UpdatedTime <= currentTime
+                    : o.HorizontalAxis == currentTime))
                 .OrderByDescending(o => o.UpdatedTime)
                 .ThenByDescending(o => o.Ver)
                 .ForEach(data =>
                 {
                     if (!processed.Contains(data.Id))
                     {
-                        if (!(data.IsHistory && data.Latest && data.UpdatedTime != currentTime))
+                        if (horizontalAxis == "Histories")
                         {
-                            ret.Add(data);
+                            if (!(data.IsHistory && data.Latest && data.UpdatedTime != currentTime))
+                            {
+                                ret.Add(data);
+                            }
+                        }
+                        else
+                        {
+                            if (!(data.IsHistory && data.Latest && data.HorizontalAxis != currentTime))
+                            {
+                                ret.Add(data);
+                            }
                         }
                         processed.Add(data.Id);
                     }

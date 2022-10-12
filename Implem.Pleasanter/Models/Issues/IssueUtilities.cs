@@ -7933,12 +7933,16 @@ namespace Implem.Pleasanter.Models
             var chartType = view.GetTimeSeriesChartType(
                 context: context,
                 ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
             var dataRows = TimeSeriesDataRows(
                 context: context,
                 ss: ss,
                 view: view,
                 groupBy: groupBy,
-                value: value);
+                value: value,
+                horizontalAxis: horizontalAxis);
             if (groupBy == null)
             {
                 return hb;
@@ -7959,12 +7963,18 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    horizontalAxis: horizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange);
         }
 
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            Context context, SiteSettings ss, View view, Column groupBy, Column value)
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column groupBy,
+            Column value,
+            string horizontalAxis)
         {
             if (groupBy != null && value != null)
             {
@@ -7972,6 +7982,9 @@ namespace Implem.Pleasanter.Models
                     .IssueId(_as: "Id")
                     .Ver()
                     .UpdatedTime()
+                    .IssuesColumn(
+                        columnName: horizontalAxis,
+                        _as: "HorizontalAxis")
                     .Add(
                         context: context,
                         column: groupBy)
@@ -7994,7 +8007,9 @@ namespace Implem.Pleasanter.Models
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        tableType: (horizontalAxis == "Histories"
+                            ? Sqls.TableTypes.NormalAndHistory
+                            : Sqls.TableTypes.Normal),
                         column: column,
                         join: join,
                         where: Rds.IssuesWhere()

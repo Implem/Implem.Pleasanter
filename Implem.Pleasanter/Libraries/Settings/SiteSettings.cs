@@ -3374,6 +3374,25 @@ namespace Implem.Pleasanter.Libraries.Settings
             };
         }
 
+        public Dictionary<string, string> TimeSeriesHorizontalAxisOptions(Context context)
+        {
+            var hash = new Dictionary<string, string>();
+            var histories = Displays.Histories(context: context);
+            hash.Add(
+                $"Histories",
+                $"{Displays.Histories(context: context)}");
+            hash.AddRange(Columns
+                .Where(o => o.TypeName == "datetime")
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            return hash;
+        }
+
         public Dictionary<string, string> KambanGroupByOptions(
             Context context, bool addNothing = false)
         {
