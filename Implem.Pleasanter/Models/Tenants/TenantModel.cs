@@ -1203,7 +1203,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private ContractSettings GetContractSettings(DataRow dataRow)
         {
-            return null;
+            var contractSettings = dataRow.String("ContractSettings")
+                .Deserialize<ContractSettings>() ?? new ContractSettings();
+            contractSettings.Deadline = dataRow?.DateTime("ContractDeadline");
+            return contractSettings;
         }
 
         /// <summary>

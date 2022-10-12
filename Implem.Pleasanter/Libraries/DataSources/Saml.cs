@@ -384,7 +384,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    if (tenant.ContractSettings.OverDeadline(context: context))
+                    if (tenant.ContractSettings?.OverDeadline(context: context) == true)
                     {
                         continue;
                     }
