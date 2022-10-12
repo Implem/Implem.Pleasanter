@@ -364,19 +364,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             idp.SingleSignOnServiceUrl = new Uri(loginUrl);
             idp.MetadataLocation = metadataLocation;
             idp.LoadMetadata = true;
+            //デリゲートで使用しないパラメータはアンダースコアを使う。
             IdpCache.AddOrUpdate(entityId.Id, _ => idp, (_, __) => idp);
             return idp;
         }
 
-        public static void RegisterSamlConfiguration(Saml2Options options)
+        public static void RegisterSamlConfiguration(Context context, Saml2Options options)
         {
             if (Parameters.Authentication.Provider != "SAML-MultiTenant") { return; }
-            var context = new Context(
-                request: false,
-                sessionStatus: false,
-                sessionData: false,
-                user: false,
-                item: false);
+            
             //SAML認証設定のあるテナントを取得し、その情報からIDPオブジェクトを作成する
             //作成したIDPオブジェクトはCacheとしてメモリ上に保持される
             foreach (var tenant in new TenantCollection(
@@ -388,7 +384,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 try
                 {
-                    SetIdpConfiguration(context, options, tenant.TenantId);
+                    if (tenant.ContractSettings.OverDeadline(context: context))
+                    {
+                        continue;
+                    }
+                    SetIdpConfiguration(context, options, tenant.TenantId, tenant.ContractSettings);
                 }
                 catch (Exception e)
                 {
@@ -397,10 +397,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static void SetIdpConfiguration(Context context, Saml2Options options, int tenantId)
+        public static void SetIdpConfiguration(Context context, Saml2Options options, int tenantId, ContractSettings contractSettings)
         {
-            var contractSettings = GetTenantSamlSettings(context, tenantId);
-            if (contractSettings == null)
+            if (!HasSamlSettings(contractSettings))
             {
                 new SysLogModel(
                     context: context,
@@ -409,7 +408,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     sysLogType: SysLogModel.SysLogTypes.Warning);
                 return;
             }
-            var metadataLocation = SetSamlMetadataFile(context, contractSettings.SamlMetadataGuid);
+            var metadataLocation = SetSamlMetadataFile(
+                context: context,
+                guid: contractSettings.SamlMetadataGuid,
+                tenantId: tenantId);
             var entityId = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1);
             var idp = GetSamlIdp(
                 options: options,
@@ -438,20 +440,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static ContractSettings GetTenantSamlSettings(Context context, int tenantId)
+        public static bool HasSamlSettings(ContractSettings contractSettings)
         {
-            var contractSettings = TenantUtilities.GetContractSettings(context, tenantId);
-            if (contractSettings == null
-                || contractSettings.SamlCompanyCode.IsNullOrEmpty()
-                || contractSettings.SamlLoginUrl.IsNullOrEmpty()
-                || contractSettings.SamlMetadataGuid.IsNullOrEmpty())
-            {
-                return null;
-            }
-            return contractSettings;
+            return contractSettings != null
+                && !contractSettings.SamlCompanyCode.IsNullOrEmpty()
+                && !contractSettings.SamlLoginUrl.IsNullOrEmpty()
+                && !contractSettings.SamlMetadataGuid.IsNullOrEmpty();
         }
 
-        public static ContractSettings GetTenantSamlSettings(Context context, string ssocode)
+        public static TenantModel GetTenant(Context context, string ssocode)
         {
             var tenant = new TenantModel().Get(
                 context: context,
@@ -459,16 +456,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 where: Rds.TenantsWhere().Comments(ssocode));
             if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                var contractSettings = Saml.GetTenantSamlSettings(context: context, tenantId: tenant.TenantId);
-                if (contractSettings != null)
-                {
-                    return contractSettings;
-                }
+                return tenant;
             }
             return null;
         }
 
-        public static string SetSamlMetadataFile(Context context, string guid)
+        public static string SetSamlMetadataFile(Context context, string guid, int tenantId)
         {
             var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
             if (!System.IO.File.Exists(metadataPath))
@@ -481,7 +474,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {
                         Rds.SelectBinaries(
                             column: Rds.BinariesColumn().Bin(),
-                            where: Rds.BinariesWhere().Guid(guid))
+                            where: Rds.BinariesWhere()
+                                .TenantId(tenantId)
+                                .Guid(guid))
                     });
                 System.IO.File.WriteAllBytes(metadataPath, bytes);
             }
