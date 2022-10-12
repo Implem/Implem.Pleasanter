@@ -240,18 +240,20 @@ namespace Implem.Pleasanter.Libraries.DataSources
             options.SPOptions.AuthenticateRequestSigningBehavior
                 = paramSPOptions.AuthenticateRequestSigningBehavior
                     .ToEnum(SigningBehavior.IfIdpWantAuthnRequestsSigned);
-            options.SPOptions.ReturnUrl
-                = paramSPOptions.ReturnUrl.IsNullOrEmpty() ? null : new Uri(paramSPOptions.ReturnUrl);
-            options.SPOptions.EntityId
-                = paramSPOptions.EntityId.IsNullOrEmpty() ? null : new EntityId(paramSPOptions.EntityId);
-            options.SPOptions.MinIncomingSigningAlgorithm
-                = paramSPOptions.MinIncomingSigningAlgorithm
-                ?? options.SPOptions.MinIncomingSigningAlgorithm;
-            options.SPOptions.OutboundSigningAlgorithm
-                = paramSPOptions.OutboundSigningAlgorithm
-                ?? options.SPOptions.OutboundSigningAlgorithm;
+            options.SPOptions.ReturnUrl = paramSPOptions.ReturnUrl.IsNullOrEmpty()
+                    ? null
+                    : new Uri(paramSPOptions.ReturnUrl);
+            options.SPOptions.EntityId = paramSPOptions.EntityId.IsNullOrEmpty()
+                    ? null
+                    : new EntityId(paramSPOptions.EntityId);
+            options.SPOptions.MinIncomingSigningAlgorithm = paramSPOptions.MinIncomingSigningAlgorithm
+                    ?? options.SPOptions.MinIncomingSigningAlgorithm;
+            options.SPOptions.OutboundSigningAlgorithm = paramSPOptions.OutboundSigningAlgorithm
+                    ?? options.SPOptions.OutboundSigningAlgorithm;
             options.SPOptions.PublicOrigin
-                = paramSPOptions.PublicOrigin.IsNullOrEmpty() ? null : new Uri(paramSPOptions.PublicOrigin);
+                = paramSPOptions.PublicOrigin.IsNullOrEmpty()
+                    ? null
+                    : new Uri(paramSPOptions.PublicOrigin);
             if (paramSPOptions.IgnoreMissingInResponseTo == true)
             {
                 options.SPOptions.Compatibility.IgnoreMissingInResponseTo = true;
@@ -293,8 +295,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         new EntityId(paramIdp.EntityId),
                         options.SPOptions)
                     {
-                        SingleSignOnServiceUrl = paramIdp.SignOnUrl.IsNullOrEmpty() ? null : new Uri(paramIdp.SignOnUrl),
-                        SingleLogoutServiceUrl = paramIdp.LogoutUrl.IsNullOrEmpty() ? null : new Uri(paramIdp.LogoutUrl),
+                        SingleSignOnServiceUrl = paramIdp.SignOnUrl.IsNullOrEmpty()
+                            ? null
+                            : new Uri(paramIdp.SignOnUrl),
+                        SingleLogoutServiceUrl = paramIdp.LogoutUrl.IsNullOrEmpty()
+                            ? null
+                            : new Uri(paramIdp.LogoutUrl),
                         AllowUnsolicitedAuthnResponse = paramIdp.AllowUnsolicitedAuthnResponse,
                         Binding = paramIdp.Binding.ToEnum(Saml2BindingType.HttpRedirect),
                         WantAuthnRequestsSigned = paramIdp.WantAuthnRequestsSigned,
@@ -372,7 +378,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static void RegisterSamlConfiguration(Context context, Saml2Options options)
         {
             if (Parameters.Authentication.Provider != "SAML-MultiTenant") { return; }
-            
             //SAML認証設定のあるテナントを取得し、その情報からIDPオブジェクトを作成する
             //作成したIDPオブジェクトはCacheとしてメモリ上に保持される
             foreach (var tenant in new TenantCollection(
@@ -388,11 +393,17 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     {
                         continue;
                     }
-                    SetIdpConfiguration(context, options, tenant.TenantId, tenant.ContractSettings);
+                    SetIdpConfiguration(
+                        context: context,
+                        options: options,
+                        tenantId: tenant.TenantId,
+                        contractSettings: tenant.ContractSettings);
                 }
                 catch (Exception e)
                 {
-                    new SysLogModel(context: context, e);
+                    new SysLogModel(
+                        context: context,
+                        e: e);
                 }
             }
         }

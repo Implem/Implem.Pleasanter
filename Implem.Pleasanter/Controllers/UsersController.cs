@@ -330,9 +330,11 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         private ActionResult ChallengeBySsoCode(string ssocode, Context context)
         {
-            var tenant = Saml.GetTenant(context, ssocode);
+            var tenant = Saml.GetTenant(
+                context: context,
+                ssocode: ssocode);
             if (tenant == null
-                || !Saml.HasSamlSettings(tenant.ContractSettings))
+                || !Saml.HasSamlSettings(contractSettings: tenant.ContractSettings))
             {
                 return Redirect(Locations.InvalidSsoCode(context: context));
             }
