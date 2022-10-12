@@ -2803,7 +2803,8 @@ namespace Implem.Pleasanter.Models
                                     {
                                         Rds.Depts_DeptCode_WhereLike(factory: context),
                                         Rds.Depts_DeptName_WhereLike(factory: context)
-                                    })),
+                                    })
+                                .Depts_Disabled(false)),
                         Rds.SelectUsers(
                             unionType: Sqls.UnionTypes.Union,
                             column: Rds.UsersColumn()
