@@ -382,7 +382,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             //作成したIDPオブジェクトはCacheとしてメモリ上に保持される
             foreach (var tenant in new TenantCollection(
                 context: context,
-                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
                 where: Rds.TenantsWhere()
                     .Comments(_operator: " is not null")
                     .Comments("", _operator: "<>")))
