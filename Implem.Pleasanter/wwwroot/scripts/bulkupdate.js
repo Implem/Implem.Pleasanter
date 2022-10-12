@@ -10,12 +10,12 @@
 }
 
 $p.bulkUpdate = function () {
-    var maindata = $p.getData($('.main-form'));
+    var main_data = $p.getData($('.main-form'));
     var data = $p.getData($('#BulkUpdateSelectorForm'));
     var key = $('#ReferenceType').val() + '_' + $('#BulkUpdateColumnName').val();
-    data.GridCheckAll = maindata.GridCheckAll;
-    data.GridUnCheckedItems = maindata.GridUnCheckedItems;
-    data.GridCheckedItems = maindata.GridCheckedItems;
+    for (let key in main_data) {
+        data[key] = main_data[key];
+    }
     $p.setData($('#' + key));
     $p.send($('#BulkUpdate'));
 }

@@ -2583,7 +2583,7 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     position:fixed;
     left:0px;
     bottom:78px;
-    z-index:2;
+    z-index:100;
 }
 
 .message .body{

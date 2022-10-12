@@ -25,7 +25,8 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         public TimerBackgroundService()
         {
             AddTimer(timer: new SyncByLdapExecutionTimer());
-            AddTimer(timer: new SysLogDeleteTimer());
+            AddTimer(timer: new DeleteSysLogsTimer());
+            AddTimer(timer: new DeleteTemporaryFilesTimer());
         }
 
         private void SortTimerList()

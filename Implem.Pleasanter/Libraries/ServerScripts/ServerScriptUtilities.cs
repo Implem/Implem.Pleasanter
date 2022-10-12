@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 value: model.SavedUpdatedTime,
                 mine: mine));
             values.AddRange(model
-                .ClassHash
+                .SavedClassHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
