@@ -14,6 +14,7 @@ using Sustainsys.Saml2.WebSso;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Security.Claims;
@@ -378,24 +379,29 @@ namespace Implem.Pleasanter.Libraries.DataSources
             if (Parameters.Authentication.Provider != "SAML-MultiTenant") { return; }
             //SAML認証設定のあるテナントを取得し、その情報からIDPオブジェクトを作成する
             //作成したIDPオブジェクトはCacheとしてメモリ上に保持される
-            foreach (var tenant in new TenantCollection(
+            var dataRows = Rds.ExecuteTable(
                 context: context,
-                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
-                where: Rds.TenantsWhere()
-                    .Comments(_operator: " is not null")
-                    .Comments("", _operator: "<>")))
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn()
+                        .TenantId()
+                        .ContractSettings(),
+                    where: Rds.TenantsWhere()
+                        .Add(raw: $"(\"Tenants\".\"ContractDeadline\" is null or \"Tenants\".\"ContractDeadline\" >= {context.Sqls.CurrentDateTime})")
+                        .Comments(_operator: " is not null")
+                        .Comments("", _operator: "<>")))
+                            .AsEnumerable();
+            foreach (var dataRow in dataRows)
             {
                 try
                 {
-                    if (tenant.ContractSettings?.OverDeadline(context: context) == true)
-                    {
-                        continue;
-                    }
+                    var tenantId = dataRow.Int("TenantId");
+                    var contractSettings = dataRow.String("ContractSettings").Deserialize<ContractSettings>()
+                        ?? new ContractSettings();
                     SetIdpConfiguration(
                         context: context,
                         options: options,
-                        tenantId: tenant.TenantId,
-                        contractSettings: tenant.ContractSettings);
+                        tenantId: tenantId,
+                        contractSettings: contractSettings);
                 }
                 catch (Exception e)
                 {

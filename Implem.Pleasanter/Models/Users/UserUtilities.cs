@@ -4655,5 +4655,29 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .Disabled(false))) > Parameters.LicensedUsers();
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static (int TenantId, ContractSettings ContractSettings) GetContractSettingsBySsoCode(Context context, string ssocode)
+        {
+            var dataRow = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectTenants(
+                    column: Rds.TenantsColumn()
+                        .TenantId()
+                        .ContractSettings(),
+                    where: Rds.TenantsWhere()
+                        .Comments(ssocode)))
+                            .AsEnumerable()
+                            .FirstOrDefault();
+            if(dataRow == null)
+            {
+                return (0, null);
+            }
+            var tenantId = dataRow.Int("TenantId");
+            var contractSettings = dataRow.String("ContractSettings").Deserialize<ContractSettings>();
+            return (tenantId, contractSettings);
+        }
     }
 }
