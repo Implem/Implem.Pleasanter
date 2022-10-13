@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.BackgroundServices
 {
     /// <summary>
-    /// ごみ箱の削除を毎日定時に呼び出すクラス
+    /// ごみ箱(Xxx_deletedテーブル)の削除を毎日定時に呼び出すクラス。
+    /// Users,Groups,Deptsの_deletedテーブルも削除対象。
     /// </summary>
     public class DeleteTrashBoxTimer : ExecutionTimerBase
     {
@@ -21,7 +22,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var context = CreateContext();
                 var log = CreateSysLogModel(
                     context: context,
-                    message: "delete TrashBox.");
+                    message: "Delete TrashBox.");
                 PhysicalDelete(context);
                 log.Finish(context: context);
             }, stoppingToken);
@@ -43,7 +44,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             {
                 return;
             }
-            var deleteOlderThan = DateTime.Now.Date.AddDays(
+            var deleteOlderThan = DateTime.Now.AddDays(
                 Parameters.BackgroundService.DeleteTrashBoxRetentionPeriod * -1);
             Repository.ExecuteNonQuery(
                 context: context,
@@ -85,6 +86,27 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 statements: Rds.PhysicalDeleteBinaries(
                     tableType: Sqls.TableTypes.Deleted,
                     where: Rds.BinariesWhere().UpdatedTime(
+                        deleteOlderThan,
+                        _operator: "<")));
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.PhysicalDeleteUsers(
+                    tableType: Sqls.TableTypes.Deleted,
+                    where: Rds.UsersWhere().UpdatedTime(
+                        deleteOlderThan,
+                        _operator: "<")));
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.PhysicalDeleteGroups(
+                    tableType: Sqls.TableTypes.Deleted,
+                    where: Rds.GroupsWhere().UpdatedTime(
+                        deleteOlderThan,
+                        _operator: "<")));
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.PhysicalDeleteDepts(
+                    tableType: Sqls.TableTypes.Deleted,
+                    where: Rds.DeptsWhere().UpdatedTime(
                         deleteOlderThan,
                         _operator: "<")));
         }

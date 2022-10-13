@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var context = CreateContext();
                 var log = CreateSysLogModel(
                     context: context,
-                    message: "delete SysLog.");
+                    message: "Delete SysLogs.");
                 if (Parameters.SysLog.RetentionPeriod > 0)
                 {
                     SysLogUtilities.PhysicalDelete(context);
