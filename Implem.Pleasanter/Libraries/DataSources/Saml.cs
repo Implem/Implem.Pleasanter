@@ -237,23 +237,21 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static void SetSPOptions(Saml2Options options)
         {
             var paramSPOptions = Parameters.Authentication.SamlParameters.SPOptions;
-            options.SPOptions.AuthenticateRequestSigningBehavior
-                = paramSPOptions.AuthenticateRequestSigningBehavior
-                    .ToEnum(SigningBehavior.IfIdpWantAuthnRequestsSigned);
+            options.SPOptions.AuthenticateRequestSigningBehavior = paramSPOptions.AuthenticateRequestSigningBehavior
+                .ToEnum(SigningBehavior.IfIdpWantAuthnRequestsSigned);
             options.SPOptions.ReturnUrl = paramSPOptions.ReturnUrl.IsNullOrEmpty()
-                    ? null
-                    : new Uri(paramSPOptions.ReturnUrl);
+                ? null
+                : new Uri(paramSPOptions.ReturnUrl);
             options.SPOptions.EntityId = paramSPOptions.EntityId.IsNullOrEmpty()
-                    ? null
-                    : new EntityId(paramSPOptions.EntityId);
+                ? null
+                : new EntityId(paramSPOptions.EntityId);
             options.SPOptions.MinIncomingSigningAlgorithm = paramSPOptions.MinIncomingSigningAlgorithm
-                    ?? options.SPOptions.MinIncomingSigningAlgorithm;
+                ?? options.SPOptions.MinIncomingSigningAlgorithm;
             options.SPOptions.OutboundSigningAlgorithm = paramSPOptions.OutboundSigningAlgorithm
-                    ?? options.SPOptions.OutboundSigningAlgorithm;
-            options.SPOptions.PublicOrigin
-                = paramSPOptions.PublicOrigin.IsNullOrEmpty()
-                    ? null
-                    : new Uri(paramSPOptions.PublicOrigin);
+                ?? options.SPOptions.OutboundSigningAlgorithm;
+            options.SPOptions.PublicOrigin = paramSPOptions.PublicOrigin.IsNullOrEmpty()
+                ? null
+                : new Uri(paramSPOptions.PublicOrigin);
             if (paramSPOptions.IgnoreMissingInResponseTo == true)
             {
                 options.SPOptions.Compatibility.IgnoreMissingInResponseTo = true;
