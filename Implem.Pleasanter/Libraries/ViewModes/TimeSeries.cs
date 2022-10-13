@@ -74,11 +74,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         : false))));
             if (this.Any())
             {
-                MinTime = (horizontalAxis == "Histories"
-                    ? this.Select(o => o.UpdatedTime).Min().AddDays(-1)
-                    : this
+                if (horizontalAxis == "Histories")
+                {
+                    MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
+                }
+                else
+                {
+                    var dateExists = this
                         .Where(o => o.HorizontalAxis != DateTime.Parse("1899/12/30 0:00:00"))
-                        .Select(o => o.HorizontalAxis).Min().AddDays(-1));
+                        .Select(o => o.HorizontalAxis);
+                    MinTime = (dateExists.Any())
+                        ? dateExists.Min().AddDays(-1)
+                        : DateTime.MinValue;
+                }
                 MaxTime = DateTime.Today;
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
                 this
