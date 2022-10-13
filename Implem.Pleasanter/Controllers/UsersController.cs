@@ -330,18 +330,25 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         private ActionResult ChallengeBySsoCode(string ssocode, Context context)
         {
-            var contractSettings = Saml.GetTenantSamlSettings(context, ssocode);
-            if (contractSettings == null)
+            var tenant = UserUtilities.GetContractSettingsBySsoCode(
+                context: context,
+                ssocode: ssocode);
+            if ( tenant.TenantId == 0
+                || !Saml.HasSamlSettings(contractSettings: tenant.ContractSettings))
             {
                 return Redirect(Locations.InvalidSsoCode(context: context));
             }
-            var metadataLocation = Saml.SetSamlMetadataFile(context: context, guid: contractSettings.SamlMetadataGuid);
+            var metadataLocation = Saml.SetSamlMetadataFile(
+                context: context,
+                guid: tenant.ContractSettings.SamlMetadataGuid,
+                tenantId: tenant.TenantId);
             return new ChallengeResult(Saml2Defaults.Scheme,
                 new AuthenticationProperties(
                     items: new Dictionary<string, string>
                     {
-                        ["idp"] = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1),
-                        ["SamlLoginUrl"] = contractSettings.SamlLoginUrl,
+                        ["idp"] = tenant.ContractSettings.SamlLoginUrl
+                            .Substring(0, tenant.ContractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1),
+                        ["SamlLoginUrl"] = tenant.ContractSettings.SamlLoginUrl,
                         ["SamlMetadataLocation"] = metadataLocation
                     })
                 {

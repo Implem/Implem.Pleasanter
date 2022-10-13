@@ -50,6 +50,12 @@ namespace Implem.Pleasanter.NetCore
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var context = new Context(
+                request: false,
+                sessionStatus: false,
+                sessionData: false,
+                user: false,
+                item: false);
             if (Parameters.Security.AccessControlAllowOrigin?.Any() == true)
             {
                 services.AddCors(options =>
@@ -90,7 +96,10 @@ namespace Implem.Pleasanter.NetCore
                     })
                     .AddSaml2(options =>
                     {
-                        Saml.SetSPOptions(options);
+                        Saml.SetSPOptions(options: options);
+                        Saml.RegisterSamlConfiguration(
+                            context: context,
+                            options: options);
                     });
             }
             else
