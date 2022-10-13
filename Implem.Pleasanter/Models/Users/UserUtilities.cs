@@ -4668,6 +4668,7 @@ namespace Implem.Pleasanter.Models
                         .TenantId()
                         .ContractSettings(),
                     where: Rds.TenantsWhere()
+                        .Add(raw: $"(\"Tenants\".\"ContractDeadline\" is null or \"Tenants\".\"ContractDeadline\" >= {context.Sqls.CurrentDateTime})")
                         .Comments(ssocode)))
                             .AsEnumerable()
                             .FirstOrDefault();

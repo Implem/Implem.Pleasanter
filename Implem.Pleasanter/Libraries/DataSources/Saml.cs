@@ -450,7 +450,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 new SysLogModel(
                     context: context,
                     method: nameof(SetIdpConfiguration),
-                    message: $"{contractSettings.Name}, EntityId={idp.EntityId}, Metadata={contractSettings.SamlMetadataGuid}",
+                    message: $"{contractSettings.Name}, EntityId={idp.EntityId.Id}, Metadata={contractSettings.SamlMetadataGuid}",
                     sysLogType: SysLogModel.SysLogTypes.Info);
             }
         }
