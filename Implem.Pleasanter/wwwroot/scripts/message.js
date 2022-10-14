@@ -55,7 +55,7 @@ $p.setServerErrorMessage = function (responseJSON) {
     });
     if (!messages.length) {
         return false;
-    }   
+    }
     if ($('.message-dialog:visible').length) {
         messages.forEach(function (message) {
             $p.setMessage('.message-dialog:visible', message.Value);
