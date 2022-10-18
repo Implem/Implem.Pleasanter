@@ -3379,7 +3379,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var hash = new Dictionary<string, string>();
             var histories = Displays.Histories(context: context);
             hash.Add(
-                $"Histories",
+                $"{"Histories"}",
                 $"{Displays.Histories(context: context)}");
             hash.AddRange(Columns
                 .Where(o => o.TypeName == "datetime")

@@ -82,7 +82,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupBy: groupBy,
                         aggregationType: aggregationType,
                         value: value,
-                        horizontalAxis: "Histories",
+                        withHistory: true,
                         dataRows: dataRows,
                         inRange: inRange)));
         }
@@ -94,7 +94,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy,
             string aggregationType,
             Column value,
-            string horizontalAxis,
+            bool withHistory,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
-                    horizontalAxis: horizontalAxis,
+                    withHistory: withHistory,
                     dataRows: dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
@@ -116,7 +116,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             groupBy: groupBy,
                             value: value,
-                            horizontalAxis: horizontalAxis));
+                            withHistory: withHistory));
             }
             else
             {

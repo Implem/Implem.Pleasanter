@@ -7202,7 +7202,7 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
-                    horizontalAxis: horizontalAxis,
+                    withHistory: horizontalAxis == "Histories",
                     dataRows: dataRows,
                     inRange: inRange);
         }
@@ -7217,13 +7217,22 @@ namespace Implem.Pleasanter.Models
         {
             if (groupBy != null && value != null)
             {
-                var column = Rds.ResultsColumn()
-                    .ResultId(_as: "Id")
-                    .Ver()
-                    .UpdatedTime()
-                    .ResultsColumn(
+                var withHistory =
+                    horizontalAxis == "Histories";
+                var column = Rds.ResultsColumn();
+                column.UpdatedTime();
+                if (withHistory)
+                {
+                    column.UpdatedTime(_as: "HorizontalAxis");
+                }
+                else
+                {
+                    column.ResultsColumn(
                         columnName: horizontalAxis,
-                        _as: "HorizontalAxis")
+                        _as: "HorizontalAxis");
+                }
+                column.ResultId(_as: "Id")
+                    .Ver()
                     .Add(
                         context: context,
                         column: groupBy)
@@ -7243,19 +7252,29 @@ namespace Implem.Pleasanter.Models
                         column,
                         where
                     });
+                SqlWhereCollection resultsWhere;
+                if (withHistory)
+                {
+                    resultsWhere = Rds.ResultsWhere()
+                        .ResultId_In(sub: Rds.SelectResults(
+                            column: Rds.ResultsColumn().ResultId(),
+                            join: join,
+                            where: where));
+                }
+                else
+                {
+                    resultsWhere = where
+                        .Add(raw: $"\"Results\".\"{horizontalAxis}\" is not null");
+                }
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
-                        tableType: (horizontalAxis == "Histories"
+                        tableType: (withHistory
                             ? Sqls.TableTypes.NormalAndHistory
                             : Sqls.TableTypes.Normal),
                         column: column,
                         join: join,
-                        where: Rds.ResultsWhere()
-                            .ResultId_In(sub: Rds.SelectResults(
-                                column: Rds.ResultsColumn().ResultId(),
-                                join: join,
-                                where: where)),
+                        where: resultsWhere,
                         param: param))
                             .AsEnumerable();
                 ss.SetChoiceHash(
