@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -29,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public int Id;
             public string Key;
             public string Text;
+            public string sumValue;//変更点 legend
             public string Style;
         }
 
@@ -40,6 +42,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public decimal Y;
         }
 
+
+        /*
+        横軸の範囲を項目にあわせて変化させる。
+         */
         public TimeSeries(
             Context context,
             SiteSettings ss,
@@ -77,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 if (horizontalAxis == "Histories")
                 {
                     MinTime = this.Select(o => o.UpdatedTime).Min().AddDays(-1);
+                    MaxTime = DateTime.Today;
                 }
                 else
                 {
@@ -84,10 +91,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         .Where(o => o.HorizontalAxis != DateTime.Parse("1899/12/30 0:00:00"))
                         .Select(o => o.HorizontalAxis);
                     MinTime = (dateExists.Any())
-                        ? dateExists.Min().AddDays(-1)
+                        ? dateExists.Min().AddDays(-1)//取り出したい値の一つ下の値
                         : DateTime.MinValue;
+                    MaxTime = (dateExists.Any() && DateTime.Today <= dateExists.Max())
+                        ? dateExists.Max()//取り出したい値の一つ下の値
+                        : DateTime.Today;
                 }
-                MaxTime = DateTime.Today;
+                //MaxTime = DateTime.Today;//ここを変える
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
                 this
                     .OrderByDescending(o => o.Ver)
@@ -120,6 +130,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ?? new Dictionary<string, ControlData>();
             var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
+            //indexesの値
             var indexes = choices.Select((index, id) => new Index
             {
                 Id = id,
@@ -127,7 +138,13 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Text = IndexText(
                     context: context,
                     index: index,
-                    valueColumn: valueColumn),
+                    valueColumn: valueColumn,
+                    horizontalAxis: horizontalAxis),
+                sumValue = IndexValue(//変更点
+                    context: context,
+                    index: index,
+                    valueColumn: valueColumn,
+                    horizontalAxis: horizontalAxis),
                 Style = index.Value.Style
             }).ToList();
             if (this.Any())
@@ -159,9 +176,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     });
                 }
             }
-            return new Data()
+            return new Data()//TimeSeries.jsに送られるデータ
             {
-                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
+                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),//降順
                 Elements = elements,
                 Unit = AggregationType != "Count"
                     ? valueColumn.Unit
@@ -170,17 +187,30 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         }
 
         private string IndexText(
-            Context context, KeyValuePair<string, ControlData> index, Column valueColumn)
+            Context context, KeyValuePair<string, ControlData> index, Column valueColumn, string horizontalAxis)
         {
-            var data = GetData(Targets(MaxTime).Where(p => p.Index == index.Key));
-            return "{0}: {1}".Params(
-                index.Value.Text,
-                AggregationType != "Count"
-                    ? valueColumn.Display(
-                        context: context,
-                        value: data,
-                        unit: true)
-                    : data.ToString());
+            var data = GetData(Targets(MaxTime, horizontalAxis).Where(p => p.Index == index.Key));//同じ名前のもので取り出して件数などを返す
+                return "{0}: {1}".Params(//Text:0hはここで設定　{0}を使って文字列に変数を埋め込む
+                index.Value.Text,//名前・名称部分
+                    AggregationType != "Count"
+                        ? valueColumn.Display(
+                            context: context,
+                            value: data,//数値部分
+                            unit: true)
+                        : data.ToString());           
+        }
+
+        private string IndexValue(
+            Context context, KeyValuePair<string, ControlData> index, Column valueColumn, string horizontalAxis)
+        {
+            var data = GetData(Targets(MaxTime, horizontalAxis).Where(p => p.Index == index.Key));
+                return "{0}".Params(
+                    AggregationType != "Count"
+                        ? valueColumn.Display(
+                            context: context,
+                            value: data//数値部分
+                            )
+                        : data.ToString());
         }
 
         private IEnumerable<TimeSeriesElement> Targets(
@@ -229,12 +259,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     case "Average": return targets.Select(o => o.Value).Average();
                     case "Max": return targets.Select(o => o.Value).Max();
                     case "Min": return targets.Select(o => o.Value).Min();
-                    default: return 0;
+                    default: return 0;//返されていると思われる箇所
                 }
             }
             else
             {
-                return 0;
+                return 0;//返されていると思われる箇所
             }
         }
     }
