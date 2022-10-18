@@ -59,7 +59,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: "TimeSeriesChartType",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.Types(context: context),
+                    labelText: Displays.ChartTypes(context: context),
                     optionCollection: ss.TimeSeriesChartTypeOptions(context: context),
                     selectedValue: chartType,
                     addSelectedValue: false,

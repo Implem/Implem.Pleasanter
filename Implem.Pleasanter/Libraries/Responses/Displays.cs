@@ -1659,6 +1659,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ChartTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChartTypes",
+                data: data);
+        }
+
         public static string ChatWork(
             Context context,
             params string[] data)
@@ -8926,16 +8936,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Tuesday",
-                data: data);
-        }
-
-        public static string Types(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Types",
                 data: data);
         }
 
