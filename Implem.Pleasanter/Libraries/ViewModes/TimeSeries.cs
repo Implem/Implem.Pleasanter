@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
@@ -29,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public int Id;
             public string Key;
             public string Text;
+            public string sumValue;//変更点 legend
             public string Style;
         }
 
@@ -40,6 +42,10 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public decimal Y;
         }
 
+
+        /*
+        横軸の範囲を項目にあわせて変化させる。
+         */
         public TimeSeries(
             Context context,
             SiteSettings ss,
@@ -108,11 +114,17 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ?? new Dictionary<string, ControlData>();
             var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
+            //indexesの値
             var indexes = choices.Select((index, id) => new Index
             {
                 Id = id,
                 Key = index.Key,
                 Text = IndexText(
+                    context: context,
+                    index: index,
+                    valueColumn: valueColumn,
+                    withHistory: withHistory),
+                sumValue = IndexValue(//変更点
                     context: context,
                     index: index,
                     valueColumn: valueColumn,
@@ -148,9 +160,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     });
                 }
             }
-            return new Data()
+            return new Data()//TimeSeries.jsに送られるデータ
             {
-                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
+                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),//降順
                 Elements = elements,
                 Unit = AggregationType != "Count"
                     ? valueColumn.Unit
@@ -173,6 +185,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         value: data,
                         unit: true)
                     : data.ToString());
+        }
+
+        private string IndexValue(
+            Context context, KeyValuePair<string, ControlData> index, Column valueColumn, bool withHistory)
+        {
+            var data = GetData(Targets(MaxTime, withHistory).Where(p => p.Index == index.Key));
+                return "{0}".Params(
+                    AggregationType != "Count"
+                        ? valueColumn.Display(
+                            context: context,
+                            value: data//数値部分
+                            )
+                        : data.ToString());
         }
 
         private IEnumerable<TimeSeriesElement> Targets(
@@ -211,12 +236,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     case "Average": return targets.Select(o => o.Value).Average();
                     case "Max": return targets.Select(o => o.Value).Max();
                     case "Min": return targets.Select(o => o.Value).Min();
-                    default: return 0;
+                    default: return 0;//返されていると思われる箇所
                 }
             }
             else
             {
-                return 0;
+                return 0;//返されていると思われる箇所
             }
         }
     }

@@ -8,7 +8,14 @@
     $svg.empty();
     var json = JSON.parse($('#TimeSeriesJson').val());
     var indexes = json.Indexes;
+    if (chartType === 'LineChart') {
+        indexes.sort((a, b) => b.sumValue - a.sumValue);
+    } else {
+        indexes = json.Indexes;
+    }
+    console.log(indexes)
     var elements = json.Elements;
+    console.log(elements)
     if (elements.length === 0) {
         $svg.hide();
         return;
@@ -65,9 +72,6 @@
             drawArea(ds);
         }
     });
-	if (chartType === 'LineChart') {
-       	 indexes.sort((a, b) => (b.Text).replace(/[^\d+(\.\d+)?]/g, '') - (a.Text).replace(/[^\d+(\.\d+)?]/g, ''));
-    }
     var lineCount = 0;
     indexes.forEach(function (index) {
         var ds = elements.filter(function (d) { return d.Index === index.Id; });
