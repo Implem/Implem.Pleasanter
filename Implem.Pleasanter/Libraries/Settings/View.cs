@@ -2268,7 +2268,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
             var addMilliseconds = Parameters.Rds.MinimumTime * -1;
             var between = "#TableBracket#.\"{0}\" between '{1}' and '{2}'";
-            var notBetween = "#TableBracket#.\"{0}\" not between '{1}' and '{2}' or #TableBracket#.\"{0}\" is null";
+            var notBetween = "(#TableBracket#.\"{0}\" not between '{1}' and '{2}' or #TableBracket#.\"{0}\" is null)";
             var ymdhms = "yyyy/M/d H:m:s";
             var ymdhmsfff = "yyyy/M/d H:m:s.fff";
             return param.Any(o => o != "\t")
@@ -2358,7 +2358,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             else if (to.IsNullOrEmpty())
                             {
                                 return (negative
-                                    ? "#TableBracket#.\"{0}\"<'{1}' or #TableBracket#.\"{0}\" is null"
+                                    ? "(#TableBracket#.\"{0}\"<'{1}' or #TableBracket#.\"{0}\" is null)"
                                     : "#TableBracket#.\"{0}\">='{1}'")
                                         .Params(
                                             column.Name,
@@ -2371,7 +2371,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                             else
                             {
                                 return (negative
-                                    ? "#TableBracket#.\"{0}\">'{1}' or #TableBracket#.\"{0}\" is null"
+                                    ? "(#TableBracket#.\"{0}\">'{1}' or #TableBracket#.\"{0}\" is null)"
                                     : "#TableBracket#.\"{0}\"<='{1}'")
                                         .Params(
                                             column.Name,
