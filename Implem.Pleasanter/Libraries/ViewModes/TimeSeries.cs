@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public int Id;
             public string Key;
             public string Text;
-            public string sumValue;//変更点 legend
+            public decimal SumValue;//変更点 legend
             public string Style;
         }
 
@@ -115,22 +115,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
             //indexesの値
-            var indexes = choices.Select((index, id) => new Index
-            {
-                Id = id,
-                Key = index.Key,
-                Text = IndexText(
+            var indexes = choices.Select((index, id) =>
+                CreateIndex(
                     context: context,
                     index: index,
+                    id: id,
                     valueColumn: valueColumn,
-                    withHistory: withHistory),
-                sumValue = IndexValue(//変更点
-                    context: context,
-                    index: index,
-                    valueColumn: valueColumn,
-                    withHistory: withHistory),
-                Style = index.Value.Style
-            }).ToList();
+                    withHistory: withHistory))
+                .ToList();
             if (this.Any())
             {
                 for (var d = 0; d <= Days; d++)
@@ -170,14 +162,15 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             }.ToJson();
         }
 
-        private string IndexText(
+        private Index CreateIndex(
             Context context,
             KeyValuePair<string, ControlData> index,
+            int id,
             Column valueColumn,
             bool withHistory)
         {
             var data = GetData(Targets(MaxTime, withHistory).Where(p => p.Index == index.Key));
-            return "{0}: {1}".Params(
+            var text = "{0}: {1}".Params(
                 index.Value.Text,
                 AggregationType != "Count"
                     ? valueColumn.Display(
@@ -185,19 +178,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                         value: data,
                         unit: true)
                     : data.ToString());
-        }
-
-        private string IndexValue(
-            Context context, KeyValuePair<string, ControlData> index, Column valueColumn, bool withHistory)
-        {
-            var data = GetData(Targets(MaxTime, withHistory).Where(p => p.Index == index.Key));
-                return "{0}".Params(
-                    AggregationType != "Count"
-                        ? valueColumn.Display(
-                            context: context,
-                            value: data//数値部分
-                            )
-                        : data.ToString());
+            return new Index
+            {
+                Id = id,
+                Key = index.Key,
+                Text = text,
+                SumValue = data,
+                Style = index.Value.Style
+            };
         }
 
         private IEnumerable<TimeSeriesElement> Targets(
