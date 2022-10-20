@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregationType,
             Column value,
             string chartType,
+            bool withHistory,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -82,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupBy: groupBy,
                         aggregationType: aggregationType,
                         value: value,
-                        withHistory: true,
+                        withHistory: withHistory, 
                         dataRows: dataRows,
                         inRange: inRange)));
         }

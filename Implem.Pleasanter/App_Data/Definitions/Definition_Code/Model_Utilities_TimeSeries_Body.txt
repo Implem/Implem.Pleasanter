@@ -131,6 +131,7 @@ private static HtmlBuilder TimeSeries(
     {
         return hb;
     }
+    var withHistory = horizontalAxis == "Histories";
     return !bodyOnly
         ? hb.TimeSeries(
             context: context,
@@ -139,6 +140,7 @@ private static HtmlBuilder TimeSeries(
             aggregationType: aggregationType,
             value: value,
             chartType: chartType,
+            withHistory: withHistory,
             dataRows: dataRows,
             inRange: inRange)
         : hb.TimeSeriesBody(
@@ -147,7 +149,7 @@ private static HtmlBuilder TimeSeries(
             groupBy: groupBy,
             aggregationType: aggregationType,
             value: value,
-            withHistory: horizontalAxis == "Histories",
+            withHistory: withHistory,
             dataRows: dataRows,
             inRange: inRange);
 }

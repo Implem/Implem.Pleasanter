@@ -7947,6 +7947,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb;
             }
+            var withHistory = horizontalAxis == "Histories";
             return !bodyOnly
                 ? hb.TimeSeries(
                     context: context,
@@ -7955,6 +7956,7 @@ namespace Implem.Pleasanter.Models
                     aggregationType: aggregationType,
                     value: value,
                     chartType: chartType,
+                    withHistory: withHistory,
                     dataRows: dataRows,
                     inRange: inRange)
                 : hb.TimeSeriesBody(
@@ -7963,7 +7965,7 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
-                    withHistory: horizontalAxis == "Histories",
+                    withHistory: withHistory,
                     dataRows: dataRows,
                     inRange: inRange);
         }
