@@ -2692,7 +2692,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (negative)
                 {
-                    where.Add(and: collection);
+                    where.AddRange(collection);
                 }
                 else
                 {
