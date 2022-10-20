@@ -1446,6 +1446,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.TimeSeriesValue = TimeSeriesValue;
             }
+            if (!TimeSeriesChartType.IsNullOrEmpty())
+            {
+                view.TimeSeriesChartType = TimeSeriesChartType;
+            }
+            if (!TimeSeriesHorizontalAxis.IsNullOrEmpty())
+            {
+                view.TimeSeriesHorizontalAxis = TimeSeriesHorizontalAxis;
+            }
             if (!KambanGroupByX.IsNullOrEmpty())
             {
                 view.KambanGroupByX = KambanGroupByX;
