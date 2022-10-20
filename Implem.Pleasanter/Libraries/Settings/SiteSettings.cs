@@ -3377,7 +3377,6 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, string> TimeSeriesHorizontalAxisOptions(Context context)
         {
             var hash = new Dictionary<string, string>();
-            var histories = Displays.Histories(context: context);
             hash.Add(
                 $"{"Histories"}",
                 $"{Displays.Histories(context: context)}");
