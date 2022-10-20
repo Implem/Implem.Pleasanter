@@ -8,14 +8,10 @@
     $svg.empty();
     var json = JSON.parse($('#TimeSeriesJson').val());
     var indexes = json.Indexes;
-    if (chartType === 'LineChart') {
-        indexes.sort((a, b) => b.sumValue - a.sumValue);
-    } else {
-        indexes = json.Indexes;
+    if (chartType === 'LineChart' ) {
+        indexes.sort((a, b) => b.Legend - a.Legend);
     }
-    console.log(indexes)
     var elements = json.Elements;
-    console.log(elements)
     if (elements.length === 0) {
         $svg.hide();
         return;
@@ -26,7 +22,6 @@
     var axisPaddingX = 130;
     var axisPaddingY = 50;
     var width = parseInt(svg.style('width'));
-    //凡例用のスペースを確保
     if (chartType === 'LineChart') {
         width = width * 0.9;
     } 
@@ -49,7 +44,9 @@
         .tickFormat(d3.timeFormat('%m/%d'))
         .ticks(10);
     var yAxis = d3.axisLeft(yScale);
-    var colorScale = d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]); 
+    var colorScale = (indexes.length <= 10)
+        ? d3.scaleOrdinal(d3.schemeCategory10)
+        : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]); 
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPaddingX + ', ' + (height - axisPaddingY) + ')')
@@ -63,7 +60,7 @@
         .attr('transform', 'translate(' + axisPaddingX + ', 0)')
         .call(yAxis)
         .selectAll('text')
-        .attr('x', -20);
+        .attr('x', -20);  
     indexes.forEach(function (index) {
         var ds = elements.filter(function (d) { return d.Index === index.Id; });
         if (chartType === 'LineChart') {
@@ -158,9 +155,9 @@
             .attr('fill', colorScale(index));            
     }
     
-    function color() {
-        var c = Math.floor(Math.random() * 50 + 180);
-        return '#' + part(c) + part(c) + part(c);
+    function color() {       
+            var c = Math.floor(Math.random() * 50 + 180);
+            return '#' + part(c) + part(c) + part(c);
     }
 
     function part(c) {

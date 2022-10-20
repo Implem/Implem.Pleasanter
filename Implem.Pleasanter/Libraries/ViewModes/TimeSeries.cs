@@ -30,7 +30,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public int Id;
             public string Key;
             public string Text;
-            public decimal SumValue;//変更点 legend
+            public decimal Legend;
             public string Style;
         }
 
@@ -42,10 +42,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public decimal Y;
         }
 
-
-        /*
-        横軸の範囲を項目にあわせて変化させる。
-         */
         public TimeSeries(
             Context context,
             SiteSettings ss,
@@ -152,9 +148,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     });
                 }
             }
-            return new Data()//TimeSeries.jsに送られるデータ
+            return new Data()
             {
-                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),//降順
+                Indexes = indexes.OrderByDescending(o => o.Id).ToList(),
                 Elements = elements,
                 Unit = AggregationType != "Count"
                     ? valueColumn.Unit
@@ -183,7 +179,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Id = id,
                 Key = index.Key,
                 Text = text,
-                SumValue = data,
+                Legend = data,
                 Style = index.Value.Style
             };
         }
@@ -224,12 +220,12 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     case "Average": return targets.Select(o => o.Value).Average();
                     case "Max": return targets.Select(o => o.Value).Max();
                     case "Min": return targets.Select(o => o.Value).Min();
-                    default: return 0;//返されていると思われる箇所
+                    default: return 0;
                 }
             }
             else
             {
-                return 0;//返されていると思われる箇所
+                return 0;
             }
         }
     }
