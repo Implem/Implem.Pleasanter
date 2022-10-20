@@ -93,7 +93,9 @@
         "Name": "TimeSeries",
         "Option1": "Owner",
         "Option2": "Count",
-        "Option3": "NumA"
+        "Option3": "NumA",
+        "Option4": "AreaChart",
+        "Option5": "Histories"
     },
     {
         "Id": "Results_Kamban",
