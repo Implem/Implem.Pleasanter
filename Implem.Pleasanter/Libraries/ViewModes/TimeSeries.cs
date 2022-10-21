@@ -110,7 +110,6 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     ?? new Dictionary<string, ControlData>();
             var valueColumn = value;
             var choiceKeys = choices.Keys.ToList();
-            //indexesの値
             var indexes = choices.Select((index, id) =>
                 CreateIndex(
                     context: context,

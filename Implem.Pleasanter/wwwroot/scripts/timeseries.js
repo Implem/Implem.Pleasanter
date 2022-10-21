@@ -60,7 +60,7 @@
         .attr('transform', 'translate(' + axisPaddingX + ', 0)')
         .call(yAxis)
         .selectAll('text')
-        .attr('x', -20);  
+        .attr('x', -20);
     indexes.forEach(function (index) {
         var ds = elements.filter(function (d) { return d.Index === index.Id; });
         if (chartType === 'LineChart') {
@@ -85,7 +85,7 @@
                     .attr('y', lineCount * 20)
                     .attr('text-anchor', 'end')
                     .attr('dominant-baseline', 'middle')
-                    .text(cutText)  
+                    .text(cutText)
                 g.append("line")
                     .attr('transform', 'translate(' + 10 + ', ' + padding + ')')
                     .attr("x1", width * 1.07)
