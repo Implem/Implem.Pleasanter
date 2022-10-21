@@ -215,15 +215,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                             Addresses.BadAddress(addresses: from) == string.Empty
                                 ? from
                                 : Parameters.Mail.SupportFrom);
-                        values?.ForEach(data => Address = Address.Replace(
+                        var addresses = Address;
+                        values?.ForEach(data => addresses = addresses.Replace(
                             $"[{data.Key.ColumnName}]",
                             Addresses.ReplacedAddress(
                                 context: context,
                                 column: data.Key,
                                 value: data.Value)));
-                        var to = Addresses.Get(
+                        var to = Addresses.Get( 
                             context: context,
-                            addresses: Address).Join(",");
+                            addresses: addresses).Join(",");
                         if (!to.IsNullOrEmpty())
                         {
                             new OutgoingMailModel()
