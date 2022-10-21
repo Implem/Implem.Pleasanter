@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "StackedAreaChart",
+    "Id": "AreaChart",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Stacked Area"
+            "Body": "Area"
         },
         {
             "Language": "zh",
-            "Body": "堆积面积"
+            "Body": "区域"
         },
         {
             "Language": "ja",
-            "Body": "積み上げ面"
+            "Body": "面"
         },
         {
             "Language": "de",
-            "Body": "Gestapelter Bereich"
+            "Body": "Bereich"
         },
         {
             "Language": "ko",
-            "Body": "스택 영역"
+            "Body": "지역"
         },
         {
             "Language": "es",
-            "Body": "Área apilada"
+            "Body": "Área"
         },
         {
             "Language": "vn",
-            "Body": "Khu vực xếp chồng lên nhau"
+            "Body": "Diện tích"
         }
     ]
 }

@@ -3369,7 +3369,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return new Dictionary<string, string>
             {
-                { "StackedAreaChart", Displays.StackedAreaChart(context: context) },
+                { "AreaChart", Displays.AreaChart(context: context) },
                 { "LineChart", Displays.LineChart(context: context) }
             };
         }
