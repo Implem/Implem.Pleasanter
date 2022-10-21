@@ -7219,8 +7219,7 @@ namespace Implem.Pleasanter.Models
         {
             if (groupBy != null && value != null)
             {
-                var withHistory =
-                    horizontalAxis == "Histories";
+                var withHistory = horizontalAxis == "Histories";
                 var column = Rds.ResultsColumn();
                 column.UpdatedTime();
                 if (withHistory)

@@ -164,8 +164,7 @@ private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
 {
     if (groupBy != null && value != null)
     {
-        var withHistory =
-            horizontalAxis == "Histories";
+        var withHistory = horizontalAxis == "Histories";
         var column = Rds.#TableName#Column();
         column.UpdatedTime();
         if (withHistory)
