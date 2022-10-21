@@ -3357,6 +3357,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.Computable)
                 .Where(o => o.TypeName != "datetime")
                 .Where(o => !o.Joined)
+                .Where(o => GetEditorColumnNames().Contains(o.Name))
                 .Where(o => o.CanRead(
                     context: context,
                     ss: this,
