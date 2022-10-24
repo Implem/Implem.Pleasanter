@@ -11,7 +11,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool SmtpEnableSsl;
         public bool ServerCertificateValidationCallback;
         public string Encoding;
-        public ContentEncodings ContentEncoding;
+        public ContentEncodings? ContentEncoding;
         public string FixedFrom;
         public List<string> AllowedFrom;
         public string SupportFrom;

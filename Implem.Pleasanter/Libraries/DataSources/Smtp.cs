@@ -69,7 +69,8 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 message.Headers.Replace(HeaderId.Subject, enc, Subject);
                 var textPart = new TextPart(MimeKit.Text.TextFormat.Plain);
                 textPart.SetText(enc, Body);
-                textPart.ContentTransferEncoding = GetContentEncodingForTransfer(encoding: enc,
+                textPart.ContentTransferEncoding = GetContentEncodingForTransfer(
+                    encoding: enc,
                     contentEncoding: Parameters.Mail.ContentEncoding);
                 var mimeParts = attachments
                     ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
@@ -149,9 +150,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
             return Encoding.GetEncoding(encodingInfo.Name);
         }
 
-        private ContentEncoding GetContentEncodingForTransfer(Encoding encoding, ParameterAccessor.Parts.Types.ContentEncodings contentEncoding)
+        private ContentEncoding GetContentEncodingForTransfer(Encoding encoding, ParameterAccessor.Parts.Types.ContentEncodings? contentEncoding)
         {
-            if (encoding == Encoding.UTF8)
+            if (encoding == Encoding.UTF8 || contentEncoding == null)
             {
                 return ContentEncoding.Default;
             }
