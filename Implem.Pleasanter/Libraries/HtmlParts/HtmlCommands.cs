@@ -597,12 +597,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string type = "button",
             bool _using = true)
         {
+            var serverScriptElements = serverScriptModelRow?.Elements;
             return hb.Button(
                 controlId: controlId,
                 text: text,
                 controlCss: controlCss,
-                style: serverScriptModelRow?.Elements?.Hidden(controlId) == true
-                    || commandDisplayTypes == View.CommandDisplayTypes.Hidden
+                style: (serverScriptElements != null
+                    ? serverScriptElements.Hidden(controlId) == true
+                    : commandDisplayTypes == View.CommandDisplayTypes.Hidden)
                         ? "display:none;"
                         : string.Empty,
                 title: title,
@@ -616,8 +618,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 method: method,
                 confirm: confirm,
                 type: type,
-                disabled: serverScriptModelRow?.Elements?.Disabled(controlId) == true
-                    || commandDisplayTypes == View.CommandDisplayTypes.Disabled,
+                disabled: serverScriptElements != null 
+                    ? serverScriptElements.Disabled(controlId) == true
+                    : commandDisplayTypes == View.CommandDisplayTypes.Disabled,
                 _using: _using
                     && serverScriptModelRow?.Elements?.None(controlId) != true
                     && commandDisplayTypes != View.CommandDisplayTypes.None);
