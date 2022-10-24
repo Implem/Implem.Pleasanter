@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static Implem.ParameterAccessor.Parts.Types;
 namespace Implem.ParameterAccessor.Parts
 {
     public class Mail
@@ -9,6 +10,8 @@ namespace Implem.ParameterAccessor.Parts
         public string SmtpPassword;
         public bool SmtpEnableSsl;
         public bool ServerCertificateValidationCallback;
+        public string Encoding;
+        public ContentEncodings? ContentEncoding;
         public string FixedFrom;
         public List<string> AllowedFrom;
         public string SupportFrom;

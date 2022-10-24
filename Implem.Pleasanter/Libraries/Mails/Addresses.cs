@@ -260,5 +260,11 @@ namespace Implem.Pleasanter.Libraries.Mails
                 .Select(user => $"[User{user.Id}]")
                 .Join();
         }
+
+        public static MailboxAddress SetEncoding(this MailboxAddress address, System.Text.Encoding encoding)
+        {
+            address.Encoding = encoding;
+            return address;
+        }
     }
 }
