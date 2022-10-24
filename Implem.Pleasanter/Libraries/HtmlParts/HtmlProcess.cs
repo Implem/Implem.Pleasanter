@@ -13,7 +13,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss)
         {
             ss.Processes
-                ?.Where(process => process.Accessable(context: context))
+                ?.Where(process => process.Accessable(
+                    context: context,
+                    ss: ss))
                 .Where(process => process.MatchConditions)
                 .Where(process => (context.IsNew && process.ScreenType == Process.ScreenTypes.New)
                     || (!context.IsNew && process.ScreenType != Process.ScreenTypes.New))

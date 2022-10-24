@@ -348,8 +348,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        public bool Accessable(Context context)
+        public bool Accessable(Context context, SiteSettings ss)
         {
+            // CanUpdate で特権の有無が評価される
+            if (ActionType == ActionTypes.Save && !context.CanUpdate(ss:ss))
+            {
+                return false;
+            }
             if (context.HasPrivilege)
             {
                 return true;

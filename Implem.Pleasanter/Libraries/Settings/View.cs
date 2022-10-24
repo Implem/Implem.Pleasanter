@@ -1505,9 +1505,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         /// </summary>
         private Permissions.Types GetPermissionType(Context context, SiteSettings ss)
         {
-            var process = ss.Processes
-                ?.Where(o => o.Accessable(context: context))
-                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
+            var process = ss.GetProcess(
+                context: context,
+                id: context.Forms.Int("BulkProcessingItems"));
             var permissionType = process == null
                 ? Permissions.Types.Read
                 : Permissions.Types.Read | Permissions.Types.Update;

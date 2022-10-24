@@ -29,9 +29,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             var processId = context.Forms.Int("BulkProcessingItems");
             if (processId > 0)
             {
-                var process = ss.Processes
-                    ?.Where(o => o.Accessable(context: context))
-                    .FirstOrDefault(o => o.Id == processId);
+                var process = ss.GetProcess(
+                    context: context,
+                    id: processId);
                 if (process != null)
                 {
                     view = GetSessionView(
