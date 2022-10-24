@@ -2693,12 +2693,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (negative)
                 {
-                    where.Or(or: new SqlWhereCollection()
-                        .Add(and: collection)
-                        .Add(
-                            tableName: column.TableName(),
-                            columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                            _operator: " is null"));
+                    where.AddRange(collection);
                 }
                 else
                 {
@@ -2715,28 +2710,49 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool like,
             bool negative = false)
         {
-            return new SqlWhere(
-                tableName: column.TableItemTitleCases(context: context),
-                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                name: Strings.NewGuid(),
-                value: param
-                    ?.Select(o => like
-                        ? context.Sqls.EscapeValue(o)
-                        : o)
-                    ?.Select(o => !format.IsNullOrEmpty()
-                        ? format.Params(o)
-                        : o)
-                    .ToList(),
-                _operator: negative
-                    ? like
-                        ? context.Sqls.NotLikeWithEscape
-                        : "!="
-                    : like
+            if (negative)
+            {
+                return new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        name: Strings.NewGuid(),
+                        value: param
+                            ?.Select(o => like
+                                ? context.Sqls.EscapeValue(o)
+                                : o)
+                            ?.Select(o => !format.IsNullOrEmpty()
+                                ? format.Params(o)
+                                : o)
+                            .ToList(),
+                        _operator: like
+                            ? context.Sqls.NotLikeWithEscape
+                            : "!=",
+                        multiParamOperator: " and "),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is null")));
+            }
+            else
+            {
+                return new SqlWhere(
+                    tableName: column.TableItemTitleCases(context: context),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    name: Strings.NewGuid(),
+                    value: param
+                        ?.Select(o => like
+                            ? context.Sqls.EscapeValue(o)
+                            : o)
+                        ?.Select(o => !format.IsNullOrEmpty()
+                            ? format.Params(o)
+                            : o)
+                        .ToList(),
+                    _operator: like
                         ? context.Sqls.LikeWithEscape
                         : "=",
-                multiParamOperator: negative
-                    ? " and "
-                    : " or ");
+                    multiParamOperator: " or ");
+            }
         }
 
         private SqlWhere CsStringColumnsWhereNull(
