@@ -35,5 +35,73 @@ namespace Implem.Pleasanter.Controllers.Api
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(request: Request);
         }
+
+        [HttpPost("Create")]
+        public ContentResult Create()
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? DeptUtilities.CreateByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiDeptsSiteSettings(context))
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/Update")]
+        public ContentResult Update(int id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? DeptUtilities.UpdateByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiDeptsSiteSettings(context),
+                    deptId: id)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/Delete")]
+        public ContentResult Delete(int id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? DeptUtilities.DeleteByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiDeptsSiteSettings(context),
+                    deptId: id)
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(
+                context: context,
+                responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
+        }
     }
 }

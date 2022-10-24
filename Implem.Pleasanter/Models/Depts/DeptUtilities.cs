@@ -2316,5 +2316,171 @@ namespace Implem.Pleasanter.Models
                         .DeptId(deptId)))
                             .AsEnumerable();
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var deptModel = new DeptModel(
+                context: context,
+                ss: ss,
+                deptId: 0,
+                setByApi: true);
+            var invalid = DeptValidators.OnCreating(
+                context: context,
+                ss: ss,
+                deptModel: deptModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
+                .Where(o => typeof(DeptApiModel).GetField(o.ColumnName) != null))
+            {
+                if (deptModel.GetType().GetField(column.ColumnName).GetValue(deptModel).ToString().IsNullOrEmpty())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        data: column.ColumnName);
+                }
+            }
+            var errorData = deptModel.Create(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        deptModel.DeptId,
+                        Displays.Created(
+                            context: context,
+                            data: deptModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance UpdateByApi(Context context, SiteSettings ss, int deptId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var deptModel = new DeptModel(
+                context: context,
+                ss: ss,
+                deptId: deptId,
+                setByApi: true);
+            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = DeptValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                deptModel: deptModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            foreach (var column in ss.Columns
+                .Where(o => o.ValidateRequired ?? false)
+                .Where(o => typeof(GroupApiModel).GetField(o.ColumnName) != null))
+            {
+                if (deptModel.GetType().GetField(column.ColumnName).GetValue(deptModel).ToString().IsNullOrEmpty())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: Error.Types.NotRequiredColumn),
+                        data: column.ColumnName);
+                }
+            }
+            var errorData = deptModel.Update(
+                context: context,
+                ss: ss,
+                get: false);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        deptModel.DeptId,
+                        Displays.Updated(
+                            context: context,
+                            data: deptModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int deptId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var deptModel = new DeptModel(
+                context: context,
+                ss: ss,
+                deptId: deptId,
+                setByApi: true);
+            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = DeptValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                deptModel: deptModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            var errorData = deptModel.Delete(context: context, ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        deptModel.DeptId,
+                        Displays.Deleted(
+                            context: context,
+                            data: deptModel.Title.Value));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
     }
 }
