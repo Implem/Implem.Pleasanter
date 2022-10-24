@@ -2915,10 +2915,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         attributes: ProcessValidateInputColumnAttributes(column: column)));
         }
 
-        public Dictionary<string, ControlData> BulkProcessingItems(Context context)
+        public Dictionary<string, ControlData> BulkProcessingItems(Context context, SiteSettings ss)
         {
             var items = Processes
-                ?.Where(process => process.Accessable(context: context))
+                ?.Where(process => process.Accessable(
+                    context: context,
+                    ss: ss))
                 .Where(process => process.AllowBulkProcessing == true)
                 .ToDictionary(
                     process => process.Id.ToString(),
@@ -5461,6 +5463,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         gridData: gridData);
             }
             return ServerScriptModelRowCache;
+        }
+
+        public Process GetProcess(Context context, int id)
+        {
+            return Processes
+                ?.Where(o => o.Accessable(
+                    context: context,
+                    ss: this))
+                .FirstOrDefault(o => o.Id == id);
         }
     }
 }
