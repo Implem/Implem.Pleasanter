@@ -514,7 +514,10 @@ namespace Implem.DefinitionAccessor
                     case "Model_Notice_RelatedColumnCases": Code.Model_Notice_RelatedColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedColumnCases, definitionRow, CodeXls); break;
                     case "Model_Notice_RelatedDataColumnCases": Code.Model_Notice_RelatedDataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice_RelatedDataColumnCases, definitionRow, CodeXls); break;
                     case "Model_NoticeColumnCases": Code.Model_NoticeColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NoticeColumnCases, definitionRow, CodeXls); break;
+                    case "Model_OnApiCreatingMailAddress_Users": Code.Model_OnApiCreatingMailAddress_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnApiCreatingMailAddress_Users, definitionRow, CodeXls); break;
+                    case "Model_OnApiUpdatingMailAddress_Users": Code.Model_OnApiUpdatingMailAddress_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnApiUpdatingMailAddress_Users, definitionRow, CodeXls); break;
                     case "Model_OnCreated_ServerScript": Code.Model_OnCreated_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreated_ServerScript, definitionRow, CodeXls); break;
+                    case "Model_OnCreated_Users": Code.Model_OnCreated_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreated_Users, definitionRow, CodeXls); break;
                     case "Model_OnCreatedExtendedSqls": Code.Model_OnCreatedExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreatedExtendedSqls, definitionRow, CodeXls); break;
                     case "Model_OnCreating_Binaries": Code.Model_OnCreating_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_Binaries, definitionRow, CodeXls); break;
                     case "Model_OnCreating_ServerScript": Code.Model_OnCreating_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnCreating_ServerScript, definitionRow, CodeXls); break;
@@ -6808,7 +6811,10 @@ namespace Implem.DefinitionAccessor
         public string Model_Notice_RelatedColumnCases;
         public string Model_Notice_RelatedDataColumnCases;
         public string Model_NoticeColumnCases;
+        public string Model_OnApiCreatingMailAddress_Users;
+        public string Model_OnApiUpdatingMailAddress_Users;
         public string Model_OnCreated_ServerScript;
+        public string Model_OnCreated_Users;
         public string Model_OnCreatedExtendedSqls;
         public string Model_OnCreating_Binaries;
         public string Model_OnCreating_ServerScript;
@@ -7567,7 +7573,10 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Notice_RelatedColumnCases = new CodeDefinition();
         public CodeDefinition Model_Notice_RelatedDataColumnCases = new CodeDefinition();
         public CodeDefinition Model_NoticeColumnCases = new CodeDefinition();
+        public CodeDefinition Model_OnApiCreatingMailAddress_Users = new CodeDefinition();
+        public CodeDefinition Model_OnApiUpdatingMailAddress_Users = new CodeDefinition();
         public CodeDefinition Model_OnCreated_ServerScript = new CodeDefinition();
+        public CodeDefinition Model_OnCreated_Users = new CodeDefinition();
         public CodeDefinition Model_OnCreatedExtendedSqls = new CodeDefinition();
         public CodeDefinition Model_OnCreating_Binaries = new CodeDefinition();
         public CodeDefinition Model_OnCreating_ServerScript = new CodeDefinition();

@@ -300,10 +300,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     switch (context.Action)
                                     {
                                         case "index":
-                                            var bulkProcessingItems = ss.BulkProcessingItems(context: context);
-                                            var process = ss.Processes
-                                                ?.Where(o => o.Accessable(context: context))
-                                                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
+                                            var bulkProcessingItems = ss.BulkProcessingItems(
+                                                context: context,
+                                                ss: ss);
+                                            var process = ss.GetProcess(
+                                                context: context,
+                                                id: context.Forms.Int("BulkProcessingItems"));
                                             if (process == null)
                                             {
                                                 hb
