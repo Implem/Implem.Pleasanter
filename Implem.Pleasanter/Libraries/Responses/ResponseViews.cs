@@ -56,9 +56,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 // 一括処理のプルダウンから有効なプロセスを選択したときフィルターを無効にするため非表示にする。一覧に戻るアクションもプルダウンのリセット操作であるためここで統一的に判定できる。
                 case "BulkProcessingItems":
                     var processId = context.Forms.Int("BulkProcessingItems");
-                    var process = ss.Processes
-                        ?.Where(o => o.Accessable(context: context))
-                        .FirstOrDefault(o => o.Id == processId);
+                    var process = ss.GetProcess(
+                        context: context,
+                        id: processId);
                     return process == null
                         ? res.ReplaceAll("#ViewFilters",
                             new HtmlBuilder().ViewFilters(

@@ -3057,7 +3057,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     process: process);
-                if (process.MatchConditions && process.Accessable(context: context))
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
                 {
                     issueModel.SetByProcess(
                         context: context,
@@ -3294,7 +3296,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     process: process);
-                if (process.MatchConditions && process.Accessable(context: context))
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
                 {
                     issueModel.SetByProcess(
                         context: context,
@@ -4056,9 +4060,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var processId = context.Forms.Int("BulkProcessingItems");
-            var process = ss.Processes
-                ?.Where(o => o.Accessable(context: context))
-                .FirstOrDefault(o => o.Id == processId);
+            var process = ss.GetProcess(
+                context: context,
+                id: processId);
             if (process == null)
             {
                 return Messages.NotFound(context: context).ToJson();
