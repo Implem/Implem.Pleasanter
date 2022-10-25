@@ -22,7 +22,7 @@
     var axisPaddingX = 130;
     var axisPaddingY = 50;
     var width = parseInt(svg.style('width'));
-    //LineChartの場合、凡例がグラフに被らないためにグラフ右側にスペースを確保するため
+    //折れ線チャートの場合は凡例を表示するためにグラフ右側の領域を確保する
     if (chartType === 'LineChart') {
         width = width - axisPaddingX;
     }
@@ -45,8 +45,8 @@
         .tickFormat(d3.timeFormat('%m/%d'))
         .ticks(10);
     var yAxis = d3.axisLeft(yScale);
-    //グラフ数が少ない場合,d3.scaleSequential(d3.interpolateRainbow).domain([0, 20])では色の識別が困難ため、
-    //グラフ数によって識別しやすい色セットに切り替え。
+    //チャート数が10以下の場合は色の識別がしやすい10色のカラーセット、
+    //そうでない場合はグラデーションの20色のカラーセットを利用する
     var colorScale = (indexes.length <= 10)
         ? d3.scaleOrdinal(d3.schemeCategory10)
         : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]); 
