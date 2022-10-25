@@ -346,17 +346,18 @@ namespace Implem.Pleasanter.Controllers
             {
                 return Redirect(Locations.InvalidSsoCode(context: context));
             }
+            var items = new Dictionary<string, string>
+            {
+                { "idp", idp.EntityId.Id },
+                { "SignOnUrl", tenant.ContractSettings.SamlLoginUrl }
+            };
+            var properties = new AuthenticationProperties(items: items)
+            {
+                RedirectUri = Url.Action(nameof(SamlLogin))
+            };
             return new ChallengeResult(
                 authenticationScheme: Saml2Defaults.Scheme,
-                properties: new AuthenticationProperties(
-                    items: new Dictionary<string, string>
-                    {
-                        { "idp", idp.EntityId.Id },
-                        { "SignOnUrl", tenant.ContractSettings.SamlLoginUrl }
-                    })
-                {
-                    RedirectUri = Url.Action(nameof(SamlLogin))
-                });
+                properties: properties);
         }
 
         /// <summary>

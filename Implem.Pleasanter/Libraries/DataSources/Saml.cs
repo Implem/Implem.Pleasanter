@@ -413,7 +413,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     DisableOutboundLogoutRequests = true,
                     Binding = Saml2BindingType.HttpRedirect
                 };
-
                 idp.SigningKeys.AddConfiguredKey(
                     X509Certificate2.CreateFromPem($"-----BEGIN CERTIFICATE-----{x509Certificate}-----END CERTIFICATE-----"));
                 return idp;
