@@ -19,13 +19,15 @@ using System.Data.Common;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public static class Saml
     {
-        public static ConcurrentDictionary<string, Sustainsys.Saml2.IdentityProvider> IdpCache
-            = new ConcurrentDictionary<string, Sustainsys.Saml2.IdentityProvider>();
+        private static ConcurrentDictionary<string, (string Guid, Sustainsys.Saml2.IdentityProvider Idp)> IdpCache
+            = new ConcurrentDictionary<string, (string Guid, Sustainsys.Saml2.IdentityProvider Idp)>();
+        private static Saml2Options Options;
 
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
@@ -237,6 +239,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static void SetSPOptions(Saml2Options options)
         {
+            Options = options;
             var paramSPOptions = Parameters.Authentication.SamlParameters.SPOptions;
             options.SPOptions.AuthenticateRequestSigningBehavior = paramSPOptions.AuthenticateRequestSigningBehavior
                 .ToEnum(SigningBehavior.IfIdpWantAuthnRequestsSigned);
@@ -337,41 +340,83 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 options.Notifications.SelectIdentityProvider = (entityId, rd) =>
                 {
-                    return GetSamlIdp(options, entityId, rd);
+                    return GetSamlIdp(entityId, rd);
                 };
                 options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
                 {
-                    return GetSamlIdp(options, entityId, rd) ?? op.IdentityProviders.Default;
+                    return GetSamlIdp(entityId, rd) ?? op.IdentityProviders.Default;
                 };
             }
         }
 
-        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(Saml2Options options, EntityId entityId, IDictionary<string, string> rd)
+        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(EntityId entityId, IDictionary<string,string> rd)
         {
-            if (entityId == null
-                || !rd.TryGetValue("SamlLoginUrl", out string loginUrl)
-                || !rd.TryGetValue("SamlMetadataLocation", out string metadataLocation))
+            if (entityId == null)
+            {
+                return null;
+            }
+            if (!rd.TryGetValue("SignOnUrl",out string signOnUrl))
             {
                 return null;
             }
             //Cacheに存在している場合、設定内容が変更されていなければChacheのデータを返す
-            if (IdpCache.TryGetValue(entityId.Id, out Sustainsys.Saml2.IdentityProvider cachedIdp))
+            if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedIdp))
             {
-                if (cachedIdp.EntityId.Id == entityId.Id
-                    && cachedIdp.SingleSignOnServiceUrl == new Uri(loginUrl)
-                    && cachedIdp.MetadataLocation == metadataLocation)
-                {
-                    return cachedIdp;
-                }
+                return cachedIdp.Idp;
             }
-            //Cacheに存在していない、または設定内容が変わっている場合、新規に作成したIDPを返し、Cacheに追加する
-            var idp = new Sustainsys.Saml2.IdentityProvider(entityId, options.SPOptions);
-            idp.SingleSignOnServiceUrl = new Uri(loginUrl);
-            idp.MetadataLocation = metadataLocation;
-            idp.LoadMetadata = true;
-            //デリゲートで使用しないパラメータはアンダースコアを使う。
-            IdpCache.AddOrUpdate(entityId.Id, _ => idp, (_, __) => idp);
-            return idp;
+            return null;
+        }
+
+        public static Sustainsys.Saml2.IdentityProvider GetSamlIdp(string signOnUrl)
+        {
+            //Cacheに存在している場合、設定内容が変更されていなければChacheのデータを返す
+            if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedIdp))
+            {
+                return cachedIdp.Idp;
+            }
+            return null;
+        }
+
+        private static Sustainsys.Saml2.IdentityProvider CreateIdpFromMetadata(string signOnUrl, byte[] metadata)
+        {
+            using (var stream = new System.IO.MemoryStream(metadata))
+            {
+                var doc = XDocument.Load(stream);
+                var md = (XNamespace)"urn:oasis:names:tc:SAML:2.0:metadata";
+                var entityDescriptor = doc.Element(md + "EntityDescriptor");
+                if (entityDescriptor == null)
+                {
+                    return null;
+                }
+                var entityId = entityDescriptor
+                    .Attributes("entityID")
+                    .FirstOrDefault()?
+                    .Value;
+                if (entityId == null)
+                {
+                    return null;
+                }
+                var ds = (XNamespace)"http://www.w3.org/2000/09/xmldsig#";
+                var x509Certificate = entityDescriptor
+                    .Descendants(ds + "X509Certificate")?
+                    .FirstOrDefault()?
+                    .Value;
+                if (x509Certificate == null)
+                {
+                    return null;
+                }
+                var idp = new Sustainsys.Saml2.IdentityProvider(new EntityId(entityId), Options.SPOptions)
+                {
+                    SingleSignOnServiceUrl = new Uri(signOnUrl),
+                    AllowUnsolicitedAuthnResponse = true,
+                    WantAuthnRequestsSigned = false,
+                    DisableOutboundLogoutRequests = true,
+                    Binding = Saml2BindingType.HttpRedirect
+                };
+                idp.SigningKeys.AddConfiguredKey(
+                    X509Certificate2.CreateFromPem($"-----BEGIN CERTIFICATE-----{x509Certificate}-----END CERTIFICATE-----"));
+                return idp;
+            }
         }
 
         public static void RegisterSamlConfiguration(Context context, Saml2Options options)
@@ -423,35 +468,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     sysLogType: SysLogModel.SysLogTypes.Warning);
                 return;
             }
-            var metadataLocation = SetSamlMetadataFile(
+            if (SetIdpCache(
                 context: context,
-                guid: contractSettings.SamlMetadataGuid,
-                tenantId: tenantId);
-            var entityId = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1);
-            var idp = GetSamlIdp(
-                options: options,
-                entityId: new EntityId(entityId),
-                rd: new Dictionary<string, string>
-                    {
-                        { "idp", entityId },
-                        { "SamlLoginUrl", contractSettings.SamlLoginUrl },
-                        { "SamlMetadataLocation", metadataLocation }
-                    });
-            if (idp == null)
+                tenantId: tenantId,
+                contractSettings: contractSettings) == null)
             {
                 new SysLogModel(
                     context: context,
                     method: nameof(SetIdpConfiguration),
-                    message: $"Saml settings is incomplete. {contractSettings.Name}, SamlLoginUrl={contractSettings.SamlLoginUrl}, Metadata={contractSettings.SamlMetadataGuid}",
+                    message: $"Saml settings is incomplete. {contractSettings.Name}, SignOnUrl={contractSettings.SamlLoginUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                     sysLogType: SysLogModel.SysLogTypes.Warning);
-            }
-            else
-            {
-                new SysLogModel(
-                    context: context,
-                    method: nameof(SetIdpConfiguration),
-                    message: $"{contractSettings.Name}, EntityId={idp.EntityId.Id}, Metadata={contractSettings.SamlMetadataGuid}",
-                    sysLogType: SysLogModel.SysLogTypes.Info);
             }
         }
 
@@ -463,29 +489,25 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 && !contractSettings.SamlMetadataGuid.IsNullOrEmpty();
         }
 
-        public static TenantModel GetTenant(Context context, string ssocode)
+        public static Sustainsys.Saml2.IdentityProvider SetIdpCache(Context context, int tenantId, ContractSettings contractSettings)
         {
-            var tenant = new TenantModel().Get(
-                context: context,
-                ss: SiteSettingsUtilities.TenantsSiteSettings(context),
-                where: Rds.TenantsWhere().Comments(ssocode));
-            if (tenant.AccessStatus == Databases.AccessStatuses.Selected)
+            try
             {
-                return tenant;
-            }
-            return null;
-        }
-
-        public static string SetSamlMetadataFile(Context context, string guid, int tenantId)
-        {
-            var metadataPath = System.IO.Path.Combine(Directories.Temp(), "SamlMetadata", guid + ".xml");
-            if (!System.IO.File.Exists(metadataPath))
-            {
-                System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(metadataPath));
-                var bytes = Repository.ExecuteScalar_bytes(
+                var signOnUrl = contractSettings.SamlLoginUrl;
+                var guid = contractSettings.SamlMetadataGuid;
+                if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedData))
+                {
+                    //キャッシュ登録済み
+                    if (cachedData.Guid == guid)
+                    {
+                        return cachedData.Idp;
+                    }
+                }
+                //キャッシュにない場合のみ、Binariesテーブルからメタデータを取得してIdpを作成・キャッシュに登録する。
+                var metadata = Repository.ExecuteScalar_bytes(
                     context: context,
                     transactional: false,
-                    statements: new Implem.Libraries.DataSources.SqlServer.SqlStatement[]
+                    statements: new SqlStatement[]
                     {
                         Rds.SelectBinaries(
                             column: Rds.BinariesColumn().Bin(),
@@ -493,9 +515,42 @@ namespace Implem.Pleasanter.Libraries.DataSources
                                 .TenantId(tenantId)
                                 .Guid(guid))
                     });
-                System.IO.File.WriteAllBytes(metadataPath, bytes);
+                if (metadata == null)
+                {
+                    new SysLogModel(
+                       context: context,
+                       method: nameof(SetIdpConfiguration),
+                       message: $"Metadata not found. {contractSettings.Name}, SignOnUrl={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
+                       sysLogType: SysLogModel.SysLogTypes.SystemError);
+                    return null;
+                }
+                var idp = CreateIdpFromMetadata(
+                    signOnUrl: signOnUrl,
+                    metadata: metadata);
+                if (idp == null)
+                {
+                    new SysLogModel(
+                       context: context,
+                       method: nameof(SetIdpConfiguration),
+                       message: $"Invalid metadata format. {contractSettings.Name}, SignOnUrl={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
+                       sysLogType: SysLogModel.SysLogTypes.SystemError);
+                    return null;
+                }
+                IdpCache.AddOrUpdate(signOnUrl, _ => (guid, idp), (_, __) => (guid, idp));
+                new SysLogModel(
+                    context: context,
+                    method: nameof(SetIdpConfiguration),
+                    message: $"{contractSettings.Name}, EntityId={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
+                    sysLogType: SysLogModel.SysLogTypes.Info);
+                return idp;
             }
-            return metadataPath;
+            catch (Exception e)
+            {
+                new SysLogModel(
+                    context: context,
+                    e: e);
+                return null;
+            }
         }
 
         public static (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
