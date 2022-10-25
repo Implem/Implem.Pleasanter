@@ -334,15 +334,18 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 ssocode: ssocode);
             if (tenant.TenantId == 0
-                || !Saml.HasSamlSettings(contractSettings: tenant.ContractSettings)
-                || !Saml.SetIdpCache(
-                    context: context,
-                    tenantId: tenant.TenantId,
-                    contractSettings: tenant.ContractSettings))
+                || !Saml.HasSamlSettings(contractSettings: tenant.ContractSettings))
             {
                 return Redirect(Locations.InvalidSsoCode(context: context));
             }
-            var idp = Saml.GetSamlIdp(tenant.ContractSettings.SamlLoginUrl);
+            var idp = Saml.SetIdpCache(
+                context: context,
+                tenantId: tenant.TenantId,
+                contractSettings: tenant.ContractSettings);
+            if (idp == null)
+            {
+                return Redirect(Locations.InvalidSsoCode(context: context));
+            }
             return new ChallengeResult(
                 authenticationScheme: Saml2Defaults.Scheme,
                 properties: new AuthenticationProperties(

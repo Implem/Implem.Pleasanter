@@ -469,10 +469,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     sysLogType: SysLogModel.SysLogTypes.Warning);
                 return;
             }
-            if (!SetIdpCache(
+            if (SetIdpCache(
                 context: context,
                 tenantId: tenantId,
-                contractSettings: contractSettings))
+                contractSettings: contractSettings) == null)
             {
                 new SysLogModel(
                     context: context,
@@ -490,7 +490,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 && !contractSettings.SamlMetadataGuid.IsNullOrEmpty();
         }
 
-        public static bool SetIdpCache(Context context, int tenantId, ContractSettings contractSettings)
+        public static Sustainsys.Saml2.IdentityProvider SetIdpCache(Context context, int tenantId, ContractSettings contractSettings)
         {
             try
             {
@@ -498,10 +498,10 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var guid = contractSettings.SamlMetadataGuid;
                 if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedData))
                 {
-                    //キャッシュ登録済みの場合は何もしない
+                    //キャッシュ登録済み
                     if (cachedData.Guid == guid)
                     {
-                        return true;
+                        return cachedData.Idp;
                     }
                 }
                 //キャッシュにない場合のみ、Binariesテーブルからメタデータを取得してIdpを作成・キャッシュに登録する。
@@ -523,7 +523,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                        method: nameof(SetIdpConfiguration),
                        message: $"Metadata not found. {contractSettings.Name}, SignOnUrl={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                        sysLogType: SysLogModel.SysLogTypes.SystemError);
-                    return false;
+                    return null;
                 }
                 var idp = CreateIdpFromMetadata(
                     signOnUrl: signOnUrl,
@@ -535,7 +535,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                        method: nameof(SetIdpConfiguration),
                        message: $"Invalid metadata format. {contractSettings.Name}, SignOnUrl={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                        sysLogType: SysLogModel.SysLogTypes.SystemError);
-                    return false;
+                    return null;
                 }
                 IdpCache.AddOrUpdate(signOnUrl, _ => (guid, idp), (_, __) => (guid, idp));
                 new SysLogModel(
@@ -543,14 +543,14 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     method: nameof(SetIdpConfiguration),
                     message: $"{contractSettings.Name}, EntityId={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                     sysLogType: SysLogModel.SysLogTypes.Info);
-                return true;
+                return idp;
             }
             catch (Exception e)
             {
                 new SysLogModel(
                     context: context,
                     e: e);
-                return false;
+                return null;
             }
         }
 
