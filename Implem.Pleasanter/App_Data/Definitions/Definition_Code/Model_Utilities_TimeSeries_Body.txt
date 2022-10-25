@@ -210,7 +210,7 @@ private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
                         column: Rds.#TableName#Column().#ModelName#Id(),
                         join: join,
                         where: where))
-                    : where.Add(raw: $"\"Issues\".\"{horizontalAxis}\" is not null"),
+                    : where.Add(raw: $"\"#TableName#\".\"{horizontalAxis}\" is not null"),
                 param: param))
                     .AsEnumerable();
         ss.SetChoiceHash(

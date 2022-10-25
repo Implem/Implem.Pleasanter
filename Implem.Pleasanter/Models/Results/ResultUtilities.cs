@@ -7265,7 +7265,7 @@ namespace Implem.Pleasanter.Models
                                 column: Rds.ResultsColumn().ResultId(),
                                 join: join,
                                 where: where))
-                            : where.Add(raw: $"\"Issues\".\"{horizontalAxis}\" is not null"),
+                            : where.Add(raw: $"\"Results\".\"{horizontalAxis}\" is not null"),
                         param: param))
                             .AsEnumerable();
                 ss.SetChoiceHash(
