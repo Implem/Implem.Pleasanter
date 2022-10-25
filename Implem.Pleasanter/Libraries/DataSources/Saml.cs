@@ -340,30 +340,44 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 options.Notifications.SelectIdentityProvider = (entityId, rd) =>
                 {
-                    return GetSamlIdp(entityId);
+                    return GetSamlIdp(entityId, rd);
                 };
                 options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
                 {
-                    return GetSamlIdp(entityId) ?? op.IdentityProviders.Default;
+                    return GetSamlIdp(entityId, rd) ?? op.IdentityProviders.Default;
                 };
             }
         }
 
-        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(EntityId entityId)
+        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(EntityId entityId, IDictionary<string,string> rd)
         {
             if (entityId == null)
             {
                 return null;
             }
+            if (!rd.TryGetValue("SignOnUrl",out string signOnUrl))
+            {
+                return null;
+            }
             //Cacheに存在している場合、設定内容が変更されていなければChacheのデータを返す
-            if (IdpCache.TryGetValue(entityId.Id, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedIdp))
+            if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedIdp))
             {
                 return cachedIdp.Idp;
             }
             return null;
         }
 
-        private static Sustainsys.Saml2.IdentityProvider CreateIdpFromMetadata(EntityId entityId, string loginUrl, byte[] metadata)
+        public static Sustainsys.Saml2.IdentityProvider GetSamlIdp(string signOnUrl)
+        {
+            //Cacheに存在している場合、設定内容が変更されていなければChacheのデータを返す
+            if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedIdp))
+            {
+                return cachedIdp.Idp;
+            }
+            return null;
+        }
+
+        private static Sustainsys.Saml2.IdentityProvider CreateIdpFromMetadata(string signOnUrl, byte[] metadata)
         {
             using (var stream = new System.IO.MemoryStream(metadata))
             {
@@ -374,11 +388,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     return null;
                 }
-                var x_entityId = entityDescriptor
+                var entityId = entityDescriptor
                     .Attributes("entityID")
                     .FirstOrDefault()?
                     .Value;
-                if (x_entityId == null || x_entityId != entityId.Id)
+                if (entityId == null)
                 {
                     return null;
                 }
@@ -391,9 +405,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     return null;
                 }
-                var idp = new Sustainsys.Saml2.IdentityProvider(entityId, Options.SPOptions)
+                var idp = new Sustainsys.Saml2.IdentityProvider(new EntityId(entityId), Options.SPOptions)
                 {
-                    SingleSignOnServiceUrl = new Uri(loginUrl),
+                    SingleSignOnServiceUrl = new Uri(signOnUrl),
                     AllowUnsolicitedAuthnResponse = true,
                     WantAuthnRequestsSigned = false,
                     DisableOutboundLogoutRequests = true,
@@ -455,17 +469,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     sysLogType: SysLogModel.SysLogTypes.Warning);
                 return;
             }
-            var entityId = contractSettings.SamlLoginUrl.Substring(0, contractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1);
             if (!SetIdpCache(
                 context: context,
                 tenantId: tenantId,
-                entityId: entityId,
                 contractSettings: contractSettings))
             {
                 new SysLogModel(
                     context: context,
                     method: nameof(SetIdpConfiguration),
-                    message: $"Saml settings is incomplete. {contractSettings.Name}, SamlLoginUrl={contractSettings.SamlLoginUrl}, Metadata={contractSettings.SamlMetadataGuid}",
+                    message: $"Saml settings is incomplete. {contractSettings.Name}, SignOnUrl={contractSettings.SamlLoginUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                     sysLogType: SysLogModel.SysLogTypes.Warning);
             }
         }
@@ -478,17 +490,16 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 && !contractSettings.SamlMetadataGuid.IsNullOrEmpty();
         }
 
-        public static bool SetIdpCache(Context context, int tenantId, string entityId, ContractSettings contractSettings)
+        public static bool SetIdpCache(Context context, int tenantId, ContractSettings contractSettings)
         {
             try
             {
-                var loginUrl = contractSettings.SamlLoginUrl;
+                var signOnUrl = contractSettings.SamlLoginUrl;
                 var guid = contractSettings.SamlMetadataGuid;
-                if (IdpCache.TryGetValue(entityId, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedData))
+                if (IdpCache.TryGetValue(signOnUrl, out (string Guid, Sustainsys.Saml2.IdentityProvider Idp) cachedData))
                 {
                     //キャッシュ登録済みの場合は何もしない
-                    if (cachedData.Guid == guid
-                        && cachedData.Idp.SingleSignOnServiceUrl == new Uri(loginUrl))
+                    if (cachedData.Guid == guid)
                     {
                         return true;
                     }
@@ -510,28 +521,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     new SysLogModel(
                        context: context,
                        method: nameof(SetIdpConfiguration),
-                       message: $"Metadata not found. {contractSettings.Name}, EntityId={entityId}, Metadata={contractSettings.SamlMetadataGuid}",
+                       message: $"Metadata not found. {contractSettings.Name}, SignOnUrl={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                        sysLogType: SysLogModel.SysLogTypes.SystemError);
                     return false;
                 }
                 var idp = CreateIdpFromMetadata(
-                    entityId: new EntityId(entityId),
-                    loginUrl: loginUrl,
+                    signOnUrl: signOnUrl,
                     metadata: metadata);
                 if (idp == null)
                 {
                     new SysLogModel(
                        context: context,
                        method: nameof(SetIdpConfiguration),
-                       message: $"Invalid metadata format. {contractSettings.Name}, EntityId={entityId}, Metadata={contractSettings.SamlMetadataGuid}",
+                       message: $"Invalid metadata format. {contractSettings.Name}, SignOnUrl={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                        sysLogType: SysLogModel.SysLogTypes.SystemError);
                     return false;
                 }
-                IdpCache.AddOrUpdate(entityId, _ => (guid, idp), (_, __) => (guid, idp));
+                IdpCache.AddOrUpdate(signOnUrl, _ => (guid, idp), (_, __) => (guid, idp));
                 new SysLogModel(
                     context: context,
                     method: nameof(SetIdpConfiguration),
-                    message: $"{contractSettings.Name}, EntityId={entityId}, Metadata={contractSettings.SamlMetadataGuid}",
+                    message: $"{contractSettings.Name}, EntityId={signOnUrl}, Metadata={contractSettings.SamlMetadataGuid}",
                     sysLogType: SysLogModel.SysLogTypes.Info);
                 return true;
             }
