@@ -114,16 +114,24 @@ private static HtmlBuilder TimeSeries(
         columnName: view.GetTimeSeriesValue(
             context: context,
             ss: ss));
+    var chartType = view.GetTimeSeriesChartType(
+        context: context,
+        ss: ss);
+    var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+        context: context,
+        ss: ss);
     var dataRows = TimeSeriesDataRows(
         context: context,
         ss: ss,
         view: view,
         groupBy: groupBy,
-        value: value);
+        value: value,
+        horizontalAxis: horizontalAxis);
     if (groupBy == null)
     {
         return hb;
     }
+    var historyHorizontalAxis = horizontalAxis == "Histories";
     return !bodyOnly
         ? hb.TimeSeries(
             context: context,
@@ -131,6 +139,8 @@ private static HtmlBuilder TimeSeries(
             groupBy: groupBy,
             aggregationType: aggregationType,
             value: value,
+            chartType: chartType,
+            historyHorizontalAxis: historyHorizontalAxis,
             dataRows: dataRows,
             inRange: inRange)
         : hb.TimeSeriesBody(
@@ -139,19 +149,35 @@ private static HtmlBuilder TimeSeries(
             groupBy: groupBy,
             aggregationType: aggregationType,
             value: value,
+            historyHorizontalAxis: historyHorizontalAxis,
             dataRows: dataRows,
             inRange: inRange);
 }
 
 private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-    Context context, SiteSettings ss, View view, Column groupBy, Column value)
+    Context context,
+    SiteSettings ss,
+    View view,
+    Column groupBy,
+    Column value,
+    string horizontalAxis)
 {
     if (groupBy != null && value != null)
     {
-        var column = Rds.#TableName#Column()
-            .#ModelName#Id(_as: "Id")
+        var historyHorizontalAxis = horizontalAxis == "Histories";
+        var column = Rds.#TableName#Column();
+        if (historyHorizontalAxis)
+        {
+            column.UpdatedTime(_as: "HorizontalAxis");
+        }
+        else
+        {
+            column.#TableName#Column(
+                columnName: horizontalAxis,
+                _as: "HorizontalAxis");
+        }
+        column.#ModelName#Id(_as: "Id")
             .Ver()
-            .UpdatedTime()
             .Add(
                 context: context,
                 column: groupBy)
@@ -174,14 +200,17 @@ private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
         var dataRows = Repository.ExecuteTable(
             context: context,
             statements: Rds.Select#TableName#(
-                tableType: Sqls.TableTypes.NormalAndHistory,
+                tableType: (historyHorizontalAxis
+                    ? Sqls.TableTypes.NormalAndHistory
+                    : Sqls.TableTypes.Normal),
                 column: column,
                 join: join,
-                where: Rds.#TableName#Where()
-                    .#ModelName#Id_In(sub: Rds.Select#TableName#(
+                where: historyHorizontalAxis
+                    ? new Rds.#TableName#WhereCollection().#ModelName#Id_In(sub: Rds.Select#TableName#(
                         column: Rds.#TableName#Column().#ModelName#Id(),
                         join: join,
-                        where: where)),
+                        where: where))
+                    : where.Add(raw: $"\"#TableName#\".\"{horizontalAxis}\" is not null"),
                 param: param))
                     .AsEnumerable();
         ss.SetChoiceHash(

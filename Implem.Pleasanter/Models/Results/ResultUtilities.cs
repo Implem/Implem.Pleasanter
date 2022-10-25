@@ -7173,16 +7173,24 @@ namespace Implem.Pleasanter.Models
                 columnName: view.GetTimeSeriesValue(
                     context: context,
                     ss: ss));
+            var chartType = view.GetTimeSeriesChartType(
+                context: context,
+                ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
             var dataRows = TimeSeriesDataRows(
                 context: context,
                 ss: ss,
                 view: view,
                 groupBy: groupBy,
-                value: value);
+                value: value,
+                horizontalAxis: horizontalAxis);
             if (groupBy == null)
             {
                 return hb;
             }
+            var historyHorizontalAxis = horizontalAxis == "Histories";
             return !bodyOnly
                 ? hb.TimeSeries(
                     context: context,
@@ -7190,6 +7198,8 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    chartType: chartType,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange)
                 : hb.TimeSeriesBody(
@@ -7198,19 +7208,35 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange);
         }
 
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            Context context, SiteSettings ss, View view, Column groupBy, Column value)
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column groupBy,
+            Column value,
+            string horizontalAxis)
         {
             if (groupBy != null && value != null)
             {
-                var column = Rds.ResultsColumn()
-                    .ResultId(_as: "Id")
+                var historyHorizontalAxis = horizontalAxis == "Histories";
+                var column = Rds.ResultsColumn();
+                if (historyHorizontalAxis)
+                {
+                    column.UpdatedTime(_as: "HorizontalAxis");
+                }
+                else
+                {
+                    column.ResultsColumn(
+                        columnName: horizontalAxis,
+                        _as: "HorizontalAxis");
+                }
+                column.ResultId(_as: "Id")
                     .Ver()
-                    .UpdatedTime()
                     .Add(
                         context: context,
                         column: groupBy)
@@ -7233,14 +7259,17 @@ namespace Implem.Pleasanter.Models
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        tableType: (historyHorizontalAxis
+                            ? Sqls.TableTypes.NormalAndHistory
+                            : Sqls.TableTypes.Normal),
                         column: column,
                         join: join,
-                        where: Rds.ResultsWhere()
-                            .ResultId_In(sub: Rds.SelectResults(
+                        where: historyHorizontalAxis
+                            ? new Rds.ResultsWhereCollection().ResultId_In(sub: Rds.SelectResults(
                                 column: Rds.ResultsColumn().ResultId(),
                                 join: join,
-                                where: where)),
+                                where: where))
+                            : where.Add(raw: $"\"Results\".\"{horizontalAxis}\" is not null"),
                         param: param))
                             .AsEnumerable();
                 ss.SetChoiceHash(

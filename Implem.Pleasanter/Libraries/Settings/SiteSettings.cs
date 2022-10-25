@@ -3367,6 +3367,34 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
         }
 
+        public Dictionary<string, string> TimeSeriesChartTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "AreaChart", Displays.AreaChart(context: context) },
+                { "LineChart", Displays.LineChart(context: context) }
+            };
+        }
+
+        public Dictionary<string, string> TimeSeriesHorizontalAxisOptions(Context context)
+        {
+            var hash = new Dictionary<string, string>
+            {
+                { "Histories", Displays.Histories(context: context) }
+            };
+            hash.AddRange(Columns
+                .Where(o => o.TypeName == "datetime")
+                .Where(o => !o.Joined)
+                .Where(o => GetEditorColumnNames().Contains(o.Name))
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            return hash;
+        }
+
         public Dictionary<string, string> KambanGroupByOptions(
             Context context, bool addNothing = false)
         {
