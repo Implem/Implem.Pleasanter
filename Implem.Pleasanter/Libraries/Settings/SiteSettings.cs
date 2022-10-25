@@ -3376,10 +3376,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Dictionary<string, string> TimeSeriesHorizontalAxisOptions(Context context)
         {
-            var hash = new Dictionary<string, string>();
-            hash.Add(
-                $"{"Histories"}",
-                $"{Displays.Histories(context: context)}");
+            var hash = new Dictionary<string, string>
+            {
+                { "Histories", Displays.Histories(context: context) }
+            };
             hash.AddRange(Columns
                 .Where(o => o.TypeName == "datetime")
                 .Where(o => !o.Joined)

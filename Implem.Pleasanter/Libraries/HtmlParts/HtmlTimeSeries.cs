@@ -18,7 +18,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregationType,
             Column value,
             string chartType,
-            bool withHistory,
+            bool historyHorizontalAxis,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         groupBy: groupBy,
                         aggregationType: aggregationType,
                         value: value,
-                        withHistory: withHistory, 
+                        historyHorizontalAxis: historyHorizontalAxis, 
                         dataRows: dataRows,
                         inRange: inRange)));
         }
@@ -95,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy,
             string aggregationType,
             Column value,
-            bool withHistory,
+            bool historyHorizontalAxis,
             IEnumerable<DataRow> dataRows,
             bool inRange)
         {
@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
-                    withHistory: withHistory,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows);
                 return hb
                     .Svg(id: "TimeSeries")
@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             groupBy: groupBy,
                             value: value,
-                            withHistory: withHistory));
+                            historyHorizontalAxis: historyHorizontalAxis));
             }
             else
             {

@@ -7947,7 +7947,7 @@ namespace Implem.Pleasanter.Models
             {
                 return hb;
             }
-            var withHistory = horizontalAxis == "Histories";
+            var historyHorizontalAxis = horizontalAxis == "Histories";
             return !bodyOnly
                 ? hb.TimeSeries(
                     context: context,
@@ -7956,7 +7956,7 @@ namespace Implem.Pleasanter.Models
                     aggregationType: aggregationType,
                     value: value,
                     chartType: chartType,
-                    withHistory: withHistory,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange)
                 : hb.TimeSeriesBody(
@@ -7965,7 +7965,7 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
-                    withHistory: withHistory,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange);
         }
@@ -7980,10 +7980,9 @@ namespace Implem.Pleasanter.Models
         {
             if (groupBy != null && value != null)
             {
-                var withHistory = horizontalAxis == "Histories";
+                var historyHorizontalAxis = horizontalAxis == "Histories";
                 var column = Rds.IssuesColumn();
-                column.UpdatedTime();
-                if (withHistory)
+                if (historyHorizontalAxis)
                 {
                     column.UpdatedTime(_as: "HorizontalAxis");
                 }
@@ -8014,29 +8013,20 @@ namespace Implem.Pleasanter.Models
                         column,
                         where
                     });
-                SqlWhereCollection issuesWhere;
-                if (withHistory)
-                {
-                    issuesWhere = Rds.IssuesWhere()
-                        .IssueId_In(sub: Rds.SelectIssues(
-                            column: Rds.IssuesColumn().IssueId(),
-                            join: join,
-                            where: where));
-                }
-                else
-                {
-                    issuesWhere = where
-                        .Add(raw: $"\"Issues\".\"{horizontalAxis}\" is not null");
-                }
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectIssues(
-                        tableType: (withHistory
+                        tableType: (historyHorizontalAxis
                             ? Sqls.TableTypes.NormalAndHistory
                             : Sqls.TableTypes.Normal),
                         column: column,
                         join: join,
-                        where: issuesWhere,
+                        where: historyHorizontalAxis
+                            ? new Rds.IssuesWhereCollection().IssueId_In(sub: Rds.SelectIssues(
+                                column: Rds.IssuesColumn().IssueId(),
+                                join: join,
+                                where: where))
+                            : where.Add(raw: $"\"Issues\".\"{horizontalAxis}\" is not null"),
                         param: param))
                             .AsEnumerable();
                 ss.SetChoiceHash(

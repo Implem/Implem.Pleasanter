@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Column groupBy,
             string aggregationType,
             Column value,
-            bool withHistory,
+            bool historyHorizontalAxis,
             IEnumerable<DataRow> dataRows)
         {
             SiteSettings = ss;
@@ -60,23 +60,19 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     userColumn: groupBy?.Type == Column.Types.User,
                     id: dataRow["Id"].ToLong(),
                     ver: dataRow["Ver"].ToInt(),
-                    updatedTime: dataRow["UpdatedTime"]
-                        .ToDateTime()
-                        .ToLocal(context: context)
-                        .Date,
                     horizontalAxis: dataRow["HorizontalAxis"]
                         .ToDateTime()
                         .ToLocal(context: context)
                         .Date,
                     index: dataRow[groupBy.ColumnName].ToString(),
                     value: dataRow[value.ColumnName].ToDecimal(),
-                    isHistory: (withHistory
+                    isHistory: (historyHorizontalAxis
                         ? dataRow["IsHistory"].ToBool()
                         : false))));
             if (this.Any())
             {
                 MinTime = this.Select(o => o.HorizontalAxis).Min().AddDays(-1);
-                MaxTime = withHistory
+                MaxTime = historyHorizontalAxis
                     ? DateTime.Today
                     : this.Select(o => o.HorizontalAxis).Max().AddDays(1);
                 Days = Times.DateDiff(Times.Types.Days, MinTime, MaxTime);
@@ -99,7 +95,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             Context context,
             Column groupBy,
             Column value,
-            bool withHistory)
+            bool historyHorizontalAxis)
         {
             var elements = new List<Element>();
             var choices = groupBy
@@ -117,7 +113,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     index: index,
                     id: id,
                     valueColumn: valueColumn,
-                    withHistory: withHistory))
+                    historyHorizontalAxis: historyHorizontalAxis))
                 .ToList();
             if (this.Any())
             {
@@ -127,7 +123,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                     var currentTime = MinTime.AddDays(d);
                     var targets = Targets(
                         currentTime: currentTime,
-                        withHistory: withHistory);
+                        historyHorizontalAxis: historyHorizontalAxis);
                     indexes.Select(o => o.Key).ForEach(index =>
                     {
                         var data = GetData(targets.Where(o => o.Index == index));
@@ -163,9 +159,9 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             KeyValuePair<string, ControlData> index,
             int id,
             Column valueColumn,
-            bool withHistory)
+            bool historyHorizontalAxis)
         {
-            var data = GetData(Targets(MaxTime, withHistory).Where(p => p.Index == index.Key));
+            var data = GetData(Targets(MaxTime, historyHorizontalAxis).Where(p => p.Index == index.Key));
             var text = "{0}: {1}".Params(
                 index.Value.Text,
                 AggregationType != "Count"
@@ -187,11 +183,11 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         private IEnumerable<TimeSeriesElement> Targets(
             DateTime currentTime,
-            bool withHistory)
+            bool historyHorizontalAxis)
         {
             var processed = new HashSet<long>();
             var ret = new List<TimeSeriesElement>();
-            this.Where(o => (withHistory
+            this.Where(o => (historyHorizontalAxis
                     ? o.HorizontalAxis <= currentTime
                     : o.HorizontalAxis == currentTime))
                 .OrderByDescending(o => o.HorizontalAxis)
