@@ -9,7 +9,7 @@
     var json = JSON.parse($('#TimeSeriesJson').val());
     var indexes = json.Indexes;
     if (chartType === 'LineChart' ) {
-        indexes.sort((a, b) => b.Legend - a.Legend);
+        indexes.sort((a, b) => b.LegendValue - a.LegendValue);
     }
     var elements = json.Elements;
     if (elements.length === 0) {
@@ -22,9 +22,10 @@
     var axisPaddingX = 130;
     var axisPaddingY = 50;
     var width = parseInt(svg.style('width'));
+    //LineChartの場合、凡例がグラフに被らないためにグラフ右側にスペースを確保するため
     if (chartType === 'LineChart') {
-        width = width * 0.9;
-    } 
+        width = width - axisPaddingX;
+    }
     var height = parseInt(svg.style('height'));
     var bodyWidth = width - axisPaddingX - (padding);
     var bodyHeight = height - axisPaddingY - (padding);
@@ -44,6 +45,8 @@
         .tickFormat(d3.timeFormat('%m/%d'))
         .ticks(10);
     var yAxis = d3.axisLeft(yScale);
+    //グラフ数が少ない場合,d3.scaleSequential(d3.interpolateRainbow).domain([0, 20])では色の識別が困難ため、
+    //グラフ数によって識別しやすい色セットに切り替え。
     var colorScale = (indexes.length <= 10)
         ? d3.scaleOrdinal(d3.schemeCategory10)
         : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]); 
@@ -64,7 +67,7 @@
     indexes.forEach(function (index) {
         var ds = elements.filter(function (d) { return d.Index === index.Id; });
         if (chartType === 'LineChart') {
-            drawLine(ds, index.Id)
+            drawLine(ds, index.Id);
         } else {
             drawArea(ds);
         }
@@ -74,40 +77,15 @@
         var ds = elements.filter(function (d) { return d.Index === index.Id; });
         if (ds.length !== 0) {
             var last = ds[ds.length - 1];
-            var g = svg.append('g');
-            if (chartType === 'LineChart' ) {
-                var str = indexes.filter(function (d) { return d.Id === last.Index })[0].Text;
-                var cutText = str.substr(0, str.indexOf(':'));
-                g.append('text')
-                    .attr('class', 'index')
-                    .attr('transform', 'translate(' + 10 + ', ' + padding + ')')
-                    .attr('x', width * 1.05)
-                    .attr('y', lineCount * 20)
-                    .attr('text-anchor', 'end')
-                    .attr('dominant-baseline', 'middle')
-                    .text(cutText)
-                g.append("line")
-                    .attr('transform', 'translate(' + 10 + ', ' + padding + ')')
-                    .attr("x1", width * 1.07)
-                    .attr("x2", width * 1.06)
-                    .attr("y1", lineCount * 20)
-                    .attr("y2", lineCount * 20)
-                    .attr("stroke-width", 4)
-                    .attr("stroke", colorScale(index.Id));
+            if (chartType === 'LineChart') {
+                drawLineLegend(index, lineCount);
                 lineCount++;
             } else {
-                g.append('text')
-                    .attr('class', 'index')
-                    .attr('x', ($p.dateDiff('d', new Date(last.Day), minDate) * dayWidth)
-                        + axisPaddingX + padding - 10)
-                    .attr('y', yScale(last.Y - (last.Value / 2)))
-                    .attr('text-anchor', 'end')
-                    .attr('dominant-baseline', 'middle')
-                    .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text);
-            }            
+                drawAreaLegend(last);
+            }
         }
     });
-       
+
     function drawArea(ds) {
         var area = d3.area()
             .x(function (d) {
@@ -132,7 +110,7 @@
             })
             .y(function (d) {
                 return yScale(d.Value);
-            });        
+            });
         var g = svg.append('g').attr('class', 'surface');
         g.append('path')
             .attr('d', line(ds))
@@ -152,12 +130,44 @@
             })
             .attr('r', 4)
             .attr('stroke', colorScale(index))
-            .attr('fill', colorScale(index));            
+            .attr('fill', colorScale(index));
+    }
+
+    function drawLineLegend(index, lineCount) {
+        var g = svg.append('g');
+        g.append('text')
+            .attr('class', 'index')
+            .attr('transform', 'translate(' + (width + padding) + ', ' + axisPaddingY + ')')
+            .attr('x', padding)
+            .attr('y', lineCount * 20)
+            .attr('text-anchor', 'end')
+            .attr('dominant-baseline', 'central')
+            .text(index.LegendText);
+        g.append('line')
+            .attr('transform', 'translate(' + (width + padding) + ', ' + axisPaddingY + ')')
+            .attr('x1', padding + 10)
+            .attr('x2', padding + 20)
+            .attr('y1', lineCount * 20)
+            .attr('y2', lineCount * 20)
+            .attr('stroke-width', 4)
+            .attr('stroke', colorScale(index.Id));
+    }
+
+    function drawAreaLegend(last) {
+        var g = svg.append('g');
+        g.append('text')
+            .attr('class', 'index')
+            .attr('x', ($p.dateDiff('d', new Date(last.Day), minDate) * dayWidth)
+                + axisPaddingX + padding - 10)
+            .attr('y', yScale(last.Y - (last.Value / 2)))
+            .attr('text-anchor', 'end')
+            .attr('dominant-baseline', 'middle')
+            .text(indexes.filter(function (d) { return d.Id === last.Index })[0].Text);
     }
     
-    function color() {       
-            var c = Math.floor(Math.random() * 50 + 180);
-            return '#' + part(c) + part(c) + part(c);
+    function color() {
+        var c = Math.floor(Math.random() * 50 + 180);
+        return '#' + part(c) + part(c) + part(c);
     }
 
     function part(c) {

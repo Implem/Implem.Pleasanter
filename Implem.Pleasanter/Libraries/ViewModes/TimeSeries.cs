@@ -30,7 +30,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             public int Id;
             public string Key;
             public string Text;
-            public decimal Legend;
+            public string LegendText;
+            public decimal LegendValue;
             public string Style;
         }
 
@@ -178,7 +179,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
                 Id = id,
                 Key = index.Key,
                 Text = text,
-                Legend = data,
+                LegendText = index.Value.Text,
+                LegendValue = data,
                 Style = index.Value.Style
             };
         }
