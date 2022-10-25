@@ -49,7 +49,7 @@
     //そうでない場合はグラデーションの20色のカラーセットを利用する
     var colorScale = (indexes.length <= 10)
         ? d3.scaleOrdinal(d3.schemeCategory10)
-        : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]); 
+        : d3.scaleSequential(d3.interpolateRainbow).domain([0, 20]);
     svg.append('g')
         .attr('class', 'axis')
         .attr('transform', 'translate(' + axisPaddingX + ', ' + (height - axisPaddingY) + ')')
