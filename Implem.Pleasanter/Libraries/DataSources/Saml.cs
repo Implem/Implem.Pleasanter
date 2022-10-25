@@ -370,7 +370,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 var doc = XDocument.Load(stream);
                 var md = (XNamespace)"urn:oasis:names:tc:SAML:2.0:metadata";
                 var entityDescriptor = doc.Element(md + "EntityDescriptor");
-                if (entityDescriptor is null)
+                if (entityDescriptor == null)
                 {
                     return null;
                 }
@@ -378,7 +378,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .Attributes("entityID")
                     .FirstOrDefault()?
                     .Value;
-                if (x_entityId is null || x_entityId != entityId.Id)
+                if (x_entityId == null || x_entityId != entityId.Id)
                 {
                     return null;
                 }
@@ -387,7 +387,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     .Descendants(ds + "X509Certificate")?
                     .FirstOrDefault()?
                     .Value;
-                if (x509Certificate is null)
+                if (x509Certificate == null)
                 {
                     return null;
                 }
@@ -401,9 +401,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 };
 
                 idp.SigningKeys.AddConfiguredKey(
-                    X509Certificate2.CreateFromPem("-----BEGIN CERTIFICATE-----"
-                        + x509Certificate
-                        + "-----END CERTIFICATE-----"));
+                    X509Certificate2.CreateFromPem($"-----BEGIN CERTIFICATE-----{x509Certificate}-----END CERTIFICATE-----"));
                 return idp;
             }
         }
@@ -501,11 +499,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     transactional: false,
                     statements: new SqlStatement[]
                     {
-                    Rds.SelectBinaries(
-                        column: Rds.BinariesColumn().Bin(),
-                        where: Rds.BinariesWhere()
-                            .TenantId(tenantId)
-                            .Guid(guid))
+                        Rds.SelectBinaries(
+                            column: Rds.BinariesColumn().Bin(),
+                            where: Rds.BinariesWhere()
+                                .TenantId(tenantId)
+                                .Guid(guid))
                     });
                 if (metadata == null)
                 {

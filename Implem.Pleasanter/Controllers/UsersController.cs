@@ -338,15 +338,16 @@ namespace Implem.Pleasanter.Controllers
             if (tenant.TenantId == 0
                 || !Saml.HasSamlSettings(contractSettings: tenant.ContractSettings)
                 || !Saml.SetIdpCache(
-                        context: context,
-                        tenantId: tenant.TenantId,
-                        entityId: entityId,
-                        contractSettings: tenant.ContractSettings))
+                    context: context,
+                    tenantId: tenant.TenantId,
+                    entityId: entityId,
+                    contractSettings: tenant.ContractSettings))
             {
                 return Redirect(Locations.InvalidSsoCode(context: context));
             }
-            return new ChallengeResult(Saml2Defaults.Scheme,
-                new AuthenticationProperties(
+            return new ChallengeResult(
+                authenticationScheme: Saml2Defaults.Scheme,
+                properties: new AuthenticationProperties(
                     items: new Dictionary<string, string>
                     {
                         { "idp", entityId }
