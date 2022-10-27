@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HorizontalAxis",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Horizontal axis"
+        },
+        {
+            "Language": "zh",
+            "Body": "横轴"
+        },
+        {
+            "Language": "ja",
+            "Body": "横軸"
+        },
+        {
+            "Language": "de",
+            "Body": "Horizontale Achse"
+        },
+        {
+            "Language": "ko",
+            "Body": "수평축"
+        },
+        {
+            "Language": "es",
+            "Body": "Eje horizontal"
+        },
+        {
+            "Language": "vn",
+            "Body": "Trục ngang"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ChartTypes",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Chart types"
+        },
+        {
+            "Language": "zh",
+            "Body": "图表类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "チャートの種類"
+        },
+        {
+            "Language": "de",
+            "Body": "Diagrammtypen"
+        },
+        {
+            "Language": "ko",
+            "Body": "차트 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "tipos de gráficos"
+        },
+        {
+            "Language": "vn",
+            "Body": "các loại biểu đồ"
+        }
+    ]
+}

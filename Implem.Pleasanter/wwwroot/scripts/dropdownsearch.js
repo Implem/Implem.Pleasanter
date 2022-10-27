@@ -14,13 +14,13 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
+    if ($p.data.MainForm === undefined) {
+        $p.data.MainForm = {};
+    }
     if ($('#IsNew').val() === '1') {
-        if ($p.data.MainForm === undefined) {
-            $p.data.MainForm = {};
-        }
         $p.data.MainForm.IsNew = '1';
     }
-    $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
+    $p.data.DropDownSearchDialogForm = $p.data.MainForm;
     var referenceId = $p.id();
     var $tr = $control.closest('tr');
     if ($tr.length) {
@@ -28,7 +28,7 @@ $p.openDropDownSearchDialog = function ($control) {
     }
     var $dialogId = $('#EditorInDialogRecordId');
     if ($dialogId.length) {
-        $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.DialogEditorForm);
+        $p.data.DropDownSearchDialogForm = $p.data.DialogEditorForm;
         referenceId = $dialogId.val();
     }
     $('#DropDownSearchReferenceId').val(referenceId);

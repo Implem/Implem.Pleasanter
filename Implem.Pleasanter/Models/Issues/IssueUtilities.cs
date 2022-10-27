@@ -3057,7 +3057,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     process: process);
-                if (process.MatchConditions && process.Accessable(context: context))
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
                 {
                     issueModel.SetByProcess(
                         context: context,
@@ -3294,7 +3296,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     process: process);
-                if (process.MatchConditions && process.Accessable(context: context))
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
                 {
                     issueModel.SetByProcess(
                         context: context,
@@ -4056,9 +4060,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var processId = context.Forms.Int("BulkProcessingItems");
-            var process = ss.Processes
-                ?.Where(o => o.Accessable(context: context))
-                .FirstOrDefault(o => o.Id == processId);
+            var process = ss.GetProcess(
+                context: context,
+                id: processId);
             if (process == null)
             {
                 return Messages.NotFound(context: context).ToJson();
@@ -7820,6 +7824,15 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
+            if (horizontalAxis == null)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.BadRequest));
+            }
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -7850,6 +7863,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
+                        horizontalAxis: horizontalAxis,
                         bodyOnly: false,
                         inRange: inRange));
         }
@@ -7861,6 +7875,13 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
+            if (horizontalAxis == null)
+            {
+                return Messages.ResponseBadRequest(context: context).ToJson();
+            }
             var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
             return InRange(
                 context: context,
@@ -7880,6 +7901,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     view: view,
+                                    horizontalAxis: horizontalAxis,
                                     bodyOnly: bodyOnly,
                                     inRange: true))
                         .Events("on_timeseries_load")
@@ -7899,6 +7921,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     view: view,
+                                    horizontalAxis: horizontalAxis,
                                     bodyOnly: bodyOnly,
                                     inRange: false))
                         .Events("on_timeseries_load")
@@ -7910,6 +7933,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             View view,
+            string horizontalAxis,
             bool bodyOnly,
             bool inRange)
         {
@@ -7926,16 +7950,21 @@ namespace Implem.Pleasanter.Models
                 columnName: view.GetTimeSeriesValue(
                     context: context,
                     ss: ss));
+            var chartType = view.GetTimeSeriesChartType(
+                context: context,
+                ss: ss);
             var dataRows = TimeSeriesDataRows(
                 context: context,
                 ss: ss,
                 view: view,
                 groupBy: groupBy,
-                value: value);
+                value: value,
+                horizontalAxis: horizontalAxis);
             if (groupBy == null)
             {
                 return hb;
             }
+            var historyHorizontalAxis = horizontalAxis == "Histories";
             return !bodyOnly
                 ? hb.TimeSeries(
                     context: context,
@@ -7943,6 +7972,8 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    chartType: chartType,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange)
                 : hb.TimeSeriesBody(
@@ -7951,19 +7982,35 @@ namespace Implem.Pleasanter.Models
                     groupBy: groupBy,
                     aggregationType: aggregationType,
                     value: value,
+                    historyHorizontalAxis: historyHorizontalAxis,
                     dataRows: dataRows,
                     inRange: inRange);
         }
 
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
-            Context context, SiteSettings ss, View view, Column groupBy, Column value)
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column groupBy,
+            Column value,
+            string horizontalAxis)
         {
             if (groupBy != null && value != null)
             {
-                var column = Rds.IssuesColumn()
-                    .IssueId(_as: "Id")
+                var historyHorizontalAxis = horizontalAxis == "Histories";
+                var column = Rds.IssuesColumn();
+                if (historyHorizontalAxis)
+                {
+                    column.UpdatedTime(_as: "HorizontalAxis");
+                }
+                else
+                {
+                    column.IssuesColumn(
+                        columnName: horizontalAxis,
+                        _as: "HorizontalAxis");
+                }
+                column.IssueId(_as: "Id")
                     .Ver()
-                    .UpdatedTime()
                     .Add(
                         context: context,
                         column: groupBy)
@@ -7986,14 +8033,17 @@ namespace Implem.Pleasanter.Models
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectIssues(
-                        tableType: Sqls.TableTypes.NormalAndHistory,
+                        tableType: (historyHorizontalAxis
+                            ? Sqls.TableTypes.NormalAndHistory
+                            : Sqls.TableTypes.Normal),
                         column: column,
                         join: join,
-                        where: Rds.IssuesWhere()
-                            .IssueId_In(sub: Rds.SelectIssues(
+                        where: historyHorizontalAxis
+                            ? new Rds.IssuesWhereCollection().IssueId_In(sub: Rds.SelectIssues(
                                 column: Rds.IssuesColumn().IssueId(),
                                 join: join,
-                                where: where)),
+                                where: where))
+                            : where.Add(raw: $"\"Issues\".\"{horizontalAxis}\" is not null"),
                         param: param))
                             .AsEnumerable();
                 ss.SetChoiceHash(

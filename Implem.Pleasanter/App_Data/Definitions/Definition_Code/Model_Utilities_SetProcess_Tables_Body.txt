@@ -7,7 +7,9 @@ foreach (var process in processes)
         context: context,
         ss: ss,
         process: process);
-    if (process.MatchConditions && process.Accessable(context: context))
+    if (process.MatchConditions && process.Accessable(
+        context: context,
+        ss: ss))
     {
         #modelName#Model.SetByProcess(
             context: context,

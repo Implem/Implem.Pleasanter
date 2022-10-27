@@ -2908,10 +2908,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         attributes: ProcessValidateInputColumnAttributes(column: column)));
         }
 
-        public Dictionary<string, ControlData> BulkProcessingItems(Context context)
+        public Dictionary<string, ControlData> BulkProcessingItems(Context context, SiteSettings ss)
         {
             var items = Processes
-                ?.Where(process => process.Accessable(context: context))
+                ?.Where(process => process.Accessable(
+                    context: context,
+                    ss: ss))
                 .Where(process => process.AllowBulkProcessing == true)
                 .ToDictionary(
                     process => process.Id.ToString(),
@@ -3356,6 +3358,34 @@ namespace Implem.Pleasanter.Libraries.Settings
                     mine: null))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> TimeSeriesChartTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "AreaChart", Displays.AreaChart(context: context) },
+                { "LineChart", Displays.LineChart(context: context) }
+            };
+        }
+
+        public Dictionary<string, string> TimeSeriesHorizontalAxisOptions(Context context)
+        {
+            var hash = new Dictionary<string, string>
+            {
+                { "Histories", Displays.Histories(context: context) }
+            };
+            hash.AddRange(Columns
+                .Where(o => o.TypeName == "datetime")
+                .Where(o => !o.Joined)
+                .Where(o => GetEditorColumnNames().Contains(o.Name))
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            return hash;
         }
 
         public Dictionary<string, string> KambanGroupByOptions(
@@ -5445,6 +5475,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                         gridData: gridData);
             }
             return ServerScriptModelRowCache;
+        }
+
+        public Process GetProcess(Context context, int id)
+        {
+            return Processes
+                ?.Where(o => o.Accessable(
+                    context: context,
+                    ss: this))
+                .FirstOrDefault(o => o.Id == id);
         }
     }
 }

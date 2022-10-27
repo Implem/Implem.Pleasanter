@@ -14,7 +14,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 var context = CreateContext();
                 var log = CreateSysLogModel(
                     context: context,
-                    message: "delete temporary files.");
+                    message: "Delete Temporary Files.");
                 Initializer.DeleteTemporaryFiles();
                 log.Finish(context: context);
             }, stoppingToken);

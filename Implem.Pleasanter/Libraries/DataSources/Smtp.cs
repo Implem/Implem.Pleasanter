@@ -9,6 +9,7 @@ using MimeKit;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
     public class Smtp
@@ -50,24 +51,27 @@ namespace Implem.Pleasanter.Libraries.DataSources
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(Addresses.From(From));
+                var enc = GetEncodingOrDefault(context: context,
+                    encoding: Parameters.Mail.Encoding);
+                message.From.Add(Addresses.From(From).SetEncoding(enc));
                 Addresses.Get(
                     context: context,
                     addresses: To)
-                    .ForEach(to => message.To.Add(MailboxAddress.Parse(to)));
+                    .ForEach(to => message.To.Add(MailboxAddress.Parse(to).SetEncoding(enc)));
                 Addresses.Get(
                     context: context,
                     addresses: Cc)
-                    .ForEach(cc => message.Cc.Add(MailboxAddress.Parse(cc)));
+                    .ForEach(cc => message.Cc.Add(MailboxAddress.Parse(cc).SetEncoding(enc)));
                 Addresses.Get(
                     context: context,
                     addresses: Bcc)
-                        .ForEach(bcc => message.Bcc.Add(MailboxAddress.Parse(bcc)));
-                message.Subject = Subject;
-                var textPart = new TextPart(MimeKit.Text.TextFormat.Plain)
-                {
-                    Text = Body
-                };
+                        .ForEach(bcc => message.Bcc.Add(MailboxAddress.Parse(bcc).SetEncoding(enc)));
+                message.Headers.Replace(HeaderId.Subject, enc, Subject);
+                var textPart = new TextPart(MimeKit.Text.TextFormat.Plain);
+                textPart.SetText(enc, Body);
+                textPart.ContentTransferEncoding = GetContentEncodingForTransfer(
+                    encoding: enc,
+                    contentEncoding: Parameters.Mail.ContentEncoding);
                 var mimeParts = attachments
                     ?.Where(attachment => attachment?.Base64?.IsNullOrEmpty() == false)
                     .Select(attachment =>
@@ -119,6 +123,43 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 new SysLogModel(Context, e);
             }
+        }
+
+        private Encoding GetEncodingOrDefault(Context context, string encoding)
+        {
+            if (encoding == null)
+            {
+                return Encoding.UTF8;
+            }
+            var encodingInfo = Encoding.GetEncodings()
+                .FirstOrDefault(o => o.Name == encoding
+                    || o.DisplayName == encoding
+                    || o.CodePage.ToString() == encoding);
+            if (encodingInfo == null)
+            {
+                new SysLogModel(
+                    context: context,
+                    method: nameof(GetEncodingOrDefault),
+                    message: $"{encoding} is not supported Encoding. Falling back to UTF-8.",
+                    errStackTrace: $"Supported Encodings are { Encoding.GetEncodings().Select(o => o.Name).Join(",") }.",
+                    sysLogType: SysLogModel.SysLogTypes.Execption);
+                return Encoding.UTF8;
+            }
+            return Encoding.GetEncoding(encodingInfo.Name);
+        }
+
+        private ContentEncoding GetContentEncodingForTransfer(Encoding encoding, ParameterAccessor.Parts.Types.ContentEncodings? contentEncoding)
+        {
+            if (encoding == Encoding.UTF8 || contentEncoding == null)
+            {
+                return ContentEncoding.Default;
+            }
+            if(Enum.TryParse(contentEncoding.ToString(), out ContentEncoding type)
+                && Enum.IsDefined(typeof(ContentEncoding), type))
+            {
+                return type;
+            }
+            return ContentEncoding.Default;
         }
     }
 }

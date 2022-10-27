@@ -1,0 +1,33 @@
+﻿{
+    "Id": "LineChart",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Line"
+        },
+        {
+            "Language": "zh",
+            "Body": "折线"
+        },
+        {
+            "Language": "ja",
+            "Body": "折れ線"
+        },
+        {
+            "Language": "de",
+            "Body": "polygonale Linie"
+        },
+        {
+            "Language": "ko",
+            "Body": "꺾은선"
+        },
+        {
+            "Language": "es",
+            "Body": "línea poligonal"
+        },
+        {
+            "Language": "vn",
+            "Body": "đường đa giác"
+        }
+    ]
+}
