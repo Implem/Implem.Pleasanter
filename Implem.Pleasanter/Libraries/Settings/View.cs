@@ -333,7 +333,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? Definition(ss, "TimeSeries")?.Option5
                     : options.FirstOrDefault().Key;
             }
-            return TimeSeriesHorizontalAxis;
+            switch (TimeSeriesHorizontalAxis)
+            {
+                case "Histories":
+                    return TimeSeriesHorizontalAxis;
+                default:
+                    return ss.GetColumn(
+                        context: context,
+                        columnName: TimeSeriesHorizontalAxis)?.ColumnName;
+            }
         }
 
         public string GetKambanGroupByX(Context context, SiteSettings ss)
