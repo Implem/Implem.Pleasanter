@@ -50,16 +50,20 @@ $p.clearMessage = function () {
 }
 
 $p.setServerErrorMessage = function (responseJSON) {
-    var isMessage = responseJSON.filter(function (i) {
+    var messages = responseJSON.filter(function (i) {
         return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
     });
-    if (!isMessage) {
+    if (!messages.length) {
         return false;
     }
     if ($('.message-dialog:visible').length) {
-        $p.setMessage('.message-dialog:visible', responseJSON[0].Value);
+        messages.forEach(function (message) {
+            $p.setMessage('.message-dialog:visible', message.Value);
+        });
     } else if ($('#Message').length) {
-        $p.setMessage('#Message', responseJSON[0].Value);
+        messages.forEach(function (message) {
+            $p.setMessage('#Message', message.Value);
+        });
     } else {
         return false;
     }

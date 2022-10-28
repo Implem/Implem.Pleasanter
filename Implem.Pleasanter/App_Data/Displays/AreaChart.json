@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AreaChart",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Area"
+        },
+        {
+            "Language": "zh",
+            "Body": "区域"
+        },
+        {
+            "Language": "ja",
+            "Body": "面"
+        },
+        {
+            "Language": "de",
+            "Body": "Bereich"
+        },
+        {
+            "Language": "ko",
+            "Body": "지역"
+        },
+        {
+            "Language": "es",
+            "Body": "Área"
+        },
+        {
+            "Language": "vn",
+            "Body": "Diện tích"
+        }
+    ]
+}

@@ -31,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             AddTimer(timer: new SyncByLdapExecutionTimer());
             AddTimer(timer: new DeleteSysLogsTimer());
             AddTimer(timer: new DeleteTemporaryFilesTimer());
+            AddTimer(timer: new DeleteTrashBoxTimer());
         }
 
         private void SortTimerList()

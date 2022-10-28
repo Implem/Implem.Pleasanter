@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public long Id;
         public int Ver;
         public DateTime UpdatedTime;
+        public DateTime HorizontalAxis;
         public string Index;
         public decimal Value;
         public bool IsHistory;
@@ -19,14 +20,14 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             bool userColumn,
             long id,
             int ver,
-            DateTime updatedTime,
+            DateTime horizontalAxis,
             string index,
             decimal value,
             bool isHistory)
         {
             Id = id;
             Ver = ver;
-            UpdatedTime = updatedTime;
+            HorizontalAxis = horizontalAxis;
             Index = userColumn && SiteInfo.User(
                 context: context,
                 userId: index.ToInt()).Anonymous()

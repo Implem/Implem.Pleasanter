@@ -789,6 +789,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string AreaChart(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AreaChart",
+                data: data);
+        }
+
         public static string Assembly(
             Context context,
             params string[] data)
@@ -1656,6 +1666,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "CharToAddWhenCopying",
+                data: data);
+        }
+
+        public static string ChartTypes(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ChartTypes",
                 data: data);
         }
 
@@ -4149,6 +4169,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HorizontalAxis(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HorizontalAxis",
+                data: data);
+        }
+
         public static string HourAgo(
             Context context,
             params string[] data)
@@ -5216,6 +5246,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Line",
+                data: data);
+        }
+
+        public static string LineChart(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "LineChart",
                 data: data);
         }
 
