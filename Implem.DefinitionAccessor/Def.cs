@@ -1002,6 +1002,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_SiteIntegration": Code.SiteSettings_GetModels_Items_SiteIntegration = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_SiteIntegration, definitionRow, CodeXls); break;
+                    case "SiteSettings_Users": Code.SiteSettings_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_Users, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
                     case "Summaries_DataTablesCases": Code.Summaries_DataTablesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_DataTablesCases, definitionRow, CodeXls); break;
                     case "Summaries_ParamCases": Code.Summaries_ParamCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_ParamCases, definitionRow, CodeXls); break;
@@ -1803,6 +1804,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
                     case "Tenants_DisableAllUsersPermission": Column.Tenants_DisableAllUsersPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableAllUsersPermission, definitionRow, ColumnXls); break;
+                    case "Tenants_DisableApi": Column.Tenants_DisableApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableApi, definitionRow, ColumnXls); break;
                     case "Tenants_DisableStartGuide": Column.Tenants_DisableStartGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableStartGuide, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleRecord": Column.Tenants_HtmlTitleRecord = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleRecord, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
@@ -7299,6 +7301,7 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Items_SiteIntegration;
+        public string SiteSettings_Users;
         public string Summaries;
         public string Summaries_DataTablesCases;
         public string Summaries_ParamCases;
@@ -8061,6 +8064,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_SiteIntegration = new CodeDefinition();
+        public CodeDefinition SiteSettings_Users = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
         public CodeDefinition Summaries_DataTablesCases = new CodeDefinition();
         public CodeDefinition Summaries_ParamCases = new CodeDefinition();
@@ -8883,6 +8887,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_ContractDeadline;
         public string Tenants_ContractSettings;
         public string Tenants_DisableAllUsersPermission;
+        public string Tenants_DisableApi;
         public string Tenants_DisableStartGuide;
         public string Tenants_HtmlTitleRecord;
         public string Tenants_HtmlTitleSite;
@@ -9418,6 +9423,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableAllUsersPermission = new ColumnDefinition();
+        public ColumnDefinition Tenants_DisableApi = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableStartGuide = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleRecord = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();

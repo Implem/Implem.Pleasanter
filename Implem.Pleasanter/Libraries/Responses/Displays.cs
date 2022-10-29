@@ -12179,6 +12179,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Tenants_DisableApi(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Tenants_DisableApi",
+                data: data);
+        }
+
         public static string Tenants_DisableStartGuide(
             Context context,
             params string[] data)
