@@ -8,8 +8,10 @@
     $svg.empty();
     var json = JSON.parse($('#TimeSeriesJson').val());
     var indexes = json.Indexes;
-    if (chartType === 'LineChart' ) {
-        indexes.sort((a, b) => b.LegendValue - a.LegendValue);
+    if (chartType === 'LineChart') {
+        indexes.sort(function (a, b) {
+            return b.LegendValue - a.LegendValue;
+        });
     }
     var elements = json.Elements;
     if (elements.length === 0) {
