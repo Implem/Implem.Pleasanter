@@ -153,6 +153,12 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
+                    case "DisableApi":
+                        if (tenantModel.DisableApi_Updated(context: context, column: column))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
                     case "DisableStartGuide":
                         if (tenantModel.DisableStartGuide_Updated(context: context, column: column))
                         {
@@ -328,6 +334,12 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "DisableAllUsersPermission":
                         if (tenantModel.DisableAllUsersPermission_Updated(context: context))
+                        {
+                            return new ErrorData(type: Error.Types.HasNotPermission);
+                        }
+                        break;
+                    case "DisableApi":
+                        if (tenantModel.DisableApi_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

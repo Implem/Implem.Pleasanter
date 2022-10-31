@@ -888,15 +888,6 @@ namespace Implem.DefinitionAccessor
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupCreation").UpdateAccessControl = "ManageService";
             }
-            if (!Parameters.User.DisableApi)
-            {
-                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
-                    o.Id == "Users_AllowApi").CreateAccessControl = "ManageService";
-                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
-                    o.Id == "Users_AllowApi").ReadAccessControl = "ManageService";
-                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
-                    o.Id == "Users_AllowApi").UpdateAccessControl = "ManageService";
-            }
             switch (Parameters.Security.SecondaryAuthentication?.Mode)
             {
                 case SecondaryAuthentication.SecondaryAuthenticationMode.None:

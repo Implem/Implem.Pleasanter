@@ -372,6 +372,26 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            // APIを許可の項目は、APIの無効化が設定されていない場合には使用できなくする
+            // APIの無効化はUser.jsonまたはテナントの管理の何れかで設定する
+            if (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi)
+            {
+                var column = ss.GetColumn(
+                    context: context,
+                    columnName: "AllowApi");
+                var columnAccessControl = new ColumnAccessControl()
+                {
+                    No = column.No,
+                    ColumnName = column.ColumnName,
+                    Type = Permissions.Types.ManageService
+                };
+                ss.CreateColumnAccessControls = ss.CreateColumnAccessControls ?? new List<ColumnAccessControl>();
+                ss.ReadColumnAccessControls = ss.ReadColumnAccessControls ?? new List<ColumnAccessControl>();
+                ss.UpdateColumnAccessControls = ss.UpdateColumnAccessControls ?? new List<ColumnAccessControl>();
+                ss.CreateColumnAccessControls.Add(columnAccessControl);
+                ss.ReadColumnAccessControls.Add(columnAccessControl);
+                ss.UpdateColumnAccessControls.Add(columnAccessControl);
+            }
             return ss;
         }
 
