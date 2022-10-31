@@ -14,15 +14,15 @@
 }
 
 $p.openDropDownSearchDialog = function ($control) {
+    if ($p.data.MainForm === undefined) {
+        $p.data.MainForm = {};
+    }
     // 新規作成画面の場合にはIsNewのプロパティを$p.data.MainFormに転記
     if ($('#IsNew').val() === '1') {
-        if ($p.data.MainForm === undefined) {
-            $p.data.MainForm = {};
-        }
         $p.data.MainForm.IsNew = '1';
     }
     // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
-    $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.MainForm);
+    $p.data.DropDownSearchDialogForm = $p.data.MainForm;
     var referenceId = $p.id();
     // 一覧編集の場合にはtrからreferenceIdを取得
     var $tr = $control.closest('tr');
@@ -33,7 +33,7 @@ $p.openDropDownSearchDialog = function ($control) {
     // ダイアログ編集の場合には$p.data.DialogEditorFormから入力データを取得
     var $dialogId = $('#EditorInDialogRecordId');
     if ($dialogId.length) {
-        $p.data.DropDownSearchDialogForm = Object.assign({}, $p.data.DialogEditorForm);
+        $p.data.DropDownSearchDialogForm = $p.data.DialogEditorForm;
         referenceId = $dialogId.val();
     }
     $('#DropDownSearchReferenceId').val(referenceId);

@@ -3057,7 +3057,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     process: process);
-                if (process.MatchConditions && process.Accessable(context: context))
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
                 {
                     issueModel.SetByProcess(
                         context: context,
@@ -3294,7 +3296,9 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     process: process);
-                if (process.MatchConditions && process.Accessable(context: context))
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
                 {
                     issueModel.SetByProcess(
                         context: context,
@@ -4056,9 +4060,9 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var processId = context.Forms.Int("BulkProcessingItems");
-            var process = ss.Processes
-                ?.Where(o => o.Accessable(context: context))
-                .FirstOrDefault(o => o.Id == processId);
+            var process = ss.GetProcess(
+                context: context,
+                id: processId);
             if (process == null)
             {
                 return Messages.NotFound(context: context).ToJson();
@@ -7824,6 +7828,15 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
+            if (horizontalAxis == null)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.BadRequest));
+            }
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
@@ -7854,6 +7867,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
+                        horizontalAxis: horizontalAxis,
                         bodyOnly: false,
                         inRange: inRange));
         }
@@ -7865,6 +7879,13 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
+            if (horizontalAxis == null)
+            {
+                return Messages.ResponseBadRequest(context: context).ToJson();
+            }
             var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
             return InRange(
                 context: context,
@@ -7884,6 +7905,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     view: view,
+                                    horizontalAxis: horizontalAxis,
                                     bodyOnly: bodyOnly,
                                     inRange: true))
                         .Events("on_timeseries_load")
@@ -7903,6 +7925,7 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     view: view,
+                                    horizontalAxis: horizontalAxis,
                                     bodyOnly: bodyOnly,
                                     inRange: false))
                         .Events("on_timeseries_load")
@@ -7914,6 +7937,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             View view,
+            string horizontalAxis,
             bool bodyOnly,
             bool inRange)
         {
@@ -7931,9 +7955,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss));
             var chartType = view.GetTimeSeriesChartType(
-                context: context,
-                ss: ss);
-            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
                 context: context,
                 ss: ss);
             var dataRows = TimeSeriesDataRows(

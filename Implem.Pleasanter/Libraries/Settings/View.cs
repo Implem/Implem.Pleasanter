@@ -333,7 +333,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ? Definition(ss, "TimeSeries")?.Option5
                     : options.FirstOrDefault().Key;
             }
-            return TimeSeriesHorizontalAxis;
+            switch (TimeSeriesHorizontalAxis)
+            {
+                case "Histories":
+                    return TimeSeriesHorizontalAxis;
+                default:
+                    return ss.GetColumn(
+                        context: context,
+                        columnName: TimeSeriesHorizontalAxis)?.ColumnName;
+            }
         }
 
         public string GetKambanGroupByX(Context context, SiteSettings ss)
@@ -1549,9 +1557,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         /// </summary>
         private Permissions.Types GetPermissionType(Context context, SiteSettings ss)
         {
-            var process = ss.Processes
-                ?.Where(o => o.Accessable(context: context))
-                .FirstOrDefault(o => o.Id == context.Forms.Int("BulkProcessingItems"));
+            var process = ss.GetProcess(
+                context: context,
+                id: context.Forms.Int("BulkProcessingItems"));
             var permissionType = process == null
                 ? Permissions.Types.Read
                 : Permissions.Types.Read | Permissions.Types.Update;
@@ -2272,21 +2280,34 @@ namespace Implem.Pleasanter.Libraries.Settings
             var param = value.Deserialize<List<string>>();
             if (param?.Any(o => !o.IsNullOrEmpty()) == true)
             {
-                where.Add(or: new SqlWhereCollection(
-                    CsDateTimeColumnsWhere(
-                        context: context,
-                        column: column,
-                        param: param,
-                        negative: negative),
-                    CsDateTimeColumnsWhereNegative(
-                        column: column,
-                        param: param,
-                        negative: negative),
-                    CsDateTimeColumnsWhereNull(
-                        context: context,
-                        column: column,
-                        param: param,
-                        negative: negative)));
+                if (negative)
+                {
+                    where.Add(and: new SqlWhereCollection(
+                        CsDateTimeColumnsWhere(
+                            context: context,
+                            column: column,
+                            param: param,
+                            negative: negative),
+                        CsDateTimeColumnsWhereNull(
+                            context: context,
+                            column: column,
+                            param: param,
+                            negative: negative)));
+                }
+                else
+                {
+                    where.Add(or: new SqlWhereCollection(
+                        CsDateTimeColumnsWhere(
+                            context: context,
+                            column: column,
+                            param: param,
+                            negative: negative),
+                        CsDateTimeColumnsWhereNull(
+                            context: context,
+                            column: column,
+                            param: param,
+                            negative: negative)));
+                }
             }
         }
 
@@ -2299,19 +2320,77 @@ namespace Implem.Pleasanter.Libraries.Settings
             var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
             var addMilliseconds = Parameters.Rds.MinimumTime * -1;
             var between = "#TableBracket#.\"{0}\" between '{1}' and '{2}'";
-            var notBetween = "#TableBracket#.\"{0}\" not between '{1}' and '{2}'";
+            var notBetween = "(#TableBracket#.\"{0}\" not between '{1}' and '{2}' or #TableBracket#.\"{0}\" is null)";
             var ymdhms = "yyyy/M/d H:m:s";
             var ymdhmsfff = "yyyy/M/d H:m:s.fff";
             return param.Any(o => o != "\t")
                 ? new SqlWhere(
                     tableName: column.TableName(),
-                    raw: param.Select(range =>
-                    {
-                        var from = range.Split_1st();
-                        var to = range.Split_2nd();
-                        switch (from)
+                    raw: param
+                        .Where(o => o != "\t")
+                        .Select(range =>
                         {
-                            case "Today":
+                            var from = range.Split_1st();
+                            var to = range.Split_2nd();
+                            switch (from)
+                            {
+                                case "Today":
+                                    return (negative
+                                        ? notBetween
+                                        : between)
+                                            .Params(
+                                                column.Name,
+                                                ConvertDateTimeParam(
+                                                    context: context,
+                                                    column: column,
+                                                    dt: today,
+                                                    format: ymdhms),
+                                                ConvertDateTimeParam(
+                                                    context: context,
+                                                    column: column,
+                                                    dt: today
+                                                        .AddDays(1)
+                                                        .AddMilliseconds(addMilliseconds),
+                                                    format: ymdhmsfff));
+                                case "ThisMonth":
+                                    return (negative
+                                        ? notBetween
+                                        : between)
+                                            .Params(
+                                                column.Name,
+                                                ConvertDateTimeParam(
+                                                    context: context,
+                                                    column: column,
+                                                    dt: new DateTime(today.Year, today.Month, 1),
+                                                    format: ymdhms),
+                                                ConvertDateTimeParam(
+                                                    context: context,
+                                                    column: column,
+                                                    dt: new DateTime(today.Year, today.Month, 1)
+                                                        .AddMonths(1)
+                                                        .AddMilliseconds(addMilliseconds),
+                                                    format: ymdhmsfff));
+                                case "ThisYear":
+                                    return (negative
+                                        ? notBetween
+                                        : between)
+                                            .Params(
+                                                column.Name,
+                                                ConvertDateTimeParam(
+                                                    context: context,
+                                                    column: column,
+                                                    dt: new DateTime(today.Year, 1, 1),
+                                                    format: ymdhms),
+                                                ConvertDateTimeParam(
+                                                    context: context,
+                                                    column: column,
+                                                    dt: new DateTime(today.Year, 1, 1)
+                                                        .AddYears(1)
+                                                        .AddMilliseconds(addMilliseconds),
+                                                    format: ymdhmsfff));
+                            }
+                            if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
+                            {
                                 return (negative
                                     ? notBetween
                                     : between)
@@ -2320,99 +2399,43 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             ConvertDateTimeParam(
                                                 context: context,
                                                 column: column,
-                                                dt: today,
+                                                dateTimeString: from,
                                                 format: ymdhms),
                                             ConvertDateTimeParam(
                                                 context: context,
                                                 column: column,
-                                                dt: today
-                                                    .AddDays(1)
-                                                    .AddMilliseconds(addMilliseconds),
+                                                dateTimeString: to,
                                                 format: ymdhmsfff));
-                            case "ThisMonth":
+                            }
+                            else if (to.IsNullOrEmpty())
+                            {
                                 return (negative
-                                    ? notBetween
-                                    : between)
+                                    ? "(#TableBracket#.\"{0}\"<'{1}' or #TableBracket#.\"{0}\" is null)"
+                                    : "#TableBracket#.\"{0}\">='{1}'")
                                         .Params(
                                             column.Name,
                                             ConvertDateTimeParam(
                                                 context: context,
                                                 column: column,
-                                                dt: new DateTime(today.Year, today.Month, 1),
-                                                format: ymdhms),
-                                            ConvertDateTimeParam(
-                                                context: context,
-                                                column: column,
-                                                dt: new DateTime(today.Year, today.Month, 1)
-                                                    .AddMonths(1)
-                                                    .AddMilliseconds(addMilliseconds),
-                                                format: ymdhmsfff));
-                            case "ThisYear":
+                                                dateTimeString: from,
+                                                format: ymdhms));
+                            }
+                            else
+                            {
                                 return (negative
-                                    ? notBetween
-                                    : between)
+                                    ? "(#TableBracket#.\"{0}\">'{1}' or #TableBracket#.\"{0}\" is null)"
+                                    : "#TableBracket#.\"{0}\"<='{1}'")
                                         .Params(
                                             column.Name,
                                             ConvertDateTimeParam(
                                                 context: context,
                                                 column: column,
-                                                dt: new DateTime(today.Year, 1, 1),
-                                                format: ymdhms),
-                                            ConvertDateTimeParam(
-                                                context: context,
-                                                column: column,
-                                                dt: new DateTime(today.Year, 1, 1)
-                                                    .AddYears(1)
-                                                    .AddMilliseconds(addMilliseconds),
+                                                dateTimeString: to,
                                                 format: ymdhmsfff));
-                        }
-                        if (!from.IsNullOrEmpty() && !to.IsNullOrEmpty())
-                        {
-                            return (negative
-                                ? notBetween
-                                : between)
-                                    .Params(
-                                        column.Name,
-                                        ConvertDateTimeParam(
-                                            context: context,
-                                            column: column,
-                                            dateTimeString: from,
-                                            format: ymdhms),
-                                        ConvertDateTimeParam(
-                                            context: context,
-                                            column: column,
-                                            dateTimeString: to,
-                                            format: ymdhmsfff));
-                        }
-                        else if (to.IsNullOrEmpty())
-                        {
-                            return (negative
-                                ? "#TableBracket#.\"{0}\"<'{1}'"
-                                : "#TableBracket#.\"{0}\">='{1}'")
-                                    .Params(
-                                        column.Name,
-                                        ConvertDateTimeParam(
-                                            context: context,
-                                            column: column,
-                                            dateTimeString: from,
-                                            format: ymdhms));
-                        }
-                        else
-                        {
-                            return (negative
-                                ? "#TableBracket#.\"{0}\">'{1}'"
-                                : "#TableBracket#.\"{0}\"<='{1}'")
-                                    .Params(
-                                        column.Name,
-                                        ConvertDateTimeParam(
-                                            context: context,
-                                            column: column,
-                                            dateTimeString: to,
-                                            format: ymdhmsfff));
-                        }
-                    }).Join(negative
-                        ? " and "
-                        : " or "))
+                            }
+                        }).Join(negative
+                            ? " and "
+                            : " or "))
                 : null;
         }
 
@@ -2449,17 +2472,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToString(format);
         }
 
-        private static SqlWhere CsDateTimeColumnsWhereNegative(
-            Column column, List<string> param, bool negative)
-        {
-            return param.Any(o => o != "\t") && negative
-                ? new SqlWhere(
-                    tableName: column.TableName(),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: " is null")
-                : null;
-        }
-
         private SqlWhere CsDateTimeColumnsWhereNull(
             Context context,
             Column column,
@@ -2477,14 +2489,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     new SqlWhere(
                         tableName: column.TableName(),
                         columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: (negative
-                            ? " between"
-                            : " not between")
-                                + "'{0}' and '{1}'".Params(
-                                    Parameters.General.MinTime.ToUniversal(context: context)
-                                        .ToString("yyyy/M/d H:m:s"),
-                                    Parameters.General.MaxTime.ToUniversal(context: context)
-                                        .ToString("yyyy/M/d H:m:s")))))
+                        _operator: " not between '{0}' and '{1}'".Params(
+                            Parameters.General.MinTime.ToUniversal(context: context)
+                                .ToString("yyyy/M/d H:m:s"),
+                            Parameters.General.MaxTime.ToUniversal(context: context)
+                                .ToString("yyyy/M/d H:m:s")))))
                 : null;
         }
 
@@ -2736,12 +2745,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (negative)
                 {
-                    where.Or(or: new SqlWhereCollection()
-                        .Add(and: collection)
-                        .Add(
-                            tableName: column.TableName(),
-                            columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                            _operator: " is null"));
+                    where.AddRange(collection);
                 }
                 else
                 {
@@ -2758,28 +2762,49 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool like,
             bool negative = false)
         {
-            return new SqlWhere(
-                tableName: column.TableItemTitleCases(context: context),
-                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                name: Strings.NewGuid(),
-                value: param
-                    ?.Select(o => like
-                        ? context.Sqls.EscapeValue(o)
-                        : o)
-                    ?.Select(o => !format.IsNullOrEmpty()
-                        ? format.Params(o)
-                        : o)
-                    .ToList(),
-                _operator: negative
-                    ? like
-                        ? context.Sqls.NotLikeWithEscape
-                        : "!="
-                    : like
+            if (negative)
+            {
+                return new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        name: Strings.NewGuid(),
+                        value: param
+                            ?.Select(o => like
+                                ? context.Sqls.EscapeValue(o)
+                                : o)
+                            ?.Select(o => !format.IsNullOrEmpty()
+                                ? format.Params(o)
+                                : o)
+                            .ToList(),
+                        _operator: like
+                            ? context.Sqls.NotLikeWithEscape
+                            : "!=",
+                        multiParamOperator: " and "),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is null")));
+            }
+            else
+            {
+                return new SqlWhere(
+                    tableName: column.TableItemTitleCases(context: context),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    name: Strings.NewGuid(),
+                    value: param
+                        ?.Select(o => like
+                            ? context.Sqls.EscapeValue(o)
+                            : o)
+                        ?.Select(o => !format.IsNullOrEmpty()
+                            ? format.Params(o)
+                            : o)
+                        .ToList(),
+                    _operator: like
                         ? context.Sqls.LikeWithEscape
                         : "=",
-                multiParamOperator: negative
-                    ? " and "
-                    : " or ");
+                    multiParamOperator: " or ");
+            }
         }
 
         private SqlWhere CsStringColumnsWhereNull(

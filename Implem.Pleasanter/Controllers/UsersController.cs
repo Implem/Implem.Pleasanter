@@ -333,27 +333,31 @@ namespace Implem.Pleasanter.Controllers
             var tenant = UserUtilities.GetContractSettingsBySsoCode(
                 context: context,
                 ssocode: ssocode);
-            if ( tenant.TenantId == 0
+            if (tenant.TenantId == 0
                 || !Saml.HasSamlSettings(contractSettings: tenant.ContractSettings))
             {
                 return Redirect(Locations.InvalidSsoCode(context: context));
             }
-            var metadataLocation = Saml.SetSamlMetadataFile(
+            var idp = Saml.SetIdpCache(
                 context: context,
-                guid: tenant.ContractSettings.SamlMetadataGuid,
-                tenantId: tenant.TenantId);
-            return new ChallengeResult(Saml2Defaults.Scheme,
-                new AuthenticationProperties(
-                    items: new Dictionary<string, string>
-                    {
-                        ["idp"] = tenant.ContractSettings.SamlLoginUrl
-                            .Substring(0, tenant.ContractSettings.SamlLoginUrl.TrimEnd('/').LastIndexOf('/') + 1),
-                        ["SamlLoginUrl"] = tenant.ContractSettings.SamlLoginUrl,
-                        ["SamlMetadataLocation"] = metadataLocation
-                    })
-                {
-                    RedirectUri = Url.Action(nameof(SamlLogin))
-                });
+                tenantId: tenant.TenantId,
+                contractSettings: tenant.ContractSettings);
+            if (idp == null)
+            {
+                return Redirect(Locations.InvalidSsoCode(context: context));
+            }
+            var items = new Dictionary<string, string>
+            {
+                { "idp", idp.EntityId.Id },
+                { "SignOnUrl", tenant.ContractSettings.SamlLoginUrl }
+            };
+            var properties = new AuthenticationProperties(items: items)
+            {
+                RedirectUri = Url.Action(nameof(SamlLogin))
+            };
+            return new ChallengeResult(
+                authenticationScheme: Saml2Defaults.Scheme,
+                properties: properties);
         }
 
         /// <summary>
