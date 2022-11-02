@@ -2483,22 +2483,23 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             userModel: userModel,
                             process: processes?.FirstOrDefault()));
-                    return new ResponseCollection(context: context)
-                        .Response("id", userModel.UserId.ToString())
-                        .SetMemory("formChanged", false)
-                        .Messages(context.Messages)
-                        .Href(Locations.Edit(
-                            context: context,
-                            controller: context.Controller,
-                            id: ss.Columns.Any(o => o.Linking)
-                                ? context.Forms.Long("LinkId")
-                                : userModel.UserId)
-                                    + "?new=1"
-                                    + (ss.Columns.Any(o => o.Linking)
-                                        && context.Forms.Long("FromTabIndex") > 0
-                                            ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                            : string.Empty))
-                        .ToJson();
+                    return new ResponseCollection(
+                        context: context,
+                        id: userModel.UserId)
+                            .SetMemory("formChanged", false)
+                            .Messages(context.Messages)
+                            .Href(Locations.Edit(
+                                context: context,
+                                controller: context.Controller,
+                                id: ss.Columns.Any(o => o.Linking)
+                                    ? context.Forms.Long("LinkId")
+                                    : userModel.UserId)
+                                        + "?new=1"
+                                        + (ss.Columns.Any(o => o.Linking)
+                                            && context.Forms.Long("FromTabIndex") > 0
+                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
+                                                : string.Empty))
+                            .ToJson();
                 default:
                     return errorData.MessageJson(context: context);
             }
