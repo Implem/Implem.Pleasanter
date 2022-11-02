@@ -12,8 +12,12 @@ namespace Implem.Pleasanter.Libraries.Responses
         {
         }
 
-        public ResponseCollection(Context context)
+        public ResponseCollection(Context context, long id = 0)
         {
+            if (id > 0)
+            {
+                Response("id", id.ToString());
+            }
             if (context != null)
             {
                 Log(context.GetLog());
