@@ -21,6 +21,8 @@ $p.openDropDownSearchDialog = function ($control) {
     if ($('#IsNew').val() === '1') {
         $p.data.MainForm.IsNew = '1';
     }
+    // always-sendが指定されている項目をMainFormにセット
+    $p.setMustData($('#MainForm'));
     // SetChoiceHashByFilterExpressions内で入力データを検証するためメインフォームの内容を転記
     $p.data.DropDownSearchDialogForm = $p.data.MainForm;
     var referenceId = $p.id();
