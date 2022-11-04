@@ -2411,7 +2411,7 @@ namespace Implem.Pleasanter.Models
             {
                 Ver = context.QueryStrings.Int("ver");
             }
-            var formsSiteId = context.Forms.Long("FromSiteId");
+            var formsSiteId = context.RequestData("FromSiteId").ToLong();
             if (formsSiteId > 0)
             {
                 var column = ss.GetColumn(
@@ -2425,14 +2425,14 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         column: column);
                     column.Linking = column.MultipleSelections == true
-                        ? value.Deserialize<List<string>>()?.Contains(context.Forms.Data("LinkId")) == true
-                        : value == context.Forms.Data("LinkId");
+                        ? value.Deserialize<List<string>>()?.Contains(context.RequestData("LinkId")) == true
+                        : value == context.RequestData("LinkId");
                 }
             }
-            var queryStringsSiteId = context.QueryStrings.Long("FromSiteId");
+            var queryStringsSiteId = context.RequestData("FromSiteId").ToLong();
             if (queryStringsSiteId > 0)
             {
-                var id = context.QueryStrings.Data("LinkId");
+                var id = context.RequestData("LinkId");
                 ss.Links
                     ?.Where(link => link.SiteId == queryStringsSiteId)
                     .Select(link => ss.GetColumn(

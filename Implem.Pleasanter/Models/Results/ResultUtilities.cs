@@ -2913,22 +2913,23 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultModel: resultModel,
                             process: processes?.FirstOrDefault()));
-                    return new ResponseCollection(context: context)
-                        .Response("id", resultModel.ResultId.ToString())
-                        .SetMemory("formChanged", false)
-                        .Messages(context.Messages)
-                        .Href(Locations.Edit(
-                            context: context,
-                            controller: context.Controller,
-                            id: ss.Columns.Any(o => o.Linking)
-                                ? context.Forms.Long("LinkId")
-                                : resultModel.ResultId)
-                                    + "?new=1"
-                                    + (ss.Columns.Any(o => o.Linking)
-                                        && context.Forms.Long("FromTabIndex") > 0
-                                            ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                            : string.Empty))
-                        .ToJson();
+                    return new ResponseCollection(
+                        context: context,
+                        id: resultModel.ResultId)
+                            .SetMemory("formChanged", false)
+                            .Messages(context.Messages)
+                            .Href(Locations.Edit(
+                                context: context,
+                                controller: context.Controller,
+                                id: ss.Columns.Any(o => o.Linking)
+                                    ? context.Forms.Long("LinkId")
+                                    : resultModel.ResultId)
+                                        + "?new=1"
+                                        + (ss.Columns.Any(o => o.Linking)
+                                            && context.Forms.Long("FromTabIndex") > 0
+                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
+                                                : string.Empty))
+                            .ToJson();
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,

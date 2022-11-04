@@ -221,7 +221,15 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static void Sync(Context context)
         {
-            var synchronizedTime = DateTime.Now;
+            var now = DateTime.Now;
+            var synchronizedTime = new DateTime(
+                year: now.Year,
+                month: now.Month,
+                day: now.Day,
+                hour: now.Hour,
+                minute: now.Minute,
+                second: now.Second,
+                millisecond: now.Millisecond);
             Parameters.Authentication.LdapParameters
                 .ForEach(ldap => ldap.LdapSyncPatterns?
                     .ForEach(pattern =>
