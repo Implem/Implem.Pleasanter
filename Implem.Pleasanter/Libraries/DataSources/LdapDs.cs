@@ -221,7 +221,18 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         public static void Sync(Context context)
         {
-            var synchronizedTime = DateTime.Now;
+            // "DateTime.Now"はミリ秒が6桁まで取れる
+            // Usersテーブルの"SynchronizedTime"はミリ秒が3桁まで格納されている
+            // "DateTime.Now"のものでレコードの絞り込み(where)を行うと条件に合致しないためミリ秒を3桁に揃える必要がある
+            var now = DateTime.Now;
+            var synchronizedTime = new DateTime(
+                year: now.Year,
+                month: now.Month,
+                day: now.Day,
+                hour: now.Hour,
+                minute: now.Minute,
+                second: now.Second,
+                millisecond: now.Millisecond);
             Parameters.Authentication.LdapParameters
                 .ForEach(ldap => ldap.LdapSyncPatterns?
                     .ForEach(pattern =>
