@@ -158,6 +158,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var context = CreateContext();
+            new SysLogModel(
+                context: context,
+                method: nameof(ExecuteAsync),
+                message: "TimerBackgroundService ExecuteAsync() Start",
+                sysLogType: SysLogModel.SysLogTypes.Info);
             while (!stoppingToken.IsCancellationRequested)
             {
                 try
@@ -183,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             new SysLogModel(
                 context: context,
                 method: nameof(ExecuteAsync),
-                message: "ExecuteAsync() Canceled",
+                message: "TimerBackgroundService ExecuteAsync() Stop",
                 sysLogType: SysLogModel.SysLogTypes.Info);
         }
     }
