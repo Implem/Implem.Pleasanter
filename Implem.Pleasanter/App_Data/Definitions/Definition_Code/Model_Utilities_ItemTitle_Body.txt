@@ -1,42 +1,53 @@
-﻿public static void UpdateSourceTitles(Context context, SiteSettings ss, IList<long> idList)
+﻿public static void UpdateSourceTitles(
+    Context context,
+    SiteSettings ss,
+    IList<long> siteIdList,
+    IList<long> idList)
 {
-    ss.Sources
-        .ForEach(source =>
+    ss.Sources.ForEach(source =>
+    {
+        var currentSs = source.Value;
+        var columns = currentSs?.Links
+            ?.Where(o => o.SiteId > 0)
+            .Where(o => o.SiteId == ss.SiteId)
+            .Select(o => o.ColumnName)
+            .ToList();
+        if (currentSs?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
         {
-            var currentSs = source.Value;
-            var columns = currentSs?.Links
-                ?.Where(o => o.SiteId > 0)
-                .Where(o => o.SiteId == ss.SiteId)
-                .Select(o => o.ColumnName)
-                .ToList();
-            if (currentSs?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
+            currentSs.SetLinkedSiteSettings(context: context);
+            // 再帰的に呼び出されたいる場合は実行しない
+            if (!siteIdList.Contains(currentSs.SiteId))
             {
-                var nextIdList =
-                    Repository.ExecuteTable(
-                        context: context,
-                        statements: Rds.SelectLinks(
-                        column: Rds.LinksColumn()
-                            .SourceId(),
-                        join: Rds.LinksJoinDefault(),
-                        where: Rds.LinksWhere()
-                            .SiteId(currentSs.SiteId)
-                            .DestinationId_In(
-                                value: idList,
-                                _using: idList.Count <= 100)))
-                    .AsEnumerable()
-                    .Select(dataRow => dataRow.Long("SourceId"))
-                    .ToList();
-                currentSs.SetLinkedSiteSettings(context: context);
+                siteIdList.Add(currentSs.SiteId);
+                var nextIdList = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectLinks(
+                    column: Rds.LinksColumn()
+                        .SourceId(),
+                    join: Rds.LinksJoinDefault(),
+                    where: Rds.LinksWhere()
+                        .SiteId(currentSs.SiteId)
+                        .DestinationId_In(
+                            value: idList,
+                            _using: idList.Count <= 100)))
+                                .AsEnumerable()
+                                .Select(dataRow => dataRow.Long("SourceId"))
+                                .ToList();
                 UpdateTitles(
                     context: context,
                     ss: currentSs,
+                    siteIdList: siteIdList,
                     idList: nextIdList);
             }
-        });
+        }
+    });
 }
 
 public static void UpdateTitles(
-    Context context, SiteSettings ss, IList<long> idList = null)
+    Context context,
+    SiteSettings ss,
+    IList<long> siteIdList,
+    IList<long> idList = null)
 {
     switch (ss?.ReferenceType)
     {

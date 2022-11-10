@@ -975,6 +975,7 @@ namespace Implem.Pleasanter.Models
                 ItemUtilities.UpdateSourceTitles(
                     context: context,
                     ss: ss,
+                    siteIdList: new List<long>() { ss.SiteId },
                     idList: WikiId.ToSingleList());
             }
         }
