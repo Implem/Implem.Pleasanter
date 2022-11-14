@@ -17,5 +17,6 @@
         public bool Demo;
         public int DemoUsagePeriod;
         public bool RestrictNewFeatures;
+        public string DeploymentEnvironment;
     }
 }

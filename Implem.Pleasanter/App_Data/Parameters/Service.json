@@ -11,5 +11,6 @@
     "ShowChangePassword": false,
     "ShowStartGuide": true,
     "Demo": true,
-    "DemoUsagePeriod": 60
+    "DemoUsagePeriod": 60,
+    "DeploymentEnvironment": null
 }

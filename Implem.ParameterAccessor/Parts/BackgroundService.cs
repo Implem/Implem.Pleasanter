@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Implem.DefinitionAccessor;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Implem.ParameterAccessor.Parts
 {
@@ -15,14 +17,32 @@ namespace Implem.ParameterAccessor.Parts
         public bool DeleteTrashBox;
         public List<string> DeleteTrashBoxTime;
         public int DeleteTrashBoxRetentionPeriod;
+        public List<string> EnvironmentVariables;
 
-        public bool TimerEnabled()
+        public bool TimerEnabled(string deploymentEnvironment)
         {
             //TimerBackgroundServiceを使うものをここの条件に追加
-            return SyncByLdap
+            return ServiceEnabled(deploymentEnvironment)
+                || SyncByLdap
                 || DeleteSysLogs
                 || DeleteTemporaryFiles
                 || DeleteTrashBox;
         }
+
+        public bool ReminderEnabled(string deploymentEnvironment)
+        {
+            return Reminder && ServiceEnabled(deploymentEnvironment);
+        }
+
+        private bool ServiceEnabled(string deploymentEnvironment)
+        {
+            if(EnvironmentVariables == null)
+            {
+                return true;
+            }
+            return EnvironmentVariables.Any(o => o == deploymentEnvironment);
+        }
+
+       
     }
 }

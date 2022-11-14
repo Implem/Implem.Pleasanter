@@ -181,32 +181,10 @@ namespace Implem.DefinitionAccessor
                 Parameters.Security.AspNetCoreDataProtection.KeyIdentifier,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyIdentifier"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyIdentifier"));
-            //BackgroundService.jsonのReminder がtrue の場合は true、
-            //Reminderがfalseの場合かつ環境変数から値が取得できた場合はその値を設定する。
-            var reminderEnv = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_BackgroundService_Reminder"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_BackgroundService_Reminder"));
-            var reminder = bool.TryParse(reminderEnv, out bool rem) ? rem : false;
-            Parameters.BackgroundService.Reminder = Parameters.BackgroundService.Reminder || reminder;
-            //BackgroundService.SyncByLdap: Reminderと同様に設定
-            var syncByLdapEnv = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_BackgroundService_SyncByLdap"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_BackgroundService_SyncByLdap"));
-            var syncByLdap = bool.TryParse(syncByLdapEnv, out bool ldap) ? ldap : false;
-            Parameters.BackgroundService.SyncByLdap = Parameters.BackgroundService.SyncByLdap || syncByLdap;
-            //BackgroundService.DeleteSysLogs: Reminderと同様に設定
-            var deleteSysLogsEnv = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_BackgroundService_DeleteSysLogs"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_BackgroundService_DeleteSysLogs"));
-            var deleteSysLogs = bool.TryParse(deleteSysLogsEnv, out bool syslog) ? syslog : false;
-            Parameters.BackgroundService.DeleteSysLogs = Parameters.BackgroundService.DeleteSysLogs || deleteSysLogs;
-            //BackgroundService.DeleteTrashBox: Reminderと同様に設定
-            var deleteTrashBoxEnv = Strings.CoalesceEmpty(
-                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_BackgroundService_DeleteTrashBox"),
-                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_BackgroundService_DeleteTrashBox"));
-            var deleteTrashBox = bool.TryParse(deleteTrashBoxEnv, out bool trash) ? trash : false;
-            Parameters.BackgroundService.DeleteTrashBox = Parameters.BackgroundService.DeleteTrashBox || deleteTrashBox;
-
+            Parameters.Service.DeploymentEnvironment = Strings.CoalesceEmpty(
+                Parameters.Service.DeploymentEnvironment,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Service_DeploymentEnvironment"));
 
         }
 
