@@ -7,6 +7,7 @@
     "AbsoluteUri": null,
     "MaxRequestBodySize": 30000000,
     "RequireHttps": false,
+    "AnnouncementSiteId": 0,
     "ShowProfiles": true,
     "ShowChangePassword": false,
     "ShowStartGuide": true,

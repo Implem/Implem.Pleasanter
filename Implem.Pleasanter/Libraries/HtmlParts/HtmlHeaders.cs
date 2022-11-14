@@ -2,11 +2,14 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using System;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlHeaders
@@ -23,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ServerScriptModelRow serverScriptModelRow)
         {
             return hb.Header(id: "Header", action: () => hb
+                .Announcement()
                 .HeaderLogo(
                     context: context,
                     ss: ss)
@@ -35,6 +39,36 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     useNavigationMenu: useNavigationMenu,
                     useSearch: useSearch,
                     serverScriptModelRow: serverScriptModelRow));
+        }
+
+        public static HtmlBuilder Announcement(this HtmlBuilder hb)
+        {
+            var siteId = Parameters.Service.AnnouncementSiteId;
+            if (siteId > 0)
+            {
+                var context = new Context(
+                    sessionStatus: false,
+                    sessionData: false,
+                    item: false,
+                    setPermissions: false);
+                var ss = SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: siteId);
+                var now = DateTime.Now;
+                var issueCollection = new IssueCollection(
+                    context: context,
+                    ss: ss,
+                    where: Rds.IssuesWhere()
+                        .SiteId(Parameters.Service.AnnouncementSiteId)
+                        .Status(_operator: $"<{Parameters.General.CompletionCode}")
+                        .StartTime(now, _operator: "<=")
+                        .CompletionTime(now, _operator: ">="));
+                foreach (var issueModel in issueCollection)
+                {
+                    hb.Raw(text: issueModel.Body);
+                }
+            }
+            return hb;
         }
 
         public static HtmlBuilder HeaderLogo(
