@@ -23,10 +23,10 @@ namespace Implem.ParameterAccessor.Parts
         {
             //TimerBackgroundServiceを使うものをここの条件に追加
             return ServiceEnabled(deploymentEnvironment)
-                || SyncByLdap
+                && (SyncByLdap
                 || DeleteSysLogs
                 || DeleteTemporaryFiles
-                || DeleteTrashBox;
+                || DeleteTrashBox);
         }
 
         public bool ReminderEnabled(string deploymentEnvironment)
