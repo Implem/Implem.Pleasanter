@@ -1,6 +1,6 @@
 ﻿{
     "EnvironmentVariables": null,
-    "Reminder": true,
+    "Reminder": false,
     "ReminderIgnoreConsecutiveExceptionCount": 30,
     "SyncByLdap": false,
     "SyncByLdapTime": [ "02:00" ],
