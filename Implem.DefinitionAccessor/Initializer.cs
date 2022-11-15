@@ -185,7 +185,6 @@ namespace Implem.DefinitionAccessor
                 Parameters.Service.DeploymentEnvironment,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Service_DeploymentEnvironment"));
-
         }
 
         public static void ReloadParameters()

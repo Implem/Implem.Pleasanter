@@ -36,7 +36,7 @@ namespace Implem.ParameterAccessor.Parts
 
         private bool ServiceEnabled(string deploymentEnvironment)
         {
-            if(EnvironmentVariables == null)
+            if (EnvironmentVariables == null)
             {
                 return true;
             }
