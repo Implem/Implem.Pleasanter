@@ -29,6 +29,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                 sessionData: false,
                 user: false,
                 item: false);
+            new SysLogModel(
+                context: context,
+                method: nameof(ExecuteAsync),
+                message: "ReminderBackgroundService ExecuteAsync() Started",
+                sysLogType: SysLogModel.SysLogTypes.Info);
             var exceptionCount = 0;
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -43,7 +48,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     new SysLogModel(
                         context: context,
                         e: e,
-                        extendedErrorMessage: "Reminder Canceled");
+                        extendedErrorMessage: "ReminderBackgroundService Canceled");
                     break;
                 }
                 catch (Exception e)
@@ -52,7 +57,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     new SysLogModel(
                         context: context,
                         e: e,
-                        extendedErrorMessage:  $"Reminder Exception Count={exceptionCount}");
+                        extendedErrorMessage:  $"ReminderBackgroundService Exception Count={exceptionCount}");
                     if (exceptionCount > Parameters.BackgroundService.ReminderIgnoreConsecutiveExceptionCount)
                     {
                         throw;
@@ -60,6 +65,11 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
                     await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
                 }
             }
+            new SysLogModel(
+                context: context,
+                method: nameof(ExecuteAsync),
+                message: "ReminderBackgroundService ExecuteAsync() Stopped",
+                sysLogType: SysLogModel.SysLogTypes.Info);
         }
     }
 }
