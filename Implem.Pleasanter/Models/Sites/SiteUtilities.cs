@@ -13913,7 +13913,10 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            ItemUtilities.UpdateTitles(context: context, ss: ss);
+            ItemUtilities.UpdateTitles(
+                context: context,
+                ss: ss,
+                siteIdList: new List<long> { ss.SiteId });
             return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
         }
 

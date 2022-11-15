@@ -11,6 +11,7 @@
         public string AbsoluteUri;
         public long MaxRequestBodySize;
         public bool RequireHttps;
+        public long AnnouncementSiteId;
         public bool ShowProfiles;
         public bool ShowChangePassword;
         public bool ShowStartGuide;
