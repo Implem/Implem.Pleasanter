@@ -1166,7 +1166,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             tenantModel: tenantModel,
-                            process: processes?.FirstOrDefault()));
+                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
                     return new ResponseCollection(
                         context: context,
                         id: tenantModel.TenantId)
@@ -1337,7 +1337,9 @@ namespace Implem.Pleasanter.Models
             TenantModel tenantModel,
             List<Process> processes)
         {
-            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
+            var process = processes
+                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                    && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
