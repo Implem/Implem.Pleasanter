@@ -6,6 +6,7 @@ namespace Implem.ParameterAccessor.Parts
 {
     public class BackgroundService
     {
+        public List<string> EnvironmentVariables;
         public bool Reminder;
         public int ReminderIgnoreConsecutiveExceptionCount;
         public bool SyncByLdap;
@@ -17,7 +18,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool DeleteTrashBox;
         public List<string> DeleteTrashBoxTime;
         public int DeleteTrashBoxRetentionPeriod;
-        public List<string> EnvironmentVariables;
 
         public bool TimerEnabled(string deploymentEnvironment)
         {
@@ -42,7 +42,5 @@ namespace Implem.ParameterAccessor.Parts
             }
             return EnvironmentVariables.Any(o => o == deploymentEnvironment);
         }
-
-       
     }
 }

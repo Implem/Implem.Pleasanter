@@ -6,6 +6,7 @@
         public string EnvironmentName;
         public string TimeZoneDefault;
         public string DefaultPassword;
+        public string DeploymentEnvironment;
         public bool WithoutChangeDefaultPassword;
         public string DefaultLanguage;
         public string AbsoluteUri;
@@ -17,6 +18,5 @@
         public bool Demo;
         public int DemoUsagePeriod;
         public bool RestrictNewFeatures;
-        public string DeploymentEnvironment;
     }
 }

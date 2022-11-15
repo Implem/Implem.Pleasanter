@@ -1,5 +1,6 @@
 ﻿{
-    "Reminder": false,
+    "EnvironmentVariables": null,
+    "Reminder": true,
     "ReminderIgnoreConsecutiveExceptionCount": 30,
     "SyncByLdap": false,
     "SyncByLdapTime": [ "02:00" ],
@@ -9,6 +10,5 @@
     "DeleteTemporaryFilesTime": [ "02:00" ],
     "DeleteTrashBox": false,
     "DeleteTrashBoxTime": [ "02:00" ],
-    "DeleteTrashBoxRetentionPeriod": 90,
-    "EnvironmentVariables": null
+    "DeleteTrashBoxRetentionPeriod": 90
 }
