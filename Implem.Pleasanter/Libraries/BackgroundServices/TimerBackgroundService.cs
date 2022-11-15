@@ -161,7 +161,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             new SysLogModel(
                 context: context,
                 method: nameof(ExecuteAsync),
-                message: "TimerBackgroundService ExecuteAsync() Start",
+                message: "TimerBackgroundService ExecuteAsync() Started",
                 sysLogType: SysLogModel.SysLogTypes.Info);
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -188,7 +188,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             new SysLogModel(
                 context: context,
                 method: nameof(ExecuteAsync),
-                message: "TimerBackgroundService ExecuteAsync() Stop",
+                message: "TimerBackgroundService ExecuteAsync() Stopped",
                 sysLogType: SysLogModel.SysLogTypes.Info);
         }
     }

@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             new SysLogModel(
                 context: context,
                 method: nameof(ExecuteAsync),
-                message: "ReminderBackgroundService ExecuteAsync() Start",
+                message: "ReminderBackgroundService ExecuteAsync() Started",
                 sysLogType: SysLogModel.SysLogTypes.Info);
             var exceptionCount = 0;
             while (!stoppingToken.IsCancellationRequested)
@@ -68,7 +68,7 @@ namespace Implem.Pleasanter.Libraries.BackgroundServices
             new SysLogModel(
                 context: context,
                 method: nameof(ExecuteAsync),
-                message: "ReminderBackgroundService ExecuteAsync() Stop",
+                message: "ReminderBackgroundService ExecuteAsync() Stopped",
                 sysLogType: SysLogModel.SysLogTypes.Info);
         }
     }
