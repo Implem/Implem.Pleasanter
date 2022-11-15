@@ -153,15 +153,16 @@ namespace Implem.Pleasanter.NetCore
                 // BackgroundServiceで例外発生してもWebアプリケーション自体は終了させない設定
                 options.BackgroundServiceExceptionBehavior = BackgroundServiceExceptionBehavior.Ignore;
             });
-            if (Parameters.BackgroundService.Reminder)
+            if (Parameters.BackgroundService.ReminderEnabled(
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
             {
                 services.AddHostedService<ReminderBackgroundService>();
             }
-            if (Parameters.BackgroundService.TimerEnabled())
+            if (Parameters.BackgroundService.TimerEnabled(
+                deploymentEnvironment: Parameters.Service.DeploymentEnvironment))
             {
                 services.AddHostedService<TimerBackgroundService>();
             }
-            
             var blobContainerUri = Parameters.Security.AspNetCoreDataProtection?.BlobContainerUri;
             var keyIdentifier = Parameters.Security.AspNetCoreDataProtection?.KeyIdentifier;
             if (!blobContainerUri.IsNullOrEmpty()
