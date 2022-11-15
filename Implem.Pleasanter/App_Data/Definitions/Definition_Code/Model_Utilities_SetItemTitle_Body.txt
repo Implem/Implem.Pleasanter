@@ -1,5 +1,8 @@
 ﻿private static void Update#ModelName#Titles(
-    Context context, SiteSettings ss, IList<long> idList)
+    Context context,
+    SiteSettings ss,
+    IList<long> siteIdList,
+    IList<long> idList)
 {
     var #tableName# = Get#TableName#(
         context: context,
@@ -38,12 +41,15 @@
         UpdateSourceTitles(
             context: context,
             ss: ss,
+            siteIdList: siteIdList,
             idList: #tableName#.Select(o => o.#ModelName#Id).ToList());
     }
 }
 
 private static List<#ModelName#Model> Get#TableName#(
-    Context context, SiteSettings ss, IList<long> idList)
+    Context context,
+    SiteSettings ss,
+    IList<long> idList)
 {
     var column = Rds.#TableName#Column()
         .#ModelName#Id()
