@@ -1983,7 +1983,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             sysLogModel: sysLogModel,
-                            process: processes?.FirstOrDefault()));
+                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
                     return new ResponseCollection(
                         context: context,
                         id: sysLogModel.SysLogId)
@@ -2154,7 +2154,9 @@ namespace Implem.Pleasanter.Models
             SysLogModel sysLogModel,
             List<Process> processes)
         {
-            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
+            var process = processes
+                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                    && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
