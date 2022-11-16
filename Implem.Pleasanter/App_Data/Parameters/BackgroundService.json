@@ -1,4 +1,5 @@
 ﻿{
+    "EnvironmentVariables": null,
     "Reminder": false,
     "ReminderIgnoreConsecutiveExceptionCount": 30,
     "SyncByLdap": false,
