@@ -3,6 +3,7 @@ using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Requests;
@@ -507,7 +508,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 .Title(model.Title?.ToString() ?? string.Empty)
                 .Body(model.Body, _using: model.Body != null)
                 .StartTime(model.StartTime, _using: model.StartTime != null)
-                .CompletionTime(value: model.CompletionTime?.Value, _using: model.CompletionTime != null)
+                .CompletionTime(value: model.CompletionTime?.Value ?? new CompletionTime(
+                    context: context,
+                    ss: ss,
+                    value: ss.GetColumn(
+                        context: context,
+                        columnName: "CompletionTime").DefaultTime(context: context),
+                    status: model.Status).Value)
                 .WorkValue(value: model.WorkValue?.Value, _using: model.WorkValue != null)
                 .ProgressRate(value: model.ProgressRate?.Value, _using: model.ProgressRate != null)
                 .Status(model.Status?.Value, _using: model.Status != null)
