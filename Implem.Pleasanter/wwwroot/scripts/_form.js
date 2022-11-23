@@ -73,7 +73,6 @@ $p.send = function ($control, formId, _async, clearMessage) {
     _async = _async !== undefined ? _async : true;
     if (methodType !== 'get') {
         data.ControlId = $control.attr('id');
-        $p.setMustData($form, action);
     }
     if ($control.hasClass('validate')) {
         if ($p.before_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
@@ -93,6 +92,9 @@ $p.send = function ($control, formId, _async, clearMessage) {
         if ($p.after_validate($p.eventArgs(url, methodType, data, $control, _async)) === false) {
             return false;
         }
+    }
+    if (methodType !== 'get') {
+        $p.setMustData($form, action);
     }
     if (methodType !== undefined) {
         return $p.ajax(
