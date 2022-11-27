@@ -2289,7 +2289,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             param: param,
                             negative: negative),
                         CsDateTimeColumnsWhereNull(
-                            context: context,
                             column: column,
                             param: param,
                             negative: negative)));
@@ -2303,7 +2302,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             param: param,
                             negative: negative),
                         CsDateTimeColumnsWhereNull(
-                            context: context,
                             column: column,
                             param: param,
                             negative: negative)));
@@ -2473,27 +2471,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private SqlWhere CsDateTimeColumnsWhereNull(
-            Context context,
             Column column,
             List<string> param,
             bool negative)
         {
             return param.Any(o => o == "\t")
-                ? new SqlWhere(or: new SqlWhereCollection(
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: negative
-                            ? " is not null"
-                            : " is null"),
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: " not between '{0}' and '{1}'".Params(
-                            Parameters.General.MinTime.ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s"),
-                            Parameters.General.MaxTime.ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s")))))
+                ? new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: negative
+                        ? " is not null"
+                        : " is null")
                 : null;
         }
 
