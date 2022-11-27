@@ -2800,26 +2800,40 @@ namespace Implem.Pleasanter.Libraries.Settings
             Column column,
             bool negative = false)
         {
-            return new SqlWhere(or: new SqlWhereCollection(
-                new SqlWhere(
-                    tableName: column.TableItemTitleCases(context: context),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? " is not null"
-                        : " is null"),
-                new SqlWhere(
-                    tableName: column.TableItemTitleCases(context: context),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? "!=''"
-                        : "=''"),
-                new SqlWhere(
-                    tableName: column.TableItemTitleCases(context: context),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? "!='[]'"
-                        : "='[]'",
-                    _using: column.MultipleSelections == true)));
+            if (negative)
+            {
+                return new SqlWhere(and: new SqlWhereCollection(
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is not null"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "!=''"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "!='[]'",
+                        _using: column.MultipleSelections == true)));
+            }
+            else
+            {
+                return new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is null"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "=''"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "='[]'",
+                        _using: column.MultipleSelections == true)));
+            }
         }
 
         private void CreateCsStringSqlWhereLike(
