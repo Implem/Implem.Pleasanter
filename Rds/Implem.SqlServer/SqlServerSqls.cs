@@ -56,6 +56,11 @@ namespace Implem.SqlServer
             return "(\"" + tableName + "\".\"" + columnName + "\" like ";
         }
 
+        public string DateAddDay(int day, string columnBracket)
+        {
+            return $"dateadd(day, {day}, {columnBracket})";
+        }
+
         public string DateAddHour(int hour, string columnBracket)
         {
             return $"dateadd(hour,{hour},{columnBracket})";

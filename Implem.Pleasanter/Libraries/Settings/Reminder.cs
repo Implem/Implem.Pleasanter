@@ -513,6 +513,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var orderByColumn = ss.GetColumn(
                 context: context,
                 columnName: Column);
+            var convertedScheduledTime = scheduledTime.ToDateTime().ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff");
             var column = new SqlColumnCollection()
                 .Add(column: ss.GetColumn(
                     context: context,
@@ -552,9 +553,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
                         {
-                            "\"" + orderByColumn.ColumnName + "\""
+                            orderByColumn.ColumnName == "CompletionTime" || ContainsTimeSettings(orderByColumn)
+                                ? "\"" + orderByColumn.ColumnName + "\""
+                                : context.Sqls.DateAddDay(1,orderByColumn.ColumnName)
                         },
-                        _operator: $">'{scheduledTime.ToDateTime().ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff")}'",
+                        _operator: ContainsTimeSettings(orderByColumn)
+                            ? $">='{convertedScheduledTime}'"
+                            : $">'{convertedScheduledTime}'",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(
@@ -601,6 +606,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     orderBy: orderBy,
                     top: Parameters.Reminder.Limit));
             return dataTable;
+        }
+
+        private bool ContainsTimeSettings(Column column)
+        {
+            return column.EditorFormat == "Ymdhm" || column.EditorFormat == "Ymdhms";
         }
 
         private string Relative(Context context, DateTime time)
