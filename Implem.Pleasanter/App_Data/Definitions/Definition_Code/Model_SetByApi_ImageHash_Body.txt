@@ -1,0 +1,14 @@
+﻿data.ImageHash?.ForEach(o =>
+{
+    var bytes = Convert.FromBase64String(o.Value.Base64);
+    var stream = new MemoryStream(bytes);
+    var file = new FormFile(stream, 0, bytes.Length, null, $"image{o.Value.Extension}");
+    SetPostedFiles(
+        file: file,
+        image: o.Value);
+    SetImageValue(
+        context: context,
+        ss: ss,
+        columnName: o.Key,
+        imageApiModel: o.Value);
+});

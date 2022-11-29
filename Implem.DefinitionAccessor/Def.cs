@@ -575,9 +575,11 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesGroupMembers": Code.Model_SetByApi_ColumnCasesGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesGroupMembers, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesSite": Code.Model_SetByApi_ColumnCasesSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesSite, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_ImageHash": Code.Model_SetByApi_ImageHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ImageHash, definitionRow, CodeXls); break;
                     case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByApi_Site": Code.Model_SetByApi_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Site, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetByApiImages": Code.Model_SetByApiImages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiImages, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRow": Code.Model_SetByCsvRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRow, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRowColumnCases": Code.Model_SetByCsvRowColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowColumnCases, definitionRow, CodeXls); break;
@@ -6874,9 +6876,11 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_ColumnCases;
         public string Model_SetByApi_ColumnCasesGroupMembers;
         public string Model_SetByApi_ColumnCasesSite;
+        public string Model_SetByApi_ImageHash;
         public string Model_SetByApi_RecordPermissions;
         public string Model_SetByApi_Site;
         public string Model_SetByApiExec;
+        public string Model_SetByApiImages;
         public string Model_SetByApiParameter;
         public string Model_SetByCsvRow;
         public string Model_SetByCsvRowColumnCases;
@@ -7637,9 +7641,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesGroupMembers = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesSite = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_ImageHash = new CodeDefinition();
         public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByApi_Site = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetByApiImages = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRow = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRowColumnCases = new CodeDefinition();

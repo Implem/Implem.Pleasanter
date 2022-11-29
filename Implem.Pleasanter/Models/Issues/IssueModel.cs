@@ -15,10 +15,13 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.Shared;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -3038,9 +3041,104 @@ namespace Implem.Pleasanter.Models
                 }
                 SetAttachments(columnName: columnName, value: newAttachments);
             });
+            data.ImageHash?.ForEach(o =>
+            {
+                var bytes = Convert.FromBase64String(o.Value.Base64);
+                var stream = new MemoryStream(bytes);
+                var file = new FormFile(stream, 0, bytes.Length, null, $"image{o.Value.Extension}");
+                SetPostedFiles(
+                    file: file,
+                    image: o.Value);
+                SetImageValue(
+                    context: context,
+                    ss: ss,
+                    columnName: o.Key,
+                    imageApiModel: o.Value);
+            });
             RecordPermissions = data.RecordPermissions;
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
+        }
+
+        public void SetPostedFiles(IFormFile file, _ImageApiModel image)
+        {
+            PostedImages.Add(new PostedFile()
+            {
+                Guid = new HttpPostedFile(file).WriteToTemp(),
+                FileName = file.FileName.Split(Path.DirectorySeparatorChar).Last(),
+                Extension = image.Extension,
+                Size = file.Length,
+                ContentType = MimeKit.MimeTypes.GetMimeType(image.Extension),
+                ContentRange = file.Length > 0
+                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                    0,
+                    file.Length - 1,
+                    file.Length)
+                : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
+                InputStream = file.OpenReadStream()
+            });
+        }
+
+        public void SetImageValue(
+            Context context,
+            SiteSettings ss,
+            string columnName,
+            _ImageApiModel imageApiModel)
+        {
+            var imageText = $"![{imageApiModel.Alt}](/binaries/{PostedImages.Last().Guid}/show)";
+            switch (columnName)
+            {
+                case "Body":
+                    Body = InsertImageText(
+                        body: Body,
+                        imageText: imageText,
+                        imageApiModel: imageApiModel);
+                    break;
+                case "Comments":
+                    var comment = Comments.GetCreated(
+                        context: context,
+                        ss: ss);
+                    comment.Body = InsertImageText(
+                        body: comment.Body,
+                        imageText: imageText,
+                        imageApiModel: imageApiModel);
+                    break;
+                default:
+                    if (Def.ExtendedColumnTypes.Get(columnName) == "Description")
+                    {
+                        if (!DescriptionHash.ContainsKey(columnName))
+                        {
+                            DescriptionHash.Add(columnName, imageText);
+                        }
+                        else
+                        {
+                            DescriptionHash[columnName] = InsertImageText(
+                                body: DescriptionHash.Get(columnName),
+                                imageText: imageText,
+                                imageApiModel: imageApiModel);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        public string InsertImageText(
+            string body,
+            string imageText,
+            _ImageApiModel imageApiModel)
+        {
+            if (imageApiModel.HeadNewLine == true)
+            {
+                imageText = $"\n{imageText}";
+            }
+            if (imageApiModel.EndNewLine == true)
+            {
+                imageText = $"{imageText}\n";
+            }
+            var insertedBody = imageApiModel.Position.ToInt() == -1
+                ? body + imageText
+                : body.Insert(imageApiModel.Position.ToInt(), imageText);
+            return insertedBody;
         }
 
         public void SetByProcess(

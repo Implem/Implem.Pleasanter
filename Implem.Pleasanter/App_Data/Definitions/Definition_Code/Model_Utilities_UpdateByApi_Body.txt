@@ -42,6 +42,10 @@
         ss: ss,
         notice: true,
         previousTitle: previousTitle);
+    BinaryUtilities.UploadImage(
+        context: context,
+        postedFiles: #modelName#Model.PostedImages,
+        id: #modelName#Model.#ModelName#Id);
     switch (errorData.Type)
     {
         case Error.Types.None:
