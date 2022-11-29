@@ -553,8 +553,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
                         {
+                            // "期限切れを送信しない"を有効化したときに一部の当日レコードがリマインド対象に含まれない不具合の修正
+                            // 項目の日時とリマインドするタイミングが同日同時刻の場合もリマインド対象に含める
                             orderByColumn.ColumnName == "CompletionTime" || ContainsTimeSettings(orderByColumn)
                                 ? "\"" + orderByColumn.ColumnName + "\""
+                                // 日付項目の場合は完了項目の時と同じ判定にするため"+1日"して条件に合致するレコードを取得する
+                                // 完了項目はエディタの書式が"年月日"の場合、"+1日"してデータベースへ登録される
                                 : context.Sqls.DateAddDay(1,orderByColumn.ColumnName)
                         },
                         _operator: ContainsTimeSettings(orderByColumn)
