@@ -2806,15 +2806,12 @@ namespace Implem.Pleasanter.Models
                     {
                         if (!DescriptionHash.ContainsKey(columnName))
                         {
-                            DescriptionHash.Add(columnName, imageText);
+                            DescriptionHash.Add(columnName, string.Empty);
                         }
-                        else
-                        {
-                            DescriptionHash[columnName] = InsertImageText(
-                                body: DescriptionHash.Get(columnName),
-                                imageText: imageText,
-                                imageApiModel: imageApiModel);
-                        }
+                        DescriptionHash[columnName] = InsertImageText(
+                            body: DescriptionHash.Get(columnName),
+                            imageText: imageText,
+                            imageApiModel: imageApiModel);
                     }
                     break;
             }
@@ -2835,7 +2832,9 @@ namespace Implem.Pleasanter.Models
             }
             var insertedBody = imageApiModel.Position.ToInt() == -1
                 ? body + imageText
-                : body.Insert(imageApiModel.Position.ToInt(), imageText);
+                : imageApiModel.Position.ToInt() < body.Length
+                    ? body.Insert(imageApiModel.Position.ToInt(), imageText)
+                    : body + imageText;
             return insertedBody;
         }
 
