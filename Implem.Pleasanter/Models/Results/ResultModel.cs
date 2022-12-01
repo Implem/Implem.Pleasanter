@@ -2744,37 +2744,46 @@ namespace Implem.Pleasanter.Models
                 var bytes = Convert.FromBase64String(o.Value.Base64);
                 var stream = new MemoryStream(bytes);
                 var file = new FormFile(stream, 0, bytes.Length, null, $"image{o.Value.Extension}");
-                SetPostedFiles(
-                    file: file,
-                    image: o.Value);
-                SetImageValue(
-                    context: context,
-                    ss: ss,
-                    columnName: o.Key,
-                    imageApiModel: o.Value);
+                if (ss.ColumnHash.Get(o.Key).AllowImage == true)
+                {
+                    SetPostedFiles(
+                        file: file,
+                        columnName: o.Key,
+                        image: o.Value);
+                    SetImageValue(
+                        context: context,
+                        ss: ss,
+                        columnName: o.Key,
+                        imageApiModel: o.Value);
+                }
             });
             RecordPermissions = data.RecordPermissions;
             SetByFormula(context: context, ss: ss);
             SetChoiceHash(context: context, ss: ss);
         }
 
-        public void SetPostedFiles(IFormFile file, _ImageApiModel image)
+        public void SetPostedFiles(
+            IFormFile file,
+            string columnName,
+            _ImageApiModel image)
         {
-            PostedImages.Add(new PostedFile()
-            {
-                Guid = new HttpPostedFile(file).WriteToTemp(),
-                FileName = file.FileName.Split(Path.DirectorySeparatorChar).Last(),
-                Extension = image.Extension,
-                Size = file.Length,
-                ContentType = MimeKit.MimeTypes.GetMimeType(image.Extension),
-                ContentRange = file.Length > 0
-                ? new System.Net.Http.Headers.ContentRangeHeaderValue(
-                    0,
-                    file.Length - 1,
-                    file.Length)
-                : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
-                InputStream = file.OpenReadStream()
-            });
+            PostedImageHash.Add(
+                columnName,
+                new PostedFile()
+                {
+                    Guid = new HttpPostedFile(file).WriteToTemp(),
+                    FileName = file.FileName.Split(Path.DirectorySeparatorChar).Last(),
+                    Extension = image.Extension,
+                    Size = file.Length,
+                    ContentType = MimeKit.MimeTypes.GetMimeType(image.Extension),
+                    ContentRange = file.Length > 0
+                    ? new System.Net.Http.Headers.ContentRangeHeaderValue(
+                        0,
+                        file.Length - 1,
+                        file.Length)
+                    : new System.Net.Http.Headers.ContentRangeHeaderValue(0, 0, 0),
+                    InputStream = file.OpenReadStream()
+                });
         }
 
         public void SetImageValue(
@@ -2783,7 +2792,7 @@ namespace Implem.Pleasanter.Models
             string columnName,
             _ImageApiModel imageApiModel)
         {
-            var imageText = $"![{imageApiModel.Alt}](/binaries/{PostedImages.Last().Guid}/show)";
+            var imageText = $"![{imageApiModel.Alt}](/binaries/{PostedImageHash.Get(columnName).Guid}/show)";
             switch (columnName)
             {
                 case "Body":

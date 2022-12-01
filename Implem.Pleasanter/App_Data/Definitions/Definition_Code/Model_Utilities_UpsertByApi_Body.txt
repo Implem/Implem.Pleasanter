@@ -78,8 +78,9 @@
         previousTitle: previousTitle);
     BinaryUtilities.UploadImage(
         context: context,
-        postedFiles: #modelName#Model.PostedImages,
-        id: #modelName#Model.#ModelName#Id);
+        id: #modelName#Model.#ModelName#Id,
+        uploadImageByApi: true,
+        postedFileHash: #modelName#Model.PostedImageHash);
     switch (errorData.Type)
     {
         case Error.Types.None:

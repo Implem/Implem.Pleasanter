@@ -3018,8 +3018,9 @@ namespace Implem.Pleasanter.Models
                 notice: true);
             BinaryUtilities.UploadImage(
                 context: context,
-                postedFiles: resultModel.PostedImages,
-                id: resultModel.ResultId);
+                id: resultModel.ResultId,
+                uploadImageByApi: true,
+                postedFileHash: resultModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4053,8 +4054,9 @@ namespace Implem.Pleasanter.Models
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
                 context: context,
-                postedFiles: resultModel.PostedImages,
-                id: resultModel.ResultId);
+                id: resultModel.ResultId,
+                uploadImageByApi: true,
+                postedFileHash: resultModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4217,8 +4219,9 @@ namespace Implem.Pleasanter.Models
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
                 context: context,
-                postedFiles: resultModel.PostedImages,
-                id: resultModel.ResultId);
+                id: resultModel.ResultId,
+                uploadImageByApi: true,
+                postedFileHash: resultModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:

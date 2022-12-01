@@ -404,8 +404,8 @@ namespace Implem.Pleasanter.Models
         {
             var invalid = UploadImage(
                 context: context,
-                postedFiles: context.PostedFiles,
-                id: id);
+                id: id,
+                postedFiles: context.PostedFiles);
             switch (invalid)
             {
                 case Error.Types.OverTenantStorageSize:
@@ -430,8 +430,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static Error.Types UploadImage(
             Context context,
-            List<PostedFile> postedFiles,
-            long id)
+            long id,
+            bool uploadImageByApi = false,
+            List<PostedFile> postedFiles = null,
+            Dictionary<string, PostedFile> postedFileHash = null)
         {
             var invalid = BinaryValidators.OnUploadingImage(context: context);
             switch (invalid)
@@ -439,70 +441,97 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid;
             }
-            foreach (var file in postedFiles)
+            if (uploadImageByApi != true)
             {
-                var bin = file.Byte();
-                var columnName = context.Forms.Data("ControlId");
-                if (columnName.Contains("_"))
-                {
-                    columnName = columnName.Substring(columnName.IndexOf("_") + 1);
-                }
-                if (columnName.StartsWith("Comment"))
-                {
-                    columnName = "Comments";
-                }
-                var ss = new ItemModel(
+                invalid = UploadImage(
                     context: context,
-                    referenceId: id)
-                        .GetSite(
-                            context: context,
-                            initSiteSettings: true)
-                                .SiteSettings;
-                var thumbnailLimitSize = ss.GetColumn(
-                    context: context,
-                    columnName: columnName)?.ThumbnailLimitSize
-                        ?? Parameters.BinaryStorage.ThumbnailLimitSize;
-                var imageData = new Libraries.Images.ImageData(
-                    bin,
-                    ss.ReferenceId,
-                    Libraries.Images.ImageData.Types.SiteImage);
-                if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
+                    id: id,
+                    columnName: context.Forms.Data("ControlId"),
+                    file: postedFiles.FirstOrDefault());
+            }
+            else
+            {
+                foreach (var file in postedFileHash)
                 {
-                    bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
+                    invalid = UploadImage(
+                        context: context,
+                        id: id,
+                        columnName: file.Key,
+                        file: file.Value);
                 }
-                var thumbnail = thumbnailLimitSize > 0
-                    ? imageData.ReSizeBytes(thumbnailLimitSize)
-                    : null;
-                if (Parameters.BinaryStorage.IsLocal())
+            }
+            return invalid;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types UploadImage(
+            Context context,
+            long id,
+            string columnName,
+            PostedFile file)
+        {
+            var bin = file.Byte();
+            if (columnName.Contains("_"))
+            {
+                columnName = columnName.Substring(columnName.IndexOf("_") + 1);
+            }
+            if (columnName.StartsWith("Comment"))
+            {
+                columnName = "Comments";
+            }
+            var ss = new ItemModel(
+                context: context,
+                referenceId: id)
+                    .GetSite(
+                        context: context,
+                        initSiteSettings: true)
+                            .SiteSettings;
+            var thumbnailLimitSize = ss.GetColumn(
+                context: context,
+                columnName: columnName)?.ThumbnailLimitSize
+                    ?? Parameters.BinaryStorage.ThumbnailLimitSize;
+            var imageData = new Libraries.Images.ImageData(
+                bin,
+                ss.ReferenceId,
+                Libraries.Images.ImageData.Types.SiteImage);
+            if (Parameters.BinaryStorage.ImageLimitSize?.ToInt() > 0)
+            {
+                bin = imageData.ReSizeBytes(Parameters.BinaryStorage.ImageLimitSize);
+            }
+            var thumbnail = thumbnailLimitSize > 0
+                ? imageData.ReSizeBytes(thumbnailLimitSize)
+                : null;
+            if (Parameters.BinaryStorage.IsLocal())
+            {
+                bin.Write(System.IO.Path.Combine(
+                    Directories.BinaryStorage(),
+                    "Images",
+                    file.Guid));
+                if (thumbnailLimitSize > 0)
                 {
-                    bin.Write(System.IO.Path.Combine(
+                    thumbnail.Write(System.IO.Path.Combine(
                         Directories.BinaryStorage(),
                         "Images",
-                        file.Guid));
-                    if (thumbnailLimitSize > 0)
-                    {
-                        thumbnail.Write(System.IO.Path.Combine(
-                            Directories.BinaryStorage(),
-                            "Images",
-                            file.Guid + "_thumbnail"));
-                    }
+                        file.Guid + "_thumbnail"));
                 }
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    statements: Rds.InsertBinaries(
-                        param: Rds.BinariesParam()
-                            .TenantId(context.TenantId)
-                            .ReferenceId(id)
-                            .Guid(file.Guid)
-                            .BinaryType("Images")
-                            .Title(file.FileName)
-                            .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
-                            .Thumbnail(thumbnail, _using: thumbnail != null)
-                            .FileName(file.FileName)
-                            .Extension(file.Extension)
-                            .Size(file.Size)
-                            .ContentType(file.ContentType)));
             }
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.InsertBinaries(
+                    param: Rds.BinariesParam()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(id)
+                        .Guid(file.Guid)
+                        .BinaryType("Images")
+                        .Title(file.FileName)
+                        .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
+                        .Thumbnail(thumbnail, _using: thumbnail != null)
+                        .FileName(file.FileName)
+                        .Extension(file.Extension)
+                        .Size(file.Size)
+                        .ContentType(file.ContentType)));
             return Error.Types.None;
         }
 
