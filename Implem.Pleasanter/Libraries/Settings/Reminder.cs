@@ -550,18 +550,20 @@ namespace Implem.Pleasanter.Libraries.Settings
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
+                        //完了項目は期限切れかどうかを判定するために設計された項目
+                        //項目に"2022/12/01"が設定されていて、リマインドするタイミングが"2022/12/01 12:00"であった場合、
+                        //当日中として扱うために(期限内とするために)データベース上では値を"+1日"して登録している
+                        //一方、日付項目は期限切れかどうかを判定することを目的とした項目ではない
+                        //完了項目と同じように処理を行うため、データベース上の値に"+1日"して期限に含まれているか判定する
+                        //また、リマインドするタイミングと項目に設定されている値が同日同時刻の場合、期限内のものとして扱う
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
                         {
-                            // 完了項目および、エディタの書式が"年月日"以外の日付項目は同じ判定とする
                             orderByColumn.ColumnName == "CompletionTime" || ContainsTimeSettings(orderByColumn)
                                 ? "\"" + orderByColumn.ColumnName + "\""
-                                // 完了項目はエディタの書式が"年月日"の場合、"+1日"してデータベースへ登録される
-                                // 日付項目の場合は完了項目の時と同じ判定にするため"+1日"して条件に合致するレコードを取得する
                                 : context.Sqls.DateAddDay(1, orderByColumn.ColumnName)
                         },
                         _operator: ContainsTimeSettings(orderByColumn)
-                            // エディタの書式が"年月日"以外で、項目の日時とリマインドするタイミングが同日同時刻の場合もリマインド対象に含める
                             ? $">='{convertedScheduledTime}'"
                             : $">'{convertedScheduledTime}'",
                         _using: ExcludeOverdue == true)
