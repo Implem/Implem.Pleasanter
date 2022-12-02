@@ -398,8 +398,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string UploadImage(Context context, long id)
+        public static string UploadImage(
+            Context context,
+            long id)
         {
+            var columnName = context.Forms.Data("ControlId");
+            if (columnName.Contains("_"))
+            {
+                columnName = columnName.Substring(columnName.IndexOf("_") + 1);
+            }
+            if (columnName.StartsWith("Comment"))
+            {
+                columnName = "Comments";
+            }
             var invalid = BinaryValidators.OnUploadingImage(context: context);
             switch (invalid)
             {
@@ -411,16 +422,63 @@ namespace Implem.Pleasanter.Models
                 default: return invalid.MessageJson(context: context);
             }
             var file = context.PostedFiles.FirstOrDefault();
+            UploadImage(
+                context: context,
+                id: id,
+                columnName: columnName,
+                file: file);
+            return new ResponseCollection(context: context)
+                .InsertText(
+                    "#" + context.Forms.ControlId(),
+                    "![image]({0})".Params(Locations.ShowFile(
+                        context: context,
+                        guid: file.Guid)))
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types UploadImage(
+            Context context,
+            SiteSettings ss,
+            long id,
+            Dictionary<string, PostedFile> postedFileHash)
+        {
+            var invalid = Error.Types.None;
+            foreach (var file in postedFileHash)
+            {
+                invalid = BinaryValidators.OnUploadingImage(
+                    context: context,
+                    ss: ss,
+                    columnName: file.Key);
+                switch (invalid)
+                {
+                    case Error.Types.None:
+                        invalid = UploadImage(
+                            context: context,
+                            id: id,
+                            columnName: file.Key,
+                            file: file.Value);
+                        break;
+                    default:
+                        // エラーの場合はスキップする
+                        break;
+                }
+            }
+            return invalid;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Error.Types UploadImage(
+            Context context,
+            long id,
+            string columnName,
+            PostedFile file)
+        {
             var bin = file.Byte();
-            var columnName = context.Forms.Data("ControlId");
-            if (columnName.Contains("_"))
-            {
-                columnName = columnName.Substring(columnName.IndexOf("_") + 1);
-            }
-            if (columnName.StartsWith("Comment"))
-            {
-                columnName = "Comments";
-            }
             var ss = new ItemModel(
                 context: context,
                 referenceId: id)
@@ -472,13 +530,7 @@ namespace Implem.Pleasanter.Models
                         .Extension(file.Extension)
                         .Size(file.Size)
                         .ContentType(file.ContentType)));
-            return new ResponseCollection(context: context)
-                .InsertText(
-                    "#" + context.Forms.ControlId(),
-                    "![image]({0})".Params(Locations.ShowFile(
-                        context: context,
-                        guid: file.Guid)))
-                .ToJson();
+            return Error.Types.None;
         }
 
         /// <summary>

@@ -161,9 +161,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             return this?.Any() != true;
         }
 
-        public Comments Prepend(Context context, SiteSettings ss, string body)
+        public Comments Prepend(
+            Context context,
+            SiteSettings ss,
+            string body,
+            bool force = false)
         {
-            if (body.Trim() != string.Empty)
+            if (body.Trim() != string.Empty || force == true)
             {
                 Insert(0, new Comment
                 {
@@ -175,6 +179,19 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 });
             }
             return this;
+        }
+
+        public Comment GetCreated(Context context, SiteSettings ss)
+        {
+            if (!this.Any(comment => comment.Created))
+            {
+                Prepend(
+                    context: context,
+                    ss: ss,
+                    body: string.Empty,
+                    force: true);
+            }
+            return this.FirstOrDefault(comment => comment.Created);
         }
 
         public void Update(Context context, SiteSettings ss, int commentId, string body)
