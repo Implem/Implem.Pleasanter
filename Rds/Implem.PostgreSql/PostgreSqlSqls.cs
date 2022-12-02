@@ -60,6 +60,11 @@ namespace Implem.PostgreSql
             return "(cast(\"" + tableName + "\".\"" + columnName + "\" as text) like ";
         }
 
+        public string DateAddDay(int day, string columnBracket)
+        {
+            return $"\"{columnBracket}\" + cast('{day} days' as interval)";
+        }
+
         public string DateAddHour(int hour, string columnBracket)
         {
             return $"{columnBracket} + interval '{hour} hour'";

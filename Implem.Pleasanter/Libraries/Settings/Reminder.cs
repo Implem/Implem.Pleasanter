@@ -513,6 +513,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var orderByColumn = ss.GetColumn(
                 context: context,
                 columnName: Column);
+            var convertedScheduledTime = scheduledTime.ToDateTime().ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff");
             var column = new SqlColumnCollection()
                 .Add(column: ss.GetColumn(
                     context: context,
@@ -549,12 +550,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                         _operator: "<'{0}'".Params(
                             DateTime.Now.ToLocal(context: context).Date.AddDays(Range)))
                     .Add(
+                        //【完了項目】
+                        // ■時刻なし(エディタの書式が"年月日")
+                        //   完了項目は期限切れかどうかを判定するために設計された項目
+                        //   項目に"2022/12/01"が設定されていて、リマインドするタイミングが"2022/12/01 12:00"であった場合、
+                        //   当日中として扱うために(期限内とするために)データベース上では値を"+1日"して登録している
+                        //   ・リマインド対象
+                        //     「データベース上の値 > リマインドするタイミング」に当てはまるレコード
+                        // ■時刻あり(エディタの書式が"年月日"以外)
+                        //   項目の値が"2022/12/01 12:00"、リマインドするタイミングが"2022/12/01 12:00"のように
+                        //   項目の値とリマインドするタイミングが同日同時刻の場合もリマインド対象に含める
+                        //   ・リマインド対象
+                        //     「データベース上の値 >= リマインドするタイミング」に当てはまるレコード
+                        //【日付項目】
+                        // ■時刻なし(エディタの書式が"年月日")
+                        //   日付項目は期限切れを判定する項目として使用するために、
+                        //   データベース上の値に"+1日"して期限に含まれているか判定する
+                        //   ・リマインド対象
+                        //     「データベース上の値 + 1日 > リマインドするタイミング」に当てはまるレコード
+                        // ■時刻あり(エディタの書式が"年月日"以外)
+                        //   項目の値が"2022/12/01 12:00"、リマインドするタイミングが"2022/12/01 12:00"のように
+                        //   項目の値とリマインドするタイミングが同日同時刻の場合もリマインド対象に含める
+                        //   ・リマインド対象
+                        //     「データベース上の値 >= リマインドするタイミング」に当てはまるレコード
                         tableName: ss.ReferenceType,
                         columnBrackets: new string[]
                         {
-                            "\"" + orderByColumn.ColumnName + "\""
+                            orderByColumn.ColumnName == "CompletionTime" || ContainsTimeSettings(orderByColumn)
+                                ? "\"" + orderByColumn.ColumnName + "\""
+                                : context.Sqls.DateAddDay(1, orderByColumn.ColumnName)
                         },
-                        _operator: $">'{scheduledTime.ToDateTime().ToUniversal(context: context).ToString("yyyy/M/d H:m:s.fff")}'",
+                        _operator: ContainsTimeSettings(orderByColumn)
+                            ? $">='{convertedScheduledTime}'"
+                            : $">'{convertedScheduledTime}'",
                         _using: ExcludeOverdue == true)
                     .Add(or: new SqlWhereCollection()
                         .Add(
@@ -601,6 +629,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     orderBy: orderBy,
                     top: Parameters.Reminder.Limit));
             return dataTable;
+        }
+
+        private bool ContainsTimeSettings(Column column)
+        {
+            return column.EditorFormat == "Ymdhm" || column.EditorFormat == "Ymdhms";
         }
 
         private string Relative(Context context, DateTime time)

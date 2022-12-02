@@ -21,6 +21,7 @@ namespace Implem.IRds
         object DateTimeValue(object value);
         string BooleanString(string value);
         string IntegerColumnLike(string tableName, string columnName);
+        string DateAddDay(int day, string columnBracket);
         string DateAddHour(int hour, string columnBracket);
         string DateGroupYearly { get; }
         string DateGroupMonthly { get; }
