@@ -805,7 +805,6 @@ namespace Implem.Pleasanter.Models.Shared
         public Attachment[] PostedFilesY { get; set; }
         public Attachment[] PostedFilesZ { get; set; }
         public Dictionary<string, _ImageApiModel> ImageHash { get; set; }
-        public List<PostedFile> PostedImages { get; set; } = new List<PostedFile>();
 
 
         public _BaseApiModel()
