@@ -78,8 +78,8 @@
         previousTitle: previousTitle);
     BinaryUtilities.UploadImage(
         context: context,
+        ss: ss,
         id: #modelName#Model.#ModelName#Id,
-        uploadImageByApi: true,
         postedFileHash: #modelName#Model.PostedImageHash);
     switch (errorData.Type)
     {
