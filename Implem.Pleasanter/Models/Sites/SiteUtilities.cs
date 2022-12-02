@@ -10828,7 +10828,9 @@ namespace Implem.Pleasanter.Models
                                 controlId: "KambanGroupByY",
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.GroupByY(context: context),
-                                optionCollection: ss.KambanGroupByOptions(context: context),
+                                optionCollection: ss.KambanGroupByOptions(
+                                    context: context,
+                                    addNothing: true),
                                 selectedValue: view.KambanGroupByY,
                                 insertBlank: true)
                             .FieldDropDown(

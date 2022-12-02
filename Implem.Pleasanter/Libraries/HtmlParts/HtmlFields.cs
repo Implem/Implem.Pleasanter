@@ -404,7 +404,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 _checked: value.ToBool(),
                                 disabled: true,
                                 alwaysSend: alwaysSend,
-                                validateRequired: required,
                                 extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
                                 extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                                 extendedHtmlAfterControl: extendedHtmlAfterControl);
@@ -428,7 +427,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 allowImage: column.AllowImage == true,
                                 mobile: mobile,
                                 alwaysSend: alwaysSend,
-                                validateRequired: required,
                                 preview: preview,
                                 validateMaxLength: column.MaxLength.ToInt(),
                                 validateRegex: column.ClientRegexValidation,

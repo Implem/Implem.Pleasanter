@@ -1852,7 +1852,7 @@ td > .field-normal,td > .field-wide{
     overflow:hidden;
 }
 
-.field-label .required:after{
+label.required:after{
     margin-left:3px;
     color:red;
     content:'*';
