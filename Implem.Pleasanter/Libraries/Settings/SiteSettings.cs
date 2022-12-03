@@ -2921,7 +2921,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ?.Where(process => process.Accessable(
                     context: context,
                     ss: ss))
-                .Where(process => process.AllowBulkProcessing == true)
+                .Where(process => process.GetAllowBulkProcessing())
                 .ToDictionary(
                     process => process.Id.ToString(),
                     process => new ControlData(process.GetDisplayName()));

@@ -4071,7 +4071,7 @@ namespace Implem.Pleasanter.Models
             var process = ss.GetProcess(
                 context: context,
                 id: processId);
-            if (process == null)
+            if (process == null || !process.GetAllowBulkProcessing())
             {
                 return Messages.NotFound(context: context).ToJson();
             }
