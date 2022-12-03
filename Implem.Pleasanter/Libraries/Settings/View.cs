@@ -1522,6 +1522,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool requestSearchCondition = true)
         {
             if (where == null) where = new SqlWhereCollection();
+            var process = ss.GetProcess(
+                context: context,
+                id: context.Forms.Int("BulkProcessingItems"));
+            SetBulkProcessingFilter(
+                context: context,
+                ss: ss,
+                process: process,
+                where: where);
             SetGeneralsWhere(
                 context: context,
                 ss: ss,
@@ -1539,9 +1547,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 where: where,
-                permissionType: GetPermissionType(
-                    context: context,
-                    ss: ss));
+                /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
+                permissionType: process == null
+                    ? Permissions.Types.Read
+                    : Permissions.Types.Read | Permissions.Types.Update);
             if (requestSearchCondition
                 && RequestSearchCondition(
                     context: context,
@@ -1552,18 +1561,53 @@ namespace Implem.Pleasanter.Libraries.Settings
             return where;
         }
 
-        /// <summary>
-        /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
-        /// </summary>
-        private Permissions.Types GetPermissionType(Context context, SiteSettings ss)
+        private void SetBulkProcessingFilter(
+            Context context,
+            SiteSettings ss,
+            Process process,
+            SqlWhereCollection where)
         {
-            var process = ss.GetProcess(
-                context: context,
-                id: context.Forms.Int("BulkProcessingItems"));
-            var permissionType = process == null
-                ? Permissions.Types.Read
-                : Permissions.Types.Read | Permissions.Types.Update;
-            return permissionType;
+            if (process != null)
+            {
+                process.ValidateInputs?
+                    .Where(validateInput => validateInput.Required == true)
+                    .ForEach(validateInput =>
+                    {
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: validateInput.ColumnName);
+                        if (column != null)
+                        {
+                            switch (column.TypeName.CsTypeSummary())
+                            {
+                                case Types.CsBool:
+                                    where.Bool(column, true);
+                                    break;
+                                case Types.CsNumeric:
+                                    if (column.Nullable == true)
+                                    {
+                                        where.AddRange(CsNumericColumnsWhereNull(
+                                            column: column,
+                                            param: "\t".ToSingleList(),
+                                            negative: true));
+                                    }
+                                    break;
+                                case Types.CsDateTime:
+                                    where.Add(CsDateTimeColumnsWhereNull(
+                                        column: column,
+                                        param: "\t".ToSingleList(),
+                                        negative: true));
+                                    break;
+                                case Types.CsString:
+                                    where.Add(CsStringColumnsWhereNull(
+                                        context: context,
+                                        column: column,
+                                        negative: true));
+                                    break;
+                            }
+                        }
+                    });
+            }
         }
 
         private void SetGeneralsWhere(
