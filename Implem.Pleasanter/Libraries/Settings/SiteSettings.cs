@@ -5269,7 +5269,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? false
                 : context.CanUpdate(ss: this)
                     || context.CanDelete(ss: this)
-                    || context.CanExport(ss: this);
+                    || context.CanExport(ss: this)
+                    || GetProcess(
+                        context: context,
+                        id: context.Forms.Int("BulkProcessingItems")) != null;
         }
 
         public bool GridColumnsHasSources(List<string> gridColumns)
