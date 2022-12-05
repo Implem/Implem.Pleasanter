@@ -378,6 +378,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return false;
         }
 
+        public bool GetAllowBulkProcessing()
+        {
+            return AllowBulkProcessing == true
+                && ValidateInputs?.Any(validationInput =>
+                    !validationInput.HasNotInputValidation()) != true;
+        }
+
         public Message GetSuccessMessage(Context context)
         {
             var displayName = GetDisplayName();

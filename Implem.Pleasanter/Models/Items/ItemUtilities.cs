@@ -74,45 +74,55 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static void UpdateSourceTitles(Context context, SiteSettings ss, IList<long> idList)
+        public static void UpdateSourceTitles(
+            Context context,
+            SiteSettings ss,
+            IList<long> siteIdList,
+            IList<long> idList)
         {
-            ss.Sources
-                .ForEach(source =>
+            ss.Sources.ForEach(source =>
+            {
+                var currentSs = source.Value;
+                var columns = currentSs?.Links
+                    ?.Where(o => o.SiteId > 0)
+                    .Where(o => o.SiteId == ss.SiteId)
+                    .Select(o => o.ColumnName)
+                    .ToList();
+                if (currentSs?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
                 {
-                    var currentSs = source.Value;
-                    var columns = currentSs?.Links
-                        ?.Where(o => o.SiteId > 0)
-                        .Where(o => o.SiteId == ss.SiteId)
-                        .Select(o => o.ColumnName)
-                        .ToList();
-                    if (currentSs?.TitleColumns?.Any(o => columns?.Contains(o) == true) == true)
+                    currentSs.SetLinkedSiteSettings(context: context);
+                    if (!siteIdList.Contains(currentSs.SiteId))
                     {
-                        var nextIdList =
-                            Repository.ExecuteTable(
-                                context: context,
-                                statements: Rds.SelectLinks(
-                                column: Rds.LinksColumn()
-                                    .SourceId(),
-                                join: Rds.LinksJoinDefault(),
-                                where: Rds.LinksWhere()
-                                    .SiteId(currentSs.SiteId)
-                                    .DestinationId_In(
-                                        value: idList,
-                                        _using: idList.Count <= 100)))
-                            .AsEnumerable()
-                            .Select(dataRow => dataRow.Long("SourceId"))
-                            .ToList();
-                        currentSs.SetLinkedSiteSettings(context: context);
+                        siteIdList.Add(currentSs.SiteId);
+                        var nextIdList = Repository.ExecuteTable(
+                            context: context,
+                            statements: Rds.SelectLinks(
+                            column: Rds.LinksColumn()
+                                .SourceId(),
+                            join: Rds.LinksJoinDefault(),
+                            where: Rds.LinksWhere()
+                                .SiteId(currentSs.SiteId)
+                                .DestinationId_In(
+                                    value: idList,
+                                    _using: idList.Count <= 100)))
+                                        .AsEnumerable()
+                                        .Select(dataRow => dataRow.Long("SourceId"))
+                                        .ToList();
                         UpdateTitles(
                             context: context,
                             ss: currentSs,
+                            siteIdList: siteIdList,
                             idList: nextIdList);
                     }
-                });
+                }
+            });
         }
 
         public static void UpdateTitles(
-            Context context, SiteSettings ss, IList<long> idList = null)
+            Context context,
+            SiteSettings ss,
+            IList<long> siteIdList,
+            IList<long> idList = null)
         {
             switch (ss?.ReferenceType)
             {
@@ -120,18 +130,21 @@ namespace Implem.Pleasanter.Models
                     UpdateIssueTitles(
                         context: context,
                         ss: ss,
+                        siteIdList: siteIdList,
                         idList: idList);
                     break;
                 case "Results":
                     UpdateResultTitles(
                         context: context,
                         ss: ss,
+                        siteIdList: siteIdList,
                         idList: idList);
                     break;
                 case "Wikis":
                     UpdateWikiTitles(
                         context: context,
                         ss: ss,
+                        siteIdList: siteIdList,
                         idList: idList);
                     break;
                 default:
@@ -140,7 +153,10 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void UpdateIssueTitles(
-            Context context, SiteSettings ss, IList<long> idList)
+            Context context,
+            SiteSettings ss,
+            IList<long> siteIdList,
+            IList<long> idList)
         {
             var issues = GetIssues(
                 context: context,
@@ -179,12 +195,15 @@ namespace Implem.Pleasanter.Models
                 UpdateSourceTitles(
                     context: context,
                     ss: ss,
+                    siteIdList: siteIdList,
                     idList: issues.Select(o => o.IssueId).ToList());
             }
         }
 
         private static List<IssueModel> GetIssues(
-            Context context, SiteSettings ss, IList<long> idList)
+            Context context,
+            SiteSettings ss,
+            IList<long> idList)
         {
             var column = Rds.IssuesColumn()
                 .IssueId()
@@ -207,7 +226,10 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void UpdateResultTitles(
-            Context context, SiteSettings ss, IList<long> idList)
+            Context context,
+            SiteSettings ss,
+            IList<long> siteIdList,
+            IList<long> idList)
         {
             var results = GetResults(
                 context: context,
@@ -246,12 +268,15 @@ namespace Implem.Pleasanter.Models
                 UpdateSourceTitles(
                     context: context,
                     ss: ss,
+                    siteIdList: siteIdList,
                     idList: results.Select(o => o.ResultId).ToList());
             }
         }
 
         private static List<ResultModel> GetResults(
-            Context context, SiteSettings ss, IList<long> idList)
+            Context context,
+            SiteSettings ss,
+            IList<long> idList)
         {
             var column = Rds.ResultsColumn()
                 .ResultId()
@@ -274,7 +299,10 @@ namespace Implem.Pleasanter.Models
         }
 
         private static void UpdateWikiTitles(
-            Context context, SiteSettings ss, IList<long> idList)
+            Context context,
+            SiteSettings ss,
+            IList<long> siteIdList,
+            IList<long> idList)
         {
             var wikis = GetWikis(
                 context: context,
@@ -313,12 +341,15 @@ namespace Implem.Pleasanter.Models
                 UpdateSourceTitles(
                     context: context,
                     ss: ss,
+                    siteIdList: siteIdList,
                     idList: wikis.Select(o => o.WikiId).ToList());
             }
         }
 
         private static List<WikiModel> GetWikis(
-            Context context, SiteSettings ss, IList<long> idList)
+            Context context,
+            SiteSettings ss,
+            IList<long> idList)
         {
             var column = Rds.WikisColumn()
                 .WikiId()

@@ -50,5 +50,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             return processValidateInput;
         }
+
+        public bool HasNotInputValidation()
+        {
+            return ClientRegexValidation.IsNullOrEmpty()
+                && ServerRegexValidation.IsNullOrEmpty()
+                && Min == null
+                && Max == null;
+        }
     }
 }

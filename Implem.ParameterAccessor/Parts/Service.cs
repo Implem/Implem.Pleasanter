@@ -6,11 +6,13 @@
         public string EnvironmentName;
         public string TimeZoneDefault;
         public string DefaultPassword;
+        public string DeploymentEnvironment;
         public bool WithoutChangeDefaultPassword;
         public string DefaultLanguage;
         public string AbsoluteUri;
         public long MaxRequestBodySize;
         public bool RequireHttps;
+        public long AnnouncementSiteId;
         public bool ShowProfiles;
         public bool ShowChangePassword;
         public bool ShowStartGuide;

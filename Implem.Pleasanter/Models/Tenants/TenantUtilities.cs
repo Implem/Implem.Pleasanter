@@ -614,6 +614,12 @@ namespace Implem.Pleasanter.Models
                             _checked: tenantModel.DisableAllUsersPermission,
                             labelText: Displays.Tenants_DisableAllUsersPermission(context: context))
                         .FieldCheckBox(
+                            controlId: "Tenants_DisableApi",
+                            fieldCss: "field-auto-thin",
+                            _checked: tenantModel.DisableApi,
+                            labelText: Displays.Tenants_DisableApi(context: context),
+                            _using: Parameters.User.DisableApi != true)
+                        .FieldCheckBox(
                             controlId: "Tenants_DisableStartGuide",
                             fieldCss: "field-auto-thin",
                             _checked: tenantModel.DisableStartGuide,
@@ -1007,6 +1013,12 @@ namespace Implem.Pleasanter.Models
                                     value: tenantModel.DisableAllUsersPermission,
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "DisableApi":
+                                res.Val(
+                                    target: "#Tenants_DisableApi" + idSuffix,
+                                    value: tenantModel.DisableApi,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             case "DisableStartGuide":
                                 res.Val(
                                     target: "#Tenants_DisableStartGuide" + idSuffix,
@@ -1154,7 +1166,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             tenantModel: tenantModel,
-                            process: processes?.FirstOrDefault()));
+                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
                     return new ResponseCollection(
                         context: context,
                         id: tenantModel.TenantId)
@@ -1325,7 +1337,9 @@ namespace Implem.Pleasanter.Models
             TenantModel tenantModel,
             List<Process> processes)
         {
-            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
+            var process = processes
+                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                    && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(

@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Tenants_DisableApi",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "DisableApi",
+    "LabelText": "APIを無効化",
+    "No": "107",
+    "History": "107",
+    "TypeName": "bit",
+    "Nullable": "1",
+    "LabelText_en": "Disable api",
+    "LabelText_zh": "禁用 api",
+    "LabelText_de": "API deaktivieren",
+    "LabelText_ko": "API 비활성화",
+    "LabelText_es": "Deshabilitar API",
+    "LabelText_vn": "Tắt api"
+}

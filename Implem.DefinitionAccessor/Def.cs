@@ -575,9 +575,11 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetByApi_ColumnCases": Code.Model_SetByApi_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesGroupMembers": Code.Model_SetByApi_ColumnCasesGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesGroupMembers, definitionRow, CodeXls); break;
                     case "Model_SetByApi_ColumnCasesSite": Code.Model_SetByApi_ColumnCasesSite = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ColumnCasesSite, definitionRow, CodeXls); break;
+                    case "Model_SetByApi_ImageHash": Code.Model_SetByApi_ImageHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_ImageHash, definitionRow, CodeXls); break;
                     case "Model_SetByApi_RecordPermissions": Code.Model_SetByApi_RecordPermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_RecordPermissions, definitionRow, CodeXls); break;
                     case "Model_SetByApi_Site": Code.Model_SetByApi_Site = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApi_Site, definitionRow, CodeXls); break;
                     case "Model_SetByApiExec": Code.Model_SetByApiExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiExec, definitionRow, CodeXls); break;
+                    case "Model_SetByApiImages": Code.Model_SetByApiImages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiImages, definitionRow, CodeXls); break;
                     case "Model_SetByApiParameter": Code.Model_SetByApiParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByApiParameter, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRow": Code.Model_SetByCsvRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRow, definitionRow, CodeXls); break;
                     case "Model_SetByCsvRowColumnCases": Code.Model_SetByCsvRowColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetByCsvRowColumnCases, definitionRow, CodeXls); break;
@@ -1002,6 +1004,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_SiteIntegration": Code.SiteSettings_GetModels_Items_SiteIntegration = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_SiteIntegration, definitionRow, CodeXls); break;
+                    case "SiteSettings_Users": Code.SiteSettings_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_Users, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
                     case "Summaries_DataTablesCases": Code.Summaries_DataTablesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_DataTablesCases, definitionRow, CodeXls); break;
                     case "Summaries_ParamCases": Code.Summaries_ParamCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_ParamCases, definitionRow, CodeXls); break;
@@ -1803,6 +1806,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_ContractDeadline": Column.Tenants_ContractDeadline = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractDeadline, definitionRow, ColumnXls); break;
                     case "Tenants_ContractSettings": Column.Tenants_ContractSettings = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_ContractSettings, definitionRow, ColumnXls); break;
                     case "Tenants_DisableAllUsersPermission": Column.Tenants_DisableAllUsersPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableAllUsersPermission, definitionRow, ColumnXls); break;
+                    case "Tenants_DisableApi": Column.Tenants_DisableApi = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableApi, definitionRow, ColumnXls); break;
                     case "Tenants_DisableStartGuide": Column.Tenants_DisableStartGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_DisableStartGuide, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleRecord": Column.Tenants_HtmlTitleRecord = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleRecord, definitionRow, ColumnXls); break;
                     case "Tenants_HtmlTitleSite": Column.Tenants_HtmlTitleSite = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_HtmlTitleSite, definitionRow, ColumnXls); break;
@@ -6872,9 +6876,11 @@ namespace Implem.DefinitionAccessor
         public string Model_SetByApi_ColumnCases;
         public string Model_SetByApi_ColumnCasesGroupMembers;
         public string Model_SetByApi_ColumnCasesSite;
+        public string Model_SetByApi_ImageHash;
         public string Model_SetByApi_RecordPermissions;
         public string Model_SetByApi_Site;
         public string Model_SetByApiExec;
+        public string Model_SetByApiImages;
         public string Model_SetByApiParameter;
         public string Model_SetByCsvRow;
         public string Model_SetByCsvRowColumnCases;
@@ -7299,6 +7305,7 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Items_SiteIntegration;
+        public string SiteSettings_Users;
         public string Summaries;
         public string Summaries_DataTablesCases;
         public string Summaries_ParamCases;
@@ -7634,9 +7641,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetByApi_ColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesGroupMembers = new CodeDefinition();
         public CodeDefinition Model_SetByApi_ColumnCasesSite = new CodeDefinition();
+        public CodeDefinition Model_SetByApi_ImageHash = new CodeDefinition();
         public CodeDefinition Model_SetByApi_RecordPermissions = new CodeDefinition();
         public CodeDefinition Model_SetByApi_Site = new CodeDefinition();
         public CodeDefinition Model_SetByApiExec = new CodeDefinition();
+        public CodeDefinition Model_SetByApiImages = new CodeDefinition();
         public CodeDefinition Model_SetByApiParameter = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRow = new CodeDefinition();
         public CodeDefinition Model_SetByCsvRowColumnCases = new CodeDefinition();
@@ -8061,6 +8070,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_SiteIntegration = new CodeDefinition();
+        public CodeDefinition SiteSettings_Users = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
         public CodeDefinition Summaries_DataTablesCases = new CodeDefinition();
         public CodeDefinition Summaries_ParamCases = new CodeDefinition();
@@ -8883,6 +8893,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_ContractDeadline;
         public string Tenants_ContractSettings;
         public string Tenants_DisableAllUsersPermission;
+        public string Tenants_DisableApi;
         public string Tenants_DisableStartGuide;
         public string Tenants_HtmlTitleRecord;
         public string Tenants_HtmlTitleSite;
@@ -9418,6 +9429,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_ContractDeadline = new ColumnDefinition();
         public ColumnDefinition Tenants_ContractSettings = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableAllUsersPermission = new ColumnDefinition();
+        public ColumnDefinition Tenants_DisableApi = new ColumnDefinition();
         public ColumnDefinition Tenants_DisableStartGuide = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleRecord = new ColumnDefinition();
         public ColumnDefinition Tenants_HtmlTitleSite = new ColumnDefinition();

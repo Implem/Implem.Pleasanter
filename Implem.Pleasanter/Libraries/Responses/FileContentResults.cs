@@ -143,7 +143,8 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .CanRead(
                                 context: context,
                                 idColumnBracket: "\"Binaries\".\"ReferenceId\"",
-                                _using: !context.Publish)),
+                                _using: !context.Publish
+                                    && !RefererIsTenantManagement(context: context))),
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
                             .BinaryId()
@@ -176,6 +177,22 @@ namespace Implem.Pleasanter.Libraries.Responses
                         unionType: Sqls.UnionTypes.UnionAll)})
                             .AsEnumerable()
                             .FirstOrDefault();
+        }
+
+        public static bool RefererIsTenantManagement(Context context)
+        {
+            if (!context.UrlReferrer.IsNullOrEmpty())
+            {
+                var url = new UriBuilder(context.UrlReferrer);
+                var ret = url.Path.Contains("/tenants")
+                    || url.Path.Contains("/syslogs")
+                    || url.Path.Contains("/depts")
+                    || url.Path.Contains("/groups")
+                    || url.Path.Contains("/users")
+                    || url.Path.Contains("/registrations");
+                return ret;
+            }
+            return false;
         }
 
         private static ResponseFile Bytes(DataRow dataRow, bool thumbnail = false)

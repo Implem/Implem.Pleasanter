@@ -109,7 +109,10 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static Error.Types OnUploadingImage(Context context)
+        public static Error.Types OnUploadingImage(
+            Context context,
+            SiteSettings ss = null,
+            string columnName = null)
         {
             if (!context.ContractSettings.Attachments())
             {
@@ -122,6 +125,12 @@ namespace Implem.Pleasanter.Models
                 context.ContractSettings.StorageSize))
             {
                 return Error.Types.OverTenantStorageSize;
+            }
+            if (ss?.GetColumn(
+                context: context,
+                columnName: columnName)?.AllowImage == false)
+            {
+                return Error.Types.BadRequest;
             }
             return Error.Types.None;
         }

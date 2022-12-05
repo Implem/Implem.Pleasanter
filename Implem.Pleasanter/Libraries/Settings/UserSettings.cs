@@ -89,7 +89,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool AllowApi(Context context)
         {
             if (context.HasPrivilege) return true;
-            return (!Parameters.User.DisableApi
+            return (!(Parameters.User.DisableApi || context.DisableApi)
                 || context.User.AllowApi)
                     && DisableApi != true;
         }

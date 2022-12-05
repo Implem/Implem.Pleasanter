@@ -340,7 +340,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 options.Notifications.SelectIdentityProvider = (entityId, rd) =>
                 {
-                    return GetSamlIdp(entityId, rd);
+                    return GetSamlIdp(entityId, rd) ?? options.IdentityProviders.Default;
                 };
                 options.Notifications.GetIdentityProvider = (entityId, rd, op) =>
                 {
@@ -349,13 +349,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(EntityId entityId, IDictionary<string,string> rd)
+        private static Sustainsys.Saml2.IdentityProvider GetSamlIdp(EntityId entityId, IDictionary<string, string> rd)
         {
             if (entityId == null)
             {
                 return null;
             }
-            if (!rd.TryGetValue("SignOnUrl",out string signOnUrl))
+            if (rd?.TryGetValue("SignOnUrl", out string signOnUrl) != true)
             {
                 return null;
             }

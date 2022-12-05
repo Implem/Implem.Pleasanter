@@ -1237,7 +1237,9 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel,
             List<Process> processes)
         {
-            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
+            var process = processes
+                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                    && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -10820,7 +10822,9 @@ namespace Implem.Pleasanter.Models
                                 controlId: "KambanGroupByY",
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.GroupByY(context: context),
-                                optionCollection: ss.KambanGroupByOptions(context: context),
+                                optionCollection: ss.KambanGroupByOptions(
+                                    context: context,
+                                    addNothing: true),
                                 selectedValue: view.KambanGroupByY,
                                 insertBlank: true)
                             .FieldDropDown(
@@ -13907,7 +13911,10 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            ItemUtilities.UpdateTitles(context: context, ss: ss);
+            ItemUtilities.UpdateTitles(
+                context: context,
+                ss: ss,
+                siteIdList: new List<long> { ss.SiteId });
             return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
         }
 
