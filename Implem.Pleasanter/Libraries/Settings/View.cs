@@ -1522,6 +1522,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool requestSearchCondition = true)
         {
             if (where == null) where = new SqlWhereCollection();
+            var process = ss.GetProcess(
+                context: context,
+                id: context.Forms.Int("BulkProcessingItems"));
+            SetBulkProcessingFilter(
+                context: context,
+                ss: ss,
+                process: process,
+                where: where);
             SetGeneralsWhere(
                 context: context,
                 ss: ss,
@@ -1539,9 +1547,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: ss,
                 where: where,
-                permissionType: GetPermissionType(
-                    context: context,
-                    ss: ss));
+                /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
+                permissionType: process == null
+                    ? Permissions.Types.Read
+                    : Permissions.Types.Read | Permissions.Types.Update);
             if (requestSearchCondition
                 && RequestSearchCondition(
                     context: context,
@@ -1552,18 +1561,53 @@ namespace Implem.Pleasanter.Libraries.Settings
             return where;
         }
 
-        /// <summary>
-        /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
-        /// </summary>
-        private Permissions.Types GetPermissionType(Context context, SiteSettings ss)
+        private void SetBulkProcessingFilter(
+            Context context,
+            SiteSettings ss,
+            Process process,
+            SqlWhereCollection where)
         {
-            var process = ss.GetProcess(
-                context: context,
-                id: context.Forms.Int("BulkProcessingItems"));
-            var permissionType = process == null
-                ? Permissions.Types.Read
-                : Permissions.Types.Read | Permissions.Types.Update;
-            return permissionType;
+            if (process != null)
+            {
+                process.ValidateInputs?
+                    .Where(validateInput => validateInput.Required == true)
+                    .ForEach(validateInput =>
+                    {
+                        var column = ss.GetColumn(
+                            context: context,
+                            columnName: validateInput.ColumnName);
+                        if (column != null)
+                        {
+                            switch (column.TypeName.CsTypeSummary())
+                            {
+                                case Types.CsBool:
+                                    where.Bool(column, true);
+                                    break;
+                                case Types.CsNumeric:
+                                    if (column.Nullable == true)
+                                    {
+                                        where.AddRange(CsNumericColumnsWhereNull(
+                                            column: column,
+                                            param: "\t".ToSingleList(),
+                                            negative: true));
+                                    }
+                                    break;
+                                case Types.CsDateTime:
+                                    where.Add(CsDateTimeColumnsWhereNull(
+                                        column: column,
+                                        param: "\t".ToSingleList(),
+                                        negative: true));
+                                    break;
+                                case Types.CsString:
+                                    where.Add(CsStringColumnsWhereNull(
+                                        context: context,
+                                        column: column,
+                                        negative: true));
+                                    break;
+                            }
+                        }
+                    });
+            }
         }
 
         private void SetGeneralsWhere(
@@ -2139,11 +2183,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         column: column,
                         param: o,
                         negative: negative)));
-                collection.AddRange(param
-                    .Where(o => o == "\t")
-                    .SelectMany(o => CsNumericColumnsWhereNull(
-                        column: column,
-                        negative: negative)));
+                collection.AddRange(CsNumericColumnsWhereNull(
+                    column: column,
+                    param: param,
+                    negative: negative));
                 var valueWhere = CsNumericColumnsWhere(
                     column: column,
                     param: param
@@ -2159,12 +2202,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 if (negative)
                 {
+                    var param = value.Deserialize<List<string>>();
                     where.Or(or: new SqlWhereCollection()
                         .Add(and: collection)
                         .Add(
                             tableName: column.TableName(),
                             columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                            _operator: " is null"));
+                            _operator: " is null",
+                            // NULL許容で未設定が指定されていない場合にはNULLを検索条件に含める
+                            _using: (column.Nullable == true && !param.Any(o => o == "\t"))
+                                // NULL非許容でゼロを含む範囲が指定されていない場合にはNULLを検索条件に含める
+                                || (column.Nullable != true && !param.Any(o => ContainsZero(
+                                    from: o.Split_1st(),
+                                    to: o.Split_2nd())))));
                 }
                 else
                 {
@@ -2204,35 +2254,41 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Params(numList.Join()));
         }
 
-        private IEnumerable<SqlWhere> CsNumericColumnsWhereNull(
+        private SqlWhereCollection CsNumericColumnsWhereNull(
             Column column,
+            List<string> param,
             bool negative = false)
         {
-            yield return new SqlWhere(
-                tableName: column.TableName(),
+            var where = new SqlWhereCollection();
+            if (param.Any(o => o == "\t"))
+            {
+                where.Add(new SqlWhere(
+                    tableName: column.TableName(),
                     columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
                     _operator: negative
                         ? " is not null"
-                        : " is null");
-            if (column.Nullable != true)
-            {
-                yield return new SqlWhere(
-                tableName: column.TableName(),
-                columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                _operator: negative
-                    ? "!=0"
-                    : "=0");
-                if (column.Type == Column.Types.User && SiteInfo.AnonymousId != 0)
+                        : " is null"));
+                if (column.Nullable != true)
                 {
-                    yield return new SqlWhere(
-                    tableName: column.TableName(),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: (negative
-                        ? "!="
-                        : "=")
-                            + SiteInfo.AnonymousId);
+                    where.Add(new SqlWhere(
+                        tableName: column.TableName(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: negative
+                            ? "!=0"
+                            : "=0"));
+                    if (column.Type == Column.Types.User && SiteInfo.AnonymousId != 0)
+                    {
+                        where.Add(new SqlWhere(
+                            tableName: column.TableName(),
+                            columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                            _operator: (negative
+                                ? "!="
+                                : "=")
+                                    + SiteInfo.AnonymousId));
+                    }
                 }
             }
+            return where;
         }
 
         private IEnumerable<SqlWhere> CsNumericRangeColumns(
@@ -2256,18 +2312,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                         : to == string.Empty
                             ? $">={from.ToDecimal()}"
                             : " between {0} and {1}".Params(from.ToDecimal(), to.ToDecimal()));
-            if (column.Nullable != true
-                && (to == string.Empty && from.ToDecimal() <= 0)
-                    || (from == string.Empty && to.ToDecimal() >= 0)
-                    || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0))
+            // NULL非許容の項目で0を範囲に含み否定条件ではない場合 is null を検索条件に含める
+            if (column.Nullable != true && !negative)
             {
-                yield return new SqlWhere(
-                    tableName: column.TableName(),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? " is not null"
-                        : " is null");
+                if (ContainsZero(
+                    from: from,
+                    to: to))
+                {
+                    yield return new SqlWhere(
+                        tableName: column.TableName(),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is null");
+                }
             }
+        }
+
+        private bool ContainsZero(string from, string to)
+        {
+            return (to == string.Empty && from.ToDecimal() <= 0)
+                || (from == string.Empty && to.ToDecimal() >= 0)
+                || (from != string.Empty && to != string.Empty && from.ToDecimal() <= 0 && to.ToDecimal() >= 0);
         }
 
         private void CsDateTimeColumns(
@@ -2289,7 +2353,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             param: param,
                             negative: negative),
                         CsDateTimeColumnsWhereNull(
-                            context: context,
                             column: column,
                             param: param,
                             negative: negative)));
@@ -2303,7 +2366,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             param: param,
                             negative: negative),
                         CsDateTimeColumnsWhereNull(
-                            context: context,
                             column: column,
                             param: param,
                             negative: negative)));
@@ -2473,27 +2535,17 @@ namespace Implem.Pleasanter.Libraries.Settings
         }
 
         private SqlWhere CsDateTimeColumnsWhereNull(
-            Context context,
             Column column,
             List<string> param,
             bool negative)
         {
             return param.Any(o => o == "\t")
-                ? new SqlWhere(or: new SqlWhereCollection(
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: negative
-                            ? " is not null"
-                            : " is null"),
-                    new SqlWhere(
-                        tableName: column.TableName(),
-                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                        _operator: " not between '{0}' and '{1}'".Params(
-                            Parameters.General.MinTime.ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s"),
-                            Parameters.General.MaxTime.ToUniversal(context: context)
-                                .ToString("yyyy/M/d H:m:s")))))
+                ? new SqlWhere(
+                    tableName: column.TableName(),
+                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                    _operator: negative
+                        ? " is not null"
+                        : " is null")
                 : null;
         }
 
@@ -2812,26 +2864,40 @@ namespace Implem.Pleasanter.Libraries.Settings
             Column column,
             bool negative = false)
         {
-            return new SqlWhere(or: new SqlWhereCollection(
-                new SqlWhere(
-                    tableName: column.TableItemTitleCases(context: context),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? " is not null"
-                        : " is null"),
-                new SqlWhere(
-                    tableName: column.TableItemTitleCases(context: context),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? "!=''"
-                        : "=''"),
-                new SqlWhere(
-                    tableName: column.TableItemTitleCases(context: context),
-                    columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
-                    _operator: negative
-                        ? "!='[]'"
-                        : "='[]'",
-                    _using: column.MultipleSelections == true)));
+            if (negative)
+            {
+                return new SqlWhere(and: new SqlWhereCollection(
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is not null"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "!=''"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "!='[]'",
+                        _using: column.MultipleSelections == true)));
+            }
+            else
+            {
+                return new SqlWhere(or: new SqlWhereCollection(
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: " is null"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "=''"),
+                    new SqlWhere(
+                        tableName: column.TableItemTitleCases(context: context),
+                        columnBrackets: ("\"" + column.Name + "\"").ToSingleArray(),
+                        _operator: "='[]'",
+                        _using: column.MultipleSelections == true)));
+            }
         }
 
         private void CreateCsStringSqlWhereLike(

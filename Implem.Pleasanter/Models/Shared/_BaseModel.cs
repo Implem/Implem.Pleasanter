@@ -90,6 +90,7 @@ namespace Implem.Pleasanter.Models
         public Dictionary<string, bool> SavedCheckHash = new Dictionary<string, bool>();
         public Dictionary<string, Attachments> AttachmentsHash = new Dictionary<string, Attachments>();
         public Dictionary<string, string> SavedAttachmentsHash = new Dictionary<string, string>();
+        public Dictionary<string, PostedFile> PostedImageHash = new Dictionary<string, PostedFile>();
         public bool ReadOnly;
         public List<string> MineCache;
         [NonSerialized]

@@ -2921,7 +2921,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ?.Where(process => process.Accessable(
                     context: context,
                     ss: ss))
-                .Where(process => process.AllowBulkProcessing == true)
+                .Where(process => process.GetAllowBulkProcessing())
                 .ToDictionary(
                     process => process.Id.ToString(),
                     process => new ControlData(process.GetDisplayName()));
@@ -5269,7 +5269,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? false
                 : context.CanUpdate(ss: this)
                     || context.CanDelete(ss: this)
-                    || context.CanExport(ss: this);
+                    || context.CanExport(ss: this)
+                    || GetProcess(
+                        context: context,
+                        id: context.Forms.Int("BulkProcessingItems")) != null;
         }
 
         public bool GridColumnsHasSources(List<string> gridColumns)

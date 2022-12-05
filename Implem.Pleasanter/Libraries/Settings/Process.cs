@@ -380,6 +380,14 @@ namespace Implem.Pleasanter.Libraries.Settings
             return false;
         }
 
+        public bool GetAllowBulkProcessing()
+        {
+            // 一括処理のスイッチがオンで、入力必須以外の入力検証が指定されていない場合にtrue
+            return AllowBulkProcessing == true
+                && ValidateInputs?.Any(validationInput =>
+                    !validationInput.HasNotInputValidation()) != true;
+        }
+
         public Message GetSuccessMessage(Context context)
         {
             var displayName = GetDisplayName();

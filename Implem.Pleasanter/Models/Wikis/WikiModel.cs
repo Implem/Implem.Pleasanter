@@ -641,25 +641,27 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         notice: notice),
                     type: noticeType);
-                processes?.ForEach(process =>
-                    process?.Notifications?.ForEach(notification =>
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: ReplacedDisplayValues(
+                processes?
+                    .Where(process => process.MatchConditions)
+                    .ForEach(process =>
+                        process?.Notifications?.ForEach(notification =>
+                            notification.Send(
                                 context: context,
                                 ss: ss,
-                                value: notification.Subject),
-                            body: ReplacedDisplayValues(
-                                context: context,
-                                ss: ss,
-                                value: notification.Body),
-                            values: ss.IncludedColumns(notification.Address)
-                                .ToDictionary(
-                                    column => column,
-                                    column => PropertyValue(
-                                        context: context,
-                                        column: column)))));
+                                title: ReplacedDisplayValues(
+                                    context: context,
+                                    ss: ss,
+                                    value: notification.Subject),
+                                body: ReplacedDisplayValues(
+                                    context: context,
+                                    ss: ss,
+                                    value: notification.Body),
+                                values: ss.IncludedColumns(notification.Address)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)))));
             }
             if (get) Get(context: context, ss: ss);
             var fullText = FullText(context, ss: ss, onCreating: true);
@@ -809,25 +811,27 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             notice: notice)),
                     type: "Updated");
-                processes?.ForEach(process =>
-                    process?.Notifications?.ForEach(notification =>
-                        notification.Send(
-                            context: context,
-                            ss: ss,
-                            title: ReplacedDisplayValues(
+                processes?
+                    .Where(process => process.MatchConditions)
+                    .ForEach(process =>
+                        process?.Notifications?.ForEach(notification =>
+                            notification.Send(
                                 context: context,
                                 ss: ss,
-                                value: notification.Subject),
-                            body: ReplacedDisplayValues(
-                                context: context,
-                                ss: ss,
-                                value: notification.Body),
-                            values: ss.IncludedColumns(notification.Address)
-                                .ToDictionary(
-                                    column => column,
-                                    column => PropertyValue(
-                                        context: context,
-                                        column: column)))));
+                                title: ReplacedDisplayValues(
+                                    context: context,
+                                    ss: ss,
+                                    value: notification.Subject),
+                                body: ReplacedDisplayValues(
+                                    context: context,
+                                    ss: ss,
+                                    value: notification.Body),
+                                values: ss.IncludedColumns(notification.Address)
+                                    .ToDictionary(
+                                        column => column,
+                                        column => PropertyValue(
+                                            context: context,
+                                            column: column)))));
             }
             if (get)
             {
@@ -975,6 +979,7 @@ namespace Implem.Pleasanter.Models
                 ItemUtilities.UpdateSourceTitles(
                     context: context,
                     ss: ss,
+                    siteIdList: new List<long>() { ss.SiteId },
                     idList: WikiId.ToSingleList());
             }
         }

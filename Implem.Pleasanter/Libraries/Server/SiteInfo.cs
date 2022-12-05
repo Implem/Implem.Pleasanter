@@ -477,7 +477,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static LinkKeyValues Links(Context context)
         {
-            return TenantCaches.Get(context.TenantId).Links;
+            return TenantCaches.Get(context.TenantId)?.Links;
         }
 
         private static void SetSites(Context context, TenantCache tenantCache)

@@ -50,5 +50,17 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             return processValidateInput;
         }
+
+        /// <summary>
+        /// 入力必須以外の入力検証が指定されていないかチェック
+        /// </summary>
+        /// <returns></returns>
+        public bool HasNotInputValidation()
+        {
+            return ClientRegexValidation.IsNullOrEmpty()
+                && ServerRegexValidation.IsNullOrEmpty()
+                && Min == null
+                && Max == null;
+        }
     }
 }

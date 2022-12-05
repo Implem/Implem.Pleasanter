@@ -181,6 +181,10 @@ namespace Implem.DefinitionAccessor
                 Parameters.Security.AspNetCoreDataProtection.KeyIdentifier,
                 Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Security_AspNetCoreDataProtection_KeyIdentifier"),
                 Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Security_AspNetCoreDataProtection_KeyIdentifier"));
+            Parameters.Service.DeploymentEnvironment = Strings.CoalesceEmpty(
+                Parameters.Service.DeploymentEnvironment,
+                Environment.GetEnvironmentVariable($"{Parameters.Service.EnvironmentName}_Service_DeploymentEnvironment"),
+                Environment.GetEnvironmentVariable($"{Parameters.Service.Name}_Service_DeploymentEnvironment"));
         }
 
         public static void ReloadParameters()
@@ -887,15 +891,6 @@ namespace Implem.DefinitionAccessor
                     o.Id == "Users_AllowGroupCreation").ReadAccessControl = "ManageService";
                 Def.ColumnDefinitionCollection.FirstOrDefault(o =>
                     o.Id == "Users_AllowGroupCreation").UpdateAccessControl = "ManageService";
-            }
-            if (!Parameters.User.DisableApi)
-            {
-                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
-                    o.Id == "Users_AllowApi").CreateAccessControl = "ManageService";
-                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
-                    o.Id == "Users_AllowApi").ReadAccessControl = "ManageService";
-                Def.ColumnDefinitionCollection.FirstOrDefault(o =>
-                    o.Id == "Users_AllowApi").UpdateAccessControl = "ManageService";
             }
             switch (Parameters.Security.SecondaryAuthentication?.Mode)
             {

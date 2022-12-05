@@ -3093,7 +3093,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             issueModel: issueModel,
-                            process: processes?.FirstOrDefault()));
+                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
                     return new ResponseCollection(
                         context: context,
                         id: issueModel.IssueId)
@@ -3197,6 +3197,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 notice: true);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: issueModel.IssueId,
+                postedFileHash: issueModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3508,7 +3513,9 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             List<Process> processes)
         {
-            var process = processes.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty());
+            var process = processes
+                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                    && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -4064,7 +4071,7 @@ namespace Implem.Pleasanter.Models
             var process = ss.GetProcess(
                 context: context,
                 id: processId);
-            if (process == null)
+            if (process == null || !process.GetAllowBulkProcessing())
             {
                 return Messages.NotFound(context: context).ToJson();
             }
@@ -4233,6 +4240,11 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 notice: true,
                 previousTitle: previousTitle);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: issueModel.IssueId,
+                postedFileHash: issueModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -4393,6 +4405,11 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 notice: true,
                 previousTitle: previousTitle);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: issueModel.IssueId,
+                postedFileHash: issueModel.PostedImageHash);
             switch (errorData.Type)
             {
                 case Error.Types.None:

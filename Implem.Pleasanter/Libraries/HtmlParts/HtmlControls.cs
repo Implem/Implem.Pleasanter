@@ -609,7 +609,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Span(css: $"ui-icon {labelIcon}");
                     }
                     hb.Label(
-                        attributes: new HtmlAttributes().For(controlId),
+                        attributes: new HtmlAttributes()
+                            .For(controlId)
+                            .Class(validateRequired
+                                ? " required"
+                                : string.Empty),
                         action: () => hb
                             .Text(text: labelText));
                 }
