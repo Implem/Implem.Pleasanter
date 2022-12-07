@@ -339,33 +339,37 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                                 continue;
                             }
                         }
-                        var idConverter = new IdConverter(
-                            context: context,
-                            siteId: packageSiteModel.SavedSiteId,
-                            permissionShortModel: permissionShortModel,
-                            permissionIdList: sitePackage.PermissionIdList,
-                            convertSiteId: idHash[permissionShortModel.ReferenceId]);
-                        var exists = Rds.ExecuteScalar_int(
-                            context: context,
-                            statements: Rds.SelectPermissions(
-                                column: Rds.PermissionsColumn().ReferenceId(),
-                                where: Rds.PermissionsWhere()
-                                    .ReferenceId(idHash[permissionShortModel.ReferenceId])
-                                    .DeptId(idConverter.ConvertDeptId)
-                                    .GroupId(idConverter.ConvertGroupId)
-                                    .UserId(idConverter.ConvertUserId))) > 0;
-                        if (idConverter.Convert == true && !exists)
+                        var referenceId = idHash.Get(permissionShortModel.ReferenceId);
+                        if (referenceId > 0)
                         {
-                            Repository.ExecuteNonQuery(
+                            var idConverter = new IdConverter(
                                 context: context,
-                                transactional: true,
-                                statements: Rds.InsertPermissions(
-                                    param: Rds.PermissionsParam()
-                                        .ReferenceId(idHash[permissionShortModel.ReferenceId])
+                                siteId: packageSiteModel.SavedSiteId,
+                                permissionShortModel: permissionShortModel,
+                                permissionIdList: sitePackage.PermissionIdList,
+                                convertSiteId: referenceId);
+                            var exists = Rds.ExecuteScalar_int(
+                                context: context,
+                                statements: Rds.SelectPermissions(
+                                    column: Rds.PermissionsColumn().ReferenceId(),
+                                    where: Rds.PermissionsWhere()
+                                        .ReferenceId(referenceId)
                                         .DeptId(idConverter.ConvertDeptId)
                                         .GroupId(idConverter.ConvertGroupId)
-                                        .UserId(idConverter.ConvertUserId)
-                                        .PermissionType(permissionShortModel.PermissionType)));
+                                        .UserId(idConverter.ConvertUserId))) > 0;
+                            if (idConverter.Convert == true && !exists)
+                            {
+                                Repository.ExecuteNonQuery(
+                                    context: context,
+                                    transactional: true,
+                                    statements: Rds.InsertPermissions(
+                                        param: Rds.PermissionsParam()
+                                            .ReferenceId(referenceId)
+                                            .DeptId(idConverter.ConvertDeptId)
+                                            .GroupId(idConverter.ConvertGroupId)
+                                            .UserId(idConverter.ConvertUserId)
+                                            .PermissionType(permissionShortModel.PermissionType)));
+                            }
                         }
                     }
                 }
