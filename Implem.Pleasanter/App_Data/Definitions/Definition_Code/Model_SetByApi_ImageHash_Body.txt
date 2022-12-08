@@ -5,7 +5,7 @@
     var file = new Microsoft.AspNetCore.Http.FormFile(stream, 0, bytes.Length, null, $"image{o.Value.Extension}");
     if (ss.ColumnHash.Get(o.Key).AllowImage == true)
     {
-        SetPostedFiles(
+        SetPostedFile(
             file: file,
             columnName: o.Key,
             image: o.Value);

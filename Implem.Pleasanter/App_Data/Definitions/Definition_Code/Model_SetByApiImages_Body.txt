@@ -1,4 +1,4 @@
-﻿public void SetPostedFiles(
+﻿public void SetPostedFile(
     Microsoft.AspNetCore.Http.IFormFile file,
     string columnName,
     Shared._ImageApiModel image)
