@@ -3045,7 +3045,7 @@ namespace Implem.Pleasanter.Models
                 var file = new Microsoft.AspNetCore.Http.FormFile(stream, 0, bytes.Length, null, $"image{o.Value.Extension}");
                 if (ss.ColumnHash.Get(o.Key).AllowImage == true)
                 {
-                    SetPostedFiles(
+                    SetPostedFile(
                         file: file,
                         columnName: o.Key,
                         image: o.Value);
@@ -3061,7 +3061,7 @@ namespace Implem.Pleasanter.Models
             SetChoiceHash(context: context, ss: ss);
         }
 
-        public void SetPostedFiles(
+        public void SetPostedFile(
             Microsoft.AspNetCore.Http.IFormFile file,
             string columnName,
             Shared._ImageApiModel image)
