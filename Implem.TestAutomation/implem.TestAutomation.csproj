@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2022</Copyright>
-    <AssemblyVersion>1.3.26.0</AssemblyVersion>
-    <FileVersion>1.3.26.0</FileVersion>
-    <Version>1.3.26.0</Version>
+    <AssemblyVersion>1.3.26.1</AssemblyVersion>
+    <FileVersion>1.3.26.1</FileVersion>
+    <Version>1.3.26.1</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>  
   </PropertyGroup>
 
@@ -24,7 +24,7 @@
     <PackageReference Include="AspNetCoreCurrentRequestContext" Version="2.0.0" />
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Selenium.Support" Version="4.4.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.4.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="106.0.5249.6100" />

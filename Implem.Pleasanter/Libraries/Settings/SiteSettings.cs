@@ -5306,6 +5306,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(o => o.UseSearch == true)
                 .Select(o => o.ColumnName));
             columns.AddRange(StatusControls?
+                .Where(statusControl => statusControl.ColumnHash != null)
                 .SelectMany(statusControl => statusControl.ColumnHash)
                 .Where(o => o.Value != StatusControl.ControlConstraintsTypes.None)
                 .Select(o => o.Key));
