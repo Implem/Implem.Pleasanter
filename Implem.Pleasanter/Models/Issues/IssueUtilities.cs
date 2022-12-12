@@ -2387,6 +2387,7 @@ namespace Implem.Pleasanter.Models
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
                 .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
+                .Invoke("initRelatingColumnEditor")
                 .Messages(context.Messages);
             return ret;
         }
