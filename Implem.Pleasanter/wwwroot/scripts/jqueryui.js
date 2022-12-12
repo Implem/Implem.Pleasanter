@@ -113,7 +113,12 @@ $p.apply = function () {
         $control.spinner({
             min: $control.attr('data-min'),
             max: $control.attr('data-max'),
-            step: $control.attr('data-step')
+            step: $control.attr('data-step'),
+            spin: function (event, ui) {
+                if ($(this).hasClass('control-auto-postback')) {
+                    $p.controlAutoPostBack($(this));
+                }
+            }
         }).css('width', function () {
             return $control.attr('data-width');
         });
