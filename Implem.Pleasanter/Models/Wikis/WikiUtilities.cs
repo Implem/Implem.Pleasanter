@@ -1780,6 +1780,13 @@ namespace Implem.Pleasanter.Models
         public static int Restore(
             Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
             var where = Rds.WikisWhere()
                 .SiteId(
                     value: ss.SiteId,
@@ -1794,13 +1801,13 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.WikisColumn().WikiId(),
-                        where: Views.GetBySession(
+                        join: ss.Join(
                             context: context,
-                            ss: ss)
-                                .Where(
-                                    context: context,
-                                    ss: ss,
-                                    itemJoin: false)));
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
             var sub = Rds.SelectWikis(
                 tableType: Sqls.TableTypes.Deleted,
                 _as: "Wikis_Deleted",
@@ -1839,6 +1846,10 @@ namespace Implem.Pleasanter.Models
                 })
                 .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
+            var itemsSub = Rds.SelectItems(
+                tableType: Sqls.TableTypes.Deleted,
+                column: Rds.ItemsColumn().ReferenceId(),
+                where: Rds.ItemsWhere().ReferenceType(guid));
             var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -1854,15 +1865,13 @@ namespace Implem.Pleasanter.Models
                             .ReferenceType(guid)),
                     Rds.RestoreWikis(
                         factory: context,
-                        where: where),
+                        where: Rds.WikisWhere()
+                            .WikiId_In(sub: itemsSub)),
                     Rds.RowCount(),
                     Rds.RestoreBinaries(
                         factory: context,
                         where: Rds.BinariesWhere()
-                            .ReferenceId_In(sub: Rds.SelectItems(
-                                tableType: Sqls.TableTypes.Deleted,
-                                column: Rds.ItemsColumn().ReferenceId(),
-                                where: Rds.ItemsWhere().ReferenceType(guid)))
+                            .ReferenceId_In(sub: itemsSub)
                             .BinaryType("Images")),
                     Rds.RestoreItems(
                         factory: context,
