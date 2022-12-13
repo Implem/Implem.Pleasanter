@@ -2189,9 +2189,8 @@ namespace Implem.Pleasanter.Models
                                 sub: Rds.SelectWikis(
                                     tableType: Sqls.TableTypes.History,
                                     column: Rds.WikisColumn().WikiId(),
-                                    where: Views.GetBySession(
-                                        context: context,
-                                        ss: ss).Where(
+                                    where: new View()
+                                        .Where(
                                             context: context,
                                             ss: ss)))),
                     Rds.RowCount()

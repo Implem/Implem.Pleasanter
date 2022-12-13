@@ -5455,9 +5455,8 @@ namespace Implem.Pleasanter.Models
                                 sub: Rds.SelectResults(
                                     tableType: Sqls.TableTypes.History,
                                     column: Rds.ResultsColumn().ResultId(),
-                                    where: Views.GetBySession(
-                                        context: context,
-                                        ss: ss).Where(
+                                    where: new View()
+                                        .Where(
                                             context: context,
                                             ss: ss)))),
                     Rds.RowCount()
