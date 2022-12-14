@@ -2444,6 +2444,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: link.ColumnName))
                     .Where(column => column != null)
+                    .Where(column => !formData.Any(o => o.Key.Split_2nd('_') == column.ColumnName))
                     .ForEach(column =>
                     {
                         id = column.MultipleSelections == true
