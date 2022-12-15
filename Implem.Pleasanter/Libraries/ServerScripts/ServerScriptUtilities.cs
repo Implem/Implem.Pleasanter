@@ -190,6 +190,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: element.Key,
                     value: element.Value,
                     mine: mine)));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: "Comments",
+                value: model.Comments?.ToJson(),
+                mine: mine));
             if (model is IssueModel issueModel)
             {
                 values.Add(ReadNameValue(
@@ -390,6 +396,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: element.Key,
                     value: element.Value,
                     mine: mine)));
+            values.Add(ReadNameValue(
+                context: context,
+                ss: ss,
+                columnName: "Comments",
+                value: model.SavedComments,
+                mine: mine));
             if (model is IssueModel issueModel)
             {
                 values.Add(ReadNameValue(
