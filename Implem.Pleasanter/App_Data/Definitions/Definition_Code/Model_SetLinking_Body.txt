@@ -26,6 +26,7 @@ if (queryStringsSiteId > 0)
             context: context,
             columnName: link.ColumnName))
         .Where(column => column != null)
+        .Where(column => !formData.Any(o => o.Key == $"#TableName#_{column.ColumnName}"))
         .ForEach(column =>
         {
             id = column.MultipleSelections == true
