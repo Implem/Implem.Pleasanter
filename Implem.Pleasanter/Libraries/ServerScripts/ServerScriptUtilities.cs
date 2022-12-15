@@ -190,6 +190,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     columnName: element.Key,
                     value: element.Value,
                     mine: mine)));
+            values.AddRange(model
+                .AttachmentsHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value.ToJson(),
+                    mine: mine)));
             values.Add(ReadNameValue(
                 context: context,
                 ss: ss,
@@ -390,6 +398,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     mine: mine)));
             values.AddRange(model
                 .SavedCheckHash
+                .Select(element => ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: element.Key,
+                    value: element.Value,
+                    mine: mine)));
+            values.AddRange(model
+                .SavedAttachmentsHash
                 .Select(element => ReadNameValue(
                     context: context,
                     ss: ss,
