@@ -8428,7 +8428,8 @@ namespace Implem.Pleasanter.Models
                 formData: context.Forms);
             var invalid = IssueValidators.OnUnlockRecord(
                 context: context,
-                ss: ss);
+                ss: ss,
+                issueModel: issueModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

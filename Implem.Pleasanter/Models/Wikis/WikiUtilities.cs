@@ -2207,7 +2207,8 @@ namespace Implem.Pleasanter.Models
                 formData: context.Forms);
             var invalid = WikiValidators.OnUnlockRecord(
                 context: context,
-                ss: ss);
+                ss: ss,
+                wikiModel: wikiModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

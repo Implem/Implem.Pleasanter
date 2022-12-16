@@ -538,7 +538,10 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ErrorData OnUnlockRecord(
-            Context context, SiteSettings ss, bool api = false)
+            Context context,
+            SiteSettings ss,
+            WikiModel wikiModel,
+            bool api = false)
         {
             if (api)
             {
@@ -556,6 +559,12 @@ namespace Implem.Pleasanter.Models
             if (!ss.LockedRecord())
             {
                 return new ErrorData(type: Error.Types.NotLockedRecord);
+            }
+            if (!context.CanUpdate(ss: ss) || wikiModel.ReadOnly)
+            {
+                return !context.CanRead(ss: ss)
+                    ? new ErrorData(type: Error.Types.NotFound)
+                    : new ErrorData(type: Error.Types.HasNotPermission);
             }
             if (!context.HasPrivilege && ss.LockedRecordUser.Id != context.UserId)
             {

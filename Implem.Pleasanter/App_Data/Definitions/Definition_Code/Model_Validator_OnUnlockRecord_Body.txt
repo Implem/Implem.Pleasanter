@@ -1,5 +1,8 @@
 ﻿public static ErrorData OnUnlockRecord(
-    Context context, SiteSettings ss, bool api = false)
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool api = false)
 {
 
 <!--Model_Validator_Api-->
@@ -7,6 +10,12 @@
     if (!ss.LockedRecord())
     {
         return new ErrorData(type: Error.Types.NotLockedRecord);
+    }
+    if (!context.CanUpdate(ss: ss) || #modelName#Model.ReadOnly)
+    {
+        return !context.CanRead(ss: ss)
+            ? new ErrorData(type: Error.Types.NotFound)
+            : new ErrorData(type: Error.Types.HasNotPermission);
     }
     if (!context.HasPrivilege && ss.LockedRecordUser.Id != context.UserId)
     {
