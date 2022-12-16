@@ -6371,13 +6371,14 @@ namespace Implem.Pleasanter.Models
                                         switch (column.ControlType)
                                         {
                                             case "Attachments":
-                                                var hiddenLocalFolder = column.BinaryStorageProvider == "DataBase"
+                                                var provider = BinaryUtilities.BinaryStorageProvider(column: column);
+                                                var hiddenLocalFolder = provider == "DataBase"
                                                     ? " hidden"
                                                     : string.Empty;
-                                                var hiddenDataBase = column.BinaryStorageProvider == "LocalFolder"
+                                                var hiddenDataBase = provider == "LocalFolder"
                                                     ? " hidden"
                                                     : string.Empty;
-                                                var hiddenLocalFolderTotalSize = column.BinaryStorageProvider != "LocalFolder"
+                                                var hiddenLocalFolderTotalSize = provider != "LocalFolder"
                                                     ? " hidden"
                                                     : string.Empty;
                                                 hb
