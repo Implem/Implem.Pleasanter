@@ -674,7 +674,10 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.NotLockedRecord);
             }
-            if (!context.CanUpdate(ss: ss) || resultModel.ReadOnly)
+            if (!context.CanUpdate(
+                ss: ss,
+                checkLocked: false)
+                    || resultModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
                     ? new ErrorData(type: Error.Types.NotFound)

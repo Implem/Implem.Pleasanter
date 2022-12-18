@@ -11,7 +11,10 @@
     {
         return new ErrorData(type: Error.Types.NotLockedRecord);
     }
-    if (!context.CanUpdate(ss: ss) || #modelName#Model.ReadOnly)
+    if (!context.CanUpdate(
+        ss: ss,
+        checkLocked: false)
+            || #modelName#Model.ReadOnly)
     {
         return !context.CanRead(ss: ss)
             ? new ErrorData(type: Error.Types.NotFound)
