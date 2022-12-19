@@ -83,9 +83,8 @@ private static int DeleteHistory(
                         sub: Rds.Select#TableName#(
                             tableType: Sqls.TableTypes.History,
                             column: Rds.#TableName#Column().#ModelName#Id(),
-                            where: Views.GetBySession(
-                                context: context,
-                                ss: ss).Where(
+                            where: new View()
+                                .Where(
                                     context: context,
                                     ss: ss)))),
             Rds.RowCount()

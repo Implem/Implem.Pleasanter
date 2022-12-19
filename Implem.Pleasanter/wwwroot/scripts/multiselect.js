@@ -40,7 +40,10 @@ $p.RefreshMultiSelectRelatingColum = function ($target) {
         $currentOptions.each(function (index, element) {
             curOptions.push($(element).val());
         });
-        var oldOptions = JSON.parse($target.attr('selected-options'));
+        var selected = $target.attr('selected-options')
+            ? $target.attr('selected-options')
+            : '[]';
+        var oldOptions = JSON.parse(selected);
         if (!Array.isArray(oldOptions)) {
             return false;
         }

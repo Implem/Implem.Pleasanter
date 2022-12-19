@@ -2230,6 +2230,7 @@ namespace Implem.Pleasanter.Models
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
                 .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
+                .Invoke("initRelatingColumnEditor")
                 .Messages(context.Messages);
             return ret;
         }
@@ -4594,6 +4595,13 @@ namespace Implem.Pleasanter.Models
         public static int Restore(
             Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
             var where = Rds.ResultsWhere()
                 .SiteId(
                     value: ss.SiteId,
@@ -4608,13 +4616,13 @@ namespace Implem.Pleasanter.Models
                     sub: Rds.SelectResults(
                         tableType: Sqls.TableTypes.Deleted,
                         column: Rds.ResultsColumn().ResultId(),
-                        where: Views.GetBySession(
+                        join: ss.Join(
                             context: context,
-                            ss: ss)
-                                .Where(
-                                    context: context,
-                                    ss: ss,
-                                    itemJoin: false)));
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
             var sub = Rds.SelectResults(
                 tableType: Sqls.TableTypes.Deleted,
                 _as: "Results_Deleted",
@@ -4653,6 +4661,10 @@ namespace Implem.Pleasanter.Models
                 })
                 .Where(o => o.attachments.Length > 0);
             var guid = Strings.NewGuid();
+            var itemsSub = Rds.SelectItems(
+                tableType: Sqls.TableTypes.Deleted,
+                column: Rds.ItemsColumn().ReferenceId(),
+                where: Rds.ItemsWhere().ReferenceType(guid));
             var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -4668,15 +4680,13 @@ namespace Implem.Pleasanter.Models
                             .ReferenceType(guid)),
                     Rds.RestoreResults(
                         factory: context,
-                        where: where),
+                        where: Rds.ResultsWhere()
+                            .ResultId_In(sub: itemsSub)),
                     Rds.RowCount(),
                     Rds.RestoreBinaries(
                         factory: context,
                         where: Rds.BinariesWhere()
-                            .ReferenceId_In(sub: Rds.SelectItems(
-                                tableType: Sqls.TableTypes.Deleted,
-                                column: Rds.ItemsColumn().ReferenceId(),
-                                where: Rds.ItemsWhere().ReferenceType(guid)))
+                            .ReferenceId_In(sub: itemsSub)
                             .BinaryType("Images")),
                     Rds.RestoreItems(
                         factory: context,
@@ -5445,9 +5455,8 @@ namespace Implem.Pleasanter.Models
                                 sub: Rds.SelectResults(
                                     tableType: Sqls.TableTypes.History,
                                     column: Rds.ResultsColumn().ResultId(),
-                                    where: Views.GetBySession(
-                                        context: context,
-                                        ss: ss).Where(
+                                    where: new View()
+                                        .Where(
                                             context: context,
                                             ss: ss)))),
                     Rds.RowCount()
@@ -7658,7 +7667,8 @@ namespace Implem.Pleasanter.Models
                 formData: context.Forms);
             var invalid = ResultValidators.OnUnlockRecord(
                 context: context,
-                ss: ss);
+                ss: ss,
+                resultModel: resultModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
