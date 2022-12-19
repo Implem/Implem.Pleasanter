@@ -2713,6 +2713,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         columnName: link.ColumnName))
                     .Where(column => column != null)
+                    .Where(column => !formData.Any(o => o.Key == $"Issues_{column.ColumnName}"))
                     .ForEach(column =>
                     {
                         id = column.MultipleSelections == true

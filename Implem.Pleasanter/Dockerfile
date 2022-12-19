@@ -1,4 +1,4 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
 RUN apt-get update && apt-get install -y libgdiplus curl
@@ -30,7 +30,8 @@ RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1
     | jq '.WithoutChangeDefaultPassword|=true | .ShowStartGuide|=false | .Demo|=false' \
     > /app/publish/App_Data/Parameters/Service.json
 RUN cat App_Data/Parameters/Rds.json \
-    | jq '.Dbms|="PostgreSQL"' > /app/publish/App_Data/Parameters/Rds.json
+    | jq '.Dbms|="PostgreSQL" | .SaConnectionString|=null | .OwnerConnectionString|=null | .UserConnectionString|=null' \
+    > /app/publish/App_Data/Parameters/Rds.json
 
 FROM base AS final
 WORKDIR /app

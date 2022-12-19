@@ -8,7 +8,8 @@
         formData: context.Forms);
     var invalid = #ModelName#Validators.OnUnlockRecord(
         context: context,
-        ss: ss);
+        ss: ss,
+        #modelName#Model: #modelName#Model);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

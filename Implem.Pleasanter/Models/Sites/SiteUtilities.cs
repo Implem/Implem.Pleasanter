@@ -6099,8 +6099,7 @@ namespace Implem.Pleasanter.Models
                                             step: column.Step.ToInt(),
                                             width: 50);
                                 }
-                                if (column.ColumnName != "Comments"
-                                    && column.TypeName != "bit")
+                                if (column.ColumnName != "Comments")
                                 {
                                     var optionCollection = FieldCssOptions(
                                         context: context,
@@ -6190,18 +6189,7 @@ namespace Implem.Pleasanter.Models
                                         .FieldCheckBox(
                                             controlId: "EditorReadOnly",
                                             labelText: Displays.ReadOnly(context: context),
-                                            _checked: column.EditorReadOnly == true)
-                                        .FieldCheckBox(
-                                            controlId: "ValidateRequired",
-                                            labelText: Displays.Required(context: context),
-                                            _checked: column.ValidateRequired ?? false,
-                                            disabled: column.Required,
-                                            _using: column.TypeName == "bit")
-                                        .FieldCheckBox(
-                                            controlId: "AllowBulkUpdate",
-                                            labelText: Displays.AllowBulkUpdate(context: context),
-                                            _checked: column.AllowBulkUpdate == true,
-                                            _using: column.TypeName == "bit");
+                                            _checked: column.EditorReadOnly == true);
                                 }
                                 if (column.TypeName == "datetime")
                                 {
@@ -6365,13 +6353,14 @@ namespace Implem.Pleasanter.Models
                                         switch (column.ControlType)
                                         {
                                             case "Attachments":
-                                                var hiddenLocalFolder = column.BinaryStorageProvider == "DataBase"
+                                                var provider = BinaryUtilities.BinaryStorageProvider(column: column);
+                                                var hiddenLocalFolder = provider == "DataBase"
                                                     ? " hidden"
                                                     : string.Empty;
-                                                var hiddenDataBase = column.BinaryStorageProvider == "LocalFolder"
+                                                var hiddenDataBase = provider == "LocalFolder"
                                                     ? " hidden"
                                                     : string.Empty;
-                                                var hiddenLocalFolderTotalSize = column.BinaryStorageProvider != "LocalFolder"
+                                                var hiddenLocalFolderTotalSize = provider != "LocalFolder"
                                                     ? " hidden"
                                                     : string.Empty;
                                                 hb

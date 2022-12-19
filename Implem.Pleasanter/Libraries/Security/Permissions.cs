@@ -508,7 +508,11 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        public static bool CanUpdate(this Context context, SiteSettings ss, bool site = false)
+        public static bool CanUpdate(
+            this Context context,
+            SiteSettings ss,
+            bool site = false,
+            bool checkLocked = true)
         {
             switch (context.Controller)
             {
@@ -534,7 +538,11 @@ namespace Implem.Pleasanter.Libraries.Security
                     }
                     else
                     {
-                        return context.ItemsCan(ss: ss, type: Types.Update, site: site);
+                        return context.ItemsCan(
+                            ss: ss,
+                            type: Types.Update,
+                            site: site,
+                            checkLocked: checkLocked);
                     }
             }
         }
@@ -745,9 +753,11 @@ namespace Implem.Pleasanter.Libraries.Security
         private static bool ItemsCan(
             this Context context,
             SiteSettings ss,
-            Types type, bool site)
+            Types type,
+            bool site,
+            bool checkLocked = true)
         {
-            if (ss.Locked())
+            if (checkLocked && ss.Locked())
             {
                 if ((type & Types.Update) == Types.Update) return false;
                 if ((type & Types.Delete) == Types.Delete) return false;
