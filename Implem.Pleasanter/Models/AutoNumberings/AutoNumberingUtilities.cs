@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, string> data,
             SqlStatement updateModel)
         {
-            var now = DateTime.Now;
+            var now = DateTime.Now.ToLocal(context: context);
             var format = Format(
                 column: column,
                 data: data);
