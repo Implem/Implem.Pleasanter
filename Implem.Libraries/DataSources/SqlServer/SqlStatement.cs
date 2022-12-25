@@ -13,6 +13,7 @@ namespace Implem.Libraries.DataSources.SqlServer
         public string TableBracket = string.Empty;
         public string HistoryTableBracket = string.Empty;
         public string DeletedTableBracket = string.Empty;
+        public string MatchTableBracket = string.Empty;
         public SqlColumnCollection SqlColumnCollection = new SqlColumnCollection();
         public SqlJoinCollection SqlJoinCollection = new SqlJoinCollection();
         public SqlWhereCollection SqlWhereCollection = new SqlWhereCollection();

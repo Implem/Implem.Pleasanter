@@ -1,5 +1,0 @@
-﻿case "#ColumnName#":
-    match = #ColumnName##RecordingData#.Matched(
-        column: column,
-        condition: filter.Value);
-    break;

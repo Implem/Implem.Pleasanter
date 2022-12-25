@@ -48,8 +48,15 @@ namespace Implem.Libraries.DataSources.SqlServer
             var tableBracket = TableBracket;
             switch (TableType)
             {
-                case Sqls.TableTypes.History: tableBracket = HistoryTableBracket; break;
-                case Sqls.TableTypes.Deleted: tableBracket = DeletedTableBracket; break;
+                case Sqls.TableTypes.History:
+                    tableBracket = HistoryTableBracket;
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableBracket = DeletedTableBracket;
+                    break;
+                case Sqls.TableTypes.Match:
+                    tableBracket = MatchTableBracket;
+                    break;
             }
             var columnNameCollection = new List<string>();
             var valueCollection = new List<string>();

@@ -1443,89 +1443,38 @@ namespace Implem.Pleasanter.Models
 
         private bool Matched(Context context, SiteSettings ss, View view)
         {
-            if (view.ColumnFilterHash != null)
-            {
-                foreach (var filter in view.ColumnFilterHash)
+            var where = view.Where(
+                context: context,
+                ss: ss);
+            var join = ss.Join(
+                context: context,
+                join: where);
+            var wikiId = Rds.ExecuteScalar_long(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
                 {
-                    var match = true;
-                    var column = ss.GetColumn(context: context, columnName: filter.Key);
-                    switch (filter.Key)
-                    {
-                        case "UpdatedTime":
-                            match = UpdatedTime.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Ver":
-                            match = Ver.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Title":
-                            match = Title.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Body":
-                            match = Body.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Locked":
-                            match = Locked.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Creator":
-                            match = Creator.Id.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Updator":
-                            match = Updator.Id.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "CreatedTime":
-                            match = CreatedTime.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
-                            {
-                                case "Class":
-                                    match = GetClass(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Num":
-                                    match = GetNum(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Date":
-                                    match = GetDate(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Description":
-                                    match = GetDescription(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Check":
-                                    match = GetCheck(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                            }
-                            break;
-                    }
-                    if (!match) return false;
-                }
-            }
-            return true;
+                    Rds.InsertWikis(
+                        tableType: Sqls.TableTypes.Match,
+                        param: Rds.WikisParamDefault(
+                            context: context,
+                            ss: ss,
+                            wikiModel: this,
+                            setDefault: true,
+                            otherInitValue: true)),
+                    Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.Match,
+                        column: Rds.WikisColumn().WikiId(),
+                        join: join,
+                        where: where),
+                    Rds.PhysicalDeleteWikis(
+                        tableType: Sqls.TableTypes.Match,
+                        where: Rds.WikisWhere()
+                            .SiteId(SiteId)
+                            .WikiId(WikiId)
+                            .Creator(context.UserId))
+                });
+            return wikiId == WikiId;
         }
 
         public string ReplacedDisplayValues(

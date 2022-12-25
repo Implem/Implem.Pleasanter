@@ -1,4 +1,0 @@
-﻿if (view.Incomplete == true && !Status.Incomplete())
-{
-    return false;
-}

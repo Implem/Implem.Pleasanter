@@ -18,6 +18,7 @@
 
         HistoryTableBracket = "\"#TableName#_history\"",
         DeletedTableBracket = "\"#TableName#_deleted\"",
+        MatchTableBracket = "\"#TableName#_match\"",
         SelectIdentity = selectIdentity,
         SqlParamCollection = param,
         Select = select,
