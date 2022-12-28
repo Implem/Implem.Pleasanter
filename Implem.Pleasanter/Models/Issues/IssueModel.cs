@@ -3516,15 +3516,27 @@ namespace Implem.Pleasanter.Models
         {
             var where = view.Where(
                 context: context,
-                ss: ss);
-            var join = ss.Join(
+                ss: ss)
+                    .Issues_Creator(context.UserId);
+            var join = ss.MatchJoin(
                 context: context,
-                join: where);
-            var issueId = Rds.ExecuteScalar_long(
+                where: where);
+            var count = Rds.ExecuteScalar_long(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
+                    Rds.InsertItems(
+                        tableType: Sqls.TableTypes.Match,
+                        param: Rds.ItemsParam()
+                            .ReferenceId(IssueId)
+                            .ReferenceType("Issues")
+                            .SiteId(SiteId)
+                            .Title(Title.DisplayValue ?? string.Empty)
+                            .FullText(FullText(
+                                context,
+                                ss: ss) ?? string.Empty)
+                            .SearchIndexCreatedTime(DateTime.Now)),
                     Rds.InsertIssues(
                         tableType: Sqls.TableTypes.Match,
                         param: Rds.IssuesParamDefault(
@@ -3532,12 +3544,19 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             issueModel: this,
                             setDefault: true,
-                            otherInitValue: true)),
+                            otherInitValue: true,
+                            match: true)),
                     Rds.SelectIssues(
                         tableType: Sqls.TableTypes.Match,
-                        column: Rds.IssuesColumn().IssueId(),
+                        column: Rds.IssuesColumn().IssuesCount(),
                         join: join,
                         where: where),
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Match,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId(IssueId)
+                            .SiteId(SiteId)
+                            .Creator(context.UserId)),
                     Rds.PhysicalDeleteIssues(
                         tableType: Sqls.TableTypes.Match,
                         where: Rds.IssuesWhere()
@@ -3545,7 +3564,7 @@ namespace Implem.Pleasanter.Models
                             .IssueId(IssueId)
                             .Creator(context.UserId))
                 });
-            return issueId == IssueId;
+            return count == 1;
         }
 
         public string ReplacedDisplayValues(

@@ -63,6 +63,9 @@ namespace Implem.Pleasanter.Models
                         case Sqls.TableTypes.Deleted:
                             tableTypeName = "_deleted";
                             break;
+                        case Sqls.TableTypes.Match:
+                            tableTypeName = "_match";
+                            break;
                     }
                     return join.Add(
                         tableName: $"\"Items{tableTypeName}\"",

@@ -3203,15 +3203,27 @@ namespace Implem.Pleasanter.Models
         {
             var where = view.Where(
                 context: context,
-                ss: ss);
-            var join = ss.Join(
+                ss: ss)
+                    .Results_Creator(context.UserId);
+            var join = ss.MatchJoin(
                 context: context,
-                join: where);
-            var resultId = Rds.ExecuteScalar_long(
+                where: where);
+            var count = Rds.ExecuteScalar_long(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
+                    Rds.InsertItems(
+                        tableType: Sqls.TableTypes.Match,
+                        param: Rds.ItemsParam()
+                            .ReferenceId(ResultId)
+                            .ReferenceType("Results")
+                            .SiteId(SiteId)
+                            .Title(Title.DisplayValue ?? string.Empty)
+                            .FullText(FullText(
+                                context,
+                                ss: ss) ?? string.Empty)
+                            .SearchIndexCreatedTime(DateTime.Now)),
                     Rds.InsertResults(
                         tableType: Sqls.TableTypes.Match,
                         param: Rds.ResultsParamDefault(
@@ -3219,12 +3231,19 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             resultModel: this,
                             setDefault: true,
-                            otherInitValue: true)),
+                            otherInitValue: true,
+                            match: true)),
                     Rds.SelectResults(
                         tableType: Sqls.TableTypes.Match,
-                        column: Rds.ResultsColumn().ResultId(),
+                        column: Rds.ResultsColumn().ResultsCount(),
                         join: join,
                         where: where),
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Match,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId(ResultId)
+                            .SiteId(SiteId)
+                            .Creator(context.UserId)),
                     Rds.PhysicalDeleteResults(
                         tableType: Sqls.TableTypes.Match,
                         where: Rds.ResultsWhere()
@@ -3232,7 +3251,7 @@ namespace Implem.Pleasanter.Models
                             .ResultId(ResultId)
                             .Creator(context.UserId))
                 });
-            return resultId == ResultId;
+            return count == 1;
         }
 
         public string ReplacedDisplayValues(

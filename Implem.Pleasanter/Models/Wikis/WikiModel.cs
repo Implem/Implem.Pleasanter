@@ -1445,15 +1445,27 @@ namespace Implem.Pleasanter.Models
         {
             var where = view.Where(
                 context: context,
-                ss: ss);
-            var join = ss.Join(
+                ss: ss)
+                    .Wikis_Creator(context.UserId);
+            var join = ss.MatchJoin(
                 context: context,
-                join: where);
-            var wikiId = Rds.ExecuteScalar_long(
+                where: where);
+            var count = Rds.ExecuteScalar_long(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
+                    Rds.InsertItems(
+                        tableType: Sqls.TableTypes.Match,
+                        param: Rds.ItemsParam()
+                            .ReferenceId(WikiId)
+                            .ReferenceType("Wikis")
+                            .SiteId(SiteId)
+                            .Title(Title.DisplayValue ?? string.Empty)
+                            .FullText(FullText(
+                                context,
+                                ss: ss) ?? string.Empty)
+                            .SearchIndexCreatedTime(DateTime.Now)),
                     Rds.InsertWikis(
                         tableType: Sqls.TableTypes.Match,
                         param: Rds.WikisParamDefault(
@@ -1461,12 +1473,19 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             wikiModel: this,
                             setDefault: true,
-                            otherInitValue: true)),
+                            otherInitValue: true,
+                            match: true)),
                     Rds.SelectWikis(
                         tableType: Sqls.TableTypes.Match,
-                        column: Rds.WikisColumn().WikiId(),
+                        column: Rds.WikisColumn().WikisCount(),
                         join: join,
                         where: where),
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Match,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId(WikiId)
+                            .SiteId(SiteId)
+                            .Creator(context.UserId)),
                     Rds.PhysicalDeleteWikis(
                         tableType: Sqls.TableTypes.Match,
                         where: Rds.WikisWhere()
@@ -1474,7 +1493,7 @@ namespace Implem.Pleasanter.Models
                             .WikiId(WikiId)
                             .Creator(context.UserId))
                 });
-            return wikiId == WikiId;
+            return count == 1;
         }
 
         public string ReplacedDisplayValues(

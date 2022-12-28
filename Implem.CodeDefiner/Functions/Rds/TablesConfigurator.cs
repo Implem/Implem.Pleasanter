@@ -104,6 +104,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 columnDefinitionCollection: columnDefinitionHistoryCollection);
             switch (generalTableName)
             {
+                case "Items":
                 case "Issues":
                 case "Results":
                     ConfigureTablePart(

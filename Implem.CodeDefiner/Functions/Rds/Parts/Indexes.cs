@@ -266,9 +266,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 generalTableName: generalTableName,
                 sourceTableName: sourceTableName,
                 tableType: tableType)
-                .Where(o => o.Type == IndexInfo.Types.Ix)
-                .ForEach(tableIndex => 
-                    sqlStatement.CreateIx(sourceTableName, columnDefinitionCollection, tableIndex));
+                    .Where(o => o.Type == IndexInfo.Types.Ix)
+                    .ForEach(tableIndex => 
+                        sqlStatement.CreateIx(sourceTableName, columnDefinitionCollection, tableIndex));
         }
 
         private static void CreateIx(
