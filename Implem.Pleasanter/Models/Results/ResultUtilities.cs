@@ -3934,11 +3934,11 @@ namespace Implem.Pleasanter.Models
             {
                 // 前回の処理でエラーが起きていたら次の処理をせずに中断
                 if (errorMessage != null) break;
-                var match = resultModel.GetProcessMatchConditions(
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
                     context: context,
                     ss: ss,
                     process: process);
-                if (!match)
+                if (!process.MatchConditions)
                 {
                     errorMessage = process.GetErrorMessage(context: context);
                 }
