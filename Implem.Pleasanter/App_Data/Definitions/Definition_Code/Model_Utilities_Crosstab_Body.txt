@@ -162,8 +162,34 @@ public static string CrosstabJson(Context context, SiteSettings ss)
                 context: context,
                 dataRows: dataRows);
     var bodyOnly = context.Forms.ControlId().StartsWith("Crosstab");
-    return inRangeX && inRangeY
-        ? new ResponseCollection(context: context)
+    if (inRangeX && inRangeY)
+    {
+        var body = !bodyOnly
+            ? new HtmlBuilder().Crosstab(
+                context: context,
+                ss: ss,
+                view: view,
+                groupByX: groupByX,
+                groupByY: groupByY,
+                columns: columns,
+                aggregateType: aggregateType,
+                value: value,
+                timePeriod: timePeriod,
+                month: month,
+                dataRows: dataRows)
+            : new HtmlBuilder().CrosstabBody(
+                context: context,
+                ss: ss,
+                view: view,
+                groupByX: groupByX,
+                groupByY: groupByY,
+                columns: columns,
+                aggregateType: aggregateType,
+                value: value,
+                timePeriod: timePeriod,
+                month: month,
+                dataRows: dataRows);
+        return new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -171,34 +197,28 @@ public static string CrosstabJson(Context context, SiteSettings ss)
                 invoke: "setCrosstab",
                 bodyOnly: bodyOnly,
                 bodySelector: "#CrosstabBody",
-                body: !bodyOnly
-                    ? new HtmlBuilder().Crosstab(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        groupByX: groupByX,
-                        groupByY: groupByY,
-                        columns: columns,
-                        aggregateType: aggregateType,
-                        value: value,
-                        timePeriod: timePeriod,
-                        month: month,
-                        dataRows: dataRows)
-                    : new HtmlBuilder().CrosstabBody(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        groupByX: groupByX,
-                        groupByY: groupByY,
-                        columns: columns,
-                        aggregateType: aggregateType,
-                        value: value,
-                        timePeriod: timePeriod,
-                        month: month,
-                        dataRows: dataRows))
+                body: body)
             .Events("on_crosstab_load")
-            .ToJson()
-        : new ResponseCollection(context: context)
+            .ToJson();
+    }
+    else
+    {
+        var body = !bodyOnly
+            ? new HtmlBuilder().Crosstab(
+                context: context,
+                ss: ss,
+                view: view,
+                groupByX: groupByX,
+                groupByY: groupByY,
+                columns: columns,
+                aggregateType: aggregateType,
+                value: value,
+                timePeriod: timePeriod,
+                month: month,
+                dataRows: dataRows,
+                inRange: false)
+            : new HtmlBuilder();
+        return new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -212,23 +232,10 @@ public static string CrosstabJson(Context context, SiteSettings ss)
                         data: Parameters.General.CrosstabYLimit.ToString()),
                 bodyOnly: bodyOnly,
                 bodySelector: "#CrosstabBody",
-                body: !bodyOnly
-                    ? new HtmlBuilder().Crosstab(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        groupByX: groupByX,
-                        groupByY: groupByY,
-                        columns: columns,
-                        aggregateType: aggregateType,
-                        value: value,
-                        timePeriod: timePeriod,
-                        month: month,
-                        dataRows: dataRows,
-                        inRange: false)
-                    : new HtmlBuilder())
+                body: body)
             .Events("on_crosstab_load")
             .ToJson();
+    }
 }
 
 private static List<Column> CrosstabColumns(

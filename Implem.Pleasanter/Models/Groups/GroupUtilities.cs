@@ -191,6 +191,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
+            var body = new HtmlBuilder().Grid(
+                context: context,
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                serverScriptModelRow: serverScriptModelRow);
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
@@ -199,13 +205,7 @@ namespace Implem.Pleasanter.Models
                     invoke: "setGrid",
                     editOnGrid: context.Forms.Bool("EditOnGrid"),
                     serverScriptModelRow: serverScriptModelRow,
-                    body: new HtmlBuilder()
-                        .Grid(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            view: view,
-                            serverScriptModelRow: serverScriptModelRow))
+                    body: body)
                 .Events("on_grid_load")
                 .ToJson();
         }

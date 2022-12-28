@@ -178,6 +178,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
+            var body = new HtmlBuilder().Grid(
+                context: context,
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                serverScriptModelRow: serverScriptModelRow);
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
@@ -186,13 +192,7 @@ namespace Implem.Pleasanter.Models
                     invoke: "setGrid",
                     editOnGrid: context.Forms.Bool("EditOnGrid"),
                     serverScriptModelRow: serverScriptModelRow,
-                    body: new HtmlBuilder()
-                        .Grid(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            view: view,
-                            serverScriptModelRow: serverScriptModelRow))
+                    body: body)
                 .Events("on_grid_load")
                 .ToJson();
         }
@@ -471,22 +471,28 @@ namespace Implem.Pleasanter.Models
 
         public static string TrashBoxJson(Context context, SiteSettings ss)
         {
-            var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var body = new HtmlBuilder()
+                .TrashBoxCommands(context: context, ss: ss)
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    action: "TrashBoxGridRows");
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
                     view: view,
                     invoke: "setGrid",
-                    body: new HtmlBuilder()
-                        .TrashBoxCommands(context: context, ss: ss)
-                        .Grid(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            view: view,
-                            action: "TrashBoxGridRows"))
+                    body: body)
                 .ToJson();
         }
 
