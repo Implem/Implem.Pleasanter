@@ -363,6 +363,7 @@ private static HtmlBuilder GridRows(
             .GridRows(
                 context: context,
                 ss: ss,
+                view: view,
                 dataRows: gridData.DataRows,
                 columns: columns,
 
@@ -429,6 +430,7 @@ public static string ReloadRow(Context context, SiteSettings ss, long #modelName
                 new HtmlBuilder().Tr(
                     context: context,
                     ss: ss,
+                    view: view,
                     dataRow: dataRow,
                     columns: ss.GetGridColumns(
                         context: context,

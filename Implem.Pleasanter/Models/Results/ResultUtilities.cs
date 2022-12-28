@@ -331,7 +331,8 @@ namespace Implem.Pleasanter.Models
                     resultModel.ResultId = 0;
                     resultModel.SetByBeforeOpeningRowServerScript(
                         context: context,
-                        ss: ss);
+                        ss: ss,
+                        view: view);
                 }
             }
             return (res ?? new ResponseCollection(context: context))
@@ -445,6 +446,7 @@ namespace Implem.Pleasanter.Models
                     .GridRows(
                         context: context,
                         ss: ss,
+                        view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
                         formDataSet: formDataSet,
@@ -584,6 +586,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().Tr(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRow: dataRow,
                             columns: ss.GetGridColumns(
                                 context: context,
@@ -3239,6 +3242,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
@@ -3600,6 +3604,9 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var formDataSet = new FormDataSet(
                 context: context,
                 ss: ss)
@@ -3706,7 +3713,8 @@ namespace Implem.Pleasanter.Models
                 }
                 resultModel?.SetByBeforeOpeningRowServerScript(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    view: view);
             }
             statements.OnUpdatedByGridExtendedSqls(
                 context: context,
@@ -3732,6 +3740,7 @@ namespace Implem.Pleasanter.Models
                     return UpdateByGridSuccess(
                         context: context,
                         ss: ss,
+                        view: view,
                         formDataSet: formDataSet,
                         responses: responses,
                         notificationHash: notificationHash);
@@ -3773,6 +3782,7 @@ namespace Implem.Pleasanter.Models
         private static string UpdateByGridSuccess(
             Context context,
             SiteSettings ss,
+            View view,
             List<FormData> formDataSet,
             List<SqlResponse> responses,
             Dictionary<long, List<Notification>> notificationHash)
@@ -3841,9 +3851,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss))
                                     .ToArray());
             var res = new ResponseCollection(context: context);
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
             var gridData = new GridData(
                 context: context,
                 ss: ss,
@@ -3862,6 +3869,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().Tr(
                         context: context,
                         ss: ss,
+                        view: view,
                         dataRow: dataRow,
                         columns: columns,
                         recordSelector: null,

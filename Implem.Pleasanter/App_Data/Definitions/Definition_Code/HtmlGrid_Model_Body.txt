@@ -10,6 +10,7 @@
     ss.ClearColumnAccessControlCaches(baseModel: #modelName#Model);
     serverScriptModelRow = #modelName#Model?.SetByBeforeOpeningRowServerScript(
         context: context,
-        ss: ss);
+        ss: ss,
+        view: view);
     #tableName#.Add("#TableName#", #modelName#Model);
     break;

@@ -141,6 +141,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             gridData.Csv(
                 context: context,
                 ss: ss,
+                view: view,
                 csv: csv,
                 exportColumns: export.Columns.ExportColumns(
                     context: context,
