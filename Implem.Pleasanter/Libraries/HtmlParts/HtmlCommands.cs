@@ -6,7 +6,6 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Libraries.HtmlParts
@@ -30,7 +29,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Action extensions = null)
         {
             if (context.Controller == "items"
-                && context.Action == "edit"
                 && !ss.IsSite(context: context))
             {
                 view = view ?? Views.GetBySession(
