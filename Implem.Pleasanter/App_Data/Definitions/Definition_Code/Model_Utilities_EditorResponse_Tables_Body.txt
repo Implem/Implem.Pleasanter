@@ -40,7 +40,13 @@
                     .SetMemory("formChanged", false)
                     .Invoke("setCurrentIndex")
                     .Invoke("initRelatingColumnEditor")
-                    .Message(message)
+                    // ?? 以降はプロセスのアクション種別がポストバックの場合にもメッセージを出せるようにする処理
+                    .Message(message ?? ss.Processes
+                        ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                        .Where(o => o.Accessable(
+                            context: context,
+                            ss: ss))
+                        .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
                     .Messages(context.Messages)
                     .ClearFormData()
                     .Events("on_editor_load");
