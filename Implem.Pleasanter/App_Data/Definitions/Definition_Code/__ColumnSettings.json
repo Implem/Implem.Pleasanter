@@ -37,6 +37,7 @@
     "NotComputeColumn": "bool",
     "Aggregatable": "bool",
     "Computable": "bool",
+    "ApiNewKeyword": "bool",
     "Join": "bool",
     "NotJoin": "bool",
     "JoinExpression": "bool",

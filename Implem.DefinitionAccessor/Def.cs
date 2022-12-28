@@ -504,6 +504,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
                     case "Model_MoveCases": Code.Model_MoveCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MoveCases, definitionRow, CodeXls); break;
                     case "Model_NewCases": Code.Model_NewCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewCases, definitionRow, CodeXls); break;
+                    case "Model_NewClass": Code.Model_NewClass = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewClass, definitionRow, CodeXls); break;
                     case "Model_NewJsonCases": Code.Model_NewJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewJsonCases, definitionRow, CodeXls); break;
                     case "Model_NewOnGridCases": Code.Model_NewOnGridCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_NewOnGridCases, definitionRow, CodeXls); break;
                     case "Model_Notice": Code.Model_Notice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Notice, definitionRow, CodeXls); break;
@@ -1226,6 +1227,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newCodeDefinition.SavedComputable = newCodeDefinition.Computable;
                             break;
+                        case "ApiNewKeyword":
+                            newCodeDefinition.ApiNewKeyword = customDefinitionRow.Get("ApiNewKeyword")?.ToBool() ??
+                                data.ToBool();
+                            newCodeDefinition.SavedApiNewKeyword = newCodeDefinition.ApiNewKeyword;
+                            break;
                         case "Join":
                             newCodeDefinition.Join = customDefinitionRow.Get("Join")?.ToBool() ??
                                 data.ToBool();
@@ -1488,6 +1494,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("NotComputeColumn")) { definition.NotComputeColumn = definitionRow["NotComputeColumn"].ToBool(); definition.SavedNotComputeColumn = definition.NotComputeColumn; }
             if (definitionRow.ContainsKey("Aggregatable")) { definition.Aggregatable = definitionRow["Aggregatable"].ToBool(); definition.SavedAggregatable = definition.Aggregatable; }
             if (definitionRow.ContainsKey("Computable")) { definition.Computable = definitionRow["Computable"].ToBool(); definition.SavedComputable = definition.Computable; }
+            if (definitionRow.ContainsKey("ApiNewKeyword")) { definition.ApiNewKeyword = definitionRow["ApiNewKeyword"].ToBool(); definition.SavedApiNewKeyword = definition.ApiNewKeyword; }
             if (definitionRow.ContainsKey("Join")) { definition.Join = definitionRow["Join"].ToBool(); definition.SavedJoin = definition.Join; }
             if (definitionRow.ContainsKey("NotJoin")) { definition.NotJoin = definitionRow["NotJoin"].ToBool(); definition.SavedNotJoin = definition.NotJoin; }
             if (definitionRow.ContainsKey("JoinExpression")) { definition.JoinExpression = definitionRow["JoinExpression"].ToBool(); definition.SavedJoinExpression = definition.JoinExpression; }
@@ -2576,6 +2583,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newColumnDefinition.SavedComputable = newColumnDefinition.Computable;
                             break;
+                        case "ApiNewKeyword":
+                            newColumnDefinition.ApiNewKeyword = customDefinitionRow.Get("ApiNewKeyword")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedApiNewKeyword = newColumnDefinition.ApiNewKeyword;
+                            break;
                         case "ChoicesText":
                             newColumnDefinition.ChoicesText = customDefinitionRow.Get("ChoicesText")?.ToString() ??
                                 data.ToString();
@@ -2864,6 +2876,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("ExportFormat")) { definition.ExportFormat = definitionRow["ExportFormat"].ToString(); definition.SavedExportFormat = definition.ExportFormat; }
             if (definitionRow.ContainsKey("Aggregatable")) { definition.Aggregatable = definitionRow["Aggregatable"].ToBool(); definition.SavedAggregatable = definition.Aggregatable; }
             if (definitionRow.ContainsKey("Computable")) { definition.Computable = definitionRow["Computable"].ToBool(); definition.SavedComputable = definition.Computable; }
+            if (definitionRow.ContainsKey("ApiNewKeyword")) { definition.ApiNewKeyword = definitionRow["ApiNewKeyword"].ToBool(); definition.SavedApiNewKeyword = definition.ApiNewKeyword; }
             if (definitionRow.ContainsKey("ChoicesText")) { definition.ChoicesText = definitionRow["ChoicesText"].ToString(); definition.SavedChoicesText = definition.ChoicesText; }
             if (definitionRow.ContainsKey("UseSearch")) { definition.UseSearch = definitionRow["UseSearch"].ToBool(); definition.SavedUseSearch = definition.UseSearch; }
             if (definitionRow.ContainsKey("DefaultInput")) { definition.DefaultInput = definitionRow["DefaultInput"].ToString(); definition.SavedDefaultInput = definition.DefaultInput; }
@@ -5511,6 +5524,7 @@ namespace Implem.DefinitionAccessor
                         case "NotComputeColumn": codeDefinition.NotComputeColumn = optionValue.ToBool(); break;
                         case "Aggregatable": codeDefinition.Aggregatable = optionValue.ToBool(); break;
                         case "Computable": codeDefinition.Computable = optionValue.ToBool(); break;
+                        case "ApiNewKeyword": codeDefinition.ApiNewKeyword = optionValue.ToBool(); break;
                         case "Join": codeDefinition.Join = optionValue.ToBool(); break;
                         case "NotJoin": codeDefinition.NotJoin = optionValue.ToBool(); break;
                         case "JoinExpression": codeDefinition.JoinExpression = optionValue.ToBool(); break;
@@ -5662,6 +5676,7 @@ namespace Implem.DefinitionAccessor
                         case "ExportFormat": columnDefinition.ExportFormat = optionValue.ToString(); break;
                         case "Aggregatable": columnDefinition.Aggregatable = optionValue.ToBool(); break;
                         case "Computable": columnDefinition.Computable = optionValue.ToBool(); break;
+                        case "ApiNewKeyword": columnDefinition.ApiNewKeyword = optionValue.ToBool(); break;
                         case "ChoicesText": columnDefinition.ChoicesText = optionValue.ToString(); break;
                         case "UseSearch": columnDefinition.UseSearch = optionValue.ToBool(); break;
                         case "DefaultInput": columnDefinition.DefaultInput = optionValue.ToString(); break;
@@ -6249,6 +6264,7 @@ namespace Implem.DefinitionAccessor
         public bool NotComputeColumn; public bool SavedNotComputeColumn;
         public bool Aggregatable; public bool SavedAggregatable;
         public bool Computable; public bool SavedComputable;
+        public bool ApiNewKeyword; public bool SavedApiNewKeyword;
         public bool Join; public bool SavedJoin;
         public bool NotJoin; public bool SavedNotJoin;
         public bool JoinExpression; public bool SavedJoinExpression;
@@ -6337,6 +6353,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("NotComputeColumn")) NotComputeColumn = propertyCollection["NotComputeColumn"].ToBool(); else NotComputeColumn = false;
             if (propertyCollection.ContainsKey("Aggregatable")) Aggregatable = propertyCollection["Aggregatable"].ToBool(); else Aggregatable = false;
             if (propertyCollection.ContainsKey("Computable")) Computable = propertyCollection["Computable"].ToBool(); else Computable = false;
+            if (propertyCollection.ContainsKey("ApiNewKeyword")) ApiNewKeyword = propertyCollection["ApiNewKeyword"].ToBool(); else ApiNewKeyword = false;
             if (propertyCollection.ContainsKey("Join")) Join = propertyCollection["Join"].ToBool(); else Join = false;
             if (propertyCollection.ContainsKey("NotJoin")) NotJoin = propertyCollection["NotJoin"].ToBool(); else NotJoin = false;
             if (propertyCollection.ContainsKey("JoinExpression")) JoinExpression = propertyCollection["JoinExpression"].ToBool(); else JoinExpression = false;
@@ -6425,6 +6442,7 @@ namespace Implem.DefinitionAccessor
                     case "NotComputeColumn": return NotComputeColumn;
                     case "Aggregatable": return Aggregatable;
                     case "Computable": return Computable;
+                    case "ApiNewKeyword": return ApiNewKeyword;
                     case "Join": return Join;
                     case "NotJoin": return NotJoin;
                     case "JoinExpression": return JoinExpression;
@@ -6513,6 +6531,7 @@ namespace Implem.DefinitionAccessor
             NotComputeColumn = SavedNotComputeColumn;
             Aggregatable = SavedAggregatable;
             Computable = SavedComputable;
+            ApiNewKeyword = SavedApiNewKeyword;
             Join = SavedJoin;
             NotJoin = SavedNotJoin;
             JoinExpression = SavedJoinExpression;
@@ -6801,6 +6820,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Move;
         public string Model_MoveCases;
         public string Model_NewCases;
+        public string Model_NewClass;
         public string Model_NewJsonCases;
         public string Model_NewOnGridCases;
         public string Model_Notice;
@@ -7562,6 +7582,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Move = new CodeDefinition();
         public CodeDefinition Model_MoveCases = new CodeDefinition();
         public CodeDefinition Model_NewCases = new CodeDefinition();
+        public CodeDefinition Model_NewClass = new CodeDefinition();
         public CodeDefinition Model_NewJsonCases = new CodeDefinition();
         public CodeDefinition Model_NewOnGridCases = new CodeDefinition();
         public CodeDefinition Model_Notice = new CodeDefinition();
@@ -8177,6 +8198,7 @@ namespace Implem.DefinitionAccessor
         public string ExportFormat; public string SavedExportFormat;
         public bool Aggregatable; public bool SavedAggregatable;
         public bool Computable; public bool SavedComputable;
+        public bool ApiNewKeyword; public bool SavedApiNewKeyword;
         public string ChoicesText; public string SavedChoicesText;
         public bool UseSearch; public bool SavedUseSearch;
         public string DefaultInput; public string SavedDefaultInput;
@@ -8315,6 +8337,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("ExportFormat")) ExportFormat = propertyCollection["ExportFormat"].ToString(); else ExportFormat = string.Empty;
             if (propertyCollection.ContainsKey("Aggregatable")) Aggregatable = propertyCollection["Aggregatable"].ToBool(); else Aggregatable = false;
             if (propertyCollection.ContainsKey("Computable")) Computable = propertyCollection["Computable"].ToBool(); else Computable = false;
+            if (propertyCollection.ContainsKey("ApiNewKeyword")) ApiNewKeyword = propertyCollection["ApiNewKeyword"].ToBool(); else ApiNewKeyword = false;
             if (propertyCollection.ContainsKey("ChoicesText")) ChoicesText = propertyCollection["ChoicesText"].ToString(); else ChoicesText = string.Empty;
             if (propertyCollection.ContainsKey("UseSearch")) UseSearch = propertyCollection["UseSearch"].ToBool(); else UseSearch = false;
             if (propertyCollection.ContainsKey("DefaultInput")) DefaultInput = propertyCollection["DefaultInput"].ToString(); else DefaultInput = string.Empty;
@@ -8453,6 +8476,7 @@ namespace Implem.DefinitionAccessor
                     case "ExportFormat": return ExportFormat;
                     case "Aggregatable": return Aggregatable;
                     case "Computable": return Computable;
+                    case "ApiNewKeyword": return ApiNewKeyword;
                     case "ChoicesText": return ChoicesText;
                     case "UseSearch": return UseSearch;
                     case "DefaultInput": return DefaultInput;
@@ -8591,6 +8615,7 @@ namespace Implem.DefinitionAccessor
             ExportFormat = SavedExportFormat;
             Aggregatable = SavedAggregatable;
             Computable = SavedComputable;
+            ApiNewKeyword = SavedApiNewKeyword;
             ChoicesText = SavedChoicesText;
             UseSearch = SavedUseSearch;
             DefaultInput = SavedDefaultInput;

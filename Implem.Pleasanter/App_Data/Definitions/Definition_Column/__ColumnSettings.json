@@ -93,6 +93,7 @@
     "ExportFormat": "string",
     "Aggregatable": "bool",
     "Computable": "bool",
+    "ApiNewKeyword": "bool",
     "ChoicesText": "string",
     "UseSearch": "bool",
     "DefaultInput": "string",
