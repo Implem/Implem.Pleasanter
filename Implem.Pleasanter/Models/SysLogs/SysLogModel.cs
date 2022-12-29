@@ -2801,7 +2801,9 @@ namespace Implem.Pleasanter.Models
             SysLogTypes sysLogType = SysLogTypes.Info)
         {
             Class = context.Controller;
-            Method = $"{context.Action}:{method}";
+            Method = context.Action + (!method.IsNullOrEmpty()
+                ? $":{method}"
+                : string.Empty);
             switch (sysLogType)
             {
                 case SysLogTypes.SystemError:

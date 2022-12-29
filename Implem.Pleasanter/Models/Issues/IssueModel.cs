@@ -3512,159 +3512,57 @@ namespace Implem.Pleasanter.Models
 
         private bool Matched(Context context, SiteSettings ss, View view)
         {
-            if (view.Incomplete == true && !Status.Incomplete())
-            {
-                return false;
-            }
-            var userId = context.UserId;
-            if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
-            {
-                return false;
-            }
-            if (view.NearCompletionTime == true && !CompletionTime.Near(
+            var where = view.Where(
                 context: context,
-                ss: ss))
-            {
-                return false;
-            }
-            if (view.Delay == true && !ProgressRate.Delay(
+                ss: ss)
+                    .Issues_Creator(context.UserId);
+            var join = ss.MatchJoin(
                 context: context,
-                status: Status))
-            {
-                return false;
-            }
-            if (view.Overdue == true && CompletionTime.Overdue())
-            {
-                return false;
-            }
-            if (view.ColumnFilterHash != null)
-            {
-                foreach (var filter in view.ColumnFilterHash)
+                where: where);
+            var count = Rds.ExecuteScalar_long(
+                context: context,
+                transactional: true,
+                statements: new SqlStatement[]
                 {
-                    var match = true;
-                    var column = ss.GetColumn(context: context, columnName: filter.Key);
-                    switch (filter.Key)
-                    {
-                        case "UpdatedTime":
-                            match = UpdatedTime.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "IssueId":
-                            match = IssueId.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Ver":
-                            match = Ver.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Title":
-                            match = Title.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Body":
-                            match = Body.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "StartTime":
-                            match = StartTime.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "CompletionTime":
-                            match = CompletionTime.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "WorkValue":
-                            match = WorkValue.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "ProgressRate":
-                            match = ProgressRate.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Status":
-                            match = Status.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Manager":
-                            match = Manager.Id.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Owner":
-                            match = Owner.Id.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Locked":
-                            match = Locked.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "SiteTitle":
-                            match = SiteTitle.SiteId.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Creator":
-                            match = Creator.Id.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Updator":
-                            match = Updator.Id.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "CreatedTime":
-                            match = CreatedTime.Value.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        default:
-                            switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
-                            {
-                                case "Class":
-                                    match = GetClass(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Num":
-                                    match = GetNum(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Date":
-                                    match = GetDate(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Description":
-                                    match = GetDescription(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                                case "Check":
-                                    match = GetCheck(column: column).Matched(
-                                        column: column,
-                                        condition: filter.Value);
-                                    break;
-                            }
-                            break;
-                    }
-                    if (!match) return false;
-                }
-            }
-            return true;
+                    Rds.InsertItems(
+                        tableType: Sqls.TableTypes.Match,
+                        param: Rds.ItemsParam()
+                            .ReferenceId(IssueId)
+                            .ReferenceType("Issues")
+                            .SiteId(SiteId)
+                            .Title(Title.DisplayValue ?? string.Empty)
+                            .FullText(FullText(
+                                context,
+                                ss: ss) ?? string.Empty)
+                            .SearchIndexCreatedTime(DateTime.Now)),
+                    Rds.InsertIssues(
+                        tableType: Sqls.TableTypes.Match,
+                        param: Rds.IssuesParamDefault(
+                            context: context,
+                            ss: ss,
+                            issueModel: this,
+                            setDefault: true,
+                            otherInitValue: true,
+                            match: true)),
+                    Rds.SelectIssues(
+                        tableType: Sqls.TableTypes.Match,
+                        column: Rds.IssuesColumn().IssuesCount(),
+                        join: join,
+                        where: where),
+                    Rds.PhysicalDeleteItems(
+                        tableType: Sqls.TableTypes.Match,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId(IssueId)
+                            .SiteId(SiteId)
+                            .Creator(context.UserId)),
+                    Rds.PhysicalDeleteIssues(
+                        tableType: Sqls.TableTypes.Match,
+                        where: Rds.IssuesWhere()
+                            .SiteId(SiteId)
+                            .IssueId(IssueId)
+                            .Creator(context.UserId))
+                });
+            return count == 1;
         }
 
         public string ReplacedDisplayValues(

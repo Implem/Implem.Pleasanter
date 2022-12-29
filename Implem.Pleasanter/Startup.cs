@@ -347,7 +347,10 @@ namespace Implem.Pleasanter.NetCore
         private void InitializeLog()
         {
             Context context = ApplicationStartContext();
-            var log = new SysLogModel(context: context);
+            var log = new SysLogModel(
+                context: context,
+                method: null,
+                message: Parameters.GetLicenseInfo().ToJson());
             TenantInitializer.Initialize();
             ExtensionInitializer.Initialize(context: context);
             UsersInitializer.Initialize(context: context);

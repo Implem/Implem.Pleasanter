@@ -6,6 +6,7 @@
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            View view,
             List<Column> columns,
             DataRow dataRow,
             bool editRow,

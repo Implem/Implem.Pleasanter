@@ -4813,7 +4813,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToList());
         }
 
-        public SqlJoinCollection SqlJoinCollection(Context context, List<string> tableNames)
+        public SqlJoinCollection MatchJoin(Context context, SqlWhereCollection where)
+        {
+            return SqlJoinCollection(
+                context: context,
+                tableNames: where.JoinTableNames().ToList(),
+                match: true);
+        }
+
+        public SqlJoinCollection SqlJoinCollection(
+            Context context,
+            List<string> tableNames,
+            bool match = false)
         {
             var join = new SqlJoinCollection(tableNames
                 .Where(o => o != null)
@@ -4825,7 +4836,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToArray());
             join.ItemJoin(
                 tableName: ReferenceType,
-                tableType: TableType);
+                tableType: match
+                    ? Sqls.TableTypes.Match
+                    : TableType);
             return join;
         }
 

@@ -431,6 +431,7 @@ namespace Implem.Pleasanter.Libraries.Models
         public System.Text.StringBuilder Csv(
             Context context,
             SiteSettings ss,
+            View view,
             System.Text.StringBuilder csv,
             IEnumerable<ExportColumn> exportColumns,
             string delimiter,
@@ -462,7 +463,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         ss.ClearColumnAccessControlCaches(baseModel: issueModel);
                         serverScriptModelRow = issueModel?.SetByBeforeOpeningRowServerScript(
                             context: context,
-                            ss: ss);
+                            ss: ss,
+                            view: view);
                         issues.Add("Issues", issueModel);
                         break;
                     case "Results":
@@ -473,7 +475,8 @@ namespace Implem.Pleasanter.Libraries.Models
                         ss.ClearColumnAccessControlCaches(baseModel: resultModel);
                         serverScriptModelRow = resultModel?.SetByBeforeOpeningRowServerScript(
                             context: context,
-                            ss: ss);
+                            ss: ss,
+                            view: view);
                         results.Add("Results", resultModel);
                         break;
                 };

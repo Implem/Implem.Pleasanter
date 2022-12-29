@@ -1288,6 +1288,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()

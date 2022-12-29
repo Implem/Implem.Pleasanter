@@ -15,13 +15,19 @@
             $('#TriggerRelatingColumns_Editor'),
             $('#TableName').val());
     };
+    $p.initRelatingColumnEditorNoSend = function () {
+        initRelatingColumn(
+            $('#TriggerRelatingColumns_Editor'),
+            $('#TableName').val(),
+            true);
+    };
     if (methodType === 'edit' || methodType === 'new') {
         $p.initRelatingColumnEditor();
     } else {
         $p.initRelatingColumnWhenViewChanged();
     }
 
-    function initRelatingColumn($trigger, tablename) {
+    function initRelatingColumn($trigger, tablename, noSend) {
         var param = $trigger.val();
         if (param === undefined) return;
         if (tablename === undefined) return;
@@ -35,14 +41,15 @@
                         rcols[k].Columns[k2],
                         rcols[k].ColumnsLinkedClass[rcols[k].Columns[k2]],
                         tablename,
-                        $trigger);
+                        $trigger,
+                        noSend);
                 }
                 prekey = rcols[k].Columns[k2];
             }
         }
     }
 
-    function applyRelatingColumn(prnt, chld, linkedClass, tablename, $trigger) {
+    function applyRelatingColumn(prnt, chld, linkedClass, tablename, $trigger, noSend) {
         if ($p.disableAutPostback) return;
         $(document).ready(function () {
             var debounce = function (fn, interval) {
@@ -98,10 +105,12 @@
             $trigger.attr('parent-data-id', JSON.stringify(parentIds));
             $trigger.attr('data-action', 'RelatingDropDown');
             $trigger.attr('data-method', 'post');
-            const formId = undefined;
-            const _async = false;
-            const clearMessage = false;
-            $p.send($trigger, formId, _async, clearMessage);
+            if (!noSend) {
+                const formId = undefined;
+                const _async = false;
+                const clearMessage = false;
+                $p.send($trigger, formId, _async, clearMessage);
+            }
         };
     }
     $p.callbackRelatingColumn = function (targetId) {

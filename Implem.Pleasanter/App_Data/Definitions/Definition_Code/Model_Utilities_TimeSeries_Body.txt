@@ -67,49 +67,54 @@ public static string TimeSeriesJson(Context context, SiteSettings ss)
         return Messages.ResponseBadRequest(context: context).ToJson();
     }
     var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
-    return InRange(
+    if (InRange(
         context: context,
         ss: ss,
         view: view,
-        limit: Parameters.General.TimeSeriesLimit)
-            ? new ResponseCollection(context: context)
-                .ViewMode(
+        limit: Parameters.General.TimeSeriesLimit))
+    {
+        var body = new HtmlBuilder().TimeSeries(
+            context: context,
+            ss: ss,
+            view: view,
+            horizontalAxis: horizontalAxis,
+            bodyOnly: bodyOnly,
+            inRange: true);
+        return new ResponseCollection(context: context)
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                invoke: "drawTimeSeries",
+                bodyOnly: bodyOnly,
+                bodySelector: "#TimeSeriesBody",
+                body: body)
+            .Events("on_timeseries_load")
+            .ToJson();
+    }
+    else
+    {
+        var body = new HtmlBuilder().TimeSeries(
+            context: context,
+            ss: ss,
+            view: view,
+            horizontalAxis: horizontalAxis,
+            bodyOnly: bodyOnly,
+            inRange: false);
+        return new ResponseCollection(context: context)
+            .ViewMode(
+                context: context,
+                ss: ss,
+                view: view,
+                message: Messages.TooManyCases(
                     context: context,
-                    ss: ss,
-                    view: view,
-                    invoke: "drawTimeSeries",
-                    bodyOnly: bodyOnly,
-                    bodySelector: "#TimeSeriesBody",
-                    body: new HtmlBuilder()
-                        .TimeSeries(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            horizontalAxis: horizontalAxis,
-                            bodyOnly: bodyOnly,
-                            inRange: true))
-                .Events("on_timeseries_load")
-                .ToJson()
-            : new ResponseCollection(context: context)
-                .ViewMode(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    message: Messages.TooManyCases(
-                        context: context,
-                        data: Parameters.General.TimeSeriesLimit.ToString()),
-                    bodyOnly: bodyOnly,
-                    bodySelector: "#TimeSeriesBody",
-                    body: new HtmlBuilder()
-                        .TimeSeries(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            horizontalAxis: horizontalAxis,
-                            bodyOnly: bodyOnly,
-                            inRange: false))
-                .Events("on_timeseries_load")
-                .ToJson();
+                    data: Parameters.General.TimeSeriesLimit.ToString()),
+                bodyOnly: bodyOnly,
+                bodySelector: "#TimeSeriesBody",
+                body: body)
+            .Events("on_timeseries_load")
+            .ToJson();
+    }
 }
 
 private static HtmlBuilder TimeSeries(

@@ -23,6 +23,7 @@
         TableBracket = "\"#TableName#\"",
         HistoryTableBracket = "\"#TableName#_history\"",
         DeletedTableBracket = "\"#TableName#_deleted\"",
+        MatchTableBracket = "\"#TableName#_match\"",
         As = _as,
         SqlColumnCollection = column,
         SqlJoinCollection = join,

@@ -190,6 +190,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
+            var body = new HtmlBuilder().Grid(
+                context: context,
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                serverScriptModelRow: serverScriptModelRow);
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
@@ -198,13 +204,7 @@ namespace Implem.Pleasanter.Models
                     invoke: "setGrid",
                     editOnGrid: context.Forms.Bool("EditOnGrid"),
                     serverScriptModelRow: serverScriptModelRow,
-                    body: new HtmlBuilder()
-                        .Grid(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            view: view,
-                            serverScriptModelRow: serverScriptModelRow))
+                    body: body)
                 .Events("on_grid_load")
                 .ToJson();
         }
@@ -331,7 +331,8 @@ namespace Implem.Pleasanter.Models
                     issueModel.IssueId = 0;
                     issueModel.SetByBeforeOpeningRowServerScript(
                         context: context,
-                        ss: ss);
+                        ss: ss,
+                        view: view);
                 }
             }
             return (res ?? new ResponseCollection(context: context))
@@ -445,6 +446,7 @@ namespace Implem.Pleasanter.Models
                     .GridRows(
                         context: context,
                         ss: ss,
+                        view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
                         formDataSet: formDataSet,
@@ -584,6 +586,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().Tr(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRow: dataRow,
                             columns: ss.GetGridColumns(
                                 context: context,
@@ -628,22 +631,28 @@ namespace Implem.Pleasanter.Models
 
         public static string TrashBoxJson(Context context, SiteSettings ss)
         {
-            var view = Views.GetBySession(context: context, ss: ss);
-            var gridData = GetGridData(context: context, ss: ss, view: view);
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var body = new HtmlBuilder()
+                .TrashBoxCommands(context: context, ss: ss)
+                .Grid(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    view: view,
+                    action: "TrashBoxGridRows");
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
                     ss: ss,
                     view: view,
                     invoke: "setGrid",
-                    body: new HtmlBuilder()
-                        .TrashBoxCommands(context: context, ss: ss)
-                        .Grid(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            view: view,
-                            action: "TrashBoxGridRows"))
+                    body: body)
                 .ToJson();
         }
 
@@ -2342,7 +2351,12 @@ namespace Implem.Pleasanter.Models
                             .SetMemory("formChanged", false)
                             .Invoke("setCurrentIndex")
                             .Invoke("initRelatingColumnEditor")
-                            .Message(message)
+                            .Message(message ?? ss.Processes
+                                ?.Where(o => $"Process_{o.Id}" == context.Forms.ControlId())
+                                .Where(o => o.Accessable(
+                                    context: context,
+                                    ss: ss))
+                                .FirstOrDefault(o => o.MatchConditions)?.GetSuccessMessage(context: context))
                             .Messages(context.Messages)
                             .ClearFormData()
                             .Events("on_editor_load");
@@ -2387,7 +2401,7 @@ namespace Implem.Pleasanter.Models
                         serverScriptModelRow: serverScriptModelRow),
                     _using: ss.SwitchCommandButtonsAutoPostBack == true)
                 .Val("#ControlledOrder", context.ControlledOrder?.ToJson())
-                .Invoke("initRelatingColumnEditor")
+                .Invoke("initRelatingColumnEditorNoSend")
                 .Messages(context.Messages);
             return ret;
         }
@@ -3421,6 +3435,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
@@ -3782,6 +3797,9 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             var formDataSet = new FormDataSet(
                 context: context,
                 ss: ss)
@@ -3888,7 +3906,8 @@ namespace Implem.Pleasanter.Models
                 }
                 issueModel?.SetByBeforeOpeningRowServerScript(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    view: view);
             }
             statements.OnUpdatedByGridExtendedSqls(
                 context: context,
@@ -3914,6 +3933,7 @@ namespace Implem.Pleasanter.Models
                     return UpdateByGridSuccess(
                         context: context,
                         ss: ss,
+                        view: view,
                         formDataSet: formDataSet,
                         responses: responses,
                         notificationHash: notificationHash);
@@ -3955,6 +3975,7 @@ namespace Implem.Pleasanter.Models
         private static string UpdateByGridSuccess(
             Context context,
             SiteSettings ss,
+            View view,
             List<FormData> formDataSet,
             List<SqlResponse> responses,
             Dictionary<long, List<Notification>> notificationHash)
@@ -4023,9 +4044,6 @@ namespace Implem.Pleasanter.Models
                                 ss: ss))
                                     .ToArray());
             var res = new ResponseCollection(context: context);
-            var view = Views.GetBySession(
-                context: context,
-                ss: ss);
             var gridData = new GridData(
                 context: context,
                 ss: ss,
@@ -4044,6 +4062,7 @@ namespace Implem.Pleasanter.Models
                     new HtmlBuilder().Tr(
                         context: context,
                         ss: ss,
+                        view: view,
                         dataRow: dataRow,
                         columns: columns,
                         recordSelector: null,
@@ -4115,11 +4134,11 @@ namespace Implem.Pleasanter.Models
                 where: where))
             {
                 if (errorMessage != null) break;
-                var match = issueModel.GetProcessMatchConditions(
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
                     context: context,
                     ss: ss,
                     process: process);
-                if (!match)
+                if (!process.MatchConditions)
                 {
                     errorMessage = process.GetErrorMessage(context: context);
                 }
@@ -6848,8 +6867,23 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
-            return inRange
-                ? new ResponseCollection(context: context)
+            var body = new HtmlBuilder().Calendar(
+                context: context,
+                ss: ss,
+                timePeriod: timePeriod,
+                groupBy: groupBy,
+                fromColumn: fromColumn,
+                toColumn: toColumn,
+                date: date,
+                begin: begin,
+                choices: choices,
+                dataRows: dataRows,
+                bodyOnly: bodyOnly,
+                inRange: inRange,
+                changedItemId: changedItemId);
+            if (inRange)
+            {
+                return new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -6859,24 +6893,13 @@ namespace Implem.Pleasanter.Models
                         loadScroll: update,
                         bodyOnly: bodyOnly,
                         bodySelector: "#CalendarBody",
-                        body: new HtmlBuilder()
-                            .Calendar(
-                                context: context,
-                                ss: ss,
-                                timePeriod: timePeriod,
-                                groupBy: groupBy,
-                                fromColumn: fromColumn,
-                                toColumn: toColumn,
-                                date: date,
-                                begin: begin,
-                                choices: choices,
-                                dataRows: dataRows,
-                                bodyOnly: bodyOnly,
-                                inRange: true,
-                                changedItemId: changedItemId))
+                        body: body)
                     .Events("on_calendar_load")
-                    .ToJson()
-                : new ResponseCollection(context: context)
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -6890,23 +6913,10 @@ namespace Implem.Pleasanter.Models
                                 data: Parameters.General.CalendarYLimit.ToString()),
                         bodyOnly: bodyOnly,
                         bodySelector: "#CalendarBody",
-                        body: new HtmlBuilder()
-                            .Calendar(
-                                context: context,
-                                ss: ss,
-                                timePeriod: timePeriod,
-                                groupBy: groupBy,
-                                fromColumn: fromColumn,
-                                toColumn: toColumn,
-                                date: date,
-                                begin: begin,
-                                choices: choices,
-                                dataRows: dataRows,
-                                bodyOnly: bodyOnly,
-                                inRange: false,
-                                changedItemId: changedItemId))
+                        body: body)
                     .Events("on_calendar_load")
                     .ToJson();
+            }
         }
 
         private static EnumerableRowCollection<DataRow> CalendarDataRows(
@@ -7187,8 +7197,34 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         dataRows: dataRows);
             var bodyOnly = context.Forms.ControlId().StartsWith("Crosstab");
-            return inRangeX && inRangeY
-                ? new ResponseCollection(context: context)
+            if (inRangeX && inRangeY)
+            {
+                var body = !bodyOnly
+                    ? new HtmlBuilder().Crosstab(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows)
+                    : new HtmlBuilder().CrosstabBody(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows);
+                return new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -7196,34 +7232,28 @@ namespace Implem.Pleasanter.Models
                         invoke: "setCrosstab",
                         bodyOnly: bodyOnly,
                         bodySelector: "#CrosstabBody",
-                        body: !bodyOnly
-                            ? new HtmlBuilder().Crosstab(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                groupByX: groupByX,
-                                groupByY: groupByY,
-                                columns: columns,
-                                aggregateType: aggregateType,
-                                value: value,
-                                timePeriod: timePeriod,
-                                month: month,
-                                dataRows: dataRows)
-                            : new HtmlBuilder().CrosstabBody(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                groupByX: groupByX,
-                                groupByY: groupByY,
-                                columns: columns,
-                                aggregateType: aggregateType,
-                                value: value,
-                                timePeriod: timePeriod,
-                                month: month,
-                                dataRows: dataRows))
+                        body: body)
                     .Events("on_crosstab_load")
-                    .ToJson()
-                : new ResponseCollection(context: context)
+                    .ToJson();
+            }
+            else
+            {
+                var body = !bodyOnly
+                    ? new HtmlBuilder().Crosstab(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        groupByX: groupByX,
+                        groupByY: groupByY,
+                        columns: columns,
+                        aggregateType: aggregateType,
+                        value: value,
+                        timePeriod: timePeriod,
+                        month: month,
+                        dataRows: dataRows,
+                        inRange: false)
+                    : new HtmlBuilder();
+                return new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -7237,23 +7267,10 @@ namespace Implem.Pleasanter.Models
                                 data: Parameters.General.CrosstabYLimit.ToString()),
                         bodyOnly: bodyOnly,
                         bodySelector: "#CrosstabBody",
-                        body: !bodyOnly
-                            ? new HtmlBuilder().Crosstab(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                groupByX: groupByX,
-                                groupByY: groupByY,
-                                columns: columns,
-                                aggregateType: aggregateType,
-                                value: value,
-                                timePeriod: timePeriod,
-                                month: month,
-                                dataRows: dataRows,
-                                inRange: false)
-                            : new HtmlBuilder())
+                        body: body)
                     .Events("on_crosstab_load")
                     .ToJson();
+            }
         }
 
         private static List<Column> CrosstabColumns(
@@ -7510,6 +7527,18 @@ namespace Implem.Pleasanter.Models
                 sortBy: sortBy);
             if (dataRows.Count() <= Parameters.General.GanttLimit)
             {
+                var body = new HtmlBuilder().Gantt(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    dataRows: dataRows,
+                    groupBy: groupBy,
+                    sortBy: sortBy,
+                    period: period,
+                    startDate: startDate,
+                    range: range,
+                    bodyOnly: bodyOnly,
+                    inRange: true);
                 return new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
@@ -7518,24 +7547,24 @@ namespace Implem.Pleasanter.Models
                         invoke: "drawGantt",
                         bodyOnly: bodyOnly,
                         bodySelector: "#GanttBody",
-                        body: new HtmlBuilder()
-                            .Gantt(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                dataRows: dataRows,
-                                groupBy: groupBy,
-                                sortBy: sortBy,
-                                period: period,
-                                startDate: startDate,
-                                range: range,
-                                bodyOnly: bodyOnly,
-                                inRange: true))
+                        body: body)
                     .Events("on_gantt_load")
                     .ToJson();
             }
             else
             {
+                var body = new HtmlBuilder().Gantt(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    dataRows: dataRows,
+                    groupBy: groupBy,
+                    sortBy: sortBy,
+                    period: view.GanttPeriod.ToInt(),
+                    startDate: view.GanttStartDate.ToDateTime(),
+                    range: range,
+                    bodyOnly: bodyOnly,
+                    inRange: false);
                 return new ResponseCollection(context: context)
                     .ViewMode(
                         context: context,
@@ -7546,19 +7575,7 @@ namespace Implem.Pleasanter.Models
                             data: Parameters.General.GanttLimit.ToString()),
                         bodyOnly: bodyOnly,
                         bodySelector: "#GanttBody",
-                        body: new HtmlBuilder()
-                            .Gantt(
-                                context: context,
-                                ss: ss,
-                                view: view,
-                                dataRows: dataRows,
-                                groupBy: groupBy,
-                                sortBy: sortBy,
-                                period: view.GanttPeriod.ToInt(),
-                                startDate: view.GanttStartDate.ToDateTime(),
-                                range: range,
-                                bodyOnly: bodyOnly,
-                                inRange: false))
+                        body: body)
                     .Events("on_gantt_load")
                     .ToJson();
             }
@@ -7716,44 +7733,49 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            return InRange(
+            if (InRange(
                 context: context,
                 ss: ss,
                 view: view,
-                limit: Parameters.General.BurnDownLimit)
-                    ? new ResponseCollection(context: context)
-                        .ViewMode(
+                limit: Parameters.General.BurnDownLimit))
+            {
+                var body = new HtmlBuilder().BurnDown(
+                    context: context,
+                    ss: ss,
+                    dataRows: BurnDownDataRows(
+                        context: context,
+                        ss: ss,
+                        view: view),
+                    ownerLabelText: ss.GetColumn(
+                        context: context,
+                        columnName: "Owner").GridLabelText,
+                    column: ss.GetColumn(
+                        context: context,
+                        columnName: "WorkValue"));
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        invoke: "drawBurnDown",
+                        body: body)
+                    .Events("on_burndown_load")
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        message: Messages.TooManyCases(
                             context: context,
-                            ss: ss,
-                            view: view,
-                            invoke: "drawBurnDown",
-                            body: new HtmlBuilder()
-                                .BurnDown(
-                                    context: context,
-                                    ss: ss,
-                                    dataRows: BurnDownDataRows(
-                                        context: context,
-                                        ss: ss,
-                                        view: view),
-                                    ownerLabelText: ss.GetColumn(
-                                        context: context,
-                                        columnName: "Owner").GridLabelText,
-                                    column: ss.GetColumn(
-                                        context: context,
-                                        columnName: "WorkValue")))
-                        .Events("on_burndown_load")
-                        .ToJson()
-                    : new ResponseCollection(context: context)
-                        .ViewMode(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            message: Messages.TooManyCases(
-                                context: context,
-                                data: Parameters.General.BurnDownLimit.ToString()),
-                            body: new HtmlBuilder())
-                        .Events("on_burndown_load")
-                        .ToJson();
+                            data: Parameters.General.BurnDownLimit.ToString()),
+                        body: new HtmlBuilder())
+                    .Events("on_burndown_load")
+                    .ToJson();
+            }
         }
 
         public static string BurnDownRecordDetails(Context context, SiteSettings ss)
@@ -7910,49 +7932,54 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseBadRequest(context: context).ToJson();
             }
             var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
-            return InRange(
+            if (InRange(
                 context: context,
                 ss: ss,
                 view: view,
-                limit: Parameters.General.TimeSeriesLimit)
-                    ? new ResponseCollection(context: context)
-                        .ViewMode(
+                limit: Parameters.General.TimeSeriesLimit))
+            {
+                var body = new HtmlBuilder().TimeSeries(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    horizontalAxis: horizontalAxis,
+                    bodyOnly: bodyOnly,
+                    inRange: true);
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        invoke: "drawTimeSeries",
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#TimeSeriesBody",
+                        body: body)
+                    .Events("on_timeseries_load")
+                    .ToJson();
+            }
+            else
+            {
+                var body = new HtmlBuilder().TimeSeries(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    horizontalAxis: horizontalAxis,
+                    bodyOnly: bodyOnly,
+                    inRange: false);
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        message: Messages.TooManyCases(
                             context: context,
-                            ss: ss,
-                            view: view,
-                            invoke: "drawTimeSeries",
-                            bodyOnly: bodyOnly,
-                            bodySelector: "#TimeSeriesBody",
-                            body: new HtmlBuilder()
-                                .TimeSeries(
-                                    context: context,
-                                    ss: ss,
-                                    view: view,
-                                    horizontalAxis: horizontalAxis,
-                                    bodyOnly: bodyOnly,
-                                    inRange: true))
-                        .Events("on_timeseries_load")
-                        .ToJson()
-                    : new ResponseCollection(context: context)
-                        .ViewMode(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            message: Messages.TooManyCases(
-                                context: context,
-                                data: Parameters.General.TimeSeriesLimit.ToString()),
-                            bodyOnly: bodyOnly,
-                            bodySelector: "#TimeSeriesBody",
-                            body: new HtmlBuilder()
-                                .TimeSeries(
-                                    context: context,
-                                    ss: ss,
-                                    view: view,
-                                    horizontalAxis: horizontalAxis,
-                                    bodyOnly: bodyOnly,
-                                    inRange: false))
-                        .Events("on_timeseries_load")
-                        .ToJson();
+                            data: Parameters.General.TimeSeriesLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#TimeSeriesBody",
+                        body: body)
+                    .Events("on_timeseries_load")
+                    .ToJson();
+            }
         }
 
         private static HtmlBuilder TimeSeries(
@@ -8139,49 +8166,54 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
-            return InRange(
+            if (InRange(
                 context: context,
                 ss: ss,
                 view: view,
-                limit: Parameters.General.KambanLimit)
-                    ? new ResponseCollection(context: context)
-                        .ViewMode(
+                limit: Parameters.General.KambanLimit))
+            {
+                var body = new HtmlBuilder().Kamban(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: bodyOnly,
+                    changedItemId: updated
+                        ? context.Forms.Long("KambanId")
+                        : 0);
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        invoke: "setKamban",
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#KambanBody",
+                        body: body)
+                    .Events("on_kamban_load")
+                    .ToJson();
+            }
+            else
+            {
+                var body = new HtmlBuilder().Kamban(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    bodyOnly: bodyOnly,
+                    inRange: false);
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        message: Messages.TooManyCases(
                             context: context,
-                            ss: ss,
-                            view: view,
-                            invoke: "setKamban",
-                            bodyOnly: bodyOnly,
-                            bodySelector: "#KambanBody",
-                            body: new HtmlBuilder()
-                                .Kamban(
-                                    context: context,
-                                    ss: ss,
-                                    view: view,
-                                    bodyOnly: bodyOnly,
-                                    changedItemId: updated
-                                        ? context.Forms.Long("KambanId")
-                                        : 0))
-                        .Events("on_kamban_load")
-                        .ToJson()
-                    : new ResponseCollection(context: context)
-                        .ViewMode(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            message: Messages.TooManyCases(
-                                context: context,
-                                data: Parameters.General.KambanLimit.ToString()),
-                            bodyOnly: bodyOnly,
-                            bodySelector: "#KambanBody",
-                            body: new HtmlBuilder()
-                                .Kamban(
-                                    context: context,
-                                    ss: ss,
-                                    view: view,
-                                    bodyOnly: bodyOnly,
-                                    inRange: false))
-                        .Events("on_kamban_load")
-                        .ToJson();
+                            data: Parameters.General.KambanLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#KambanBody",
+                        body: body)
+                    .Events("on_kamban_load")
+                    .ToJson();
+            }
         }
 
         private static HtmlBuilder Kamban(
@@ -8497,6 +8529,11 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
+            var body = new HtmlBuilder().ImageLib(
+                context: context,
+                ss: ss,
+                view: view,
+                bodyOnly: bodyOnly);
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
@@ -8505,12 +8542,7 @@ namespace Implem.Pleasanter.Models
                     invoke: "setImageLib",
                     bodyOnly: bodyOnly,
                     bodySelector: "#ImageLibBody",
-                    body: new HtmlBuilder()
-                        .ImageLib(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            bodyOnly: bodyOnly))
+                    body: body)
                 .ToJson();
         }
 

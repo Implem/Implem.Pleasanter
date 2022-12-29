@@ -63,6 +63,9 @@ namespace Implem.Pleasanter.Models
                         case Sqls.TableTypes.Deleted:
                             tableTypeName = "_deleted";
                             break;
+                        case Sqls.TableTypes.Match:
+                            tableTypeName = "_match";
+                            break;
                     }
                     return join.Add(
                         tableName: $"\"Items{tableTypeName}\"",
@@ -381,8 +384,8 @@ namespace Implem.Pleasanter.Models
             bool search,
             bool searchFormat)
         {
-            var controlId = context.Forms.Get("DropDownSearchTarget").Split('_');
-            var suffix = controlId.Count() == 4
+            var controlId = context.Forms.Get("DropDownSearchTarget")?.Split('_');
+            var suffix = controlId?.Count() == 4
                 ? $"_{controlId[2]}_{controlId[3]}"
                 : string.Empty;
             var isNew = suffix.IsNullOrEmpty()

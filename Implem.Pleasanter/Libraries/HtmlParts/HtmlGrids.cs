@@ -220,6 +220,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            View view,
             List<Column> columns,
             EnumerableRowCollection<DataRow> dataRows,
             FormDataSet formDataSet = null,
@@ -230,6 +231,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 hb.Tr(
                     context: context,
                     ss: ss,
+                    view: view,
                     columns: columns,
                     dataRow: dataRow,
                     recordSelector: new RecordSelector(context),
@@ -244,6 +246,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+            View view,
             List<Column> columns,
             DataRow dataRow,
             bool editRow,
@@ -278,7 +281,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss.ClearColumnAccessControlCaches(baseModel: issueModel);
                     serverScriptModelRow = issueModel?.SetByBeforeOpeningRowServerScript(
                         context: context,
-                        ss: ss);
+                        ss: ss,
+                        view: view);
                     issues.Add("Issues", issueModel);
                     break;
                 case "Results":
@@ -293,7 +297,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss.ClearColumnAccessControlCaches(baseModel: resultModel);
                     serverScriptModelRow = resultModel?.SetByBeforeOpeningRowServerScript(
                         context: context,
-                        ss: ss);
+                        ss: ss,
+                        view: view);
                     results.Add("Results", resultModel);
                     break;
             };

@@ -34,6 +34,7 @@ if (editRow && offset == 0)
         #modelName#Model.#ModelName#Id = 0;
         #modelName#Model.SetByBeforeOpeningRowServerScript(
             context: context,
-            ss: ss);
+            ss: ss,
+            view: view);
     }
 }

@@ -54,9 +54,10 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (!sourceTableName.EndsWith("_history") &&
-                !sourceTableName.EndsWith("_deleted") &&
-                rdsColumn["is_identity"].ToBool() != columnDefinition.Identity)
+            if (!sourceTableName.EndsWith("_history")
+                && !sourceTableName.EndsWith("_deleted")
+                && !sourceTableName.EndsWith("_match")
+                && rdsColumn["is_identity"].ToBool() != columnDefinition.Identity)
             {
                 return true;
             }
@@ -75,8 +76,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                     factory,
                     columnDefinition,
                     noIdentity: 
-                        sourceTableName.EndsWith("_history") ||
-                        sourceTableName.EndsWith("_deleted"))));
+                        sourceTableName.EndsWith("_history")
+                        || sourceTableName.EndsWith("_deleted")
+                        || sourceTableName.EndsWith("_match"))));
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Columns#", sqlCreateColumnCollection.Join(","));
         }

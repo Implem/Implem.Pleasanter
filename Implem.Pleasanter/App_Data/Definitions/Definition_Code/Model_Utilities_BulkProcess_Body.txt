@@ -51,11 +51,11 @@
         where: where))
     {
         if (errorMessage != null) break;
-        var match = #modelName#Model.GetProcessMatchConditions(
+        process.MatchConditions = #modelName#Model.GetProcessMatchConditions(
             context: context,
             ss: ss,
             process: process);
-        if (!match)
+        if (!process.MatchConditions)
         {
             errorMessage = process.GetErrorMessage(context: context);
         }
