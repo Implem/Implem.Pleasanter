@@ -63,6 +63,9 @@ namespace Implem.Pleasanter.Models
                         case Sqls.TableTypes.Deleted:
                             tableTypeName = "_deleted";
                             break;
+                        case Sqls.TableTypes.Match:
+                            tableTypeName = "_match";
+                            break;
                     }
                     return join.Add(
                         tableName: $"\"Items{tableTypeName}\"",
@@ -382,9 +385,9 @@ namespace Implem.Pleasanter.Models
             bool search,
             bool searchFormat)
         {
-            var controlId = context.Forms.Get("DropDownSearchTarget").Split('_');
+            var controlId = context.Forms.Get("DropDownSearchTarget")?.Split('_');
             // 一覧編集の場合レコードを特定するためのsuffixデータを抽出
-            var suffix = controlId.Count() == 4
+            var suffix = controlId?.Count() == 4
                 ? $"_{controlId[2]}_{controlId[3]}"
                 : string.Empty;
             // 一覧編集の場合はcontrolId[3]が-1で新規作成を判定

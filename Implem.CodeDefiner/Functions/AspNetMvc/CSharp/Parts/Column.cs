@@ -101,6 +101,7 @@ namespace Implem.CodeDefiner.Functions.AspNetMvc.CSharp.Parts
             if (codeDefinition.NotSelectColumn && !columnDefinition.ComputeColumn.IsNullOrEmpty()) return true;
             if (codeDefinition.Aggregatable && !columnDefinition.Aggregatable) return true;
             if (codeDefinition.Computable && !columnDefinition.Computable) return true;
+            if (codeDefinition.ApiNewKeyword && !columnDefinition.ApiNewKeyword) return true;
             if (!codeDefinition.Include.IsNullOrEmpty() && !codeDefinition.Include.Split(',').Contains(columnDefinition.ColumnName)) return true;
             if (!codeDefinition.Exclude.IsNullOrEmpty() && codeDefinition.Exclude.Split(',').Contains(columnDefinition.ColumnName)) return true;
             if (!codeDefinition.IncludeTypeName.IsNullOrEmpty() && !codeDefinition.IncludeTypeName.Split(',').Contains(columnDefinition.TypeName)) return true;

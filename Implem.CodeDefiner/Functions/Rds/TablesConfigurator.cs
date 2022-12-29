@@ -73,6 +73,7 @@ namespace Implem.CodeDefiner.Functions.Rds
             Consoles.Write(generalTableName, Consoles.Types.Info);
             var deletedTableName = generalTableName + "_deleted";
             var historyTableName = generalTableName + "_history";
+            var matchTableName = generalTableName + "_match";
             var columnDefinitionCollection = Def.ColumnDefinitionCollection
                 .Where(o => o.TableName == generalTableName)
                 .Where(o => !o.NotUpdate)
@@ -101,6 +102,21 @@ namespace Implem.CodeDefiner.Functions.Rds
                 sourceTableName: historyTableName,
                 tableType: Sqls.TableTypes.History,
                 columnDefinitionCollection: columnDefinitionHistoryCollection);
+            switch (generalTableName)
+            {
+                case "Items":
+                case "Issues":
+                case "Results":
+                    ConfigureTablePart(
+                        factory: factory,
+                        generalTableName: generalTableName,
+                        sourceTableName: matchTableName,
+                        tableType: Sqls.TableTypes.Match,
+                        columnDefinitionCollection: columnDefinitionCollection);
+                    break;
+                default:
+                    break;
+            }
         }
 
         private static void ConfigureTablePart(

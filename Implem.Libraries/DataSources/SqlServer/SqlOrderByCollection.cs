@@ -53,7 +53,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                 commandText.Append(
                     "order by ",
                     this
-                        .GroupBy(o => $"{o.TableName}.{o.ColumnBracket}")
+                        .GroupBy(o => $"{o.TableName}{o.ColumnBracket}" == string.Empty
+                            ? Strings.NewGuid()
+                            : $"{o.TableName}.{o.ColumnBracket}")
                         .Select(o => o.FirstOrDefault())
                         .Select(o => o.Sql(
                             factory: factory,

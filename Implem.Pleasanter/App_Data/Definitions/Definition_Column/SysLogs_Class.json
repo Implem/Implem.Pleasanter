@@ -19,6 +19,7 @@
     "MaxLength": "256",
     "Nullable": "1",
     "UpdateAccessControl": "ManageService",
+    "ApiNewKeyword": "1",
     "LabelText_en": "Class",
     "LabelText_zh": "类别",
     "LabelText_de": "Klasse",

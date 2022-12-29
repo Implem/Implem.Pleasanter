@@ -743,7 +743,8 @@ namespace Implem.Pleasanter.Models
 
        public virtual ServerScriptModelRow SetByBeforeOpeningRowServerScript(
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            View view)
         {
             return null;
         }
@@ -972,14 +973,15 @@ namespace Implem.Pleasanter.Models
 
         public override ServerScriptModelRow SetByBeforeOpeningRowServerScript(
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            View view)
         {
             var scriptValues = ServerScriptUtilities.Execute(
                 context: context,
                 ss: ss,
                 gridData: null,
                 itemModel: this,
-                view: null,
+                view: view,
                 where: script => script.BeforeOpeningRow == true,
                 condition: "BeforeOpeningRow");
             if (scriptValues != null)

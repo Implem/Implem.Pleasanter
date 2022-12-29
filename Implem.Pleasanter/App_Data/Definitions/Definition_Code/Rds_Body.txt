@@ -465,6 +465,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 TableBracket = "\"" + tableName + "\"",
                 HistoryTableBracket = "\"" + tableName + "_history\"",
                 DeletedTableBracket = "\"" + tableName + "_deleted\"",
+                MatchTableBracket = "\"" + tableName + "_match\"",
                 As = _as,
                 SqlColumnCollection = column,
                 SqlJoinCollection = join,

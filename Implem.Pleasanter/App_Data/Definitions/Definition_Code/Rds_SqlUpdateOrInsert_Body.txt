@@ -16,6 +16,7 @@
         TableBracket = "\"#TableName#\"",
         HistoryTableBracket = "\"#TableName#_history\"",
         DeletedTableBracket = "\"#TableName#_deleted\"",
+        MatchTableBracket = "\"#TableName#_match\"",
         SelectIdentity = selectIdentity,
         SqlWhereCollection = where,
         SqlParamCollection = param,

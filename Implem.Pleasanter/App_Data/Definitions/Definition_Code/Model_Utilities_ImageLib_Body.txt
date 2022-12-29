@@ -36,6 +36,11 @@ public static string ImageLibJson(Context context, SiteSettings ss)
     }
     var view = Views.GetBySession(context: context, ss: ss);
     var bodyOnly = context.Forms.ControlId().StartsWith("ImageLib");
+    var body = new HtmlBuilder().ImageLib(
+        context: context,
+        ss: ss,
+        view: view,
+        bodyOnly: bodyOnly);
     return new ResponseCollection(context: context)
         .ViewMode(
             context: context,
@@ -44,12 +49,7 @@ public static string ImageLibJson(Context context, SiteSettings ss)
             invoke: "setImageLib",
             bodyOnly: bodyOnly,
             bodySelector: "#ImageLibBody",
-            body: new HtmlBuilder()
-                .ImageLib(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    bodyOnly: bodyOnly))
+            body: body)
         .ToJson();
 }
 

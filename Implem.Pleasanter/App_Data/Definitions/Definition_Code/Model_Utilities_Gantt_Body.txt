@@ -88,6 +88,18 @@ public static string GanttJson(Context context, SiteSettings ss)
         sortBy: sortBy);
     if (dataRows.Count() <= Parameters.General.GanttLimit)
     {
+        var body = new HtmlBuilder().Gantt(
+            context: context,
+            ss: ss,
+            view: view,
+            dataRows: dataRows,
+            groupBy: groupBy,
+            sortBy: sortBy,
+            period: period,
+            startDate: startDate,
+            range: range,
+            bodyOnly: bodyOnly,
+            inRange: true);
         return new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
@@ -96,24 +108,24 @@ public static string GanttJson(Context context, SiteSettings ss)
                 invoke: "drawGantt",
                 bodyOnly: bodyOnly,
                 bodySelector: "#GanttBody",
-                body: new HtmlBuilder()
-                    .Gantt(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        dataRows: dataRows,
-                        groupBy: groupBy,
-                        sortBy: sortBy,
-                        period: period,
-                        startDate: startDate,
-                        range: range,
-                        bodyOnly: bodyOnly,
-                        inRange: true))
+                body: body)
             .Events("on_gantt_load")
             .ToJson();
     }
     else
     {
+        var body = new HtmlBuilder().Gantt(
+            context: context,
+            ss: ss,
+            view: view,
+            dataRows: dataRows,
+            groupBy: groupBy,
+            sortBy: sortBy,
+            period: view.GanttPeriod.ToInt(),
+            startDate: view.GanttStartDate.ToDateTime(),
+            range: range,
+            bodyOnly: bodyOnly,
+            inRange: false);
         return new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
@@ -124,19 +136,7 @@ public static string GanttJson(Context context, SiteSettings ss)
                     data: Parameters.General.GanttLimit.ToString()),
                 bodyOnly: bodyOnly,
                 bodySelector: "#GanttBody",
-                body: new HtmlBuilder()
-                    .Gantt(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        dataRows: dataRows,
-                        groupBy: groupBy,
-                        sortBy: sortBy,
-                        period: view.GanttPeriod.ToInt(),
-                        startDate: view.GanttStartDate.ToDateTime(),
-                        range: range,
-                        bodyOnly: bodyOnly,
-                        inRange: false))
+                body: body)
             .Events("on_gantt_load")
             .ToJson();
     }

@@ -177,6 +177,12 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
+            var body = new HtmlBuilder().Grid(
+                context: context,
+                ss: ss,
+                gridData: gridData,
+                view: view,
+                serverScriptModelRow: serverScriptModelRow);
             return new ResponseCollection(context: context)
                 .ViewMode(
                     context: context,
@@ -185,13 +191,7 @@ namespace Implem.Pleasanter.Models
                     invoke: "setGrid",
                     editOnGrid: context.Forms.Bool("EditOnGrid"),
                     serverScriptModelRow: serverScriptModelRow,
-                    body: new HtmlBuilder()
-                        .Grid(
-                            context: context,
-                            ss: ss,
-                            gridData: gridData,
-                            view: view,
-                            serverScriptModelRow: serverScriptModelRow))
+                    body: body)
                 .Events("on_grid_load")
                 .ToJson();
         }
@@ -364,6 +364,7 @@ namespace Implem.Pleasanter.Models
                     .GridRows(
                         context: context,
                         ss: ss,
+                        view: view,
                         dataRows: gridData.DataRows,
                         columns: columns,
                         checkRow: checkRow));
@@ -423,6 +424,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().Tr(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRow: dataRow,
                             columns: ss.GetGridColumns(
                                 context: context,
@@ -1876,6 +1878,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
@@ -2126,6 +2129,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()
@@ -2191,6 +2195,7 @@ namespace Implem.Pleasanter.Models
                         new HtmlBuilder().GridRows(
                             context: context,
                             ss: ss,
+                            view: view,
                             dataRows: gridData.DataRows,
                             columns: columns))
                     .CloseDialog()

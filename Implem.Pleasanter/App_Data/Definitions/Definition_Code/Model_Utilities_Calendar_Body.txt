@@ -181,8 +181,23 @@ public static string CalendarJson(
             .CalendarUtilities.InRange(
                 context: context,
                 dataRows: dataRows);
-    return inRange
-        ? new ResponseCollection(context: context)
+    var body = new HtmlBuilder().Calendar(
+        context: context,
+        ss: ss,
+        timePeriod: timePeriod,
+        groupBy: groupBy,
+        fromColumn: fromColumn,
+        toColumn: toColumn,
+        date: date,
+        begin: begin,
+        choices: choices,
+        dataRows: dataRows,
+        bodyOnly: bodyOnly,
+        inRange: inRange,
+        changedItemId: changedItemId);
+    if (inRange)
+    {
+        return new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -192,24 +207,13 @@ public static string CalendarJson(
                 loadScroll: update,
                 bodyOnly: bodyOnly,
                 bodySelector: "#CalendarBody",
-                body: new HtmlBuilder()
-                    .Calendar(
-                        context: context,
-                        ss: ss,
-                        timePeriod: timePeriod,
-                        groupBy: groupBy,
-                        fromColumn: fromColumn,
-                        toColumn: toColumn,
-                        date: date,
-                        begin: begin,
-                        choices: choices,
-                        dataRows: dataRows,
-                        bodyOnly: bodyOnly,
-                        inRange: true,
-                        changedItemId: changedItemId))
+                body: body)
             .Events("on_calendar_load")
-            .ToJson()
-        : new ResponseCollection(context: context)
+            .ToJson();
+    }
+    else
+    {
+        return new ResponseCollection(context: context)
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -223,23 +227,10 @@ public static string CalendarJson(
                         data: Parameters.General.CalendarYLimit.ToString()),
                 bodyOnly: bodyOnly,
                 bodySelector: "#CalendarBody",
-                body: new HtmlBuilder()
-                    .Calendar(
-                        context: context,
-                        ss: ss,
-                        timePeriod: timePeriod,
-                        groupBy: groupBy,
-                        fromColumn: fromColumn,
-                        toColumn: toColumn,
-                        date: date,
-                        begin: begin,
-                        choices: choices,
-                        dataRows: dataRows,
-                        bodyOnly: bodyOnly,
-                        inRange: false,
-                        changedItemId: changedItemId))
+                body: body)
             .Events("on_calendar_load")
             .ToJson();
+    }
 }
 
 private static EnumerableRowCollection<DataRow> CalendarDataRows(

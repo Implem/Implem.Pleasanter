@@ -1,1 +1,1 @@
-﻿public #RecordingType#<!--Model_ApiPropertyNullType--> #ColumnName# { get; set; }
+﻿public <!--Model_NewClass-->#RecordingType#<!--Model_ApiPropertyNullType--> #ColumnName# { get; set; }

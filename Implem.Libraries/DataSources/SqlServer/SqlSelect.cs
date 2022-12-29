@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using DocumentFormat.OpenXml.Vml.Spreadsheet;
+using Implem.DefinitionAccessor;
 using Implem.IRds;
 using Implem.Libraries.Utilities;
 using System.Text;
@@ -63,6 +64,15 @@ namespace Implem.Libraries.DataSources.SqlServer
                     break;
                 case Sqls.TableTypes.Deleted:
                     BuildDeleted(
+                        factory: factory,
+                        sqlContainer: sqlContainer,
+                        sqlCommand: sqlCommand,
+                        commandText: commandText,
+                        commandCount: commandCount,
+                        unionType: Sqls.UnionTypes.None);
+                    break;
+                case Sqls.TableTypes.Match:
+                    BuildMatch(
                         factory: factory,
                         sqlContainer: sqlContainer,
                         sqlCommand: sqlCommand,
@@ -192,6 +202,25 @@ namespace Implem.Libraries.DataSources.SqlServer
                 sqlCommand: sqlCommand,
                 commandText: commandText,
                 tableType: Sqls.TableTypes.Deleted,
+                unionType: unionType,
+                orderBy: true,
+                commandCount: commandCount);
+        }
+
+        private void BuildMatch(
+            ISqlObjectFactory factory,
+            SqlContainer sqlContainer,
+            ISqlCommand sqlCommand,
+            StringBuilder commandText,
+            int? commandCount,
+            Sqls.UnionTypes unionType)
+        {
+            BuildCommandText(
+                factory: factory,
+                sqlContainer: sqlContainer,
+                sqlCommand: sqlCommand,
+                commandText: commandText,
+                tableType: Sqls.TableTypes.Match,
                 unionType: unionType,
                 orderBy: true,
                 commandCount: commandCount);
@@ -327,6 +356,9 @@ namespace Implem.Libraries.DataSources.SqlServer
                     break;
                 case Sqls.TableTypes.Deleted:
                     tableBlacket = DeletedTableBracket;
+                    break;
+                case Sqls.TableTypes.Match:
+                    tableBlacket = MatchTableBracket;
                     break;
             }
             return "from " + tableBlacket + (!_as.IsNullOrEmpty()

@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Models
         public string ServiceName { get; set; }
         public string TenantName { get; set; }
         public string Application { get; set; }
-        public string Class { get; set; }
+        public new string Class { get; set; }
         public string Method { get; set; }
         public string RequestData { get; set; }
         public string HttpMethod { get; set; }
