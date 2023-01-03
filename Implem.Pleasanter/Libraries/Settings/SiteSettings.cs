@@ -1248,6 +1248,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.ControlType = column.ControlType;
                     }
+                    if (column.ChoicesControlType == HtmlFields.ControlTypes.Radio.ToString())
+                    {
+                        enabled = true;
+                        newColumn.ChoicesControlType = column.ChoicesControlType;
+                    }
                     if (column.Format?.Trim().IsNullOrEmpty() == false)
                     {
                         enabled = true;
@@ -1815,6 +1820,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
                 column.ControlType = column.ControlType ?? columnDefinition.ControlType;
+                column.ChoicesControlType = column.ChoicesControlType ?? HtmlFields.ControlTypes.DropDown.ToString();
                 column.AutoNumberingResetType = column.AutoNumberingResetType ?? Column.AutoNumberingResetTypes.None;
                 column.AutoNumberingDefault = column.AutoNumberingDefault ?? 1;
                 column.AutoNumberingStep = column.AutoNumberingStep ?? 1;
@@ -3726,6 +3732,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "GridLabelText": column.GridLabelText = value; break;
                 case "ControlType": column.ControlType = value; break;
+                case "ChoicesControlType": column.ChoicesControlType = value; break;
                 case "Format": column.Format = value; break;
                 case "NoWrap": column.NoWrap = value.ToBool(); break;
                 case "Hide": column.Hide = value.ToBool(); break;

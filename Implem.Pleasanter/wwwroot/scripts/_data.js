@@ -50,7 +50,14 @@ $p.set = function ($control, val) {
                         }
                         break;
                     default:
-                        $control.val(val);
+                        if ($control.hasClass('radio-value')) {
+                            // type="radio"のチェック変更
+                            $('input[name="' + $control.attr('id') + '"]').val([val]);
+                            // radio-valueへのデータ格納
+                            $control.val(val);
+                        } else {
+                            $control.val(val);
+                        }
                         break;
                 }
                 break;
@@ -72,7 +79,17 @@ $p.setData = function ($control, data) {
                 break;
             case 'radio':
                 if ($control.prop('checked')) {
-                    data[$control.attr('name')] = $control.val();
+                    console.log($control.attr('id') + ':' + $control.attr('name'));
+                    // UIでラジオボタンを操作された場合には、こちらのルートを通るが
+                    // $p.setで操作された場合には$controlはhiddenの.radio-valueとなるため
+                    // このルートを通らずswitch ($control.prop('tagName'))のdefaultを通る
+                    var name = $control.attr('name');
+                    // $p.dataへのデータ格納
+                    data[name] = $control.val();
+                    // radio-valueへのデータ格納
+                    $('[id="' + name + '"]').val($control.val());
+                    // 入力必須エラーが表示されている場合には削除
+                    $('[id="' + name + '-error"]').remove();
                 }
                 break;
             default:

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DropDownList",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "drop-down list"
+        },
+        {
+            "Language": "zh",
+            "Body": "下拉列表"
+        },
+        {
+            "Language": "ja",
+            "Body": "ドロップダウンリスト"
+        },
+        {
+            "Language": "de",
+            "Body": "Dropdown-Liste"
+        },
+        {
+            "Language": "ko",
+            "Body": "드롭 다운 목록"
+        },
+        {
+            "Language": "es",
+            "Body": "la lista desplegable"
+        },
+        {
+            "Language": "vn",
+            "Body": "danh sách thả xuống"
+        }
+    ]
+}

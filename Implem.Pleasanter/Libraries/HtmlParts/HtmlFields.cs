@@ -8,7 +8,6 @@ using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
-using Implem.Pleasanter.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlFields
     {
-        private enum ControlTypes
+        public enum ControlTypes
         {
             Text,
             TextBox,
@@ -26,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             TextBoxMultiLine,
             MarkDown,
             DropDown,
+            Radio,
             CheckBox,
             Slider,
             Spinner,
@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var extendedFieldCss = Strings.CoalesceEmpty(
                 serverScriptModelColumn?.ExtendedFieldCss,
                 column.ExtendedFieldCss);
-            return Strings.CoalesceEmpty(fieldCss, column.FieldCss)
+            var css = Strings.CoalesceEmpty(fieldCss, column.FieldCss)
                 + (column.NoWrap == true
                     ? " both"
                     : string.Empty)
@@ -163,6 +163,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 + (!extendedFieldCss.IsNullOrEmpty()
                     ? " " + extendedFieldCss
                     : string.Empty);
+            if (column.ChoicesControlType == "Radio")
+            {
+                // ラジオボタンのスタイルはワイドのみ使用可能
+                css = (css + " field-wide").Trim();
+            }
+            return css;
         }
 
         private static string ControlCss(
@@ -531,6 +537,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                     && column.Type == Column.Types.Dept);
                                     }
                                 });
+                        case ControlTypes.Radio:
+                            return hb.FieldRadio(
+                                fieldId: controlId + "Field",
+                                controlId: controlId,
+                                fieldCss: fieldCss,
+                                fieldDescription: column.Description,
+                                labelCss: labelCss,
+                                controlContainerCss: "container-normal container-radio",
+                                controlCss: controlCss,
+                                labelText: labelText,
+                                labelRaw: labelRaw,
+                                controlOnly: controlOnly,
+                                optionCollection: optionCollection,
+                                alwaysSend: alwaysSend,
+                                validateRequired: required,
+                                selectedValue: value,
+                                extendedHtmlBeforeLabel: extendedHtmlBeforeLabel,
+                                extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
+                                extendedHtmlAfterControl: extendedHtmlAfterControl);
                         case ControlTypes.Text:
                             return hb.FieldText(
                                 fieldId: controlId + "Field",
@@ -844,7 +869,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return ControlTypes.CheckBox;
                 case Types.CsNumeric:
                     return column.HasChoices()
-                        ? ControlTypes.DropDown
+                        ? column.ChoicesControlType == "Radio"
+                            ? ControlTypes.Radio
+                            : ControlTypes.DropDown
                         : ControlTypes.TextBoxNumeric;
                 case Types.CsDateTime:
                     return ControlTypes.TextBoxDateTime;
@@ -859,7 +886,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (column.HasChoices())
             {
-                return ControlTypes.DropDown;
+                return column.ChoicesControlType == "Radio"
+                    ? ControlTypes.Radio
+                    : ControlTypes.DropDown;
             }
             switch (column.FieldCss)
             {
@@ -1564,7 +1593,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder FieldRadio(
             this HtmlBuilder hb,
             string fieldId = null,
-            string name = null,
+            string controlId = null,
             string fieldCss = null,
             string fieldDescription = null,
             string labelCss = null,
@@ -1575,9 +1604,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelTitle = null,
             string labelIcon = null,
             bool controlOnly = false,
+            bool alwaysSend = false,
             bool validateRequired = false,
             Dictionary<string, ControlData> optionCollection = null,
-            string selectedValueText = null,
+            string selectedValue = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
@@ -1586,6 +1616,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return _using
                 ? hb.Field(
                     fieldId: fieldId,
+                    controlId: controlId,
                     fieldCss: fieldCss,
                     fieldDescription: fieldDescription,
                     labelCss: labelCss,
@@ -1600,11 +1631,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     extendedHtmlBetweenLabelAndControl: extendedHtmlBetweenLabelAndControl,
                     extendedHtmlAfterControl: extendedHtmlAfterControl,
                     controlAction: () => hb
+                        .Hidden(
+                            controlId: controlId,
+                            css: "radio-value",
+                            value: selectedValue,
+                            validateRequired: validateRequired)
                         .RadioButtons(
-                            name: name,
+                            name: controlId,
                             controlCss: controlCss,
                             optionCollection: optionCollection,
-                            selectedValue: selectedValueText))
+                            selectedValue: selectedValue))
                 : hb;
         }
 

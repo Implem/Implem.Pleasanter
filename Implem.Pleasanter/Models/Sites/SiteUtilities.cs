@@ -6315,8 +6315,8 @@ namespace Implem.Pleasanter.Models
                                                         labelText: Displays.ControlType(context: context),
                                                         optionCollection: new Dictionary<string, string>
                                                         {
-                                                        { "Normal", Displays.Normal(context: context) },
-                                                        { "Spinner", Displays.Spinner(context: context) }
+                                                            { "Normal", Displays.Normal(context: context) },
+                                                            { "Spinner", Displays.Spinner(context: context) }
                                                         },
                                                         selectedValue: column.ControlType)
                                                     .FieldTextBox(
@@ -6507,6 +6507,16 @@ namespace Implem.Pleasanter.Models
                                                 fieldCss: "field-wide",
                                                 labelText: Displays.OptionList(context: context),
                                                 text: column.ChoicesText)
+                                            .FieldDropDown(
+                                                context: context,
+                                                controlId: "ChoicesControlType",
+                                                labelText: Displays.ControlType(context: context),
+                                                optionCollection: new Dictionary<string, string>
+                                                {
+                                                    { "DropDown", Displays.DropDownList(context: context) },
+                                                    { "Radio", Displays.RadioButton(context: context) }
+                                                },
+                                                selectedValue: column.ChoicesControlType)
                                             .FieldCheckBox(
                                                 controlId: "UseSearch",
                                                 labelText: Displays.UseSearch(context: context),

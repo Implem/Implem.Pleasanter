@@ -1,0 +1,33 @@
+﻿{
+    "Id": "RadioButton",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Radio button"
+        },
+        {
+            "Language": "zh",
+            "Body": "单选按钮"
+        },
+        {
+            "Language": "ja",
+            "Body": "ラジオボタン"
+        },
+        {
+            "Language": "de",
+            "Body": "Radio knopf"
+        },
+        {
+            "Language": "ko",
+            "Body": "라디오 버튼"
+        },
+        {
+            "Language": "es",
+            "Body": "Boton de radio"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nút radio"
+        }
+    ]
+}
