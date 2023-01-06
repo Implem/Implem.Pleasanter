@@ -4361,7 +4361,7 @@ namespace Implem.Pleasanter.Models
                         {
                             Offset = api?.Offset ?? 0,
                             PageSize = pageSize,
-                            TotalCount = users.Count(),
+                            TotalCount = userCollection.TotalCount,
                             Data = users.Select(o => o.GetByApi(
                                 context: context,
                                 ss: ss,
