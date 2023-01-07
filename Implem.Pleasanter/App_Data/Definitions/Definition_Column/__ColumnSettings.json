@@ -43,6 +43,7 @@
     "Ix5": "int",
     "Ix5OrderBy": "string",
     "Nullable": "bool",
+    "MatchNullable": "bool",
     "Default": "string",
     "DefaultCs": "string",
     "DefaultNotNull": "bool",
