@@ -1550,7 +1550,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 /// 一括処理を行う場合には読み取り権限だけでなく書き込み権限をチェック
                 permissionType: process == null
                     ? Permissions.Types.Read
-                    : Permissions.Types.Read | Permissions.Types.Update);
+                    : Permissions.Types.Read | Permissions.Types.Update,
+                checkPermission: checkPermission);
             if (requestSearchCondition
                 && RequestSearchCondition(
                     context: context,
