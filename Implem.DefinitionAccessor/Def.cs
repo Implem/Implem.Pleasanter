@@ -2333,6 +2333,11 @@ namespace Implem.DefinitionAccessor
                                 data.ToBool();
                             newColumnDefinition.SavedNullable = newColumnDefinition.Nullable;
                             break;
+                        case "MatchNullable":
+                            newColumnDefinition.MatchNullable = customDefinitionRow.Get("MatchNullable")?.ToBool() ??
+                                data.ToBool();
+                            newColumnDefinition.SavedMatchNullable = newColumnDefinition.MatchNullable;
+                            break;
                         case "Default":
                             newColumnDefinition.Default = customDefinitionRow.Get("Default")?.ToString() ??
                                 data.ToString();
@@ -2826,6 +2831,7 @@ namespace Implem.DefinitionAccessor
             if (definitionRow.ContainsKey("Ix5")) { definition.Ix5 = definitionRow["Ix5"].ToInt(); definition.SavedIx5 = definition.Ix5; }
             if (definitionRow.ContainsKey("Ix5OrderBy")) { definition.Ix5OrderBy = definitionRow["Ix5OrderBy"].ToString(); definition.SavedIx5OrderBy = definition.Ix5OrderBy; }
             if (definitionRow.ContainsKey("Nullable")) { definition.Nullable = definitionRow["Nullable"].ToBool(); definition.SavedNullable = definition.Nullable; }
+            if (definitionRow.ContainsKey("MatchNullable")) { definition.MatchNullable = definitionRow["MatchNullable"].ToBool(); definition.SavedMatchNullable = definition.MatchNullable; }
             if (definitionRow.ContainsKey("Default")) { definition.Default = definitionRow["Default"].ToString(); definition.SavedDefault = definition.Default; }
             if (definitionRow.ContainsKey("DefaultCs")) { definition.DefaultCs = definitionRow["DefaultCs"].ToString(); definition.SavedDefaultCs = definition.DefaultCs; }
             if (definitionRow.ContainsKey("DefaultNotNull")) { definition.DefaultNotNull = definitionRow["DefaultNotNull"].ToBool(); definition.SavedDefaultNotNull = definition.DefaultNotNull; }
@@ -5626,6 +5632,7 @@ namespace Implem.DefinitionAccessor
                         case "Ix5": columnDefinition.Ix5 = optionValue.ToInt(); break;
                         case "Ix5OrderBy": columnDefinition.Ix5OrderBy = optionValue.ToString(); break;
                         case "Nullable": columnDefinition.Nullable = optionValue.ToBool(); break;
+                        case "MatchNullable": columnDefinition.MatchNullable = optionValue.ToBool(); break;
                         case "Default": columnDefinition.Default = optionValue.ToString(); break;
                         case "DefaultCs": columnDefinition.DefaultCs = optionValue.ToString(); break;
                         case "DefaultNotNull": columnDefinition.DefaultNotNull = optionValue.ToBool(); break;
@@ -8148,6 +8155,7 @@ namespace Implem.DefinitionAccessor
         public int Ix5; public int SavedIx5;
         public string Ix5OrderBy; public string SavedIx5OrderBy;
         public bool Nullable; public bool SavedNullable;
+        public bool MatchNullable; public bool SavedMatchNullable;
         public string Default; public string SavedDefault;
         public string DefaultCs; public string SavedDefaultCs;
         public bool DefaultNotNull; public bool SavedDefaultNotNull;
@@ -8287,6 +8295,7 @@ namespace Implem.DefinitionAccessor
             if (propertyCollection.ContainsKey("Ix5")) Ix5 = propertyCollection["Ix5"].ToInt(); else Ix5 = 0;
             if (propertyCollection.ContainsKey("Ix5OrderBy")) Ix5OrderBy = propertyCollection["Ix5OrderBy"].ToString(); else Ix5OrderBy = string.Empty;
             if (propertyCollection.ContainsKey("Nullable")) Nullable = propertyCollection["Nullable"].ToBool(); else Nullable = false;
+            if (propertyCollection.ContainsKey("MatchNullable")) MatchNullable = propertyCollection["MatchNullable"].ToBool(); else MatchNullable = false;
             if (propertyCollection.ContainsKey("Default")) Default = propertyCollection["Default"].ToString(); else Default = string.Empty;
             if (propertyCollection.ContainsKey("DefaultCs")) DefaultCs = propertyCollection["DefaultCs"].ToString(); else DefaultCs = string.Empty;
             if (propertyCollection.ContainsKey("DefaultNotNull")) DefaultNotNull = propertyCollection["DefaultNotNull"].ToBool(); else DefaultNotNull = false;
@@ -8426,6 +8435,7 @@ namespace Implem.DefinitionAccessor
                     case "Ix5": return Ix5;
                     case "Ix5OrderBy": return Ix5OrderBy;
                     case "Nullable": return Nullable;
+                    case "MatchNullable": return MatchNullable;
                     case "Default": return Default;
                     case "DefaultCs": return DefaultCs;
                     case "DefaultNotNull": return DefaultNotNull;
@@ -8565,6 +8575,7 @@ namespace Implem.DefinitionAccessor
             Ix5 = SavedIx5;
             Ix5OrderBy = SavedIx5OrderBy;
             Nullable = SavedNullable;
+            MatchNullable = SavedMatchNullable;
             Default = SavedDefault;
             DefaultCs = SavedDefaultCs;
             DefaultNotNull = SavedDefaultNotNull;

@@ -1445,7 +1445,8 @@ namespace Implem.Pleasanter.Models
         {
             var where = view.Where(
                 context: context,
-                ss: ss)
+                ss: ss,
+                checkPermission: false)
                     .Wikis_Creator(context.UserId);
             var join = ss.MatchJoin(
                 context: context,

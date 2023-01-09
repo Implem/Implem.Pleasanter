@@ -22,6 +22,7 @@
     "TypeCs": "CompletionTime",
     "RecordingData": ".Value",
     "Ix4": "3",
+    "MatchNullable": true,
     "Required": "1",
     "SearchIndexPriority": "200",
     "ByForm": "new CompletionTime(context: context, ss: ss, value: value.ToDateTime(), status: Status, byForm: true); ProgressRate.CompletionTime = CompletionTime.Value",

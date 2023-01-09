@@ -1941,6 +1941,10 @@ label.required:after{
     border-radius:5px;
 }
 
+.container-radio>label.error{
+    top:0px;
+}
+
 .control-attachments+label.error{
     height:22px;
     position:absolute;
@@ -2196,16 +2200,25 @@ _::-webkit-full-page-media, _:future, :root .field-normal .control-checkbox + la
     width: 172px;
 }
 
+.container-radio{
+    padding:7px 0px;
+}
+
+.container-radio > label{
+    display:block;
+    float:left;
+    margin:0px 5px 0px 0px;
+    white-space:nowrap;
+}
+
 .control-radio{
     display:block;
     float:left;
-    margin:8px 0px;
+    margin:3px;
 }
 
-.control-radio + label{
-    display:block;
-    float:left;
-    margin:4px 10px 5px 7px;
+.radio-clear-both .container-radio > label{
+    clear:both;
 }
 
 .control-slider{

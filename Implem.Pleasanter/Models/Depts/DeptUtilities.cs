@@ -2290,7 +2290,7 @@ namespace Implem.Pleasanter.Models
                         {
                             Offset = api?.Offset ?? 0,
                             PageSize = pageSize,
-                            TotalCount = groups.Count(),
+                            TotalCount = deptCollection.TotalCount,
                             Data = groups.Select(o => o.GetByApi(
                                 context: context,
                                 ss: ss))
