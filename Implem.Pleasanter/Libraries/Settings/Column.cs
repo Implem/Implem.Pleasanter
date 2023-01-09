@@ -86,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string EditorFormat;
         public string ExportFormat;
         public string ControlType;
+        public string ChoicesControlType;
         public string Format;
         public bool? NoWrap;
         public bool? Hide;

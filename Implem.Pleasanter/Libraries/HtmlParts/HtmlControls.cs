@@ -508,18 +508,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             {
                 optionCollection
                     .Select((o, i) => new { Option = o, Index = i })
-                    .ForEach(data => hb
-                        .Input(attributes: new HtmlAttributes()
-                            .Id(name + data.Index)
-                            .Name(name + data.Index)
-                            .Class(Css.Class("control-radio", controlCss))
-                            .Type("radio")
-                            .Value(data.Option.Key)
-                            .Checked(data.Option.Key == selectedValue))
-                        .Label(
-                            attributes: new HtmlAttributes().For(name + data.Index),
-                            action: () => hb
-                                .Text(data.Option.Value.Text)));
+                    .ForEach(data => hb.Label(
+                        attributes: new HtmlAttributes().For(name + data.Index),
+                        action: () => hb
+                            .Input(attributes: new HtmlAttributes()
+                                .Id(name + data.Index)
+                                .Name(name)
+                                .Class(Css.Class("control-radio", controlCss))
+                                .Type("radio")
+                                .Value(data.Option.Key)
+                                .Checked(data.Option.Key == selectedValue))
+                            .Text(data.Option.Value.Text)));
             }
             return hb;
         }
@@ -734,6 +733,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css = null,
             string value = null,
             string rawValue = null,
+            bool validateRequired = false,
             string action = null,
             string method = null,
             bool alwaysSend = false,
@@ -747,6 +747,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Type("hidden")
                     .Value(value)
                     .RawValue(rawValue)
+                    .DataValidateRequired(validateRequired)
                     .DataAction(action)
                     .DataMethod(method)
                     .DataAlwaysSend(alwaysSend))

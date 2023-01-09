@@ -1546,7 +1546,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 where: where,
                 permissionType: process == null
                     ? Permissions.Types.Read
-                    : Permissions.Types.Read | Permissions.Types.Update);
+                    : Permissions.Types.Read | Permissions.Types.Update,
+                checkPermission: checkPermission);
             if (requestSearchCondition
                 && RequestSearchCondition(
                     context: context,
@@ -1980,8 +1981,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             .GroupId_In(ids)
                                             .UserId(0, _operator: "<>")
                                             .UserId(raw: "\"Users\".\"UserId\"")
-                                            .Groups_Disabled(false),
-                                        top: 1),
+                                            .Groups_Disabled(false)),
                                     Rds.SelectGroupMembers(
                                         column: Rds.GroupMembersColumn().GroupId(),
                                         join: Rds.GroupMembersJoinDefault()
@@ -1999,7 +1999,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                                             .DeptId(raw: "\"Users\".\"DeptId\"")
                                             .Groups_Disabled(false)
                                             .Depts_Disabled(false),
-                                        top: 1,
                                         unionType: Sqls.UnionTypes.UnionAll)
                                 }));
                                 break;

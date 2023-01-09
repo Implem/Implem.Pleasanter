@@ -50,7 +50,12 @@ $p.set = function ($control, val) {
                         }
                         break;
                     default:
-                        $control.val(val);
+                        if ($control.hasClass('radio-value')) {
+                            $('input[name="' + $control.attr('id') + '"]').val([val]);
+                            $control.val(val);
+                        } else {
+                            $control.val(val);
+                        }
                         break;
                 }
                 break;
@@ -72,7 +77,10 @@ $p.setData = function ($control, data) {
                 break;
             case 'radio':
                 if ($control.prop('checked')) {
-                    data[$control.attr('name')] = $control.val();
+                    var name = $control.attr('name');
+                    data[name] = $control.val();
+                    $('[id="' + name + '"]').val($control.val());
+                    $('[id="' + name + '-error"]').remove();
                 }
                 break;
             default:

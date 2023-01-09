@@ -3009,6 +3009,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string DropDownList(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DropDownList",
+                data: data);
+        }
+
         public static string Duplicated(
             Context context,
             params string[] data)
@@ -7156,6 +7166,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Quarter",
+                data: data);
+        }
+
+        public static string RadioButton(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "RadioButton",
                 data: data);
         }
 
