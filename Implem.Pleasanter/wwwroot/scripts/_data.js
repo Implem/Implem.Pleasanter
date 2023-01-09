@@ -79,7 +79,6 @@ $p.setData = function ($control, data) {
                 break;
             case 'radio':
                 if ($control.prop('checked')) {
-                    console.log($control.attr('id') + ':' + $control.attr('name'));
                     // UIでラジオボタンを操作された場合には、こちらのルートを通るが
                     // $p.setで操作された場合には$controlはhiddenの.radio-valueとなるため
                     // このルートを通らずswitch ($control.prop('tagName'))のdefaultを通る
