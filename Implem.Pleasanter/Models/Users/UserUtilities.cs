@@ -3900,8 +3900,8 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "SSOLogin",
                                                     controlCss: "button-icon button-right-justified",
                                                     text: Displays.SsoLogin(context: context),
-                                                    href: "../Users/Challenge",
-                                                    onClick: "",
+                                                    action: "Challenge",
+                                                    onClick: "$p.ssoLogin($(this))",
                                                     icon: "ui-icon-unlocked"),
                                             _using: Parameters.Authentication.Provider == "SAML")
                                         .Div(
