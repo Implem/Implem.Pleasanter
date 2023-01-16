@@ -12,6 +12,13 @@
             break;
         default:
             switch ($control.prop('tagName')) {
+                case 'SELECT':
+                    if ($control.attr('multiple')) {
+                        $p.selectMultiSelect($control, value);
+                    } else {
+                        $control.val(value);
+                    }
+                    break;
                 case 'SPAN':
                     $control.html(value);
                 case 'TIME':
