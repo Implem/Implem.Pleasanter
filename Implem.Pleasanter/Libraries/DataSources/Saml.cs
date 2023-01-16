@@ -651,8 +651,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 {
                     return (Responses.Locations.UserLockout(context: context), null);
                 }
-                var redirectResultUrl = Strings.CoalesceEmpty(returnUrl, Responses.Locations.Top(context));
-                user.Allow(context: context, returnUrl: redirectResultUrl, createPersistentCookie: true);
+                var redirectResultUrl = Strings.CoalesceEmpty(
+                    user.GetReturnUrl(returnUrl: returnUrl),
+                    Responses.Locations.Top(context: context));
+                user.Allow(
+                    context: context,
+                    returnUrl: redirectResultUrl,
+                    createPersistentCookie: true);
                 return (redirectResultUrl, null);
             }
             else
