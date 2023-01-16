@@ -553,13 +553,13 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static (string redirectUrl, string redirectResultUrl, string html) SamlLogin(Context context)
+        public static (string redirectResultUrl, string html) SamlLogin(Context context, string returnUrl="")
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"
                 || context.IsAuthenticated != true)
             {
-                return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+                return (Responses.Locations.SamlLoginFailed(context: context), null);
             }
             Authentications.SignOut(context: context);
             var loginId = context.UserClaims?.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier);
@@ -570,7 +570,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 if (string.IsNullOrEmpty(name))
                 {
-                    return (null, Responses.Locations.EmptyUserName(context: context), null);
+                    return (Responses.Locations.EmptyUserName(context: context), null);
                 }
                 var ssocode = loginId.Issuer.TrimEnd('/').Substring(loginId.Issuer.TrimEnd('/').LastIndexOf('/') + 1);
                 tenant = new TenantModel().Get(
@@ -611,7 +611,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                             .LoginId(loginId.Value))) > 0;
                 if (!exists)
                 {
-                    return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+                    return (Responses.Locations.SamlLoginFailed(context: context), null);
                 }
             }
             try
@@ -631,7 +631,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 if (context.SqlErrors.ErrorCode(e) == 2601)
                 {
-                    return (null, Responses.Locations.LoginIdAlreadyUse(context: context), null);
+                    return (Responses.Locations.LoginIdAlreadyUse(context: context), null);
                 }
                 throw;
             }
@@ -645,18 +645,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 if (user.Disabled)
                 {
-                    return (null, Responses.Locations.UserDisabled(context: context), null);
+                    return (Responses.Locations.UserDisabled(context: context), null);
                 }
                 if (user.Lockout)
                 {
-                    return (null, Responses.Locations.UserLockout(context: context), null);
+                    return (Responses.Locations.UserLockout(context: context), null);
                 }
-                user.Allow(context: context, returnUrl: Responses.Locations.Top(context), createPersistentCookie: true);
-                return (null, Responses.Locations.Top(context), null);
+                var redirectResultUrl = Strings.CoalesceEmpty(
+                    user.GetReturnUrl(returnUrl: returnUrl),
+                    Responses.Locations.Top(context: context));
+                user.Allow(
+                    context: context,
+                    returnUrl: redirectResultUrl,
+                    createPersistentCookie: true);
+                return (redirectResultUrl, null);
             }
             else
             {
-                return (null, Responses.Locations.SamlLoginFailed(context: context), null);
+                return (Responses.Locations.SamlLoginFailed(context: context), null);
             }
         }
     }
