@@ -7577,6 +7577,7 @@ namespace Implem.Pleasanter.Models
                         {
                             Id = o.Long("ResultId"),
                             Title = o.String("ItemTitle"),
+                            Status = new Status(o.Int("Status")),
                             GroupX = groupByX?.ConvertIfUserColumn(o),
                             GroupY = groupByY?.ConvertIfUserColumn(o),
                             Value = o.Decimal(value?.ColumnName)
