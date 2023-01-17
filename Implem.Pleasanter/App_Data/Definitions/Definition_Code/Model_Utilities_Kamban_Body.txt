@@ -135,6 +135,7 @@ private static HtmlBuilder Kamban(
             context: context,
             ss: ss));
     var aggregationView = view.KambanAggregationView ?? false;
+    var showStatus = view.KambanShowStatus ?? false;
     var columns = view.GetKambanColumns();
     var data = KambanData(
         context: context,
@@ -154,6 +155,7 @@ private static HtmlBuilder Kamban(
             value: value,
             columns: columns,
             aggregationView: aggregationView,
+            showStatus: showStatus,
             data: data,
             inRange: inRange)
         : hb.KambanBody(
@@ -166,6 +168,7 @@ private static HtmlBuilder Kamban(
             value: value,
             columns: columns,
             aggregationView: aggregationView,
+            showStatus: showStatus,
             data: data,
             changedItemId: changedItemId,
             inRange: inRange);
@@ -181,6 +184,7 @@ private static IEnumerable<Libraries.ViewModes.KambanElement> KambanData(
 {
     var column = Rds.#TableName#Column()
         .#ModelName#Id()
+        .Status()
         .ItemTitle(ss.ReferenceType)
         .Add(
             context: context,

@@ -8069,6 +8069,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string ShowStatus(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "ShowStatus",
+                data: data);
+        }
+
         public static string SiteAccessControl(
             Context context,
             params string[] data)

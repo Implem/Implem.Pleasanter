@@ -1022,8 +1022,8 @@ th.calendar-header{
     right:0px;
 }
 
-#ImageLib{
-    float:left;
+#KambanBody .kamban-item > span{
+    margin-right: 3px;
 }
 
 #ImageLib .item{

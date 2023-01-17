@@ -10870,6 +10870,12 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.AggregationView(context: context),
                                 _checked: view.KambanAggregationView == true,
+                                labelPositionIsRight: true)
+                            .FieldCheckBox(
+                                controlId: "KambanShowStatus",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.ShowStatus(context: context),
+                                _checked: view.KambanShowStatus == true,
                                 labelPositionIsRight: true)))
                 : hb;
         }

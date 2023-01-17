@@ -7487,6 +7487,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss));
             var aggregationView = view.KambanAggregationView ?? false;
+            var showStatus = view.KambanShowStatus ?? false;
             var columns = view.GetKambanColumns();
             var data = KambanData(
                 context: context,
@@ -7506,6 +7507,7 @@ namespace Implem.Pleasanter.Models
                     value: value,
                     columns: columns,
                     aggregationView: aggregationView,
+                    showStatus: showStatus,
                     data: data,
                     inRange: inRange)
                 : hb.KambanBody(
@@ -7518,6 +7520,7 @@ namespace Implem.Pleasanter.Models
                     value: value,
                     columns: columns,
                     aggregationView: aggregationView,
+                    showStatus: showStatus,
                     data: data,
                     changedItemId: changedItemId,
                     inRange: inRange);
@@ -7533,6 +7536,7 @@ namespace Implem.Pleasanter.Models
         {
             var column = Rds.ResultsColumn()
                 .ResultId()
+                .Status()
                 .ItemTitle(ss.ReferenceType)
                 .Add(
                     context: context,
