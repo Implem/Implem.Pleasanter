@@ -319,7 +319,6 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-
             var result = Saml.SamlLogin(
                 context: context,
                 returnUrl: Url.IsLocalUrl(returnUrl)

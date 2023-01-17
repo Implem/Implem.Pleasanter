@@ -6427,6 +6427,7 @@ namespace Implem.Pleasanter.Models
                         choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
+                        showStatus: view.CalendarShowStatus == true,
                         inRange: inRange));
         }
 
@@ -6544,6 +6545,7 @@ namespace Implem.Pleasanter.Models
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: bodyOnly,
+                showStatus: view.CalendarShowStatus == true,
                 inRange: inRange,
                 changedItemId: changedItemId);
             if (inRange)
@@ -6634,6 +6636,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss)
                             .ResultId(_as: "Id")
+                            .Status()
                             .ResultsColumn(
                                 columnName: fromColumn.ColumnName,
                                 _as: "From")
@@ -6666,6 +6669,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, ControlData> choices,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
+            bool showStatus,
             bool inRange,
             long changedItemId = 0)
         {
@@ -6681,6 +6685,7 @@ namespace Implem.Pleasanter.Models
                     begin: begin,
                     choices: choices,
                     dataRows: dataRows,
+                    showStatus: showStatus,
                     inRange: inRange,
                     changedItemId: changedItemId)
                 : hb.CalendarBody(
@@ -6694,6 +6699,7 @@ namespace Implem.Pleasanter.Models
                     begin: begin,
                     choices: choices,
                     dataRows: dataRows,
+                    showStatus: showStatus,
                     inRange: inRange,
                     changedItemId: changedItemId);
         }

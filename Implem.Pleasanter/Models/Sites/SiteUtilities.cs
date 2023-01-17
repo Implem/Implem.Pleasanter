@@ -10665,7 +10665,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.Column(context: context),
                                 optionCollection: ss.CalendarColumnOptions(context: context),
-                                selectedValue: view.GetCalendarFromTo(ss: ss))))
+                                selectedValue: view.GetCalendarFromTo(ss: ss))
+                            .FieldCheckBox(
+                                controlId: "CalendarShowStatus",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.ShowStatus(context: context),
+                                _checked: view.CalendarShowStatus == true,
+                                labelPositionIsRight: true)))
                 : hb;
         }
 

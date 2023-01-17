@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarFromTo;
         public DateTime? CalendarDate;
         public string CalendarGroupBy;
+        public bool? CalendarShowStatus;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -650,6 +651,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "CalendarGroupBy":
                                 CalendarGroupBy = String(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CalendarShowStatus":
+                                CalendarShowStatus = Bool(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -1409,6 +1415,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!CalendarGroupBy.IsNullOrEmpty())
             {
                 view.CalendarGroupBy = CalendarGroupBy;
+            }
+            if (CalendarShowStatus == true)
+            {
+                view.CalendarShowStatus = CalendarShowStatus;
             }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {

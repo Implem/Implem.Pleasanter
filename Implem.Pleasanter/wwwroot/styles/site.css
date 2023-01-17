@@ -749,6 +749,10 @@ th.calendar-header{
     display:none;
 }
 
+#CalendarBody .item .title > span:not(.ui-icon){
+    margin-right: 3px;
+}
+
 #CalendarBody .dragging{
     height:25px;
     padding:5px;

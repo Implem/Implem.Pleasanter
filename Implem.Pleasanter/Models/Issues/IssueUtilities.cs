@@ -6767,6 +6767,7 @@ namespace Implem.Pleasanter.Models
                         choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
+                        showStatus: view.CalendarShowStatus == true,
                         inRange: inRange));
         }
 
@@ -6884,6 +6885,7 @@ namespace Implem.Pleasanter.Models
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: bodyOnly,
+                showStatus: view.CalendarShowStatus == true,
                 inRange: inRange,
                 changedItemId: changedItemId);
             if (inRange)
@@ -6974,6 +6976,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss)
                             .IssueId(_as: "Id")
+                            .Status()
                             .IssuesColumn(
                                 columnName: fromColumn.ColumnName,
                                 _as: "From")
@@ -7006,6 +7009,7 @@ namespace Implem.Pleasanter.Models
             Dictionary<string, ControlData> choices,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
+            bool showStatus,
             bool inRange,
             long changedItemId = 0)
         {
@@ -7021,6 +7025,7 @@ namespace Implem.Pleasanter.Models
                     begin: begin,
                     choices: choices,
                     dataRows: dataRows,
+                    showStatus: showStatus,
                     inRange: inRange,
                     changedItemId: changedItemId)
                 : hb.CalendarBody(
@@ -7034,6 +7039,7 @@ namespace Implem.Pleasanter.Models
                     begin: begin,
                     choices: choices,
                     dataRows: dataRows,
+                    showStatus: showStatus,
                     inRange: inRange,
                     changedItemId: changedItemId);
         }
@@ -8337,7 +8343,6 @@ namespace Implem.Pleasanter.Models
                         {
                             Id = o.Long("IssueId"),
                             Title = o.String("ItemTitle"),
-                            Status = new Status(o.Int("Status")),
                             GroupX = groupByX?.ConvertIfUserColumn(o),
                             GroupY = groupByY?.ConvertIfUserColumn(o),
                             Value = o.Decimal(value?.ColumnName)
