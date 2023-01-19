@@ -372,11 +372,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            // ContractSettingsでAPIが無効化されている場合は無条件で使用できなくする
             // APIを許可の項目は、APIの無効化が設定されていない場合には使用できなくする
             // APIの無効化はUser.jsonまたはテナントの管理の何れかで設定する
-            // ContractSettingsでAPIが無効化されている場合は無条件で利用不可とする
             if (context.ContractSettings.Api == false
-                ||(!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi))
+                || (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi))
             {
                 var column = ss.GetColumn(
                     context: context,
