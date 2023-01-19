@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column value,
             int columns,
             bool aggregationView,
+            bool showStatus,
             IEnumerable<KambanElement> data,
             bool inRange)
         {
@@ -88,6 +89,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         labelText: Displays.AggregationView(context: context),
                         _checked: aggregationView,
                         method: "post")
+                    .FieldCheckBox(
+                        controlId: "KambanShowStatus",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.ShowStatus(context: context),
+                        _checked: showStatus,
+                        method: "post")
                     .KambanBody(
                         context: context,
                         ss: ss,
@@ -98,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: value,
                         columns: columns,
                         aggregationView: aggregationView,
+                        showStatus: showStatus,
                         data: data,
                         inRange: inRange);
             });
@@ -114,6 +123,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column value,
             int columns,
             bool aggregationView,
+            bool showStatus,
             IEnumerable<KambanElement> data,
             long changedItemId = 0,
             bool inRange = true)
@@ -143,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 aggregateType: aggregateType,
                                 value: value,
                                 aggregationView: aggregationView,
+                                showStatus: showStatus,
                                 data: data,
                                 changedItemId: changedItemId)));
         }
@@ -168,6 +179,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             bool aggregationView,
+            bool showStatus,
             IEnumerable<KambanElement> data,
             long changedItemId)
         {
@@ -223,6 +235,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             aggregateType: aggregateType,
                                             value: value,
                                             aggregationView: aggregationView,
+                                            showStatus: showStatus,
                                             max: max,
                                             data: data,
                                             changedItemId: changedItemId));
@@ -241,6 +254,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         aggregateType: aggregateType,
                                         value: value,
                                         aggregationView: aggregationView,
+                                        showStatus: showStatus,
                                         max: max,
                                         data: data,
                                         changedItemId: changedItemId)));
@@ -258,6 +272,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             bool aggregationView,
+            bool showStatus,
             decimal max,
             IEnumerable<KambanElement> data,
             long changedItemId)
@@ -280,15 +295,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         aggregateType: aggregateType,
                                         value: value,
                                         data: o,
-                                        changedItemId: changedItemId))))
+                                        changedItemId: changedItemId,
+                                        showStatus: showStatus))))
                 : hb.Td(
                     context: context,
-                    ss: ss,
                     choiceX: choiceX,
                     choiceY: choiceY,
                     aggregateType: aggregateType,
                     value: value,
-                    aggregationView: aggregationView,
                     max: max,
                     data: data);
         }
@@ -296,12 +310,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder Td(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss,
             string choiceX,
             string choiceY,
             string aggregateType,
             Column value,
-            bool aggregationView,
             decimal max,
             IEnumerable<KambanElement> data)
         {
@@ -374,7 +386,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             KambanElement data,
-            long changedItemId)
+            long changedItemId,
+            bool showStatus)
         {
             return hb.Div(
                 attributes: new HtmlAttributes()
@@ -382,11 +395,33 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataId(data.Id.ToString()),
                 action: () => hb
                     .Span(css: "ui-icon ui-icon-pencil")
+                    .ElementStatus(
+                        context: context,
+                        ss: ss,
+                        data: data,
+                        showStatus: showStatus)
                     .Text(text: ItemText(
                         context: context,
                         aggregateType: aggregateType,
                         value: value,
                         data: data)));
+        }
+
+        private static HtmlBuilder ElementStatus(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            KambanElement data,
+            bool showStatus)
+        {
+            if (!showStatus) return hb;
+            var column = ss.GetColumn(
+                context: context,
+                columnName: "Status");
+            return data.Status?.StyleBody(
+                hb: hb,
+                column: column,
+                tag: "SPAN");
         }
 
         private static string ItemText(

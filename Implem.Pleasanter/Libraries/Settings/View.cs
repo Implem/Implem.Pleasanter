@@ -84,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarFromTo;
         public DateTime? CalendarDate;
         public string CalendarGroupBy;
+        public bool? CalendarShowStatus;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -106,6 +107,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        public bool? KambanShowStatus;
         public List<int> Depts;
         public List<int> Groups;
         public List<int> Users;
@@ -652,6 +654,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "CalendarShowStatus":
+                                CalendarShowStatus = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
                             case "CrosstabGroupByX":
                                 CrosstabGroupByX = String(
                                     context: context,
@@ -763,6 +770,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "KambanAggregationView":
                                 KambanAggregationView = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanShowStatus":
+                                KambanShowStatus = Bool(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -1404,6 +1416,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CalendarGroupBy = CalendarGroupBy;
             }
+            if (CalendarShowStatus == true)
+            {
+                view.CalendarShowStatus = CalendarShowStatus;
+            }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {
                 view.CrosstabGroupByX = CrosstabGroupByX;
@@ -1485,6 +1501,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanAggregationView == true)
             {
                 view.KambanAggregationView = KambanAggregationView;
+            }
+            if (KambanShowStatus == true)
+            {
+                view.KambanShowStatus = KambanShowStatus;
             }
             if (Depts?.Any() == true)
             {

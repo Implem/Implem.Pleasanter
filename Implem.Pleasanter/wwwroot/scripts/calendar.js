@@ -217,8 +217,11 @@ $p.setCalendar = function () {
             .append($('<span />').addClass('ui-icon ui-icon-pencil'))
             .append((element.Time !== undefined
                 ? element.Time + ' '
-                : '') +
-                    htmlEncode(element.Title)));
+                : '')
+                    + (element.StatusHtml
+                        ? element.StatusHtml
+                        : '')
+                    + htmlEncode(element.Title)));
         $cell.append(item);
         hash[id]++;
     }
