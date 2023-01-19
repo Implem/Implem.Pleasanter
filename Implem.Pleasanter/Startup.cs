@@ -312,8 +312,8 @@ namespace Implem.Pleasanter.NetCore
         {
             if (isFirst)
             {
-                InitializeLog();
                 isFirst = false;
+                Initialize();
             }
             try
             {
@@ -345,7 +345,7 @@ namespace Implem.Pleasanter.NetCore
             log.Finish(context: context);
         }
 
-        private void InitializeLog()
+        private void Initialize()
         {
             Context context = ApplicationStartContext();
             var log = new SysLogModel(

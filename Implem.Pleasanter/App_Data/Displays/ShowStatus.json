@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ShowStatus",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show status"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示状态"
+        },
+        {
+            "Language": "ja",
+            "Body": "状況を表示"
+        },
+        {
+            "Language": "de",
+            "Body": "Status anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "상태 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar estado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị trạng thái"
+        }
+    ]
+}
