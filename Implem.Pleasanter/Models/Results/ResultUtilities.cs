@@ -6124,7 +6124,7 @@ namespace Implem.Pleasanter.Models
             }
             var export = ss.GetExport(
                 context: context,
-                id: context.QueryStrings.Int("id"));
+                id: context.Forms.Int("ExportId"));
             var content = ExportUtilities.Export(
                 context: context,
                 ss: ss,
@@ -6142,7 +6142,7 @@ namespace Implem.Pleasanter.Models
                     title: ss.Title,
                     name: export.Name,
                     extension: export.Type.ToString()),
-                encoding: context.QueryStrings.Data("encoding"));
+                encoding: context.Forms.Data("ExportEncoding"));
         }
 
         public static string ExportAndMailNotify(
