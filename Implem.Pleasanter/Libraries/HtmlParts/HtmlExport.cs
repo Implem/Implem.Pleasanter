@@ -35,8 +35,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Button(
                         text: Displays.Export(context: context),
                         controlId: "DoExport",
-                        controlCss: "button-icon " + (ss.SaveViewType == SiteSettings.SaveViewTypes.None
-                             ? "noSession"
+                        controlCss: "button-icon" + (ss.SaveViewType == SiteSettings.SaveViewTypes.None
+                             ? " save-view-types-none"
                              : string.Empty),
                         action: "ExportAndMailNotify",
                         method: "post",

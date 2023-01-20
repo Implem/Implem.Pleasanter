@@ -26,22 +26,21 @@ $p.export = function () {
             form.appendChild(input);
         }
         var form = document.createElement('form');
+        form.style.display = 'none';
         var action = $('.main-form').attr('action').replace('_action_', 'export');
         form.setAttribute('action', action);
         form.setAttribute('method', 'post');
-        form.style.display = 'none';
         addInput(form, 'ExportId', exp.id);
         addInput(form, 'ExportEncoding', encoding);
         addInput(form, 'GridCheckAll', data.GridCheckAll);
         addInput(form, 'GridUnCheckedItems', data.GridUnCheckedItems);
         addInput(form, 'GridCheckedItems', data.GridCheckedItems);
-        if ($('#DoExport').hasClass('noSession')) {
-            var keys = Object.keys(data);
-            for (var i = 0; i < keys.length; i++) {
-                if (keys[i].match(/^ViewFilters/)) {
-                    addInput(form, keys[i], data[keys[i]]);
+        if ($('#DoExport').hasClass('save-view-types-none')) {
+            (Object.keys(data)).forEach(function (e) {
+                if (e.match(/^ViewFilters_/)) {
+                    addInput(form, e, data[e]);
                 }
-            }
+            });
         }
         document.body.appendChild(form);
         form.submit();
