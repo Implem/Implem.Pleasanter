@@ -1114,6 +1114,14 @@ namespace Implem.Pleasanter.Models
             List<Process> processes = null;
             if (context.Forms.Exists("InheritPermission"))
             {
+                // アクセス権を継承しないを指定している状態でCurrentPermissionsAllがクライアントから
+                // 届かない場合、アクセス権が全て失われてしまうため、エラーで処理を中断する
+                // クライアント操作のタイミングにより発生し、テーブルにアクセスできなくなる問題の対応
+                if (context.Forms.Long("InheritPermission") == siteId
+                    && !context.Forms.Exists("CurrentPermissionsAll"))
+                {
+                    return Messages.ResponseRequireManagePermission(context: context).ToJson();
+                }
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
                 ss.InheritPermission = siteModel.InheritPermission;
             }
