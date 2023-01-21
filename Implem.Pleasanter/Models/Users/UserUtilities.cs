@@ -3872,7 +3872,9 @@ namespace Implem.Pleasanter.Models
                                                     columnName: "Password"),
                                                 fieldCss: "field-wide",
                                                 controlCss: " always-send")
-                                            .Div(id: "Tenants")
+                                            .Div(
+                                                id: "Tenants",
+                                                css: "field-wide")
                                             .Field(
                                                 context: context,
                                                 ss: ss,
