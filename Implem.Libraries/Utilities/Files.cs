@@ -265,15 +265,25 @@ namespace Implem.Libraries.Utilities
             return new FileInfo(tempPath);
         }
 
-        public static void DeleteTemporaryFiles(string path, int timeElapsed)
+        public static List<Exception> DeleteTemporaryFiles(string path, int timeElapsed)
         {
             if (!new DirectoryInfo(path).Exists) Directory.CreateDirectory(path);
+            // ファイルやディレクトリの削除に失敗した場合には処理を停止せずにリストに記録する
+            // 上位のStartup.csでSysLogsテーブルに記録する
+            var exceptions = new List<Exception>();
             Directory.EnumerateFiles(path).ForEach(filePath =>
             {
                 var fileInfo = new FileInfo(filePath);
                 if ((DateTime.Now - fileInfo.LastWriteTime).TotalMinutes > timeElapsed)
                 {
-                    fileInfo.Delete();
+                    try
+                    {
+                        fileInfo.Delete();
+                    }
+                    catch (Exception e)
+                    {
+                        exceptions.Add(e);
+                    }
                 }
             });
             Directory.EnumerateDirectories(path).ForEach(dirPath =>
@@ -281,9 +291,17 @@ namespace Implem.Libraries.Utilities
                 var dirInfo = new DirectoryInfo(dirPath);
                 if ((DateTime.Now - dirInfo.LastWriteTime).TotalMinutes > timeElapsed)
                 {
-                    Directory.Delete(dirPath, true);
+                    try
+                    {
+                        Directory.Delete(dirPath, true);
+                    }
+                    catch (Exception e)
+                    {
+                        exceptions.Add(e);
+                    }
                 }
             });
+            return exceptions;
         }
     }
 }
