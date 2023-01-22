@@ -196,12 +196,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             Column column,
             string value,
+            bool own = false,
             bool multiple = false,
             bool addNotSet = false)
         {
             var editChoices = column.EditChoices(
                 context: context,
-                addNotSet: addNotSet);
+                addNotSet: addNotSet,
+                own: own);
             if (column.Linked(
                 context: context,
                 withoutWiki: true))

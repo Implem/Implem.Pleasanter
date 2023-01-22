@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
@@ -11,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web.WebPages;
 
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
@@ -29,6 +29,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
+            bool showStatus,
             bool inRange,
             long changedItemId)
         {
@@ -92,6 +93,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: "button-icon",
                     onClick: "$p.moveCalendar('Today');",
                     icon: "ui-icon-calendar")
+                .FieldCheckBox(
+                    controlId: "CalendarShowStatus",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.ShowStatus(context: context),
+                    _checked: showStatus,
+                    method: "post")
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("CalendarBody")
@@ -109,6 +117,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             begin: begin,
                             choices: choices,
                             dataRows: dataRows,
+                            showStatus: showStatus,
                             inRange: inRange,
                             changedItemId: changedItemId)));
         }
@@ -125,6 +134,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             DateTime begin,
             Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
+            bool showStatus,
             bool inRange,
             long changedItemId)
         {
@@ -168,17 +178,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         value: choices == null
                             ? Json(
                                 context: context,
+                                ss: ss,
                                 from: fromColumn,
                                 to: toColumn,
                                 dataRows: dataRows,
-                                changedItemId: changedItemId)
+                                changedItemId: changedItemId,
+                                showStatus: showStatus)
                             : GroupingJson(
                                 context: context,
+                                ss: ss,
                                 from: fromColumn,
                                 to: toColumn,
                                 groupBy: groupBy,
                                 dataRows: dataRows,
-                                changedItemId: changedItemId))
+                                changedItemId: changedItemId,
+                                showStatus: showStatus))
                     .CalendarBodyTable(
                         context: context,
                         timePeriod: timePeriod,
@@ -421,11 +435,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string GroupingJson(
             Context context,
+            SiteSettings ss,
             Column from,
             Column to,
             Column groupBy,
             IEnumerable<DataRow> dataRows,
-            long changedItemId)
+            long changedItemId,
+            bool showStatus)
         {
             return dataRows
                 .GroupBy(
@@ -433,10 +449,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     dataRow =>
                         CreateCalendarElement(
                             context: context,
+                            ss: ss,
                             from: from,
                             to: to,
                             changedItemId: changedItemId,
-                            dataRow: dataRow))
+                            dataRow: dataRow,
+                            showStatus: showStatus))
                 .Select(group => new
                 {
                     group = group.Key,
@@ -450,10 +468,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static string Json(
             Context context,
+            SiteSettings ss,
             Column from,
             Column to,
             IEnumerable<DataRow> dataRows,
-            long changedItemId)
+            long changedItemId,
+            bool showStatus)
         {
             return new [] { new
             {
@@ -461,10 +481,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 items = dataRows.Select(dataRow =>
                     CreateCalendarElement(
                         context: context,
+                        ss: ss,
                         from: from,
                         to: to,
+                        dataRow: dataRow,
                         changedItemId: changedItemId,
-                        dataRow: dataRow))
+                        showStatus: showStatus))
                             .OrderBy(o => o.From)
                             .ThenBy(o => o.To)
                             .ThenBy(o => o.UpdatedTime)
@@ -474,10 +496,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static CalendarElement CreateCalendarElement(
             Context context,
+            SiteSettings ss,
             Column from,
             Column to,
+            DataRow dataRow,
             long changedItemId,
-            DataRow dataRow)
+            bool showStatus)
         {
             return new CalendarElement(
                 id: dataRow.Long("Id"),
@@ -494,8 +518,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     column: to,
                     dateTime: dataRow.DateTime("to")),
                 changedItemId: changedItemId,
-                updatedTime: dataRow.DateTime("UpdatedTime")
-            );
+                updatedTime: dataRow.DateTime("UpdatedTime"),
+                statusHtml: ElementStatus(
+                    context: context,
+                    ss: ss,
+                    status: new Status(dataRow.Int("Status")),
+                    showStatus: showStatus));
         }
 
         private static DateTime ConvertIfCompletionTime(
@@ -526,6 +554,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: Parameters.General.FirstDayOfWeek + x > 6
                     ? ((DayOfWeek)(Parameters.General.FirstDayOfWeek + x - 7)).ToString()
                     : ((DayOfWeek)(Parameters.General.FirstDayOfWeek + x)).ToString());
+        }
+
+        private static string ElementStatus(
+            Context context,
+            SiteSettings ss,
+            Status status,
+            bool showStatus)
+        {
+            if (!showStatus) return null;
+            var column = ss.GetColumn(
+                context: context,
+                columnName: "Status");
+            return status?.StyleBody(
+                hb: new HtmlBuilder(),
+                column: column,
+                tag: "SPAN").ToString();
         }
     }
 }

@@ -618,7 +618,8 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             _checked: tenantModel.DisableApi,
                             labelText: Displays.Tenants_DisableApi(context: context),
-                            _using: Parameters.User.DisableApi != true)
+                            _using: context.ContractSettings.Api != false
+                                && Parameters.User.DisableApi != true)
                         .FieldCheckBox(
                             controlId: "Tenants_DisableStartGuide",
                             fieldCss: "field-auto-thin",

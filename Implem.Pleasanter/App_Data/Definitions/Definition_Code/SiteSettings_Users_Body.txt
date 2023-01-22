@@ -1,4 +1,5 @@
-﻿if (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi)
+﻿if (context.ContractSettings.Api == false
+    || (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi))
 {
     var column = ss.GetColumn(
         context: context,

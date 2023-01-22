@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Azure.Core;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -84,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarFromTo;
         public DateTime? CalendarDate;
         public string CalendarGroupBy;
+        public bool? CalendarShowStatus;
         public string CrosstabGroupByX;
         public string CrosstabGroupByY;
         public string CrosstabColumns;
@@ -91,6 +93,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CrosstabValue;
         public string CrosstabTimePeriod;
         public DateTime? CrosstabMonth;
+        public bool? CrosstabNotShowZeroRows;
         public string GanttGroupBy;
         public string GanttSortBy;
         public int? GanttPeriod;
@@ -106,6 +109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string KambanValue;
         public int? KambanColumns;
         public bool? KambanAggregationView;
+        public bool? KambanShowStatus;
         public List<int> Depts;
         public List<int> Groups;
         public List<int> Users;
@@ -650,6 +654,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId);
                                 break;
+                            case "CalendarShowStatus":
+                                CalendarShowStatus = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
                             case "CrosstabGroupByX":
                                 CrosstabGroupByX = String(
                                     context: context,
@@ -685,6 +694,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId,
                                     useDateFormat: false);
+                                break;
+                            case "CrosstabNotShowZeroRows":
+                                CrosstabNotShowZeroRows = Bool(
+                                    context: context,
+                                    controlId: controlId);
                                 break;
                             case "ViewFilters_ExportCrosstabCommand":
                                 ExportCrosstabCommand = (CommandDisplayTypes)Int(
@@ -761,6 +775,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "KambanAggregationView":
                                 KambanAggregationView = Bool(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "KambanShowStatus":
+                                KambanShowStatus = Bool(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -1401,6 +1420,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.CalendarGroupBy = CalendarGroupBy;
             }
+            if (CalendarShowStatus == true)
+            {
+                view.CalendarShowStatus = CalendarShowStatus;
+            }
             if (!CrosstabGroupByX.IsNullOrEmpty())
             {
                 view.CrosstabGroupByX = CrosstabGroupByX;
@@ -1428,6 +1451,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CrosstabMonth != GetCrosstabMonthDefault())
             {
                 view.CrosstabMonth = CrosstabMonth;
+            }
+            if (CrosstabNotShowZeroRows == true)
+            {
+                view.CrosstabNotShowZeroRows = CrosstabNotShowZeroRows;
             }
             if (!GanttGroupBy.IsNullOrEmpty())
             {
@@ -1482,6 +1509,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (KambanAggregationView == true)
             {
                 view.KambanAggregationView = KambanAggregationView;
+            }
+            if (KambanShowStatus == true)
+            {
+                view.KambanShowStatus = KambanShowStatus;
             }
             if (Depts?.Any() == true)
             {
@@ -2029,19 +2060,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     else
                     {
+                        var value = ConvertedValue(
+                            context: context,
+                            column: data.Column,
+                            value: data.Value);
                         switch (data.Column.TypeName.CsTypeSummary())
                         {
                             case Types.CsBool:
                                 CsBoolColumns(
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
                             case Types.CsNumeric:
                                 CsNumericColumns(
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
@@ -2049,7 +2084,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 CsDateTimeColumns(
                                     context: context,
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
@@ -2057,13 +2092,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 CsStringColumns(
                                     context: context,
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
                         }
                     }
                 });
+        }
+
+        private string ConvertedValue(
+            Context context,
+            Column column,
+            string value)
+        {
+            switch (column.Type)
+            {
+                case Column.Types.Dept:
+                    return value
+                        ?.Deserialize<List<string>>()
+                        ?.Select(o => (o == "Own"
+                            ? context.DeptId.ToString()
+                            : o))
+                        .ToJson();
+                case Column.Types.User:
+                    return value
+                        ?.Deserialize<List<string>>()
+                        ?.Select(o => (o == "Own"
+                            ? context.UserId.ToString()
+                            : o))
+                        .ToJson();
+                default:
+                    return value;
+            }
         }
 
         private static void AddEqWhere(

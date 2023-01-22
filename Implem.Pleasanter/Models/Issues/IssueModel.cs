@@ -3092,7 +3092,9 @@ namespace Implem.Pleasanter.Models
             string columnName,
             Shared._ImageApiModel imageApiModel)
         {
-            var imageText = $"![{imageApiModel.Alt}](/binaries/{PostedImageHash.Get(columnName).Guid}/show)";
+            var imageText = $"![{imageApiModel.Alt}]" + "({0})".Params(Locations.ShowFile(
+                context: context,
+                guid: PostedImageHash.Get(columnName).Guid));
             switch (columnName)
             {
                 case "Body":

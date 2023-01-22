@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static DataRow GetBinariesTable(Context context, string guid)
         {
             if (guid.IsNullOrEmpty()) return null;
+            var refererIsTenantManagement = RefererIsTenantManagement(context: context);
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
@@ -128,15 +129,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Updator()
                             .CreatedTime()
                             .UpdatedTime(),
-                        join: Rds.BinariesJoinDefault()
-                            .Add(new SqlJoin(
-                                tableBracket: "\"Items\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
-                            .Add(new SqlJoin(
-                                tableBracket: "\"Sites\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        join: refererIsTenantManagement
+                            ? Rds.BinariesJoinDefault()
+                            : Rds.BinariesJoinDefault()
+                                .Add(new SqlJoin(
+                                    tableBracket: "\"Items\"",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
+                                .Add(new SqlJoin(
+                                    tableBracket: "\"Sites\"",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
@@ -144,7 +147,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                                 context: context,
                                 idColumnBracket: "\"Binaries\".\"ReferenceId\"",
                                 _using: !context.Publish
-                                    && !RefererIsTenantManagement(context: context))),
+                                    && !refererIsTenantManagement)),
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
                             .BinaryId()
@@ -161,15 +164,17 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Updator()
                             .CreatedTime()
                             .UpdatedTime(),
-                        join: Rds.BinariesJoinDefault()
-                            .Add(new SqlJoin(
-                                tableBracket: "\"Items\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
-                            .Add(new SqlJoin(
-                                tableBracket: "\"Sites\"",
-                                joinType: SqlJoin.JoinTypes.Inner,
-                                joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        join: refererIsTenantManagement
+                            ? Rds.BinariesJoinDefault()
+                            : Rds.BinariesJoinDefault()
+                                .Add(new SqlJoin(
+                                    tableBracket: "\"Items\"",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
+                                .Add(new SqlJoin(
+                                    tableBracket: "\"Sites\"",
+                                    joinType: SqlJoin.JoinTypes.Inner,
+                                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)

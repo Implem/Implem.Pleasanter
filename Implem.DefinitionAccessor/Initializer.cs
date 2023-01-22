@@ -16,7 +16,7 @@ namespace Implem.DefinitionAccessor
     {
         private static string ParametersPath { get; set; }
 
-        public static void Initialize(
+        public static List<Exception> Initialize(
             string path,
             string assemblyVersion,
             bool codeDefiner = false,
@@ -24,6 +24,7 @@ namespace Implem.DefinitionAccessor
             bool setSaPassword = false,
             bool setRandomPassword = false)
         {
+            var exceptions = new List<Exception>();
             Environments.CodeDefiner = codeDefiner;
             Environments.PleasanterTest = pleasanterTest;
             Environments.CurrentDirectoryPath = path != null
@@ -49,7 +50,8 @@ namespace Implem.DefinitionAccessor
             DateTimes.MinTime = Parameters.General.MinTime;
             DateTimes.MaxTime = Parameters.General.MaxTime;
             SetBundleVersions();
-            DeleteTemporaryFiles();
+            DeleteTemporaryFiles(exceptions: exceptions);
+            return exceptions;
         }
 
         private static void SetRdsPassword(bool setRdsPassword, bool setRandomPassword)
@@ -976,12 +978,13 @@ namespace Implem.DefinitionAccessor
             }
         }
 
-        public static void DeleteTemporaryFiles()
+        public static void DeleteTemporaryFiles(List<Exception> exceptions = null)
         {
-            Files.DeleteTemporaryFiles(
-                Directories.Temp(), Parameters.General.DeleteTempOldThan);
-            Files.DeleteTemporaryFiles(
-                Directories.Histories(), Parameters.General.DeleteHistoriesOldThan);
+            if (exceptions == null) exceptions = new List<Exception>();
+            exceptions.AddRange(Files.DeleteTemporaryFiles(
+                Directories.Temp(), Parameters.General.DeleteTempOldThan));
+            exceptions.AddRange(Files.DeleteTemporaryFiles(
+                Directories.Histories(), Parameters.General.DeleteHistoriesOldThan));
         }
     }
 }

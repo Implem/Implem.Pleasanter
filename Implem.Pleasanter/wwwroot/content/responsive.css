@@ -3,8 +3,31 @@
 
     #LoginFieldSet {
         width: 100%;
-        margin: 30vw auto 10vw auto;
-        padding: 10vw;
+        padding: 10px;
+        font-size: 4vw;
+    }
+    #LoginFieldSet input {
+        font-size: 5vw;
+        padding: 10px;
+    }
+    #LoginFieldSet input[type=checkbox] {
+        transform: scale(2);
+        margin: 20px 0px 0px 10px;
+    }
+    #LoginFieldSet button {
+        font-size: 4vw;
+    }
+    #LoginFieldSet .container-normal {
+        margin-left: 0px;
+    }
+    #LoginFieldSet .field-wide, #LoginFieldSet .field-normal {
+        width: 100%;
+        margin: 10px 0px;
+        float: left;
+    }
+    #LoginFieldSet .field-normal .control-checkbox+label {
+        width: auto;
+        margin: 0px 0px 0px 30px;
     }
     #Logins .field-label {
         width: auto;
@@ -15,10 +38,29 @@
     }
     #Demo {
         width: 100%;
+        padding: 10px;
+        font-size: 4vw;
     }
     #DemoFields .field-label {
         width: auto;
         padding: 4px;
+    }
+    #DemoFields input {
+        font-size: 5vw;
+        padding: 10px;
+    }
+    #DemoFields button {
+        font-size: 4vw;
+        float: right;
+        margin-top: 10px;
+    }
+    #DemoFields .container-normal {
+        margin-left: 0px;
+    }
+    #DemoFields .field-normal {
+        width: 100%;
+        margin: 10px 0px;
+        float: left;
     }
     @media screen and (max-width: 600px) and (min-width: 0px) {
         #LoginFieldSet .field-wide {

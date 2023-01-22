@@ -1,5 +1,10 @@
 ﻿if (context.Forms.Exists("InheritPermission"))
 {
+    if (context.Forms.Long("InheritPermission") == siteId
+        && !context.Forms.Exists("CurrentPermissionsAll"))
+    {
+        return Messages.ResponseRequireManagePermission(context: context).ToJson();
+    }
     siteModel.InheritPermission = context.Forms.Long("InheritPermission");
     ss.InheritPermission = siteModel.InheritPermission;
 }

@@ -372,7 +372,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
-            if (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi)
+            if (context.ContractSettings.Api == false
+                || (!DefinitionAccessor.Parameters.User.DisableApi && !context.DisableApi))
             {
                 var column = ss.GetColumn(
                     context: context,

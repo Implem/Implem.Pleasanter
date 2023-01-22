@@ -3872,7 +3872,9 @@ namespace Implem.Pleasanter.Models
                                                     columnName: "Password"),
                                                 fieldCss: "field-wide",
                                                 controlCss: " always-send")
-                                            .Div(id: "Tenants")
+                                            .Div(
+                                                id: "Tenants",
+                                                css: "field-wide")
                                             .Field(
                                                 context: context,
                                                 ss: ss,
@@ -3900,8 +3902,8 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "SSOLogin",
                                                     controlCss: "button-icon button-right-justified",
                                                     text: Displays.SsoLogin(context: context),
-                                                    href: "../Users/Challenge",
-                                                    onClick: "",
+                                                    action: "Challenge",
+                                                    onClick: "$p.ssoLogin($(this))",
                                                     icon: "ui-icon-unlocked"),
                                             _using: Parameters.Authentication.Provider == "SAML")
                                         .Div(

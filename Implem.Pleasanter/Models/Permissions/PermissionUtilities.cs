@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Models
             }.AddRange(InheritTargetsDataRows(context: context, ss: ss)
                 .ToDictionary(
                     o => o["SiteId"].ToString(),
-                    o => new ControlData(o["Title"].ToString())));
+                    o => new ControlData($"[{o["SiteId"]}] {o["Title"]}")));
         }
 
         /// <summary>
@@ -210,8 +210,10 @@ namespace Implem.Pleasanter.Models
                         .Add(
                             raw: Def.Sql.CanReadSites,
                             _using: !context.HasPrivilege),
-                    orderBy: Rds.SitesOrderBy().Title()))
-                        .AsEnumerable();
+                    orderBy: Rds.SitesOrderBy()
+                        .Title()
+                        .SiteId()))
+                            .AsEnumerable();
         }
 
         /// <summary>

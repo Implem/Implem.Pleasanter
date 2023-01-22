@@ -406,7 +406,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public FileContentResult Export(long id)
         {
             var context = new Context();
