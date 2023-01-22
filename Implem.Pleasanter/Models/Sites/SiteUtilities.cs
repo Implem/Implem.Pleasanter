@@ -10750,7 +10750,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.Period(context: context),
                                 optionCollection: ss.CrosstabTimePeriodOptions(context: context),
-                                selectedValue: view.GetCrosstabTimePeriod(ss)))
+                                selectedValue: view.GetCrosstabTimePeriod(ss))
+                            .FieldCheckBox(
+                                controlId: "CrosstabNotShowZeroRows",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.NotShowZeroRows(context: context),
+                                _checked: view.CrosstabNotShowZeroRows == true,
+                                labelPositionIsRight: true))
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.CommandButtonsSettings(context: context),

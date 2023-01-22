@@ -6359,6 +6359,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotShowZeroRows(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotShowZeroRows",
+                data: data);
+        }
+
         public static string NoWrap(
             Context context,
             params string[] data)

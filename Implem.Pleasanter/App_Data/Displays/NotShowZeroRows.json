@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotShowZeroRows",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "don't show 0 rows"
+        },
+        {
+            "Language": "zh",
+            "Body": "不显示 0 行"
+        },
+        {
+            "Language": "ja",
+            "Body": "0の行を表示しない"
+        },
+        {
+            "Language": "de",
+            "Body": "zeige nicht 0 Zeilen"
+        },
+        {
+            "Language": "ko",
+            "Body": "0개의 행을 표시하지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "no mostrar 0 filas"
+        },
+        {
+            "Language": "vn",
+            "Body": "không hiển thị 0 hàng"
+        }
+    ]
+}

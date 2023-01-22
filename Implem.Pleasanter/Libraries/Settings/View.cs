@@ -92,6 +92,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CrosstabValue;
         public string CrosstabTimePeriod;
         public DateTime? CrosstabMonth;
+        public bool? CrosstabNotShowZeroRows;
         public string GanttGroupBy;
         public string GanttSortBy;
         public int? GanttPeriod;
@@ -694,6 +695,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     context: context,
                                     controlId: controlId,
                                     useDateFormat: false);
+                                break;
+                            case "CrosstabNotShowZeroRows":
+                                CrosstabNotShowZeroRows = Bool(
+                                    context: context,
+                                    controlId: controlId);
                                 break;
                             case "ViewFilters_ExportCrosstabCommand":
                                 ExportCrosstabCommand = (CommandDisplayTypes)Int(
@@ -1447,6 +1453,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CrosstabMonth != GetCrosstabMonthDefault())
             {
                 view.CrosstabMonth = CrosstabMonth;
+            }
+            if (CrosstabNotShowZeroRows == true)
+            {
+                view.CrosstabNotShowZeroRows = CrosstabNotShowZeroRows;
             }
             if (!GanttGroupBy.IsNullOrEmpty())
             {

@@ -6806,6 +6806,7 @@ namespace Implem.Pleasanter.Models
                         value: value,
                         timePeriod: timePeriod,
                         month: month,
+                        notShowZeroRows: view.CrosstabNotShowZeroRows == true,
                         dataRows: dataRows,
                         inRange: inRangeX && inRangeY));
         }
@@ -6882,6 +6883,7 @@ namespace Implem.Pleasanter.Models
                         value: value,
                         timePeriod: timePeriod,
                         month: month,
+                        notShowZeroRows: view.CrosstabNotShowZeroRows == true,
                         dataRows: dataRows)
                     : new HtmlBuilder().CrosstabBody(
                         context: context,
@@ -6894,6 +6896,7 @@ namespace Implem.Pleasanter.Models
                         value: value,
                         timePeriod: timePeriod,
                         month: month,
+                        notShowZeroRows: view.CrosstabNotShowZeroRows == true,
                         dataRows: dataRows);
                 return new ResponseCollection(context: context)
                     .ViewMode(
@@ -6921,6 +6924,7 @@ namespace Implem.Pleasanter.Models
                         value: value,
                         timePeriod: timePeriod,
                         month: month,
+                        notShowZeroRows: view.CrosstabNotShowZeroRows == true,
                         dataRows: dataRows,
                         inRange: false)
                     : new HtmlBuilder();
