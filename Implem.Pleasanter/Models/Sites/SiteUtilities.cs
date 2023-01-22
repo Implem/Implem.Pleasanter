@@ -6237,6 +6237,12 @@ namespace Implem.Pleasanter.Models
                                             _using: !column.NotUpdate);
                                         break;
                                     case Types.CsNumeric:
+                                        hb.FieldCheckBox(
+                                            controlId: "ImportKey",
+                                            labelText: Displays.ImportKey(context: context),
+                                            _checked: column.ImportKey == true,
+                                            _using: column.ColumnName == Rds.IdColumn(tableName: ss.ReferenceType)
+                                                || Def.ExtendedColumnTypes.Get(column.ColumnName) == "Num");
                                         if (column.ControlType == "ChoicesText")
                                         {
                                             hb.FieldTextBox(
