@@ -1114,6 +1114,14 @@ namespace Implem.Pleasanter.Models
             List<Process> processes = null;
             if (context.Forms.Exists("InheritPermission"))
             {
+                // アクセス権を継承しないを指定している状態でCurrentPermissionsAllがクライアントから
+                // 届かない場合、アクセス権が全て失われてしまうため、エラーで処理を中断する
+                // クライアント操作のタイミングにより発生し、テーブルにアクセスできなくなる問題の対応
+                if (context.Forms.Long("InheritPermission") == siteId
+                    && !context.Forms.Exists("CurrentPermissionsAll"))
+                {
+                    return Messages.ResponseRequireManagePermission(context: context).ToJson();
+                }
                 siteModel.InheritPermission = context.Forms.Long("InheritPermission");
                 ss.InheritPermission = siteModel.InheritPermission;
             }
@@ -6229,6 +6237,12 @@ namespace Implem.Pleasanter.Models
                                             _using: !column.NotUpdate);
                                         break;
                                     case Types.CsNumeric:
+                                        hb.FieldCheckBox(
+                                            controlId: "ImportKey",
+                                            labelText: Displays.ImportKey(context: context),
+                                            _checked: column.ImportKey == true,
+                                            _using: column.ColumnName == Rds.IdColumn(tableName: ss.ReferenceType)
+                                                || Def.ExtendedColumnTypes.Get(column.ColumnName) == "Num");
                                         if (column.ControlType == "ChoicesText")
                                         {
                                             hb.FieldTextBox(
@@ -10432,6 +10446,7 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     column: column,
                                     value: value,
+                                    own: true,
                                     multiple: true,
                                     addNotSet: true)
                                 : column.NumFilterOptions(context: context),
@@ -10485,6 +10500,7 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 column: column,
                                 value: value,
+                                own: true,
                                 multiple: true,
                                 addNotSet: true),
                             selectedValue: value,
@@ -10665,7 +10681,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.Column(context: context),
                                 optionCollection: ss.CalendarColumnOptions(context: context),
-                                selectedValue: view.GetCalendarFromTo(ss: ss))))
+                                selectedValue: view.GetCalendarFromTo(ss: ss))
+                            .FieldCheckBox(
+                                controlId: "CalendarShowStatus",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.ShowStatus(context: context),
+                                _checked: view.CalendarShowStatus == true,
+                                labelPositionIsRight: true)))
                 : hb;
         }
 
@@ -10730,7 +10752,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.Period(context: context),
                                 optionCollection: ss.CrosstabTimePeriodOptions(context: context),
-                                selectedValue: view.GetCrosstabTimePeriod(ss)))
+                                selectedValue: view.GetCrosstabTimePeriod(ss))
+                            .FieldCheckBox(
+                                controlId: "CrosstabNotShowZeroRows",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.NotShowZeroRows(context: context),
+                                _checked: view.CrosstabNotShowZeroRows == true,
+                                labelPositionIsRight: true))
                     .FieldSet(
                         css: " enclosed-thin",
                         legendText: Displays.CommandButtonsSettings(context: context),
@@ -10870,6 +10898,12 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: "field-auto-thin",
                                 labelText: Displays.AggregationView(context: context),
                                 _checked: view.KambanAggregationView == true,
+                                labelPositionIsRight: true)
+                            .FieldCheckBox(
+                                controlId: "KambanShowStatus",
+                                fieldCss: "field-auto-thin",
+                                labelText: Displays.ShowStatus(context: context),
+                                _checked: view.KambanShowStatus == true,
                                 labelPositionIsRight: true)))
                 : hb;
         }

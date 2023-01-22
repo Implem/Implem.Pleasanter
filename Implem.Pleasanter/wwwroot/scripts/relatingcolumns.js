@@ -90,7 +90,7 @@
                 parentIds.push($parentElement.attr('data-value'));
             }
             var childIds = [];
-            var $child = $('#' + tablename + '_' + chld + ' option[selected="selected"]');
+            var $child = $('#' + tablename + '_' + chld + ' option:selected');
             $child.each(function (index, element) {
                 childIds.push($(element).val());
             });

@@ -8,13 +8,14 @@
 ![image](Implem.Pleasanter/wwwroot/images/logo-version.png)
 
 ## Overview
-Pleasanter is a no-code/low-code development platform that runs on .NET. You can quickly create business applications with simple operations, so you can respond immediately to changes in your business. It has a wealth of functions for developers, so it can be flexibly linked with existing systems, and it has powerful script functions and APIs, so it has powerful scalability. The business application you really wanted can be created much faster and easier than full scratch!
+
+Pleasanter is a development platform that utilizes both no-code and low-code approaches, operating on the .NET. With its simple operations, it allows for the swift creation of business applications, enabling prompt responses to any variations within the business. It boasts an abundance of features for developers, enabling seamless integration with existing systems and robust scalability through its powerful script functions and APIs. The desired business application can be constructed with greater ease and speed, as opposed to starting from scratch.
 
 ## Features
 - Develop business applications with no-code
 - Fast and stress-free UI
 - Can be used as CRM, SFA, project management, etc
-- Can be used as image database, document database, etc
+- Can be used as an image database, document database, etc
 - Searching, Sorting, and Aggregating Table Records
 - Relations between tables
 - Data history management
@@ -22,7 +23,7 @@ Pleasanter is a no-code/low-code development platform that runs on .NET. You can
 - CSV import and export
 - Calendar and data chart(Gantt/Burndown/Timeseries/Crosstab/Kanban)
 - Email and chat notifications(Slack/Teams/etc)
-- Granular access control by table, row and column
+- Granular access control by table, row, and column
 - LDAP and SAML authentication
 - Multilingual(English/Chinese/Japanese/German/Korean/Spanish/Vietnamese)
 - Extension with add-on JavaScript/CSS that works on the front end
@@ -30,11 +31,63 @@ Pleasanter is a no-code/low-code development platform that runs on .NET. You can
 - Extend with add-on SQL
 - API
 
-## DEMO
+## Quick Start
+
+### Run with Docker
+
+First, please make sure that Docker is available :)
+
+1. Environment variables
+
+   Set the required environment variables. It is easy to write them in your `.env` file.
+   Example:
+
+   ```shell
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=<Any Sa password>
+    POSTGRES_DB=postgres
+    Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString='Server=db;Database=postgres;UID=postgres;PWD=<Any Sa password>'
+    Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString='Server=db;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD'
+    Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString='Server=db;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD'
+    DOCKER_BUILDKIT=1
+    COMPOSE_DOCKER_CLI_BUILD=true
+   ```
+
+2. Build
+
+   ```shell
+   docker compose build
+   ```
+
+3. Run CodeDefiner
+
+   ```shell
+   docker compose run --rm --name codedefiner Implem.CodeDefiner _rds
+   ```
+
+4. Start Pleasanter
+
+   ```shell
+   docker compose run --rm -d -p 50001:80 --name pleasanter Implem.Pleasanter
+   ```
+
+   `50001` in `-p` is the port of the site when accessing. (Change it as necessary)
+   Accessing the site at <http://localhost:50001/>
+
+5. Terminate
+
+   ```shell
+   docker compose down
+   ```
+
+### Demonstration
+
 Click [here](https://demo.pleasanter.org) to enter your email address and start the demo.
 
-## Requirement
-Pleasanter works using .NET6. Database can be PostgreSQL or SQL Server.
+## Requirements
+
+Pleasanter works on it`.NET6`. A Database can be PostgreSQL or SQL Server.
+
 |item|choice|
 |:----|:----|
 |OS|Windows / Linux|
@@ -42,11 +95,11 @@ Pleasanter works using .NET6. Database can be PostgreSQL or SQL Server.
 |Database|PostgreSQL / SQL Server|
 
 ## Documentation
-You can learn installation procedures, parameter settings, operation methods, etc.  
+You can learn installation procedures, parameter settings, operation methods, etc.
 [User's guide](https://pleasanter.org/manual) (Japanese only)
 
 ## Case study
-Introduction to large companies, local governments, financial institutions, etc. is increasing.  
+Introduction to large companies, local governments, financial institutions, etc. is increasing.
 [User case studies](https://pleasanter.org/cases) (Japanese only)
 
 ## License

@@ -76,6 +76,7 @@
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: false,
+                showStatus: view.CalendarShowStatus == true,
                 inRange: inRange));
 }
 
@@ -193,6 +194,7 @@ public static string CalendarJson(
         choices: choices,
         dataRows: dataRows,
         bodyOnly: bodyOnly,
+        showStatus: view.CalendarShowStatus == true,
         inRange: inRange,
         changedItemId: changedItemId);
     if (inRange)
@@ -283,6 +285,7 @@ private static EnumerableRowCollection<DataRow> CalendarDataRows(
                 context: context,
                 ss: ss)
                     .#ModelName#Id(_as: "Id")
+                    .Status()
                     .#TableName#Column(
                         columnName: fromColumn.ColumnName,
                         _as: "From")
@@ -315,6 +318,7 @@ private static HtmlBuilder Calendar(
     Dictionary<string, ControlData> choices,
     EnumerableRowCollection<DataRow> dataRows,
     bool bodyOnly,
+    bool showStatus,
     bool inRange,
     long changedItemId = 0)
 {
@@ -330,6 +334,7 @@ private static HtmlBuilder Calendar(
             begin: begin,
             choices: choices,
             dataRows: dataRows,
+            showStatus: showStatus,
             inRange: inRange,
             changedItemId: changedItemId)
         : hb.CalendarBody(
@@ -343,6 +348,7 @@ private static HtmlBuilder Calendar(
             begin: begin,
             choices: choices,
             dataRows: dataRows,
+            showStatus: showStatus,
             inRange: inRange,
             changedItemId: changedItemId);
 }

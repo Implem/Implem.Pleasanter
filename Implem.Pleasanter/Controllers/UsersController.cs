@@ -268,7 +268,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Challenge(string idp = "")
+        public ActionResult Challenge(string returnUrl = "", string idp = "")
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
@@ -285,7 +285,7 @@ namespace Implem.Pleasanter.Controllers
                         ? null
                         : new Dictionary<string, string> { ["idp"] = idp })
                 {
-                    RedirectUri = Url.Action(nameof(SamlLogin))
+                    RedirectUri = Url.Action(nameof(SamlLogin), new {returnUrl})
                 });
         }
 
@@ -315,11 +315,15 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        public ActionResult SamlLogin()
+        public ActionResult SamlLogin(string returnUrl)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var result = Saml.SamlLogin(context: context);
+            var result = Saml.SamlLogin(
+                context: context,
+                returnUrl: Url.IsLocalUrl(returnUrl)
+                    ? returnUrl
+                    : string.Empty);
             var redirectResult = new RedirectResult(result.redirectResultUrl);
             log.Finish(context: context);
             return redirectResult;

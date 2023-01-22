@@ -41,7 +41,7 @@ public static ResponseFile Export(
     }
     var export = ss.GetExport(
         context: context,
-        id: context.QueryStrings.Int("id"));
+        id: context.Forms.Int("ExportId"));
     var content = ExportUtilities.Export(
         context: context,
         ss: ss,
@@ -59,7 +59,7 @@ public static ResponseFile Export(
             title: ss.Title,
             name: export.Name,
             extension: export.Type.ToString()),
-        encoding: context.QueryStrings.Data("encoding"));
+        encoding: context.Forms.Data("ExportEncoding"));
 }
 
 public static string ExportAndMailNotify(

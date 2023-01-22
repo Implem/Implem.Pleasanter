@@ -11,6 +11,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
         public DateTime From;
         public DateTime? To;
         public bool? Changed;
+        public string StatusHtml;
         [NonSerialized]
         public DateTime UpdatedTime;
 
@@ -21,7 +22,8 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             DateTime from,
             DateTime to,
             long changedItemId,
-            DateTime updatedTime)
+            DateTime updatedTime,
+            string statusHtml)
         {
             Id = id;
             Title = title;
@@ -30,6 +32,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             if (to.InRange()) To = to;
             if (id == changedItemId) Changed = true;
             UpdatedTime = updatedTime;
+            StatusHtml = statusHtml;
         }
     }
 }

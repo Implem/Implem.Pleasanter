@@ -43,9 +43,18 @@ namespace Implem.Pleasanter.NetCore
             Applications.StartTime = DateTime.Now;
             Applications.LastAccessTime = Applications.StartTime;
             Context.Init();
-            Initializer.Initialize(
+            var exceptions = Initializer.Initialize(
                 path: env.ContentRootPath,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            // テンポラリ削除などで発生したエラーをSysLogsに記録する
+            if (exceptions.Any())
+            {
+                var context = InitializeContext();
+                exceptions.ForEach(e =>
+                    new SysLogModel(
+                        context: context,
+                        e: e));
+            }
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -297,11 +306,23 @@ namespace Implem.Pleasanter.NetCore
             });
         }
 
+        private static Context InitializeContext()
+        {
+            return new Context(
+                tenantId: 0,
+                request: false)
+            {
+                Controller = "Startup.cs",
+                Action = "Initialize",
+                Id = 0
+            };
+        }
+
         private static Context ApplicationStartContext()
         {
             return new Context(tenantId: 0)
             {
-                Controller = "Global.asax",
+                Controller = "Startup.cs",
                 Action = "Application_Start",
                 Id = 0
             };
@@ -312,8 +333,8 @@ namespace Implem.Pleasanter.NetCore
         {
             if (isFirst)
             {
-                InitializeLog();
                 isFirst = false;
+                Initialize();
             }
             try
             {
@@ -345,7 +366,7 @@ namespace Implem.Pleasanter.NetCore
             log.Finish(context: context);
         }
 
-        private void InitializeLog()
+        private void Initialize()
         {
             Context context = ApplicationStartContext();
             var log = new SysLogModel(
@@ -410,7 +431,7 @@ namespace Implem.Pleasanter.NetCore
         {
             return new Context()
             {
-                Controller = "Global.asax",
+                Controller = "Startup.cs",
                 Action = "Session_Start",
                 Id = 0
             };

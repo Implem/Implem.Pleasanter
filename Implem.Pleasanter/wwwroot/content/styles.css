@@ -749,6 +749,10 @@ th.calendar-header{
     display:none;
 }
 
+#CalendarBody .item .title > span:not(.ui-icon){
+    margin-right: 3px;
+}
+
 #CalendarBody .dragging{
     height:25px;
     padding:5px;
@@ -1022,8 +1026,8 @@ th.calendar-header{
     right:0px;
 }
 
-#ImageLib{
-    float:left;
+#KambanBody .kamban-item > span{
+    margin-right: 3px;
 }
 
 #ImageLib .item{

@@ -74,20 +74,45 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             int? tabIndex,
             ServerScriptModelColumn serverScriptModelColumn)
         {
-            var choice = column.Choice(Value.ToString());
             return hb.Td(
                 css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
-                action: () => hb
-                    .P(
-                        attributes: new HtmlAttributes()
-                            .Class(choice.CssClass)
-                            .Style(choice.Style),
+                action: () =>
+                {
+                    StyleBody(
+                        hb: hb,
+                        column: column);
+                });
+        }
+
+        public HtmlBuilder StyleBody(
+            HtmlBuilder hb,
+            Column column,
+            string tag = "P")
+        {
+            var choice = column.Choice(Value.ToString());
+            var attributes = new HtmlAttributes()
+                .Class(choice.CssClass)
+                .Style(choice.Style);
+            var text = column.ChoiceHash.Get(Value.ToString()) == null
+                ? Value == 0
+                    ? null
+                    : "?" + Value
+                : choice.TextMini;
+            switch (tag)
+            {
+                case "P":
+                    return hb.P(
+                        attributes: attributes,
                         action: () => hb
-                            .Text(column.ChoiceHash.Get(Value.ToString()) == null
-                                ? Value == 0
-                                    ? null
-                                    : "?" + Value
-                                : choice.TextMini)));
+                            .Text(text: text));
+                case "SPAN":
+                    return hb.Span(
+                        attributes: attributes,
+                        action: () => hb
+                            .Text(text: text));
+                default:
+                    return null;
+            }
         }
 
         public object ToApiDisplayValue(Context context, SiteSettings ss, Column column)

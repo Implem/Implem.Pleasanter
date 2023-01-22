@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column value,
             string timePeriod,
             DateTime month,
+            bool notShowZeroRows,
             EnumerableRowCollection<DataRow> dataRows,
             bool inRange = true)
         {
@@ -120,6 +121,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         accessKey: "n",
                         onClick: "$p.moveCrosstab('ThisMonth');",
                         icon: "ui-icon-Crosstab")
+                    .FieldCheckBox(
+                        controlId: "CrosstabNotShowZeroRows",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " auto-postback",
+                        labelText: Displays.NotShowZeroRows(context: context),
+                        _checked: notShowZeroRows,
+                        method: "post")
                     .Div(id: "CrosstabBody", action: () =>
                     {
                         if (inRange)
@@ -135,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 value: value,
                                 timePeriod: timePeriod,
                                 month: month,
+                                notShowZeroRows: notShowZeroRows,
                                 dataRows: dataRows);
                         }
                     });
@@ -169,6 +178,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column value,
             string timePeriod,
             DateTime month,
+            bool notShowZeroRows,
             EnumerableRowCollection<DataRow> dataRows,
             bool inRange = true)
         {
@@ -193,6 +203,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     daily: Daily(
                         xColumn: groupByX,
                         timePeriod: timePeriod),
+                    notShowZeroRows: notShowZeroRows,
                     data: CrosstabUtilities.Elements(
                         groupByX: groupByX,
                         groupByY: groupByY,
@@ -220,6 +231,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     daily: Daily(
                         xColumn: groupByX,
                         timePeriod: timePeriod),
+                    notShowZeroRows: notShowZeroRows,
                     data: CrosstabUtilities.ColumnsElements(
                         groupByX: groupByX,
                         dataRows: dataRows,
@@ -257,6 +269,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string aggregateType,
             Column value,
             bool daily,
+            bool notShowZeroRows,
             Dictionary<string, CrosstabElement> data,
             IEnumerable<Column> columns = null)
         {
@@ -288,51 +301,68 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         }))
                     .TBody(action: () =>
                     {
-                        choicesY?.ForEach(choiceY =>
-                        {
-                            var column = columns?.Any() != true
-                                ? value
-                                : ss.GetColumn(
-                                    context: context,
-                                    columnName: choiceY.Key);
-                            hb.Tr(css: "crosstab-row", action: () =>
+                        choicesY?
+                            .Where(choiceY => ShowRow(
+                                choiceY: choiceY.Key,
+                                notShowZeroRows: notShowZeroRows,
+                                data: data))
+                            .ForEach(choiceY =>
                             {
-                                var row = data
-                                    .Values
-                                    .Where(o => o.GroupByY == choiceY.Key)
-                                    .ToList();
-                                hb.Th(action: () => hb
-                                    .HeaderText(
+                                var column = columns?.Any() != true
+                                    ? value
+                                    : ss.GetColumn(
                                         context: context,
-                                        aggregateType: aggregateType,
-                                        value: column,
-                                        showValue: true,
-                                        data: row,
-                                        choice: choiceY));
-                                if (columns != null)
+                                        columnName: choiceY.Key);
+                                hb.Tr(css: "crosstab-row", action: () =>
                                 {
-                                    max = row.Any()
-                                        ? row.Max(o => o.Value)
-                                        : 0;
-                                }
-                                choicesX?.ForEach(choiceX => hb
-                                    .Td(
-                                        context: context,
-                                        ss: ss,
-                                        aggregateType: aggregateType,
-                                        daily: daily,
-                                        value: column,
-                                        x: choiceX.Key,
-                                        max: max,
-                                        data: CrosstabUtilities
-                                            .CellValue(
-                                                data: data,
-                                                choiceX: choiceX.Key,
-                                                choiceY: choiceY.Key)));
+                                    var row = data
+                                        .Values
+                                        .Where(o => o.GroupByY == choiceY.Key)
+                                        .ToList();
+                                    hb.Th(action: () => hb
+                                        .HeaderText(
+                                            context: context,
+                                            aggregateType: aggregateType,
+                                            value: column,
+                                            showValue: true,
+                                            data: row,
+                                            choice: choiceY));
+                                    if (columns != null)
+                                    {
+                                        max = row.Any()
+                                            ? row.Max(o => o.Value)
+                                            : 0;
+                                    }
+                                    choicesX?.ForEach(choiceX => hb
+                                        .Td(
+                                            context: context,
+                                            ss: ss,
+                                            aggregateType: aggregateType,
+                                            daily: daily,
+                                            value: column,
+                                            x: choiceX.Key,
+                                            max: max,
+                                            data: CrosstabUtilities
+                                                .CellValue(
+                                                    data: data,
+                                                    choiceX: choiceX.Key,
+                                                    choiceY: choiceY.Key)));
+                                });
                             });
-                        });
                     }));
 
+        }
+
+        private static bool ShowRow(
+            string choiceY,
+            bool notShowZeroRows,
+            Dictionary<string, CrosstabElement> data)
+        {
+            var ret = !notShowZeroRows
+                || data
+                    .Where(o => o.Key.EndsWith($"|{choiceY}"))
+                    .Sum(o => o.Value.Value) != 0;
+            return ret;
         }
 
         private static HtmlBuilder Td(
