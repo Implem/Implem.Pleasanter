@@ -652,6 +652,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool insertBlank = false,
             bool checkBlankInSelection = false,
             bool addNotSet = false,
+            bool own = false,
             View view = null,
             int limit = 0)
         {
@@ -668,6 +669,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (addNotSet && NotRequiredOrUser())
             {
                 hash.Add("\t", new ControlData(Displays.NotSet(context: context)));
+            }
+            if (own)
+            {
+                switch (Type)
+                {
+                    case Types.Dept:
+                    case Types.User:
+                        hash.Add("Own", new ControlData(Displays.Own(context: context)));
+                        break;
+                    default:
+                        break;
+                }
             }
             if (insertBlank && CanEmpty())
             {

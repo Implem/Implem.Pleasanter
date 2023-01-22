@@ -10446,6 +10446,7 @@ namespace Implem.Pleasanter.Models
                                     ss: ss,
                                     column: column,
                                     value: value,
+                                    own: true,
                                     multiple: true,
                                     addNotSet: true)
                                 : column.NumFilterOptions(context: context),
@@ -10499,6 +10500,7 @@ namespace Implem.Pleasanter.Models
                                 ss: ss,
                                 column: column,
                                 value: value,
+                                own: true,
                                 multiple: true,
                                 addNotSet: true),
                             selectedValue: value,

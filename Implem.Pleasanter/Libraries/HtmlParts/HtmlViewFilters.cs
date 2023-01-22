@@ -399,7 +399,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             optionCollection: column.HasChoices()
                                 ? column.EditChoices(
                                     context: context,
-                                    addNotSet: true)
+                                    addNotSet: true,
+                                    own: true)
                                 : column.NumFilterOptions(context: context),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
@@ -489,7 +490,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             view: view,
                             optionCollection: column.EditChoices(
                                 context: context,
-                                addNotSet: true),
+                                addNotSet: true,
+                                own: true),
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
                             action: action,

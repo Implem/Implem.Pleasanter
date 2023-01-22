@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using Azure.Core;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -2063,19 +2064,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                     else
                     {
+                        var value = ConvertedValue(
+                            context: context,
+                            column: data.Column,
+                            value: data.Value);
                         switch (data.Column.TypeName.CsTypeSummary())
                         {
                             case Types.CsBool:
                                 CsBoolColumns(
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
                             case Types.CsNumeric:
                                 CsNumericColumns(
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
@@ -2083,7 +2088,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 CsDateTimeColumns(
                                     context: context,
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
@@ -2091,13 +2096,39 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 CsStringColumns(
                                     context: context,
                                     column: data.Column,
-                                    value: data.Value,
+                                    value: value,
                                     where: where,
                                     negative: negative);
                                 break;
                         }
                     }
                 });
+        }
+
+        private string ConvertedValue(
+            Context context,
+            Column column,
+            string value)
+        {
+            switch (column.Type)
+            {
+                case Column.Types.Dept:
+                    return value
+                        ?.Deserialize<List<string>>()
+                        ?.Select(o => (o == "Own"
+                            ? context.DeptId.ToString()
+                            : o))
+                        .ToJson();
+                case Column.Types.User:
+                    return value
+                        ?.Deserialize<List<string>>()
+                        ?.Select(o => (o == "Own"
+                            ? context.UserId.ToString()
+                            : o))
+                        .ToJson();
+                default:
+                    return value;
+            }
         }
 
         private static void AddEqWhere(
