@@ -6,7 +6,7 @@
         padding: 10px;
         font-size: 4vw;
     }
-    #LoginFieldSet input {
+    #LoginFieldSet input, #LoginFieldSet select {
         font-size: 5vw;
         padding: 10px;
     }
