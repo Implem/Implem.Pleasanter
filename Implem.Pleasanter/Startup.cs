@@ -185,6 +185,22 @@ namespace Implem.Pleasanter.NetCore
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
             }
+            if (Parameters.Security.HttpStrictTransportSecurity?.Enabled == true)
+            {
+                services.AddHsts(options =>
+                {
+                    options.Preload = Parameters.Security.HttpStrictTransportSecurity.Preload;
+                    options.IncludeSubDomains = Parameters.Security.HttpStrictTransportSecurity.IncludeSubDomains;
+                    options.MaxAge = Parameters.Security.HttpStrictTransportSecurity.MaxAge;
+                    if (Parameters.Security.HttpStrictTransportSecurity.ExcludeHosts != null)
+                    {
+                        foreach (var host in Parameters.Security.HttpStrictTransportSecurity.ExcludeHosts)
+                        {
+                            options.ExcludedHosts.Add(host);
+                        }
+                    }
+                });
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -199,6 +215,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 app.UseExceptionHandler("/errors/internalservererror");
             }
+            app.UseHsts();
             app.UseSecurityHeadersMiddleware();
             app.Use(async (context, next) => await Invoke(context, next));
             app.UseStatusCodePages(context =>
