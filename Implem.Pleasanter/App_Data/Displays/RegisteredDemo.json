@@ -1,0 +1,33 @@
+﻿{
+    "Id": "RegisteredDemo",
+    "Type": 210,
+    "Languages": [
+        {
+            "Body": "Your email address has been registered for the demo."
+        },
+        {
+            "Language": "zh",
+            "Body": "“您的电子邮件地址已为演示注册。"
+        },
+        {
+            "Language": "ja",
+            "Body": "メールアドレスがデモに登録されました。"
+        },
+        {
+            "Language": "de",
+            "Body": "Ihre E-Mail-Adresse wurde für die Demo registriert."
+        },
+        {
+            "Language": "ko",
+            "Body": "귀하의 이메일 주소가 데모용으로 등록되었습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "Su dirección de correo electrónico ha sido registrada para la demostración."
+        },
+        {
+            "Language": "vn",
+            "Body": "Địa chỉ email của bạn đã được đăng ký cho bản demo."
+        }
+    ]
+}
