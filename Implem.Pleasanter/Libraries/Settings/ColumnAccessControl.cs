@@ -90,7 +90,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (Users?.Contains(context.UserId) == true)
+            else if (Users?.Contains(context.UserId) == true
+                // 項目のアクセス制御で全てのユーザー(UserId: -1)が選択されている場合、認証されているユーザーであれば許可する
+                // 情報公開機能を使用して匿名アクセスしたユーザには許可しない
+                || (Users?.Contains(-1) == true && context.Authenticated))
             {
                 return true;
             }
