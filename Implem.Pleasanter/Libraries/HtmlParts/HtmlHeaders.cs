@@ -67,11 +67,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Div(
                             attributes: new HtmlAttributes()
                                 .Id($"AnnouncementContainer_{issueModel.IssueId}")
-                                .Class("annonymous", _using: !context.Authenticated)
-                            , action: () =>
-                            {
-                                hb.Raw(text: issueModel.Body);
-                            });
+                                .Class("annonymous", _using: !context.Authenticated),
+                            action: () =>hb.Raw(text: issueModel.Body));
                     }
                 }
             }

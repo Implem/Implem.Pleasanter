@@ -4495,10 +4495,15 @@ namespace Implem.Pleasanter.Models
                     .Message(Messages.InvalidRequest(context: context))
                     .ToJson();
             }
-            var allowClose = issueModel.CheckHash.TryGetValue("CheckD", out bool checkD) ? checkD : false;
+            var allowClose = issueModel.CheckHash.TryGetValue("CheckD", out bool checkD)
+                ? checkD
+                : false;
             if (allowClose)
             {
-                SessionUtilities.Set(context: context, key: $"ClosedAnnouncement:{announcementId}", value: "true");
+                SessionUtilities.Set(
+                    context: context,
+                    key: $"ClosedAnnouncement:{announcementId}",
+                    value: "true");
                 return new ResponseCollection(context: context)
                     .Remove($"#AnnouncementContainer_{announcementId}")
                     .ToJson();
