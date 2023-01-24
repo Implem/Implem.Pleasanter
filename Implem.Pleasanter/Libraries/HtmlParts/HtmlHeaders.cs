@@ -26,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             ServerScriptModelRow serverScriptModelRow)
         {
             return hb.Header(id: "Header", action: () => hb
-                .Announcement()
+                .Announcement(context: context)
                 .HeaderLogo(
                     context: context,
                     ss: ss)
@@ -41,16 +41,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     serverScriptModelRow: serverScriptModelRow));
         }
 
-        public static HtmlBuilder Announcement(this HtmlBuilder hb)
+        public static HtmlBuilder Announcement(this HtmlBuilder hb, Context context)
         {
             var siteId = Parameters.Service.AnnouncementSiteId;
             if (siteId > 0)
             {
-                var context = new Context(
-                    sessionStatus: false,
-                    sessionData: false,
-                    item: false,
-                    setPermissions: false);
                 var ss = SiteSettingsUtilities.Get(
                     context: context,
                     siteId: siteId);
@@ -65,10 +60,44 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .CompletionTime(now, _operator: ">="));
                 foreach (var issueModel in issueCollection)
                 {
-                    hb.Raw(text: issueModel.Body);
+                    if (!IsHiddenAnnouncement(
+                        context: context,
+                        issueModel: issueModel))
+                    {
+                        hb.Div(
+                            attributes: new HtmlAttributes()
+                                .Id($"AnnouncementContainer_{issueModel.IssueId}")
+                                .Class("annonymous", _using: !context.Authenticated)
+                            , action: () =>
+                            {
+                                hb.Raw(text: issueModel.Body);
+                            });
+                    }
                 }
             }
             return hb;
+        }
+
+        private static bool IsHiddenAnnouncement(
+            Context context,
+            IssueModel issueModel)
+        {
+            var hideOther = issueModel.CheckHash.TryGetValue("CheckA", out bool checkA) ? checkA : false;
+            var hideLogin = issueModel.CheckHash.TryGetValue("CheckB", out bool checkB) ? checkB : false;
+            var hideTop = issueModel.CheckHash.TryGetValue("CheckC", out bool checkC) ? checkC : false;
+            var allowClose = issueModel.CheckHash.TryGetValue("CheckD", out bool checkD) ? checkD : false;
+            var isLogin = context.Controller.ToLower() == "users" && context.Action.ToLower() == "login";
+            var isTop = context.Controller.ToLower() == "items" && context.Id == 0;
+            if (allowClose)
+            {
+                if (context.SessionData.ContainsKey($"ClosedAnnouncement:{issueModel.IssueId}"))
+                {
+                    return true;
+                }
+            }
+            return isLogin && hideLogin
+                || isTop && hideTop
+                || !isLogin && !isTop && hideOther;
         }
 
         public static HtmlBuilder HeaderLogo(
