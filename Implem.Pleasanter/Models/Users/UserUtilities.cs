@@ -4472,6 +4472,51 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string CloseAnnouncement(Context context)
+        {
+            var siteId = Parameters.Service.AnnouncementSiteId;
+            if (siteId == 0)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(Messages.InvalidRequest(context: context))
+                    .ToJson();
+            }
+            var announcementId = context.Forms.Int("AnnouncementId");
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId);
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: announcementId);
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(Messages.InvalidRequest(context: context))
+                    .ToJson();
+            }
+            var allowClose = issueModel.CheckHash.TryGetValue("CheckD", out bool checkD)
+                ? checkD
+                : false;
+            if (allowClose)
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    key: $"ClosedAnnouncement:{announcementId}",
+                    value: "true");
+                return new ResponseCollection(context: context)
+                    .Remove($"#AnnouncementContainer_{announcementId}")
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection(context: context).ToJson();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))

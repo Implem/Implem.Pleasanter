@@ -28,6 +28,7 @@
             "wwwroot/scripts/aggregationevents.js",
             "wwwroot/scripts/anchor.js",
             "wwwroot/scripts/anchorevents.js",
+            "wwwroot/scripts/announcement.js",
             "wwwroot/scripts/attachments.js",
             "wwwroot/scripts/attachmentsevents.js",
             "wwwroot/scripts/basket.js",
