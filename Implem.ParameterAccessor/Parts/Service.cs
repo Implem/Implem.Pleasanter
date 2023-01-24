@@ -17,6 +17,7 @@
         public bool ShowChangePassword;
         public bool ShowStartGuide;
         public bool Demo;
+        public bool DemoApi;
         public int DemoUsagePeriod;
         public bool RestrictNewFeatures;
     }
