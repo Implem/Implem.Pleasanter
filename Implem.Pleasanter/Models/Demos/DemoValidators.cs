@@ -12,5 +12,24 @@ namespace Implem.Pleasanter.Models
 {
     public static class DemoValidators
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ErrorData OnRegistering(
+            Context context,
+            DemoApiModel demoApiModel)
+        {
+            if ((!Parameters.Api.Enabled
+                || context.ContractSettings.Api == false
+                || context.UserSettings?.AllowApi(context: context) == false))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (demoApiModel == null)
+            {
+                return new ErrorData(type: Error.Types.InvalidJsonData);
+            }
+            return new ErrorData(type: Error.Types.None);
+        }
     }
 }
