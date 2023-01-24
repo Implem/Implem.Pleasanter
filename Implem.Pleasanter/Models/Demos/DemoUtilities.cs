@@ -35,9 +35,60 @@ namespace Implem.Pleasanter.Models
             bool async = true,
             bool sendMail = true)
         {
+            var mailAddress = context.Forms.Data("Users_DemoMailAddress");
+            Register(
+                context: context,
+                mailAddress: mailAddress,
+                async: async,
+                sendMail: sendMail);
+            return Messages.ResponseSentAcceptanceMail(context: context)
+                .Remove("#DemoForm")
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static ContentResultInheritance RegisterByApi(Context context)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var demoApiModel = context.ApiRequestBody.Deserialize<DemoApiModel>();
+            var invalid = DemoValidators.OnRegistering(
+                context: context,
+                demoApiModel: demoApiModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                       context: context,
+                       errorData: invalid);
+            }
+            var mailAddress = demoApiModel.MailAddress;
+            Register(
+                context: context,
+                mailAddress: mailAddress);
+            return ApiResults.Success(
+                id: 0,
+                message: Displays.RegisteredDemo(
+                    context: context,
+                    data: string.Empty));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static void Register(
+            Context context,
+            string mailAddress,
+            bool async = true,
+            bool sendMail = true)
+        {
             var ss = new SiteSettings();
             var passphrase = Strings.NewGuid();
-            var mailAddress = context.Forms.Data("Users_DemoMailAddress");
             var tenantModel = new TenantModel()
             {
                 TenantName = mailAddress,
@@ -85,9 +136,6 @@ namespace Implem.Pleasanter.Models
                 userHash: userHash,
                 async: async,
                 sendMail: sendMail);
-            return Messages.ResponseSentAcceptanceMail(context: context)
-                .Remove("#DemoForm")
-                .ToJson();
         }
 
         /// <summary>
