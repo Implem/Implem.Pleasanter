@@ -91,5 +91,12 @@
         "BlobContainerUri": null,
         "KeyIdentifier": null,
         "KeyFileName": "Keys.xml"
+    },
+    "HttpStrictTransportSecurity": {
+        "Enabled": false,
+        "Preload": false,
+        "IncludeSubDomains": false,
+        "MaxAge": "30.00:00:00",
+        "ExcludeHosts": null
     }
 }

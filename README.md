@@ -12,6 +12,7 @@
 Pleasanter is a development platform that utilizes both no-code and low-code approaches, operating on the .NET. With its simple operations, it allows for the swift creation of business applications, enabling prompt responses to any variations within the business. It boasts an abundance of features for developers, enabling seamless integration with existing systems and robust scalability through its powerful script functions and APIs. The desired business application can be constructed with greater ease and speed, as opposed to starting from scratch.
 
 ## Features
+
 - Develop business applications with no-code
 - Fast and stress-free UI
 - Can be used as CRM, SFA, project management, etc
@@ -36,48 +37,80 @@ Pleasanter is a development platform that utilizes both no-code and low-code app
 ### Run with Docker
 
 First, please make sure that Docker is available :)
+If necessary, run the Docker command with sudo when executing it.
+
+1. Create database initialize query
+
+   Create PostgreSQL initialize query file `setup.sql` in `initdb` directory.
+
+   ```sql
+   create user "Implem.Pleasanter_Owner" with password '<Any Owner password>';
+   create schema authorization "Implem.Pleasanter_Owner";
+   create database "Implem.Pleasanter" with owner "Implem.Pleasanter_Owner";
+   \c "Implem.Pleasanter";
+   CREATE EXTENSION IF NOT EXISTS pg_trgm;
+   ```
+
+1. Create docker network
+
+   ```shell
+   docker network create pleasanter-net
+   ```
+
+1. Run PostgreSQL
+
+   ```shell
+   docker run --rm -d -v $PWD/initdb:/docker-entrypoint-initdb.d \
+       --network pleasanter-net \
+       --name db \
+       --env POSTGRES_USER=postgres \
+       --env POSTGRES_PASSWORD=<Any Sa password> \
+       --env POSTGRES_DB=postgres \
+       postgres:15
+   ```
 
 1. Environment variables
 
-   Set the required environment variables. It is easy to write them in your `.env` file.
+   Set the required environment variables. It is easy to write them in your `env-list` file.
    Example:
 
-   ```shell
-    POSTGRES_USER=postgres
-    POSTGRES_PASSWORD=<Any Sa password>
-    POSTGRES_DB=postgres
-    Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString='Server=db;Database=postgres;UID=postgres;PWD=<Any Sa password>'
-    Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString='Server=db;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=SetAdminsPWD'
-    Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString='Server=db;Database=#ServiceName#;UID=#ServiceName#_User;PWD=SetUsersPWD'
-    DOCKER_BUILDKIT=1
-    COMPOSE_DOCKER_CLI_BUILD=true
+   ```text
+    Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=Server=db;Database=postgres;UID=postgres;PWD=<Any Sa password>
+    Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=Server=db;Database=#ServiceName#;UID=#ServiceName#_Owner;PWD=<Any Owner password>
+    Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=Server=db;Database=#ServiceName#;UID=#ServiceName#_User;PWD=<Any User password>
    ```
 
-2. Build
+1. Run CodeDefiner
 
    ```shell
-   docker compose build
+   docker run --rm --network pleasanter-net \
+       --name codedefiner \
+       --env-file env-list \
+       implem/pleasanter:codedefiner _rds
    ```
 
-3. Run CodeDefiner
+1. Start Pleasanter
 
    ```shell
-   docker compose run --rm --name codedefiner Implem.CodeDefiner _rds
-   ```
-
-4. Start Pleasanter
-
-   ```shell
-   docker compose run --rm -d -p 50001:80 --name pleasanter Implem.Pleasanter
+   docker run --rm --network pleasanter-net \
+       --name pleasanter \
+       --env-file env-list \
+       -p 50001:80 \
+       implem/pleasanter
    ```
 
    `50001` in `-p` is the port of the site when accessing. (Change it as necessary)
-   Accessing the site at <http://localhost:50001/>
+   Accessing the site at <http://localhost:50001/>.
 
-5. Terminate
+   When you access the site, you will be asked to log in. Enter the initial user name: `Administrator` and initial password: `pleasanter` to log in.
+
+   If you want to stop pleasanter container, press Ctrl-C.
+
+1. Terminate
 
    ```shell
-   docker compose down
+   docker stop db
+   docker network rm pleasanter-net
    ```
 
 ### Demonstration
@@ -86,7 +119,7 @@ Click [here](https://demo.pleasanter.org) to enter your email address and start 
 
 ## Requirements
 
-Pleasanter works on it`.NET6`. A Database can be PostgreSQL or SQL Server.
+Pleasanter work on it`.NET6`. A Database can be PostgreSQL or SQL Server.
 
 |item|choice|
 |:----|:----|
