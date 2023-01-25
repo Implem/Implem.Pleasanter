@@ -37,13 +37,14 @@ Pleasanter is a development platform that utilizes both no-code and low-code app
 ### Run with Docker
 
 First, please make sure that Docker is available :)
+If necessary, run the Docker command with sudo when executing it.
 
 1. Create database initialize query
 
    Create PostgreSQL initialize query file `setup.sql` in `initdb` directory.
 
    ```sql
-   create user "Implem.Pleasanter_Owner" with password '<Any Owner password';
+   create user "Implem.Pleasanter_Owner" with password '<Any Owner password>';
    create schema authorization "Implem.Pleasanter_Owner";
    create database "Implem.Pleasanter" with owner "Implem.Pleasanter_Owner";
    \c "Implem.Pleasanter";
@@ -100,6 +101,8 @@ First, please make sure that Docker is available :)
 
    `50001` in `-p` is the port of the site when accessing. (Change it as necessary)
    Accessing the site at <http://localhost:50001/>.
+
+   When you access the site, you will be asked to log in. Enter the initial user name: `Administrator` and initial password: `pleasanter` to log in.
 
    If you want to stop pleasanter container, press Ctrl-C.
 
