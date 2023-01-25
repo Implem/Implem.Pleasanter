@@ -142,7 +142,7 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Export()
         {
             var context = new Context();
