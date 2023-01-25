@@ -2398,7 +2398,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     title: ss.Title,
                     name: Displays.Groups(context: context)),
-                encoding: context.QueryStrings.Data("encoding"));
+                encoding: context.Forms.Data("ExportEncoding"));
         }
 
         /// <summary>
