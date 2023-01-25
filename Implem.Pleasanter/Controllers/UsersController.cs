@@ -244,7 +244,7 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
-        [HttpGet]
+        [HttpPost]
         public ActionResult Export()
         {
             var context = new Context();
