@@ -19,5 +19,6 @@ namespace Implem.ParameterAccessor.Parts
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
         public AspNetCoreDataProtection AspNetCoreDataProtection;
+        public HttpStrictTransportSecurity HttpStrictTransportSecurity;
     }
 }
