@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            if (Parameters.Service.Demo)
+            if (Parameters.Service.Demo && !Parameters.Service.DemoApi)
             {
                 var json = DemoUtilities.Register(context: context);
                 log.Finish(context: context, responseSize: json.Length);

@@ -3922,7 +3922,7 @@ namespace Implem.Pleasanter.Models
                                     "demos",
                                     "_action_"
                                 })),
-                        _using: Parameters.Service.Demo,
+                        _using: Parameters.Service.Demo && !Parameters.Service.DemoApi,
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(
