@@ -89,7 +89,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return true;
             }
-            else if (Users?.Contains(context.UserId) == true)
+            else if (Users?.Contains(context.UserId) == true
+                || (Users?.Contains(-1) == true && context.Authenticated))
             {
                 return true;
             }

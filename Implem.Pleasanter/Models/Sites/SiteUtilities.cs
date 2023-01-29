@@ -6250,7 +6250,7 @@ namespace Implem.Pleasanter.Models
                                                     controlId: "DefaultInput",
                                                     labelText: Displays.DefaultInput(context: context),
                                                     text: !column.DefaultInput.IsNullOrEmpty()
-                                                        ? column.DefaultInput.ToLong().ToString()
+                                                        ? column.DefaultInput.ToDecimal().ToString()
                                                         : string.Empty,
                                                     validateNumber: true,
                                                     _using: !column.Id_Ver
