@@ -8,6 +8,7 @@
     "JoeAccountCheck": true,
     "TokenCheck": false,
     "SecureCookies": false,
+    "SecureCacheControl": false,
     "DisableMvcResponseHeader": false,
     "DisableDeletingSiteAuthentication": false,
     "AccessControlAllowOrigin": null,
