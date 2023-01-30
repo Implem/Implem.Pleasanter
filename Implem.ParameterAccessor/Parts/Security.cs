@@ -12,7 +12,6 @@ namespace Implem.ParameterAccessor.Parts
         public bool JoeAccountCheck;
         public bool TokenCheck;
         public bool SecureCookies;
-        public bool SecureCacheControl;
         public bool DisableMvcResponseHeader;
         public bool DisableDeletingSiteAuthentication;
         public List<string> AccessControlAllowOrigin;
@@ -21,5 +20,6 @@ namespace Implem.ParameterAccessor.Parts
         public SecondaryAuthentication SecondaryAuthentication;
         public AspNetCoreDataProtection AspNetCoreDataProtection;
         public HttpStrictTransportSecurity HttpStrictTransportSecurity;
+        public SecureCacheControl SecureCacheControl;
     }
 }

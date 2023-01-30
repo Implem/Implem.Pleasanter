@@ -484,17 +484,26 @@ namespace Implem.Pleasanter.NetCore
             context.Response.Headers.Add("X-Frame-Options", new StringValues("SAMEORIGIN"));
             context.Response.Headers.Add("X-Xss-Protection", new StringValues("1; mode=block"));
             context.Response.Headers.Add("X-Content-Type-Options", new StringValues("nosniff"));
-            if (Parameters.Security.SecureCacheControl)
+            if (Parameters.Security.SecureCacheControl != null)
             {
-                context.Response.GetTypedHeaders().CacheControl =
-                    new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
-                    {
-                        NoCache = true,
-                        NoStore = true,
-                        Private = true,
-                        MustRevalidate = true
-                    };
-                context.Response.Headers.Add("Pragma", new StringValues("no-cache"));
+                if (Parameters.Security.SecureCacheControl.NoCache
+                    || Parameters.Security.SecureCacheControl.NoStore
+                    || Parameters.Security.SecureCacheControl.Private
+                    || Parameters.Security.SecureCacheControl.MustRevalidate)
+                {
+                    context.Response.GetTypedHeaders().CacheControl =
+                        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                        {
+                            NoCache = Parameters.Security.SecureCacheControl.NoCache,
+                            NoStore = Parameters.Security.SecureCacheControl.NoStore,
+                            Private = Parameters.Security.SecureCacheControl.Private,
+                            MustRevalidate = Parameters.Security.SecureCacheControl.MustRevalidate
+                        };
+                }
+                if (Parameters.Security.SecureCacheControl.PragmaNoCache)
+                {
+                    context.Response.Headers.Add("Pragma", new StringValues("no-cache"));
+                }
             }
             return _next(context);
         }
