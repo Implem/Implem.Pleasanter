@@ -21,6 +21,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
         public string Body = string.Empty;
         public string GridGuide = string.Empty;
         public string EditorGuide = string.Empty;
+        public string CalendarGuide = string.Empty;
+        public string CrosstabGuide = string.Empty;
+        public string GanttGuide = string.Empty;
+        public string BurnDownGuide = string.Empty;
+        public string TimeSeriesGuide = string.Empty;
+        public string KambanGuide = string.Empty;
+        public string ImageLibGuide = string.Empty;
         public string ReferenceType = "Sites";
         public long ParentId = 0;
         public long InheritPermission = 0;
@@ -52,6 +59,13 @@ namespace Implem.Pleasanter.Libraries.SitePackages
             Body = siteModel.Body;
             GridGuide = siteModel.GridGuide;
             EditorGuide = siteModel.EditorGuide;
+            CalendarGuide = siteModel.CalendarGuide;
+            CrosstabGuide= siteModel.CrosstabGuide;
+            GanttGuide = siteModel.GanttGuide;
+            BurnDownGuide = siteModel.BurnDownGuide;
+            TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            KambanGuide = siteModel.KambanGuide;
+            ImageLibGuide = siteModel.ImageLibGuide;
             ReferenceType = siteModel.ReferenceType;
             ParentId = siteModel.ParentId;
             InheritPermission = siteModel.InheritPermission;
