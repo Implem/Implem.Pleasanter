@@ -3,8 +3,12 @@ using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Microsoft.Extensions.Caching.Memory;
+
 namespace Implem.Pleasanter.Libraries.Security
 {
+
+
     public static class Authentications
     {
         public enum AuthenticationCodeCharacterTypes
