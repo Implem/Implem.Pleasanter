@@ -19,6 +19,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 fieldId: "_ViewSelectorField",
                 controlId: "ViewSelector",
+                // ビューの保存種別で保存しない場合には、ViewSelectorがalways-sendで送信される
+                controlCss: ss.SaveViewType == SiteSettings.SaveViewTypes.None
+                    ? " always-send"
+                    : string.Empty,
                 labelText: Displays.DataView(context: context),
                 optionCollection: ss.Views
                     ?.Where(o => o.Accessable(context: context))

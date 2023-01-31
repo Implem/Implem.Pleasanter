@@ -34,7 +34,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     id: processId);
                 if (process != null)
                 {
-                    view = GetSessionView(
+                    view = GetView(
                         context: context,
                         ss: ss,
                         useUsersView: useUsersView);
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             ss: ss);
                 if (view.KeepFilterState == true || view.KeepSorterState == true)
                 {
-                    var prevView = GetSessionView(
+                    var prevView = GetView(
                         context: context,
                         ss: ss,
                         useUsersView: useUsersView);
@@ -98,7 +98,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     view: view);
                 return view;
             }
-            view = GetSessionView(
+            view = GetView(
                 context: context,
                 ss: ss,
                 useUsersView: useUsersView);
@@ -135,12 +135,20 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        private static View GetSessionView(Context context, SiteSettings ss, bool useUsersView)
+        private static View GetView(Context context, SiteSettings ss, bool useUsersView)
         {
             View view;
-            var sessionData = useUsersView ? context.UserSessionData : context.SessionData;
+            var sessionData = useUsersView
+                ? context.UserSessionData
+                : context.SessionData;
             view = sessionData.Get("View")?.Deserialize<View>()
-                ?? ss.Views?.Get(ss.GridView)
+                // ビューの保存種別で保存しない場合には、ViewSelectorがalways-sendで送信される
+                ?? ss.Views
+                    ?.Where(o => o.Accessable(context: context))
+                    .FirstOrDefault(o => o.Id == context.Forms.Int("ViewSelector"))
+                ?? ss.Views
+                    ?.Where(o => o.Accessable(context: context))
+                    .FirstOrDefault(o => o.Id == ss.GridView)
                 ?? new View();
             return view;
         }
