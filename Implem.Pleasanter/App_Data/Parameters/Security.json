@@ -98,5 +98,12 @@
         "IncludeSubDomains": false,
         "MaxAge": "30.00:00:00",
         "ExcludeHosts": null
+    },
+    "SecureCacheControl": {
+        "NoCache": false,
+        "NoStore": false,
+        "Private": false,
+        "MustRevalidate": false,
+        "PragmaNoCache": false
     }
 }

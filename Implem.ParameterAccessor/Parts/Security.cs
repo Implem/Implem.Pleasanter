@@ -20,5 +20,6 @@ namespace Implem.ParameterAccessor.Parts
         public SecondaryAuthentication SecondaryAuthentication;
         public AspNetCoreDataProtection AspNetCoreDataProtection;
         public HttpStrictTransportSecurity HttpStrictTransportSecurity;
+        public SecureCacheControl SecureCacheControl;
     }
 }
