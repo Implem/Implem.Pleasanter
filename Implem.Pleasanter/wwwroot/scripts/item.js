@@ -14,11 +14,7 @@
         if (index !== -1 && target >= 0 && target < array.length) {
             var url = $('#BaseUrl').val() + array[target];
             if (ajax) {
-                var data = {};
-                if ($('#Token').length) {
-                    data.Token = $('#Token').val();
-                }
-                $p.ajax(url, 'post', data, null, false);
+                $p.ajax(url, 'post', null, null, false);
                 if (additional !== 0) history.pushState(null, null, url);
             } else {
                 $p.transition(url);
