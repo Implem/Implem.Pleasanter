@@ -139,8 +139,15 @@
         deleteUrl = deleteUrl.replace(/\/items\/[0-9]+\/binaries\/deletetemp/g, "/items/" + siteId + "/binaries/deletetemp");
     }
     var controlId = control.parent().find('.control-attachments').attr('id');
+    var token = $('#Token').val();
     var attachmentsData = $('#' + controlId).val();
-    var formData = { Uuids: uuids, ColumnName: dataName, ControlId: controlId, AttachmentsData: attachmentsData };
+    var formData = {
+        Uuids: uuids,
+        ColumnName: dataName,
+        ControlId: controlId,
+        token: token,
+        AttachmentsData: attachmentsData
+    };
     var dataType = 'json';
     var maxChunkSize = 1047552 * 10;
     var sendData = new Object();

@@ -1,4 +1,4 @@
-[![GitHub stars](https://img.shields.io/github/stars/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/stargazers)
+﻿[![GitHub stars](https://img.shields.io/github/stars/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/network)
 [![GitHub issues](https://img.shields.io/github/issues/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/issues)
 [![GitHub license](https://img.shields.io/github/license/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/blob/master/LICENSE)

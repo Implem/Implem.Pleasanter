@@ -3218,3 +3218,6 @@ textarea:focus{
     z-index:3;
 }
 
+.annonymous .close-announcement{
+    display:none;
+}

@@ -108,7 +108,15 @@ namespace Implem.Pleasanter.Libraries.Responses
         private static DataRow GetBinariesTable(Context context, string guid)
         {
             if (guid.IsNullOrEmpty()) return null;
-            var refererIsTenantManagement = RefererIsTenantManagement(context: context);
+            var join = Rds.BinariesJoinDefault()
+                .Add(new SqlJoin(
+                    tableBracket: "\"Items\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
+                .Add(new SqlJoin(
+                    tableBracket: "\"Sites\"",
+                    joinType: SqlJoin.JoinTypes.Inner,
+                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\""));
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
@@ -129,25 +137,15 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Updator()
                             .CreatedTime()
                             .UpdatedTime(),
-                        join: refererIsTenantManagement
-                            ? Rds.BinariesJoinDefault()
-                            : Rds.BinariesJoinDefault()
-                                .Add(new SqlJoin(
-                                    tableBracket: "\"Items\"",
-                                    joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
-                                .Add(new SqlJoin(
-                                    tableBracket: "\"Sites\"",
-                                    joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        join: join,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
+                            .BinaryType("Images")
                             .CanRead(
                                 context: context,
                                 idColumnBracket: "\"Binaries\".\"ReferenceId\"",
-                                _using: !context.Publish
-                                    && !refererIsTenantManagement)),
+                                _using: !context.Publish)),
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
                             .BinaryId()
@@ -164,24 +162,37 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .Updator()
                             .CreatedTime()
                             .UpdatedTime(),
-                        join: refererIsTenantManagement
-                            ? Rds.BinariesJoinDefault()
-                            : Rds.BinariesJoinDefault()
-                                .Add(new SqlJoin(
-                                    tableBracket: "\"Items\"",
-                                    joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "\"Binaries\".\"ReferenceId\"=\"Items\".\"ReferenceId\""))
-                                .Add(new SqlJoin(
-                                    tableBracket: "\"Sites\"",
-                                    joinType: SqlJoin.JoinTypes.Inner,
-                                    joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\"")),
+                        join: join,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
+                            .BinaryType("Images")
                             .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"={context.UserId})"),
-                        unionType: Sqls.UnionTypes.UnionAll)})
-                            .AsEnumerable()
-                            .FirstOrDefault();
+                        unionType: Sqls.UnionTypes.UnionAll),
+                    Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .BinaryId()
+                            .ReferenceId()
+                            .Guid()
+                            .BinaryType()
+                            .Bin()
+                            .Thumbnail()
+                            .FileName()
+                            .ContentType()
+                            .Extension()
+                            .Size()
+                            .Creator()
+                            .Updator()
+                            .CreatedTime()
+                            .UpdatedTime(),
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .Guid(guid)
+                            .BinaryType("TenantManagementImages"),
+                        unionType: Sqls.UnionTypes.UnionAll)
+                })
+                    .AsEnumerable()
+                    .FirstOrDefault();
         }
 
         public static bool RefererIsTenantManagement(Context context)

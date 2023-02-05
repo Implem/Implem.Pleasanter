@@ -183,6 +183,22 @@ namespace Implem.Pleasanter.NetCore
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
             }
+            if (Parameters.Security.HttpStrictTransportSecurity?.Enabled == true)
+            {
+                services.AddHsts(options =>
+                {
+                    options.Preload = Parameters.Security.HttpStrictTransportSecurity.Preload;
+                    options.IncludeSubDomains = Parameters.Security.HttpStrictTransportSecurity.IncludeSubDomains;
+                    options.MaxAge = Parameters.Security.HttpStrictTransportSecurity.MaxAge;
+                    if (Parameters.Security.HttpStrictTransportSecurity.ExcludeHosts != null)
+                    {
+                        foreach (var host in Parameters.Security.HttpStrictTransportSecurity.ExcludeHosts)
+                        {
+                            options.ExcludedHosts.Add(host);
+                        }
+                    }
+                });
+            }
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -197,6 +213,7 @@ namespace Implem.Pleasanter.NetCore
             {
                 app.UseExceptionHandler("/errors/internalservererror");
             }
+            app.UseHsts();
             app.UseSecurityHeadersMiddleware();
             app.Use(async (context, next) => await Invoke(context, next));
             app.UseStatusCodePages(context =>
@@ -465,6 +482,27 @@ namespace Implem.Pleasanter.NetCore
             context.Response.Headers.Add("X-Frame-Options", new StringValues("SAMEORIGIN"));
             context.Response.Headers.Add("X-Xss-Protection", new StringValues("1; mode=block"));
             context.Response.Headers.Add("X-Content-Type-Options", new StringValues("nosniff"));
+            if (Parameters.Security.SecureCacheControl != null)
+            {
+                if (Parameters.Security.SecureCacheControl.NoCache
+                    || Parameters.Security.SecureCacheControl.NoStore
+                    || Parameters.Security.SecureCacheControl.Private
+                    || Parameters.Security.SecureCacheControl.MustRevalidate)
+                {
+                    context.Response.GetTypedHeaders().CacheControl =
+                        new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
+                        {
+                            NoCache = Parameters.Security.SecureCacheControl.NoCache,
+                            NoStore = Parameters.Security.SecureCacheControl.NoStore,
+                            Private = Parameters.Security.SecureCacheControl.Private,
+                            MustRevalidate = Parameters.Security.SecureCacheControl.MustRevalidate
+                        };
+                }
+                if (Parameters.Security.SecureCacheControl.PragmaNoCache)
+                {
+                    context.Response.Headers.Add("Pragma", new StringValues("no-cache"));
+                }
+            }
             return _next(context);
         }
     }

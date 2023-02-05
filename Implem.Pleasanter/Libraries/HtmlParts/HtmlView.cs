@@ -19,6 +19,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 fieldId: "_ViewSelectorField",
                 controlId: "ViewSelector",
+                controlCss: ss.SaveViewType == SiteSettings.SaveViewTypes.None
+                    ? " always-send"
+                    : string.Empty,
                 labelText: Displays.DataView(context: context),
                 optionCollection: ss.Views
                     ?.Where(o => o.Accessable(context: context))

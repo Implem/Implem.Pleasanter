@@ -51,8 +51,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? string.Empty
                             : " hidden"),
                         labelText: Displays.Key(context: context),
-                        optionCollection: ss.Columns?
-                            .Where(o => o.ImportKey == true)
+                        optionCollection: ss.Columns
+                            ?.Where(o => o.ImportKey == true)
+                            .Where(o => !o.Joined)
                             .OrderBy(o => o.No)
                             .ToDictionary(
                                 o => o.ColumnName,
