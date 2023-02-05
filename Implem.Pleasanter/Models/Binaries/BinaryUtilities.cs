@@ -522,7 +522,9 @@ namespace Implem.Pleasanter.Models
                         .TenantId(context.TenantId)
                         .ReferenceId(id)
                         .Guid(file.Guid)
-                        .BinaryType("Images")
+                        .BinaryType(FileContentResults.RefererIsTenantManagement(context: context)
+                            ? "TenantManagementImages"
+                            : "Images")
                         .Title(file.FileName)
                         .Bin(bin, _using: !Parameters.BinaryStorage.IsLocal())
                         .Thumbnail(thumbnail, _using: thumbnail != null)
