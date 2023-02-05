@@ -35,6 +35,9 @@ $p.export = function () {
         addInput(form, 'GridCheckAll', data.GridCheckAll);
         addInput(form, 'GridUnCheckedItems', data.GridUnCheckedItems);
         addInput(form, 'GridCheckedItems', data.GridCheckedItems);
+        if ($('#Token').length) {
+            addInput(form, 'Token', $('#Token').val());
+        }
         if ($('#DoExport').hasClass('save-view-types-none')) {
             (Object.keys(data)).forEach(function (e) {
                 if (e.match(/^ViewFilters_/)) {

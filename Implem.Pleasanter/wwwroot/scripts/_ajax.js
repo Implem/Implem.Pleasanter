@@ -17,7 +17,10 @@
         $p.clearMessage();
     }
     $p.execEvents('ajax_before_send', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-    if ($('#Token').length === 1) {
+    if ($('#Token').length) {
+        if (!data) {
+            data = {};
+        }
         data.Token = $('#Token').val();
     }
     $.ajax({

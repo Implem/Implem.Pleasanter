@@ -3922,7 +3922,7 @@ namespace Implem.Pleasanter.Models
                                     "demos",
                                     "_action_"
                                 })),
-                        _using: Parameters.Service.Demo,
+                        _using: Parameters.Service.Demo && !Parameters.Service.DemoApi,
                         action: () => hb
                             .Div(id: "Demo", action: () => hb
                                 .FieldSet(
@@ -4467,6 +4467,51 @@ namespace Implem.Pleasanter.Models
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
             return new ResponseCollection(context: context).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string CloseAnnouncement(Context context)
+        {
+            var siteId = Parameters.Service.AnnouncementSiteId;
+            if (siteId == 0)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(Messages.InvalidRequest(context: context))
+                    .ToJson();
+            }
+            var announcementId = context.Forms.Int("AnnouncementId");
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: siteId);
+            var issueModel = new IssueModel(
+                context: context,
+                ss: ss,
+                issueId: announcementId);
+            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return new ResponseCollection(context: context)
+                    .Message(Messages.InvalidRequest(context: context))
+                    .ToJson();
+            }
+            var allowClose = issueModel.CheckHash.TryGetValue("CheckD", out bool checkD)
+                ? checkD
+                : false;
+            if (allowClose)
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    key: $"ClosedAnnouncement:{announcementId}",
+                    value: "true");
+                return new ResponseCollection(context: context)
+                    .Remove($"#AnnouncementContainer_{announcementId}")
+                    .ToJson();
+            }
+            else
+            {
+                return new ResponseCollection(context: context).ToJson();
+            }
         }
 
         /// <summary>
