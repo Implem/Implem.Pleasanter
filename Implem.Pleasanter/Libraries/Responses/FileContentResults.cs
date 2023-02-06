@@ -117,7 +117,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                     tableBracket: "\"Sites\"",
                     joinType: SqlJoin.JoinTypes.Inner,
                     joinExpression: "\"Items\".\"SiteId\"=\"Sites\".\"SiteId\""));
-            // 画像を複数条件のunionで取得する
+            // ファイルを複数条件のunionで取得する
             return Repository.ExecuteTable(
                 context: context,
                 statements: new SqlStatement[]
@@ -143,12 +143,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
-                            .BinaryType("Images")
                             .CanRead(
                                 context: context,
                                 idColumnBracket: "\"Binaries\".\"ReferenceId\"",
                                 _using: !context.Publish)),
-                    // 通常の画像の取得(自信が作成者であるかでアクセス権をチェック)
+                    // 通常のファイルの取得(自信が作成者であるかでアクセス権をチェック)
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()
                             .BinaryId()
@@ -169,7 +168,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
-                            .BinaryType("Images")
                             .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"={context.UserId})"),
                         unionType: Sqls.UnionTypes.UnionAll),
                     // ユーザの管理等テナントの管理機能で登録した画像の取得(テナントIDが一致していることのみチェック）
