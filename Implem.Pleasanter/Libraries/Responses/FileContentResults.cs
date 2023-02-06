@@ -141,7 +141,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
-                            .BinaryType("Images")
                             .CanRead(
                                 context: context,
                                 idColumnBracket: "\"Binaries\".\"ReferenceId\"",
@@ -166,7 +165,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
                             .Guid(guid)
-                            .BinaryType("Images")
                             .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"={context.UserId})"),
                         unionType: Sqls.UnionTypes.UnionAll),
                     Rds.SelectBinaries(
