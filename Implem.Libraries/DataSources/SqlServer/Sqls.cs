@@ -21,7 +21,6 @@ namespace Implem.Libraries.DataSources.SqlServer
             NormalAndDeleted,
             NormalAndHistory,
             Deleted,
-            Match,
             All
         }
 

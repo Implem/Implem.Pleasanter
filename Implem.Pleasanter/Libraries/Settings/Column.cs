@@ -1426,6 +1426,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public DateTime ConvertDateTime(Context context, DateTime dt)
+        {
+            switch (Name)
+            {
+                case "CompletionTime":
+                    dt = DateTimepicker()
+                        ? dt
+                        : dt.AddDays(1);
+                    break;
+            }
+            return dt
+                .ToDateTime()
+                .ToUniversal(context: context);
+        }
+
+        public string ConvertDateTimeParam(
+            Context context,
+            DateTime dt,
+            string format)
+        {
+            return ConvertDateTime(
+                context: context,
+                dt: dt)
+                    .ToString(format);
+        }
+
         private void SelectColumns(
             SqlColumnCollection sql,
             string tableName,

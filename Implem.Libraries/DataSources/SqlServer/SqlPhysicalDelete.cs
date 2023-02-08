@@ -42,8 +42,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                     return "delete from " + HistoryTableBracket + " ";
                 case Sqls.TableTypes.Deleted:
                     return "delete from " + DeletedTableBracket + " ";
-                case Sqls.TableTypes.Match:
-                    return "delete from " + MatchTableBracket + " ";
                 default:
                    return string.Empty;
             }

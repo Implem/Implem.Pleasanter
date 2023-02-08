@@ -95,6 +95,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Matched_ColumnCases.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Matched_ColumnCases_Context.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Matched_Incomplete.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Matched_Issues.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Matched_Own.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase0_FileUpload.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase10_ToIssuesCrosstab.json.ignore" />
     <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase11_ToIssuesGantt.json.ignore" />
