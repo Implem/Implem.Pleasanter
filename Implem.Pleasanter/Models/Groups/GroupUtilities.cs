@@ -2481,7 +2481,8 @@ namespace Implem.Pleasanter.Models
                     column: Rds.GroupMembersColumn().GroupId(),
                     where: Rds.GroupMembersWhere()
                         .Add(raw: Permissions.DeptOrUser("GroupMembers"))),
-                    _using: !Permissions.CanManageTenant(context: context))
+                    _using: !Permissions.CanManageTenant(context: context)
+                        && context.UserSettings?.EnableManageTenant != true)
                 .GroupId_In(sub: Rds.SelectGroupMembers(
                     distinct: true,
                     column: Rds.GroupMembersColumn().GroupId(),
