@@ -1,0 +1,2 @@
+﻿﻿//Issues、Results以外は参照コピーを使用しないためcopyFromを0にする
+var copyFrom = 0;

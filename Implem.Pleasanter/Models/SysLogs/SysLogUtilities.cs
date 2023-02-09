@@ -1960,11 +1960,15 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
+            ﻿//Issues、Results以外は参照コピーを使用しないためcopyFromを0にする
+            var copyFrom = 0;
             var sysLogModel = new SysLogModel(
                 context: context,
                 ss: ss,
-                sysLogId: 0,
+                sysLogId: copyFrom,
                 formData: context.Forms);
+            sysLogModel.SysLogId = 0;
+            sysLogModel.Ver = 1;
             var invalid = SysLogValidators.OnCreating(
                 context: context,
                 ss: ss,

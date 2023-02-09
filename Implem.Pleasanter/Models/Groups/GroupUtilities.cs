@@ -1478,11 +1478,15 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
+            ﻿//Issues、Results以外は参照コピーを使用しないためcopyFromを0にする
+            var copyFrom = 0;
             var groupModel = new GroupModel(
                 context: context,
                 ss: ss,
-                groupId: 0,
+                groupId: copyFrom,
                 formData: context.Forms);
+            groupModel.GroupId = 0;
+            groupModel.Ver = 1;
             var invalid = GroupValidators.OnCreating(
                 context: context,
                 ss: ss,
