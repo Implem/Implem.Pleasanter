@@ -3,4 +3,5 @@
     ss: ss,
     processes: processes,
     copyFrom: context.Forms.Long("CopyFrom"),
-    notice: true);
+    notice: true,
+    otherInitValue: copyFrom > 0);
