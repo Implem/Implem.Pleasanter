@@ -42,15 +42,17 @@ $p.openSiteSetDateRangeDialog = function ($control, timepicker) {
         $('#SetDateRangeDialog').removeClass('loop');
     }
 }
-$p.openSetDateRangeOK = function ($controlID, type) {
+$p.openSetDateRangeOK = function (controlId, type) {
     var sdval = $('#DateRangeStart').val();
     var edval = $('#DateRangeEnd').val();
-    var setval = '["' + type + '"]';
-    var dispval = $p.display(type);
+    var setval = '';
+    var dispval = '';
     switch (type) {
         case 'Today':
         case 'ThisMonth':
         case 'ThisYear':
+            setval = '["' + type + '"]';
+            dispval = $p.display(type);
             break;
         default:
             if (sdval || edval) {
@@ -61,20 +63,20 @@ $p.openSetDateRangeOK = function ($controlID, type) {
             }
             break;
     }
-    $control = $('[id="' + $controlID + '"]');
-    $target = $('[id="' + $controlID.replace('_DateRange', '') + '"]');
+    $control = $('[id="' + controlId + '"]');
+    $target = $('[id="' + controlId.replace('_DateRange', '') + '"]');
     $control.val(dispval);
     $p.set($target, setval);
-    $p.closeSiteSetDateRangeDialog($controlID);
+    $p.closeSiteSetDateRangeDialog(controlId);
     if ($('#UseFilterButton').length === 0) {
         $p.send($target);
     }
 }
-$p.closeSiteSetDateRangeDialog = function ($controlID) {
+$p.closeSiteSetDateRangeDialog = function (controlId) {
     $p.clearMessage();
     $('#SetDateRangeDialog').addClass('loop');
     $('#SetDateRangeDialog').dialog('close');
-    if ($(document.activeElement).attr('id') != $controlID) {
+    if ($(document.activeElement).attr('id') != controlId) {
         $('#SetDateRangeDialog').removeClass('loop');
     }
 }
