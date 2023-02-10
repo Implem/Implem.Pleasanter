@@ -1486,11 +1486,15 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
+            ﻿//Issues、Results以外は参照コピーを使用しないためcopyFromを0にする
+            var copyFrom = 0;
             var deptModel = new DeptModel(
                 context: context,
                 ss: ss,
-                deptId: 0,
+                deptId: copyFrom,
                 formData: context.Forms);
+            deptModel.DeptId = 0;
+            deptModel.Ver = 1;
             var invalid = DeptValidators.OnCreating(
                 context: context,
                 ss: ss,

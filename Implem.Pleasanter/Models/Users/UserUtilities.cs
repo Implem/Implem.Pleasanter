@@ -2452,11 +2452,15 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.JoeAccountCheck.MessageJson(context: context);
             }
+            ﻿//Issues、Results以外は参照コピーを使用しないためcopyFromを0にする
+            var copyFrom = 0;
             var userModel = new UserModel(
                 context: context,
                 ss: ss,
-                userId: 0,
+                userId: copyFrom,
                 formData: context.Forms);
+            userModel.UserId = 0;
+            userModel.Ver = 1;
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,
