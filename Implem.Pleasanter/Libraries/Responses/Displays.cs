@@ -11519,6 +11519,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Sites_DisableSiteCreatorPermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_DisableSiteCreatorPermission",
+                data: data);
+        }
+
         public static string Sites_EditorGuide(
             Context context,
             params string[] data)

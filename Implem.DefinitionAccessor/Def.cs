@@ -1745,6 +1745,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_CalendarGuide": Column.Sites_CalendarGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_CalendarGuide, definitionRow, ColumnXls); break;
                     case "Sites_CrosstabGuide": Column.Sites_CrosstabGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_CrosstabGuide, definitionRow, ColumnXls); break;
                     case "Sites_DisableCrossSearch": Column.Sites_DisableCrossSearch = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableCrossSearch, definitionRow, ColumnXls); break;
+                    case "Sites_DisableSiteCreatorPermission": Column.Sites_DisableSiteCreatorPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableSiteCreatorPermission, definitionRow, ColumnXls); break;
                     case "Sites_EditorGuide": Column.Sites_EditorGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_EditorGuide, definitionRow, ColumnXls); break;
                     case "Sites_Export": Column.Sites_Export = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Export, definitionRow, ColumnXls); break;
                     case "Sites_GanttGuide": Column.Sites_GanttGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_GanttGuide, definitionRow, ColumnXls); break;
@@ -8867,6 +8868,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_CalendarGuide;
         public string Sites_CrosstabGuide;
         public string Sites_DisableCrossSearch;
+        public string Sites_DisableSiteCreatorPermission;
         public string Sites_EditorGuide;
         public string Sites_Export;
         public string Sites_GanttGuide;
@@ -9403,6 +9405,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_CalendarGuide = new ColumnDefinition();
         public ColumnDefinition Sites_CrosstabGuide = new ColumnDefinition();
         public ColumnDefinition Sites_DisableCrossSearch = new ColumnDefinition();
+        public ColumnDefinition Sites_DisableSiteCreatorPermission = new ColumnDefinition();
         public ColumnDefinition Sites_EditorGuide = new ColumnDefinition();
         public ColumnDefinition Sites_Export = new ColumnDefinition();
         public ColumnDefinition Sites_GanttGuide = new ColumnDefinition();
