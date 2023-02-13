@@ -267,6 +267,8 @@ namespace Implem.Pleasanter.Libraries.Models
             var controlId = context.Forms.Data("DropDownSearchTarget");
             var referenceId = context.Forms.Long("DropDownSearchReferenceId");
             var filter = controlId.StartsWith("ViewFilters__")
+                || controlId.StartsWith("ProcessViewFilters__")
+                || controlId.StartsWith("StatusControlViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             var column = SearchDropDownColumn(
@@ -437,7 +439,9 @@ namespace Implem.Pleasanter.Libraries.Models
                 }
             }
             if (selected.Any() &&
-                !selected.All(o => column.ChoiceHash.ContainsKey(o)))
+                !selected
+                    .Where(o => !(column.Type == Column.Types.User && o == "Own"))
+                    .All(o => column.ChoiceHash.ContainsKey(o)))
             {
                 column.SiteSettings.SetChoiceHash(
                     context: context,

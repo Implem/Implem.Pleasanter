@@ -1,0 +1,8 @@
+﻿﻿var copyFrom = context.Forms.Int("CopyFrom");
+if (copyFrom > 0 && !Permissions.CanRead(
+    context: context,
+    siteId: context.SiteId,
+    id: copyFrom))
+{
+    return Error.Types.HasNotPermission.MessageJson(context: context);
+}

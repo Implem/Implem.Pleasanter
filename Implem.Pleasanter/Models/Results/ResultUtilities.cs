@@ -2868,11 +2868,21 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
+            ﻿var copyFrom = context.Forms.Int("CopyFrom");
+            if (copyFrom > 0 && !Permissions.CanRead(
+                context: context,
+                siteId: context.SiteId,
+                id: copyFrom))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
-                resultId: 0,
+                resultId: copyFrom,
                 formData: context.Forms);
+            resultModel.ResultId = 0;
+            resultModel.Ver = 1;
             var invalid = ResultValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -2917,7 +2927,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 processes: processes,
                 copyFrom: context.Forms.Long("CopyFrom"),
-                notice: true);
+                notice: true,
+                otherInitValue: copyFrom > 0);
             switch (errorData.Type)
             {
                 case Error.Types.None:

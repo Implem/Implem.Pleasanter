@@ -1142,11 +1142,14 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
+            var copyFrom = 0;
             var tenantModel = new TenantModel(
                 context: context,
                 ss: ss,
-                tenantId: 0,
+                tenantId: copyFrom,
                 formData: context.Forms);
+            tenantModel.TenantId = 0;
+            tenantModel.Ver = 1;
             var invalid = TenantValidators.OnCreating(
                 context: context,
                 ss: ss,

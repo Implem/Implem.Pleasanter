@@ -1,3 +1,4 @@
-﻿SetSiteSettings(
+﻿if (data.DisableSiteCreatorPermission != null) DisableSiteCreatorPermission = data.DisableSiteCreatorPermission.ToBool();
+SetSiteSettings(
     context: context,
     setSiteSettingsPropertiesBySession: false);

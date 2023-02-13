@@ -2452,11 +2452,14 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.JoeAccountCheck.MessageJson(context: context);
             }
+            var copyFrom = 0;
             var userModel = new UserModel(
                 context: context,
                 ss: ss,
-                userId: 0,
+                userId: copyFrom,
                 formData: context.Forms);
+            userModel.UserId = 0;
+            userModel.Ver = 1;
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -4542,13 +4545,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            if (!Parameters.Security.DisableCheckPasswordPolicyIfApi)
             {
-                if (!(context.RequestDataString.Deserialize<UserApiModel>().Password ?? "").RegexExists(policy.Regex))
+                foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
                 {
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
+                    if (!(context.RequestDataString.Deserialize<UserApiModel>().Password ?? "").RegexExists(policy.Regex))
+                    {
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
+                    }
                 }
             }
             foreach(var column in ss.Columns
@@ -4606,13 +4612,16 @@ namespace Implem.Pleasanter.Models
                        context: context,
                        errorData: invalid);
             }
-            foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+            if (!Parameters.Security.DisableCheckPasswordPolicyIfApi)
             {
-                if (userModel.Password_Updated(context: context) && !userModel.Password.RegexExists(policy.Regex))
+                foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
                 {
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
+                    if (userModel.Password_Updated(context: context) && !userModel.Password.RegexExists(policy.Regex))
+                    {
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
+                    }
                 }
             }
             foreach (var column in ss.Columns

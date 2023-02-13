@@ -12,7 +12,6 @@
         TableBracket = "\"#TableName#\"",
         HistoryTableBracket = "\"#TableName#_history\"",
         DeletedTableBracket = "\"#TableName#_deleted\"",
-        MatchTableBracket = "\"#TableName#_match\"",
         SqlJoinCollection = join,
         SqlWhereCollection = where,
         Using = _using

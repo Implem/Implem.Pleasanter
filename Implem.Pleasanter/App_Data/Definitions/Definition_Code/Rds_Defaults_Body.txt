@@ -39,8 +39,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
     bool setDefault = false,
-    bool otherInitValue = false,
-    bool match = false)
+    bool otherInitValue = false)
 {
     var param = #TableName#Param()
 

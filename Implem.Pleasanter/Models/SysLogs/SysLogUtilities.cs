@@ -1959,11 +1959,14 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
+            var copyFrom = 0;
             var sysLogModel = new SysLogModel(
                 context: context,
                 ss: ss,
-                sysLogId: 0,
+                sysLogId: copyFrom,
                 formData: context.Forms);
+            sysLogModel.SysLogId = 0;
+            sysLogModel.Ver = 1;
             var invalid = SysLogValidators.OnCreating(
                 context: context,
                 ss: ss,
