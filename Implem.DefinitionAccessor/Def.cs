@@ -499,6 +499,11 @@ namespace Implem.DefinitionAccessor
                     case "Model_KambanJsonCases": Code.Model_KambanJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_KambanJsonCases, definitionRow, CodeXls); break;
                     case "Model_LockCases": Code.Model_LockCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_LockCases, definitionRow, CodeXls); break;
                     case "Model_Matched": Code.Model_Matched = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched, definitionRow, CodeXls); break;
+                    case "Model_Matched_ColumnCases": Code.Model_Matched_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases, definitionRow, CodeXls); break;
+                    case "Model_Matched_ColumnCases_Context": Code.Model_Matched_ColumnCases_Context = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases_Context, definitionRow, CodeXls); break;
+                    case "Model_Matched_Incomplete": Code.Model_Matched_Incomplete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Incomplete, definitionRow, CodeXls); break;
+                    case "Model_Matched_Issues": Code.Model_Matched_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Issues, definitionRow, CodeXls); break;
+                    case "Model_Matched_Own": Code.Model_Matched_Own = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Own, definitionRow, CodeXls); break;
                     case "Model_Mine": Code.Model_Mine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Mine, definitionRow, CodeXls); break;
                     case "Model_MineColumnCases": Code.Model_MineColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MineColumnCases, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
@@ -723,6 +728,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_CopyResponse": Code.Model_Utilities_CopyResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_CopyResponse_Items": Code.Model_Utilities_CopyResponse_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CopyResponse_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_CopyFrom_Item": Code.Model_Utilities_Create_CopyFrom_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_Item, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_CopyFrom_NotItem": Code.Model_Utilities_Create_CopyFrom_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_NotItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
@@ -1738,6 +1745,7 @@ namespace Implem.DefinitionAccessor
                     case "Sites_CalendarGuide": Column.Sites_CalendarGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_CalendarGuide, definitionRow, ColumnXls); break;
                     case "Sites_CrosstabGuide": Column.Sites_CrosstabGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_CrosstabGuide, definitionRow, ColumnXls); break;
                     case "Sites_DisableCrossSearch": Column.Sites_DisableCrossSearch = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableCrossSearch, definitionRow, ColumnXls); break;
+                    case "Sites_DisableSiteCreatorPermission": Column.Sites_DisableSiteCreatorPermission = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_DisableSiteCreatorPermission, definitionRow, ColumnXls); break;
                     case "Sites_EditorGuide": Column.Sites_EditorGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_EditorGuide, definitionRow, ColumnXls); break;
                     case "Sites_Export": Column.Sites_Export = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Export, definitionRow, ColumnXls); break;
                     case "Sites_GanttGuide": Column.Sites_GanttGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_GanttGuide, definitionRow, ColumnXls); break;
@@ -6822,6 +6830,11 @@ namespace Implem.DefinitionAccessor
         public string Model_KambanJsonCases;
         public string Model_LockCases;
         public string Model_Matched;
+        public string Model_Matched_ColumnCases;
+        public string Model_Matched_ColumnCases_Context;
+        public string Model_Matched_Incomplete;
+        public string Model_Matched_Issues;
+        public string Model_Matched_Own;
         public string Model_Mine;
         public string Model_MineColumnCases;
         public string Model_Move;
@@ -7046,6 +7059,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_CopyResponse;
         public string Model_Utilities_CopyResponse_Items;
         public string Model_Utilities_Create;
+        public string Model_Utilities_Create_CopyFrom_Item;
+        public string Model_Utilities_Create_CopyFrom_NotItem;
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_Models;
         public string Model_Utilities_Create_PasswordPolicies;
@@ -7584,6 +7599,11 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_KambanJsonCases = new CodeDefinition();
         public CodeDefinition Model_LockCases = new CodeDefinition();
         public CodeDefinition Model_Matched = new CodeDefinition();
+        public CodeDefinition Model_Matched_ColumnCases = new CodeDefinition();
+        public CodeDefinition Model_Matched_ColumnCases_Context = new CodeDefinition();
+        public CodeDefinition Model_Matched_Incomplete = new CodeDefinition();
+        public CodeDefinition Model_Matched_Issues = new CodeDefinition();
+        public CodeDefinition Model_Matched_Own = new CodeDefinition();
         public CodeDefinition Model_Mine = new CodeDefinition();
         public CodeDefinition Model_MineColumnCases = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
@@ -7808,6 +7828,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_CopyResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_CopyResponse_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_CopyFrom_Item = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_CopyFrom_NotItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
@@ -8846,6 +8868,7 @@ namespace Implem.DefinitionAccessor
         public string Sites_CalendarGuide;
         public string Sites_CrosstabGuide;
         public string Sites_DisableCrossSearch;
+        public string Sites_DisableSiteCreatorPermission;
         public string Sites_EditorGuide;
         public string Sites_Export;
         public string Sites_GanttGuide;
@@ -9382,6 +9405,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sites_CalendarGuide = new ColumnDefinition();
         public ColumnDefinition Sites_CrosstabGuide = new ColumnDefinition();
         public ColumnDefinition Sites_DisableCrossSearch = new ColumnDefinition();
+        public ColumnDefinition Sites_DisableSiteCreatorPermission = new ColumnDefinition();
         public ColumnDefinition Sites_EditorGuide = new ColumnDefinition();
         public ColumnDefinition Sites_Export = new ColumnDefinition();
         public ColumnDefinition Sites_GanttGuide = new ColumnDefinition();

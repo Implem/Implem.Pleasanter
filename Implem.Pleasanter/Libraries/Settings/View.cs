@@ -2462,14 +2462,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : between)
                                             .Params(
                                                 column.Name,
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: today,
                                                     format: ymdhms),
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: today
                                                         .AddDays(1)
                                                         .AddMilliseconds(addMilliseconds),
@@ -2480,14 +2478,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : between)
                                             .Params(
                                                 column.Name,
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, today.Month, 1),
                                                     format: ymdhms),
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, today.Month, 1)
                                                         .AddMonths(1)
                                                         .AddMilliseconds(addMilliseconds),
@@ -2498,14 +2494,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : between)
                                             .Params(
                                                 column.Name,
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, 1, 1),
                                                     format: ymdhms),
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, 1, 1)
                                                         .AddYears(1)
                                                         .AddMilliseconds(addMilliseconds),
@@ -2567,31 +2561,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string dateTimeString,
             string format)
         {
-            return ConvertDateTimeParam(
+            return column.ConvertDateTimeParam(
                 context: context,
                 dt: dateTimeString.ToDateTime(),
-                column: column,
                 format: format);
-        }
-
-        private static string ConvertDateTimeParam(
-            Context context,
-            Column column,
-            DateTime dt,
-            string format)
-        {
-            switch (column.Name)
-            {
-                case "CompletionTime":
-                    dt = column.DateTimepicker()
-                        ? dt
-                        : dt.AddDays(1);
-                    break;
-            }
-            return dt
-                .ToDateTime()
-                .ToUniversal(context: context)
-                .ToString(format);
         }
 
         private SqlWhere CsDateTimeColumnsWhereNull(

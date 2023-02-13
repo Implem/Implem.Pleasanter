@@ -1,5 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
+using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
@@ -27,9 +29,21 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return true;
         }
 
-        public static bool Matched(this int value, Column column, string condition)
+        public static bool Matched(this int value, Context context, Column column, string condition)
         {
-            return value.ToDecimal().Matched(column, condition);
+            if (column.HasChoices())
+            {
+                return value.ToString().Matched(
+                    context: context,
+                    column: column,
+                    condition: condition);
+            }
+            else
+            {
+                return value.ToDecimal().Matched(
+                    column: column,
+                    condition: condition);
+            }
         }
 
         public static bool Matched(this long value, Column column, string condition)
@@ -61,23 +75,72 @@ namespace Implem.Pleasanter.Libraries.Extensions
             return true;
         }
 
-        public static bool Matched(this DateTime value, Column column, string condition)
+        public static bool Matched(this DateTime value, Context context, Column column, string condition)
         {
             var param = condition.Deserialize<List<string>>();
-            if (param.Any())
+            if (param.Where(o => !o.IsNullOrEmpty()).Any())
             {
-                return value.InRange()
-                    ? param.Any(o =>
-                        (o.Split_1st().IsNullOrEmpty() || o.Split_1st().ToDateTime() <= value) &&
-                        (o.Split_2nd().IsNullOrEmpty() || o.Split_2nd().ToDateTime() >= value))
-                    : param.Any(o => o == "\n");
+                if (value.InRange())
+                {
+                    return param.Any(o => DateTimeMatched(
+                        context: context,
+                        value: value,
+                        column: column,
+                        o: o));
+                }
+                else
+                {
+                    return param.Any(o => o == "\t");
+                }
             }
             return true;
         }
 
-        public static bool Matched(this string value, Column column, string condition)
+        private static bool DateTimeMatched(Context context, DateTime value, Column column, string o)
         {
-            var param = condition.Deserialize<List<string>>();
+            var today = DateTime.Now.ToDateTime().ToLocal(context: context).Date;
+            switch (o)
+            {
+                case "Today":
+                    return column.ConvertDateTime(
+                        context: context,
+                        dt: today) <= value
+                            && column.ConvertDateTime(
+                                context: context,
+                                dt: today.AddDays(1)) > value;
+                case "ThisMonth":
+                    return column.ConvertDateTime(
+                        context: context,
+                        dt: new DateTime(today.Year, today.Month, 1)) <= value
+                            && column.ConvertDateTime(
+                                context: context,
+                                dt: new DateTime(today.Year, today.Month, 1).AddMonths(1)) > value;
+                case "ThisYear":
+                    return column.ConvertDateTime(
+                        context: context,
+                        dt: new DateTime(today.Year, 1, 1)) <= value
+                            && column.ConvertDateTime(
+                                context: context,
+                                dt: new DateTime(today.Year, 1, 1).AddYears(1)) > value;
+                default:
+                    return (o.Split_1st().IsNullOrEmpty()
+                        || column.ConvertDateTime(
+                            context: context,
+                            dt: o.Split_1st().ToDateTime()) <= value)
+                                && (o.Split_2nd().IsNullOrEmpty()
+                                    || column.ConvertDateTime(
+                                        context: context,
+                                        dt: o.Split_2nd().ToDateTime()) >= value);
+            }
+        }
+
+        public static bool Matched(this string value, Context context, Column column, string condition)
+        {
+            var param = condition.Deserialize<List<string>>()
+                ?.Select(o => (column.Type == Column.Types.User || column.Type == Column.Types.Dept) && o == "Own"
+                    ? context.UserId.ToString()
+                    : o)
+                .ToList();
             if (column.HasChoices())
             {
                 if (column.MultipleSelections == true)
