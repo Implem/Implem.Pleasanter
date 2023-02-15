@@ -77,6 +77,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return Value(data, name).ToBool();
         }
 
+        private static (string, object) ReadNameValue(string columnName, object value)
+        {
+            return (columnName, value);
+        }
+
         private static (string, object) ReadNameValue(
             Context context, SiteSettings ss, string columnName, object value, List<string> mine)
         {
@@ -95,55 +100,60 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Context context, SiteSettings ss, BaseItemModel model)
         {
             var mine = model?.Mine(context: context);
-            var values = new List<(string, object)>();
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.SiteId),
-                value: model.SiteId,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Title),
-                value: model.Title?.Value,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Body),
-                value: model.Body,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Ver),
-                value: model.Ver,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Creator),
-                value: model.Creator.Id,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Updator),
-                value: model.Updator.Id,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.CreatedTime),
-                value: model.CreatedTime?.Value,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.UpdatedTime),
-                value: model.UpdatedTime?.Value,
-                mine: mine));
+            var values = new List<(string, object)>
+            {
+                ReadNameValue(
+                    columnName: nameof(model.ReadOnly),
+                    value: model.ReadOnly),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.SiteId),
+                    value: model.SiteId,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Title),
+                    value: model.Title?.Value,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Body),
+                    value: model.Body,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Ver),
+                    value: model.Ver,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Creator),
+                    value: model.Creator.Id,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Updator),
+                    value: model.Updator.Id,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.CreatedTime),
+                    value: model.CreatedTime?.Value,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.UpdatedTime),
+                    value: model.UpdatedTime?.Value,
+                    mine: mine)
+            };
             values.AddRange(model
                 .ClassHash
                 .Select(element => ReadNameValue(
