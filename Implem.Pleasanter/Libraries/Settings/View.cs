@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public CommandDisplayTypes? OpenBulkUpdateSelectorDialogCommand;
         public CommandDisplayTypes? EditOnGridCommand;
         public CommandDisplayTypes? ExportCrosstabCommand;
+        public CommandDisplayTypes? CreateCommand;
         public CommandDisplayTypes? UpdateCommand;
         public CommandDisplayTypes? OpenCopyDialogCommand;
         public CommandDisplayTypes? ReferenceCopyCommand;
