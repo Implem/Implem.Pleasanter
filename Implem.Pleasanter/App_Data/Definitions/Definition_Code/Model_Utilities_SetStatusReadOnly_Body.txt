@@ -1,0 +1,4 @@
+﻿column.StatusReadOnly = #modelName#Model.GetStatusControl(
+    context: context,
+    ss: ss,
+    column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;

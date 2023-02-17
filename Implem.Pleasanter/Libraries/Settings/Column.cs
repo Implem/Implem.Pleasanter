@@ -230,6 +230,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public ServerScriptModelColumn ServerScriptModelColumn;
         [NonSerialized]
+        public bool StatusReadOnly;
+        [NonSerialized]
         public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
         [NonSerialized]
         public Dictionary<string, string> ChoiceValueHash;
@@ -956,7 +958,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return readOnly == true;
             }
-            return EditorReadOnly == true;
+            return StatusReadOnly || EditorReadOnly == true;
         }
 
         public bool GetHide()

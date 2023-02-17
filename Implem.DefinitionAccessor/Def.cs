@@ -844,6 +844,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_SetProcess_Tables": Code.Model_Utilities_SetProcess_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcess_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetProcessMatchConditions": Code.Model_Utilities_SetProcessMatchConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetProcessMatchConditions, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSiteSettings": Code.Model_Utilities_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSiteSettings, definitionRow, CodeXls); break;
+                    case "Model_Utilities_SetStatusReadOnly": Code.Model_Utilities_SetStatusReadOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetStatusReadOnly, definitionRow, CodeXls); break;
                     case "Model_Utilities_SetSwitchTargets": Code.Model_Utilities_SetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteId": Code.Model_Utilities_SiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteId, definitionRow, CodeXls); break;
                     case "Model_Utilities_SiteIdParam": Code.Model_Utilities_SiteIdParam = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_SiteIdParam, definitionRow, CodeXls); break;
@@ -7175,6 +7176,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_SetProcess_Tables;
         public string Model_Utilities_SetProcessMatchConditions;
         public string Model_Utilities_SetSiteSettings;
+        public string Model_Utilities_SetStatusReadOnly;
         public string Model_Utilities_SetSwitchTargets;
         public string Model_Utilities_SiteId;
         public string Model_Utilities_SiteIdParam;
@@ -7944,6 +7946,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_SetProcess_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetProcessMatchConditions = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSiteSettings = new CodeDefinition();
+        public CodeDefinition Model_Utilities_SetStatusReadOnly = new CodeDefinition();
         public CodeDefinition Model_Utilities_SetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteId = new CodeDefinition();
         public CodeDefinition Model_Utilities_SiteIdParam = new CodeDefinition();

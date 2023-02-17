@@ -2116,6 +2116,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
+            column.StatusReadOnly = issueModel.GetStatusControl(
+                context: context,
+                ss: ss,
+                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             switch (column.Name)
             {
                 case "IssueId":
