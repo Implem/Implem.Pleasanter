@@ -3959,6 +3959,12 @@ namespace Implem.Pleasanter.Models
             foreach (var resultModel in new ResultCollection(
                 context: context,
                 ss: ss,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where))
             {
                 // 前回の処理でエラーが起きていたら次の処理をせずに中断
