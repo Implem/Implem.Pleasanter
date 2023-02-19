@@ -1622,6 +1622,13 @@ namespace Implem.Pleasanter.Models
             ExecuteAutomaticNumbering(
                 context: context,
                 ss: ss);
+            processes?
+                .Where(process => process.MatchConditions)
+                .ForEach(process =>
+                    ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        autoNumbering: process.AutoNumbering));
             if (context.ContractSettings.Notice != false && notice)
             {
                 SetTitle(
@@ -1777,31 +1784,68 @@ namespace Implem.Pleasanter.Models
             ss.Columns
                 .Where(column => !column.AutoNumberingFormat.IsNullOrEmpty())
                 .Where(column => !column.Joined)
-                .ForEach(column => SetByForm(
+                .ForEach(column => ExecuteAutomaticNumbering(
                     context: context,
                     ss: ss,
-                    formData: new Dictionary<string, string>()
+                    autoNumbering: new AutoNumbering()
                     {
-                        {
-                            $"Issues_{column.ColumnName}",
-                            AutoNumberingUtilities.ExecuteAutomaticNumbering(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                data: ss.IncludedColumns(value: column.AutoNumberingFormat)
-                                    .ToDictionary(
-                                        o => o.ColumnName,
-                                        o => ToDisplay(
-                                            context: context,
-                                            ss: ss,
-                                            column: o,
-                                            mine: Mine(context: context))),
-                                updateModel: Rds.UpdateIssues(
-                                    where: Rds.IssuesWhere()
-                                        .SiteId(SiteId)
-                                        .IssueId(IssueId)))
-                        }
+                        ColumnName = column.ColumnName,
+                        Format = column.AutoNumberingFormat,
+                        ResetType = column.AutoNumberingResetType,
+                        Default = column.AutoNumberingDefault,
+                        Step = column.AutoNumberingStep
                     }));
+        }
+
+        private void ExecuteAutomaticNumbering(
+            Context context,
+            SiteSettings ss,
+            AutoNumbering autoNumbering,
+            bool overwrite = true)
+        {
+            if (autoNumbering == null)
+            {
+                return;
+            }
+            var column = ss.GetColumn(
+                context: context,
+                columnName: autoNumbering.ColumnName);
+            if (column == null)
+            {
+                return;
+            }
+            if (!overwrite
+                && !GetValue(
+                    context: context,
+                    column: column).IsNullOrEmpty())
+            {
+                return;
+            }
+            SetByForm(
+                context: context,
+                ss: ss,
+                formData: new Dictionary<string, string>()
+                {
+                    {
+                        $"Issues_{autoNumbering.ColumnName}",
+                        AutoNumberingUtilities.ExecuteAutomaticNumbering(
+                            context: context,
+                            ss: ss,
+                            autoNumbering: autoNumbering,
+                            data: ss.IncludedColumns(value: autoNumbering.Format)
+                                .ToDictionary(
+                                    o => o.ColumnName,
+                                    o => ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: o,
+                                        mine: Mine(context: context))),
+                            updateModel: Rds.UpdateIssues(
+                                where: Rds.IssuesWhere()
+                                    .SiteId(SiteId)
+                                    .IssueId(IssueId)))
+                    }
+                });
         }
 
         public ErrorData Update(
@@ -1869,6 +1913,14 @@ namespace Implem.Pleasanter.Models
                     type: Error.Types.UpdateConflicts,
                     id: IssueId);
             }
+            processes?
+                .Where(process => process.MatchConditions)
+                .ForEach(process =>
+                    ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        autoNumbering: process.AutoNumbering,
+                        overwrite: false));
             WriteAttachments(
                 context: context,
                 ss: ss);

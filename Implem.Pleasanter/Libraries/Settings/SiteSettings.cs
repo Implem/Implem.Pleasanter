@@ -3448,6 +3448,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
+        public Dictionary<string, string> AutoNumberingColumnOptions(Context context)
+        {
+            return Columns
+                .Where(o => o.TypeName == "nvarchar")
+                .Where(o => o.ControlType != "Attachments")
+                .Where(o => o.ColumnName != "Comments")
+                .Where(o => o.ColumnName != "Timestamp")
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
         public Dictionary<string, string> JoinOptions(
             SiteSettings ss = null,
             bool destinations = true,

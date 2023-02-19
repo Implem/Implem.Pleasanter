@@ -681,6 +681,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_TrashBoxJsonCases": Code.Model_TrashBoxJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_TrashBoxJsonCases, definitionRow, CodeXls); break;
                     case "Model_UnlockRecordCases": Code.Model_UnlockRecordCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UnlockRecordCases, definitionRow, CodeXls); break;
                     case "Model_Update": Code.Model_Update = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update, definitionRow, CodeXls); break;
+                    case "Model_Update_ExecuteAutomaticNumberingExec": Code.Model_Update_ExecuteAutomaticNumberingExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Update_ExecuteAutomaticNumberingExec, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachmentsStatements": Code.Model_UpdateAttachmentsStatements = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatements, definitionRow, CodeXls); break;
                     case "Model_UpdateAttachmentsStatementsMethod": Code.Model_UpdateAttachmentsStatementsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateAttachmentsStatementsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateByApiCases": Code.Model_UpdateByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateByApiCases, definitionRow, CodeXls); break;
@@ -7013,6 +7014,7 @@ namespace Implem.DefinitionAccessor
         public string Model_TrashBoxJsonCases;
         public string Model_UnlockRecordCases;
         public string Model_Update;
+        public string Model_Update_ExecuteAutomaticNumberingExec;
         public string Model_UpdateAttachmentsStatements;
         public string Model_UpdateAttachmentsStatementsMethod;
         public string Model_UpdateByApiCases;
@@ -7783,6 +7785,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_TrashBoxJsonCases = new CodeDefinition();
         public CodeDefinition Model_UnlockRecordCases = new CodeDefinition();
         public CodeDefinition Model_Update = new CodeDefinition();
+        public CodeDefinition Model_Update_ExecuteAutomaticNumberingExec = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachmentsStatements = new CodeDefinition();
         public CodeDefinition Model_UpdateAttachmentsStatementsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateByApiCases = new CodeDefinition();

@@ -1,10 +1,8 @@
-﻿ExecuteAutomaticNumbering(
-    context: context,
-    ss: ss);
-processes?
+﻿processes?
     .Where(process => process.MatchConditions)
     .ForEach(process =>
         ExecuteAutomaticNumbering(
             context: context,
             ss: ss,
-            autoNumbering: process.AutoNumbering));
+            autoNumbering: process.AutoNumbering,
+            overwrite: false));

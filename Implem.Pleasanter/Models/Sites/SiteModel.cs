@@ -4172,6 +4172,14 @@ namespace Implem.Pleasanter.Models
                     prefix: "Process"),
                 errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
                 dataChanges: context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>(),
+                autoNumbering: new AutoNumbering()
+                {
+                    ColumnName = context.Forms.Data("ProcessAutoNumberingColumnName"),
+                    Format = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessAutoNumberingFormat")),
+                    ResetType = (Column.AutoNumberingResetTypes)context.Forms.Int("ProcessAutoNumberingResetType"),
+                    Default = context.Forms.Int("ProcessAutoNumberingDefault"),
+                    Step = context.Forms.Int("ProcessAutoNumberingStep")
+                },
                 notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
             SiteSettings.Processes.Add(process);
             res
@@ -4220,6 +4228,14 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
                     dataChanges: context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>(),
+                    autoNumbering: new AutoNumbering()
+                    {
+                        ColumnName = context.Forms.Data("ProcessAutoNumberingColumnName"),
+                        Format = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessAutoNumberingFormat")),
+                        ResetType = (Column.AutoNumberingResetTypes)context.Forms.Int("ProcessAutoNumberingResetType"),
+                        Default = context.Forms.Int("ProcessAutoNumberingDefault"),
+                        Step = context.Forms.Int("ProcessAutoNumberingStep")
+                    },
                     notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
                 res
                     .ReplaceAll("#EditProcess", new HtmlBuilder()
