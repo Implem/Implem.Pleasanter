@@ -5996,6 +5996,7 @@ namespace Implem.DefinitionAccessor
                 "Attachments"
             };
             var suffixes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var no = 10000;
             tableNames.ForEach(tableName =>
             {
                 types.ForEach(type =>
@@ -6008,12 +6009,14 @@ namespace Implem.DefinitionAccessor
                         .ForEach(suffix =>
                         {
                             definitionRows.Add(ColumnDefinition(
+                                no: no,
                                 tableName: tableName,
                                 type: type,
                                 suffix: suffix.ToString()));
                             ExtendedColumnTypes.AddIfNotConainsKey(
                                 key: type + suffix,
                                 value: type);
+                            no++;
                         });
                 });
             });
@@ -6031,6 +6034,7 @@ namespace Implem.DefinitionAccessor
         private static void SetExtendedColumns(
             List<Dictionary<string, string>> definitionRows)
         {
+            var no = 20000;
             Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
             {
                 var data = new Dictionary<string, int>
@@ -6048,12 +6052,14 @@ namespace Implem.DefinitionAccessor
                     {
                         var suffix = string.Format("{0:D3}", i);
                         definitionRows.Add(ColumnDefinition(
+                            no: no,
                             tableName: extendedColumns.TableName,
                             type: part.Key,
                             suffix: suffix));
                         ExtendedColumnTypes.AddIfNotConainsKey(
                             key: part.Key + suffix,
                             value: part.Key);
+                        no++;
                     }
                 });
             });
@@ -6063,6 +6069,7 @@ namespace Implem.DefinitionAccessor
         /// Fixed:
         /// </summary>
         private static Dictionary<string, string> ColumnDefinition(
+            int no,
             string tableName,
             string type,
             string suffix)
@@ -6070,6 +6077,15 @@ namespace Implem.DefinitionAccessor
             var columnDefinition = ColumnDefinitionDefault(type: type);
             var columnName = type + suffix;
             columnDefinition.Add("Id", $"{tableName}_{columnName}");
+            columnDefinition.Add("No", no.ToString());
+            columnDefinition.Add("History", no.ToString());
+            columnDefinition.Add("Export", no.ToString());
+            columnDefinition.Add("GridColumn", no.ToString());
+            columnDefinition.Add("FilterColumn", no.ToString());
+            columnDefinition.Add("EditorColumn", no.ToString());
+            columnDefinition.Add("TitleColumn", no.ToString());
+            columnDefinition.Add("LinkColumn", no.ToString());
+            columnDefinition.Add("HistoryColumn", no.ToString());
             switch (tableName)
             {
                 case "Depts":

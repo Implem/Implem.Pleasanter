@@ -275,6 +275,7 @@ namespace Implem.DefinitionAccessor
                 "Attachments"
             };
             var suffixes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var no = 10000;
             tableNames.ForEach(tableName =>
             {
                 types.ForEach(type =>
@@ -287,12 +288,14 @@ namespace Implem.DefinitionAccessor
                         .ForEach(suffix =>
                         {
                             definitionRows.Add(ColumnDefinition(
+                                no: no,
                                 tableName: tableName,
                                 type: type,
                                 suffix: suffix.ToString()));
                             ExtendedColumnTypes.AddIfNotConainsKey(
                                 key: type + suffix,
                                 value: type);
+                            no++;
                         });
                 });
             });
@@ -310,6 +313,7 @@ namespace Implem.DefinitionAccessor
         private static void SetExtendedColumns(
             List<Dictionary<string, string>> definitionRows)
         {
+            var no = 20000;
             Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
             {
                 var data = new Dictionary<string, int>
@@ -327,18 +331,21 @@ namespace Implem.DefinitionAccessor
                     {
                         var suffix = string.Format("{0:D3}", i);
                         definitionRows.Add(ColumnDefinition(
+                            no: no,
                             tableName: extendedColumns.TableName,
                             type: part.Key,
                             suffix: suffix));
                         ExtendedColumnTypes.AddIfNotConainsKey(
                             key: part.Key + suffix,
                             value: part.Key);
+                        no++;
                     }
                 });
             });
         }
 
         private static Dictionary<string, string> ColumnDefinition(
+            int no,
             string tableName,
             string type,
             string suffix)
