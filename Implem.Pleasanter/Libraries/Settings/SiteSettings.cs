@@ -1218,6 +1218,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.Anchor = column.Anchor;
+                        if (column.OpenAnchorNewTab == true)
+                        {
+                            newColumn.OpenAnchorNewTab = column.OpenAnchorNewTab;
+                        }
                         if (!column.AnchorFormat.IsNullOrEmpty())
                         {
                             newColumn.AnchorFormat = column.AnchorFormat;
@@ -1816,6 +1820,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
                 column.Anchor = column.Anchor ?? false;
+                column.OpenAnchorNewTab = column.OpenAnchorNewTab ?? false;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
@@ -3813,6 +3818,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "ImportKey": column.ImportKey = value.ToBool(); break;
                 case "Anchor": column.Anchor = value.ToBool(); break;
+                case "OpenAnchorNewTab": column.OpenAnchorNewTab = value.ToBool(); break;
                 case "AnchorFormat": column.AnchorFormat = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;

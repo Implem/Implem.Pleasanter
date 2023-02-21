@@ -6519,6 +6519,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OpenAnchorNewTab(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OpenAnchorNewTab",
+                data: data);
+        }
+
         public static string Operations(
             Context context,
             params string[] data)

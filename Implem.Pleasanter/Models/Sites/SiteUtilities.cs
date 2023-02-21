@@ -6550,6 +6550,17 @@ namespace Implem.Pleasanter.Models
                                                 _checked: column.Anchor == true,
                                                 _using: column.TypeName == "nvarchar"
                                                     && !column.NotUpdate)
+                                            .FieldCheckBox(
+                                                fieldId: "OpenAnchorNewTabField",
+                                                controlId: "OpenAnchorNewTab",
+                                                fieldCss: "field-normal"
+                                                    + (column.Anchor != true
+                                                        ? " hidden"
+                                                        : string.Empty),
+                                                labelText: Displays.OpenAnchorNewTab(context: context),
+                                                _checked: column.OpenAnchorNewTab == true,
+                                                _using: column.TypeName == "nvarchar"
+                                                    && !column.NotUpdate)
                                             .FieldTextBox(
                                                 fieldId: "AnchorFormatField",
                                                 controlId: "AnchorFormat",
@@ -6559,7 +6570,8 @@ namespace Implem.Pleasanter.Models
                                                         : string.Empty),
                                                 labelText: Displays.AnchorFormat(context: context),
                                                 text: column.AnchorFormat,
-                                                _using: column.TypeName == "nvarchar");
+                                                _using: column.TypeName == "nvarchar"
+                                                    && !column.NotUpdate);
                                         break;
                                     default:
                                         break;

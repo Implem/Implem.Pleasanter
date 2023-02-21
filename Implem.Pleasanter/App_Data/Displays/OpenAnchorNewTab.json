@@ -1,0 +1,33 @@
+﻿{
+    "Id": "OpenAnchorNewTab",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Open anchor in new tab"
+        },
+        {
+            "Language": "zh",
+            "Body": "在新标签页中打开锚点"
+        },
+        {
+            "Language": "ja",
+            "Body": "アンカーを新しいタブで開く"
+        },
+        {
+            "Language": "de",
+            "Body": "Anker in neuem Tab öffnen"
+        },
+        {
+            "Language": "ko",
+            "Body": "새 탭에서 앵커 열기"
+        },
+        {
+            "Language": "es",
+            "Body": "abrir ancla en nueva pestaña"
+        },
+        {
+            "Language": "vn",
+            "Body": "mở neo trong tab mới"
+        }
+    ]
+}

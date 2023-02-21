@@ -487,6 +487,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 dataValue: column.HasChoices()
                                     ? value
                                     : null,
+                                openAnchorNewTab: column.OpenAnchorNewTab == true,
                                 anchorFormat: column.Anchor == true
                                     ? column.AnchorFormat
                                     : string.Empty,
@@ -649,6 +650,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlOnly: controlOnly,
                                 text: value,
                                 alwaysSend: alwaysSend,
+                                openAnchorNewTab: column.OpenAnchorNewTab == true,
                                 anchorFormat: column.Anchor == true
                                     ? column.AnchorFormat
                                     : string.Empty,
@@ -1089,6 +1091,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string text = null,
             string dataValue = null,
             bool alwaysSend = false,
+            bool openAnchorNewTab = false,
             string anchorFormat = null,
             string extendedHtmlBeforeLabel = null,
             string extendedHtmlBetweenLabelAndControl = null,
@@ -1127,7 +1130,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     hb.A(
                                         text: text,
-                                        href: anchorFormat.Replace("{Value}", text));
+                                        href: anchorFormat.Replace("{Value}", text),
+                                        target: openAnchorNewTab
+                                            ? "_blank"
+                                            : string.Empty);
                                 }
                             }),
                     controlContainerCss: controlContainerCss)
@@ -1155,6 +1161,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool timepiker = false,
             bool alwaysSend = false,
             string onChange = null,
+            bool openAnchorNewTab = false,
             string anchorFormat = null,
             bool validateRequired = false,
             bool validateNumber = false,
@@ -1207,6 +1214,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             timepicker: timepiker,
                             alwaysSend: alwaysSend,
                             onChange: onChange,
+                            openAnchorNewTab: openAnchorNewTab,
                             anchorFormat: anchorFormat,
                             validateRequired: validateRequired,
                             validateNumber: validateNumber,

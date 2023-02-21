@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string DefaultInput;
         public bool? ImportKey;
         public bool? Anchor;
+        public bool? OpenAnchorNewTab;
         public string AnchorFormat;
         public string GridFormat;
         public string EditorFormat;
