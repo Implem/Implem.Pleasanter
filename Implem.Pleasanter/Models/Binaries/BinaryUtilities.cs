@@ -48,17 +48,31 @@ namespace Implem.Pleasanter.Models
             {
                 case "Local":
                     return new Libraries.Images.ImageData(
-                        referenceId, Libraries.Images.ImageData.Types.SiteImage)
-                            .Exists(sizeType);
+                        referenceId,
+                        Libraries.Images.ImageData.Types.SiteImage)
+                            .Exists(sizeType)
+                                || ExistsSiteImage(
+                                    context: context,
+                                    referenceId: referenceId);
                 default:
-                    return Repository.ExecuteScalar_int(
+                    return ExistsSiteImage(
                         context: context,
-                        statements: Rds.SelectBinaries(
-                            column: Rds.BinariesColumn().BinariesCount(),
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(referenceId)
-                                .BinaryType("SiteImage"))) == 1;
+                        referenceId: referenceId);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ExistsSiteImage(Context context, long referenceId)
+        {
+            return Repository.ExecuteScalar_int(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: Rds.BinariesColumn().BinariesCount(),
+                    where: Rds.BinariesWhere()
+                        .ReferenceId(referenceId)
+                        .BinaryType("SiteImage"))) == 1;
         }
 
         /// <summary>
