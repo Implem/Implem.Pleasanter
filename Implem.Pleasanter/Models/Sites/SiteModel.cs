@@ -6749,7 +6749,8 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
-                body: context.Forms.Data("ServerScriptBody"));
+                body: context.Forms.Data("ServerScriptBody"),
+                timeOut: context.Forms.Int("ServerScriptTimeOut"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
                 serverScript: script);
@@ -6778,7 +6779,8 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
-                body: script.Body));
+                body: script.Body,
+                timeOut: context.Forms.Int("ServerScriptTimeOut")));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(
@@ -6810,7 +6812,8 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
-                body: context.Forms.Data("ServerScriptBody"));
+                body: context.Forms.Data("ServerScriptBody"),
+                timeOut: context.Forms.Int("ServerScriptTimeOut"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
                 serverScript: script);
@@ -6840,7 +6843,8 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
-                    body: script.Body);
+                    body: script.Body,
+                    timeOut: script.TimeOut);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(

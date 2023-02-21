@@ -13862,6 +13862,17 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldSpinner(
+                        controlId: "ServerScriptTimeOut",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TimeOut(context: context),
+                        value: script.TimeOut ?? Parameters.Script.ServerScriptTimeOut,
+                        min: Parameters.Script.ServerScriptTimeOutMin,
+                        max: Parameters.Script.ServerScriptTimeOutMax,
+                        step: 1,
+                        width: 75,
+                        _using: Parameters.Script.ServerScriptTimeOutChangeable)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),

@@ -1052,6 +1052,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     model: itemModel),
                 view: view,
                 condition: condition,
+                timeOut: GetTimeOut(scripts: scripts),
                 debug: debug,
                 onTesting: onTesting))
             {
@@ -1099,6 +1100,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     data: model);
             }
             return scriptValues;
+        }
+
+        private static DateTime GetTimeOut(ServerScript[] scripts)
+        {
+            if (scripts.Any(o => o.TimeOut == 0))
+            {
+                return DateTime.MaxValue;
+            }
+            else
+            {
+                var max = scripts.Max(o => o.TimeOut ?? Parameters.Script.ServerScriptTimeOut);
+                return max == 0
+                    ? DateTime.MaxValue
+                    : DateTime.Now.AddMilliseconds(max);
+            }
         }
 
         public static ServerScriptModelRow Execute(

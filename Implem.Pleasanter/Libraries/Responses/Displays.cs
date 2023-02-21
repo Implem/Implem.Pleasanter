@@ -8779,6 +8779,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string TimeOut(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TimeOut",
+                data: data);
+        }
+
         public static string TimeSeries(
             Context context,
             params string[] data)
