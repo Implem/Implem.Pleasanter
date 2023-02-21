@@ -630,7 +630,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetPermissionType": Code.Model_SetPermissionType = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPermissionType, definitionRow, CodeXls); break;
                     case "Model_SetPk": Code.Model_SetPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetPk, definitionRow, CodeXls); break;
                     case "Model_SetProcessMatchConditions": Code.Model_SetProcessMatchConditions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetProcessMatchConditions, definitionRow, CodeXls); break;
-                    case "Model_SetProcessMatchConditionsExec": Code.Model_SetProcessMatchConditionsExec = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetProcessMatchConditionsExec, definitionRow, CodeXls); break;
                     case "Model_SetSiteId": Code.Model_SetSiteId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteId, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettings": Code.Model_SetSiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettings, definitionRow, CodeXls); break;
                     case "Model_SetSiteSettingsNew": Code.Model_SetSiteSettingsNew = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetSiteSettingsNew, definitionRow, CodeXls); break;
@@ -6981,7 +6980,6 @@ namespace Implem.DefinitionAccessor
         public string Model_SetPermissionType;
         public string Model_SetPk;
         public string Model_SetProcessMatchConditions;
-        public string Model_SetProcessMatchConditionsExec;
         public string Model_SetSiteId;
         public string Model_SetSiteSettings;
         public string Model_SetSiteSettingsNew;
@@ -7754,7 +7752,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetPermissionType = new CodeDefinition();
         public CodeDefinition Model_SetPk = new CodeDefinition();
         public CodeDefinition Model_SetProcessMatchConditions = new CodeDefinition();
-        public CodeDefinition Model_SetProcessMatchConditionsExec = new CodeDefinition();
         public CodeDefinition Model_SetSiteId = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettings = new CodeDefinition();
         public CodeDefinition Model_SetSiteSettingsNew = new CodeDefinition();

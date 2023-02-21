@@ -1490,9 +1490,6 @@ namespace Implem.Pleasanter.Models
             SetByAfterCreateServerScript(
                 context: context,
                 ss: ss);
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
