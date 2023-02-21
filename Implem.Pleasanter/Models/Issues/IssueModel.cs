@@ -3602,10 +3602,10 @@ namespace Implem.Pleasanter.Models
                     switch (filter.Key)
                     {
                         case "UpdatedTime":
-                            match = UpdatedTime.Value.Matched(
+                            match = UpdatedTime?.Value.Matched(
                                 context: context,
                                 column: column,
-                                condition: filter.Value);
+                                condition: filter.Value) == true;
                             break;
                         case "IssueId":
                             match = IssueId.Matched(
@@ -3693,10 +3693,10 @@ namespace Implem.Pleasanter.Models
                                 condition: filter.Value);
                             break;
                         case "CreatedTime":
-                            match = CreatedTime.Value.Matched(
+                            match = CreatedTime?.Value.Matched(
                                 context: context,
                                 column: column,
-                                condition: filter.Value);
+                                condition: filter.Value) == true;
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))

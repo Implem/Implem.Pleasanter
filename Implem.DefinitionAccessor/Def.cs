@@ -503,7 +503,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Matched_ColumnCases_Context": Code.Model_Matched_ColumnCases_Context = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_ColumnCases_Context, definitionRow, CodeXls); break;
                     case "Model_Matched_Incomplete": Code.Model_Matched_Incomplete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Incomplete, definitionRow, CodeXls); break;
                     case "Model_Matched_Issues": Code.Model_Matched_Issues = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Issues, definitionRow, CodeXls); break;
+                    case "Model_Matched_NullCondition": Code.Model_Matched_NullCondition = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_NullCondition, definitionRow, CodeXls); break;
                     case "Model_Matched_Own": Code.Model_Matched_Own = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_Own, definitionRow, CodeXls); break;
+                    case "Model_Matched_True": Code.Model_Matched_True = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Matched_True, definitionRow, CodeXls); break;
                     case "Model_Mine": Code.Model_Mine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Mine, definitionRow, CodeXls); break;
                     case "Model_MineColumnCases": Code.Model_MineColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_MineColumnCases, definitionRow, CodeXls); break;
                     case "Model_Move": Code.Model_Move = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Move, definitionRow, CodeXls); break;
@@ -6852,7 +6854,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Matched_ColumnCases_Context;
         public string Model_Matched_Incomplete;
         public string Model_Matched_Issues;
+        public string Model_Matched_NullCondition;
         public string Model_Matched_Own;
+        public string Model_Matched_True;
         public string Model_Mine;
         public string Model_MineColumnCases;
         public string Model_Move;
@@ -7623,7 +7627,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Matched_ColumnCases_Context = new CodeDefinition();
         public CodeDefinition Model_Matched_Incomplete = new CodeDefinition();
         public CodeDefinition Model_Matched_Issues = new CodeDefinition();
+        public CodeDefinition Model_Matched_NullCondition = new CodeDefinition();
         public CodeDefinition Model_Matched_Own = new CodeDefinition();
+        public CodeDefinition Model_Matched_True = new CodeDefinition();
         public CodeDefinition Model_Mine = new CodeDefinition();
         public CodeDefinition Model_MineColumnCases = new CodeDefinition();
         public CodeDefinition Model_Move = new CodeDefinition();
