@@ -574,7 +574,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "depts":
                     return CanManageTenant(context: context);
                 case "groups":
-                    return CanEditGroup(context: context);
+                    return CanEditGroup(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context)
                         && context.UserId != context.Id;
@@ -606,7 +607,8 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "depts":
                     return CanManageTenant(context: context);
                 case "groups":
-                    return CanEditGroup(context: context);
+                    return CanEditGroup(context: context)
+                        || context.UserSettings?.EnableManageTenant == true;
                 case "users":
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
