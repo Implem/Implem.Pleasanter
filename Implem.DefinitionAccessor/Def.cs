@@ -5997,11 +5997,11 @@ namespace Implem.DefinitionAccessor
                 "Attachments"
             };
             var suffixes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var no = 10000;
             tableNames.ForEach(tableName =>
             {
                 types.ForEach(type =>
                 {
+                    var no = 0;
                     suffixes
                         .Where(suffix => !DisabledColumns(
                             tableName: tableName,
@@ -6035,7 +6035,6 @@ namespace Implem.DefinitionAccessor
         private static void SetExtendedColumns(
             List<Dictionary<string, string>> definitionRows)
         {
-            var no = 20000;
             Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
             {
                 var data = new Dictionary<string, int>
@@ -6049,6 +6048,7 @@ namespace Implem.DefinitionAccessor
                 };
                 data.ForEach(part =>
                 {
+                    var no = 5000;
                     for (var i = 1; i <= part.Value; i++)
                     {
                         var suffix = string.Format("{0:D3}", i);
@@ -6078,15 +6078,6 @@ namespace Implem.DefinitionAccessor
             var columnDefinition = ColumnDefinitionDefault(type: type);
             var columnName = type + suffix;
             columnDefinition.Add("Id", $"{tableName}_{columnName}");
-            columnDefinition.Add("No", no.ToString());
-            columnDefinition.Add("History", no.ToString());
-            columnDefinition.Add("Export", no.ToString());
-            columnDefinition.Add("GridColumn", no.ToString());
-            columnDefinition.Add("FilterColumn", no.ToString());
-            columnDefinition.Add("EditorColumn", no.ToString());
-            columnDefinition.Add("TitleColumn", no.ToString());
-            columnDefinition.Add("LinkColumn", no.ToString());
-            columnDefinition.Add("HistoryColumn", no.ToString());
             switch (tableName)
             {
                 case "Depts":
@@ -6104,6 +6095,42 @@ namespace Implem.DefinitionAccessor
             }
             columnDefinition.Add("TableName", tableName);
             columnDefinition.Add("ColumnName", columnName);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "No",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "History",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "Export",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "GridColumn",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "FilterColumn",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "EditorColumn",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "TitleColumn",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "LinkColumn",
+                no: no);
+            SetColumnDefinition(
+                columnDefinition: columnDefinition,
+                key: "HistoryColumn",
+                no: no);
             columnDefinition["LabelText"] = columnDefinition.Get("LabelText") + suffix;
             columnDefinition["LabelText_en"] = columnDefinition.Get("LabelText_en") + suffix;
             columnDefinition["LabelText_zh"] = columnDefinition.Get("LabelText_zh") + suffix;
@@ -6149,6 +6176,20 @@ namespace Implem.DefinitionAccessor
                     break;
             }
             return columnDefinition;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void SetColumnDefinition(
+            Dictionary<string, string> columnDefinition,
+            string key,
+            int no)
+        {
+            if (columnDefinition.ContainsKey(key))
+            {
+                columnDefinition[key] = (columnDefinition[key].ToInt() + no).ToString();
+            }
         }
 
         /// <summary>

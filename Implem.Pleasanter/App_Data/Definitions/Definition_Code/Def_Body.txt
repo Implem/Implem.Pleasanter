@@ -275,11 +275,11 @@ namespace Implem.DefinitionAccessor
                 "Attachments"
             };
             var suffixes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            var no = 10000;
             tableNames.ForEach(tableName =>
             {
                 types.ForEach(type =>
                 {
+                    var no = 0;
                     suffixes
                         .Where(suffix => !DisabledColumns(
                             tableName: tableName,
@@ -313,7 +313,6 @@ namespace Implem.DefinitionAccessor
         private static void SetExtendedColumns(
             List<Dictionary<string, string>> definitionRows)
         {
-            var no = 20000;
             Parameters.ExtendedColumnsSet.ForEach(extendedColumns =>
             {
                 var data = new Dictionary<string, int>
@@ -327,6 +326,7 @@ namespace Implem.DefinitionAccessor
                 };
                 data.ForEach(part =>
                 {
+                    var no = 5000;
                     for (var i = 1; i <= part.Value; i++)
                     {
                         var suffix = string.Format("{0:D3}", i);

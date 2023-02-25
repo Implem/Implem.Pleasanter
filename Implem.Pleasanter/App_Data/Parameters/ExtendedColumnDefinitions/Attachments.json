@@ -1,5 +1,12 @@
 ﻿{
     "LabelText": "添付ファイル",
+    "No": "70000",
+    "History": "70000",
+    "Export": "70000",
+    "GridColumn": "70000",
+    "EditorColumn": "70000",
+    "LinkColumn": "70000",
+    "HistoryColumn": "70000",
     "TypeName": "nvarchar",
     "TypeCs": "Attachments",
     "MaxLength": "-1",
