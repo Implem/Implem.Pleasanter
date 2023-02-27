@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Search;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
@@ -17,7 +18,7 @@ namespace Implem.Pleasanter.Controllers.Api
     {
         [HttpPost("RebuildSearchIndexes")]
         [HttpPost("{id}/RebuildSearchIndexes")]
-        public string RebuildSearchIndexes(long id = 0)
+        public ContentResult RebuildSearchIndexes(long id = 0)
         {
             var body = default(string);
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
@@ -26,22 +27,21 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
                 contentType: Request.ContentType);
-            if (context.Authenticated && Parameters.BackgroundTask.Enabled)
+            if (!context.Authenticated)
             {
-                if (context.QueryStrings.Bool("NoLog"))
-                {
-                    Indexes.RebuildSearchIndexes(context: context);
-                }
-                else
-                {
-                    var log = new SysLogModel(context: context);
-                    Indexes.RebuildSearchIndexes(
-                        context: context,
-                        siteId: id);
-                    log.Finish(context: context, responseSize: 0);
-                }
+                return ApiResults.Unauthorized(context: context);
             }
-            return null;
+            else if (!Parameters.BackgroundTask.Enabled)
+            {
+                return ApiResults.Forbidden(context: context);
+            }
+            else
+            {
+                return ApiResults.Success(
+                    id: id,
+                    message: Displays.RebuildingCompleted(
+                        context: context));
+            }
         }
     }
 }
