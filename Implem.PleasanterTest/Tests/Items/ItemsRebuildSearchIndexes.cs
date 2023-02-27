@@ -39,7 +39,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var baseTests = BaseData.Tests(
                 JsonData.Value(
                     method: "Message",
-                    value: "{\"Id\":\"RebuildingCompleted\",\"Text\":\"再構築が完了しました。\",\"Css\":\"alert-success\"}"));
+                    value: "{\"Id\":\"RebuildingCompleted\",\"Text\":\"検索インデックスの再構築が完了しました。\",\"Css\":\"alert-success\"}"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
