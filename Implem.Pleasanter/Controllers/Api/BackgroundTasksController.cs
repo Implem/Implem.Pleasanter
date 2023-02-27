@@ -37,6 +37,18 @@ namespace Implem.Pleasanter.Controllers.Api
             }
             else
             {
+                if (context.QueryStrings.Bool("NoLog"))
+                {
+                    Indexes.RebuildSearchIndexes(context: context);
+                }
+                else
+                {
+                    var log = new SysLogModel(context: context);
+                    Indexes.RebuildSearchIndexes(
+                        context: context,
+                        siteId: id);
+                    log.Finish(context: context, responseSize: 0);
+                }
                 return ApiResults.Success(
                     id: id,
                     message: Displays.RebuildingCompleted(
