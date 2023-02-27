@@ -1,6 +1,9 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
+
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModelGroups
@@ -27,6 +30,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     disabled: group.Disabled)
                 : null;
             return groupModel;
+        }
+
+        public bool Update(object id, string model)
+        {
+            var apiContext = ServerScriptUtilities.CreateContext(
+                context: Context,
+                controller: "Groups",
+                action: "Update",
+                id: id.ToInt(),
+                apiRequestBody: model);
+            return GroupUtilities.UpdateByServerScript(
+                context: apiContext,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(context: apiContext),
+                groupId: id.ToInt(),
+                model: model);
         }
     }
 }

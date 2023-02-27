@@ -1180,6 +1180,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static Context CreateContext(
             Context context,
+            string controller,
             string action,
             long id,
             string apiRequestBody)
@@ -1190,6 +1191,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
+            createdContext.Controller = controller.ToLower();
             createdContext.Action = action.ToLower();
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
@@ -1221,6 +1223,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Get",
                 id: id,
                 apiRequestBody: view);
@@ -1240,6 +1243,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Create",
                 id: id,
                 apiRequestBody: string.Empty);
@@ -1255,6 +1259,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Update",
                 id: id,
                 apiRequestBody: GetApiRequestBody(model: model));
@@ -1270,6 +1275,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Delete",
                 id: id,
                 apiRequestBody: string.Empty);
@@ -1283,6 +1289,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "BulkDelete",
                 id: id,
                 apiRequestBody: apiRequestBody);
@@ -1305,6 +1312,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Aggregate",
                 id: ss.SiteId,
                 apiRequestBody: view);
@@ -1360,6 +1368,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Aggregate",
                 id: ss.SiteId,
                 apiRequestBody: view);
