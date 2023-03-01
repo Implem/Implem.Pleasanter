@@ -2119,14 +2119,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ?.Select(o => (o == "Own"
                             ? context.DeptId.ToString()
                             : o))
-                        .ToJson();
+                        .ToJson()
+                            ?? value;
                 case Column.Types.User:
                     return value
                         ?.Deserialize<List<string>>()
                         ?.Select(o => (o == "Own"
                             ? context.UserId.ToString()
                             : o))
-                        .ToJson();
+                        .ToJson()
+                            ?? value;
                 default:
                     return value;
             }
