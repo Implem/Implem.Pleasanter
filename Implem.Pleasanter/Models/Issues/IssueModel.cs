@@ -672,8 +672,10 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            SetDefault(
+                context: context,
+                ss: ss);
             SiteId = ss.SiteId;
-            if (IssueId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
             {
                 SetByForm(
@@ -708,6 +710,9 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            SetDefault(
+                context: context,
+                ss: ss);
             IssueId = issueId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -724,7 +729,6 @@ namespace Implem.Pleasanter.Models
                 Get(context: context, ss: ss, view: view);
             }
             if (clearSessions) ClearSessions(context: context);
-            if (IssueId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
             {
                 SetByForm(
@@ -2561,9 +2565,6 @@ namespace Implem.Pleasanter.Models
             var defaultInput = column.GetDefaultInput(context: context);
             switch (column.ColumnName)
             {
-                case "IssueId":
-                    IssueId = defaultInput.ToLong();
-                    break;
                 case "Title":
                     Title.Value = defaultInput.ToString();
                     break;

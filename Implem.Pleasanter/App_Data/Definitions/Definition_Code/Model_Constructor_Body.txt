@@ -15,11 +15,11 @@ public #ModelName#Model(
 {
     OnConstructing(context: context);
 
+<!--Model_SetDefaultExec-->
 <!--Model_SetTenantId-->
 <!--Model_SetSiteId-->
 <!--Model_SetParentId-->
 <!--Model_SetInheritPermission-->
-<!--Model_SetDefaultExec-->
 <!--Model_SetByFormExec-->
 <!--Model_SetByApiExec-->
 <!--Model_SetBySiteApiExec-->
@@ -47,6 +47,7 @@ public #ModelName#Model(
 {
     OnConstructing(context: context);
 
+<!--Model_SetDefaultExec-->
 <!--Model_SetTenantId-->
 <!--Model_SetId-->
 <!--Model_SetSiteId-->
@@ -55,7 +56,6 @@ public #ModelName#Model(
     
     if (clearSessions) ClearSessions(context: context);
 
-<!--Model_SetDefaultExec-->
 <!--Model_SetByFormExec-->
 <!--Model_SetByApiExec-->
 <!--Model_SetByLookupsExec-->
