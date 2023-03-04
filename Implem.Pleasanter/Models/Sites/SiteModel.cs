@@ -2012,6 +2012,7 @@ namespace Implem.Pleasanter.Models
                 SiteSettings = new SiteSettings(context: context, referenceType: ReferenceType);
             }
             TenantId = context.TenantId;
+            var notInheritPermission = InheritPermission == 0 || RecordPermissions != null;
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2031,26 +2032,42 @@ namespace Implem.Pleasanter.Models
                             .Body(Body)
                             .ReferenceType(ReferenceType.MaxLength(32))
                             .ParentId(ParentId)
-                            .InheritPermission(raw: InheritPermission == 0
+                            .InheritPermission(raw: notInheritPermission
                                 ? Def.Sql.Identity
                                 : InheritPermission.ToString())
                             .SiteSettings(SiteSettings.RecordingJson(context: context))
                             .Comments(Comments.ToJson())),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
-                        param: Rds.ItemsParam().SiteId(raw: Def.Sql.Identity)),
-                    Rds.InsertPermissions(
-                        param: Rds.PermissionsParam()
-                            .ReferenceId(raw: Def.Sql.Identity)
-                            .DeptId(0)
-                            .UserId(context.UserId)
-                            .PermissionType(Permissions.Manager()),
-                        _using: InheritPermission == 0 && !DisableSiteCreatorPermission)
+                        param: Rds.ItemsParam().SiteId(raw: Def.Sql.Identity))
                 });
             SiteId = response.Id ?? SiteId;
             Get(context: context);
             SiteSettings = SiteSettingsUtilities.Get(
                 context: context, siteModel: this, referenceId: SiteId);
+            var statements = new List<SqlStatement>();
+            if (RecordPermissions != null)
+            {
+                statements.UpdatePermissions(
+                    context: context,
+                    ss: SiteSettings,
+                    referenceId: SiteId,
+                    permissions: RecordPermissions,
+                    site: true);
+            }
+            statements.Add(Rds.InsertPermissions(
+                param: Rds.PermissionsParam()
+                    .ReferenceId(SiteId)
+                    .DeptId(0)
+                    .UserId(context.UserId)
+                    .PermissionType(Permissions.Manager()),
+                _using: notInheritPermission && !DisableSiteCreatorPermission));
+            if (statements.Any(o => o.Using))
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: statements.ToArray());
+            }
             switch (ReferenceType)
             {
                 case "Wikis":
