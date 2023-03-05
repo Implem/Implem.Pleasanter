@@ -5,6 +5,9 @@
         public bool ServerScript;
         public bool DisableServerScriptHttpClient;
         public long ServerScriptTimeOut;
+        public bool ServerScriptTimeOutChangeable;
+        public int ServerScriptTimeOutMin;
+        public int ServerScriptTimeOutMax;
         public int ServerScriptIncludeDepthLimit;
     }
 }

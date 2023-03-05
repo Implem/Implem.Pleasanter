@@ -811,16 +811,29 @@ namespace Implem.Pleasanter.Models
                 case "Local":
                     return new Libraries.Images.ImageData(
                         ReferenceId, Libraries.Images.ImageData.Types.SiteImage)
-                            .Read(sizeType);
+                            .Read(sizeType)
+                                ?? SiteImage(
+                                    context: context,
+                                    column: column);
                 default:
-                    return Repository.ExecuteScalar_bytes(
+                    return SiteImage(
                         context: context,
-                        statements: Rds.SelectBinaries(
-                            column: column,
-                            where: Rds.BinariesWhere()
-                                .ReferenceId(ReferenceId)
-                                .BinaryType("SiteImage")));
+                        column: column);
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private byte[] SiteImage(Context context, SqlColumnCollection column)
+        {
+            return Repository.ExecuteScalar_bytes(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    column: column,
+                    where: Rds.BinariesWhere()
+                        .ReferenceId(ReferenceId)
+                        .BinaryType("SiteImage")));
         }
 
         /// <summary>

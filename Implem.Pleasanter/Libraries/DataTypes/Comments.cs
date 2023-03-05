@@ -37,9 +37,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToDisplay(Context context, SiteSettings ss, Column column)
         {
-            return this.Any()
-                ? ToJson()
-                : null;
+            return ToDisplay(context: context);
+        }
+
+        private string ToDisplay(Context context)
+        {
+            return this.Select(o =>
+                o.CreatedTime.ToLocal(context: context).ToViewText(context: context) + " " +
+                SiteInfo.UserName(
+                    context: context,
+                    userId: o.Creator) + "\n" +
+                o.Body).Join("\n\n");
         }
 
         public string ToLookup(Context context, SiteSettings ss, Column column, Lookup.Types? type)
@@ -108,12 +116,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public string ToExport(Context context, Column column, ExportColumn exportColumn = null)
         {
-            return this.Select(o =>
-                o.CreatedTime.ToLocal(context: context).ToViewText(context: context) + " " +
-                SiteInfo.UserName(
-                    context: context,
-                    userId: o.Creator) + "\n" +
-                o.Body).Join("\n\n");
+            return ToDisplay(context: context);
         }
 
         public string ToNotice(

@@ -2,5 +2,8 @@
     "ServerScript": true,
     "DisableServerScriptHttpClient": false,
     "ServerScriptTimeOut": 10000,
+    "ServerScriptTimeOutChangeable": true,
+    "ServerScriptTimeOutMin": 0,
+    "ServerScriptTimeOutMax": 86400000,
     "ServerScriptIncludeDepthLimit": 10
 }

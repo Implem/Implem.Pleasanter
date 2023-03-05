@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? BeforeOpeningRow;
         public bool? Shared;
         public string Body;
+        public int? TimeOut;
         [NonSerialized]
         public bool Debug;
 
@@ -47,7 +48,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool beforeOpeningPage,
             bool beforeOpeningRow,
             bool shared,
-            string body)
+            string body,
+            int? timeOut)
         {
             Id = id;
             Title = title;
@@ -67,6 +69,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeOpeningRow = beforeOpeningRow;
             Shared = shared;
             Body = body;
+            TimeOut = timeOut;
         }
 
         public void Update(
@@ -86,7 +89,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool beforeOpeningPage,
             bool beforeOpeningRow,
             bool shared,
-            string body)
+            string body,
+            int? timeOut)
         {
             Title = title;
             Name = name;
@@ -105,6 +109,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             BeforeOpeningRow = beforeOpeningRow;
             Shared = shared;
             Body = body;
+            TimeOut = timeOut;
         }
 
         public ServerScript GetRecordingData()
@@ -128,6 +133,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (BeforeOpeningRow == true) script.BeforeOpeningRow = true;
             if (Shared == true) script.Shared = true;
             script.Body = Body;
+            if (TimeOut != DefinitionAccessor.Parameters.Script.ServerScriptTimeOut)
+            {
+                script.TimeOut = TimeOut;
+            }
             return script;
         }
 

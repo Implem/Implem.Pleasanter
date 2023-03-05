@@ -2116,6 +2116,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
+            column.StatusReadOnly = issueModel.GetStatusControl(
+                context: context,
+                ss: ss,
+                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             switch (column.Name)
             {
                 case "IssueId":
@@ -4143,6 +4147,12 @@ namespace Implem.Pleasanter.Models
             foreach (var issueModel in new IssueCollection(
                 context: context,
                 ss: ss,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where))
             {
                 // 前回の処理でエラーが起きていたら次の処理をせずに中断
