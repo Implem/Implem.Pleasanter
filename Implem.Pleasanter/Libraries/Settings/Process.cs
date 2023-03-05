@@ -6,6 +6,7 @@ using Implem.Pleasanter.Libraries.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.Settings
 {
     [Serializable()]
@@ -59,6 +60,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public View View { get; set; }
         public string ErrorMessage { get; set; }
         public SettingList<DataChange> DataChanges { get; set; }
+        public AutoNumbering AutoNumbering { get; set; }
         public SettingList<Notification> Notifications { get; set; }
         [NonSerialized]
         public bool MatchConditions;
@@ -88,6 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             View view,
             string errorMessage,
             SettingList<DataChange> dataChanges,
+            AutoNumbering autoNumbering,
             SettingList<Notification> notifications)
         {
             Id = id;
@@ -110,6 +113,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             View = view;
             ErrorMessage = errorMessage;
             DataChanges = dataChanges;
+            AutoNumbering = autoNumbering;
             Notifications = notifications;
         }
 
@@ -133,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             View view,
             string errorMessage,
             SettingList<DataChange> dataChanges,
+            AutoNumbering autoNumbering,
             SettingList<Notification> notifications)
         {
             Name = name;
@@ -154,6 +159,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             View = view;
             ErrorMessage = errorMessage;
             DataChanges = dataChanges;
+            AutoNumbering = autoNumbering;
             Notifications = notifications;
         }
 
@@ -308,6 +314,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     context: context,
                     ss: ss));
             });
+            process.AutoNumbering = AutoNumbering?.GetRecordingData();
             Notifications?.ForEach(notification =>
             {
                 if (process.Notifications == null)

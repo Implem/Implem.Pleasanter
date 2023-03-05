@@ -64,6 +64,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 break;
                             default:
                                 hb.Button(
+                                    serverScriptModelRow: serverScriptModelRow,
+                                    commandDisplayTypes: view?.CreateCommand,
                                     controlId: "CreateCommand",
                                     text: Displays.Create(context: context),
                                     controlCss: "button-icon validate",

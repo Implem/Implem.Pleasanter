@@ -8,6 +8,7 @@
     });
     $(document).on('change', '#Anchor', function () {
         var visibility = $(this).prop('checked');
+        $('#OpenAnchorNewTabField').toggle(visibility);
         $('#AnchorFormatField').toggle(visibility);
     });
     $(document).on('change', '#AutoPostBack', function () {

@@ -77,6 +77,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return Value(data, name).ToBool();
         }
 
+        private static (string, object) ReadNameValue(string columnName, object value)
+        {
+            return (columnName, value);
+        }
+
         private static (string, object) ReadNameValue(
             Context context, SiteSettings ss, string columnName, object value, List<string> mine)
         {
@@ -95,55 +100,60 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Context context, SiteSettings ss, BaseItemModel model)
         {
             var mine = model?.Mine(context: context);
-            var values = new List<(string, object)>();
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.SiteId),
-                value: model.SiteId,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Title),
-                value: model.Title?.Value,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Body),
-                value: model.Body,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Ver),
-                value: model.Ver,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Creator),
-                value: model.Creator.Id,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.Updator),
-                value: model.Updator.Id,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.CreatedTime),
-                value: model.CreatedTime?.Value,
-                mine: mine));
-            values.Add(ReadNameValue(
-                context: context,
-                ss: ss,
-                columnName: nameof(model.UpdatedTime),
-                value: model.UpdatedTime?.Value,
-                mine: mine));
+            var values = new List<(string, object)>
+            {
+                ReadNameValue(
+                    columnName: nameof(model.ReadOnly),
+                    value: model.ReadOnly),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.SiteId),
+                    value: model.SiteId,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Title),
+                    value: model.Title?.Value,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Body),
+                    value: model.Body,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Ver),
+                    value: model.Ver,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Creator),
+                    value: model.Creator.Id,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.Updator),
+                    value: model.Updator.Id,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.CreatedTime),
+                    value: model.CreatedTime?.Value,
+                    mine: mine),
+                ReadNameValue(
+                    context: context,
+                    ss: ss,
+                    columnName: nameof(model.UpdatedTime),
+                    value: model.UpdatedTime?.Value,
+                    mine: mine)
+            };
             values.AddRange(model
                 .ClassHash
                 .Select(element => ReadNameValue(
@@ -1039,6 +1049,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     model: itemModel),
                 view: view,
                 condition: condition,
+                timeOut: GetTimeOut(scripts: scripts),
                 debug: debug,
                 onTesting: onTesting))
             {
@@ -1085,6 +1096,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     data: model);
             }
             return scriptValues;
+        }
+
+        private static DateTime GetTimeOut(ServerScript[] scripts)
+        {
+            if (scripts.Any(o => o.TimeOut == 0))
+            {
+                return DateTime.MaxValue;
+            }
+            else
+            {
+                var max = scripts.Max(o => o.TimeOut ?? Parameters.Script.ServerScriptTimeOut);
+                return max == 0
+                    ? DateTime.MaxValue
+                    : DateTime.Now.AddMilliseconds(max);
+            }
         }
 
         public static ServerScriptModelRow Execute(
@@ -1150,6 +1176,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         public static Context CreateContext(
             Context context,
+            string controller,
             string action,
             long id,
             string apiRequestBody)
@@ -1160,6 +1187,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             createdContext.LogBuilder = context.LogBuilder;
             createdContext.UserData = context.UserData;
             createdContext.Messages = context.Messages;
+            createdContext.Controller = controller.ToLower();
             createdContext.Action = action.ToLower();
             createdContext.Id = id;
             createdContext.ApiRequestBody = apiRequestBody;
@@ -1191,6 +1219,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Get",
                 id: id,
                 apiRequestBody: view);
@@ -1210,6 +1239,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Create",
                 id: id,
                 apiRequestBody: string.Empty);
@@ -1225,6 +1255,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Update",
                 id: id,
                 apiRequestBody: GetApiRequestBody(model: model));
@@ -1240,6 +1271,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Delete",
                 id: id,
                 apiRequestBody: string.Empty);
@@ -1253,6 +1285,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "BulkDelete",
                 id: id,
                 apiRequestBody: apiRequestBody);
@@ -1275,6 +1308,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Aggregate",
                 id: ss.SiteId,
                 apiRequestBody: view);
@@ -1330,6 +1364,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             var apiContext = CreateContext(
                 context: context,
+                controller: "Items",
                 action: "Aggregate",
                 id: ss.SiteId,
                 apiRequestBody: view);

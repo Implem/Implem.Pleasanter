@@ -37,6 +37,7 @@
 
 <!--Model_UpdateReminders-->
 <!--Model_UpdateExecute-->
+<!--Model_Update_ExecuteAutomaticNumberingExec-->
 <!--Model_UpdateExecute_User-->
 <!--Model_WriteAttachmentsExecute-->
 <!--Model_ForceSynchronizeSummaryExecute-->

@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public CommandDisplayTypes? OpenBulkUpdateSelectorDialogCommand;
         public CommandDisplayTypes? EditOnGridCommand;
         public CommandDisplayTypes? ExportCrosstabCommand;
+        public CommandDisplayTypes? CreateCommand;
         public CommandDisplayTypes? UpdateCommand;
         public CommandDisplayTypes? OpenCopyDialogCommand;
         public CommandDisplayTypes? ReferenceCopyCommand;
@@ -2109,22 +2110,41 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (column.Type)
             {
                 case Column.Types.Dept:
-                    return value
-                        ?.Deserialize<List<string>>()
-                        ?.Select(o => (o == "Own"
-                            ? context.DeptId.ToString()
-                            : o))
-                        .ToJson();
+                    return ConvertedOwn(
+                        value: value,
+                        id: context.DeptId);
                 case Column.Types.User:
-                    return value
-                        ?.Deserialize<List<string>>()
-                        ?.Select(o => (o == "Own"
-                            ? context.UserId.ToString()
-                            : o))
-                        .ToJson();
+                    return ConvertedOwn(
+                        value: value,
+                        id: context.UserId);
                 default:
+                    switch (column.Id)
+                    {
+                        case "Depts_DeptId":
+                        case "Users_DeptId":
+                            return ConvertedOwn(
+                                value: value,
+                                id: context.DeptId);
+                        case "Users_UserId":
+                            return ConvertedOwn(
+                                value: value,
+                                id: context.UserId);
+                    }
                     return value;
             }
+        }
+
+        private static string ConvertedOwn(string value, int id)
+        {
+            return value
+                ?.Deserialize<List<string>>()
+                ?.Select(o => (o == "Own"
+                    ? id.ToString()
+                    : o))
+                .ToJson()
+                    ?? (value == "Own"
+                        ? id.ToString()
+                        : value);
         }
 
         private static void AddEqWhere(

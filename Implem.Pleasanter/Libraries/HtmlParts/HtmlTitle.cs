@@ -55,13 +55,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string FormattedHtmlTitle(
             Context context, SiteSettings ss, string format, bool publishes = false)
         {
-            return context.CanRead(ss: ss)
+            return context.HasPermission(ss: ss)
                 ? Strings.CoalesceEmpty(
                     format?
                         .Replace("[ProductName]", Displays.ProductName(context: context))
                         .Replace("[TenantTitle]", context.TenantTitle)
                         .Replace("[SiteTitle]", context.SiteTitle)
-                        .Replace("[RecordTitle]", context.RecordTitle)
+                        .Replace("[RecordTitle]", context.CanRead(ss: ss)
+                            ? context.RecordTitle
+                            : Displays.ProductName(context: context))
                         .Replace("[Action]", GetActionName(context: context)),
                     context.TenantTitle,
                     Displays.ProductName(context: context))

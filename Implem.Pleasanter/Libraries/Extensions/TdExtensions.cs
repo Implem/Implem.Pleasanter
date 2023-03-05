@@ -122,7 +122,10 @@ namespace Implem.Pleasanter.Libraries.Extensions
                         {
                             hb.A(
                                 text: value,
-                                href: column.AnchorFormat.Replace("{Value}", value));
+                                href: column.AnchorFormat.Replace("{Value}", value),
+                                target: column.OpenAnchorNewTab == true
+                                    ? "_blank"
+                                    : string.Empty);
                         }
                         else if (column.ControlType == "MarkDown")
                         {

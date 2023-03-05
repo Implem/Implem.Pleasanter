@@ -3181,6 +3181,54 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteSettings ss,
+            int groupId,
+            object model)
+        {
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: groupId,
+                setByApi: true);
+            if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = GroupValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                groupModel: groupModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            groupModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: groupModel);
+            var errorData = groupModel.Update(
+                context: context,
+                ss: ss,
+                setByApi: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance DeleteByApi(Context context, SiteSettings ss, int groupId)
         {
             if (!Mime.ValidateOnApi(contentType: context.ContentType))

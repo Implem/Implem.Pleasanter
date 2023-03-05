@@ -6541,6 +6541,17 @@ namespace Implem.Pleasanter.Models
                                                 _checked: column.Anchor == true,
                                                 _using: column.TypeName == "nvarchar"
                                                     && !column.NotUpdate)
+                                            .FieldCheckBox(
+                                                fieldId: "OpenAnchorNewTabField",
+                                                controlId: "OpenAnchorNewTab",
+                                                fieldCss: "field-normal"
+                                                    + (column.Anchor != true
+                                                        ? " hidden"
+                                                        : string.Empty),
+                                                labelText: Displays.OpenAnchorNewTab(context: context),
+                                                _checked: column.OpenAnchorNewTab == true,
+                                                _using: column.TypeName == "nvarchar"
+                                                    && !column.NotUpdate)
                                             .FieldTextBox(
                                                 fieldId: "AnchorFormatField",
                                                 controlId: "AnchorFormat",
@@ -6550,7 +6561,8 @@ namespace Implem.Pleasanter.Models
                                                         : string.Empty),
                                                 labelText: Displays.AnchorFormat(context: context),
                                                 text: column.AnchorFormat,
-                                                _using: column.TypeName == "nvarchar");
+                                                _using: column.TypeName == "nvarchar"
+                                                    && !column.NotUpdate);
                                         break;
                                     default:
                                         break;
@@ -8185,6 +8197,10 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#ProcessDataChangesTab",
                                         text: Displays.DataChanges(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#ProcessAutoNumberingTab",
+                                        text: Displays.AutoNumbering(context: context)))
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -8208,6 +8224,10 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             process: process)
                         .ProcessDataChangesTab(
+                            context: context,
+                            ss: ss,
+                            process: process)
+                        .ProcessAutoNumberingTab(
                             context: context,
                             ss: ss,
                             process: process)
@@ -9067,6 +9087,75 @@ namespace Implem.Pleasanter.Models
                             controlCss: "button-icon",
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ProcessAutoNumberingTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Process process)
+        {
+            return hb.FieldSet(id: "ProcessAutoNumberingTab", action: () => hb
+                .Div(css: "items", action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessAutoNumberingColumnName",
+                        controlCss: " always-send",
+                        labelText: Displays.Column(context: context),
+                        optionCollection: ss.AutoNumberingColumnOptions(context: context),
+                        selectedValue: process.AutoNumbering?.ColumnName,
+                        insertBlank: true)
+                    .FieldTextBox(
+                        controlId: "ProcessAutoNumberingFormat",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Format(context: context),
+                        text: ss.ColumnNameToLabelText(process.AutoNumbering?.Format))
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "ProcessAutoNumberingResetType",
+                        controlCss: " always-send",
+                        labelText: Displays.ResetType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Column.AutoNumberingResetTypes.Year.ToInt().ToString(),
+                                Displays.Year(context: context)
+                            },
+                            {
+                                Column.AutoNumberingResetTypes.Month.ToInt().ToString(),
+                                Displays.Month(context: context)
+                            },
+                            {
+                                Column.AutoNumberingResetTypes.Day.ToInt().ToString(),
+                                Displays.Day(context: context)
+                            },
+                            {
+                                Column.AutoNumberingResetTypes.String.ToInt().ToString(),
+                                Displays.String(context: context)
+                            }
+                        },
+                        selectedValue: process.AutoNumbering?.ResetType.ToInt().ToString(),
+                        insertBlank: true)
+                    .FieldTextBox(
+                        controlId: "ProcessAutoNumberingDefault",
+                        controlCss: " always-send",
+                        labelText: Displays.DefaultInput(context: context),
+                        text: process.AutoNumbering?.Default?.ToString() ?? "1",
+                        validateNumber: true,
+                        validateMinNumber: 0,
+                        validateMaxNumber: 999999999999999)
+                    .FieldTextBox(
+                        controlId: "ProcessAutoNumberingStep",
+                        controlCss: " always-send",
+                        labelText: Displays.Step(context: context),
+                        text: process.AutoNumbering?.Step?.ToString() ?? "1",
+                        validateNumber: true,
+                        validateMinNumber: 1,
+                        validateMaxNumber: 999999999999999)));
         }
 
         /// <summary>
@@ -13764,6 +13853,17 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldSpinner(
+                        controlId: "ServerScriptTimeOut",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.TimeOut(context: context),
+                        value: script.TimeOut ?? Parameters.Script.ServerScriptTimeOut,
+                        min: Parameters.Script.ServerScriptTimeOutMin,
+                        max: Parameters.Script.ServerScriptTimeOutMax,
+                        step: 1,
+                        width: 75,
+                        _using: Parameters.Script.ServerScriptTimeOutChangeable)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.Condition(context: context),

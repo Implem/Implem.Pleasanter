@@ -542,8 +542,10 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            SetDefault(
+                context: context,
+                ss: ss);
             SiteId = ss.SiteId;
-            if (ResultId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
             {
                 SetByForm(
@@ -578,6 +580,9 @@ namespace Implem.Pleasanter.Models
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
+            SetDefault(
+                context: context,
+                ss: ss);
             ResultId = resultId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -594,7 +599,6 @@ namespace Implem.Pleasanter.Models
                 Get(context: context, ss: ss, view: view);
             }
             if (clearSessions) ClearSessions(context: context);
-            if (ResultId == 0) SetDefault(context: context, ss: ss);
             if (formData != null)
             {
                 SetByForm(
@@ -1393,6 +1397,13 @@ namespace Implem.Pleasanter.Models
             ExecuteAutomaticNumbering(
                 context: context,
                 ss: ss);
+            processes?
+                .Where(process => process.MatchConditions)
+                .ForEach(process =>
+                    ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        autoNumbering: process.AutoNumbering));
             if (context.ContractSettings.Notice != false && notice)
             {
                 SetTitle(
@@ -1483,9 +1494,6 @@ namespace Implem.Pleasanter.Models
             SetByAfterCreateServerScript(
                 context: context,
                 ss: ss);
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1548,31 +1556,68 @@ namespace Implem.Pleasanter.Models
             ss.Columns
                 .Where(column => !column.AutoNumberingFormat.IsNullOrEmpty())
                 .Where(column => !column.Joined)
-                .ForEach(column => SetByForm(
+                .ForEach(column => ExecuteAutomaticNumbering(
                     context: context,
                     ss: ss,
-                    formData: new Dictionary<string, string>()
+                    autoNumbering: new AutoNumbering()
                     {
-                        {
-                            $"Results_{column.ColumnName}",
-                            AutoNumberingUtilities.ExecuteAutomaticNumbering(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                data: ss.IncludedColumns(value: column.AutoNumberingFormat)
-                                    .ToDictionary(
-                                        o => o.ColumnName,
-                                        o => ToDisplay(
-                                            context: context,
-                                            ss: ss,
-                                            column: o,
-                                            mine: Mine(context: context))),
-                                updateModel: Rds.UpdateResults(
-                                    where: Rds.ResultsWhere()
-                                        .SiteId(SiteId)
-                                        .ResultId(ResultId)))
-                        }
+                        ColumnName = column.ColumnName,
+                        Format = column.AutoNumberingFormat,
+                        ResetType = column.AutoNumberingResetType,
+                        Default = column.AutoNumberingDefault,
+                        Step = column.AutoNumberingStep
                     }));
+        }
+
+        private void ExecuteAutomaticNumbering(
+            Context context,
+            SiteSettings ss,
+            AutoNumbering autoNumbering,
+            bool overwrite = true)
+        {
+            if (autoNumbering == null)
+            {
+                return;
+            }
+            var column = ss.GetColumn(
+                context: context,
+                columnName: autoNumbering.ColumnName);
+            if (column == null)
+            {
+                return;
+            }
+            if (!overwrite
+                && !GetValue(
+                    context: context,
+                    column: column).IsNullOrEmpty())
+            {
+                return;
+            }
+            SetByForm(
+                context: context,
+                ss: ss,
+                formData: new Dictionary<string, string>()
+                {
+                    {
+                        $"Results_{autoNumbering.ColumnName}",
+                        AutoNumberingUtilities.ExecuteAutomaticNumbering(
+                            context: context,
+                            ss: ss,
+                            autoNumbering: autoNumbering,
+                            data: ss.IncludedColumns(value: autoNumbering.Format)
+                                .ToDictionary(
+                                    o => o.ColumnName,
+                                    o => ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: o,
+                                        mine: Mine(context: context))),
+                            updateModel: Rds.UpdateResults(
+                                where: Rds.ResultsWhere()
+                                    .SiteId(SiteId)
+                                    .ResultId(ResultId)))
+                    }
+                });
         }
 
         public ErrorData Update(
@@ -1640,6 +1685,14 @@ namespace Implem.Pleasanter.Models
                     type: Error.Types.UpdateConflicts,
                     id: ResultId);
             }
+            processes?
+                .Where(process => process.MatchConditions)
+                .ForEach(process =>
+                    ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        autoNumbering: process.AutoNumbering,
+                        overwrite: false));
             WriteAttachments(
                 context: context,
                 ss: ss);
@@ -2263,9 +2316,6 @@ namespace Implem.Pleasanter.Models
             var defaultInput = column.GetDefaultInput(context: context);
             switch (column.ColumnName)
             {
-                case "ResultId":
-                    ResultId = defaultInput.ToLong();
-                    break;
                 case "Title":
                     Title.Value = defaultInput.ToString();
                     break;
@@ -3215,10 +3265,10 @@ namespace Implem.Pleasanter.Models
                     switch (filter.Key)
                     {
                         case "UpdatedTime":
-                            match = UpdatedTime.Value.Matched(
+                            match = UpdatedTime?.Value.Matched(
                                 context: context,
                                 column: column,
-                                condition: filter.Value);
+                                condition: filter.Value) == true;
                             break;
                         case "ResultId":
                             match = ResultId.Matched(
@@ -3284,10 +3334,10 @@ namespace Implem.Pleasanter.Models
                                 condition: filter.Value);
                             break;
                         case "CreatedTime":
-                            match = CreatedTime.Value.Matched(
+                            match = CreatedTime?.Value.Matched(
                                 context: context,
                                 column: column,
-                                condition: filter.Value);
+                                condition: filter.Value) == true;
                             break;
                         default:
                             switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))

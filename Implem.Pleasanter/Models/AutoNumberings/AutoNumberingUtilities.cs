@@ -33,19 +33,16 @@ namespace Implem.Pleasanter.Models
         public static string ExecuteAutomaticNumbering(
             Context context,
             SiteSettings ss,
-            Column column,
+            AutoNumbering autoNumbering,
             Dictionary<string, string> data,
             SqlStatement updateModel)
         {
             var now = DateTime.Now.ToLocal(context: context);
             var format = Format(
-                column: column,
+                autoNumbering: autoNumbering,
                 data: data);
             var key = Key(
-                context: context,
-                ss: ss,
-                column: column,
-                data: data,
+                autoNumbering: autoNumbering,
                 now: now,
                 format: format);
             var success = false;
@@ -55,16 +52,15 @@ namespace Implem.Pleasanter.Models
                 var number = NextNumber(
                     context: context,
                     ss: ss,
-                    column: column,
+                    autoNumbering: autoNumbering,
                     key: key);
                 value = Value(
                     context: context,
-                    data: data,
                     now: now,
                     format: format,
                     number: number);
                 updateModel.SqlParamCollection = Rds.IssuesParam().Add(
-                    columnBracket: $"\"{column.ColumnName}\"",
+                    columnBracket: $"\"{autoNumbering.ColumnName}\"",
                     value: value);
                 try
                 {
@@ -76,7 +72,7 @@ namespace Implem.Pleasanter.Models
                             Rds.InsertAutoNumberings(param: Rds.AutoNumberingsParam()
                                 .TenantId(context.TenantId)
                                 .ReferenceId(ss.SiteId)
-                                .ColumnName(column.ColumnName)
+                                .ColumnName(autoNumbering.ColumnName)
                                 .Key(key)
                                 .Number(number)),
                             updateModel
@@ -103,10 +99,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string Format(
-            Column column,
+            AutoNumbering autoNumbering,
             Dictionary<string, string> data)
         {
-            var format = column.AutoNumberingFormat;
+            var format = autoNumbering.Format;
             data?.ForEach(o => format = format.Replace($"[{o.Key}]", o.Value));
             return format;
         }
@@ -115,14 +111,11 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string Key(
-            Context context,
-            SiteSettings ss,
-            Column column,
-            Dictionary<string, string> data,
+            AutoNumbering autoNumbering,
             DateTime now,
             string format)
         {
-            switch (column.AutoNumberingResetType)
+            switch (autoNumbering.ResetType)
             {
                 case Column.AutoNumberingResetTypes.None:
                     return "None";
@@ -155,7 +148,7 @@ namespace Implem.Pleasanter.Models
         private static decimal NextNumber(
             Context context,
             SiteSettings ss,
-            Column column,
+            AutoNumbering autoNumbering,
             string key)
         {
             if (Rds.ExecuteScalar_string(
@@ -166,7 +159,7 @@ namespace Implem.Pleasanter.Models
                     where: Rds.AutoNumberingsWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(ss.SiteId)
-                        .ColumnName(column.ColumnName)
+                        .ColumnName(autoNumbering.ColumnName)
                         .Key(key),
                     top: 1)) == key)
             {
@@ -178,12 +171,12 @@ namespace Implem.Pleasanter.Models
                         where: Rds.AutoNumberingsWhere()
                             .TenantId(context.TenantId)
                             .ReferenceId(ss.SiteId)
-                            .ColumnName(column.ColumnName)
-                            .Key(key))) + column.AutoNumberingStep.ToDecimal();
+                            .ColumnName(autoNumbering.ColumnName)
+                            .Key(key))) + autoNumbering.Step.ToDecimal();
             }
             else
             {
-                return column.AutoNumberingDefault.ToDecimal();
+                return autoNumbering.Default.ToDecimal();
             }
         }
 
@@ -192,7 +185,6 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static string Value(
             Context context,
-            Dictionary<string, string> data,
             DateTime now,
             string format,
             decimal number)

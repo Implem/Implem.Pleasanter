@@ -48,6 +48,12 @@
     foreach (var #modelName#Model in new #ModelName#Collection(
         context: context,
         ss: ss,
+        join: ss.Join(
+            context: context,
+            join: new IJoin[]
+            {
+                where
+            }),
         where: where))
     {
         if (errorMessage != null) break;

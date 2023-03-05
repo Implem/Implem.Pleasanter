@@ -1211,6 +1211,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         enabled = true;
                         newColumn.Anchor = column.Anchor;
+                        if (column.OpenAnchorNewTab == true)
+                        {
+                            newColumn.OpenAnchorNewTab = column.OpenAnchorNewTab;
+                        }
                         if (!column.AnchorFormat.IsNullOrEmpty())
                         {
                             newColumn.AnchorFormat = column.AnchorFormat;
@@ -1809,6 +1813,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.DefaultInput = column.DefaultInput ?? columnDefinition.DefaultInput;
                 column.ImportKey = column.ImportKey ?? columnDefinition.ImportKey;
                 column.Anchor = column.Anchor ?? false;
+                column.OpenAnchorNewTab = column.OpenAnchorNewTab ?? false;
                 column.GridFormat = column.GridFormat ?? columnDefinition.GridFormat;
                 column.EditorFormat = column.EditorFormat ?? columnDefinition.EditorFormat;
                 column.ExportFormat = column.ExportFormat ?? columnDefinition.ExportFormat;
@@ -3441,6 +3446,22 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
         }
 
+        public Dictionary<string, string> AutoNumberingColumnOptions(Context context)
+        {
+            return Columns
+                .Where(o => o.TypeName == "nvarchar")
+                .Where(o => o.ControlType != "Attachments")
+                .Where(o => o.ColumnName != "Comments")
+                .Where(o => o.ColumnName != "Timestamp")
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.GridLabelText);
+        }
+
         public Dictionary<string, string> JoinOptions(
             SiteSettings ss = null,
             bool destinations = true,
@@ -3789,6 +3810,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultInput": column.DefaultInput = value; break;
                 case "ImportKey": column.ImportKey = value.ToBool(); break;
                 case "Anchor": column.Anchor = value.ToBool(); break;
+                case "OpenAnchorNewTab": column.OpenAnchorNewTab = value.ToBool(); break;
                 case "AnchorFormat": column.AnchorFormat = value; break;
                 case "GridFormat": column.GridFormat = value; break;
                 case "EditorFormat": column.EditorFormat = value; break;

@@ -279,6 +279,7 @@ namespace Implem.DefinitionAccessor
             {
                 types.ForEach(type =>
                 {
+                    var no = 0;
                     suffixes
                         .Where(suffix => !DisabledColumns(
                             tableName: tableName,
@@ -287,12 +288,14 @@ namespace Implem.DefinitionAccessor
                         .ForEach(suffix =>
                         {
                             definitionRows.Add(ColumnDefinition(
+                                no: no,
                                 tableName: tableName,
                                 type: type,
                                 suffix: suffix.ToString()));
                             ExtendedColumnTypes.AddIfNotConainsKey(
                                 key: type + suffix,
                                 value: type);
+                            no++;
                         });
                 });
             });
@@ -323,22 +326,26 @@ namespace Implem.DefinitionAccessor
                 };
                 data.ForEach(part =>
                 {
+                    var no = 5000;
                     for (var i = 1; i <= part.Value; i++)
                     {
                         var suffix = string.Format("{0:D3}", i);
                         definitionRows.Add(ColumnDefinition(
+                            no: no,
                             tableName: extendedColumns.TableName,
                             type: part.Key,
                             suffix: suffix));
                         ExtendedColumnTypes.AddIfNotConainsKey(
                             key: part.Key + suffix,
                             value: part.Key);
+                        no++;
                     }
                 });
             });
         }
 
         private static Dictionary<string, string> ColumnDefinition(
+            int no,
             string tableName,
             string type,
             string suffix)

@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -44,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             IEnumerable<(string Name, ServerScriptModelColumn Value)> columns,
             View view,
             string condition,
+            DateTime timeOut,
             bool debug,
             bool onTesting)
         {
@@ -128,9 +128,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 ss: ss);
             Debug = debug;
-            TimeOut = Parameters.Script.ServerScriptTimeOut == 0
-                ? DateTime.MaxValue
-                : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
+            TimeOut = timeOut;
         }
 
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
