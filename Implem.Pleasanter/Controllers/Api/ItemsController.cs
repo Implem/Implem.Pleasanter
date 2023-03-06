@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
@@ -233,6 +234,30 @@ namespace Implem.Pleasanter.Controllers.Api
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(request: Request);
+        }
+
+        [HttpPost("{id}/SynchronizeSummaries")]
+        public ContentResult SynchronizeSummaries(long id)
+        {
+            var body = default(string);
+            using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
+            var context = new Context(
+                sessionStatus: User?.Identity?.IsAuthenticated == true,
+                sessionData: User?.Identity?.IsAuthenticated == true,
+                apiRequestBody: body,
+                contentType: Request.ContentType);
+            var log = new SysLogModel(context: context);
+            if (!context.Authenticated)
+            {
+                return ApiResults.Unauthorized(context: context);
+            }
+            else
+            {
+                log.Finish(context: context, responseSize: 0);
+                return new ItemModel(
+                    context: context,
+                    referenceId: id).SynchronizeSummariesByApi(context: context);
+            }
         }
     }
 }
