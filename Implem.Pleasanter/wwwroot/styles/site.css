@@ -154,7 +154,7 @@ td.right-align > p{
 
 pre{
     line-height:1.5em;
-    font-family:Terminal;
+    font-family:Terminal,Hiragino Kaku Gothic Pro;
     word-wrap:break-word;
     word-break:break-all;
     white-space:pre-wrap;
@@ -2048,7 +2048,7 @@ label.required:after{
     width:100%;
     float:left;
     line-height:1.5em;
-    font-family:Terminal;
+    font-family:Terminal,Hiragino Kaku Gothic Pro;
     word-wrap:break-word;
     word-break:break-all;
 }
@@ -3033,7 +3033,7 @@ h3.title-header{
 
 .ui-widget textarea{
     line-height:1.5em;
-    font-family:Terminal;
+    font-family:Terminal,Hiragino Kaku Gothic Pro;
 }
 
 .ui-widget{
