@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string DefaultInput;
         public bool? ImportKey;
         public bool? Anchor;
+        public bool? OpenAnchorNewTab;
         public string AnchorFormat;
         public string GridFormat;
         public string EditorFormat;
@@ -229,6 +230,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool AddChoiceHashByServerScript;
         [NonSerialized]
         public ServerScriptModelColumn ServerScriptModelColumn;
+        [NonSerialized]
+        public bool StatusReadOnly;
         [NonSerialized]
         public Dictionary<string, Choice> LinkedTitleHash = new Dictionary<string, Choice>();
         [NonSerialized]
@@ -956,7 +959,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return readOnly == true;
             }
-            return EditorReadOnly == true;
+            return StatusReadOnly || EditorReadOnly == true;
         }
 
         public bool GetHide()
@@ -1424,6 +1427,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                     mine: mine,
                     noCache: noCache);
             }
+        }
+
+        public DateTime ConvertDateTime(Context context, DateTime dt)
+        {
+            switch (Name)
+            {
+                case "CompletionTime":
+                    dt = DateTimepicker()
+                        ? dt
+                        : dt.AddDays(1);
+                    break;
+            }
+            return dt
+                .ToDateTime()
+                .ToUniversal(context: context);
+        }
+
+        public string ConvertDateTimeParam(
+            Context context,
+            DateTime dt,
+            string format)
+        {
+            return ConvertDateTime(
+                context: context,
+                dt: dt)
+                    .ToString(format);
         }
 
         private void SelectColumns(

@@ -6519,6 +6519,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string OpenAnchorNewTab(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "OpenAnchorNewTab",
+                data: data);
+        }
+
         public static string Operations(
             Context context,
             params string[] data)
@@ -8766,6 +8776,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Thursday",
+                data: data);
+        }
+
+        public static string TimeOut(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "TimeOut",
                 data: data);
         }
 
@@ -11516,6 +11536,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sites_DisableCrossSearch",
+                data: data);
+        }
+
+        public static string Sites_DisableSiteCreatorPermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_DisableSiteCreatorPermission",
                 data: data);
         }
 

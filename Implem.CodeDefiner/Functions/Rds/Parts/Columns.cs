@@ -50,15 +50,12 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 return true;
             }
-            if (rdsColumn["is_nullable"].ToBool() != (sourceTableName.EndsWith("_match")
-                ? columnDefinition.Nullable || columnDefinition.MatchNullable
-                : columnDefinition.Nullable))
+            if (rdsColumn["is_nullable"].ToBool() != columnDefinition.Nullable)
             {
                 return true;
             }
             if (!sourceTableName.EndsWith("_history")
                 && !sourceTableName.EndsWith("_deleted")
-                && !sourceTableName.EndsWith("_match")
                 && rdsColumn["is_identity"].ToBool() != columnDefinition.Identity)
             {
                 return true;
@@ -77,10 +74,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 sqlCreateColumnCollection.Add(Sql_Create(
                     factory,
                     columnDefinition,
-                    noIdentity: sourceTableName.EndsWith("_history")
-                        || sourceTableName.EndsWith("_deleted")
-                        || sourceTableName.EndsWith("_match"),
-                    match: sourceTableName.EndsWith("_match"))));
+                    noIdentity:
+                        sourceTableName.EndsWith("_history")
+                        || sourceTableName.EndsWith("_deleted"))));
             sqlStatement.CommandText = sqlStatement.CommandText.Replace(
                 "#Columns#", sqlCreateColumnCollection.Join(","));
         }
@@ -88,8 +84,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         private static string Sql_Create(
             ISqlObjectFactory factory,
             ColumnDefinition columnDefinition,
-            bool noIdentity,
-            bool match)
+            bool noIdentity)
         {
             var commandText = "\"{0}\" {1}".Params(columnDefinition.ColumnName, columnDefinition.TypeName);
             if (columnDefinition.MaxLength == -1)
@@ -111,9 +106,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
             {
                 commandText += factory.Sqls.GenerateIdentity.Params(columnDefinition.Seed == 0 ? 1 : columnDefinition.Seed);
             }
-            if (match
-                ? columnDefinition.Nullable || columnDefinition.MatchNullable
-                : columnDefinition.Nullable)
+            if (columnDefinition.Nullable)
             {
                 commandText += " null";
             }

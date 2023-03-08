@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string dataId = null,
             string onChange = null,
             string autoComplete = null,
+            bool openAnchorNewTab = false,
             string anchorFormat = null,
             bool validateRequired = false,
             bool validateNumber = false,
@@ -56,7 +57,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataFormat(anchorFormat),
                             action: () => hb.A(
                                 text: text,
-                                href: anchorFormat?.Replace("{Value}", text)),
+                                href: anchorFormat?.Replace("{Value}", text),
+                                target: openAnchorNewTab
+                                    ? "_blank"
+                                    : string.Empty),
                             _using: !anchorFormat.IsNullOrEmpty())
                         .Div(
                             attributes: new HtmlAttributes()

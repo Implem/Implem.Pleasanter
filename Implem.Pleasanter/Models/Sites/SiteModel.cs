@@ -53,6 +53,7 @@ namespace Implem.Pleasanter.Models
         public Export Export = null;
         public DateTime ApiCountDate = 0.ToDateTime();
         public int ApiCount = 0;
+        public bool DisableSiteCreatorPermission = false;
 
         public TitleBody TitleBody
         {
@@ -89,6 +90,7 @@ namespace Implem.Pleasanter.Models
         public Export SavedExport = null;
         public DateTime SavedApiCountDate = 0.ToDateTime();
         public int SavedApiCount = 0;
+        public bool SavedDisableSiteCreatorPermission = false;
 
         public bool TenantId_Updated(Context context, Column column = null)
         {
@@ -330,6 +332,22 @@ namespace Implem.Pleasanter.Models
                 page: true);
         }
 
+        public bool Session_DisableSiteCreatorPermission(Context context)
+        {
+            return context.SessionData.Get("DisableSiteCreatorPermission") != null
+                ? context.SessionData.Get("DisableSiteCreatorPermission").ToBool()
+                : DisableSiteCreatorPermission;
+        }
+
+        public void Session_DisableSiteCreatorPermission(Context context, string value)
+        {
+            SessionUtilities.Set(
+                context: context,
+                key: "DisableSiteCreatorPermission",
+                value: value,
+                page: true);
+        }
+
         public string PropertyValue(Context context, Column column)
         {
             switch (column?.ColumnName)
@@ -367,6 +385,7 @@ namespace Implem.Pleasanter.Models
                 case "Export": return Export.ToString();
                 case "ApiCountDate": return ApiCountDate.ToString();
                 case "ApiCount": return ApiCount.ToString();
+                case "DisableSiteCreatorPermission": return DisableSiteCreatorPermission.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -527,6 +546,9 @@ namespace Implem.Pleasanter.Models
                             break;
                         case "ApiCount":
                             hash.Add("ApiCount", ApiCount.ToString());
+                            break;
+                        case "DisableSiteCreatorPermission":
+                            hash.Add("DisableSiteCreatorPermission", DisableSiteCreatorPermission.ToString());
                             break;
                         case "Comments":
                             hash.Add("Comments", Comments.ToJson());
@@ -695,6 +717,7 @@ namespace Implem.Pleasanter.Models
             Session_MonitorChangesColumns(context: context, value: null);
             Session_TitleColumns(context: context, value: null);
             Session_Export(context: context, value: null);
+            Session_DisableSiteCreatorPermission(context: context, value: null);
         }
 
         public SiteModel Get(
@@ -1494,6 +1517,7 @@ namespace Implem.Pleasanter.Models
             Export = siteModel.Export;
             ApiCountDate = siteModel.ApiCountDate;
             ApiCount = siteModel.ApiCount;
+            DisableSiteCreatorPermission = siteModel.DisableSiteCreatorPermission;
             Comments = siteModel.Comments;
             Creator = siteModel.Creator;
             Updator = siteModel.Updator;
@@ -1617,6 +1641,7 @@ namespace Implem.Pleasanter.Models
                 }
                 SetAttachments(columnName: columnName, value: newAttachments);
             });
+            if (data.DisableSiteCreatorPermission != null) DisableSiteCreatorPermission = data.DisableSiteCreatorPermission.ToBool();
             SetSiteSettings(
                 context: context,
                 setSiteSettingsPropertiesBySession: false);
@@ -1661,6 +1686,7 @@ namespace Implem.Pleasanter.Models
             if (!context.Forms.Exists("Sites_MonitorChangesColumns")) MonitorChangesColumns = Session_MonitorChangesColumns(context: context);
             if (!context.Forms.Exists("Sites_TitleColumns")) TitleColumns = Session_TitleColumns(context: context);
             if (!context.Forms.Exists("Sites_Export")) Export = Session_Export(context: context);
+            if (!context.Forms.Exists("Sites_DisableSiteCreatorPermission")) DisableSiteCreatorPermission = Session_DisableSiteCreatorPermission(context: context);
         }
 
         private void Set(Context context, DataTable dataTable)
@@ -2019,7 +2045,7 @@ namespace Implem.Pleasanter.Models
                             .DeptId(0)
                             .UserId(context.UserId)
                             .PermissionType(Permissions.Manager()),
-                        _using: InheritPermission == 0)
+                        _using: InheritPermission == 0 && !DisableSiteCreatorPermission)
                 });
             SiteId = response.Id ?? SiteId;
             Get(context: context);
@@ -4146,6 +4172,14 @@ namespace Implem.Pleasanter.Models
                     prefix: "Process"),
                 errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
                 dataChanges: context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>(),
+                autoNumbering: new AutoNumbering()
+                {
+                    ColumnName = context.Forms.Data("ProcessAutoNumberingColumnName"),
+                    Format = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessAutoNumberingFormat")),
+                    ResetType = (Column.AutoNumberingResetTypes)context.Forms.Int("ProcessAutoNumberingResetType"),
+                    Default = context.Forms.Int("ProcessAutoNumberingDefault"),
+                    Step = context.Forms.Int("ProcessAutoNumberingStep")
+                },
                 notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
             SiteSettings.Processes.Add(process);
             res
@@ -4194,6 +4228,14 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     errorMessage: SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessErrorMessage")),
                     dataChanges: context.Forms.Data("ProcessDataChanges").Deserialize<SettingList<DataChange>>(),
+                    autoNumbering: new AutoNumbering()
+                    {
+                        ColumnName = context.Forms.Data("ProcessAutoNumberingColumnName"),
+                        Format = SiteSettings.LabelTextToColumnName(context.Forms.Data("ProcessAutoNumberingFormat")),
+                        ResetType = (Column.AutoNumberingResetTypes)context.Forms.Int("ProcessAutoNumberingResetType"),
+                        Default = context.Forms.Int("ProcessAutoNumberingDefault"),
+                        Step = context.Forms.Int("ProcessAutoNumberingStep")
+                    },
                     notifications: context.Forms.Data("ProcessNotifications").Deserialize<SettingList<Notification>>());
                 res
                     .ReplaceAll("#EditProcess", new HtmlBuilder()
@@ -6707,7 +6749,8 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
-                body: context.Forms.Data("ServerScriptBody"));
+                body: context.Forms.Data("ServerScriptBody"),
+                timeOut: context.Forms.Int("ServerScriptTimeOut"));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
                 serverScript: script);
@@ -6736,7 +6779,8 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: script.BeforeOpeningPage ?? default,
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
-                body: script.Body));
+                body: script.Body,
+                timeOut: context.Forms.Int("ServerScriptTimeOut")));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(
@@ -6768,7 +6812,8 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningPage: context.Forms.Bool("ServerScriptBeforeOpeningPage"),
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
-                body: context.Forms.Data("ServerScriptBody"));
+                body: context.Forms.Data("ServerScriptBody"),
+                timeOut: context.Forms.Int("ServerScriptTimeOut"));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
                 serverScript: script);
@@ -6798,7 +6843,8 @@ namespace Implem.Pleasanter.Models
                     beforeOpeningPage: script.BeforeOpeningPage ?? default,
                     beforeOpeningRow: script.BeforeOpeningRow ?? default,
                     shared: script.Shared ?? default,
-                    body: script.Body);
+                    body: script.Body,
+                    timeOut: script.TimeOut);
             res
                 .Html("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(

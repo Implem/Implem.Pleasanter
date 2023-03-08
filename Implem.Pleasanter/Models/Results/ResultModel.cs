@@ -1393,6 +1393,13 @@ namespace Implem.Pleasanter.Models
             ExecuteAutomaticNumbering(
                 context: context,
                 ss: ss);
+            processes?
+                .Where(process => process.MatchConditions)
+                .ForEach(process =>
+                    ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        autoNumbering: process.AutoNumbering));
             if (context.ContractSettings.Notice != false && notice)
             {
                 SetTitle(
@@ -1483,9 +1490,6 @@ namespace Implem.Pleasanter.Models
             SetByAfterCreateServerScript(
                 context: context,
                 ss: ss);
-            SetProcessMatchConditions(
-                context: context,
-                ss: ss);
             return new ErrorData(type: Error.Types.None);
         }
 
@@ -1548,31 +1552,68 @@ namespace Implem.Pleasanter.Models
             ss.Columns
                 .Where(column => !column.AutoNumberingFormat.IsNullOrEmpty())
                 .Where(column => !column.Joined)
-                .ForEach(column => SetByForm(
+                .ForEach(column => ExecuteAutomaticNumbering(
                     context: context,
                     ss: ss,
-                    formData: new Dictionary<string, string>()
+                    autoNumbering: new AutoNumbering()
                     {
-                        {
-                            $"Results_{column.ColumnName}",
-                            AutoNumberingUtilities.ExecuteAutomaticNumbering(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                data: ss.IncludedColumns(value: column.AutoNumberingFormat)
-                                    .ToDictionary(
-                                        o => o.ColumnName,
-                                        o => ToDisplay(
-                                            context: context,
-                                            ss: ss,
-                                            column: o,
-                                            mine: Mine(context: context))),
-                                updateModel: Rds.UpdateResults(
-                                    where: Rds.ResultsWhere()
-                                        .SiteId(SiteId)
-                                        .ResultId(ResultId)))
-                        }
+                        ColumnName = column.ColumnName,
+                        Format = column.AutoNumberingFormat,
+                        ResetType = column.AutoNumberingResetType,
+                        Default = column.AutoNumberingDefault,
+                        Step = column.AutoNumberingStep
                     }));
+        }
+
+        private void ExecuteAutomaticNumbering(
+            Context context,
+            SiteSettings ss,
+            AutoNumbering autoNumbering,
+            bool overwrite = true)
+        {
+            if (autoNumbering == null)
+            {
+                return;
+            }
+            var column = ss.GetColumn(
+                context: context,
+                columnName: autoNumbering.ColumnName);
+            if (column == null)
+            {
+                return;
+            }
+            if (!overwrite
+                && !GetValue(
+                    context: context,
+                    column: column).IsNullOrEmpty())
+            {
+                return;
+            }
+            SetByForm(
+                context: context,
+                ss: ss,
+                formData: new Dictionary<string, string>()
+                {
+                    {
+                        $"Results_{autoNumbering.ColumnName}",
+                        AutoNumberingUtilities.ExecuteAutomaticNumbering(
+                            context: context,
+                            ss: ss,
+                            autoNumbering: autoNumbering,
+                            data: ss.IncludedColumns(value: autoNumbering.Format)
+                                .ToDictionary(
+                                    o => o.ColumnName,
+                                    o => ToDisplay(
+                                        context: context,
+                                        ss: ss,
+                                        column: o,
+                                        mine: Mine(context: context))),
+                            updateModel: Rds.UpdateResults(
+                                where: Rds.ResultsWhere()
+                                    .SiteId(SiteId)
+                                    .ResultId(ResultId)))
+                    }
+                });
         }
 
         public ErrorData Update(
@@ -1640,6 +1681,14 @@ namespace Implem.Pleasanter.Models
                     type: Error.Types.UpdateConflicts,
                     id: ResultId);
             }
+            processes?
+                .Where(process => process.MatchConditions)
+                .ForEach(process =>
+                    ExecuteAutomaticNumbering(
+                        context: context,
+                        ss: ss,
+                        autoNumbering: process.AutoNumbering,
+                        overwrite: false));
             WriteAttachments(
                 context: context,
                 ss: ss);
@@ -3203,58 +3252,132 @@ namespace Implem.Pleasanter.Models
 
         private bool Matched(Context context, SiteSettings ss, View view)
         {
-            var where = view.Where(
-                context: context,
-                ss: ss,
-                checkPermission: false)
-                    .Results_Creator(context.UserId);
-            var join = ss.MatchJoin(
-                context: context,
-                where: where);
-            var count = Rds.ExecuteScalar_long(
-                context: context,
-                transactional: true,
-                statements: new SqlStatement[]
+            var userId = context.UserId;
+            if (view.Own == true && !(Manager.Id == userId || Owner.Id == userId))
+            {
+                return false;
+            }
+            if (view.ColumnFilterHash != null)
+            {
+                foreach (var filter in view.ColumnFilterHash)
                 {
-                    Rds.InsertItems(
-                        tableType: Sqls.TableTypes.Match,
-                        param: Rds.ItemsParam()
-                            .ReferenceId(ResultId)
-                            .ReferenceType("Results")
-                            .SiteId(SiteId)
-                            .Title(Title.DisplayValue ?? string.Empty)
-                            .FullText(FullText(
-                                context,
-                                ss: ss) ?? string.Empty)
-                            .SearchIndexCreatedTime(DateTime.Now)),
-                    Rds.InsertResults(
-                        tableType: Sqls.TableTypes.Match,
-                        param: Rds.ResultsParamDefault(
-                            context: context,
-                            ss: ss,
-                            resultModel: this,
-                            setDefault: true,
-                            otherInitValue: true,
-                            match: true)),
-                    Rds.SelectResults(
-                        tableType: Sqls.TableTypes.Match,
-                        column: Rds.ResultsColumn().ResultsCount(),
-                        join: join,
-                        where: where),
-                    Rds.PhysicalDeleteItems(
-                        tableType: Sqls.TableTypes.Match,
-                        where: Rds.ItemsWhere()
-                            .ReferenceId(ResultId)
-                            .SiteId(SiteId)
-                            .Creator(context.UserId)),
-                    Rds.PhysicalDeleteResults(
-                        tableType: Sqls.TableTypes.Match,
-                        where: Rds.ResultsWhere()
-                            .SiteId(SiteId)
-                            .ResultId(ResultId)
-                            .Creator(context.UserId))
-                });
-            return count == 1;
+                    var match = true;
+                    var column = ss.GetColumn(context: context, columnName: filter.Key);
+                    switch (filter.Key)
+                    {
+                        case "UpdatedTime":
+                            match = UpdatedTime?.Value.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value) == true;
+                            break;
+                        case "ResultId":
+                            match = ResultId.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Ver":
+                            match = Ver.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Title":
+                            match = Title.Value.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Body":
+                            match = Body.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Status":
+                            match = Status.Value.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Manager":
+                            match = Manager.Id.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Owner":
+                            match = Owner.Id.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Locked":
+                            match = Locked.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "SiteTitle":
+                            match = SiteTitle.SiteId.Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Creator":
+                            match = Creator.Id.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Updator":
+                            match = Updator.Id.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "CreatedTime":
+                            match = CreatedTime?.Value.Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value) == true;
+                            break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
+                            {
+                                case "Class":
+                                    match = GetClass(column: column).Matched(
+                                        context: context,
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Num":
+                                    match = GetNum(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Date":
+                                    match = GetDate(column: column).Matched(
+                                        context: context,
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Description":
+                                    match = GetDescription(column: column).Matched(
+                                        context: context,
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                                case "Check":
+                                    match = GetCheck(column: column).Matched(
+                                        column: column,
+                                        condition: filter.Value);
+                                    break;
+                            }
+                            break;
+                    }
+                    if (!match) return false;
+                }
+            }
+            return true;
         }
 
         public string ReplacedDisplayValues(

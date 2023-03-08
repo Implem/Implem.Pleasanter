@@ -43,6 +43,9 @@ $p.selectedIds = function () {
     var $form = $('#MainForm');
     var url = $form.attr('action').replace('_action_', 'SelectedIds');
     var ret;
+    if ($('#Token').length) {
+        $p.data.MainForm.Token = $('#Token').val();
+    }
     $.ajax({
         url: url,
         type: 'post',

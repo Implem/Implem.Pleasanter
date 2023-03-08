@@ -1,1 +1,1 @@
-﻿.ItemId(#modelName#Model.#ModelName#Id, match)
+﻿.ItemId(#modelName#Model.#ModelName#Id)

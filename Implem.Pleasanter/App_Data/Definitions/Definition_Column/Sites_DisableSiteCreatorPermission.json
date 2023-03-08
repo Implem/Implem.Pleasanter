@@ -1,0 +1,18 @@
+﻿{
+    "Id": "Sites_DisableSiteCreatorPermission",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "DisableSiteCreatorPermission",
+    "LabelText": "サイト作成者のアクセス権を無効化",
+    "No": "127",
+    "History": "127",
+    "LinkColumn": "127",
+    "HistoryColumn": "127",
+    "TypeName": "bit",
+    "Required": "1",
+    "NotForm": "1",
+    "NotSelect": "1",
+    "NotUpdate": "1",
+    "Session": "1"
+}

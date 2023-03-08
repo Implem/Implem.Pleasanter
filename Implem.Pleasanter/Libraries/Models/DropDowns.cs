@@ -130,7 +130,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: column?.EditChoices(
                             context: context,
-                            addNotSet: true)
+                            addNotSet: true,
+                            own: filter)
                                 .Where(o => !selectedValues.Contains(o.Key))
                                 .ToDictionary(o => o.Key, o => o.Value),
                         alwaysDataValue: true))
@@ -172,7 +173,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     new HtmlBuilder().SelectableItems(
                         listItemCollection: column?.EditChoices(
                             context: context,
-                            addNotSet: offset == 0)
+                            addNotSet: offset == 0,
+                            own: filter)
                                 .Where(o => !selectedValues.Contains(o.Key))
                                 .ToDictionary(o => o.Key, o => o.Value)))
                 .Val("#DropDownSearchResultsOffset", nextOffset)
@@ -229,7 +231,10 @@ namespace Implem.Pleasanter.Libraries.Models
             var multiple = (column.MultipleSelections ?? false) || filter;
             if (filter || parentIds?.Any() == true)
             {
-                optionCollection = column?.EditChoices(context: context, addNotSet: filter);
+                optionCollection = column?.EditChoices(
+                    context: context,
+                    addNotSet: filter,
+                    own: filter);
             }
             if (parentIds?.Any() != true)
             {
@@ -262,6 +267,8 @@ namespace Implem.Pleasanter.Libraries.Models
             var controlId = context.Forms.Data("DropDownSearchTarget");
             var referenceId = context.Forms.Long("DropDownSearchReferenceId");
             var filter = controlId.StartsWith("ViewFilters__")
+                || controlId.StartsWith("ProcessViewFilters__")
+                || controlId.StartsWith("StatusControlViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             var column = SearchDropDownColumn(
@@ -440,7 +447,9 @@ namespace Implem.Pleasanter.Libraries.Models
                 }
             }
             if (selected.Any() &&
-                !selected.All(o => column.ChoiceHash.ContainsKey(o)))
+                !selected
+                    .Where(o => !(column.Type == Column.Types.User && o == "Own"))
+                    .All(o => column.ChoiceHash.ContainsKey(o)))
             {
                 column.SiteSettings.SetChoiceHash(
                     context: context,
@@ -449,8 +458,9 @@ namespace Implem.Pleasanter.Libraries.Models
             }
             var optionCollection = column?.EditChoices(
                 context: context,
-                addNotSet: true)?
-                    .Where(o => selected.Contains(o.Key))
+                addNotSet: true,
+                own: filter)
+                    ?.Where(o => selected.Contains(o.Key))
                     .ToDictionary(o => o.Key, o => o.Value);
             return optionCollection?.Any() == true || !selected.Any()
                 ? new ResponseCollection(context: context)

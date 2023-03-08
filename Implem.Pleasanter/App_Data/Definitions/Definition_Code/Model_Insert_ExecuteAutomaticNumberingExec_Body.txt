@@ -1,3 +1,10 @@
 ﻿ExecuteAutomaticNumbering(
     context: context,
     ss: ss);
+processes?
+    .Where(process => process.MatchConditions)
+    .ForEach(process =>
+        ExecuteAutomaticNumbering(
+            context: context,
+            ss: ss,
+            autoNumbering: process.AutoNumbering));

@@ -1,9 +1,6 @@
-﻿public static #TableName#ParamCollection ItemId(
-    this #TableName#ParamCollection self,
-    long itemId,
-    bool match = false)
+﻿public static #TableName#ParamCollection ItemId(this #TableName#ParamCollection self, long itemId)
 {
-    if (itemId == 0 && !match)
+    if (itemId == 0)
     {
         return self.#ModelName#Id(raw: Def.Sql.Identity);
     }

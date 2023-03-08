@@ -64,6 +64,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public CommandDisplayTypes? OpenBulkUpdateSelectorDialogCommand;
         public CommandDisplayTypes? EditOnGridCommand;
         public CommandDisplayTypes? ExportCrosstabCommand;
+        public CommandDisplayTypes? CreateCommand;
         public CommandDisplayTypes? UpdateCommand;
         public CommandDisplayTypes? OpenCopyDialogCommand;
         public CommandDisplayTypes? ReferenceCopyCommand;
@@ -2113,22 +2114,42 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (column.Type)
             {
                 case Column.Types.Dept:
-                    return value
-                        ?.Deserialize<List<string>>()
-                        ?.Select(o => (o == "Own"
-                            ? context.DeptId.ToString()
-                            : o))
-                        .ToJson();
+                    return ConvertedOwn(
+                        value: value,
+                        id: context.DeptId);
                 case Column.Types.User:
-                    return value
-                        ?.Deserialize<List<string>>()
-                        ?.Select(o => (o == "Own"
-                            ? context.UserId.ToString()
-                            : o))
-                        .ToJson();
+                    return ConvertedOwn(
+                        value: value,
+                        id: context.UserId);
                 default:
+                    switch (column.Id)
+                    {
+                        case "Depts_DeptId":
+                        case "Users_DeptId":
+                            return ConvertedOwn(
+                                value: value,
+                                id: context.DeptId);
+                        case "Users_UserId":
+                            return ConvertedOwn(
+                                value: value,
+                                id: context.UserId);
+                    }
                     return value;
             }
+        }
+
+        private static string ConvertedOwn(string value, int id)
+        {
+            return value
+                ?.Deserialize<List<string>>()
+                ?.Select(o => (o == "Own"
+                    ? id.ToString()
+                    : o))
+                .ToJson()
+                    // JSON形式ではない場合の対処
+                    ?? (value == "Own"
+                        ? id.ToString()
+                        : value);
         }
 
         private static void AddEqWhere(
@@ -2462,14 +2483,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : between)
                                             .Params(
                                                 column.Name,
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: today,
                                                     format: ymdhms),
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: today
                                                         .AddDays(1)
                                                         .AddMilliseconds(addMilliseconds),
@@ -2480,14 +2499,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : between)
                                             .Params(
                                                 column.Name,
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, today.Month, 1),
                                                     format: ymdhms),
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, today.Month, 1)
                                                         .AddMonths(1)
                                                         .AddMilliseconds(addMilliseconds),
@@ -2498,14 +2515,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         : between)
                                             .Params(
                                                 column.Name,
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, 1, 1),
                                                     format: ymdhms),
-                                                ConvertDateTimeParam(
+                                                column.ConvertDateTimeParam(
                                                     context: context,
-                                                    column: column,
                                                     dt: new DateTime(today.Year, 1, 1)
                                                         .AddYears(1)
                                                         .AddMilliseconds(addMilliseconds),
@@ -2567,31 +2582,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             string dateTimeString,
             string format)
         {
-            return ConvertDateTimeParam(
+            return column.ConvertDateTimeParam(
                 context: context,
                 dt: dateTimeString.ToDateTime(),
-                column: column,
                 format: format);
-        }
-
-        private static string ConvertDateTimeParam(
-            Context context,
-            Column column,
-            DateTime dt,
-            string format)
-        {
-            switch (column.Name)
-            {
-                case "CompletionTime":
-                    dt = column.DateTimepicker()
-                        ? dt
-                        : dt.AddDays(1);
-                    break;
-            }
-            return dt
-                .ToDateTime()
-                .ToUniversal(context: context)
-                .ToString(format);
         }
 
         private SqlWhere CsDateTimeColumnsWhereNull(

@@ -54,9 +54,6 @@ namespace Implem.Libraries.DataSources.SqlServer
                 case Sqls.TableTypes.Deleted:
                     tableBracket = DeletedTableBracket;
                     break;
-                case Sqls.TableTypes.Match:
-                    tableBracket = MatchTableBracket;
-                    break;
             }
             var columnNameCollection = new List<string>();
             var valueCollection = new List<string>();

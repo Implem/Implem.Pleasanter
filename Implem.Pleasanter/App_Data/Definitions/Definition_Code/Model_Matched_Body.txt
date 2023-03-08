@@ -1,55 +1,57 @@
 ﻿private bool Matched(Context context, SiteSettings ss, View view)
 {
-    var where = view.Where(
-        context: context,
-        ss: ss,
-        checkPermission: false)
-            .#TableName#_Creator(context.UserId);
-    var join = ss.MatchJoin(
-        context: context,
-        where: where);
-    var count = Rds.ExecuteScalar_long(
-        context: context,
-        transactional: true,
-        statements: new SqlStatement[]
+
+<!--Model_Matched_Incomplete-->
+<!--Model_Matched_Own-->
+<!--Model_Matched_Issues-->
+
+    if (view.ColumnFilterHash != null)
+    {
+        foreach (var filter in view.ColumnFilterHash)
         {
-            Rds.InsertItems(
-                tableType: Sqls.TableTypes.Match,
-                param: Rds.ItemsParam()
-                    .ReferenceId(#ModelName#Id)
-                    .ReferenceType("#TableName#")
-                    .SiteId(SiteId)
-                    .Title(Title.DisplayValue ?? string.Empty)
-                    .FullText(FullText(
-                        context,
-                        ss: ss) ?? string.Empty)
-                    .SearchIndexCreatedTime(DateTime.Now)),
-            Rds.Insert#TableName#(
-                tableType: Sqls.TableTypes.Match,
-                param: Rds.#TableName#ParamDefault(
-                    context: context,
-                    ss: ss,
-                    #modelName#Model: this,
-                    setDefault: true,
-                    otherInitValue: true,
-                    match: true)),
-            Rds.Select#TableName#(
-                tableType: Sqls.TableTypes.Match,
-                column: Rds.#TableName#Column().#TableName#Count(),
-                join: join,
-                where: where),
-            Rds.PhysicalDeleteItems(
-                tableType: Sqls.TableTypes.Match,
-                where: Rds.ItemsWhere()
-                    .ReferenceId(#ModelName#Id)
-                    .SiteId(SiteId)
-                    .Creator(context.UserId)),
-            Rds.PhysicalDelete#TableName#(
-                tableType: Sqls.TableTypes.Match,
-                where: Rds.#TableName#Where()
-                    .SiteId(SiteId)
-                    .#ModelName#Id(#ModelName#Id)
-                    .Creator(context.UserId))
-        });
-    return count == 1;
+            var match = true;
+            var column = ss.GetColumn(context: context, columnName: filter.Key);
+            switch (filter.Key)
+            {
+
+<!--Model_Matched_ColumnCases-->
+
+                default:
+                    switch (Def.ExtendedColumnTypes.Get(filter.Key ?? string.Empty))
+                    {
+                        case "Class":
+                            match = GetClass(column: column).Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Num":
+                            match = GetNum(column: column).Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Date":
+                            match = GetDate(column: column).Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Description":
+                            match = GetDescription(column: column).Matched(
+                                context: context,
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                        case "Check":
+                            match = GetCheck(column: column).Matched(
+                                column: column,
+                                condition: filter.Value);
+                            break;
+                    }
+                    break;
+            }
+            if (!match) return false;
+        }
+    }
+    return true;
 }

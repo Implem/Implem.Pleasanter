@@ -16,6 +16,7 @@ namespace Implem.ParameterAccessor.Parts
         public bool DisableDeletingSiteAuthentication;
         public List<string> AccessControlAllowOrigin;
         public int EnforcePasswordHistories;
+        public bool DisableCheckPasswordPolicyIfApi;
         public List<PasswordPolicy> PasswordPolicies;
         public SecondaryAuthentication SecondaryAuthentication;
         public AspNetCoreDataProtection AspNetCoreDataProtection;

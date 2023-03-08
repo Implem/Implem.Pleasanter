@@ -90,7 +90,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: value));
             var listItemCollection = column?.EditChoices(
                 context: context,
-                addNotSet: column?.MultipleSelections != true);
+                addNotSet: column?.MultipleSelections != true,
+                own: filter);
             if (column?.MultipleSelections == true || filter)
             {
                 return hb

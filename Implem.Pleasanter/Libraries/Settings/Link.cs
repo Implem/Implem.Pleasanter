@@ -21,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public long SiteId;
         public bool? NoAddButton;
         public bool? AddSource;
+        public bool? ExcludeMe;
         public bool? MembersOnly;
         public string SearchFormat;
         public View View;
@@ -83,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             link.SiteId = SiteId;
             if (NoAddButton == true) link.NoAddButton = true;
             if (AddSource == true) link.AddSource = true;
+            if (ExcludeMe == true) link.ExcludeMe = true;
             if (MembersOnly == true) link.MembersOnly = true;
             if (!SearchFormat.IsNullOrEmpty()) link.SearchFormat = SearchFormat;
             var currentSs = GetSiteSettings(
@@ -386,6 +388,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ss: ss,
                         where: Rds.DeptsWhere()
                             .TenantId(context.TenantId)
+                            .DeptId(
+                                value: context.DeptId,
+                                _operator: "<>",
+                                _using: ExcludeMe == true)
                             .SiteDeptWhere(
                                 context: context,
                                 siteId: inheritPermission,
@@ -497,6 +503,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                         ss: ss,
                         where: Rds.UsersWhere()
                             .TenantId(context.TenantId)
+                            .UserId(
+                                value: context.UserId,
+                                _operator: "<>",
+                                _using: ExcludeMe == true)
                             .SiteUserWhere(
                                 context: context,
                                 siteId: inheritPermission,

@@ -39,6 +39,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var issueModel = new IssueModel();
             var apiContext = ServerScriptUtilities.CreateContext(
                 context: Context,
+                controller: "Items",
                 action: "New",
                 id: 0,
                 apiRequestBody: string.Empty);
@@ -60,6 +61,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             var resultModel = new ResultModel();
             var apiContext = ServerScriptUtilities.CreateContext(
                 context: Context,
+                controller: "Items",
                 action: "New",
                 id: 0,
                 apiRequestBody: string.Empty);

@@ -2011,6 +2011,10 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Column column)
         {
+            column.StatusReadOnly = resultModel.GetStatusControl(
+                context: context,
+                ss: ss,
+                column: column) == StatusControl.ControlConstraintsTypes.ReadOnly;
             switch (column.Name)
             {
                 case "ResultId":
@@ -2869,11 +2873,21 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.ItemsLimit.MessageJson(context: context);
             }
+            ﻿var copyFrom = context.Forms.Int("CopyFrom");
+            if (copyFrom > 0 && !Permissions.CanRead(
+                context: context,
+                siteId: context.SiteId,
+                id: copyFrom))
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
-                resultId: 0,
+                resultId: copyFrom,
                 formData: context.Forms);
+            resultModel.ResultId = 0;
+            resultModel.Ver = 1;
             var invalid = ResultValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -2918,7 +2932,8 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 processes: processes,
                 copyFrom: context.Forms.Long("CopyFrom"),
-                notice: true);
+                notice: true,
+                otherInitValue: copyFrom > 0);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3944,6 +3959,12 @@ namespace Implem.Pleasanter.Models
             foreach (var resultModel in new ResultCollection(
                 context: context,
                 ss: ss,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        where
+                    }),
                 where: where))
             {
                 // 前回の処理でエラーが起きていたら次の処理をせずに中断

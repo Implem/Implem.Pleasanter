@@ -12,6 +12,7 @@
     "DisableDeletingSiteAuthentication": false,
     "AccessControlAllowOrigin": null,
     "EnforcePasswordHistories": 0,
+    "DisableCheckPasswordPolicyIfApi": false,
     "PasswordPolicies": [
         {
             "Enabled": true,

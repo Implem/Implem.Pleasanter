@@ -1,0 +1,33 @@
+﻿{
+    "Id": "TimeOut",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Time out"
+        },
+        {
+            "Language": "zh",
+            "Body": "暂停"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイムアウト"
+        },
+        {
+            "Language": "de",
+            "Body": "Auszeit"
+        },
+        {
+            "Language": "ko",
+            "Body": "타임아웃"
+        },
+        {
+            "Language": "es",
+            "Body": "se acabó el tiempo"
+        },
+        {
+            "Language": "vn",
+            "Body": "hết giờ"
+        }
+    ]
+}

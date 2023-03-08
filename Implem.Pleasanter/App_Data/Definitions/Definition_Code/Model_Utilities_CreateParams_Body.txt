@@ -4,9 +4,13 @@
 <!--Model_Utilities_Limit-->
 <!--Model_Utilities_Limit_Items-->
 <!--Model_Utilities_Create_JoeAccountCheck-->
+<!--Model_Utilities_Create_CopyFrom_Item-->
+<!--Model_Utilities_Create_CopyFrom_NotItem-->
 
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
-        #modelName#Id: 0,
+        #modelName#Id: copyFrom,
         formData: context.Forms);
+    #modelName#Model.#ModelName#Id = 0;
+    #modelName#Model.Ver = 1;

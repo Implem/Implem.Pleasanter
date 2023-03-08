@@ -114,17 +114,30 @@ namespace Implem.Pleasanter.Libraries.Extensions
             }
             else
             {
-                return column.ControlType == "MarkDown"
-                    ? hb.Td(
-                        css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
-                        action: () => hb
-                            .Div(css: "grid-title-body", action: () => hb
+                return hb.Td(
+                    css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
+                    action: () =>
+                    {
+                        if (column.Anchor == true && !column.AnchorFormat.IsNullOrEmpty())
+                        {
+                            hb.A(
+                                text: value,
+                                href: column.AnchorFormat.Replace("{Value}", value),
+                                target: column.OpenAnchorNewTab == true
+                                    ? "_blank"
+                                    : string.Empty);
+                        }
+                        else if (column.ControlType == "MarkDown")
+                        {
+                            hb.Div(css: "grid-title-body", action: () => hb
                                 .P(css: "body markup", action: () => hb
-                                    .Text(text: value))))
-                    : hb.Td(
-                        css: column.CellCss(serverScriptModelColumn?.ExtendedCellCss),
-                        action: () => hb
-                            .Text(text: value));
+                                    .Text(text: value)));
+                        }
+                        else
+                        {
+                            hb.Text(text: value);
+                        }
+                    });
             }
         }
 
