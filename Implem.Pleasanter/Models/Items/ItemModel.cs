@@ -2653,9 +2653,57 @@ namespace Implem.Pleasanter.Models
         public string SynchronizeSummaries(Context context)
         {
             SetSite(context: context);
-            return SiteUtilities.SynchronizeSummaries(
+            var selected = context.Forms.IntList("EditSummary");
+            var result = SiteUtilities.SynchronizeSummaries(
                 context: context,
-                siteModel: Site);
+                siteModel: Site,
+                selected: selected);
+            if (result.Type == Error.Types.None)
+            {
+                return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
+            }
+            else if (result.Type == Error.Types.SelectTargets)
+            {
+                return Messages.ResponseSelectTargets(context: context).ToJson();
+            }
+            else
+            {
+                return result.MessageJson(context: context);
+            }
+        }
+
+        public ContentResultInheritance SynchronizeSummariesByApi(Context context)
+        {
+            SetSite(context: context);
+            var selected = context.RequestDataString.Deserialize<SiteApiModel>()?.SummaryId;
+            if (selected == null)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.BadRequest));
+            }
+            var result = SiteUtilities.SynchronizeSummaries(
+                context: context,
+                siteModel: Site,
+                selected: selected);
+            if (result.Type == Error.Types.SelectTargets)
+            {
+                return ApiResults.Success(
+                    id: Site.SiteId,
+                    message: Displays.SelectTargets(context: context));
+            }
+            else if (result.Type != Error.Types.None)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: result);
+            }
+            else
+            {
+                return ApiResults.Success(
+                    id: Site.SiteId,
+                    message: Displays.SynchronizationCompleted(context: context));
+            }
         }
 
         public string SynchronizeFormulas(Context context)

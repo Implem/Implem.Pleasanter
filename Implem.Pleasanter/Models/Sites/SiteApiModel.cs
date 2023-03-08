@@ -42,6 +42,7 @@ namespace Implem.Pleasanter.Models
         public DateTime? CreatedTime { get; set; }
         public string ItemTitle { get; set; }
         public bool? DisableSiteCreatorPermission { get; set; }
+        public List<int> SummaryId { get; set; }
 
         public SiteApiModel()
         {
