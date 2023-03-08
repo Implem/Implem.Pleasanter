@@ -124,7 +124,6 @@ namespace Implem.Pleasanter.NetCore
             services.AddSingleton<ITicketStore, AuthenticationTicketStore>();
             services.AddOptions<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme)
                 .Configure<ITicketStore>((options, store) => options.SessionStore = store);
-
             if (Parameters.Security.SecureCookies)
             {
                 services.Configure<CookiePolicyOptions>(options =>

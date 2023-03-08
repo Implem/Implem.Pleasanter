@@ -53,7 +53,7 @@ namespace Implem.Pleasanter.Libraries.Security
             var sessionData = SessionUtilities.Get(
                 context: GetContext(),
                 sessionGuid: key);
-            if(sessionData.TryGetValue(sessionKey, out string base64))
+            if (sessionData.TryGetValue(sessionKey, out string base64))
             {
                 var serializedTicket = TicketSerializer.Default.Deserialize(Convert.FromBase64String(base64));
                 return Task.FromResult(serializedTicket);
