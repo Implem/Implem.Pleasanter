@@ -120,6 +120,9 @@ namespace Implem.Pleasanter.NetCore
                         o.ExpireTimeSpan = TimeSpan.FromMinutes(Parameters.Session.RetentionPeriod);
                     });
             }
+            services.AddSingleton<ITicketStore, AuthenticationTicketStore>();
+            services.AddOptions<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme)
+                .Configure<ITicketStore>((options, store) => options.SessionStore = store);
             if (Parameters.Security.SecureCookies)
             {
                 services.Configure<CookiePolicyOptions>(options =>

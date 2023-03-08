@@ -14060,23 +14060,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string SynchronizeSummaries(Context context, SiteModel siteModel)
+        public static ErrorData SynchronizeSummaries(Context context, SiteModel siteModel, List<int> selected)
         {
             siteModel.SetSiteSettingsPropertiesBySession(context: context);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
-                context: context, siteModel: siteModel, referenceId: siteModel.SiteId);
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteModel.SiteId);
             var ss = siteModel.SiteSettings;
             var invalid = SiteValidators.OnUpdating(
-                context: context, ss: ss, siteModel: siteModel);
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                default: return invalid;
             }
-            var selected = context.Forms.IntList("EditSummary");
             if (selected?.Any() != true)
             {
-                return Messages.ResponseSelectTargets(context: context).ToJson();
+                return  new ErrorData(type: Error.Types.SelectTargets);
             }
             else
             {
@@ -14084,7 +14087,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     id: id));
-                return Messages.ResponseSynchronizationCompleted(context: context).ToJson();
+                return new ErrorData(type: Error.Types.None);
             }
         }
 
