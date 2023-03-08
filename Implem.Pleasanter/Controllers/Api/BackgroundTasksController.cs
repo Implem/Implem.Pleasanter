@@ -51,8 +51,7 @@ namespace Implem.Pleasanter.Controllers.Api
                 }
                 return ApiResults.Success(
                     id: id,
-                    message: Displays.RebuildingCompleted(
-                        context: context));
+                    message: Displays.RebuildingCompleted(context: context));
             }
         }
     }
