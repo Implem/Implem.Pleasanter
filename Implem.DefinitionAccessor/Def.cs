@@ -614,6 +614,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_SetChoiceHash": Code.Model_SetChoiceHash = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetChoiceHash, definitionRow, CodeXls); break;
                     case "Model_SetChoiceHashMethod": Code.Model_SetChoiceHashMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetChoiceHashMethod, definitionRow, CodeXls); break;
                     case "Model_SetColumnsWhere": Code.Model_SetColumnsWhere = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetColumnsWhere, definitionRow, CodeXls); break;
+                    case "Model_SetCopyDefault": Code.Model_SetCopyDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetCopyDefault, definitionRow, CodeXls); break;
+                    case "Model_SetCopyDefaultParameter": Code.Model_SetCopyDefaultParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetCopyDefaultParameter, definitionRow, CodeXls); break;
                     case "Model_SetDefault": Code.Model_SetDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault, definitionRow, CodeXls); break;
                     case "Model_SetDefault_AttachmentsColumnCases": Code.Model_SetDefault_AttachmentsColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_AttachmentsColumnCases, definitionRow, CodeXls); break;
                     case "Model_SetDefault_ColumnCases": Code.Model_SetDefault_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SetDefault_ColumnCases, definitionRow, CodeXls); break;
@@ -735,6 +737,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_SetCopyDefault": Code.Model_Utilities_Create_SetCopyDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetCopyDefault, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetProcess": Code.Model_Utilities_Create_SetProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetProcess, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Tables": Code.Model_Utilities_Create_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_CreateByApi": Code.Model_Utilities_CreateByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_CreateByApi, definitionRow, CodeXls); break;
@@ -7005,6 +7008,8 @@ namespace Implem.DefinitionAccessor
         public string Model_SetChoiceHash;
         public string Model_SetChoiceHashMethod;
         public string Model_SetColumnsWhere;
+        public string Model_SetCopyDefault;
+        public string Model_SetCopyDefaultParameter;
         public string Model_SetDefault;
         public string Model_SetDefault_AttachmentsColumnCases;
         public string Model_SetDefault_ColumnCases;
@@ -7126,6 +7131,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_Models;
         public string Model_Utilities_Create_PasswordPolicies;
+        public string Model_Utilities_Create_SetCopyDefault;
         public string Model_Utilities_Create_SetProcess;
         public string Model_Utilities_Create_Tables;
         public string Model_Utilities_CreateByApi;
@@ -7777,6 +7783,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SetChoiceHash = new CodeDefinition();
         public CodeDefinition Model_SetChoiceHashMethod = new CodeDefinition();
         public CodeDefinition Model_SetColumnsWhere = new CodeDefinition();
+        public CodeDefinition Model_SetCopyDefault = new CodeDefinition();
+        public CodeDefinition Model_SetCopyDefaultParameter = new CodeDefinition();
         public CodeDefinition Model_SetDefault = new CodeDefinition();
         public CodeDefinition Model_SetDefault_AttachmentsColumnCases = new CodeDefinition();
         public CodeDefinition Model_SetDefault_ColumnCases = new CodeDefinition();
@@ -7898,6 +7906,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_SetCopyDefault = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetProcess = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_CreateByApi = new CodeDefinition();

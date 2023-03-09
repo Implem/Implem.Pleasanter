@@ -2885,6 +2885,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 resultId: copyFrom,
+                setCopyDefault: copyFrom > 0,
                 formData: context.Forms);
             resultModel.ResultId = 0;
             resultModel.Ver = 1;

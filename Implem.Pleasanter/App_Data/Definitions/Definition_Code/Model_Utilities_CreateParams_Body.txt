@@ -11,6 +11,9 @@
         context: context,
         ss: ss,
         #modelName#Id: copyFrom,
+
+<!--Model_Utilities_Create_SetCopyDefault-->
+
         formData: context.Forms);
     #modelName#Model.#ModelName#Id = 0;
     #modelName#Model.Ver = 1;

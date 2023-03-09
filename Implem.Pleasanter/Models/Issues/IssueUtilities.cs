@@ -3066,6 +3066,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueId: copyFrom,
+                setCopyDefault: copyFrom > 0,
                 formData: context.Forms);
             issueModel.IssueId = 0;
             issueModel.Ver = 1;
