@@ -399,6 +399,14 @@ namespace Implem.Pleasanter.Models
                     .ToDictionary(
                         o => o.Key.CutEnd(suffix),
                         o => o.Value);
+            var copyFrom = context.Forms.Int("CopyFrom");
+            if (copyFrom > 0 && !Permissions.CanRead(
+                context: context,
+                siteId: context.SiteId,
+                id: copyFrom))
+            {
+                return;
+            }
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -410,6 +418,8 @@ namespace Implem.Pleasanter.Models
                             ? new IssueModel(
                                 context: context,
                                 ss: ss,
+                                issueId: copyFrom,
+                                setCopyDefault: copyFrom > 0,
                                 methodType: BaseModel.MethodTypes.New,
                                 formData: formData)
                             : new IssueModel(
@@ -432,6 +442,8 @@ namespace Implem.Pleasanter.Models
                             ? new ResultModel(
                                 context: context,
                                 ss: ss,
+                                resultId: copyFrom,
+                                setCopyDefault: copyFrom > 0,
                                 methodType: BaseModel.MethodTypes.New,
                                 formData: formData)
                             : new ResultModel(
