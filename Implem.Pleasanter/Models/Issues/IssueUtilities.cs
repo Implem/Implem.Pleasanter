@@ -2856,8 +2856,7 @@ namespace Implem.Pleasanter.Models
             return res.ToJson();
         }
 
-        public static string SelectedIds(
-            Context context, SiteSettings ss)
+        public static string SelectedIds(Context context, SiteSettings ss)
         {
             var invalid = IssueValidators.OnEntry(
                 context: context,
@@ -2867,12 +2866,34 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            return SelectedIdsList(
+                context: context,
+                ss: ss).ToJson();
+        }
+
+        public static List<long> SelectedIdsByServerScript(Context context, SiteSettings ss)
+        {
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            return SelectedIdsList(
+                context: context,
+                ss: ss);
+        }
+
+        private static List<long> SelectedIdsList(Context context, SiteSettings ss)
+        {
             var where = SelectedWhere(
                 context: context,
                 ss: ss);
             if (where == null)
             {
-                return "[]";
+                return new List<long>();
             }
             var view = Views.GetBySession(
                 context: context,
@@ -2886,7 +2907,7 @@ namespace Implem.Pleasanter.Models
                     .DataRows
                     .Select(dataRow => dataRow.Long("IssueId"))
                     .ToList();
-            return ids.ToJson();
+            return ids;
         }
 
         public static ContentResultInheritance GetByApi(
