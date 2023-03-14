@@ -773,6 +773,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Gantt": Code.Model_Utilities_Gantt = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Gantt, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetByApi": Code.Model_Utilities_GetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetByApi, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetFormDataSet": Code.Model_Utilities_GetFormDataSet = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetFormDataSet, definitionRow, CodeXls); break;
+                    case "Model_Utilities_GetServerScriptModelRow": Code.Model_Utilities_GetServerScriptModelRow = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetServerScriptModelRow, definitionRow, CodeXls); break;
                     case "Model_Utilities_GetSwitchTargets": Code.Model_Utilities_GetSwitchTargets = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GetSwitchTargets, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridCopyRowFormData": Code.Model_Utilities_GridCopyRowFormData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridCopyRowFormData, definitionRow, CodeXls); break;
                     case "Model_Utilities_GridNewRowParameters": Code.Model_Utilities_GridNewRowParameters = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_GridNewRowParameters, definitionRow, CodeXls); break;
@@ -7167,6 +7168,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Gantt;
         public string Model_Utilities_GetByApi;
         public string Model_Utilities_GetFormDataSet;
+        public string Model_Utilities_GetServerScriptModelRow;
         public string Model_Utilities_GetSwitchTargets;
         public string Model_Utilities_GridCopyRowFormData;
         public string Model_Utilities_GridNewRowParameters;
@@ -7942,6 +7944,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Gantt = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetByApi = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetFormDataSet = new CodeDefinition();
+        public CodeDefinition Model_Utilities_GetServerScriptModelRow = new CodeDefinition();
         public CodeDefinition Model_Utilities_GetSwitchTargets = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridCopyRowFormData = new CodeDefinition();
         public CodeDefinition Model_Utilities_GridNewRowParameters = new CodeDefinition();
