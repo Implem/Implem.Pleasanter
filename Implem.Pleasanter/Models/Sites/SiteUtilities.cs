@@ -4667,7 +4667,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "AlwaysRequestSearchCondition",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.AlwaysRequestSearchCondition(context: context),
-                    _checked: ss.AlwaysRequestSearchCondition == true));
+                    _checked: ss.AlwaysRequestSearchCondition == true)
+                .FieldCheckBox(
+                    controlId: "DisableLinkToEdit",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DisableLinkToEdit(context: context),
+                    _checked: ss.DisableLinkToEdit == true));
         }
 
         /// <summary>
