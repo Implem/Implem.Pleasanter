@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DisableLinkToEdit",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Disable link to edit"
+        },
+        {
+            "Language": "zh",
+            "Body": "禁用编辑屏幕的链接"
+        },
+        {
+            "Language": "ja",
+            "Body": "編集画面へのリンクを無効化"
+        },
+        {
+            "Language": "de",
+            "Body": "Link zum Bearbeitungsbildschirm deaktivieren"
+        },
+        {
+            "Language": "ko",
+            "Body": "편집 화면에 대한 링크 비활성화"
+        },
+        {
+            "Language": "es",
+            "Body": "Deshabilitar enlace para editar pantalla"
+        },
+        {
+            "Language": "vn",
+            "Body": "Vô hiệu hóa liên kết để chỉnh sửa màn hình"
+        }
+    ]
+}
