@@ -22,6 +22,14 @@
             .ToDictionary(
                 o => o.Key.CutEnd(suffix),
                 o => o.Value);
+    var copyFrom = context.Forms.Int("CopyFrom");
+    if (copyFrom > 0 && !Permissions.CanRead(
+        context: context,
+        siteId: context.SiteId,
+        id: copyFrom))
+    {
+        return;
+    }
     switch (ss.ReferenceType)
     {
 

@@ -573,6 +573,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long resultId,
             View view = null,
+            bool setCopyDefault = false,
             Dictionary<string, string> formData = null,
             bool setByApi = false,
             bool clearSessions = false,
@@ -597,6 +598,12 @@ namespace Implem.Pleasanter.Models
             else
             {
                 Get(context: context, ss: ss, view: view);
+            }
+            if (setCopyDefault)
+            {
+                SetCopyDefault(
+                    context: context,
+                    ss: ss);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

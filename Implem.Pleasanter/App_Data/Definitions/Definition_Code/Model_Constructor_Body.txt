@@ -36,6 +36,7 @@ public #ModelName#Model(
     <!--Model_SiteSettingsParameter-->
     <!--Model_IdentityParameters-->
     <!--Model_ViewParameter-->
+    <!--Model_SetCopyDefaultParameter-->
     <!--Model_FormDataParameter-->
     <!--Model_SetByApiParameter-->
 
@@ -53,6 +54,7 @@ public #ModelName#Model(
 <!--Model_SetSiteId-->
 <!--Model_GetHistory-->
 <!--Model_GetNormal-->
+<!--Model_SetCopyDefault-->
     
     if (clearSessions) ClearSessions(context: context);
 

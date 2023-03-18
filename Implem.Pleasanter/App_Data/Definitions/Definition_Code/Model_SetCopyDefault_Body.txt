@@ -1,0 +1,6 @@
+﻿if (setCopyDefault)
+{
+    SetCopyDefault(
+        context: context,
+        ss: ss);
+}

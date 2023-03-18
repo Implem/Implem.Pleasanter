@@ -224,6 +224,7 @@ namespace Implem.Pleasanter.NetCore
                 var statusCode = context.HttpContext.Response.StatusCode;
                 if (statusCode == 400) context.HttpContext.Response.Redirect("/errors/badrequest");
                 else if (statusCode == 404) context.HttpContext.Response.Redirect("/errors/notfound");
+                else if (statusCode == 405) context.HttpContext.Response.Redirect("/errors/badrequest");
                 else if (statusCode == 500) context.HttpContext.Response.Redirect("/errors/internalservererror");
                 else if (statusCode == 401
                     && !context.HttpContext.User.Identity.IsAuthenticated

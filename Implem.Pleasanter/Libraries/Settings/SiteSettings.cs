@@ -153,6 +153,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public GridEditorTypes? GridEditorType;
         public bool? HistoryOnGrid;
         public bool? AlwaysRequestSearchCondition;
+        public bool? DisableLinkToEdit;
         public int? LinkTableView;
         public int? FirstDayOfWeek;
         public int? FirstMonth;
@@ -679,6 +680,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AlwaysRequestSearchCondition == true)
             {
                 ss.AlwaysRequestSearchCondition = AlwaysRequestSearchCondition;
+            }
+            if (DisableLinkToEdit == true)
+            {
+                ss.DisableLinkToEdit = DisableLinkToEdit;
             }
             if (LinkTableView != 0)
             {
@@ -3545,6 +3550,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "GridEditorType": GridEditorType = (GridEditorTypes)value.ToInt(); break;
                 case "HistoryOnGrid": HistoryOnGrid = value.ToBool(); break;
                 case "AlwaysRequestSearchCondition": AlwaysRequestSearchCondition = value.ToBool(); break;
+                case "DisableLinkToEdit": DisableLinkToEdit = value.ToBool(); break;
                 case "LinkTableView": LinkTableView = value.ToInt(); break;
                 case "FirstDayOfWeek": FirstDayOfWeek = value.ToInt(); break;
                 case "FirstMonth": FirstMonth = value.ToInt(); break;
@@ -5053,9 +5059,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case Sqls.TableTypes.Deleted:
                     return "grid deleted not-link";
                 default:
-                    return "grid" + (context.Forms.Bool("EditOnGrid")
-                        ? " confirm-unload not-link"
-                        : string.Empty);
+                    return "grid"
+                        + (context.Forms.Bool("EditOnGrid")
+                            ? " confirm-unload not-link"
+                            : DisableLinkToEdit == true
+                                ? " not-link"
+                                : string.Empty);
             }
         }
 

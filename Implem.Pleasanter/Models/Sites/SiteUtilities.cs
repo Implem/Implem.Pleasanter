@@ -267,8 +267,8 @@ namespace Implem.Pleasanter.Models
         public static string GridRows(
             Context context,
             SiteSettings ss,
-            ResponseCollection res = null,
             int offset = 0,
+            bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
             Message message = null)
@@ -283,7 +283,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 checkPermission: true);
-            return (res ?? new ResponseCollection(context: context))
+            return new ResponseCollection(context: context)
+                .WindowScrollTop(_using: windowScrollTop)
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -4657,7 +4658,12 @@ namespace Implem.Pleasanter.Models
                     controlId: "AlwaysRequestSearchCondition",
                     fieldCss: "field-auto-thin",
                     labelText: Displays.AlwaysRequestSearchCondition(context: context),
-                    _checked: ss.AlwaysRequestSearchCondition == true));
+                    _checked: ss.AlwaysRequestSearchCondition == true)
+                .FieldCheckBox(
+                    controlId: "DisableLinkToEdit",
+                    fieldCss: "field-auto-thin",
+                    labelText: Displays.DisableLinkToEdit(context: context),
+                    _checked: ss.DisableLinkToEdit == true));
         }
 
         /// <summary>
