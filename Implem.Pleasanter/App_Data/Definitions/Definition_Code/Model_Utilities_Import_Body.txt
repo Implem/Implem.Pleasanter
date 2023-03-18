@@ -256,7 +256,7 @@
         return GridRows(
             context: context,
             ss: ss,
-            res: res.WindowScrollTop(),
+            windowScrollTop: true,
             message: Messages.Imported(
                 context: context,
                 data: new string[]

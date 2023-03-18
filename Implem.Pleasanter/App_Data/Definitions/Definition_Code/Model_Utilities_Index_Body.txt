@@ -240,8 +240,8 @@ private static HtmlBuilder Grid(
 public static string GridRows(
     Context context,
     SiteSettings ss,
-    ResponseCollection res = null,
     int offset = 0,
+    bool windowScrollTop = false,
     bool clearCheck = false,
     string action = "GridRows",
     Message message = null)
@@ -252,6 +252,9 @@ public static string GridRows(
         ss: ss,
         view: view,
         offset: offset);
+
+<!--Model_Utilities_GetServerScriptModelRow-->
+
     var columns = ss.GetGridColumns(
         context: context,
         view: view,
@@ -259,7 +262,8 @@ public static string GridRows(
 
 <!--Model_Utilities_GridNewRowParameters-->
 
-    return (res ?? new ResponseCollection(context: context))
+    return new ResponseCollection(context: context)
+        .WindowScrollTop(_using: windowScrollTop)
         .Remove(".grid tr", _using: offset == 0)
         .ClearFormData("GridOffset")
         .ClearFormData("GridCheckAll", _using: clearCheck)

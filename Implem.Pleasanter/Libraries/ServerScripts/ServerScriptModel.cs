@@ -12,7 +12,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 {
     public class ServerScriptModel : IDisposable
     {
-        public readonly ServerScriptModelGrid Grid = new ServerScriptModelGrid();
+        public readonly ServerScriptModelGrid Grid;
         public readonly ExpandoObject Model = new ExpandoObject();
         public readonly ExpandoObject Saved = new ExpandoObject();
         public readonly ServerScriptModelDepts Depts;
@@ -47,7 +47,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             bool debug,
             bool onTesting)
         {
-            Grid.TotalCount = gridData?.TotalCount ?? 0;
+            Grid = new ServerScriptModelGrid(
+                context: context,
+                ss: ss,
+                totalCount: gridData?.TotalCount ?? 0);
             data?.ForEach(datam => ((IDictionary<string, object>)Model)[datam.Name] = datam.Value);
             saved?.ForEach(datam => ((IDictionary<string, object>)Saved)[datam.Name] = datam.Value);
             Depts = new ServerScriptModelDepts(context: context);

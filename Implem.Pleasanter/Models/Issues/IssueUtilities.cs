@@ -279,8 +279,8 @@ namespace Implem.Pleasanter.Models
         public static string GridRows(
             Context context,
             SiteSettings ss,
-            ResponseCollection res = null,
             int offset = 0,
+            bool windowScrollTop = false,
             bool clearCheck = false,
             string action = "GridRows",
             Message message = null)
@@ -291,6 +291,10 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view,
                 offset: offset);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view,
+                gridData: gridData);
             var columns = ss.GetGridColumns(
                 context: context,
                 view: view,
@@ -335,7 +339,8 @@ namespace Implem.Pleasanter.Models
                         view: view);
                 }
             }
-            return (res ?? new ResponseCollection(context: context))
+            return new ResponseCollection(context: context)
+                .WindowScrollTop(_using: windowScrollTop)
                 .Remove(".grid tr", _using: offset == 0)
                 .ClearFormData("GridOffset")
                 .ClearFormData("GridCheckAll", _using: clearCheck)
@@ -2851,8 +2856,7 @@ namespace Implem.Pleasanter.Models
             return res.ToJson();
         }
 
-        public static string SelectedIds(
-            Context context, SiteSettings ss)
+        public static string SelectedIds(Context context, SiteSettings ss)
         {
             var invalid = IssueValidators.OnEntry(
                 context: context,
@@ -2862,12 +2866,34 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            return SelectedIdsList(
+                context: context,
+                ss: ss).ToJson();
+        }
+
+        public static List<long> SelectedIdsByServerScript(Context context, SiteSettings ss)
+        {
+            var invalid = IssueValidators.OnEntry(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return null;
+            }
+            return SelectedIdsList(
+                context: context,
+                ss: ss);
+        }
+
+        private static List<long> SelectedIdsList(Context context, SiteSettings ss)
+        {
             var where = SelectedWhere(
                 context: context,
                 ss: ss);
             if (where == null)
             {
-                return "[]";
+                return new List<long>();
             }
             var view = Views.GetBySession(
                 context: context,
@@ -2881,7 +2907,7 @@ namespace Implem.Pleasanter.Models
                     .DataRows
                     .Select(dataRow => dataRow.Long("IssueId"))
                     .ToList();
-            return ids.ToJson();
+            return ids;
         }
 
         public static ContentResultInheritance GetByApi(
@@ -3066,6 +3092,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueId: copyFrom,
+                setCopyDefault: copyFrom > 0,
                 formData: context.Forms);
             issueModel.IssueId = 0;
             issueModel.Ver = 1;
@@ -6426,7 +6453,7 @@ namespace Implem.Pleasanter.Models
                 return GridRows(
                     context: context,
                     ss: ss,
-                    res: res.WindowScrollTop(),
+                    windowScrollTop: true,
                     message: Messages.Imported(
                         context: context,
                         data: new string[]

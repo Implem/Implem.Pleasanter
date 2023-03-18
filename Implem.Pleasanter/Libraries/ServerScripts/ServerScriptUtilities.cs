@@ -841,7 +841,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     baseModel: issueModel);
                 issueModel.Update(
-                    context: context,
+                    context: CreateContext(
+                        context: context,
+                        controller: "Items",
+                        action: "Update",
+                        id: issueModel.IssueId,
+                        apiRequestBody: string.Empty),
                     ss: ss,
                     notice: true);
             }
@@ -910,7 +915,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ss: ss,
                     baseModel: resultModel);
                 resultModel.Update(
-                    context: context,
+                    context: CreateContext(
+                        context: context,
+                        controller: "Items",
+                        action: "Update",
+                        id: resultModel.ResultId,
+                        apiRequestBody: string.Empty),
                     ss: ss,
                     notice: true);
             }
