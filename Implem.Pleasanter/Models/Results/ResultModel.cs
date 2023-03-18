@@ -2593,6 +2593,15 @@ namespace Implem.Pleasanter.Models
                             break;
                     }
                 });
+            SetBySettings(
+                context: context,
+                ss: ss);
+            SetByFormula(
+                context: context,
+                ss: ss);
+            SetTitle(
+                context: context,
+                ss: ss);
         }
 
         private static string ImportRecordingData(

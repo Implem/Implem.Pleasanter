@@ -13,7 +13,6 @@
         case Error.Types.None: break;
         default: return invalid.MessageJson(context: context);
     }
-    var idInTitle = ss.TitleColumns?.Contains("#ModelName#Id") == true;
     var res = new ResponseCollection(context: context);
     Csv csv;
     try
@@ -70,7 +69,6 @@
                     siteId: ss.SiteId)
                         .ToArray());
         var #modelName#Hash = new Dictionary<int, #ModelName#Model>();
-        var previousTitle = string.Empty;
         var importKeyColumnName = context.Forms.Data("Key");
         var importKeyColumn = columnHash
             .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
@@ -107,7 +105,7 @@
                 {
                     #modelName#Model = model;
                 }
-                else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
                 {
                     return new ErrorData(
                         type: Error.Types.OverlapCsvImport,
@@ -119,7 +117,6 @@
                         .MessageJson(context: context);
                 }
             }
-            previousTitle = #modelName#Model.Title.DisplayValue;
             #modelName#Model.SetByCsvRow(
                 context: context,
                 ss: ss,
@@ -133,67 +130,80 @@
 
         var insertCount = 0;
         var updateCount = 0;
-        var processed = new HashSet<long>();
         foreach (var data in #modelName#Hash)
         {
             var #modelName#Model = data.Value;
-            #modelName#Model.SetBySettings(
-                context: context,
-                ss: ss);
-            #modelName#Model.SetByFormula(
-                context: context,
-                ss: ss);
-            #modelName#Model.SetTitle(
-                context: context,
-                ss: ss);
             if (#modelName#Model.AccessStatus == Databases.AccessStatuses.Selected)
+
             {
-                if (#modelName#Model.Updated(context: context))
+                ErrorData errorData = null;
+                while (errorData?.Type != Error.Types.None)
                 {
-                    if (processed.Contains(#modelName#Model.#ModelName#Id))
+                    switch (errorData?.Type)
                     {
-                        // CSVに同じレコードが複数件含まれていた際はバージョンが変更されている可能性があるため
-                        // レコードの再読込を行い、データの再セットを行う
-                        #modelName#Model.Get(
-                            context: context,
-                            ss: ss);
-                        #modelName#Model.SetByCsvRow(
-                            context: context,
-                            ss: ss,
-                            columnHash: columnHash,
-                            row: csvRows[data.Key]);
-                    }
-                    else
-                    {
-                        processed.Add(#modelName#Model.#ModelName#Id);
-                    }
-                    #modelName#Model.VerUp = Versions.MustVerUp(
-                        context: context,
-                        ss: ss,
-                        baseModel: #modelName#Model);
-                    var errorData = #modelName#Model.Update(
-                        context: context,
-                        ss: ss,
-                        extendedSqls: false,
-                        previousTitle: previousTitle,
-                        get: false,
-                        // checkConflict:falseしないと、CSVにキー重複があり連続してUpdateするとConflictedエラーになる。
-                        checkConflict: false);
-                    switch (errorData.Type)
-                    {
-                        case Error.Types.None:
-                            break;
 
 <!--Model_Utilities_DuplicatedMessage (Indent = 8) -->
 
+                        case null:
+                        case Error.Types.UpdateConflicts:
+                            // 初回(null)
+                            // または更新の競合が発生した場合
+                            #modelName#Model = new #ModelName#Model(
+                                context: context,
+                                ss: ss,
+                                #modelName#Id: #modelName#Model.#ModelName#Id);
+                            var previousTitle = #modelName#Model.Title.DisplayValue;
+                            #modelName#Model.SetByCsvRow(
+                                context: context,
+                                ss: ss,
+                                columnHash: columnHash,
+                                row: csvRows.Get(data.Key));
+                            switch (#modelName#Model.AccessStatus)
+                            {
+                                case Databases.AccessStatuses.Selected:
+                                    // 更新による競合のため再更新
+                                    if (#modelName#Model.Updated(context: context))
+                                    {
+                                        #modelName#Model.VerUp = Versions.MustVerUp(
+                                            context: context,
+                                            ss: ss,
+                                            baseModel: #modelName#Model);
+                                        errorData = #modelName#Model.Update(
+                                            context: context,
+                                            ss: ss,
+                                            extendedSqls: false,
+                                            previousTitle: previousTitle,
+                                            get: false);
+                                        updateCount++;
+                                    }
+                                    else
+                                    {
+                                        errorData = new ErrorData(type: Error.Types.None);
+                                    }
+                                    break;
+                                case Databases.AccessStatuses.NotFound:
+                                    // 削除による競合のため再作成
+                                    #modelName#Model.#ModelName#Id = 0;
+                                    #modelName#Model.Ver = 1;
+                                    errorData = #modelName#Model.Create(
+                                        context: context,
+                                        ss: ss,
+                                        extendedSqls: false);
+                                    insertCount++;
+                                    break;
+                                default:
+                                    return Messages.ResponseUpdateConflicts(context: context).ToJson();
+                            }
+                            break;
                         default:
                             return errorData.MessageJson(context: context);
                     }
-                    updateCount++;
                 }
             }
             else
             {
+                #modelName#Model.#ModelName#Id = 0;
+                #modelName#Model.Ver = 1;
                 var errorData = #modelName#Model.Create(
                     context: context,
                     ss: ss,
@@ -201,15 +211,6 @@
                 switch (errorData.Type)
                 {
                     case Error.Types.None:
-                        if (idInTitle)
-                        {
-                            #modelName#Model.Update(
-                                context: context,
-                                ss: ss,
-                                extendedSqls: false,
-                                previousTitle: previousTitle,
-                                get: false);
-                        }
                         break;
 
 <!--Model_Utilities_DuplicatedMessage (Indent = 7) -->

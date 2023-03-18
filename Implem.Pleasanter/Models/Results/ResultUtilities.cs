@@ -5825,7 +5825,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var idInTitle = ss.TitleColumns?.Contains("ResultId") == true;
             var res = new ResponseCollection(context: context);
             Csv csv;
             try
@@ -5882,7 +5881,6 @@ namespace Implem.Pleasanter.Models
                             siteId: ss.SiteId)
                                 .ToArray());
                 var resultHash = new Dictionary<int, ResultModel>();
-                var previousTitle = string.Empty;
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
@@ -5919,7 +5917,7 @@ namespace Implem.Pleasanter.Models
                         {
                             resultModel = model;
                         }
-                        else if(model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
                         {
                             return new ErrorData(
                                 type: Error.Types.OverlapCsvImport,
@@ -5931,7 +5929,6 @@ namespace Implem.Pleasanter.Models
                                 .MessageJson(context: context);
                         }
                     }
-                    previousTitle = resultModel.Title.DisplayValue;
                     resultModel.SetByCsvRow(
                         context: context,
                         ss: ss,
@@ -5950,56 +5947,16 @@ namespace Implem.Pleasanter.Models
                 }
                 var insertCount = 0;
                 var updateCount = 0;
-                var processed = new HashSet<long>();
                 foreach (var data in resultHash)
                 {
                     var resultModel = data.Value;
-                    resultModel.SetBySettings(
-                        context: context,
-                        ss: ss);
-                    resultModel.SetByFormula(
-                        context: context,
-                        ss: ss);
-                    resultModel.SetTitle(
-                        context: context,
-                        ss: ss);
                     if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
-                        if (resultModel.Updated(context: context))
+                        ErrorData errorData = null;
+                        while (errorData?.Type != Error.Types.None)
                         {
-                            if (processed.Contains(resultModel.ResultId))
+                            switch (errorData?.Type)
                             {
-                                // CSVに同じレコードが複数件含まれていた際はバージョンが変更されている可能性があるため
-                                // レコードの再読込を行い、データの再セットを行う
-                                resultModel.Get(
-                                    context: context,
-                                    ss: ss);
-                                resultModel.SetByCsvRow(
-                                    context: context,
-                                    ss: ss,
-                                    columnHash: columnHash,
-                                    row: csvRows[data.Key]);
-                            }
-                            else
-                            {
-                                processed.Add(resultModel.ResultId);
-                            }
-                            resultModel.VerUp = Versions.MustVerUp(
-                                context: context,
-                                ss: ss,
-                                baseModel: resultModel);
-                            var errorData = resultModel.Update(
-                                context: context,
-                                ss: ss,
-                                extendedSqls: false,
-                                previousTitle: previousTitle,
-                                get: false,
-                                // checkConflict:falseしないと、CSVにキー重複があり連続してUpdateするとConflictedエラーになる。
-                                checkConflict: false);
-                            switch (errorData.Type)
-                            {
-                                case Error.Types.None:
-                                    break;
                                 case Error.Types.Duplicated:
                                     var duplicatedColumn = ss.GetColumn(
                                         context: context,
@@ -6023,14 +5980,66 @@ namespace Implem.Pleasanter.Models
                                                 Css = "alert-error"
                                             }).ToJson();
                                     }
+                                case null:
+                                case Error.Types.UpdateConflicts:
+                                    // 初回(null)
+                                    // または更新の競合が発生した場合
+                                    resultModel = new ResultModel(
+                                        context: context,
+                                        ss: ss,
+                                        resultId: resultModel.ResultId);
+                                    var previousTitle = resultModel.Title.DisplayValue;
+                                    resultModel.SetByCsvRow(
+                                        context: context,
+                                        ss: ss,
+                                        columnHash: columnHash,
+                                        row: csvRows.Get(data.Key));
+                                    switch (resultModel.AccessStatus)
+                                    {
+                                        case Databases.AccessStatuses.Selected:
+                                            // 更新による競合のため再更新
+                                            if (resultModel.Updated(context: context))
+                                            {
+                                                resultModel.VerUp = Versions.MustVerUp(
+                                                    context: context,
+                                                    ss: ss,
+                                                    baseModel: resultModel);
+                                                errorData = resultModel.Update(
+                                                    context: context,
+                                                    ss: ss,
+                                                    extendedSqls: false,
+                                                    previousTitle: previousTitle,
+                                                    get: false);
+                                                updateCount++;
+                                            }
+                                            else
+                                            {
+                                                errorData = new ErrorData(type: Error.Types.None);
+                                            }
+                                            break;
+                                        case Databases.AccessStatuses.NotFound:
+                                            // 削除による競合のため再作成
+                                            resultModel.ResultId = 0;
+                                            resultModel.Ver = 1;
+                                            errorData = resultModel.Create(
+                                                context: context,
+                                                ss: ss,
+                                                extendedSqls: false);
+                                            insertCount++;
+                                            break;
+                                        default:
+                                            return Messages.ResponseUpdateConflicts(context: context).ToJson();
+                                    }
+                                    break;
                                 default:
                                     return errorData.MessageJson(context: context);
                             }
-                            updateCount++;
                         }
                     }
                     else
                     {
+                        resultModel.ResultId = 0;
+                        resultModel.Ver = 1;
                         var errorData = resultModel.Create(
                             context: context,
                             ss: ss,
@@ -6038,15 +6047,6 @@ namespace Implem.Pleasanter.Models
                         switch (errorData.Type)
                         {
                             case Error.Types.None:
-                                if (idInTitle)
-                                {
-                                    resultModel.Update(
-                                        context: context,
-                                        ss: ss,
-                                        extendedSqls: false,
-                                        previousTitle: previousTitle,
-                                        get: false);
-                                }
                                 break;
                             case Error.Types.Duplicated:
                                 var duplicatedColumn = ss.GetColumn(
