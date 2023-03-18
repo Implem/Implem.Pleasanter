@@ -1414,7 +1414,11 @@ namespace Implem.Pleasanter.Models
                         RecordPermissions = context.Forms.List("CurrentPermissionsAll");
                         break;
                     case "InheritPermission":
-                        RecordPermissions = new List<string>();
+                        // アクセス権を継承する場合にはPermissionsテーブルのレコードを削除する
+                        if (context.Forms.Long("InheritPermission") != SiteId)
+                        {
+                            RecordPermissions = new List<string>();
+                        }
                         break;
                     default:
                         if (key.RegexExists("Comment[0-9]+"))
