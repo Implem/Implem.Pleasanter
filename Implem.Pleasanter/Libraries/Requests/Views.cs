@@ -81,6 +81,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         view.Overdue = prevView.Overdue;
                         view.ColumnFilterHash = prevView.ColumnFilterHash;
                         view.ColumnFilterSearchTypes = prevView.ColumnFilterSearchTypes;
+                        view.Search = prevView.Search;
                     }
                     if (view.KeepSorterState == true)
                     {
