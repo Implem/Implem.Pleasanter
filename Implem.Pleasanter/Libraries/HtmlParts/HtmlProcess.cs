@@ -30,6 +30,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     hb.Button(
                         controlId: $"Process_{process.Id}",
                         text: Strings.CoalesceEmpty(
+                            serverScriptElements?.LabelText($"Process_{process.Id}"),
                             process.DisplayName,
                             process.Name),
                         title: process.Tooltip,
