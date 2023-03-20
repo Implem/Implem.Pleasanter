@@ -3,6 +3,8 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using System.Linq;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlProcess
@@ -10,8 +12,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder ProcessCommands(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss)
+            SiteSettings ss,
+            ServerScriptModelRow serverScriptModelRow = null)
         {
+            var serverScriptElements = serverScriptModelRow?.Elements;
             ss.Processes
                 ?.Where(process => process.Accessable(
                     context: context,
@@ -21,6 +25,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     || (!context.IsNew && process.ScreenType != Process.ScreenTypes.New))
                 .Where(process => process.ExecutionType == null
                     || process.ExecutionType == Process.ExecutionTypes.AddedButton)
+                .Where(process => serverScriptElements?.None($"Process_{process.Id}") != true)
                 .ForEach(process =>
                     hb.Button(
                         controlId: $"Process_{process.Id}",
@@ -35,6 +40,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             + ValidateCss(
                                 context: context,
                                 process: process),
+                        style: serverScriptElements.Hidden($"Process_{process.Id}") == true
+                            ? "display:none;"
+                            : string.Empty,
                         icon: "ui-icon-disk",
                         validations: Validations(
                             context: context,
@@ -45,7 +53,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         method: Method(
                             context: context,
                             process: process),
-                        confirm: process.ConfirmationMessage));
+                        confirm: process.ConfirmationMessage,
+                        disabled: serverScriptElements.Disabled($"Process_{process.Id}") == true));
             return hb;
         }
 

@@ -2287,7 +2287,8 @@ namespace Implem.Pleasanter.Models
                         resultModel: resultModel)
                     .ProcessCommands(
                         context: context,
-                        ss: ss));
+                        ss: ss,
+                        serverScriptModelRow: serverScriptModelRow));
         }
 
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long resultId, long siteId)
