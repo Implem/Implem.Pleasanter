@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             + ValidateCss(
                                 context: context,
                                 process: process),
-                        style: serverScriptElements.Hidden($"Process_{process.Id}") == true
+                        style: serverScriptElements?.Hidden($"Process_{process.Id}") == true
                             ? "display:none;"
                             : string.Empty,
                         icon: "ui-icon-disk",
@@ -55,7 +55,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             context: context,
                             process: process),
                         confirm: process.ConfirmationMessage,
-                        disabled: serverScriptElements.Disabled($"Process_{process.Id}") == true));
+                        disabled: serverScriptElements?.Disabled($"Process_{process.Id}") == true));
             return hb;
         }
 
