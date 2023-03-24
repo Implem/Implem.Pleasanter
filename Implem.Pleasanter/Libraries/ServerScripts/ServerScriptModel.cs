@@ -75,6 +75,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 context: context,
                 logBuilder: context.LogBuilder,
                 userData: context.UserData,
+                responseCollection: context.ResponseCollection,
                 messages: context.Messages,
                 errorData: context.ErrorData,
                 redirectData: context.RedirectData,
