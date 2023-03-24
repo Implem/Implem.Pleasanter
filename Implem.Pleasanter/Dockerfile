@@ -26,10 +26,7 @@ RUN dotnet build "Implem.Pleasanter.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "Implem.Pleasanter.csproj" -c Release -o /app/publish
 RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/bin/jq && \
-    cat App_Data/Parameters/Service.json \
-    | jq '.WithoutChangeDefaultPassword|=true | .ShowStartGuide|=false | .Demo|=false' \
-    > /app/publish/App_Data/Parameters/Service.json
-RUN cat App_Data/Parameters/Rds.json \
+    cat App_Data/Parameters/Rds.json \
     | jq '.Dbms|="PostgreSQL" | .SaConnectionString|=null | .OwnerConnectionString|=null | .UserConnectionString|=null' \
     > /app/publish/App_Data/Parameters/Rds.json
 
