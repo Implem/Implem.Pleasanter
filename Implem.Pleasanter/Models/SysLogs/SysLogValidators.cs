@@ -23,16 +23,12 @@ namespace Implem.Pleasanter.Models
         {
             if (api)
             {
-                if (!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false
-                    || serverScript)
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             if (!api && ss.GetNoDisplayIfReadOnly())
