@@ -2,7 +2,8 @@
     Context context,
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
-    bool api = false)
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->

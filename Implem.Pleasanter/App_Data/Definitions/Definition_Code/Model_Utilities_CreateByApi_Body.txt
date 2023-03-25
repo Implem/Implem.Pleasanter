@@ -73,7 +73,8 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        api: true);
+        api: true,
+        serverScript: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

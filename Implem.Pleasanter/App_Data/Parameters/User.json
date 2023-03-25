@@ -2,7 +2,7 @@
     "DisableTopSiteCreation": false,
     "DisableGroupAdmin": false,
     "DisableGroupCreation": false,
-    "DisableApi": false,
+    "DisableApi": true,
     "SelectorToolTip": "LoginId",
     "Theme": "sunny"
 }

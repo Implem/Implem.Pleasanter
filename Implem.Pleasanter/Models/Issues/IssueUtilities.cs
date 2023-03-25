@@ -3018,7 +3018,8 @@ namespace Implem.Pleasanter.Models
             var invalid = IssueValidators.OnEntry(
                 context: context,
                 ss: ss,
-                api: true);
+                api: true,
+                serverScript: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3065,7 +3066,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: true);
+                api: true,
+                serverScript: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -3300,7 +3302,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: true);
+                api: true,
+                serverScript: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -4359,7 +4362,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: true);
+                api: true,
+                serverScript: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -4453,7 +4457,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: true);
+                api: true,
+                serverScript: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -4780,7 +4785,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 issueModel: issueModel,
-                api: true);
+                api: true,
+                serverScript: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
