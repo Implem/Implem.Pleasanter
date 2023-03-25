@@ -1,4 +1,8 @@
-﻿public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
+﻿public static ErrorData OnEntry(
+    Context context,
+    SiteSettings ss,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -16,7 +20,11 @@
             : new ErrorData(type: Error.Types.HasNotPermission);
 }
 
-public static ErrorData OnGet(Context context, SiteSettings ss, bool api = false)
+public static ErrorData OnGet(
+    Context context,
+    SiteSettings ss,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -27,7 +35,11 @@ public static ErrorData OnGet(Context context, SiteSettings ss, bool api = false
 }
 
 public static ErrorData OnEditing(
-    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -57,7 +69,11 @@ public static ErrorData OnEditing(
 }
 
 public static ErrorData OnCreating(
-    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -159,7 +175,11 @@ public static ErrorData OnCreating(
 }
 
 public static ErrorData OnUpdating(
-    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_RecordPermissions-->
@@ -264,7 +284,11 @@ public static ErrorData OnUpdating(
 <!--Model_Validator_OnMoving-->
 
 public static ErrorData OnDeleting(
-    Context context, SiteSettings ss, #ModelName#Model #modelName#Model, bool api = false)
+    Context context,
+    SiteSettings ss,
+    #ModelName#Model #modelName#Model,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -279,7 +303,11 @@ public static ErrorData OnDeleting(
             : new ErrorData(type: Error.Types.HasNotPermission);
 }
 
-public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api = false)
+public static ErrorData OnRestoring(
+    Context context,
+    SiteSettings ss,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -291,7 +319,11 @@ public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api =
         : new ErrorData(type: Error.Types.HasNotPermission);
 }
 
-public static ErrorData OnImporting(Context context, SiteSettings ss, bool api = false)
+public static ErrorData OnImporting(
+    Context context,
+    SiteSettings ss,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->
@@ -305,7 +337,11 @@ public static ErrorData OnImporting(Context context, SiteSettings ss, bool api =
             : new ErrorData(type: Error.Types.HasNotPermission);
 }
 
-public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
+public static ErrorData OnExporting(
+    Context context,
+    SiteSettings ss,
+    bool api = false,
+    bool serverScript = false)
 {
 
 <!--Model_Validator_Api-->

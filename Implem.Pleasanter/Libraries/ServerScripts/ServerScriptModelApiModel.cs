@@ -92,6 +92,75 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         result = Model.Title.Value;
                         return true;
                 }
+                if (Model is SiteModel siteModel)
+                {
+                    switch (name)
+                    {
+                        case nameof(siteModel.SiteId):
+                            result = siteModel.SiteId;
+                            return true;
+                        case nameof(siteModel.SiteGroupName):
+                            result = siteModel.SiteGroupName;
+                            return true;
+                        case nameof(siteModel.GridGuide):
+                            result = siteModel.GridGuide;
+                            return true;
+                        case nameof(siteModel.EditorGuide):
+                            result = siteModel.EditorGuide;
+                            return true;
+                        case nameof(siteModel.CalendarGuide):
+                            result = siteModel.CalendarGuide;
+                            return true;
+                        case nameof(siteModel.CrosstabGuide):
+                            result = siteModel.CrosstabGuide;
+                            return true;
+                        case nameof(siteModel.GanttGuide):
+                            result = siteModel.GanttGuide;
+                            return true;
+                        case nameof(siteModel.BurnDownGuide):
+                            result = siteModel.BurnDownGuide;
+                            return true;
+                        case nameof(siteModel.TimeSeriesGuide):
+                            result = siteModel.TimeSeriesGuide;
+                            return true;
+                        case nameof(siteModel.KambanGuide):
+                            result = siteModel.KambanGuide;
+                            return true;
+                        case nameof(siteModel.ImageLibGuide):
+                            result = siteModel.ImageLibGuide;
+                            return true;
+                        case nameof(siteModel.ReferenceType):
+                            result = siteModel.ReferenceType;
+                            return true;
+                        case nameof(siteModel.ParentId):
+                            result = siteModel.ParentId;
+                            return true;
+                        case nameof(siteModel.InheritPermission):
+                            result = siteModel.InheritPermission;
+                            return true;
+                        case nameof(siteModel.SiteSettings):
+                            result = siteModel.SiteSettings;
+                            return true;
+                        case nameof(siteModel.Publish):
+                            result = siteModel.Publish;
+                            return true;
+                        case nameof(siteModel.DisableCrossSearch):
+                            result = siteModel.DisableCrossSearch;
+                            return true;
+                        case nameof(siteModel.LockedTime):
+                            result = siteModel.LockedTime;
+                            return true;
+                        case nameof(siteModel.LockedUser):
+                            result = siteModel.LockedUser;
+                            return true;
+                        case nameof(siteModel.ApiCountDate):
+                            result = siteModel.ApiCountDate;
+                            return true;
+                        case nameof(siteModel.ApiCount):
+                            result = siteModel.ApiCount;
+                            return true;
+                    }
+                }
                 if (Model is IssueModel issueModel)
                 {
                     switch (name)

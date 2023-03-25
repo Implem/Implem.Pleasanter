@@ -163,6 +163,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         private static HtmlBuilder OnEditorLoad(this HtmlBuilder hb, Context context)
         {
+            if (context?.ResponseCollection?.Any() == true)
+            {
+                hb
+                    .Hidden(
+                        controlId: "ServerScriptResponseCollection",
+                        value: context.ResponseCollection.ToJson())
+                    .Script(script: $"$p.setByJson(undefined, undefined, $p.getData($('#MainForm')), $('#MainForm'), undefined, JSON.parse($('#ServerScriptResponseCollection').val()));");
+            }
             switch (context.Action)
             {
                 case "new":

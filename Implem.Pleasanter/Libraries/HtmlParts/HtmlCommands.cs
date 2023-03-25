@@ -42,7 +42,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         hb.Button(
                             controlId: "GoBack",
-                            text: Displays.GoBack(context: context),
+                            text: Strings.CoalesceEmpty(
+                                serverScriptModelRow?.Elements?.LabelText("BulkDeleteCommand"),
+                                Displays.GoBack(context: context)),
                             controlCss: "button-icon",
                             accessKey: "q",
                             onClick: "$p.back();",
@@ -209,7 +211,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         hb.Button(
                                             controlId: "RegistrationId",
                                             controlCss: "button-icon validate",
-                                            text: Displays.ApprovalRequest(context: context),
+                                            text: Strings.CoalesceEmpty(
+                                                serverScriptModelRow?.Elements?.LabelText("BulkDeleteCommand"),
+                                                Displays.ApprovalRequest(context: context)),
                                             onClick: "$p.send($(this));",
                                             icon: "ui-icon-mail-closed",
                                             action: "ApprovalRequest",
@@ -244,7 +248,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     case "index":
                                         hb.Button(
                                             controlId: "BulkDeleteCommand",
-                                            text: Displays.BulkDelete(context: context),
+                                            text: Strings.CoalesceEmpty(
+                                                serverScriptModelRow?.Elements?.LabelText("BulkDeleteCommand"),
+                                                Displays.BulkDelete(context: context)),
                                             controlCss: "button-icon",
                                             accessKey: "r",
                                             onClick: "$p.send($(this));",
@@ -600,7 +606,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var serverScriptElements = serverScriptModelRow?.Elements;
             return hb.Button(
                 controlId: controlId,
-                text: text,
+                text: Strings.CoalesceEmpty(
+                    serverScriptElements?.LabelText(controlId),
+                    text),
                 controlCss: controlCss,
                 style: (serverScriptElements != null
                     ? serverScriptElements.Hidden(controlId) == true

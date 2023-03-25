@@ -29,6 +29,46 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 onTesting: OnTesting);
         }
 
+        public ServerScriptModelApiModel[] GetSite(
+            object id,
+            string apiRequestBody = null)
+        {
+            return ServerScriptUtilities.GetSite(
+                context: Context,
+                id: id.ToLong(),
+                apiRequestBody: apiRequestBody);
+        }
+
+        public ServerScriptModelApiModel[] GetSiteByTitle(
+            object title,
+            string apiRequestBody = null)
+        {
+            return ServerScriptUtilities.GetSite(
+                context: Context,
+                title: title?.ToString() ?? string.Empty,
+                apiRequestBody: apiRequestBody);
+        }
+
+        public ServerScriptModelApiModel[] GetSiteByName(
+            object siteName,
+            string apiRequestBody = null)
+        {
+            return ServerScriptUtilities.GetSite(
+                context: Context,
+                siteName: siteName?.ToString() ?? string.Empty,
+                apiRequestBody: apiRequestBody);
+        }
+
+        public ServerScriptModelApiModel[] GetSiteByGroupName(
+            object siteGroupName,
+            string apiRequestBody = null)
+        {
+            return ServerScriptUtilities.GetSite(
+                context: Context,
+                siteGroupName: siteGroupName?.ToString() ?? string.Empty,
+                apiRequestBody: apiRequestBody);
+        }
+
         public ServerScriptModelApiModel New()
         {
             return NewIssue();

@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     {
         public StringBuilder LogBuilder;
         public ExpandoObject UserData;
+        public ResponseCollection ResponseCollection;
         public List<Message> Messages;
         public ErrorData ErrorData;
         public RedirectData RedirectData;
@@ -54,6 +55,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             Context context,
             StringBuilder logBuilder,
             ExpandoObject userData,
+            ResponseCollection responseCollection,
             List<Message> messages,
             ErrorData errorData,
             RedirectData redirectData,
@@ -93,6 +95,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             LogBuilder = logBuilder;
             UserData = userData;
+            ResponseCollection = responseCollection;
             Messages = messages;
             ErrorData = errorData;
             RedirectData = redirectData;
@@ -157,6 +160,31 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public void Redirect(string url)
         {
             RedirectData.Url = url;
+        }
+
+        public void AddResponse(
+            string method,
+            string target = null,
+            object value = null,
+            string options = null)
+        {
+            ResponseCollection.Add(
+                method: method,
+                target: target,
+                value: value,
+                options: options);
+        }
+
+        public void ResponseSet(
+            string target = null,
+            object value = null,
+            string options = null)
+        {
+            AddResponse(
+                method: "Set",
+                target: target,
+                value: value,
+                options: options);
         }
     }
 }

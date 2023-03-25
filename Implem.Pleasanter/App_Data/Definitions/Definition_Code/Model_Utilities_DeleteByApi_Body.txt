@@ -67,7 +67,8 @@ public static bool DeleteByServerScript(
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        api: true);
+        api: true,
+        serverScript: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

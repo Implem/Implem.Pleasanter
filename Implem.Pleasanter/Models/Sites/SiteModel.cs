@@ -1412,9 +1412,20 @@ namespace Implem.Pleasanter.Models
                     case "VerUp": VerUp = value.ToBool(); break;
                     case "CurrentPermissionsAll":
                         RecordPermissions = context.Forms.List("CurrentPermissionsAll");
+                        // アクセス権を継承する場合にはPermissionsテーブルのレコードを削除する
+                        // CurrentPermissionsAllよりInheritPermissionが先に処理された場合の対策
+                        if (context.Forms.ContainsKey("InheritPermission")
+                            && context.Forms.Long("InheritPermission") != SiteId)
+                        {
+                            RecordPermissions = new List<string>();
+                        }
                         break;
                     case "InheritPermission":
-                        RecordPermissions = new List<string>();
+                        // アクセス権を継承する場合にはPermissionsテーブルのレコードを削除する
+                        if (context.Forms.Long("InheritPermission") != SiteId)
+                        {
+                            RecordPermissions = new List<string>();
+                        }
                         break;
                     default:
                         if (key.RegexExists("Comment[0-9]+"))

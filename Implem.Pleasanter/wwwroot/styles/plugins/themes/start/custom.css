@@ -79,6 +79,10 @@
     background-image: url("images/ui-icons_0078ae_256x240.png");
 }
 
+.grid-row a {
+    color: #383838;
+}
+
 .grid-row .ui-icon {
     background-image: url("images/ui-icons_0078ae_256x240.png");
 }

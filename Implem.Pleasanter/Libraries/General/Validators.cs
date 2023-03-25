@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -65,6 +66,24 @@ namespace Implem.Pleasanter.Libraries.General
                         data: regexValidationMessage));
                 }
             }
+        }
+
+        public static ErrorData ValidateApi(
+            Context context,
+            bool serverScript)
+        {
+            if (!serverScript
+                && (!Parameters.Api.Enabled
+                    || context.ContractSettings.Api == false
+                    || context.UserSettings?.AllowApi(context: context) == false))
+            {
+                return new ErrorData(type: Error.Types.InvalidRequest);
+            }
+            if (context.InvalidJsonData)
+            {
+                return new ErrorData(type: Error.Types.InvalidJsonData);
+            }
+            return new ErrorData(type: Error.Types.None);
         }
     }
 }

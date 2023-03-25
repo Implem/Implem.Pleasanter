@@ -1,5 +1,7 @@
 ﻿$p.setByJson = function (url, methodType, data, $control, _async, json) {
-    $p.before_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
+    if (url) {
+        $p.before_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
+    }
     if (json) {
         $.each(json, function () {
             $p.setByJsonElement(this, data, $control);
@@ -16,7 +18,9 @@
         $p.apply();
         $p.applyValidator();
     }
-    $p.after_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
+    if (url) {
+        $p.after_set($p.eventArgs(url, methodType, data, $control, _async, undefined, json));
+    }
 }
 
 $p.setByJsonElement = function (jsonElement, data, $control) {
@@ -42,6 +46,13 @@ $p.setByJsonElement = function (jsonElement, data, $control) {
             break;
         case 'PushState':
             history.pushState(target, '', value);
+            break;
+        case 'Set':
+            var $target = $p.getControl(target);
+            if (!$target) {
+                $target = $(target);
+            }
+            $p.set($target, value);
             break;
         case 'SetData':
             $p.setData($(target));

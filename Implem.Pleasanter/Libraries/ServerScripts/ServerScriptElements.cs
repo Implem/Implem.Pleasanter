@@ -6,10 +6,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
     public class ServerScriptElements
     {
         public Dictionary<string, View.CommandDisplayTypes> DisplayTypeHash = new Dictionary<string, View.CommandDisplayTypes>();
+        public Dictionary<string, string> LabelTextHash = new Dictionary<string, string>();
 
         public void DisplayType(string key, int type)
         {
             DisplayTypeHash.AddOrUpdate(key, (View.CommandDisplayTypes)type);
+        }
+
+        public void LabelText(string key, string labelText)
+        {
+            LabelTextHash.AddOrUpdate(key, labelText);
+        }
+
+        public string LabelText(string key)
+        {
+            return LabelTextHash.Get(key);
         }
 
         public bool Displayed(string key)
