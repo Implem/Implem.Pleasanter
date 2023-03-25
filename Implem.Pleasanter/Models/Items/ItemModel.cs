@@ -1355,6 +1355,25 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public BaseItemModel[] GetSiteByServerScript(Context context)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return null;
+            }
+            return new[]
+            {
+                SiteUtilities.GetByServerScript(
+                    context: context,
+                    ss: SiteSettingsUtilities.Get(
+                        context: context,
+                        siteModel: Site,
+                        referenceId: ReferenceId),
+                    siteId: SiteId)
+            }.Where(model => model != null).ToArray();
+        }
+
         public string Create(Context context)
         {
             SetSite(

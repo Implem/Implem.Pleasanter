@@ -105,7 +105,8 @@ public static #ModelName#Model[] GetByServerScript(
     var invalid = #ModelName#Validators.OnEntry(
         context: context,
         ss: ss,
-        api: true);
+        api: true,
+        serverScript: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;
@@ -152,7 +153,8 @@ public static #ModelName#Model GetByServerScript(
         context: context,
         ss: ss,
         #modelName#Model: #modelName#Model,
-        api: true);
+        api: true,
+        serverScript: true);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

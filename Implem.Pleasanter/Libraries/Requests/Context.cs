@@ -34,6 +34,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public StringBuilder LogBuilder { get; set; } = new StringBuilder();
         public ExpandoObject UserData { get; set; } = new ExpandoObject();
+        public ResponseCollection ResponseCollection { get; set; } = new ResponseCollection();
         public List<Message> Messages { get; set; } = new List<Message>();
         public ErrorData ErrorData { get; set; } = new ErrorData(type: Error.Types.None);
         public RedirectData RedirectData { get; set; } = new RedirectData();

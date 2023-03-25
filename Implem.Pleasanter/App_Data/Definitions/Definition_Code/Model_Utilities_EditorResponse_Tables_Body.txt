@@ -123,5 +123,6 @@ private static HtmlBuilder EditorMainCommands(
                 #modelName#Model: #modelName#Model)
             .ProcessCommands(
                 context: context,
-                ss: ss));
+                ss: ss,
+                serverScriptModelRow: serverScriptModelRow));
 }

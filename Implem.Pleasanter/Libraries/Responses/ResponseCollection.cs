@@ -3,17 +3,22 @@ using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace Implem.Pleasanter.Libraries.Responses
 {
     [Serializable]
     public class ResponseCollection : List<Response>
     {
+        private Context Context { get; set; }
+
         public ResponseCollection()
         {
         }
 
         public ResponseCollection(Context context, long id = 0)
         {
+            Context = context;
             if (id > 0)
             {
                 Response("id", id.ToString());
@@ -22,6 +27,15 @@ namespace Implem.Pleasanter.Libraries.Responses
             {
                 Log(context.GetLog());
             }
+        }
+
+        public string ToJson()
+        {
+            if (Context?.ResponseCollection?.Any() == true)
+            {
+                AddRange(Context.ResponseCollection);
+            }
+            return Jsons.ToJson(this);
         }
 
         public ResponseCollection Add(
@@ -135,6 +149,19 @@ namespace Implem.Pleasanter.Libraries.Responses
                     method: "PushState",
                     target: state,
                     value: url)
+                : this;
+        }
+
+        public ResponseCollection Set(
+            string target,
+            object value,
+            bool _using = true)
+        {
+            return _using
+                ? Add(
+                    method: "Set",
+                    target: target,
+                    value: value)
                 : this;
         }
 

@@ -1245,6 +1245,58 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return items;
         }
 
+        public static ServerScriptModelApiModel[] GetSite(
+            Context context,
+            long? id = null,
+            string title = null,
+            string siteName = null,
+            string siteGroupName = null,
+            string apiRequestBody = null)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "Get",
+                id: id?.ToLong() ?? context.Id,
+                apiRequestBody: apiRequestBody);
+            var where = Rds.ItemsWhere();
+            if (id != null)
+            {
+                where.ReferenceId(id);
+            }
+            else if (title != null)
+            {
+                where.Sites_Title(title);
+            }
+            else if (siteName != null)
+            {
+                where.Sites_SiteName(siteName);
+            }
+            else if (siteGroupName != null)
+            {
+                where.Sites_SiteGroupName(siteGroupName);
+            }
+            else
+            {
+                return new ServerScriptModelApiModel[0];
+            }
+            var itemModels = new ItemCollection(
+                context: apiContext,
+                join: Rds.ItemsJoin().Add(new SqlJoin(
+                    "\"Sites\"",
+                    SqlJoin.JoinTypes.Inner,
+                    $"\"Sites\".\"SiteId\" = \"Items\".\"SiteId\" and \"Sites\".\"TenantId\" = {Parameters.Parameter.SqlParameterPrefix}T")),
+                where: where)
+                    .Select(itemModel => itemModel.GetSiteByServerScript(context: apiContext)?.FirstOrDefault()
+                        ?? new BaseItemModel())
+                    .ToArray();
+            var items = itemModels.Select(model => new ServerScriptModelApiModel(
+                context: apiContext,
+                model: model,
+                onTesting: false)).ToArray();
+            return items;
+        }
+
         public static bool Create(Context context, long id, object model)
         {
             var apiContext = CreateContext(

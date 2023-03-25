@@ -104,7 +104,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                         ss: ss,
                                         siteId: siteId,
                                         childMenu: childMenu,
-                                        menu: menu)
+                                        menu: menu,
+                                        serverScriptLabelText: serverScriptModelRow?.Elements?.LabelText(id))
                                     .Menus(
                                         context: context,
                                         ss: ss,
@@ -126,7 +127,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             bool childMenu,
-            NavigationMenu menu)
+            NavigationMenu menu,
+            string serverScriptLabelText)
         {
             return childMenu
                 ? hb.ContentBody(
@@ -134,7 +136,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ss: ss,
                     siteId: siteId,
                     childMenu: childMenu,
-                    menu: menu)
+                    menu: menu,
+                    serverScriptLabelText: serverScriptLabelText)
                 : hb.Div(
                     attributes: Attributes(
                         context: context,
@@ -148,7 +151,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ss: ss,
                         siteId: siteId,
                         childMenu: childMenu,
-                        menu: menu));
+                        menu: menu,
+                        serverScriptLabelText: serverScriptLabelText));
         }
 
         private static HtmlBuilder ContentBody(
@@ -157,7 +161,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             long siteId,
             bool childMenu,
-            NavigationMenu menu)
+            NavigationMenu menu,
+            string serverScriptLabelText)
         {
             if (menu.LinkParams == null
                 && menu.Url == null
@@ -168,7 +173,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Text(text: Text(
                         context: context,
                         ss: ss,
-                        menu: menu));
+                        menu: menu,
+                        serverScriptLabelText: serverScriptLabelText));
             }
             else
             {
@@ -192,7 +198,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Text(text: Text(
                             context: context,
                             ss: ss,
-                            menu: menu)));
+                            menu: menu,
+                            serverScriptLabelText: serverScriptLabelText)));
             }
         }
 
@@ -269,8 +276,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static string Text(
             Context context,
             SiteSettings ss,
-            NavigationMenu menu)
+            NavigationMenu menu,
+            string serverScriptLabelText)
         {
+            if (!serverScriptLabelText.IsNullOrEmpty())
+            {
+                return serverScriptLabelText;
+            }
             switch (menu.Name)
             {
                 case null:

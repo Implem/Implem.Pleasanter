@@ -15,19 +15,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static ErrorData OnEntry(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnEntry(
+            Context context,
+            SiteSettings ss,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             if (!api && ss.GetNoDisplayIfReadOnly())
@@ -41,19 +42,20 @@ namespace Implem.Pleasanter.Models
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnGet(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnGet(
+            Context context,
+            SiteSettings ss,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             return context.CanRead(ss: ss)
@@ -62,19 +64,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ErrorData OnEditing(
-            Context context, SiteSettings ss, SysLogModel sysLogModel, bool api = false)
+            Context context,
+            SiteSettings ss,
+            SysLogModel sysLogModel,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             if (ss.GetNoDisplayIfReadOnly())
@@ -101,19 +104,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ErrorData OnCreating(
-            Context context, SiteSettings ss, SysLogModel sysLogModel, bool api = false)
+            Context context,
+            SiteSettings ss,
+            SysLogModel sysLogModel,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             if (!context.CanCreate(ss: ss) || sysLogModel.ReadOnly)
@@ -401,19 +405,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ErrorData OnUpdating(
-            Context context, SiteSettings ss, SysLogModel sysLogModel, bool api = false)
+            Context context,
+            SiteSettings ss,
+            SysLogModel sysLogModel,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             if (!context.CanUpdate(ss: ss) || sysLogModel.ReadOnly)
@@ -700,19 +705,20 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ErrorData OnDeleting(
-            Context context, SiteSettings ss, SysLogModel sysLogModel, bool api = false)
+            Context context,
+            SiteSettings ss,
+            SysLogModel sysLogModel,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             return context.CanDelete(ss: ss) && !sysLogModel.ReadOnly
@@ -722,19 +728,20 @@ namespace Implem.Pleasanter.Models
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnRestoring(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnRestoring(
+            Context context,
+            SiteSettings ss,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             return Permissions.CanManageTenant(context: context)
@@ -742,19 +749,20 @@ namespace Implem.Pleasanter.Models
                 : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnImporting(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnImporting(
+            Context context,
+            SiteSettings ss,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             return context.CanImport(ss: ss)
@@ -764,19 +772,20 @@ namespace Implem.Pleasanter.Models
                     : new ErrorData(type: Error.Types.HasNotPermission);
         }
 
-        public static ErrorData OnExporting(Context context, SiteSettings ss, bool api = false)
+        public static ErrorData OnExporting(
+            Context context,
+            SiteSettings ss,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             return context.CanExport(ss: ss)

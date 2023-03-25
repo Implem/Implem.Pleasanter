@@ -1841,6 +1841,33 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static SiteModel GetByServerScript(
+            Context context,
+            SiteSettings ss,
+            long siteId)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: siteId);
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return null;
+            }
+            var invalid = SiteValidators.OnEntry(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return null;
+            }
+            return siteModel;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance GetByApi(
             Context context,
             SiteSettings ss,

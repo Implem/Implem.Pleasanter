@@ -39,18 +39,33 @@
                 sort: true,
                 checkRow: false,
                 action: "LinkTable"))
-        .TBody(action: () => #modelName#Collection
-            .ForEach(#modelName#Model =>
-                hb.Tr(
-                    attributes: new HtmlAttributes()
-                        .Class("grid-row")
-                        .DataId(#modelName#Model.#ModelName#Id.ToString()),
-                    action: () => columns
-                        .ForEach(column => hb
-                            .TdValue(
-                                context: context,
-                                ss: ss,
-                                column: column,
-                                #modelName#Model: #modelName#Model,
-                                tabIndex: tabIndex)))));
+        .TBody(action: () => #modelName#Collection.ForEach(#modelName#Model =>
+        {
+            var serverScriptModelRow = #modelName#Model?.SetByBeforeOpeningRowServerScript(
+                context: context,
+                ss: ss,
+                view: view);
+            var extendedRowCss = serverScriptModelRow?.ExtendedRowCss;
+            extendedRowCss = extendedRowCss.IsNullOrEmpty()
+                ? string.Empty
+                : " " + extendedRowCss;
+            hb.Tr(
+                attributes: new HtmlAttributes()
+                    .Class("grid-row" + extendedRowCss)
+                    .DataId(#modelName#Model.#ModelName#Id.ToString())
+                    .Add(name: "data-extension", value: serverScriptModelRow?.ExtendedRowData),
+                action: () => columns.ForEach(column =>
+                {
+                    var serverScriptModelColumn = serverScriptModelRow
+                        ?.Columns
+                        ?.Get(column?.ColumnName);
+                    hb.TdValue(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        #modelName#Model: #modelName#Model,
+                        tabIndex: tabIndex,
+                        serverScriptModelColumn: serverScriptModelColumn);
+                }));
+        }));
     break;

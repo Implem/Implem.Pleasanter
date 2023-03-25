@@ -12,7 +12,6 @@ using Implem.Pleasanter.Models;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinks
@@ -731,20 +730,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             sort: true,
                                             checkRow: false,
                                             action: "LinkTable"))
-                                    .TBody(action: () => issueCollection
-                                        .ForEach(issueModel =>
-                                            hb.Tr(
-                                                attributes: new HtmlAttributes()
-                                                    .Class("grid-row")
-                                                    .DataId(issueModel.IssueId.ToString()),
-                                                action: () => columns
-                                                    .ForEach(column => hb
-                                                        .TdValue(
-                                                            context: context,
-                                                            ss: ss,
-                                                            column: column,
-                                                            issueModel: issueModel,
-                                                            tabIndex: tabIndex)))));
+                                    .TBody(action: () => issueCollection.ForEach(issueModel =>
+                                    {
+                                        var serverScriptModelRow = issueModel?.SetByBeforeOpeningRowServerScript(
+                                            context: context,
+                                            ss: ss,
+                                            view: view);
+                                        var extendedRowCss = serverScriptModelRow?.ExtendedRowCss;
+                                        extendedRowCss = extendedRowCss.IsNullOrEmpty()
+                                            ? string.Empty
+                                            : " " + extendedRowCss;
+                                        hb.Tr(
+                                            attributes: new HtmlAttributes()
+                                                .Class("grid-row" + extendedRowCss)
+                                                .DataId(issueModel.IssueId.ToString())
+                                                .Add(name: "data-extension", value: serverScriptModelRow?.ExtendedRowData),
+                                            action: () => columns.ForEach(column =>
+                                            {
+                                                var serverScriptModelColumn = serverScriptModelRow
+                                                    ?.Columns
+                                                    ?.Get(column?.ColumnName);
+                                                hb.TdValue(
+                                                    context: context,
+                                                    ss: ss,
+                                                    column: column,
+                                                    issueModel: issueModel,
+                                                    tabIndex: tabIndex,
+                                                    serverScriptModelColumn: serverScriptModelColumn);
+                                            }));
+                                    }));
                                 break;
                             case "Results":
                                 var resultCollection = new ResultCollection(
@@ -787,20 +801,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                             sort: true,
                                             checkRow: false,
                                             action: "LinkTable"))
-                                    .TBody(action: () => resultCollection
-                                        .ForEach(resultModel =>
-                                            hb.Tr(
-                                                attributes: new HtmlAttributes()
-                                                    .Class("grid-row")
-                                                    .DataId(resultModel.ResultId.ToString()),
-                                                action: () => columns
-                                                    .ForEach(column => hb
-                                                        .TdValue(
-                                                            context: context,
-                                                            ss: ss,
-                                                            column: column,
-                                                            resultModel: resultModel,
-                                                            tabIndex: tabIndex)))));
+                                    .TBody(action: () => resultCollection.ForEach(resultModel =>
+                                    {
+                                        var serverScriptModelRow = resultModel?.SetByBeforeOpeningRowServerScript(
+                                            context: context,
+                                            ss: ss,
+                                            view: view);
+                                        var extendedRowCss = serverScriptModelRow?.ExtendedRowCss;
+                                        extendedRowCss = extendedRowCss.IsNullOrEmpty()
+                                            ? string.Empty
+                                            : " " + extendedRowCss;
+                                        hb.Tr(
+                                            attributes: new HtmlAttributes()
+                                                .Class("grid-row" + extendedRowCss)
+                                                .DataId(resultModel.ResultId.ToString())
+                                                .Add(name: "data-extension", value: serverScriptModelRow?.ExtendedRowData),
+                                            action: () => columns.ForEach(column =>
+                                            {
+                                                var serverScriptModelColumn = serverScriptModelRow
+                                                    ?.Columns
+                                                    ?.Get(column?.ColumnName);
+                                                hb.TdValue(
+                                                    context: context,
+                                                    ss: ss,
+                                                    column: column,
+                                                    resultModel: resultModel,
+                                                    tabIndex: tabIndex,
+                                                    serverScriptModelColumn: serverScriptModelColumn);
+                                            }));
+                                    }));
                                 break;
                         }
                     }
