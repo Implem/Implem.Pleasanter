@@ -77,7 +77,7 @@
     background-image: url("images/ui-icons_c47a23_256x240.png");
 }
 
-.grid-row a {
+#Links .grid-row a {
     color: #383838;
 }
 
