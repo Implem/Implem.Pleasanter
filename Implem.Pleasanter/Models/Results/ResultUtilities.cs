@@ -6200,8 +6200,7 @@ namespace Implem.Pleasanter.Models
                 encoding: context.Forms.Data("ExportEncoding"));
         }
 
-        public static string ExportAndMailNotify(
-            Context context, SiteSettings ss, SiteModel siteModel)
+        public static string ExportAndMailNotify(Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Export == false)
             {
@@ -6249,7 +6248,7 @@ namespace Implem.Pleasanter.Models
                                     .ReferenceId(ss.SiteId)
                                     .Guid(guid)
                                     .Title(fileName)
-                                    .BinaryType("Attachments")
+                                    .BinaryType("ExportData")
                                     .Bin(bytes)
                                     .FileName(fileName)
                                     .Extension(export.Type.ToString())
@@ -6272,8 +6271,12 @@ namespace Implem.Pleasanter.Models
                         Body = Displays.ExportEmailBody(context: context) + "\n" +
                             $"{serverName}{Locations.DownloadFile(context: context, guid: guid)}",
                         From = Libraries.Mails.Addresses.SupportFrom(),
-                        To = MailAddressUtilities.Get(context: context, context.UserId),
-                    }.Send(context: context, ss);
+                        To = MailAddressUtilities.Get(
+                            context: context,
+                            userId: context.UserId),
+                    }.Send(
+                        context: context,
+                        ss: ss);
                 }
                 catch(Exception e)
                 {
