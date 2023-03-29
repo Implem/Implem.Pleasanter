@@ -1070,11 +1070,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     switch (Type)
                     {
                         case Types.Dept:
-                            return context.DeptId.ToString();
+                            return MultipleSelections == true
+                                ? context.DeptId.ToString().ToSingleList().ToJson()
+                                : context.DeptId.ToString();
                         case Types.Group:
-                            return DefaultGroupId(context: context).ToString();
+                            return MultipleSelections == true
+                                ? context.Groups.ToJson()
+                                : DefaultGroupId(context: context).ToString();
                         case Types.User:
-                            return context.UserId.ToString();
+                            return MultipleSelections == true
+                                ? context.UserId.ToString().ToSingleList().ToJson()
+                                : context.UserId.ToString();
                     }
                     break;
             }
