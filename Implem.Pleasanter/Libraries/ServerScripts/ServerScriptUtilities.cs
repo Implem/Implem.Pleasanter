@@ -1270,15 +1270,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             else if (title != null)
             {
-                where.Sites_Title(title);
+                where
+                    .ReferenceType("Sites")
+                    .Sites_Title(title);
             }
             else if (siteName != null)
             {
-                where.Sites_SiteName(siteName);
+                where
+                    .ReferenceType("Sites")
+                    .Sites_SiteName(siteName);
             }
             else if (siteGroupName != null)
             {
-                where.Sites_SiteGroupName(siteGroupName);
+                where
+                    .ReferenceType("Sites")
+                    .Sites_SiteGroupName(siteGroupName);
             }
             else
             {
