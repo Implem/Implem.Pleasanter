@@ -7,14 +7,14 @@
         .ForEach(columnName =>
             GetAttachments(columnName: columnName).Statements(
                 context: context,
-                statements: statements,
-                referenceId: #ModelName#Id,
+                ss: ss,
                 column: ss.GetColumn(
                     context: context,
-                    columnName: columnName)));
+                    columnName: columnName),
+                statements: statements,
+                referenceId: #ModelName#Id));
     return statements;
 }
-
 private void WriteAttachments(Context context, SiteSettings ss)
 {
     ColumnNames()
@@ -23,7 +23,9 @@ private void WriteAttachments(Context context, SiteSettings ss)
         .ForEach(columnName =>
             GetAttachments(columnName: columnName).Write(
                 context: context,
+                ss: ss,
                 column: ss.GetColumn(
                     context: context,
-                    columnName: columnName)));
+                    columnName: columnName),
+                referenceId: #ModelName#Id));
 }
