@@ -1463,6 +1463,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.AllowDeleteAttachments = column.AllowDeleteAttachments;
                     }
+                    if (column.NotDeleteExistHistory == true)
+                    {
+                        enabled = true;
+                        newColumn.NotDeleteExistHistory = column.NotDeleteExistHistory;
+                    }
                     if (column.AllowImage != true)
                     {
                         enabled = true;
@@ -1858,6 +1863,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 column.AutoPostBack = column.AutoPostBack ?? false;
                 column.AllowBulkUpdate = column.AllowBulkUpdate ?? false;
                 column.AllowDeleteAttachments = column.AllowDeleteAttachments ?? true;
+                column.NotDeleteExistHistory = column.NotDeleteExistHistory ?? false;
                 column.AllowImage = column.AllowImage ?? true;
                 column.ThumbnailLimitSize = column.ThumbnailLimitSize ?? Parameters.BinaryStorage.ThumbnailLimitSize;
                 column.FieldCss = column.FieldCss ?? columnDefinition.FieldCss;
@@ -3810,6 +3816,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ColumnsReturnedWhenAutomaticPostback": column.ColumnsReturnedWhenAutomaticPostback = value; break;
                 case "AllowBulkUpdate": column.AllowBulkUpdate = value.ToBool(); break;
                 case "AllowDeleteAttachments": column.AllowDeleteAttachments = value.ToBool(); break;
+                case "NotDeleteExistHistory": column.NotDeleteExistHistory = value.ToBool(); break;
                 case "AllowImage": column.AllowImage = value.ToBool(); break;
                 case "ThumbnailLimitSize": column.ThumbnailLimitSize = value.ToDecimal(); break;
                 case "FieldCss": column.FieldCss = value; break;

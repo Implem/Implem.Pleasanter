@@ -9,10 +9,11 @@
                 attachment.Deleted = true);
             attachments.Statements(
                 context: context,
-                statements: statements,
-                referenceId: #ModelName#Id,
-                ss.GetColumn(
+                ss: ss,
+                column: ss.GetColumn(
                     context: context,
-                    columnName: columnName));
+                    columnName: columnName),
+                statements: statements,
+                referenceId: #ModelName#Id);
         });
 }

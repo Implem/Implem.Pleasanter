@@ -6229,6 +6229,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string NotDeleteExistHistory(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotDeleteExistHistory",
+                data: data);
+        }
+
         public static string NotFound(
             Context context,
             params string[] data)
