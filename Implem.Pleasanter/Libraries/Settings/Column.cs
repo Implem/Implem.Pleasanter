@@ -74,6 +74,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string LabelText;
         public string GridLabelText;
         public string Description;
+        public string InputGuide;
         public string ChoicesText;
         public bool? UseSearch;
         public bool? MultipleSelections;
