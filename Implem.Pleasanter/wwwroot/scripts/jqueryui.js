@@ -142,14 +142,16 @@ $p.apply = function () {
     });
     $('.control-markdown:not(.applied)').each(function () {
         var $control = $(this);
+        var id = $control.attr('id');
         var $viewer = $('[id="' + this.id + '.viewer"]');
-        $viewer.html($p.markup($control.val()));
+        $viewer.html($p.markup(id, $control.val()));
         $control.addClass('applied');
         $p.setTargetBlank();
     });
     $('.markup:not(.applied)').each(function () {
         var $control = $(this);
-        $control.html($p.markup($control.html(), true));
+        var id = $control.attr('id');
+        $control.html($p.markup(id, $control.html(), true));
         $control.addClass('applied');
         $p.setTargetBlank();
     });
