@@ -144,14 +144,16 @@ $p.apply = function () {
         var $control = $(this);
         var id = $control.attr('id');
         var $viewer = $('[id="' + this.id + '.viewer"]');
-        $viewer.html($p.markup(id, $control.val()));
+        var markup = $p.markup($control.val());
+        $viewer.html($p.setInputGuide(id, $control.val(), markup));
         $control.addClass('applied');
         $p.setTargetBlank();
     });
     $('.markup:not(.applied)').each(function () {
         var $control = $(this);
         var id = $control.attr('id');
-        $control.html($p.markup(id, $control.html(), true));
+        var markup = $p.markup($control.html(), true);
+        $control.html($p.setInputGuide(id, $control.html(), markup));
         $control.addClass('applied');
         $p.setTargetBlank();
     });

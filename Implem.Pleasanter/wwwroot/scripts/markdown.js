@@ -2,7 +2,8 @@
     var id = $control.attr('id');
     var $viewer = $('[id="' + $control.attr('id') + '.viewer"]');
     if ($viewer.length === 1) {
-        $viewer.html($p.markup(id, $control.val()));
+        var markup = $p.markup($control.val());
+        $viewer.html($p.setInputGuide(id, $control.val(), markup));
         $p.resizeEditor($control, $viewer);
         $p.toggleEditor($control, false);
         $p.setTargetBlank();
@@ -42,16 +43,10 @@ $p.resizeEditor = function ($control, $viewer) {
     }
 }
 
-$p.markup = function (id, markdownValue, encoded) {
+$p.markup = function (markdownValue, encoded) {
     var text = markdownValue;
     if (!encoded) text = getEncordedHtml(text);
     text = replaceUnc(text);
-    if (text.length === 0) {
-        $('[id="' + id + '.viewer"]').css("color", "darkgray");
-        return $('[id="' + id + '"]').attr('placeholder');
-    } else {
-        $('[id="' + id + '.viewer"]').css("color", "black");
-    }
     return text.indexOf('[md]') === 0
         ? '<div class="md">' + marked(text.substring(4)) + '</div>'
         : replaceUrl(markedUp(text));
@@ -115,6 +110,16 @@ $p.markup = function (id, markdownValue, encoded) {
     function title($1) {
         var m = $1.match(/\[[^\]]+\]\(/i)[0];
         return m.substring(1, m.length - 2);
+    }
+}
+
+$p.setInputGuide = function (id, text, markup) {
+    if (text.length === 0) {
+        $('[id="' + id + '.viewer"]').css("color", "darkgray");
+        return $('[id="' + id + '"]').attr('placeholder');
+    } else {
+        $('[id="' + id + '.viewer"]').css("color", "black");
+        return markup;
     }
 }
 
