@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -1446,6 +1447,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ?.Where(
                         context: apiContext,
                         ss: ss);
+            var join = ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where
+                });
             if (where != null
                 && apiContext.CanRead(ss: ss))
             {
@@ -1456,12 +1463,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             context: apiContext,
                             statements: Rds.SelectCount(
                                 tableName: "Issues",
+                                join: join,
                                 where: where));
                     case "Results":
                         return Repository.ExecuteScalar_long(
                             context: apiContext,
                             statements: Rds.SelectCount(
                                 tableName: "Results",
+                                join: join,
                                 where: where));
                 }
             }
