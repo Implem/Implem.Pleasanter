@@ -1189,6 +1189,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                         enabled = true;
                         newColumn.Description = column.Description;
                     }
+                    if (column.InputGuide?.Trim().IsNullOrEmpty() == false)
+                    {
+                        enabled = true;
+                        newColumn.InputGuide = column.InputGuide;
+                    }
                     if (column.ChoicesText.Replace("\r\n", "\n") != columnDefinition.ChoicesText.Replace("\r\n", "\n"))
                     {
                         enabled = true;
@@ -3816,6 +3821,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ViewerSwitchingType": column.ViewerSwitchingType = (Column.ViewerSwitchingTypes)value.ToInt(); break;
                 case "TextAlign": column.TextAlign = (TextAlignTypes)value.ToInt(); break;
                 case "Description": column.Description = value; break;
+                case "InputGuide": column.InputGuide = value; break;
                 case "ChoicesText": column.ChoicesText = value; SetLinks(
                     context: context, column: column); break;
                 case "UseSearch": column.UseSearch = value.ToBool(); break;

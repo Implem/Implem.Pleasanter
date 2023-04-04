@@ -253,6 +253,7 @@ namespace Implem.PostgreSql
                     select ""P"".""UserId"" as ""Id""
                     from ""Permissions"" as ""P""
                     where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""UserId""=""Permissions"".""UserId""
                         and ""P"".""UserId""=@ipU
                         and @ipU<>0
                     union all

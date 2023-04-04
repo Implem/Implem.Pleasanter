@@ -361,7 +361,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? context.CanManageSite(ss: ss)
                         : ss.ReferenceType == "Groups"
                             ? canCreateGroups
-                            : context.CanCreate(ss: ss)
+                            : context.CanCreate(ss: ss, site: true)
                                 && ss.ReferenceType != "Wikis"
                                 && context.Action != "trashbox";
                 case "ViewModeMenu":

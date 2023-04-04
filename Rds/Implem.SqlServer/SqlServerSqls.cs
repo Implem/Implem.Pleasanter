@@ -249,6 +249,7 @@ namespace Implem.SqlServer
                     select ""P"".""UserId"" as ""Id""
                     from ""Permissions"" as ""P""
                     where ""P"".""ReferenceId""=""Permissions"".""ReferenceId""
+                        and ""P"".""UserId""=""Permissions"".""UserId""
                         and ""P"".""UserId""=@_U
                         and @_U<>0
                     union all

@@ -360,21 +360,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return null;
         }
 
-        public bool Create()
+        public bool Create(object siteId)
         {
-            var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
-            if (Model is IssueModel issueModel)
-            {
-                return serverScript.Create(issueModel.IssueId, this);
-            }
-            else if (Model is ResultModel resultModel)
-            {
-                return serverScript.Create(resultModel.ResultId, this);
-            }
-            else
-            {
-                return false;
-            }
+            var serverScript = new ServerScriptModelApiItems(
+                context: Context,
+                onTesting: OnTesting);
+            return serverScript.Create(siteId, this);
         }
 
         public bool Update()

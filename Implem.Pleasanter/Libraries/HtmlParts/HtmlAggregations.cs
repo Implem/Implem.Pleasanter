@@ -299,9 +299,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return groupBy != null
                 ? attributes
-                    .Class("data" + (groupBy != null
-                        ? " link"
-                        : string.Empty))
+                    .Class("data"
+                        + (groupBy != null
+                            ? " link"
+                            : string.Empty)
+                        + (groupBy?.HasChoices() == false
+                            ? " no-choice"
+                            : string.Empty))
                     .DataSelector(Selector(ss, aggregation.GroupBy))
                     .DataValue(DataValue(groupBy, key))
                 : attributes

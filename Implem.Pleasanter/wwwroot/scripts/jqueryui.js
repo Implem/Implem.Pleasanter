@@ -142,14 +142,18 @@ $p.apply = function () {
     });
     $('.control-markdown:not(.applied)').each(function () {
         var $control = $(this);
-        var $viewer = $('[id="' + this.id + '.viewer"]');
-        $viewer.html($p.markup($control.val()));
+        var id = $control.attr('id');
+        var $viewer = $('[id="' + id + '.viewer"]');
+        var markup = $p.markup($control.val());
+        $viewer.html($p.setInputGuide(id, $control.val(), markup));
         $control.addClass('applied');
         $p.setTargetBlank();
     });
     $('.markup:not(.applied)').each(function () {
         var $control = $(this);
-        $control.html($p.markup($control.html(), true));
+        var id = $control.attr('id');
+        var markup = $p.markup($control.html(), true);
+        $control.html($p.setInputGuide(id, $control.html(), markup));
         $control.addClass('applied');
         $p.setTargetBlank();
     });
