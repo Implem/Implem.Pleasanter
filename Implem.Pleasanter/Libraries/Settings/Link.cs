@@ -23,6 +23,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AddSource;
         public bool? ExcludeMe;
         public bool? MembersOnly;
+        public bool? SelectNewLink;
         public string SearchFormat;
         public View View;
         public Lookups Lookups;
@@ -86,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (AddSource == true) link.AddSource = true;
             if (ExcludeMe == true) link.ExcludeMe = true;
             if (MembersOnly == true) link.MembersOnly = true;
+            if (SelectNewLink == true) link.SelectNewLink = true;
             if (!SearchFormat.IsNullOrEmpty()) link.SearchFormat = SearchFormat;
             var currentSs = GetSiteSettings(
                 context: context,
