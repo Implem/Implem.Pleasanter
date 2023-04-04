@@ -1,6 +1,6 @@
 ﻿$p.showMarkDownViewer = function ($control) {
     var id = $control.attr('id');
-    var $viewer = $('[id="' + $control.attr('id') + '.viewer"]');
+    var $viewer = $('[id="' + id + '.viewer"]');
     if ($viewer.length === 1) {
         var markup = $p.markup($control.val());
         $viewer.html($p.setInputGuide(id, $control.val(), markup));

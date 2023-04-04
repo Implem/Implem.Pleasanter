@@ -143,7 +143,7 @@ $p.apply = function () {
     $('.control-markdown:not(.applied)').each(function () {
         var $control = $(this);
         var id = $control.attr('id');
-        var $viewer = $('[id="' + this.id + '.viewer"]');
+        var $viewer = $('[id="' + id + '.viewer"]');
         var markup = $p.markup($control.val());
         $viewer.html($p.setInputGuide(id, $control.val(), markup));
         $control.addClass('applied');
