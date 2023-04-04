@@ -6530,11 +6530,20 @@ namespace Implem.Pleasanter.Models
                                         }
                                         break;
                                 }
-                                hb.FieldTextBox(
-                                    controlId: "Description",
-                                    fieldCss: "field-wide",
-                                    labelText: Displays.Description(context: context),
-                                    text: column.Description);
+                                hb
+                                    .FieldTextBox(
+                                        controlId: "Description",
+                                        fieldCss: "field-wide",
+                                        labelText: Displays.Description(context: context),
+                                        text: column.Description)
+                                    .FieldTextBox(
+                                        controlId: "InputGuide",
+                                        fieldCss: "field-wide",
+                                        labelText: Displays.InputGuide(context: context),
+                                        text: column.InputGuide,
+                                        _using: type == Types.CsString
+                                            || type == Types.CsDateTime
+                                            || Def.ExtendedColumnTypes.Get(column?.Name) == "Num");
                                 switch (column.ControlType)
                                 {
                                     case "ChoicesText":

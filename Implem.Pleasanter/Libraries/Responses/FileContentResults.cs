@@ -18,26 +18,29 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static ResponseFile Download(Context context, string guid)
         {
-            var dataRow = GetBinariesTable(context, guid);
+            var dataRow = GetBinariesTable(
+                context: context,
+                guid: guid);
+            if (dataRow == null)
+            {
+                return null;
+            }
             switch (dataRow.String("BinaryType"))
             {
                 case "Images":
-                    if (dataRow == null)
-                    {
-                        return null;
-                    }
                     return Bytes(
                         dataRow: dataRow,
                         thumbnail: context.QueryStrings.Bool("thumbnail"));
+                case "ExportData":
+                    return context.CanExport(
+                        ss: SiteSettingsUtilities.Get(
+                            context: context,
+                            siteId: dataRow.Long("ReferenceId")),
+                        site: true)
+                            ? Bytes(dataRow: dataRow)
+                            : null;
                 default:
-                    if (dataRow != null)
-                    {
-                        return Bytes(dataRow: dataRow);
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return Bytes(dataRow: dataRow);
             }
         }
 
@@ -166,6 +169,27 @@ namespace Implem.Pleasanter.Libraries.Responses
                             .TenantId(context.TenantId)
                             .Guid(guid)
                             .Add(raw: $"(\"Binaries\".\"CreatedTime\"=\"Binaries\".\"UpdatedTime\" and \"Binaries\".\"Creator\"={context.UserId})"),
+                        unionType: Sqls.UnionTypes.UnionAll),
+                    Rds.SelectBinaries(
+                        column: Rds.BinariesColumn()
+                            .BinaryId()
+                            .ReferenceId()
+                            .Guid()
+                            .BinaryType()
+                            .Bin()
+                            .Thumbnail()
+                            .FileName()
+                            .ContentType()
+                            .Extension()
+                            .Size()
+                            .Creator()
+                            .Updator()
+                            .CreatedTime()
+                            .UpdatedTime(),
+                        where: Rds.BinariesWhere()
+                            .TenantId(context.TenantId)
+                            .Guid(guid)
+                            .BinaryType("ExportData"),
                         unionType: Sqls.UnionTypes.UnionAll),
                     Rds.SelectBinaries(
                         column: Rds.BinariesColumn()

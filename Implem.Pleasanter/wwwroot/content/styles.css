@@ -2187,7 +2187,7 @@ label.required:after{
 .control-checkbox ~ label{
     display:block;
     float:left;
-    margin:7px 5px 0px 7px;
+    margin:7px 5px 0px 6px;
 }
 
 .control-checkbox + .ui-icon.ui-icon-info{

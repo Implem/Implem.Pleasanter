@@ -1,5 +1,4 @@
 ﻿case "#TableName#":
     return #ModelName#Utilities.ExportAndMailNotify(
         context: context,
-        ss: Site.SiteSettings,
-        siteModel: Site);
+        ss: Site.SiteSettings);

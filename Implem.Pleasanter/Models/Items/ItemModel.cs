@@ -1028,7 +1028,9 @@ namespace Implem.Pleasanter.Models
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
-            if(MailAddressUtilities.Get(context: context, context.UserId).IsNullOrEmpty())
+            if (MailAddressUtilities.Get(
+                context: context,
+                userId: context.UserId).IsNullOrEmpty())
             {
                 return Messages.ResponseExportNotSetEmail(
                     context: context, 
@@ -1040,13 +1042,11 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     return IssueUtilities.ExportAndMailNotify(
                         context: context,
-                        ss: Site.SiteSettings,
-                        siteModel: Site);
+                        ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.ExportAndMailNotify(
                         context: context,
-                        ss: Site.SiteSettings,
-                        siteModel: Site);
+                        ss: Site.SiteSettings);
                 default:
                     return Error.Types.InvalidRequest.MessageJson(context: context);
             }

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "InputGuide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Input guide"
+        },
+        {
+            "Language": "zh",
+            "Body": "输入指南"
+        },
+        {
+            "Language": "ja",
+            "Body": "入力ガイド"
+        },
+        {
+            "Language": "de",
+            "Body": "Eingabehilfe"
+        },
+        {
+            "Language": "ko",
+            "Body": "입력 가이드"
+        },
+        {
+            "Language": "es",
+            "Body": "Guía de entrada"
+        },
+        {
+            "Language": "vn",
+            "Body": "hướng dẫn đầu vào"
+        }
+    ]
+}

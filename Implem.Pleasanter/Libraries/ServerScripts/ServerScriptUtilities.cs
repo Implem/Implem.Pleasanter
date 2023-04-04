@@ -1,4 +1,5 @@
 ﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -1266,15 +1267,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             }
             else if (title != null)
             {
-                where.Sites_Title(title);
+                where
+                    .ReferenceType("Sites")
+                    .Sites_Title(title);
             }
             else if (siteName != null)
             {
-                where.Sites_SiteName(siteName);
+                where
+                    .ReferenceType("Sites")
+                    .Sites_SiteName(siteName);
             }
             else if (siteGroupName != null)
             {
-                where.Sites_SiteGroupName(siteGroupName);
+                where
+                    .ReferenceType("Sites")
+                    .Sites_SiteGroupName(siteGroupName);
             }
             else
             {
@@ -1436,6 +1443,12 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     ?.Where(
                         context: apiContext,
                         ss: ss);
+            var join = ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where
+                });
             if (where != null
                 && apiContext.CanRead(ss: ss))
             {
@@ -1446,12 +1459,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             context: apiContext,
                             statements: Rds.SelectCount(
                                 tableName: "Issues",
+                                join: join,
                                 where: where));
                     case "Results":
                         return Repository.ExecuteScalar_long(
                             context: apiContext,
                             statements: Rds.SelectCount(
                                 tableName: "Results",
+                                join: join,
                                 where: where));
                 }
             }
