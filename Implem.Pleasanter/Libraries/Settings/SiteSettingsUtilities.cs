@@ -62,6 +62,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (referenceType)
             {
                 case "Sites": return SitesSiteSettings(context: context, siteId: siteId);
+                case "Dashboards": return DashboardsSiteSettings(context: context, siteId: siteId);
                 case "Issues": return IssuesSiteSettings(context: context, siteId: siteId);
                 case "Results": return ResultsSiteSettings(context: context, siteId: siteId);
                 case "Wikis": return WikisSiteSettings(context: context, siteId: siteId);
@@ -80,6 +81,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             switch (siteModel.ReferenceType)
             {
                 case "Sites": return SitesSiteSettings(
+                    context: context,
+                    siteModel: siteModel,
+                    referenceId: referenceId,
+                    setSiteIntegration: setSiteIntegration,
+                    setAllChoices: setAllChoices,
+                    tableType: tableType);
+                case "Dashboards": return DashboardsSiteSettings(
                     context: context,
                     siteModel: siteModel,
                     referenceId: referenceId,
@@ -443,6 +451,57 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.ReferenceType = "Sites";
             ss.SiteId = siteId;
             ss.Init(context: context);
+            return ss;
+        }
+
+        public static SiteSettings DashboardsSiteSettings(
+            this SiteModel siteModel,
+            Context context,
+            long referenceId,
+            bool setSiteIntegration = false,
+            bool setAllChoices = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+        {
+            var ss = siteModel.SiteSettings ?? new SiteSettings();
+            ss.LockedTableTime = siteModel.LockedTime;
+            ss.LockedTableUser = siteModel.LockedUser;
+            ss.TableType = tableType;
+            ss.SiteId = siteModel.SiteId;
+            ss.ReferenceId = referenceId;
+            ss.Title = siteModel.Title.Value;
+            ss.Body = siteModel.Body;
+            ss.GridGuide = siteModel.GridGuide;
+            ss.EditorGuide = siteModel.EditorGuide;
+            ss.CalendarGuide = siteModel.CalendarGuide;
+            ss.CrosstabGuide = siteModel.CrosstabGuide;
+            ss.GanttGuide = siteModel.GanttGuide;
+            ss.BurnDownGuide = siteModel.BurnDownGuide;
+            ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.KambanGuide = siteModel.KambanGuide;
+            ss.ImageLibGuide = siteModel.ImageLibGuide;
+            ss.ReferenceType = "Dashboards";
+            ss.ParentId = siteModel.ParentId;
+            ss.InheritPermission = siteModel.InheritPermission;
+            ss.Publish = siteModel.Publish;
+            ss.AccessStatus = siteModel.AccessStatus;
+            ss.ApiCount = siteModel.ApiCount;
+            ss.ApiCountDate = siteModel.ApiCountDate;
+            ss.Init(context: context);
+            ss.SetLinkedSiteSettings(context: context);
+            ss.SetPermissions(context: context, referenceId: referenceId);
+            if (setSiteIntegration) ss.SetSiteIntegration(context: context);
+            ss.SetChoiceHash(context: context, all: setAllChoices);
+            return ss;
+        }
+
+        public static SiteSettings DashboardsSiteSettings(
+            Context context, long siteId, bool setAllChoices = false)
+        {
+            var ss = new SiteSettings();
+            ss.ReferenceType = "Dashboards";
+            ss.SiteId = siteId;
+            ss.Init(context: context);
+            ss.SetChoiceHash(context: context, all: setAllChoices);
             return ss;
         }
 

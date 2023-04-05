@@ -98,7 +98,16 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_EditorMainCommands.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Results_Manager - コピー.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Results_Owner - コピー.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Results_ResultId - コピー.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Results_SiteTitle - コピー.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Results_Status - コピー.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Results_Title - コピー.json" />
+    <Content Remove="App_Data\Definitions\Definition_Template\Template420.json" />
+    <Content Remove="App_Data\Definitions\Definition_Template\Template420_SiteSettingsTemplate.json" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1576,7 +1576,8 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     ss: ss,
                                     issueModel: issueModel,
-                                    serverScriptModelRow: serverScriptModelRow))
+                                    serverScriptModelRow: serverScriptModelRow)
+)
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))

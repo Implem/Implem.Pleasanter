@@ -40,6 +40,19 @@ namespace Implem.Pleasanter.Libraries.Search
                                 ss: ss,
                                 backgroundTask: true));
                         break;
+                    case "Dashboards":
+                        var dashboardModel = new DashboardModel(
+                            context: context,
+                            ss: ss,
+                            dashboardId: id);
+                        CreateFullText(
+                            context: context,
+                            id: id,
+                            fullText: dashboardModel.FullText(
+                                context: context,
+                                ss: ss,
+                                backgroundTask: true));
+                        break;
                     case "Issues":
                         var issueModel = new IssueModel(
                             context: context,

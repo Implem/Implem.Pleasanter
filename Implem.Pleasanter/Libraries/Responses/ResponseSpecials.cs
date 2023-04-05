@@ -532,6 +532,30 @@ namespace Implem.Pleasanter.Libraries.Responses
         }
     }
 
+    public class DashboardsResponseCollection : ResponseCollection
+    {
+        public DashboardModel DashboardModel;
+
+        public DashboardsResponseCollection(
+            Context context,
+            DashboardModel dashboardModel) : base(context: context)
+        {
+            DashboardModel = dashboardModel;
+        }
+
+        public DashboardsResponseCollection Val(string selector, string value)
+        {
+            base.Val(selector, value);
+            return this;
+        }
+
+        public DashboardsResponseCollection ValAndFormData(string selector, string value)
+        {
+            base.ValAndFormData(selector, value);
+            return this;
+        }
+    }
+
     public class IssuesResponseCollection : ResponseCollection
     {
         public IssueModel IssueModel;
@@ -10592,6 +10616,534 @@ namespace Implem.Pleasanter.Libraries.Responses
             this PermissionsResponseCollection res, Context context, string value)
         {
             return res.ValAndFormData("#Permissions_Timestamp", value);
+        }
+
+        public static DashboardsResponseCollection UpdatedTime(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_UpdatedTime",
+                res.DashboardModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static DashboardsResponseCollection UpdatedTime(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_UpdatedTime", value);
+        }
+
+        public static DashboardsResponseCollection UpdatedTime_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_UpdatedTime",
+                res.DashboardModel.UpdatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "UpdatedTime")));
+        }
+
+        public static DashboardsResponseCollection UpdatedTime_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_UpdatedTime", value);
+        }
+
+        public static DashboardsResponseCollection DashboardId(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_DashboardId",
+                res.DashboardModel.DashboardId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "DashboardId")));
+        }
+
+        public static DashboardsResponseCollection DashboardId(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_DashboardId", value);
+        }
+
+        public static DashboardsResponseCollection DashboardId_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_DashboardId",
+                res.DashboardModel.DashboardId.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "DashboardId")));
+        }
+
+        public static DashboardsResponseCollection DashboardId_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_DashboardId", value);
+        }
+
+        public static DashboardsResponseCollection Ver(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Ver",
+                res.DashboardModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static DashboardsResponseCollection Ver(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Ver", value);
+        }
+
+        public static DashboardsResponseCollection Ver_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Ver",
+                res.DashboardModel.Ver.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Ver")));
+        }
+
+        public static DashboardsResponseCollection Ver_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Ver", value);
+        }
+
+        public static DashboardsResponseCollection Title(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Title",
+                res.DashboardModel.Title.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Title")));
+        }
+
+        public static DashboardsResponseCollection Title(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Title", value);
+        }
+
+        public static DashboardsResponseCollection Title_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Title",
+                res.DashboardModel.Title.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Title")));
+        }
+
+        public static DashboardsResponseCollection Title_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Title", value);
+        }
+
+        public static DashboardsResponseCollection Body(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Body",
+                res.DashboardModel.Body.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Body")));
+        }
+
+        public static DashboardsResponseCollection Body(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Body", value);
+        }
+
+        public static DashboardsResponseCollection Body_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Body",
+                res.DashboardModel.Body.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Body")));
+        }
+
+        public static DashboardsResponseCollection Body_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Body", value);
+        }
+
+        public static DashboardsResponseCollection Status(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Status",
+                res.DashboardModel.Status.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Status")));
+        }
+
+        public static DashboardsResponseCollection Status(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Status", value);
+        }
+
+        public static DashboardsResponseCollection Status_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Status",
+                res.DashboardModel.Status.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Status")));
+        }
+
+        public static DashboardsResponseCollection Status_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Status", value);
+        }
+
+        public static DashboardsResponseCollection Manager(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Manager",
+                res.DashboardModel.Manager.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Manager")));
+        }
+
+        public static DashboardsResponseCollection Manager(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Manager", value);
+        }
+
+        public static DashboardsResponseCollection Manager_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Manager",
+                res.DashboardModel.Manager.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Manager")));
+        }
+
+        public static DashboardsResponseCollection Manager_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Manager", value);
+        }
+
+        public static DashboardsResponseCollection Owner(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Owner",
+                res.DashboardModel.Owner.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Owner")));
+        }
+
+        public static DashboardsResponseCollection Owner(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Owner", value);
+        }
+
+        public static DashboardsResponseCollection Owner_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Owner",
+                res.DashboardModel.Owner.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Owner")));
+        }
+
+        public static DashboardsResponseCollection Owner_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Owner", value);
+        }
+
+        public static DashboardsResponseCollection Locked(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Locked",
+                res.DashboardModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static DashboardsResponseCollection Locked(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Locked", value);
+        }
+
+        public static DashboardsResponseCollection Locked_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Locked",
+                res.DashboardModel.Locked.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Locked")));
+        }
+
+        public static DashboardsResponseCollection Locked_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Locked", value);
+        }
+
+        public static DashboardsResponseCollection Comments(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Comments",
+                res.DashboardModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static DashboardsResponseCollection Comments(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Comments", value);
+        }
+
+        public static DashboardsResponseCollection Comments_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Comments",
+                res.DashboardModel.Comments.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Comments")));
+        }
+
+        public static DashboardsResponseCollection Comments_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Comments", value);
+        }
+
+        public static DashboardsResponseCollection CreatedTime(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_CreatedTime",
+                res.DashboardModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static DashboardsResponseCollection CreatedTime(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_CreatedTime", value);
+        }
+
+        public static DashboardsResponseCollection CreatedTime_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_CreatedTime",
+                res.DashboardModel.CreatedTime.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "CreatedTime")));
+        }
+
+        public static DashboardsResponseCollection CreatedTime_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_CreatedTime", value);
+        }
+
+        public static DashboardsResponseCollection Timestamp(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Dashboards_Timestamp",
+                res.DashboardModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static DashboardsResponseCollection Timestamp(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Dashboards_Timestamp", value);
+        }
+
+        public static DashboardsResponseCollection Timestamp_FormData(
+            this DashboardsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Dashboards_Timestamp",
+                res.DashboardModel.Timestamp.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "Timestamp")));
+        }
+
+        public static DashboardsResponseCollection Timestamp_FormData(
+            this DashboardsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Dashboards_Timestamp", value);
         }
 
         public static IssuesResponseCollection UpdatedTime(

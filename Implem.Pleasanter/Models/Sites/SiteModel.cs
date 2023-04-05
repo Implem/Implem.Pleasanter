@@ -1318,6 +1318,11 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteItems(
                         factory: context,
                         where: Rds.ItemsWhere().SiteId_In(siteIds)),
+                    Rds.DeleteDashboards(
+                        factory: context,
+                        where: Rds.DashboardsWhere().SiteId_In(siteMenu
+                            .Where(o => o.ReferenceType == "Dashboards")
+                            .Select(o => o.SiteId))),
                     Rds.DeleteIssues(
                         factory: context,
                         where: Rds.IssuesWhere().SiteId_In(siteMenu

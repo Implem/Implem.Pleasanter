@@ -972,6 +972,13 @@ namespace Implem.Pleasanter.Models
                                         referenceType: "Sites"))
                                 },
                                 {
+                                    "Dashboards",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Dashboards"))
+                                }
+,
+                                {
                                     "Issues",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
@@ -1004,6 +1011,7 @@ namespace Implem.Pleasanter.Models
             switch (referenceType)
             {
                 case "Sites": return Displays.Folder(context: context);
+                case "Dashboards": return Displays.Get(context: context, id: "Dashboards");
                 case "Issues": return Displays.Get(context: context, id: "Issues");
                 case "Results": return Displays.Get(context: context, id: "Results");
                 case "Wikis": return Displays.Get(context: context, id: "Wikis");

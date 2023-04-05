@@ -2,5 +2,5 @@
     "Id": "Model_SetDefaultExec",
     "Indent": "3",
     "ItemOnly": "1",
-    "Exclude": "Sites,Wikis"
+    "Exclude": "Sites,Wikis,Dashboards"
 }
