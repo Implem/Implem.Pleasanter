@@ -929,7 +929,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         mine: mine)
-                            ?.ToString() ?? String.Empty;
+                            ?.ToString() ?? string.Empty;
                 default:
                     return PropertyValue(
                         context: context,
