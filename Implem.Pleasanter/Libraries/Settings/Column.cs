@@ -261,6 +261,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool SqlParam;
         [NonSerialized]
         public OutputTypes OutputType;
+        [NonSerialized]
+        public bool ExcludeMe;
         // compatibility
         public bool? GridVisible;
         public bool? FilterVisible;
@@ -317,6 +319,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setChoices = true)
         {
             if (setChoices) ChoiceHash = new Dictionary<string, Choice>();
+            ExcludeMe = link.ExcludeMe == true;
             link.SetChoiceHash(
                 context: context,
                 ss: ss,
