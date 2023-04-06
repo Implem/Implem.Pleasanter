@@ -676,7 +676,9 @@ public string ExportAndMailNotify(Context context)
     {
         return Error.Types.InvalidRequest.MessageJson(context: context);
     }
-    if(MailAddressUtilities.Get(context: context, context.UserId).IsNullOrEmpty())
+    if (MailAddressUtilities.Get(
+        context: context,
+        userId: context.UserId).IsNullOrEmpty())
     {
         return Messages.ResponseExportNotSetEmail(
             context: context, 

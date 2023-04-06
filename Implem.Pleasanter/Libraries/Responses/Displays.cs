@@ -4609,6 +4609,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string InputGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "InputGuide",
+                data: data);
+        }
+
         public static string InputMailAddress(
             Context context,
             params string[] data)

@@ -89,8 +89,9 @@ namespace Implem.Pleasanter.Libraries.Models
             var param = view.Param(
                 context: context,
                 ss: ss);
-            var statements = new List<SqlStatement>();
-            statements.Add(Rds.Select(
+            var statements = new List<SqlStatement>
+            {
+                Rds.Select(
                 tableName: ss.ReferenceType,
                 tableType: tableType,
                 dataTableName: "Main",
@@ -101,7 +102,8 @@ namespace Implem.Pleasanter.Libraries.Models
                 param: param,
                 top: top,
                 offset: offset,
-                pageSize: pageSize));
+                pageSize: pageSize)
+            };
             if (count)
             {
                 statements.Add(Rds.SelectCount(

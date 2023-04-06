@@ -48,6 +48,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
 <!--Rds_ParamDefault-->;
 
     #modelName#Model.ClassHash
+        .Where(o => Def.ExtendedColumnTypes.Get(o.Key) == "Class")
         .Where(o => #modelName#Model.Class_Updated(columnName: o.Key)
             || (otherInitValue && !#modelName#Model.GetClass(columnName: o.Key)
                 .InitialValue(context: context)))
@@ -57,6 +58,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
                 name: o.Key,
                 value: o.Value.MaxLength(1024)));
     #modelName#Model.NumHash
+        .Where(o => Def.ExtendedColumnTypes.Get(o.Key) == "Num")
         .Where(o => #modelName#Model.Num_Updated(
             columnName: o.Key,
             column: ss?.GetColumn(
@@ -83,6 +85,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
                                 }
                             });
     #modelName#Model.DateHash
+        .Where(o => Def.ExtendedColumnTypes.Get(o.Key) == "Date")
         .Where(o => #modelName#Model.Date_Updated(columnName: o.Key)
             || (otherInitValue && !#modelName#Model.GetDate(columnName: o.Key)
                 .InitialValue(context: context)))
@@ -92,6 +95,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
                 name: o.Key,
                 value: o.Value));
     #modelName#Model.DescriptionHash
+        .Where(o => Def.ExtendedColumnTypes.Get(o.Key) == "Description")
         .Where(o => #modelName#Model.Description_Updated(columnName: o.Key)
             || (otherInitValue && !#modelName#Model.GetDescription(columnName: o.Key)
                 .InitialValue(context: context)))
@@ -101,6 +105,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
                 name: o.Key,
                 value: o.Value ?? string.Empty));
     #modelName#Model.CheckHash
+        .Where(o => Def.ExtendedColumnTypes.Get(o.Key) == "Check")
         .Where(o => #modelName#Model.Check_Updated(columnName: o.Key)
             || (otherInitValue && !#modelName#Model.GetCheck(columnName: o.Key)
                 .InitialValue(context: context)))
@@ -110,6 +115,7 @@ public static #TableName#ParamCollection #TableName#ParamDefault(
                 name: o.Key,
                 value: o.Value));
     #modelName#Model.AttachmentsHash
+        .Where(o => Def.ExtendedColumnTypes.Get(o.Key) == "Attachments")
         .Where(o => #modelName#Model.Attachments_Updated(columnName: o.Key)
             || (otherInitValue && !#modelName#Model.GetAttachments(columnName: o.Key)
                 .InitialValue(context: context)))

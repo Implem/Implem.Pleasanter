@@ -109,6 +109,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Strings.CoalesceEmpty(
                         serverScriptModelColumn?.LabelText,
                         column.LabelText),
+                    placeholder: Strings.CoalesceEmpty(
+                        column.InputGuide,
+                        serverScriptModelColumn?.LabelText,
+                        column.LabelText),
                     labelRaw: serverScriptModelColumn?.LabelRaw,
                     value: value,
                     optionCollection: EditChoices(
@@ -332,6 +336,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: null),
                 controlType: ControlType(column),
                 labelText: column.LabelText,
+                placeholder: Strings.CoalesceEmpty(column.InputGuide, column.LabelText),
                 labelRaw: null,
                 value: value,
                 optionCollection: EditChoices(
@@ -371,6 +376,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlCss,
             ControlTypes controlType,
             string labelText,
+            string placeholder,
             string labelRaw,
             string value,
             Dictionary<string, ControlData> optionCollection,
@@ -427,10 +433,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
-                                placeholder: labelText,
                                 readOnly: true,
                                 allowImage: column.AllowImage == true,
                                 mobile: mobile,
@@ -527,7 +533,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlAfterControl: extendedHtmlAfterControl,
                                 controlOption: () =>
                                 {
-                                    if (column.MultipleSelections != true)
+                                    if (column.MultipleSelections != true
+                                        && column.ExcludeMe != true)
                                     {
                                         hb
                                             .Div(
@@ -586,6 +593,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -615,10 +623,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
-                                placeholder: labelText,
                                 readOnly: column.GetEditorReadOnly(),
                                 allowBulkUpdate: column.AllowBulkUpdate == true,
                                 allowImage: column.AllowImage == true,
@@ -646,6 +654,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -678,6 +687,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 unit: column.Unit,
@@ -713,6 +723,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
+                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,
@@ -1151,6 +1162,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string controlContainerCss = null,
             string controlCss = null,
             string labelText = null,
+            string placeholder = null,
             string labelRaw = null,
             string labelTitle = null,
             string labelIcon = null,
@@ -1209,7 +1221,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ? " with-unit"
                                     : string.Empty),
                             text: text,
-                            placeholder: labelText,
+                            placeholder: placeholder,
                             format: format,
                             timepicker: timepiker,
                             alwaysSend: alwaysSend,
@@ -1252,13 +1264,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelRaw = null,
             string labelTitle = null,
+            string placeholder = null,
             string labelIcon = null,
             int validateMaxLength = 0,
             string validateRegex = null,
             string validateRegexErrorMessage = null,
             bool controlOnly = false,
             string text = null,
-            string placeholder = null,
             bool readOnly = false,
             bool allowImage = true,
             bool allowBulkUpdate = false,
