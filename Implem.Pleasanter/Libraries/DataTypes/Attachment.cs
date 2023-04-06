@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2013.PowerPoint.Roaming;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
