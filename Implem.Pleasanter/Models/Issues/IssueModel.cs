@@ -2101,11 +2101,12 @@ namespace Implem.Pleasanter.Models
                 .ForEach(columnName =>
                     GetAttachments(columnName: columnName).Statements(
                         context: context,
-                        statements: statements,
-                        referenceId: IssueId,
+                        ss: ss,
                         column: ss.GetColumn(
                             context: context,
-                            columnName: columnName)));
+                            columnName: columnName),
+                        statements: statements,
+                        referenceId: IssueId));
             return statements;
         }
 
@@ -2117,9 +2118,11 @@ namespace Implem.Pleasanter.Models
                 .ForEach(columnName =>
                     GetAttachments(columnName: columnName).Write(
                         context: context,
+                        ss: ss,
                         column: ss.GetColumn(
                             context: context,
-                            columnName: columnName)));
+                            columnName: columnName),
+                        referenceId: IssueId));
         }
 
         public void UpdateRelatedRecords(
@@ -2354,11 +2357,12 @@ namespace Implem.Pleasanter.Models
                             attachment.Deleted = true);
                         attachments.Statements(
                             context: context,
-                            statements: statements,
-                            referenceId: IssueId,
-                            ss.GetColumn(
+                            ss: ss,
+                            column: ss.GetColumn(
                                 context: context,
-                                columnName: columnName));
+                                columnName: columnName),
+                            statements: statements,
+                            referenceId: IssueId);
                     });
             }
             statements.OnDeletedExtendedSqls(

@@ -132,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AutoPostBack;
         public string ColumnsReturnedWhenAutomaticPostback;
         public bool? AllowDeleteAttachments;
+        public bool? NotDeleteExistHistory;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;

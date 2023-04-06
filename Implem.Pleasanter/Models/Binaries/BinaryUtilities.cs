@@ -1001,14 +1001,23 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static void DeleteFromLocal(Context context, EnumerableRowCollection<DataRow> dataRows)
+        public static void DeleteFromLocal(
+            Context context,
+            EnumerableRowCollection<DataRow> dataRows,
+            SiteSettings ss = null,
+            Column column = null,
+            long referenceId = 0)
         {
             dataRows.ForEach(binary =>
             {
                 var binaryType = binary.String("BinaryType");
                 if (binaryType == "Attachments")
                 {
-                    new Attachment() { Guid = binary.String("Guid") }.DeleteFromLocal(context: context);
+                    new Attachment() { Guid = binary.String("Guid") }.DeleteFromLocal(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        referenceId: referenceId);
                 }
                 else if (binaryType == "Images")
                 {

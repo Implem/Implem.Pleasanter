@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotDeleteExistHistory",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Do not delete files that exist in history"
+        },
+        {
+            "Language": "zh",
+            "Body": "不要删除历史中存在的文件"
+        },
+        {
+            "Language": "ja",
+            "Body": "履歴に存在するファイルは削除しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Löschen Sie keine Dateien, die im Verlauf vorhanden sind"
+        },
+        {
+            "Language": "ko",
+            "Body": "기록에 존재하는 파일을 삭제하지 마십시오"
+        },
+        {
+            "Language": "es",
+            "Body": "No borre archivos que existen en el historial"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không xóa các tập tin tồn tại trong lịch sử"
+        }
+    ]
+}
