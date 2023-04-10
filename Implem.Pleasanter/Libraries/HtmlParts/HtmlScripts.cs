@@ -77,6 +77,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "Scripts/Plugins/moment.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/gridstack.js/gridstack-all.min.js"))
                     .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(
