@@ -50,12 +50,62 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb.Grid(
+                viewModeBody: () => hb.Div(css:"grid-stack"));
+        }
+
+        private static HtmlBuilder SiteMenu(this HtmlBuilder hb, Context context)
+        {
+            var ss = SiteSettingsUtilities.SitesSiteSettings(
                    context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                   siteId: 0);
+            ss.PermissionType = context.SiteTopPermission();
+            var siteConditions = SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu
+                .SiteConditions(context: context, ss: ss);
+            return hb.Div(id: "SiteMenu", action: () => hb
+                .Nav(css: "cf", action: () => hb
+                    .Ul(css: "nav-sites sortable", action: () =>
+                        Menu(context: context, ss: ss).ForEach(siteModelChild => hb
+                            .SiteMenu(
+                                context: context,
+                                ss: ss,
+                                currentSs: siteModelChild.SiteSettings,
+                                siteId: siteModelChild.SiteId,
+                                referenceType: siteModelChild.ReferenceType,
+                                title: siteModelChild.Title.Value,
+                                siteConditions: siteConditions)))));
+        }
+
+        private static IEnumerable<SiteModel> Menu(Context context, SiteSettings ss)
+        {
+            var siteCollection = new SiteCollection(
+                context: context,
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .Title()
+                    .ReferenceType()
+                    .SiteSettings(),
+                where: Rds.SitesWhere()
+                    .TenantId(context.TenantId)
+                    .ParentId(ss.SiteId)
+                    .Add(
+                        raw: Def.Sql.HasPermission,
+                        _using: !context.HasPrivilege));
+            var orderModel = new OrderModel(
+                context: context,
+                ss: ss,
+                referenceId: ss.SiteId,
+                referenceType: "Sites");
+            siteCollection.ForEach(siteModel =>
+            {
+                var index = orderModel.Data.IndexOf(siteModel.SiteId);
+                siteModel.SiteMenu = (index != -1 ? index : int.MaxValue);
+            });
+            return siteCollection
+                .Where(o => !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
+                    && o.SiteSettings?.NoDisplayIfReadOnly == true))
+                .OrderBy(o => o.SiteMenu);
         }
 
         private static string ViewModeTemplate(
@@ -77,6 +127,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            var gridlayout = new HtmlBuilder().SiteMenu(context: context).ToString();
+            var layoutItems = new[]
+            {
+                new {x = 0, y = 0, w = 2, h = 6, content = gridlayout},
+                new {x = 2, y = 0, w = 4, h = 4, content = "<h2>1</h2>"},
+                new {x = 6, y = 0, w = 4, h = 4, content = "<h2>2</h2>"},
+                new {x = 2, y = 4, w = 4, h = 2, content = "<h2>3</h2>"},
+                new {x = 6, y = 4, w = 2, h = 2, content = "<h2>4</h2>"},
+            };
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -98,25 +157,6 @@ namespace Implem.Pleasanter.Models
                                 controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
-                            .Div(
-                                id: "ViewSelectorField", 
-                                action: () => hb
-                                    .ViewSelector(
-                                        context: context,
-                                        ss: ss,
-                                        view: view))
-                            .ViewFilters(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Aggregations(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .ViewExtensions(
-                                context: context,
-                                ss: ss,
-                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,
@@ -130,38 +170,8 @@ namespace Implem.Pleasanter.Models
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
-                                controlId: "EditOnGrid",
-                                css: "always-send",
-                                value: context.Forms.Data("EditOnGrid"))
-                            .Hidden(
-                                controlId: "NewRowId",
-                                css: "always-send",
-                                value: context.Forms.Data("NewRowId")))
-                    .EditorDialog(context: context, ss: ss)
-                    .DropDownSearchDialog(
-                        context: context,
-                        id: ss.SiteId)
-                    .MoveDialog(context: context, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("SetNumericRangeDialog")
-                        .Class("dialog")
-                        .Title(Displays.NumericRange(context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("SetDateRangeDialog")
-                        .Class("dialog")
-                        .Title(Displays.DateRange(context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("ExportSelectorDialog")
-                        .Class("dialog")
-                        .Title(Displays.Export(context: context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("ExportSitePackageDialog")
-                        .Class("dialog")
-                        .Title(Displays.ExportSitePackage(context: context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("BulkUpdateSelectorDialog")
-                        .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                                controlId: "dashbordlayout",
+                                value: layoutItems.ToJson())))
                     .ToString();
         }
 
