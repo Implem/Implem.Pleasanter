@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         hb.Button(
                             controlId: "GoBack",
                             text: Strings.CoalesceEmpty(
-                                serverScriptModelRow?.Elements?.LabelText("BulkDeleteCommand"),
+                                serverScriptModelRow?.Elements?.LabelText("GoBack"),
                                 Displays.GoBack(context: context)),
                             controlCss: "button-icon",
                             accessKey: "q",
