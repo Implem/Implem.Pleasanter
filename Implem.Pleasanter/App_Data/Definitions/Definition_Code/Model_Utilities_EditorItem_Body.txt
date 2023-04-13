@@ -210,7 +210,10 @@ private static HtmlBuilder Editor(
                             comments: #modelName#Model.Comments,
                             column: commentsColumn,
                             verType: #modelName#Model.VerType,
-                            columnPermissionType: commentsColumnPermissionType),
+                            columnPermissionType: commentsColumnPermissionType,
+                            serverScriptModelColumn: #modelName#Model
+                                ?.ServerScriptModelRow
+                                ?.Columns.Get(commentsColumn.ColumnName)),
                     _using: showComments)
                 .Div(
                     id: "EditorTabsContainer",

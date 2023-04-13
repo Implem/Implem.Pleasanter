@@ -5,6 +5,8 @@ using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+
 namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlComments
@@ -16,7 +18,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Comments comments,
             Column column,
             Versions.VerTypes verType,
-            Permissions.ColumnPermissionTypes columnPermissionType)
+            Permissions.ColumnPermissionTypes columnPermissionType,
+            ServerScriptModelColumn serverScriptModelColumn = null)
         {
             var readOnly = verType != Versions.VerTypes.Latest
                 || !context.CanUpdate(ss: ss)
@@ -32,6 +35,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     css: css,
                     title: column?.Description,
                     labelText: column?.LabelText,
+                    placeholder: Strings.CoalesceEmpty(
+                        column.InputGuide,
+                        serverScriptModelColumn?.LabelText,
+                        column.LabelText),
                     allowImage: column?.AllowImage == true,
                     mobile: context.Mobile == true,
                     _using: !readOnly,
@@ -76,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string css,
             string title,
             string labelText,
+            string placeholder,
             string validateRegex,
             string validateRegexErrorMessage,
             bool allowImage,
@@ -99,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 .DataValidateMaxLength(validateMaxLength)
                                 .DataValidateRegex(validateRegex)
                                 .DataValidateRegexErrorMessage(validateRegexErrorMessage)
-                                .Placeholder(labelText))
+                                .Placeholder(placeholder))
                         .MarkDownCommands(
                             context: context,
                             ss: ss,
