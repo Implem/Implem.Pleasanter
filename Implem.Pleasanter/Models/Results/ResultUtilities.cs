@@ -1428,7 +1428,10 @@ namespace Implem.Pleasanter.Models
                                     comments: resultModel.Comments,
                                     column: commentsColumn,
                                     verType: resultModel.VerType,
-                                    columnPermissionType: commentsColumnPermissionType),
+                                    columnPermissionType: commentsColumnPermissionType,
+                                    serverScriptModelColumn: resultModel
+                                        ?.ServerScriptModelRow
+                                        ?.Columns.Get(commentsColumn.ColumnName)),
                             _using: showComments)
                         .Div(
                             id: "EditorTabsContainer",
