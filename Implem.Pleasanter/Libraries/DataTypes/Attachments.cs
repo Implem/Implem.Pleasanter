@@ -128,9 +128,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
 
         public void Statements(
             Context context,
+            SiteSettings ss,
+            Column column,
             List<SqlStatement> statements,
-            long referenceId,
-            Column column)
+            long referenceId)
         {
             this
                 .Where(o => !o.Guid.IsNullOrEmpty())
@@ -138,13 +139,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 {
                     attachment.SqlStatement(
                         context: context,
+                        ss: ss,
+                        column: column,
                         statements: statements,
-                        referenceId: referenceId,
-                        column: column);
+                        referenceId: referenceId);
                 });
         }
 
-        public void Write(Context context, Column column)
+        public void Write(Context context, Column column,
+        SiteSettings ss,
+        long referenceId)
         {
             this
                 .Where(o => !o.Guid.IsNullOrEmpty())
@@ -160,7 +164,11 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     }
                     else if (attachment.Deleted == true && !attachment.Overwritten.HasValue)
                     {
-                        attachment.DeleteFromLocal(context: context);
+                        attachment.DeleteFromLocal(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            referenceId: referenceId);
                     }
                 });
         }

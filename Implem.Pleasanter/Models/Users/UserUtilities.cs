@@ -4489,11 +4489,14 @@ namespace Implem.Pleasanter.Models
             var ss = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: siteId);
-            var issueModel = new IssueModel(
+            var issueCollection = new IssueCollection(
                 context: context,
                 ss: ss,
-                issueId: announcementId);
-            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
+                where: Rds.IssuesWhere()
+                    .SiteId(siteId)
+                    .IssueId(announcementId));
+            var issueModel = issueCollection.FirstOrDefault();
+            if (issueModel == null)
             {
                 return new ResponseCollection(context: context)
                     .Message(Messages.InvalidRequest(context: context))

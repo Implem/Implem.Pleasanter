@@ -1533,7 +1533,10 @@ namespace Implem.Pleasanter.Models
                                     comments: issueModel.Comments,
                                     column: commentsColumn,
                                     verType: issueModel.VerType,
-                                    columnPermissionType: commentsColumnPermissionType),
+                                    columnPermissionType: commentsColumnPermissionType,
+                                    serverScriptModelColumn: issueModel
+                                        ?.ServerScriptModelRow
+                                        ?.Columns.Get(commentsColumn.ColumnName)),
                             _using: showComments)
                         .Div(
                             id: "EditorTabsContainer",

@@ -87,19 +87,37 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .CopyTo(filePath, overwrite: true);
         }
 
-        public void DeleteFromLocal(Context context)
+        public void DeleteFromLocal(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            long referenceId)
         {
             var path = Path.Combine(
                 Directories.BinaryStorage(),
                 "Attachments",
                 Guid);
-            if (System.IO.File.Exists(path))
+            if (ss == null
+                || column.NotDeleteExistHistory == false
+                || !ExistsHistory(
+                    context: context,
+                    ss: ss,
+        　　　　    column: column,
+        　　　　    referenceId: referenceId))
             {
-                Files.DeleteFile(path);
+                if (System.IO.File.Exists(path))
+                {
+                    Files.DeleteFile(path);
+                }
             }
         }
 
-        public void SqlStatement(Context context, List<SqlStatement> statements, long referenceId, Column column)
+        public void SqlStatement(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            List<SqlStatement> statements,
+            long referenceId)
         {
             if (Added == true)
             {
@@ -122,9 +140,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
             else if (Deleted == true && !Overwritten.HasValue)
             {
-                statements.Add(Rds.DeleteBinaries(
-                    factory: context,
-                    where: Rds.BinariesWhere().Guid(Guid)));
+                if (column.NotDeleteExistHistory == false
+                    || !ExistsHistory(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        referenceId: referenceId))
+                {
+                    statements.Add(Rds.DeleteBinaries(
+                        factory: context,
+                        where: Rds.BinariesWhere().Guid(Guid)));
+                }
             }
             else
             {
@@ -139,6 +165,51 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                     default:
                         break;
                 }
+            }
+        }
+
+        private bool ExistsHistory(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            long referenceId)
+        {
+            switch (ss.ReferenceType)
+            {
+                case "Issues":
+                    return Rds.ExecuteScalar_int(
+                        context: context,
+                        statements: Rds.SelectIssues(
+                            tableType: Sqls.TableTypes.History,
+                            column: Rds.IssuesColumn().IssuesCount(),
+                            where: Rds.IssuesWhere()
+                                .SiteId(ss.SiteId)
+                                .IssueId(referenceId)
+                                .Add(
+                                    tableName: "Issues",
+                                    columnBrackets: column.ColumnName.ToSingleArray(),
+                                    value: $"%\"Guid\":\"{Guid}\"%",
+                                    name: Strings.NewGuid(),
+                                    _operator: context.Sqls.LikeWithEscape),
+                            top: 1)) == 1;
+                case "Results":
+                    return Rds.ExecuteScalar_int(
+                        context: context,
+                        statements: Rds.SelectResults(
+                            tableType: Sqls.TableTypes.History,
+                            column: Rds.ResultsColumn().ResultsCount(),
+                            where: Rds.ResultsWhere()
+                                .SiteId(ss.SiteId)
+                                .ResultId(referenceId)
+                                .Add(
+                                    tableName: "Results",
+                                    columnBrackets: column.ColumnName.ToSingleArray(),
+                                    value: $"%\"Guid\":\"{Guid}\"%",
+                                    name: Strings.NewGuid(),
+                                    _operator: context.Sqls.LikeWithEscape),
+                            top: 1)) == 1;
+                default:
+                    return false;
             }
         }
 

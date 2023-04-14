@@ -132,6 +132,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? AutoPostBack;
         public string ColumnsReturnedWhenAutomaticPostback;
         public bool? AllowDeleteAttachments;
+        public bool? NotDeleteExistHistory;
         public bool? AllowImage;
         public bool? AllowBulkUpdate;
         public string FieldCss;
@@ -261,6 +262,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool SqlParam;
         [NonSerialized]
         public OutputTypes OutputType;
+        [NonSerialized]
+        public bool ExcludeMe;
         public bool? GridVisible;
         public bool? FilterVisible;
         public bool? EditorVisible;
@@ -314,6 +317,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool setChoices = true)
         {
             if (setChoices) ChoiceHash = new Dictionary<string, Choice>();
+            ExcludeMe = link.ExcludeMe == true;
             link.SetChoiceHash(
                 context: context,
                 ss: ss,
