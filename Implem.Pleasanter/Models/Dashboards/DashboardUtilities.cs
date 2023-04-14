@@ -77,6 +77,47 @@ namespace Implem.Pleasanter.Models
                                 siteConditions: siteConditions)))));
         }
 
+        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, IList<long> sites)
+        {
+            var ss = SiteSettingsUtilities.SitesSiteSettings(
+                   context: context,
+                   siteId: 0);
+            ss.PermissionType = context.SiteTopPermission();
+            var siteConditions = SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu
+                .SiteConditions(context: context, ss: ss);
+            return hb.Div(id: "SiteMenu", action: () => hb
+                .Nav(css: "cf", action: () => hb
+                    .Ul(css: "nav-sites sortable", action: () =>
+                        QuickAccessSites(context: context, sites:sites).ForEach(siteModelChild => hb
+                            .SiteMenu(
+                                context: context,
+                                ss: ss,
+                                currentSs: siteModelChild.SiteSettings,
+                                siteId: siteModelChild.SiteId,
+                                referenceType: siteModelChild.ReferenceType,
+                                title: siteModelChild.Title.Value,
+                                siteConditions: siteConditions)))));
+        }
+
+        private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
+        {
+            return new SiteCollection(
+                context: context,
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .Title()
+                    .ReferenceType()
+                    .SiteSettings(),
+                where: Rds.SitesWhere()
+                    .TenantId(context.TenantId)
+                    .SiteId_In(sites)
+                    .Add(
+                        raw: Def.Sql.HasPermission,
+                        _using: !context.HasPrivilege));
+        }
+
         private static IEnumerable<SiteModel> Menu(Context context, SiteSettings ss)
         {
             var siteCollection = new SiteCollection(
@@ -127,15 +168,42 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var gridlayout = new HtmlBuilder().SiteMenu(context: context).ToString();
-            var layoutItems = new[]
+
+
+            var dashboards = new DashboardCollection(
+                context: context,
+                ss: ss,
+                where: Rds.DashboardsWhere().SiteId(ss.SiteId));
+            var layoutItems = new List<DashboardLayout>();
+            foreach (var dashboardModel in dashboards)
             {
-                new {x = 0, y = 0, w = 2, h = 6, content = gridlayout},
-                new {x = 2, y = 0, w = 4, h = 4, content = "<h2>1</h2>"},
-                new {x = 6, y = 0, w = 4, h = 4, content = "<h2>2</h2>"},
-                new {x = 2, y = 4, w = 4, h = 2, content = "<h2>3</h2>"},
-                new {x = 6, y = 4, w = 2, h = 2, content = "<h2>4</h2>"},
-            };
+                var ds = dashboardModel.Body.Deserialize<DashboardSettings>();
+                if (ds?.QuickAccessSites == null || ds.QuickAccessSites.Length == 0)
+                {
+                    continue;
+                }
+                var dashboardHb = new HtmlBuilder();
+                var quickAccess = dashboardHb
+                    .Div(action: ()=>
+                    {
+                        dashboardHb.A(
+                            text: dashboardModel.Title.DisplayValue,
+                            href: Locations
+                                .Edit(
+                                    context: context,
+                                    "items",
+                                    dashboardModel.DashboardId));
+                    })
+                    .QuickAccessMenu(context: context, sites: ds.QuickAccessSites)
+                    .ToString();
+                layoutItems.Add(new DashboardLayout()
+                {
+                    W = ds.Width < 1 ? 1 : ds.Width,
+                    H = ds.Height < 1 ? 1 : ds.Height,
+                    Content = quickAccess
+                });
+            }
+
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -1182,6 +1250,35 @@ namespace Implem.Pleasanter.Models
                             .ToString();
         }
 
+        private static HtmlBuilder EditorMainCommands(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            DashboardModel dashboardModel,
+            ServerScriptModelRow serverScriptModelRow)
+        {
+            return hb.MainCommands(
+                context: context,
+                ss: ss,
+                verType: dashboardModel.VerType,
+                readOnly: dashboardModel.ReadOnly,
+                updateButton: true,
+                copyButton: true,
+                moveButton: true,
+                mailButton: true,
+                deleteButton: true,
+                serverScriptModelRow: serverScriptModelRow,
+                extensions: () => hb
+                    .MainCommandExtensions(
+                        context: context,
+                        ss: ss,
+                        dashboardModel: dashboardModel)
+                    .ProcessCommands(
+                        context: context,
+                        ss: ss,
+                        serverScriptModelRow: serverScriptModelRow));
+        }
+
         private static HtmlBuilder EditorInDialog(
             this HtmlBuilder hb,
             Context context,
@@ -1310,7 +1407,13 @@ namespace Implem.Pleasanter.Models
                                         .DataMethod("post"),
                                     _using: context.CanManagePermission(ss: ss)
                                         && !ss.Locked()
-                                        && dashboardModel.MethodType != BaseModel.MethodTypes.New))
+                                        && dashboardModel.MethodType != BaseModel.MethodTypes.New)
+                                .EditorMainCommands(
+                                    context: context,
+                                    ss: ss,
+                                    dashboardModel: dashboardModel,
+                                    serverScriptModelRow: serverScriptModelRow))
+
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))

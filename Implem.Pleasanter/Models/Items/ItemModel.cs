@@ -1421,6 +1421,10 @@ namespace Implem.Pleasanter.Models
                     return ResultUtilities.Create(
                         context: context,
                         ss: Site.SiteSettings);
+                case "Dashboards":
+                    return DashboardUtilities.Create(
+                        context: context,
+                        ss: Site.SiteSettings);
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
