@@ -6430,6 +6430,10 @@ namespace Implem.Pleasanter.Models
                                                         controlId: "AllowDeleteAttachments",
                                                         labelText: Displays.AllowDeleteAttachments(context: context),
                                                         _checked: column.AllowDeleteAttachments == true)
+                                                    .FieldCheckBox(
+                                                        controlId: "NotDeleteExistHistory",
+                                                        labelText: Displays.NotDeleteExistHistory(context: context),
+                                                        _checked: column.NotDeleteExistHistory == true)
                                                     .FieldDropDown(
                                                         context: context,
                                                         controlId: "BinaryStorageProvider",

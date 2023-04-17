@@ -1,5 +1,4 @@
-﻿using Implem.DefinitionAccessor;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Implem.ParameterAccessor.Parts

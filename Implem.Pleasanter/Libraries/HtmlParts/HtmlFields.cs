@@ -533,7 +533,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 extendedHtmlAfterControl: extendedHtmlAfterControl,
                                 controlOption: () =>
                                 {
-                                    if (column.MultipleSelections != true)
+                                    if (column.MultipleSelections != true
+                                        && column.ExcludeMe != true)
                                     {
                                         hb
                                             .Div(
