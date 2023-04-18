@@ -1,14 +1,31 @@
-﻿using DocumentFormat.OpenXml.Drawing.Charts;
+﻿using Implem.Pleasanter.Libraries.DataTypes;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class DashboardSettings
     {
+        public DashbordType Type { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public long[] QuickAccessSites { get; set; }
+        public QuickAccess QuickAccess { get; set; }
+        public TimeLine TimeLine { get; set; }
+    }
+
+    public enum DashbordType
+    {
+        QuickAccess,
+        TimeLine
+    }
+
+    public class QuickAccess
+    {
+        public long[] Sites { get; set; }
+    }
+
+    public class TimeLine
+    {
+        public int NumberOfItems { get; set; } = 20;
     }
 
     public class DashboardLayout
@@ -27,5 +44,16 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         [JsonProperty(PropertyName = "content")]
         public string Content { get; set; } = default;
+    }
+
+    public class TimeLineItem
+    {
+        public long Id { get; set; }
+        public Title Title { get; set; }
+        public string Body { get; set; }
+        public Time CreatedTime { get; set; }
+        public Time UpdatedTime { get; set; }
+        public User Creator { get; set; }
+        public User Updator { get; set; }
     }
 }
