@@ -115,20 +115,27 @@ public static #ModelName#Model[] GetByServerScript(
     }
     var api = context.RequestDataString.Deserialize<Api>();
     var view = api?.View ?? new View();
+    var where = view.Where(
+        context: context,
+        ss: ss);
+    var orderBy = view.OrderBy(
+        context: context,
+        ss: ss);
+    var join = ss.Join(
+        context: context,
+        join: new IJoin[]
+        {
+            where,
+            orderBy
+        });
     var pageSize = Parameters.Api.PageSize;
     var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
     var #modelName#Collection = new #ModelName#Collection(
         context: context,
         ss: ss,
-        join: Rds.ItemsJoin().Add(new SqlJoin(
-            tableBracket: "\"Items\"",
-            joinType: SqlJoin.JoinTypes.Inner,
-            joinExpression: "\"#TableName#\".\"#ModelName#Id\"=\"#TableName#_Items\".\"ReferenceId\"",
-            _as: "#TableName#_Items")),
-        where: view.Where(context: context, ss: ss),
-        orderBy: view.OrderBy(
-            context: context,
-            ss: ss),
+        join: join,
+        where: where,
+        orderBy: orderBy,
         offset: api?.Offset ?? 0,
         pageSize: pageSize,
         tableType: tableType);
