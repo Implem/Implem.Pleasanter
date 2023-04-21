@@ -8250,6 +8250,11 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+            var res = new ResponseCollection(context: context);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                res.Message(context.ErrorData.Message(context: context));
+            }
             if (InRange(
                 context: context,
                 ss: ss,
@@ -8264,7 +8269,7 @@ namespace Implem.Pleasanter.Models
                     changedItemId: updated
                         ? context.Forms.Long("KambanId")
                         : 0);
-                return new ResponseCollection(context: context)
+                return res
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -8284,7 +8289,7 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     bodyOnly: bodyOnly,
                     inRange: false);
-                return new ResponseCollection(context: context)
+                return res
                     .ViewMode(
                         context: context,
                         ss: ss,
