@@ -6540,9 +6540,11 @@ namespace Implem.Pleasanter.Models
                     : 0,
                 update: true,
                 message: updated
-                    ? Messages.Updated(
-                        context: context,
-                        data: resultModel.Title.MessageDisplay(context: context))
+                    ? context.ErrorData.Type != Error.Types.None
+                        ? context.ErrorData.Message(context: context)
+                        : Messages.Updated(
+                            context: context,
+                            data: resultModel.Title.MessageDisplay(context: context))
                     : null);
         }
 
