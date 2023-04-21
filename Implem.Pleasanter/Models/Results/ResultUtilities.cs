@@ -2849,20 +2849,27 @@ namespace Implem.Pleasanter.Models
             }
             var api = context.RequestDataString.Deserialize<Api>();
             var view = api?.View ?? new View();
+            var where = view.Where(
+                context: context,
+                ss: ss);
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss);
+            var join = ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where,
+                    orderBy
+                });
             var pageSize = Parameters.Api.PageSize;
             var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
             var resultCollection = new ResultCollection(
                 context: context,
                 ss: ss,
-                join: Rds.ItemsJoin().Add(new SqlJoin(
-                    tableBracket: "\"Items\"",
-                    joinType: SqlJoin.JoinTypes.Inner,
-                    joinExpression: "\"Results\".\"ResultId\"=\"Results_Items\".\"ReferenceId\"",
-                    _as: "Results_Items")),
-                where: view.Where(context: context, ss: ss),
-                orderBy: view.OrderBy(
-                    context: context,
-                    ss: ss),
+                join: join,
+                where: where,
+                orderBy: orderBy,
                 offset: api?.Offset ?? 0,
                 pageSize: pageSize,
                 tableType: tableType);
