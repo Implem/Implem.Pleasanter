@@ -4935,6 +4935,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: HistoryColumn(columns),
+                join: ss.Join(context: context),
                 where: Rds.ResultsWhere().ResultId(resultModel.ResultId),
                 orderBy: Rds.ResultsOrderBy().Ver(SqlOrderBy.Types.desc),
                 tableType: Sqls.TableTypes.NormalAndHistory)
@@ -4977,7 +4978,7 @@ namespace Implem.Pleasanter.Models
                 .Ver();
             columns.ForEach(column =>
                 sqlColumn.ResultsColumn(columnName: column.ColumnName));
-            return sqlColumn;
+            return sqlColumn.ItemTitle(tableName: "Results");
         }
 
         public static string History(Context context, SiteSettings ss, long resultId)
