@@ -243,3 +243,13 @@ $p.setRelatingColumn = function ($control) {
     $p.setData($('#EditRelatingColumns'), $p.getData($control));
     $p.send($control);
 }
+
+$p.openDashboardDialog = function ($control) {
+    $p.data.DashboardForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardDialog');
+}
+
+$p.setDashboard = function ($control) {
+    $p.setData($('#EditDashboard'), $p.getData($control));
+    $p.send($control);
+}

@@ -3067,6 +3067,26 @@ namespace Implem.Pleasanter.Models
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false);
                             break;
+                        case "Dashboards":
+                            hb
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#StylesSettingsEditor",
+                                            text: Displays.Styles(context: context)),
+                                    _using: context.ContractSettings.Style != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#ScriptsSettingsEditor",
+                                            text: Displays.Scripts(context: context)),
+                                    _using: context.ContractSettings.Script != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#DashboardSettingsEditor",
+                                            text: "ダッシュボード"));
+                            break;
                         case "Wikis":
                             hb
                                 .Li(
@@ -4252,6 +4272,11 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Script != false)
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("DashboardDialog")
+                        .Class("dialog")
+                        .Title("ダッシュボード"))
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
@@ -4397,6 +4422,12 @@ namespace Implem.Pleasanter.Models
                         hb
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
+                        break;
+                    case "Dashboards":
+                        hb
+                            .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .DashboardSettingsEditor(context: context, ss: siteModel.SiteSettings);
                         break;
                     case "Wikis":
                         hb
@@ -13389,7 +13420,8 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder EditScript(this HtmlBuilder hb, Context context, SiteSettings ss)
+        public static HtmlBuilder EditScript(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             var selected = context.Forms.Data("EditScript").Deserialize<IEnumerable<int>>();
             return hb.Table(
@@ -13652,6 +13684,263 @@ namespace Implem.Pleasanter.Models
                             action: "SetSiteSettings",
                             method: "post",
                             _using: controlId == "EditScript")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DashboardSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Script == false) return hb;
+            return hb.FieldSet(id: "DashboardSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpDashboards",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownDashboards",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewDashboard",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openDashboardDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "CopyDashboards",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteDashboards",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditDashboard(
+                    context: context,
+                    ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditDashboard(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditDashboard").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditDashboard",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("DashboardId")
+                    .DataFunc("openDashboardDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditDashboardHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditDashboardBody(
+                        ss: ss,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDashboardHeader(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Scripts?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: "タイプ"))
+                    .Th(action: () => hb
+                        .Text(text: "X"))
+                    .Th(action: () => hb
+                        .Text(text: "Y"))
+                    .Th(action: () => hb
+                        .Text(text: "Width"))
+                    .Th(action: () => hb
+                        .Text(text: "Height"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditDashboardBody(
+            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .Dashboards?.ForEach(dashboard => hb
+                    .Tr(
+                        css: "grid-row",
+                        attributes: new HtmlAttributes()
+                            .DataId(dashboard.Id.ToString()),
+                        action: () => hb
+                            .Td(action: () => hb
+                                .CheckBox(
+                                    controlCss: "select",
+                                    _checked: selected?
+                                        .Contains(dashboard.Id) == true))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.Id.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.Title))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.Type.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.X.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.Y.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.Width.ToString()))
+                            .Td(action: () => hb
+                                .Text(text: dashboard.Height.ToString())))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DashboardDialog(
+            Context context, SiteSettings ss, string controlId, Dashboard dashboard)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "DashboardId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: dashboard.Id.ToString(),
+                        _using: controlId == "EditDashboard")
+                    .FieldTextBox(
+                        controlId: "DashboardTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: dashboard.Title,
+                        validateRequired: true)
+                     .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardType",
+                        labelText: "タイプ",
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                DashboardType.QuickAccess.ToInt().ToString(),
+                                "クイックアクセス"
+                            },
+                            {
+                                DashboardType.TimeLine.ToInt().ToString(),
+                                "タイムライン"
+                            }
+                        },
+                        selectedValue: dashboard.Type.ToInt().ToString(),
+                        insertBlank: false)
+                     .FieldTextBox(
+                        controlId: "DashboardSites",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: "サイトID",
+                        text: dashboard.Sites?.Join(),
+                        validateRequired: true)
+                    .FieldSpinner(
+                        controlId: "DashboardX",
+                        fieldCss: "field-auto-thin",
+                        labelText: "X",
+                        value: dashboard.X.ToDecimal(),
+                        min: 0,
+                        max: 11,
+                        step: 1,
+                        width: 25)
+                    .FieldSpinner(
+                        controlId: "DashboardY",
+                        fieldCss: "field-auto-thin",
+                        labelText: "Y",
+                        value: dashboard.Y.ToDecimal(),
+                        min: 0,
+                        max: 11,
+                        step: 1,
+                        width: 25)
+                    .FieldSpinner(
+                        controlId: "DashboardWidth",
+                        fieldCss: "field-auto-thin",
+                        labelText: "Width",
+                        value: dashboard.Width.ToDecimal(),
+                        min: 1,
+                        max: 12,
+                        step: 1,
+                        width: 25)
+                    .FieldSpinner(
+                        controlId: "DashboardHeight",
+                        fieldCss: "field-auto-thin",
+                        labelText: "Height",
+                        value: dashboard.Height.ToDecimal(),
+                        min: 1,
+                        max: 12,
+                        step: 1,
+                        width: 25)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddDashboard",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setDashboard($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewDashboard")
+                        .Button(
+                            controlId: "UpdateDashboard",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setDashboard($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditDashboard")
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon",

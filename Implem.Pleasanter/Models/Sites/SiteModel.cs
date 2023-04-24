@@ -2947,6 +2947,42 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "MoveUpDashboards":
+                case "MoveDownDashboards":
+                    SetDashboardsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewDashboard":
+                case "EditDashboard":
+                    OpenDashboardDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddDashboard":
+                    AddDashboard(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateDashboard":
+                    UpdateDashboard(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "CopyDashboard":
+                    CopyDashboard(
+                        context: context,
+                        res: res);
+                    break;
+                case "DeleteDashboard":
+                    DeleteDashboard(
+                        context: context,
+                        res: res);
+                    break;
                 default:
                     if (controlId.Contains("_NumericRange"))
                     {
@@ -6692,6 +6728,160 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetDashboardsOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditDashboard");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Dashboards.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditDashboard", new HtmlBuilder()
+                    .EditDashboard(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardDialog(Context context, ResponseCollection res, Dashboard dashboard)
+        {
+            res.Html("#DashboardDialog", SiteUtilities.DashboardDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                dashboard: dashboard));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewDashboard")
+            {
+                var dashboard = new Dashboard();
+                OpenDashboardDialog(
+                    context: context,
+                    res: res,
+                    dashboard: dashboard);
+            }
+            else
+            {
+                var dashboard = SiteSettings.Dashboards?.Get(context.Forms.Int("DashboardId"));
+                if (dashboard == null)
+                {
+                    OpenDialogError(
+                        res: res,
+                        message: Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenDashboardDialog(
+                        context: context,
+                        res: res,
+                        dashboard: dashboard);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddDashboard(Context context, ResponseCollection res, string controlId)
+        {
+            SiteSettings.Dashboards.Add(
+                new Dashboard()
+                {
+                    Id = SiteSettings.Scripts.MaxOrDefault(o => o.Id) + 1,
+                    Title = context.Forms.Data("DashboardTitle"),
+                    Type = context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
+                    X= context.Forms.Int("DashboardX"),
+                    Y = context.Forms.Int("DashboardY"),
+                    Width = context.Forms.Int("DashboardWidth"),
+                    Height = context.Forms.Int("DashboardHeight")
+                });
+            res
+                .ReplaceAll("#EditDashboard", new HtmlBuilder()
+                    .EditDashboard(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDashboard(Context context, ResponseCollection res, string controlId)
+        {
+            SiteSettings.Dashboards?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardId"))?
+                .Update(
+                    title: context.Forms.Data("DashboardTitle"),
+                    type: context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
+                    x: context.Forms.Int("DashboardX"),
+                    y: context.Forms.Int("DashboardY"),
+                    width: context.Forms.Int("DashboardWidth"),
+                    height: context.Forms.Int("DashboardHeight"),
+                    sites: context.Forms.Data("DashboardSites"));
+            res
+                .Html("#EditDashboard", new HtmlBuilder()
+                    .EditDashboard(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyDashboard(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditDashboard");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Dashboards.Copy(selected);
+                res.ReplaceAll("#EditDashboard", new HtmlBuilder()
+                    .EditDashboard(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteDashboard(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditDashboard");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Dashboards.Delete(selected);
+                res.ReplaceAll("#EditScript", new HtmlBuilder()
+                    .EditDashboard(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+        
         /// <summary>
         /// Fixed:
         /// </summary>
