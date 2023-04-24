@@ -190,6 +190,27 @@ public BaseItemModel[] GetByServerScript(Context context)
                         resultId: ReferenceId)
                 }.Where(model => model != null).ToArray();
             }
+        case "Wikis":
+            if (SiteId == ReferenceId)
+            {
+                return WikiUtilities.GetByServerScript(
+                    context: context,
+                    ss: Site.WikisSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId));
+            }
+            else
+            {
+                return new[]
+                {
+                    WikiUtilities.GetByServerScript(
+                        context: context,
+                        ss: Site.WikisSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId),
+                        wikiId: ReferenceId)
+                }.Where(model => model != null).ToArray();
+            }
         default:
             return null;
     }
@@ -630,6 +651,13 @@ public bool DeleteByServerScript(Context context)
                     context: context,
                     referenceId: ReferenceId),
                 resultId: ReferenceId);
+        case "Wikis":
+            return WikiUtilities.DeleteByServerScript(
+                context: context,
+                ss: Site.WikisSiteSettings(
+                    context: context,
+                    referenceId: ReferenceId),
+                wikiId: ReferenceId);
         default:
             return false;
     }

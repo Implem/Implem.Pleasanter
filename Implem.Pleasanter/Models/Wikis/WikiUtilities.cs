@@ -1501,6 +1501,179 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance GetByApi(
+            Context context,
+            SiteSettings ss,
+            long wikiId,
+            bool internalRequest)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var invalid = WikiValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: !internalRequest);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            if (api == null && !context.RequestDataString.IsNullOrEmpty())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidJsonData));
+            }
+            var view = api?.View ?? new View();
+            var pageSize = Parameters.Api.PageSize;
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            if (wikiId > 0)
+            {
+                if (view.ColumnFilterHash == null)
+                {
+                    view.ColumnFilterHash = new Dictionary<string, string>();
+                }
+                view.ColumnFilterHash.Add("WikiId", wikiId.ToString());
+            }
+            view.MergeSession(sessionView: Views.GetBySession(
+                context: context,
+                ss: ss));
+            switch (view.ApiDataType)
+            {
+                case View.ApiDataTypes.KeyValues:
+                    var gridData = new GridData(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        tableType: tableType,
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize);
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        response: new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            TotalCount = gridData.TotalCount,
+                            Data = gridData.KeyValues(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                        });
+                default:
+                    var wikiCollection = new WikiCollection(
+                        context: context,
+                        ss: ss,
+                        join: Rds.ItemsJoin().Add(new SqlJoin(
+                            tableBracket: "\"Items\"",
+                            joinType: SqlJoin.JoinTypes.Inner,
+                            joinExpression: "\"Wikis\".\"WikiId\"=\"Wikis_Items\".\"ReferenceId\"",
+                            _as: "Wikis_Items")),
+                        where: view.Where(
+                            context: context,
+                            ss: ss),
+                        orderBy: view.OrderBy(
+                            context: context,
+                            ss: ss),
+                        offset: api?.Offset ?? 0,
+                        pageSize: pageSize,
+                        tableType: tableType);
+                    return ApiResults.Get(
+                        statusCode: 200,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        response: new
+                        {
+                            Offset = api?.Offset ?? 0,
+                            PageSize = pageSize,
+                            wikiCollection.TotalCount,
+                            Data = wikiCollection.Select(o => o.GetByApi(
+                                context: context,
+                                ss: ss))
+                        });
+            }
+        }
+
+        public static WikiModel[] GetByServerScript(
+            Context context,
+            SiteSettings ss)
+        {
+            var invalid = WikiValidators.OnEntry(
+                context: context,
+                ss: ss,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return null;
+            }
+            var api = context.RequestDataString.Deserialize<Api>();
+            var view = api?.View ?? new View();
+            var where = view.Where(
+                context: context,
+                ss: ss);
+            var orderBy = view.OrderBy(
+                context: context,
+                ss: ss);
+            var join = ss.Join(
+                context: context,
+                join: new IJoin[]
+                {
+                    where,
+                    orderBy
+                });
+            var pageSize = Parameters.Api.PageSize;
+            var tableType = (api?.TableType) ?? Sqls.TableTypes.Normal;
+            var wikiCollection = new WikiCollection(
+                context: context,
+                ss: ss,
+                join: join,
+                where: where,
+                orderBy: orderBy,
+                offset: api?.Offset ?? 0,
+                pageSize: pageSize,
+                tableType: tableType);
+            return wikiCollection.ToArray();
+        }
+
+        public static WikiModel GetByServerScript(
+            Context context,
+            SiteSettings ss,
+            long wikiId)
+        {
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                methodType: BaseModel.MethodTypes.Edit);
+            if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return null;
+            }
+            var invalid = WikiValidators.OnEditing(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return null;
+            }
+            return wikiModel;
+        }
+
         private static Message CreatedMessage(
             Context context,
             SiteSettings ss,
@@ -1521,6 +1694,111 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     value: message.Text);
                 return message;
+            }
+        }
+
+        public static ContentResultInheritance CreateByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.ItemsLimit));
+            }
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: 0,
+                setByApi: true);
+            var invalid = WikiValidators.OnCreating(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(context: context, ss: ss);
+            var errorData = wikiModel.Create(
+                context: context,
+                ss: ss,
+                notice: true);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: wikiModel.WikiId,
+                postedFileHash: wikiModel.PostedImageHash);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: wikiModel.WikiId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Created(
+                            context: context,
+                            data: wikiModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
+        {
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
+            {
+                return false;
+            }
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: 0,
+                setByApi: true);
+            var invalid = WikiValidators.OnCreating(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(context: context, ss: ss);
+            var errorData = wikiModel.Create(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is WikiModel data)
+                        {
+                            data.WikiId = wikiModel.WikiId;
+                            data.SetByModel(wikiModel: wikiModel);
+                        }
+                    }
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
             }
         }
 
@@ -1705,6 +1983,131 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static ContentResultInheritance UpdateByApi(
+            Context context,
+            SiteSettings ss,
+            long wikiId,
+            string previousTitle)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                setByApi: true);
+            if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = WikiValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(
+                context: context,
+                ss: ss);
+            wikiModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: wikiModel);
+            var errorData = wikiModel.Update(
+                context: context,
+                ss: ss,
+                notice: true,
+                previousTitle: previousTitle);
+            BinaryUtilities.UploadImage(
+                context: context,
+                ss: ss,
+                id: wikiModel.WikiId,
+                postedFileHash: wikiModel.PostedImageHash);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        wikiModel.WikiId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Updated(
+                            context: context,
+                            data: wikiModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteSettings ss,
+            long wikiId,
+            string previousTitle,
+            object model)
+        {
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                setByApi: true);
+            if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = WikiValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(
+                context: context,
+                ss: ss);
+            wikiModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: wikiModel);
+            var errorData = wikiModel.Update(
+                context: context,
+                ss: ss,
+                notice: true,
+                previousTitle: previousTitle);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is WikiModel data)
+                        {
+                            data.SetByModel(wikiModel: wikiModel);
+                        }
+                    }
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
         public static string Delete(Context context, SiteSettings ss, long wikiId)
         {
             var wikiModel = new WikiModel(context, ss, wikiId);
@@ -1735,6 +2138,98 @@ namespace Implem.Pleasanter.Models
                     return res.ToJson();
                 default:
                     return errorData.MessageJson(context: context);
+            }
+        }
+
+        public static ContentResultInheritance DeleteByApi(
+            Context context, SiteSettings ss, long wikiId)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                methodType: BaseModel.MethodTypes.Edit);
+            if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+            var invalid = WikiValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(context: context, ss: ss);
+            var errorData = wikiModel.Delete(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return ApiResults.Success(
+                        id: wikiModel.WikiId,
+                        limitPerDate: context.ContractSettings.ApiLimit(),
+                        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                        message: Displays.Deleted(
+                            context: context,
+                            data: wikiModel.Title.MessageDisplay(context: context)));
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: errorData);
+            }
+        }
+
+        public static bool DeleteByServerScript(
+            Context context,
+            SiteSettings ss,
+            long wikiId)
+        {
+            var wikiModel = new WikiModel(
+                context: context,
+                ss: ss,
+                wikiId: wikiId,
+                methodType: BaseModel.MethodTypes.Edit);
+            if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = WikiValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                wikiModel: wikiModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            wikiModel.SiteId = ss.SiteId;
+            wikiModel.SetTitle(context: context, ss: ss);
+            var errorData = wikiModel.Delete(
+                context: context,
+                ss: ss,
+                notice: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
             }
         }
 

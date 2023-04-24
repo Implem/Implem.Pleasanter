@@ -2,5 +2,5 @@
     "Id": "Model_Utilities_UpdateByApi",
     "Indent": "2",
     "ItemOnly": "1",
-    "Include": "Results,Issues"
+    "Exclude": "Sites"
 }
