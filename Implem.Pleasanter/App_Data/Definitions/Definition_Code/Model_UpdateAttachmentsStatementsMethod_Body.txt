@@ -1,4 +1,4 @@
-﻿private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+﻿private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss, bool verUp = false)
 {
     var statements = new List<SqlStatement>();
     ColumnNames()
@@ -12,10 +12,12 @@
                     context: context,
                     columnName: columnName),
                 statements: statements,
-                referenceId: #ModelName#Id));
+                referenceId: #ModelName#Id,
+                verUp: verUp));
     return statements;
 }
-private void WriteAttachments(Context context, SiteSettings ss)
+
+private void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
 {
     ColumnNames()
         .Where(columnName => columnName.StartsWith("Attachments"))
@@ -27,5 +29,6 @@ private void WriteAttachments(Context context, SiteSettings ss)
                 column: ss.GetColumn(
                     context: context,
                     columnName: columnName),
-                referenceId: #ModelName#Id));
+                referenceId: #ModelName#Id,
+                verUp: verUp));
 }

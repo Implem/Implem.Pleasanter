@@ -93,7 +93,8 @@ public List<SqlStatement> CreateStatements(
 <!--Model_UpdateStatus-->
 
     });
-<!--Model_UpdateAttachmentsStatements--->
+
+<!--Model_UpdateAttachmentsStatements_Create--->
 
 <!--Model_CreatePermissions-->
 
