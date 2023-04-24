@@ -3223,9 +3223,34 @@ textarea:focus{
 }
 
 .grid-stack {
-    background: #FAFAD2;
+    background-color: white;
 }
 
 .grid-stack-item-content {
-    background-color: #18BC9C;
+    background-color: whitesmoke;
+}
+
+.timeline-item {
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+}
+
+.timeline-titlebody {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 8px;
+    padding: 8px;
+    background-color: white;
+}
+
+.timeline-record-time {
+    margin-left: 8px;
+}
+
+.timeline-body {
+    overflow: auto;
+    max-height: 100px;
 }

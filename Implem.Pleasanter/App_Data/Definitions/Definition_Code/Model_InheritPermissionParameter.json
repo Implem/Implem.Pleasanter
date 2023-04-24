@@ -1,4 +1,4 @@
 ﻿{
     "Id": "Model_InheritPermissionParameter",
-    "Include": "Sites"
+    "Include": "Sites,Dashbords"
 }

@@ -1612,11 +1612,6 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_Title": Column.Binaries_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Title, definitionRow, ColumnXls); break;
                     case "Dashboards_DashboardId": Column.Dashboards_DashboardId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_DashboardId, definitionRow, ColumnXls); break;
                     case "Dashboards_Locked": Column.Dashboards_Locked = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Locked, definitionRow, ColumnXls); break;
-                    case "Dashboards_Manager": Column.Dashboards_Manager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Manager, definitionRow, ColumnXls); break;
-                    case "Dashboards_Owner": Column.Dashboards_Owner = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Owner, definitionRow, ColumnXls); break;
-                    case "Dashboards_SiteTitle": Column.Dashboards_SiteTitle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_SiteTitle, definitionRow, ColumnXls); break;
-                    case "Dashboards_Status": Column.Dashboards_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Status, definitionRow, ColumnXls); break;
-                    case "Dashboards_Title": Column.Dashboards_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Title, definitionRow, ColumnXls); break;
                     case "Demos_DemoId": Column.Demos_DemoId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_DemoId, definitionRow, ColumnXls); break;
                     case "Demos_Initialized": Column.Demos_Initialized = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Initialized, definitionRow, ColumnXls); break;
                     case "Demos_LoginId": Column.Demos_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_LoginId, definitionRow, ColumnXls); break;
@@ -1920,6 +1915,7 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_VerUp": Column.Binaries_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_VerUp, definitionRow, ColumnXls); break;
                     case "Dashboards_Body": Column.Dashboards_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Body, definitionRow, ColumnXls); break;
                     case "Dashboards_SiteId": Column.Dashboards_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_SiteId, definitionRow, ColumnXls); break;
+                    case "Dashboards_Title": Column.Dashboards_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Title, definitionRow, ColumnXls); break;
                     case "Dashboards_TitleBody": Column.Dashboards_TitleBody = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_TitleBody, definitionRow, ColumnXls); break;
                     case "Dashboards_UpdatedTime": Column.Dashboards_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_UpdatedTime, definitionRow, ColumnXls); break;
                     case "Dashboards_Comments": Column.Dashboards_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Comments, definitionRow, ColumnXls); break;
@@ -8829,11 +8825,6 @@ namespace Implem.DefinitionAccessor
         public string Binaries_Title;
         public string Dashboards_DashboardId;
         public string Dashboards_Locked;
-        public string Dashboards_Manager;
-        public string Dashboards_Owner;
-        public string Dashboards_SiteTitle;
-        public string Dashboards_Status;
-        public string Dashboards_Title;
         public string Demos_DemoId;
         public string Demos_Initialized;
         public string Demos_LoginId;
@@ -9137,6 +9128,7 @@ namespace Implem.DefinitionAccessor
         public string Binaries_VerUp;
         public string Dashboards_Body;
         public string Dashboards_SiteId;
+        public string Dashboards_Title;
         public string Dashboards_TitleBody;
         public string Dashboards_UpdatedTime;
         public string Dashboards_Comments;
@@ -9384,11 +9376,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_Title = new ColumnDefinition();
         public ColumnDefinition Dashboards_DashboardId = new ColumnDefinition();
         public ColumnDefinition Dashboards_Locked = new ColumnDefinition();
-        public ColumnDefinition Dashboards_Manager = new ColumnDefinition();
-        public ColumnDefinition Dashboards_Owner = new ColumnDefinition();
-        public ColumnDefinition Dashboards_SiteTitle = new ColumnDefinition();
-        public ColumnDefinition Dashboards_Status = new ColumnDefinition();
-        public ColumnDefinition Dashboards_Title = new ColumnDefinition();
         public ColumnDefinition Demos_DemoId = new ColumnDefinition();
         public ColumnDefinition Demos_Initialized = new ColumnDefinition();
         public ColumnDefinition Demos_LoginId = new ColumnDefinition();
@@ -9692,6 +9679,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_VerUp = new ColumnDefinition();
         public ColumnDefinition Dashboards_Body = new ColumnDefinition();
         public ColumnDefinition Dashboards_SiteId = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Title = new ColumnDefinition();
         public ColumnDefinition Dashboards_TitleBody = new ColumnDefinition();
         public ColumnDefinition Dashboards_UpdatedTime = new ColumnDefinition();
         public ColumnDefinition Dashboards_Comments = new ColumnDefinition();

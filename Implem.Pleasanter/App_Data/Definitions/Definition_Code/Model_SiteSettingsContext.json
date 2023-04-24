@@ -1,4 +1,4 @@
 ﻿{
     "Id": "Model_SiteSettingsContext",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashbords"
 }

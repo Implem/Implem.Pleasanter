@@ -10149,56 +10149,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string Dashboards_Manager(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Dashboards_Manager",
-                data: data);
-        }
-
-        public static string Dashboards_Owner(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Dashboards_Owner",
-                data: data);
-        }
-
-        public static string Dashboards_SiteTitle(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Dashboards_SiteTitle",
-                data: data);
-        }
-
-        public static string Dashboards_Status(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Dashboards_Status",
-                data: data);
-        }
-
-        public static string Dashboards_Title(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Dashboards_Title",
-                data: data);
-        }
-
         public static string Demos_DemoId(
             Context context,
             params string[] data)
@@ -13226,6 +13176,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Dashboards_SiteId",
+                data: data);
+        }
+
+        public static string Dashboards_Title(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Dashboards_Title",
                 data: data);
         }
 

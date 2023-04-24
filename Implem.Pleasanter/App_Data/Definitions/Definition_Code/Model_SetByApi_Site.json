@@ -3,5 +3,5 @@
     "Indent": "3",
     "Separator": "\\r\\n",
     "NotCalc": "1",
-    "Include": "Sites"
+    "Include": "Sites,Dashbords"
 }

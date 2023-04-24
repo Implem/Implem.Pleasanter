@@ -2131,20 +2131,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                         case "Body":
                             sql.Dashboards_Body(tableName: path, _as: _as);
                             break;
-                        case "Status":
-                            sql.Dashboards_Status(tableName: path, _as: _as);
-                            break;
-                        case "Manager":
-                            sql.Dashboards_Manager(tableName: path, _as: _as);
-                            break;
-                        case "Owner":
-                            sql.Dashboards_Owner(tableName: path, _as: _as);
-                            break;
                         case "Locked":
                             sql.Dashboards_Locked(tableName: path, _as: _as);
-                            break;
-                        case "SiteTitle":
-                            sql.Dashboards_SiteTitle(tableName: path, _as: _as);
                             break;
                         case "Comments":
                             sql.Dashboards_Comments(tableName: path, _as: _as);

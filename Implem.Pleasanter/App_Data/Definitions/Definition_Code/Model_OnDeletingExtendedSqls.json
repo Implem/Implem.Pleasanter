@@ -2,5 +2,5 @@
     "Id": "Model_OnDeletingExtendedSqls",
     "Indent": "3",
     "ItemOnly": "1",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashbords"
 }

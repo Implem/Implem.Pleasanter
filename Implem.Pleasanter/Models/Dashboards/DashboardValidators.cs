@@ -155,24 +155,6 @@ namespace Implem.Pleasanter.Models
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
-                    case "Status":
-                        if (dashboardModel.Status_Updated(context: context, column: column))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "Manager":
-                        if (dashboardModel.Manager_Updated(context: context, column: column))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "Owner":
-                        if (dashboardModel.Owner_Updated(context: context, column: column))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
                     case "Locked":
                         if (dashboardModel.Locked_Updated(context: context, column: column))
                         {
@@ -310,24 +292,6 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Body":
                         if (dashboardModel.Body_Updated(context: context))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "Status":
-                        if (dashboardModel.Status_Updated(context: context))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "Manager":
-                        if (dashboardModel.Manager_Updated(context: context))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "Owner":
-                        if (dashboardModel.Owner_Updated(context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

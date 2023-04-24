@@ -713,32 +713,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
-                    case "Status":
-                        return dashboardModel.Status.ToLookup(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: Type);
-                    case "Manager":
-                        return dashboardModel.Manager.ToLookup(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: Type);
-                    case "Owner":
-                        return dashboardModel.Owner.ToLookup(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: Type);
                     case "Locked":
                         return dashboardModel.Locked.ToLookup(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: Type);
-                    case "SiteTitle":
-                        return dashboardModel.SiteTitle.ToLookup(
                             context: context,
                             ss: ss,
                             column: column,

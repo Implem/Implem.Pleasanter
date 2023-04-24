@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_CreateParams_Sites",
     "Indent": "2",
-    "Include": "Sites"
+    "Include": "Sites,Dashbords"
 }

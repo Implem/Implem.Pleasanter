@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_SetInheritPermission",
     "Indent": "3",
-    "Include": "Sites"
+    "Include": "Sites,Dashbords"
 }

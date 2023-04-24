@@ -191,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<ServerScript> ServerScripts;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
+        public SettingList<Dashboard> Dashboards;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
         public bool? AllowEditingComments;
@@ -350,6 +351,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (BulkUpdateColumns == null) BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
+            if (Dashboards == null) Dashboards = new SettingList<Dashboard>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
             AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
@@ -1086,6 +1088,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.RelatingColumns = new SettingList<RelatingColumn>();
                 }
                 ss.RelatingColumns.Add(relatingColumn.GetRecordingData());
+            });
+            Dashboards?.ForEach(dashboards =>
+            {
+                if(ss.Dashboards == null)
+                {
+                    ss.Dashboards = new SettingList<Dashboard>();
+                }
+                ss.Dashboards.Add(dashboards.GetRecordingData());
             });
             if (!ExtendedHeader.IsNullOrEmpty())
             {

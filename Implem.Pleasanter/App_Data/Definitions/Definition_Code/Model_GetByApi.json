@@ -2,5 +2,5 @@
     "Id": "Model_GetByApi",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashbords"
 }

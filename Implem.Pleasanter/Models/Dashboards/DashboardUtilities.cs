@@ -50,51 +50,13 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb.Div(css: "grid-stack"));
-        }
-
-
-        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, IList<long> sites)
-        {
-            var ss = SiteSettingsUtilities.SitesSiteSettings(
+                viewModeBody: () => hb.Grid(
                    context: context,
-                   siteId: 0);
-            ss.PermissionType = context.SiteTopPermission();
-            var siteConditions = SiteInfo.TenantCaches
-                .Get(context.TenantId)?
-                .SiteMenu
-                .SiteConditions(context: context, ss: ss);
-            return hb.Div(id: "SiteMenu", action: () => hb
-                .Nav(css: "cf", action: () => hb
-                    .Ul(css: "nav-sites sortable", action: () =>
-                        QuickAccessSites(context: context, sites: sites).ForEach(siteModelChild => hb
-                            .SiteMenu(
-                                context: context,
-                                ss: ss,
-                                currentSs: siteModelChild.SiteSettings,
-                                siteId: siteModelChild.SiteId,
-                                referenceType: siteModelChild.ReferenceType,
-                                title: siteModelChild.Title.Value,
-                                siteConditions: siteConditions)))));
+                   gridData: gridData,
+                   ss: ss,
+                   view: view,
+                   serverScriptModelRow: serverScriptModelRow));
         }
-
-        private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
-        {
-            return new SiteCollection(
-                context: context,
-                column: Rds.SitesColumn()
-                    .SiteId()
-                    .Title()
-                    .ReferenceType()
-                    .SiteSettings(),
-                where: Rds.SitesWhere()
-                    .TenantId(context.TenantId)
-                    .SiteId_In(sites)
-                    .Add(
-                        raw: Def.Sql.HasPermission,
-                        _using: !context.HasPrivilege));
-        }
-
 
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
@@ -111,42 +73,10 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default:
-                    return HtmlTemplates.Error(
+                default: return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
-
-            var dashboards = new DashboardCollection(
-                context: context,
-                ss: ss,
-                where: Rds.DashboardsWhere().SiteId(ss.SiteId));
-            var layoutItems = new List<DashboardLayout>();
-            foreach (var dashboardModel in dashboards)
-            {
-                var ds = dashboardModel.Body.Deserialize<DashboardSettings>();
-                if (ds == null)
-                {
-                    continue;
-                }
-                switch (ds.Type)
-                {
-                    case DashbordType.QuickAccess:
-                        layoutItems.AddQuickAccessLayout(
-                            context: context,
-                            dashboardModel: dashboardModel,
-                            ds: ds);
-                        break;
-                    case DashbordType.TimeLine:
-                        layoutItems.AddTimeLineLayout(
-                            context: context,
-                            ss: ss,
-                            dashboardModel: dashboardModel,
-                            ds: ds);
-                        break;
-                }
-            }
-
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -168,6 +98,25 @@ namespace Implem.Pleasanter.Models
                                 controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
+                            .Div(
+                                id: "ViewSelectorField", 
+                                action: () => hb
+                                    .ViewSelector(
+                                        context: context,
+                                        ss: ss,
+                                        view: view))
+                            .ViewFilters(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                            .Aggregations(
+                                context: context,
+                                ss: ss,
+                                view: view)
+                            .ViewExtensions(
+                                context: context,
+                                ss: ss,
+                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,
@@ -181,200 +130,39 @@ namespace Implem.Pleasanter.Models
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
-                                controlId: "dashbordlayout",
-                                value: layoutItems.ToJson())))
+                                controlId: "EditOnGrid",
+                                css: "always-send",
+                                value: context.Forms.Data("EditOnGrid"))
+                            .Hidden(
+                                controlId: "NewRowId",
+                                css: "always-send",
+                                value: context.Forms.Data("NewRowId")))
+                    .EditorDialog(context: context, ss: ss)
+                    .DropDownSearchDialog(
+                        context: context,
+                        id: ss.SiteId)
+                    .MoveDialog(context: context, bulk: true)
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("SetNumericRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.NumericRange(context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("SetDateRangeDialog")
+                        .Class("dialog")
+                        .Title(Displays.DateRange(context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.Export(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSitePackageDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSitePackage(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("BulkUpdateSelectorDialog")
+                        .Class("dialog")
+                        .Title(Displays.BulkUpdate(context: context))))
                     .ToString();
-        }
-
-        private static IList<DashboardLayout> AddQuickAccessLayout(this IList<DashboardLayout> self, Context context, DashboardModel dashboardModel, DashboardSettings ds)
-        {
-            if (ds.QuickAccess?.Sites == null || ds.QuickAccess.Sites.Length == 0)
-            {
-                return self;
-            }
-            var dashboardHb = new HtmlBuilder();
-            var quickAccess = dashboardHb
-                .Div(action: () =>
-                {
-                    dashboardHb.A(
-                        text: dashboardModel.Title.DisplayValue,
-                        href: Locations
-                            .Edit(
-                                context: context,
-                                "items",
-                                dashboardModel.DashboardId));
-                })
-                .QuickAccessMenu(context: context, sites: ds.QuickAccess.Sites)
-                .ToString();
-            self.Add(new DashboardLayout()
-            {
-                W = ds.Width < 1 ? 1 : ds.Width,
-                H = ds.Height < 1 ? 1 : ds.Height,
-                Content = quickAccess
-            });
-            return self;
-        }
-
-        private static IList<DashboardLayout> AddTimeLineLayout(
-            this IList<DashboardLayout> self,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            DashboardSettings ds)
-        {
-            if (ds.TimeLine?.NumberOfItems < 1)
-            {
-                return self;
-            }
-            var top = ds?.TimeLine?.NumberOfItems ?? 20;
-            var myRecords = GetMyRecords(
-                context: context,
-                ss: ss,
-                top: top > 0 ? top : 1);
-
-            var dashboardHb = new HtmlBuilder();
-            var timeLine = dashboardHb
-                .Div(
-                    id: "TimelineContainer",
-                    css: "timeline-container",
-                    action: () =>
-                {
-                    foreach (var item in myRecords)
-                    {
-                        dashboardHb.Div(
-                            css: "timeline-item",
-                            action: () =>
-                        {
-                            dashboardHb
-                                .Div(
-                                    css: "timeline-header",
-                                    action: () =>
-                                {
-                                    var linkText = item.UpdatedTime.Value > item.CreatedTime.Value
-                                        ? $"updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
-                                        : $"created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
-                                    dashboardHb
-                                        .Text(text: item.Title.DisplayValue)
-                                        .A(
-                                            css: "timeline-record-link",
-                                            text: linkText,
-                                            href: Locations.Edit(
-                                                context: context,
-                                                "items",
-                                                item.Id));
-                                })
-                                .Div(
-                                    css: "timeline-body",
-                                    action: () =>
-                                    {
-                                        dashboardHb.Text(text: item.Body);
-                                    });
-                        });
-                    }
-                }).ToString();
-            self.Add(new DashboardLayout()
-            {
-                W = ds.Width < 1 ? 1 : ds.Width,
-                H = ds.Height < 1 ? 1 : ds.Height,
-                Content = timeLine
-            });
-            return self;
-        }
-
-        private static IEnumerable<TimeLineItem> GetMyRecords(Context context, SiteSettings ss, int top)
-        {
-            var myIssues = GetMyIssues(context: context, ss: ss, top: top);
-            var myResults = GetMyResults(context: context, ss: ss, top: top);
-            return myIssues
-                .Select(model => new TimeLineItem
-                {
-                    Id = model.IssueId,
-                    Title = model.Title,
-                    Body = model.Body,
-                    CreatedTime = model.CreatedTime,
-                    UpdatedTime = model.UpdatedTime,
-                    Creator = model.Creator,
-                    Updator = model.Updator
-                })
-                .Concat(myResults
-                    .Select(model => new TimeLineItem
-                    {
-                        Id = model.ResultId,
-                        Title = model.Title,
-                        Body = model.Body,
-                        CreatedTime = model.CreatedTime,
-                        UpdatedTime = model.UpdatedTime,
-                        Creator = model.Creator,
-                        Updator = model.Updator
-                    }))
-                .OrderByDescending(item => item.UpdatedTime.Value)
-                .Take(top);
-        }
-
-        private static ResultCollection GetMyResults(Context context, SiteSettings ss, int top)
-        {
-            var column = Rds.ResultsColumn()
-                .ResultId()
-                .Title()
-                .Body()
-                .Updator()
-                .UpdatedTime()
-                .Creator()
-                .CreatedTime();
-            var where = Rds.ResultsWhere()
-                .Or(or: Rds.ResultsWhere()
-                    .Owner(context.UserId)
-                    .Manager(context.UserId))
-                .CanRead(
-                    context: context,
-                    idColumnBracket: "\"Results\".\"ResultId\"");
-            var orderBy = Rds.ResultsOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc);
-            return new ResultCollection(
-                context: context,
-                ss: ss,
-                top: 20,
-                column: column,
-                where: where,
-                join: new SqlJoinCollection(
-                    new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"Results\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                orderBy: orderBy);
-        }
-
-        private static IssueCollection GetMyIssues(Context context, SiteSettings ss, int top)
-        {
-            var column = Rds.IssuesColumn()
-                .IssueId()
-                .Title()
-                .Body()
-                .Updator()
-                .UpdatedTime()
-                .Creator()
-                .CreatedTime();
-            var where = Rds.IssuesWhere()
-                .Or(or: Rds.IssuesWhere()
-                    .Owner(context.UserId)
-                    .Manager(context.UserId))
-                .CanRead(
-                    context: context,
-                    idColumnBracket: "\"Issues\".\"IssueId\"");
-            var orderBy = Rds.IssuesOrderBy()
-                    .UpdatedTime(SqlOrderBy.Types.desc);
-            return new IssueCollection(
-                context: context,
-                ss: ss,
-                top: top,
-                column: column,
-                where: where,
-                join: new SqlJoinCollection(
-                    new SqlJoin(
-                        tableBracket: "\"Sites\"",
-                        joinType: SqlJoin.JoinTypes.Inner,
-                        joinExpression: "\"Issues\".\"SiteId\"=\"Sites\".\"SiteId\"")),
-                orderBy: orderBy);
         }
 
         public static string IndexJson(Context context, SiteSettings ss)
@@ -567,7 +355,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns,
+                            columns: columns, 
                             view: view,
                             checkRow: checkRow,
                             checkAll: checkAll,
@@ -869,60 +657,6 @@ namespace Implem.Pleasanter.Models
                                     value: string.Empty,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn);
-                    case "Status":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: dashboardModel.Status,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn);
-                    case "Manager":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: dashboardModel.Manager,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn);
-                    case "Owner":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: dashboardModel.Owner,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn);
                     case "Locked":
                         return ss.ReadColumnAccessControls.Allowed(
                             context: context,
@@ -933,24 +667,6 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: dashboardModel.Locked,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn)
-                                : hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: string.Empty,
-                                    tabIndex: tabIndex,
-                                    serverScriptModelColumn: serverScriptModelColumn);
-                    case "SiteTitle":
-                        return ss.ReadColumnAccessControls.Allowed(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            mine: mine)
-                                ? hb.Td(
-                                    context: context,
-                                    column: column,
-                                    value: dashboardModel.SiteTitle,
                                     tabIndex: tabIndex,
                                     serverScriptModelColumn: serverScriptModelColumn)
                                 : hb.Td(
@@ -1162,68 +878,40 @@ namespace Implem.Pleasanter.Models
                 var value = string.Empty;
                 switch (column.Name)
                 {
-                    case "SiteId":
-                        value = dashboardModel.SiteId.GridText(
+                    case "SiteId": value = dashboardModel.SiteId.GridText(
                         context: context,
                         column: column); break;
-                    case "UpdatedTime":
-                        value = dashboardModel.UpdatedTime.GridText(
+                    case "UpdatedTime": value = dashboardModel.UpdatedTime.GridText(
                         context: context,
                         column: column); break;
-                    case "DashboardId":
-                        value = dashboardModel.DashboardId.GridText(
+                    case "DashboardId": value = dashboardModel.DashboardId.GridText(
                         context: context,
                         column: column); break;
-                    case "Ver":
-                        value = dashboardModel.Ver.GridText(
+                    case "Ver": value = dashboardModel.Ver.GridText(
                         context: context,
                         column: column); break;
-                    case "Title":
-                        value = dashboardModel.Title.GridText(
+                    case "Title": value = dashboardModel.Title.GridText(
                         context: context,
                         column: column); break;
-                    case "Body":
-                        value = dashboardModel.Body.GridText(
+                    case "Body": value = dashboardModel.Body.GridText(
                         context: context,
                         column: column); break;
-                    case "TitleBody":
-                        value = dashboardModel.TitleBody.GridText(
+                    case "TitleBody": value = dashboardModel.TitleBody.GridText(
                         context: context,
                         column: column); break;
-                    case "Status":
-                        value = dashboardModel.Status.GridText(
+                    case "Locked": value = dashboardModel.Locked.GridText(
                         context: context,
                         column: column); break;
-                    case "Manager":
-                        value = dashboardModel.Manager.GridText(
+                    case "Comments": value = dashboardModel.Comments.GridText(
                         context: context,
                         column: column); break;
-                    case "Owner":
-                        value = dashboardModel.Owner.GridText(
+                    case "Creator": value = dashboardModel.Creator.GridText(
                         context: context,
                         column: column); break;
-                    case "Locked":
-                        value = dashboardModel.Locked.GridText(
+                    case "Updator": value = dashboardModel.Updator.GridText(
                         context: context,
                         column: column); break;
-                    case "SiteTitle":
-                        value = dashboardModel.SiteTitle.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Comments":
-                        value = dashboardModel.Comments.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Creator":
-                        value = dashboardModel.Creator.GridText(
-                        context: context,
-                        column: column); break;
-                    case "Updator":
-                        value = dashboardModel.Updator.GridText(
-                        context: context,
-                        column: column); break;
-                    case "CreatedTime":
-                        value = dashboardModel.CreatedTime.GridText(
+                    case "CreatedTime": value = dashboardModel.CreatedTime.GridText(
                         context: context,
                         column: column); break;
                     default:
@@ -1350,8 +1038,7 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default:
-                    return HtmlTemplates.Error(
+                default: return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -1399,35 +1086,6 @@ namespace Implem.Pleasanter.Models
                             serverScriptModelRow: serverScriptModelRow)
                         .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
                             .ToString();
-        }
-
-        private static HtmlBuilder EditorMainCommands(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            ServerScriptModelRow serverScriptModelRow)
-        {
-            return hb.MainCommands(
-                context: context,
-                ss: ss,
-                verType: dashboardModel.VerType,
-                readOnly: dashboardModel.ReadOnly,
-                updateButton: true,
-                copyButton: true,
-                moveButton: true,
-                mailButton: true,
-                deleteButton: true,
-                serverScriptModelRow: serverScriptModelRow,
-                extensions: () => hb
-                    .MainCommandExtensions(
-                        context: context,
-                        ss: ss,
-                        dashboardModel: dashboardModel)
-                    .ProcessCommands(
-                        context: context,
-                        ss: ss,
-                        serverScriptModelRow: serverScriptModelRow));
         }
 
         private static HtmlBuilder EditorInDialog(
@@ -1482,7 +1140,7 @@ namespace Implem.Pleasanter.Models
             ServerScriptModelRow serverScriptModelRow)
         {
             var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
-            var commentsColumnPermissionType = Permissions.ColumnPermissionType(
+            var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
                 context: context,
                 ss: ss,
                 column: commentsColumn,
@@ -1503,7 +1161,7 @@ namespace Implem.Pleasanter.Models
                         .Class("main-form confirm-unload")
                         .Action(Locations.ItemAction(
                             context: context,
-                            id: dashboardModel.DashboardId != 0
+                            id: dashboardModel.DashboardId != 0 
                                 ? dashboardModel.DashboardId
                                 : dashboardModel.SiteId)),
                     action: () => hb
@@ -1520,7 +1178,10 @@ namespace Implem.Pleasanter.Models
                                     comments: dashboardModel.Comments,
                                     column: commentsColumn,
                                     verType: dashboardModel.VerType,
-                                    columnPermissionType: commentsColumnPermissionType),
+                                    columnPermissionType: commentsColumnPermissionType,
+                                    serverScriptModelColumn: dashboardModel
+                                        ?.ServerScriptModelRow
+                                        ?.Columns.Get(commentsColumn.ColumnName)),
                             _using: showComments)
                         .Div(
                             id: "EditorTabsContainer",
@@ -1558,13 +1219,7 @@ namespace Implem.Pleasanter.Models
                                         .DataMethod("post"),
                                     _using: context.CanManagePermission(ss: ss)
                                         && !ss.Locked()
-                                        && dashboardModel.MethodType != BaseModel.MethodTypes.New)
-                                .EditorMainCommands(
-                                    context: context,
-                                    ss: ss,
-                                    dashboardModel: dashboardModel,
-                                    serverScriptModelRow: serverScriptModelRow))
-
+                                        && dashboardModel.MethodType != BaseModel.MethodTypes.New))
                         .Hidden(
                             controlId: "BaseUrl",
                             value: Locations.BaseUrl(context: context))
@@ -1622,7 +1277,7 @@ namespace Implem.Pleasanter.Models
                             value: dashboardModel.SwitchTargets?.Join(),
                             _using: !context.Ajax)
                         .Hidden(
-                            controlId: "TriggerRelatingColumns_Editor",
+                            controlId: "TriggerRelatingColumns_Editor", 
                             value: Jsons.ToJson(ss.RelatingColumns)))
                 .OutgoingMailsForm(
                     context: context,
@@ -2131,24 +1786,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
-                case "Status":
-                    return dashboardModel.Status
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                case "Manager":
-                    return dashboardModel.Manager
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                case "Owner":
-                    return dashboardModel.Owner
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
                 case "Locked":
                     return dashboardModel.Locked
                         .ToControl(
@@ -2363,24 +2000,6 @@ namespace Implem.Pleasanter.Models
                                     value: dashboardModel.Body.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
-                            case "Status":
-                                res.Val(
-                                    target: "#Dashboards_Status" + idSuffix,
-                                    value: dashboardModel.Status.ToResponse(context: context, ss: ss, column: column),
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
-                            case "Manager":
-                                res.Val(
-                                    target: "#Dashboards_Manager" + idSuffix,
-                                    value: dashboardModel.Manager.ToResponse(context: context, ss: ss, column: column),
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
-                            case "Owner":
-                                res.Val(
-                                    target: "#Dashboards_Owner" + idSuffix,
-                                    value: dashboardModel.Owner.ToResponse(context: context, ss: ss, column: column),
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
                             case "Locked":
                                 res.Val(
                                     target: "#Dashboards_Locked" + idSuffix,
@@ -2551,7 +2170,7 @@ namespace Implem.Pleasanter.Models
 
         public static string Create(Context context, SiteSettings ss)
         {
-            var copyFrom = context.Forms.Int("CopyFrom");
+            ﻿var copyFrom = context.Forms.Int("CopyFrom");
             if (copyFrom > 0 && !Permissions.CanRead(
                 context: context,
                 siteId: context.SiteId,
@@ -2927,12 +2546,12 @@ namespace Implem.Pleasanter.Models
                     .DashboardId(tableName: "Dashboards_Deleted"),
                 where: where);
             var column = new Rds.DashboardsColumnCollection();
-            column.DashboardId();
-            ss.Columns
-                .Where(o => o.TypeCs == "Attachments")
-                .Select(o => o.ColumnName)
-                .ForEach(columnName =>
-                    column.Add($"\"{columnName}\""));
+                column.DashboardId();
+                ss.Columns
+                    .Where(o => o.TypeCs == "Attachments")
+                    .Select(o => o.ColumnName)
+                    .ForEach(columnName =>
+                        column.Add($"\"{columnName}\""));
             var attachments = Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectDashboards(
@@ -2948,8 +2567,8 @@ namespace Implem.Pleasanter.Models
                     attachments = dataRow
                         .Columns()
                         .Where(columnName => columnName.StartsWith("Attachments"))
-                        .SelectMany(columnName =>
-                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName))
+                        .SelectMany(columnName => 
+                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
                                 ?? Enumerable.Empty<Attachment>())
                         .Where(o => o != null)
                         .Select(o => o.Guid)
@@ -3000,7 +2619,7 @@ namespace Implem.Pleasanter.Models
             attachments.ForEach(o =>
             {
                 RestoreAttachments(context, o.dashboardId, o.attachments);
-            });
+            });    
             return count;
         }
 
@@ -3208,9 +2827,9 @@ namespace Implem.Pleasanter.Models
                     parts: new string[]
                     {
                         "Items",
-                        dashboardId.ToString()
+                        dashboardId.ToString() 
                             + (dashboardModel.VerType == Versions.VerTypes.History
-                                ? "?ver=" + context.Forms.Int("Ver")
+                                ? "?ver=" + context.Forms.Int("Ver") 
                                 : string.Empty)
                     }))
                 .ToJson();

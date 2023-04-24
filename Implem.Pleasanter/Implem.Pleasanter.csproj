@@ -95,11 +95,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="App_Data\Definitions\Definition_Code\Issues_Locked.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_EditorMainCommands.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Dashboards_Locked.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Issues_Locked.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Manager - コピー.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Owner - コピー.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_ResultId - コピー.json" />
@@ -131,6 +134,12 @@
 
   <ItemGroup>
     <Folder Include="App_Data\UserPlugins\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="App_Data\Definitions\Definition_Column\Issues_Locked.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

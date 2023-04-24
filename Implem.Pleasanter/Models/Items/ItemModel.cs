@@ -216,10 +216,6 @@ namespace Implem.Pleasanter.Models
                     return ResultUtilities.Index(
                         context: context,
                         ss: Site.SiteSettings);
-                case "Dashboards":
-                    return DashboardUtilities.Index(
-                        context: context,
-                        ss: Site.SiteSettings);
                 default:
                     return HtmlTemplates.Error(
                         context: context,
@@ -1419,10 +1415,6 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings);
                 case "Results":
                     return ResultUtilities.Create(
-                        context: context,
-                        ss: Site.SiteSettings);
-                case "Dashboards":
-                    return DashboardUtilities.Create(
                         context: context,
                         ss: Site.SiteSettings);
                 default:

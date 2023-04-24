@@ -27,9 +27,6 @@ namespace Implem.Pleasanter.Models
     public class DashboardModel : BaseItemModel
     {
         public long DashboardId = 0;
-        public Status Status = new Status();
-        public User Manager = new User();
-        public User Owner = new User();
         public bool Locked = false;
 
         public TitleBody TitleBody
@@ -40,43 +37,8 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public SiteTitle SiteTitle
-        {
-            get
-            {
-                return new SiteTitle(SiteId);
-            }
-        }
-
         public long SavedDashboardId = 0;
-        public int SavedStatus = 0;
-        public int SavedManager = 0;
-        public int SavedOwner = 0;
         public bool SavedLocked = false;
-
-        public bool Status_Updated(Context context, Column column = null)
-        {
-            return Status.Value != SavedStatus &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Status.Value);
-        }
-
-        public bool Manager_Updated(Context context, Column column = null)
-        {
-            return Manager.Id != SavedManager &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Manager.Id);
-        }
-
-        public bool Owner_Updated(Context context, Column column = null)
-        {
-            return Owner.Id != SavedOwner &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Owner.Id);
-        }
 
         public bool Locked_Updated(Context context, Column column = null)
         {
@@ -97,11 +59,7 @@ namespace Implem.Pleasanter.Models
                 case "Title": return Title.Value;
                 case "Body": return Body;
                 case "TitleBody": return TitleBody.ToString();
-                case "Status": return Status.Value.ToString();
-                case "Manager": return Manager.Id.ToString();
-                case "Owner": return Owner.Id.ToString();
                 case "Locked": return Locked.ToString();
-                case "SiteTitle": return SiteTitle.SiteId.ToString();
                 case "Comments": return Comments.ToJson();
                 case "Creator": return Creator.Id.ToString();
                 case "Updator": return Updator.Id.ToString();
@@ -124,9 +82,6 @@ namespace Implem.Pleasanter.Models
                 case "Ver": return SavedVer.ToString();
                 case "Title": return SavedTitle;
                 case "Body": return SavedBody;
-                case "Status": return SavedStatus.ToString();
-                case "Manager": return SavedManager.ToString();
-                case "Owner": return SavedOwner.ToString();
                 case "Locked": return SavedLocked.ToString();
                 case "Comments": return SavedComments;
                 case "Creator": return SavedCreator.ToString();
@@ -168,20 +123,8 @@ namespace Implem.Pleasanter.Models
                         case "TitleBody":
                             hash.Add("TitleBody", TitleBody.ToString());
                             break;
-                        case "Status":
-                            hash.Add("Status", Status.Value.ToString());
-                            break;
-                        case "Manager":
-                            hash.Add("Manager", Manager.Id.ToString());
-                            break;
-                        case "Owner":
-                            hash.Add("Owner", Owner.Id.ToString());
-                            break;
                         case "Locked":
                             hash.Add("Locked", Locked.ToString());
-                            break;
-                        case "SiteTitle":
-                            hash.Add("SiteTitle", SiteTitle.SiteId.ToString());
                             break;
                         case "Comments":
                             hash.Add("Comments", Comments.ToJson());
@@ -219,9 +162,6 @@ namespace Implem.Pleasanter.Models
                 case "Ver": return Ver_Updated(context: context);
                 case "Title": return Title_Updated(context: context);
                 case "Body": return Body_Updated(context: context);
-                case "Status": return Status_Updated(context: context);
-                case "Manager": return Manager_Updated(context: context);
-                case "Owner": return Owner_Updated(context: context);
                 case "Locked": return Locked_Updated(context: context);
                 case "Comments": return Comments_Updated(context: context);
                 case "Creator": return Creator_Updated(context: context);
@@ -401,9 +341,6 @@ namespace Implem.Pleasanter.Models
                     case "Ver": data.Ver = Ver; break;
                     case "Title": data.Title = Title.Value; break;
                     case "Body": data.Body = Body; break;
-                    case "Status": data.Status = Status.Value; break;
-                    case "Manager": data.Manager = Manager.Id; break;
-                    case "Owner": data.Owner = Owner.Id; break;
                     case "Locked": data.Locked = Locked; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
@@ -463,21 +400,6 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Body":
                     return Body.ToDisplay(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Status":
-                    return Status.ToDisplay(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Manager":
-                    return Manager.ToDisplay(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Owner":
-                    return Owner.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -612,28 +534,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
-                case "Status":
-                    return Status.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Manager":
-                    return Manager.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Owner":
-                    return Owner.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
                 case "Locked":
                     return Locked.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "SiteTitle":
-                    return SiteTitle.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -753,28 +655,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
-                case "Status":
-                    return Status.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Manager":
-                    return Manager.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Owner":
-                    return Owner.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
                 case "Locked":
                     return Locked.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "SiteTitle":
-                    return SiteTitle.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -899,24 +781,6 @@ namespace Implem.Pleasanter.Models
                                 break;
                             case "Body":
                                 Body.FullText(
-                                    context: context,
-                                    column: column,
-                                    fullText: fullText);
-                                break;
-                            case "Status":
-                                Status.FullText(
-                                    context: context,
-                                    column: column,
-                                    fullText: fullText);
-                                break;
-                            case "Manager":
-                                Manager.FullText(
-                                    context: context,
-                                    column: column,
-                                    fullText: fullText);
-                                break;
-                            case "Owner":
-                                Owner.FullText(
                                     context: context,
                                     column: column,
                                     fullText: fullText);
@@ -1516,9 +1380,6 @@ namespace Implem.Pleasanter.Models
                 {
                     case "Dashboards_Title": Title = new Title(DashboardId, value); break;
                     case "Dashboards_Body": Body = value.ToString(); break;
-                    case "Dashboards_Status": Status = new Status(value.ToInt());; break;
-                    case "Dashboards_Manager": Manager = SiteInfo.User(context: context, userId: value.ToInt()); break;
-                    case "Dashboards_Owner": Owner = SiteInfo.User(context: context, userId: value.ToInt()); break;
                     case "Dashboards_Locked": Locked = value.ToBool(); break;
                     case "Dashboards_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
@@ -1612,9 +1473,6 @@ namespace Implem.Pleasanter.Models
             UpdatedTime = dashboardModel.UpdatedTime;
             Title = dashboardModel.Title;
             Body = dashboardModel.Body;
-            Status = dashboardModel.Status;
-            Manager = dashboardModel.Manager;
-            Owner = dashboardModel.Owner;
             Locked = dashboardModel.Locked;
             Comments = dashboardModel.Comments;
             Creator = dashboardModel.Creator;
@@ -1640,9 +1498,6 @@ namespace Implem.Pleasanter.Models
             }
             if (data.Title != null) Title = new Title(data.DashboardId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
-            if (data.Status != null) Status = new Status(data.Status.ToInt());;
-            if (data.Manager != null) Manager = SiteInfo.User(context: context, userId: data.Manager.ToInt());
-            if (data.Owner != null) Owner = SiteInfo.User(context: context, userId: data.Owner.ToInt());
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
@@ -1870,31 +1725,8 @@ namespace Implem.Pleasanter.Models
                                 column: column,
                                 condition: filter.Value);
                             break;
-                        case "Status":
-                            match = Status.Value.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Manager":
-                            match = Manager.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "Owner":
-                            match = Owner.Id.Matched(
-                                context: context,
-                                column: column,
-                                condition: filter.Value);
-                            break;
                         case "Locked":
                             match = Locked.Matched(
-                                column: column,
-                                condition: filter.Value);
-                            break;
-                        case "SiteTitle":
-                            match = SiteTitle.SiteId.Matched(
                                 column: column,
                                 condition: filter.Value);
                             break;
@@ -2054,16 +1886,12 @@ namespace Implem.Pleasanter.Models
                             tableType: Sqls.TableTypes.All,
                             distinct: true,
                             column: Rds.DashboardsColumn()
-                                .Manager()
-                                .Owner()
                                 .Creator()
                                 .Updator(),
                             where: Rds.DashboardsWhere().DashboardId(DashboardId)))
                                 .AsEnumerable()
                                 .ForEach(dataRow =>
                                 {
-                                    users.Add(dataRow.Int("Manager"));
-                                    users.Add(dataRow.Int("Owner"));
                                     users.Add(dataRow.Int("Creator"));
                                     users.Add(dataRow.Int("Updator"));
                                 });
@@ -2184,33 +2012,6 @@ namespace Implem.Pleasanter.Models
                                         column: column,
                                         notificationColumnFormat: data.Format,
                                         updated: Body_Updated(context: context),
-                                        update: update));
-                                    break;
-                                case "Status":
-                                    body.Append(Status.ToNotice(
-                                        context: context,
-                                        saved: SavedStatus,
-                                        column: column,
-                                        notificationColumnFormat: data.Format,
-                                        updated: Status_Updated(context: context),
-                                        update: update));
-                                    break;
-                                case "Manager":
-                                    body.Append(Manager.ToNotice(
-                                        context: context,
-                                        saved: SavedManager,
-                                        column: column,
-                                        notificationColumnFormat: data.Format,
-                                        updated: Manager_Updated(context: context),
-                                        update: update));
-                                    break;
-                                case "Owner":
-                                    body.Append(Owner.ToNotice(
-                                        context: context,
-                                        saved: SavedOwner,
-                                        column: column,
-                                        notificationColumnFormat: data.Format,
-                                        updated: Owner_Updated(context: context),
                                         update: update));
                                     break;
                                 case "Locked":
@@ -2397,18 +2198,6 @@ namespace Implem.Pleasanter.Models
                             Body = dataRow[column.ColumnName].ToString();
                             SavedBody = Body;
                             break;
-                        case "Status":
-                            Status = new Status(dataRow, column);
-                            SavedStatus = Status.Value;
-                            break;
-                        case "Manager":
-                            Manager = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
-                            SavedManager = Manager.Id;
-                            break;
-                        case "Owner":
-                            Owner = SiteInfo.User(context: context, userId: dataRow.Int(column.ColumnName));
-                            SavedOwner = Owner.Id;
-                            break;
                         case "Locked":
                             Locked = dataRow[column.ColumnName].ToBool();
                             SavedLocked = Locked;
@@ -2501,9 +2290,6 @@ namespace Implem.Pleasanter.Models
                 || Ver_Updated(context: context)
                 || Title_Updated(context: context)
                 || Body_Updated(context: context)
-                || Status_Updated(context: context)
-                || Manager_Updated(context: context)
-                || Owner_Updated(context: context)
                 || Locked_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
@@ -2516,8 +2302,6 @@ namespace Implem.Pleasanter.Models
             {
                 var mine = new List<string>();
                 var userId = context.UserId;
-                if (SavedManager == userId) mine.Add("Manager");
-                if (SavedOwner == userId) mine.Add("Owner");
                 if (SavedCreator == userId) mine.Add("Creator");
                 if (SavedUpdator == userId) mine.Add("Updator");
                 MineCache = mine;

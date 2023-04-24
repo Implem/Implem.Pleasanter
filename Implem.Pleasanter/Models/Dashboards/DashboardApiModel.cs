@@ -12,9 +12,6 @@ namespace Implem.Pleasanter.Models
         public int? Ver { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
-        public int? Status { get; set; }
-        public int? Manager { get; set; }
-        public int? Owner { get; set; }
         public bool? Locked { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
@@ -36,9 +33,6 @@ namespace Implem.Pleasanter.Models
                 case "Ver": return Ver;
                 case "Title": return Title;
                 case "Body": return Body;
-                case "Status": return Status;
-                case "Manager": return Manager;
-                case "Owner": return Owner;
                 case "Locked": return Locked;
                 case "Comments": return Comments;
                 case "Creator": return Creator;

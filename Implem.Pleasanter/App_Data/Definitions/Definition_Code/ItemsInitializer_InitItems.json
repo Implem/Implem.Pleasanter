@@ -4,5 +4,5 @@
     "Indent": "3",
     "Separator": "\\r\\n",
     "ItemOnly": "1",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashbords"
 }
