@@ -50,12 +50,7 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
-                viewModeBody: () => hb.Grid(
-                   context: context,
-                   gridData: gridData,
-                   ss: ss,
-                   view: view,
-                   serverScriptModelRow: serverScriptModelRow));
+                viewModeBody: () => hb.Div(css: "grid-stack"));
         }
 
         private static string ViewModeTemplate(
@@ -73,10 +68,27 @@ namespace Implem.Pleasanter.Models
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
+                default:
+                    return HtmlTemplates.Error(
                     context: context,
                     errorData: invalid);
             }
+
+            var dashboardLayouts = ss.Dashboards.Select(dashboard =>
+            {
+                switch (dashboard.Type)
+                {
+                    case DashboardType.QuickAccess:
+                        return QuickAccessLayout(
+                            context: context,
+                            dashboard: dashboard);
+                    case DashboardType.TimeLine:
+                        return new DashboardLayout();
+                    default:
+                        return new DashboardLayout();
+                };
+            }).ToJson();
+            
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -98,25 +110,6 @@ namespace Implem.Pleasanter.Models
                                 controller: context.Controller,
                                 id: ss.SiteId)),
                         action: () => hb
-                            .Div(
-                                id: "ViewSelectorField", 
-                                action: () => hb
-                                    .ViewSelector(
-                                        context: context,
-                                        ss: ss,
-                                        view: view))
-                            .ViewFilters(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .Aggregations(
-                                context: context,
-                                ss: ss,
-                                view: view)
-                            .ViewExtensions(
-                                context: context,
-                                ss: ss,
-                                view: view)
                             .Div(id: "ViewModeContainer", action: () => viewModeBody())
                             .MainCommands(
                                 context: context,
@@ -130,40 +123,69 @@ namespace Implem.Pleasanter.Models
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
-                                controlId: "EditOnGrid",
-                                css: "always-send",
-                                value: context.Forms.Data("EditOnGrid"))
-                            .Hidden(
-                                controlId: "NewRowId",
-                                css: "always-send",
-                                value: context.Forms.Data("NewRowId")))
-                    .EditorDialog(context: context, ss: ss)
-                    .DropDownSearchDialog(
-                        context: context,
-                        id: ss.SiteId)
-                    .MoveDialog(context: context, bulk: true)
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("SetNumericRangeDialog")
-                        .Class("dialog")
-                        .Title(Displays.NumericRange(context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("SetDateRangeDialog")
-                        .Class("dialog")
-                        .Title(Displays.DateRange(context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("ExportSelectorDialog")
-                        .Class("dialog")
-                        .Title(Displays.Export(context: context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("ExportSitePackageDialog")
-                        .Class("dialog")
-                        .Title(Displays.ExportSitePackage(context: context)))
-                    .Div(attributes: new HtmlAttributes()
-                        .Id("BulkUpdateSelectorDialog")
-                        .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                                controlId: "DashbordLayouts",
+                                value: dashboardLayouts)))
                     .ToString();
         }
+
+        private static DashboardLayout QuickAccessLayout(Context context, Dashboard dashboard)
+        {
+            var sites = dashboard.GetDashboardSites(context: context);
+
+            var content = new HtmlBuilder()
+                .QuickAccessMenu(context: context, sites).ToString();
+            return new DashboardLayout()
+            {
+                X = dashboard.X,
+                Y = dashboard.Y,
+                W = dashboard.Width,
+                H = dashboard.Height,
+                Content = content
+            };
+        }
+
+        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, IList<long> sites)
+        {
+            var ss = SiteSettingsUtilities.SitesSiteSettings(
+                   context: context,
+                   siteId: 0);
+            ss.PermissionType = context.SiteTopPermission();
+            var siteConditions = SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu
+                .SiteConditions(context: context, ss: ss);
+            return hb.Div(id: "SiteMenu", action: () => hb
+                .Nav(css: "cf", action: () => hb
+                    .Ul(css: "nav-sites sortable", action: () =>
+                        QuickAccessSites(context: context, sites: sites)
+                            .ForEach(siteModelChild => hb
+                                .SiteMenu(
+                                    context: context,
+                                    ss: ss,
+                                    currentSs: siteModelChild.SiteSettings,
+                                    siteId: siteModelChild.SiteId,
+                                    referenceType: siteModelChild.ReferenceType,
+                                    title: siteModelChild.Title.Value,
+                                    siteConditions: siteConditions)))));
+        }
+
+        private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
+        {
+            return new SiteCollection(
+                context: context,
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .Title()
+                    .ReferenceType()
+                    .SiteSettings(),
+                where: Rds.SitesWhere()
+                    .TenantId(context.TenantId)
+                    .SiteId_In(sites)
+                    .Add(
+                        raw: Def.Sql.HasPermission,
+                        _using: !context.HasPrivilege));
+        }
+
 
         public static string IndexJson(Context context, SiteSettings ss)
         {

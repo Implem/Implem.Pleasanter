@@ -1,9 +1,7 @@
-﻿using Azure.Storage.Blobs.Models;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
-using Novell.Directory.Ldap.Asn1;
 using System.Collections.Generic;
 using System.Linq;
 

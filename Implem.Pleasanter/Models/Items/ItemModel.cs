@@ -208,6 +208,10 @@ namespace Implem.Pleasanter.Models
             {
                 case "Sites":
                     return SiteUtilities.SiteMenu(context: context, siteModel: Site);
+                case "Dashboards":
+                    return DashboardUtilities.Index(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.Index(
                         context: context,

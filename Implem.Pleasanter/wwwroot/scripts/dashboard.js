@@ -1,10 +1,4 @@
-﻿var $p = {
-    data: {},
-    events: {},
-    ex: {}
-};
-
-$p.initDashboard = function () {
+﻿$p.initDashboard = function () {
     let layout = $('#DashbordLayouts').val();
     let gridstack = GridStack.init();
     gridstack.load(JSON.parse(layout));
