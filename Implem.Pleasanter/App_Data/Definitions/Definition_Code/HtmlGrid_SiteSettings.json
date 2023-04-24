@@ -1,4 +1,4 @@
 ﻿{
     "Id": "HtmlGrid_SiteSettings",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

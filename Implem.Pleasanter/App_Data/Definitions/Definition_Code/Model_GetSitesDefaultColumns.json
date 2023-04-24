@@ -1,4 +1,4 @@
 ﻿{
     "Id": "Model_GetSitesDefaultColumns",
-    "Include": "Sites,Dashbords"
+    "Include": "Sites"
 }

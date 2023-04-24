@@ -6881,7 +6881,7 @@ namespace Implem.Pleasanter.Models
                         ss: SiteSettings));
             }
         }
-        
+
         /// <summary>
         /// Fixed:
         /// </summary>

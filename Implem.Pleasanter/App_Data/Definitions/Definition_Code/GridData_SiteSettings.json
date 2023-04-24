@@ -1,4 +1,4 @@
 ﻿{
     "Id": "GridData_SiteSettings",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

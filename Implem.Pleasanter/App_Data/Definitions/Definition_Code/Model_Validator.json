@@ -3,5 +3,5 @@
     "OutputPath": "Models\\#TableName#\\#ModelName#Validators.cs",
     "Source": "Mvc",
     "RepeatType": "Table",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

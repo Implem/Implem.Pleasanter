@@ -4,5 +4,5 @@
     "Source": "Mvc",
     "RepeatType": "Table",
     "GenericUi": "1",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

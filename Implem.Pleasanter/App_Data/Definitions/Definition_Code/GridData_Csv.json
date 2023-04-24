@@ -5,5 +5,5 @@
     "Separator": "\\r\\n",
     "GenericUi": "1",
     "Include": "Users,Issues,Results",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

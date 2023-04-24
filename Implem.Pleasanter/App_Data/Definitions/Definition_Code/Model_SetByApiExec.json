@@ -2,5 +2,5 @@
     "Id": "Model_SetByApiExec",
     "Indent": "3",
     "GenericUi": "1",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

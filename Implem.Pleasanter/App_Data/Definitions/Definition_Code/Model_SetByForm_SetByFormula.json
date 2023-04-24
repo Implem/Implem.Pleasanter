@@ -2,5 +2,5 @@
     "Id": "Model_SetByForm_SetByFormula",
     "Indent": "3",
     "ItemOnly": "1",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

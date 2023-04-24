@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_FullText_Sites_Wikis",
     "Indent": "3",
-    "Include": "Sites,Dashbords"
+    "Include": "Sites"
 }

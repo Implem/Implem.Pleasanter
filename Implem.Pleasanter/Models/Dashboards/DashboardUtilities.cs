@@ -1005,9 +1005,6 @@ namespace Implem.Pleasanter.Models
                     formData: context.Forms));
         }
 
-        /// <summary>
-        /// Fixed
-        /// </summary>
         public static string Editor(
             Context context, SiteSettings ss, long dashboardId, bool clearSessions)
         {

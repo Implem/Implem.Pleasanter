@@ -1,4 +1,4 @@
 ﻿{
     "Id": "Model_SiteSettings_SitesOnly",
-    "Include": "Sites,Dashbords"
+    "Include": "Sites"
 }

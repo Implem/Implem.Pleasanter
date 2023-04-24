@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_SiteSettingsParameter",
     "GenericUi": "1",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

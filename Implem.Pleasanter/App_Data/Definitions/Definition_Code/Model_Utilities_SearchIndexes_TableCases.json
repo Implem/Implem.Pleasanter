@@ -3,5 +3,5 @@
     "RepeatType": "Table",
     "Indent": "3",
     "ItemOnly": "1",
-    "Exclude": "Sites,Dashbords"
+    "Exclude": "Sites"
 }

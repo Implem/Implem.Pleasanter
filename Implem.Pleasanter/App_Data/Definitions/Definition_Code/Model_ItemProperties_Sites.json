@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_ItemProperties_Sites",
     "Indent": "2",
-    "Include": "Sites,Dashbords"
+    "Include": "Sites"
 }

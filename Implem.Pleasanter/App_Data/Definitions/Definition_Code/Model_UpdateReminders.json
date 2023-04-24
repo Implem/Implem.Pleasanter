@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_UpdateReminders",
     "Indent": "3",
-    "Include": "Sites,Dashbords"
+    "Include": "Sites"
 }
