@@ -2973,15 +2973,21 @@ namespace Implem.Pleasanter.Models
                         res: res,
                         controlId: controlId);
                     break;
-                case "CopyDashboard":
+                case "CopyDashboards":
                     CopyDashboard(
                         context: context,
                         res: res);
                     break;
-                case "DeleteDashboard":
+                case "DeleteDashboards":
                     DeleteDashboard(
                         context: context,
                         res: res);
+                    break;
+                case "AddDashboardViewFilter":
+                    AddViewFilter(
+                        context: context,
+                        res: res,
+                        prefix: "Dashboard");
                     break;
                 default:
                     if (controlId.Contains("_NumericRange"))
@@ -6824,16 +6830,26 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateDashboard(Context context, ResponseCollection res, string controlId)
         {
-            SiteSettings.Dashboards?
-                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardId"))?
-                .Update(
-                    title: context.Forms.Data("DashboardTitle"),
-                    type: context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
-                    x: context.Forms.Int("DashboardX"),
-                    y: context.Forms.Int("DashboardY"),
-                    width: context.Forms.Int("DashboardWidth"),
-                    height: context.Forms.Int("DashboardHeight"),
-                    sites: context.Forms.Data("DashboardSites"));
+            var dashboard = SiteSettings.Dashboards?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardId"));
+            if(dashboard == null)
+            {
+                return;
+            }
+            var view = dashboard.View ?? new View();
+            view.SetByForm(
+                context: context,
+                ss: SiteSettings,
+                prefix: "Dashboard");
+            dashboard.Update(
+                title: context.Forms.Data("DashboardTitle"),
+                type: context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
+                x: context.Forms.Int("DashboardX"),
+                y: context.Forms.Int("DashboardY"),
+                width: context.Forms.Int("DashboardWidth"),
+                height: context.Forms.Int("DashboardHeight"),
+                sites: context.Forms.Data("DashboardSites"),
+                view: view);
             res
                 .Html("#EditDashboard", new HtmlBuilder()
                     .EditDashboard(

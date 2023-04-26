@@ -27,6 +27,9 @@ namespace Implem.Pleasanter.Models
 {
     public static class DashboardUtilities
     {
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Index(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
@@ -53,6 +56,8 @@ namespace Implem.Pleasanter.Models
                 viewModeBody: () => hb.Div(css: "grid-stack"));
         }
 
+        /// <summary>
+        /// Fixed:
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             Context context,

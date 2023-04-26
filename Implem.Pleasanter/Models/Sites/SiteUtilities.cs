@@ -10346,6 +10346,7 @@ namespace Implem.Pleasanter.Models
             View view,
             string prefix = "",
             bool currentTableOnly = false,
+            Dictionary<string,string> viewFilterOptions = null,
             Action action = null)
         {
             return hb.FieldSet(id: $"{prefix}ViewFiltersTab", action: () =>
@@ -10494,10 +10495,11 @@ namespace Implem.Pleasanter.Models
                                         controlId: $"{prefix}ViewFilterSelector",
                                         fieldCss: "field-auto-thin",
                                         controlCss: " always-send",
-                                        optionCollection: ss.ViewFilterOptions(
-                                            context: context,
-                                            view: view,
-                                            currentTableOnly: currentTableOnly))
+                                        optionCollection: viewFilterOptions ??
+                                            ss.ViewFilterOptions(
+                                                context: context,
+                                                view: view,
+                                                currentTableOnly: currentTableOnly))
                                     .Button(
                                         controlId: $"Add{prefix}ViewFilter",
                                         controlCss: "button-icon",
@@ -10699,7 +10701,12 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static HtmlBuilder ViewSortersTab(
-            this HtmlBuilder hb, Context context, SiteSettings ss, View view)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            bool usekeepSorterState = true,
+            Dictionary<string, string> viewSorterOptions = null)
         {
             return hb.FieldSet(id: "ViewSortersTab", action: () => hb
                 .FieldCheckBox(
@@ -10707,7 +10714,8 @@ namespace Implem.Pleasanter.Models
                     fieldCss: "field-auto-thin",
                     labelText: Displays.KeepSorterState(context: context),
                     _checked: view.KeepSorterState == true,
-                    labelPositionIsRight: true)
+                    labelPositionIsRight: true,
+                    _using: usekeepSorterState)
                 .FieldSet(
                     id: "ViewFiltersSorterConditionSettingsEditor",
                     css: "both" + (view.KeepSorterState == true
@@ -10734,7 +10742,7 @@ namespace Implem.Pleasanter.Models
                     controlId: "ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
-                    optionCollection: ss.ViewSorterOptions(context: context))
+                    optionCollection: viewSorterOptions?? ss.ViewSorterOptions(context: context))
                 .FieldDropDown(
                     context: context,
                     controlId: "ViewSorterOrderTypes",
@@ -13885,42 +13893,61 @@ namespace Implem.Pleasanter.Models
                         labelText: "サイトID",
                         text: dashboard.Sites?.Join(),
                         validateRequired: true)
-                    .FieldSpinner(
-                        controlId: "DashboardX",
-                        fieldCss: "field-auto-thin",
-                        labelText: "X",
-                        value: dashboard.X.ToDecimal(),
-                        min: 0,
-                        max: 11,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "DashboardY",
-                        fieldCss: "field-auto-thin",
-                        labelText: "Y",
-                        value: dashboard.Y.ToDecimal(),
-                        min: 0,
-                        max: 11,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "DashboardWidth",
-                        fieldCss: "field-auto-thin",
-                        labelText: "Width",
-                        value: dashboard.Width.ToDecimal(),
-                        min: 1,
-                        max: 12,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "DashboardHeight",
-                        fieldCss: "field-auto-thin",
-                        labelText: "Height",
-                        value: dashboard.Height.ToDecimal(),
-                        min: 1,
-                        max: 12,
-                        step: 1,
-                        width: 25)
+                     .FieldSet(
+                        id: "DashboardBoundsEditor",
+                        action: ()=> hb
+                            .FieldSet(
+                                css: " enclosed-thin",
+                                legendText: "配置",
+                                action: ()=> hb     
+                                    .FieldSpinner(
+                                        controlId: "DashboardX",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        labelText: "X",
+                                        value: dashboard.X.ToDecimal(),
+                                        min: 0,
+                                        max: 11,
+                                        step: 1,
+                                        width: 25)
+                                    .FieldSpinner(
+                                        controlId: "DashboardY",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        labelText: "Y",
+                                        value: dashboard.Y.ToDecimal(),
+                                        min: 0,
+                                        max: 11,
+                                        step: 1,
+                                        width: 25)
+                                    .FieldSpinner(
+                                        controlId: "DashboardWidth",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        labelText: "Width",
+                                        value: dashboard.Width.ToDecimal(),
+                                        min: 1,
+                                        max: 12,
+                                        step: 1,
+                                        width: 25)
+                                    .FieldSpinner(
+                                        controlId: "DashboardHeight",
+                                        fieldCss: "field-auto-thin",
+                                        controlCss: " always-send",
+                                        labelText: "Height",
+                                        value: dashboard.Height.ToDecimal(),
+                                        min: 1,
+                                        max: 12,
+                                        step: 1,
+                                        width: 25)))
+                    .DashboardViewFiltersTab(
+                        context: context,
+                        ss: ss,
+                        dashboard: dashboard)
+                    .DashboardViewSorterTab(
+                        context: context,
+                        ss: ss,
+                        dashboard: dashboard)
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -13947,6 +13974,48 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DashboardViewFiltersTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Dashboard dashboard)
+        {
+            var view = dashboard.View ?? new View();
+            var viewFilterOptions = Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == "Issues")
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+            return hb.ViewFiltersTab(
+                context: context,
+                ss: ss,
+                view: view,
+                prefix: "Dashboard",
+                currentTableOnly: true,
+                viewFilterOptions: viewFilterOptions);
+        }
+
+
+        private static HtmlBuilder DashboardViewSorterTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Dashboard dashboard)
+        {
+            var view = dashboard.View ?? new View();
+            var viewSorterOptions = Def.ColumnDefinitionCollection
+                .Where(o => o.TableName == "Issues")
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+            return hb.ViewSortersTab(
+                context: context,
+                ss: ss,
+                view: view,
+                usekeepSorterState: false,
+                viewSorterOptions: viewSorterOptions);
+        }
+
 
         /// <summary>
         /// Fixed:

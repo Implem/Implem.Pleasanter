@@ -18,6 +18,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Width { get; set; }
         public int Height { get; set; }
         public IList<string> Sites { get; set; }
+        public View View { get; set; }
 
         public Dashboard GetRecordingData()
         {
@@ -25,27 +26,29 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboard.Id = Id;
             dashboard.Title = Title;
             dashboard.Type = Type;
-            dashboard.Width = Width;
-            dashboard.Height = Height;
             dashboard.X = X;
             dashboard.Y = Y;
+            dashboard.Width = Width;
+            dashboard.Height = Height;
             dashboard.Sites = Sites;
+            dashboard.View = View;
             return dashboard;
         }
 
-        public Dashboard Update(string title, DashboardType type, int x, int y, int width, int height, string sites)
+        public Dashboard Update(string title, DashboardType type, int x, int y, int width, int height, string sites, View view)
         {
             Title = title;
             Type = type;
-            Width = width;
-            Height = height;
             X = x;
             Y = y;
+            Width = width;
+            Height = height;
             Sites = sites
                 .Split(",")
                 .Select(o => o.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
+            View = view;
             return this;
         }
 

@@ -568,6 +568,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return Displays.ManageTable(context: context);
                 case "Wikis":
                     return Displays.ManageWiki(context: context);
+                case "Dashboards":
+                    return "ダッシュボードの管理";
                 default:
                     return null;
             }

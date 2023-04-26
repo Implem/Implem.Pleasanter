@@ -24,6 +24,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var filter = controlId.StartsWith("ViewFilters__")
                 || controlId.StartsWith("ProcessViewFilters__")
                 || controlId.StartsWith("StatusControlViewFilters__")
+                || controlId.StartsWith("DashboardViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             string parentClass = context.Forms.Data("DropDownSearchParentClass");
@@ -269,6 +270,7 @@ namespace Implem.Pleasanter.Libraries.Models
             var filter = controlId.StartsWith("ViewFilters__")
                 || controlId.StartsWith("ProcessViewFilters__")
                 || controlId.StartsWith("StatusControlViewFilters__")
+                || controlId.StartsWith("DashboardViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
             var searchText = context.Forms.Data("DropDownSearchText");
             var column = SearchDropDownColumn(

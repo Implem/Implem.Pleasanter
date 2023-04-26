@@ -1644,7 +1644,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateColumnDefinitionHash()
         {
-            ColumnDefinitionHash = GetColumnDefinitionHash(ReferenceType);
+            ColumnDefinitionHash = GetColumnDefinitionHash(
+                ReferenceType == "Dashboards"
+                    ? "Issues"
+                    : ReferenceType);
         }
 
         private static Dictionary<string, ColumnDefinition> GetColumnDefinitionHash(
