@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsApiUpdate(id: id));
+                routeData: RouteData.ItemsApiDelete(id: id));
             var results = GetResults(context: context);
             Assert.True(Tester.Test(
                 context: context,
@@ -39,7 +39,8 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(title: "RecordToApiDeleteSite4"),
                 new TestPart(title: "RecordToApiDeleteSite6"),
                 new TestPart(title: "RecordToApiDeleteSite7"),
-                new TestPart(title: "RecordToApiDeleteSite8")
+                new TestPart(title: "RecordToApiDeleteSite8"),
+                new TestPart(title: "RecordToApiDeleteSite9")
             };
             foreach (var testPart in testParts)
             {
@@ -66,7 +67,7 @@ namespace Implem.PleasanterTest.Tests.Items
         private static ContentResultInheritance GetResults(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.UpdateByApi(context: context);
+            return itemModel.DeleteByApi(context: context);
         }
     }
 }
