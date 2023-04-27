@@ -3733,7 +3733,8 @@ namespace Implem.Pleasanter.Models
                     statements.AddRange(resultModel.UpdateStatements(
                         context: context,
                         ss: ss,
-                        dataTableName: formData.Id.ToString()));
+                        dataTableName: formData.Id.ToString(),
+                        verUp: resultModel.VerUp));
                 }
                 else if (formData.Id < 0)
                 {

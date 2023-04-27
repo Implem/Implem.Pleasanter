@@ -993,20 +993,25 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true) 
+            bool checkConflict = true)
         {
             if (setBySession)
             {
                 SetBySession(context: context);
             }
             var statements = new List<SqlStatement>();
+            var verUp = Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp);
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                checkConflict: checkConflict));
+                checkConflict: checkConflict,
+                verUp: verUp));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1075,7 +1080,8 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool checkConflict = true)
+            bool checkConflict = true,
+            bool verUp = false)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
@@ -1083,10 +1089,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 groupModel: this)
                     .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
-            if (Versions.VerUp(
-                context: context,
-                ss: ss,
-                verUp: VerUp))
+            if (verUp)
             {
                 statements.Add(Rds.GroupsCopyToStatement(
                     where: where,

@@ -91,7 +91,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Context context,
             SiteSettings ss,
             Column column,
-            long referenceId)
+            long referenceId,
+            bool verUp)
         {
             var path = Path.Combine(
                 Directories.BinaryStorage(),
@@ -100,13 +101,13 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             // 変数「ss」がnullの場合、更新処理以外から呼び出されている
             // そのため、更新処理以外、もしくは「履歴に存在するファイルは削除しない」がオフ
             // もしくは履歴に添付ファイルが存在しない場合はファイルの実態ごと削除する
-            if (ss == null
-                || column.NotDeleteExistHistory == false
-                || !ExistsHistory(
-                    context: context,
-                    ss: ss,
-        　　　　    column: column,
-        　　　　    referenceId: referenceId))
+            if (column?.NotDeleteExistHistory != true
+                || (verUp == false
+                    && !ExistsHistory(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        referenceId: referenceId)))
             {
                 if (System.IO.File.Exists(path))
                 {
@@ -120,7 +121,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             SiteSettings ss,
             Column column,
             List<SqlStatement> statements,
-            long referenceId)
+            long referenceId,
+            bool verUp)
         {
             if (Added == true)
             {
@@ -143,12 +145,16 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             }
             else if (Deleted == true && !Overwritten.HasValue)
             {
-                if (column.NotDeleteExistHistory == false
-                    || !ExistsHistory(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        referenceId: referenceId))
+                // 変数「ss」がnullの場合、更新処理以外から呼び出されている
+                // そのため、更新処理以外、もしくは「履歴に存在するファイルは削除しない」がオフ
+                // もしくは履歴に添付ファイルが存在しない場合はファイルの実態ごと削除する
+                if (column?.NotDeleteExistHistory != true
+                    || (verUp == false
+                        && !ExistsHistory(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            referenceId: referenceId)))
                 {
                     statements.Add(Rds.DeleteBinaries(
                         factory: context,
@@ -177,6 +183,10 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             Column column,
             long referenceId)
         {
+            if (ss == null)
+            {
+                return false;
+            }
             switch (ss.ReferenceType)
             {
                 case "Issues":
@@ -193,8 +203,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     columnBrackets: column.ColumnName.ToSingleArray(),
                                     value: $"%\"Guid\":\"{Guid}\"%",
                                     name: Strings.NewGuid(),
-                                    _operator: context.Sqls.LikeWithEscape),
-                            top: 1)) == 1;
+                                    _operator: context.Sqls.LikeWithEscape))) >= 1;
                 case "Results":
                     return Rds.ExecuteScalar_int(
                         context: context,
@@ -209,8 +218,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                                     columnBrackets: column.ColumnName.ToSingleArray(),
                                     value: $"%\"Guid\":\"{Guid}\"%",
                                     name: Strings.NewGuid(),
-                                    _operator: context.Sqls.LikeWithEscape),
-                            top: 1)) == 1;
+                                    _operator: context.Sqls.LikeWithEscape))) >= 1;
                 default:
                     return false;
             }
