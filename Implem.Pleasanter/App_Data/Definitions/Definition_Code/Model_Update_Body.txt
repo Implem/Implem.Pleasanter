@@ -13,7 +13,7 @@
     bool otherInitValue = false,
     bool setBySession = true,
     bool get = true,
-    bool checkConflict = true) 
+    bool checkConflict = true)
 {
 <!--Model_OnUpdating_ServerScript-->
 <!--Model_OnApiUpdatingMailAddress_Users-->
@@ -27,19 +27,24 @@
 
 <!--Model_OnUpdatingExtendedSqls-->
 
+    var verUp = Versions.VerUp(
+        context: context,
+        ss: ss,
+        verUp: VerUp);
     statements.AddRange(UpdateStatements(
         context: context,
         ss: ss,
         param: param,
         otherInitValue: otherInitValue,
         additionalStatements: additionalStatements,
-        checkConflict: checkConflict));
+        checkConflict: checkConflict,
+        verUp: verUp));
 
 <!--Model_UpdateReminders-->
 <!--Model_UpdateExecute-->
 <!--Model_Update_ExecuteAutomaticNumberingExec-->
 <!--Model_UpdateExecute_User-->
-<!--Model_WriteAttachmentsExecute-->
+<!--Model_WriteAttachmentsExecute_Update-->
 <!--Model_ForceSynchronizeSummaryExecute-->
 <!--Model_UpdateWikiTitle-->
 <!--Model_OnUpdatedNotice-->
@@ -68,7 +73,8 @@ public List<SqlStatement> UpdateStatements(
     SqlParamCollection param = null,
     bool otherInitValue = false,
     List<SqlStatement> additionalStatements = null,
-    bool checkConflict = true)
+    bool checkConflict = true,
+    bool verUp = false)
 {
 
 <!--Model_SetAttachmentsData-->
@@ -82,10 +88,7 @@ public List<SqlStatement> UpdateStatements(
 
 <!--Model_IfDuplicated-->
 
-    if (Versions.VerUp(
-        context: context,
-        ss: ss,
-        verUp: VerUp))
+    if (verUp)
     {
         statements.Add(Rds.#TableName#CopyToStatement(
             where: where,

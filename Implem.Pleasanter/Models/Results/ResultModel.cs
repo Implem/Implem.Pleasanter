@@ -1537,7 +1537,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     setIdentity: true),
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
+            statements.AddRange(UpdateAttachmentsStatements(
+                context: context,
+                ss: ss));
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
@@ -1641,7 +1643,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true) 
+            bool checkConflict = true)
         {
             SetByBeforeUpdateServerScript(
                 context: context,
@@ -1668,13 +1670,18 @@ namespace Implem.Pleasanter.Models
                     id: ResultId,
                     timestamp: Timestamp.ToDateTime());
             }
+            var verUp = Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp);
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                checkConflict: checkConflict));
+                checkConflict: checkConflict,
+                verUp: verUp));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1702,7 +1709,8 @@ namespace Implem.Pleasanter.Models
                         overwrite: false));
             WriteAttachments(
                 context: context,
-                ss: ss);
+                ss: ss,
+                verUp: verUp);
             if (synchronizeSummary)
             {
                 SynchronizeSummary(
@@ -1775,7 +1783,8 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool checkConflict = true)
+            bool checkConflict = true,
+            bool verUp = false)
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
@@ -1787,10 +1796,7 @@ namespace Implem.Pleasanter.Models
                 resultModel: this)
                     .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             statements.AddRange(IfDuplicatedStatements(ss: ss));
-            if (Versions.VerUp(
-                context: context,
-                ss: ss,
-                verUp: VerUp))
+            if (verUp)
             {
                 statements.Add(Rds.ResultsCopyToStatement(
                     where: where,
@@ -1805,7 +1811,10 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
+            statements.AddRange(UpdateAttachmentsStatements(
+                context: context,
+                ss: ss,
+                verUp: verUp));
             if (ss.PermissionForUpdating?.Any() == true)
             {
                 statements.AddRange(PermissionUtilities.UpdateStatements(
@@ -1863,7 +1872,7 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+        private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss, bool verUp = false)
         {
             var statements = new List<SqlStatement>();
             ColumnNames()
@@ -1877,11 +1886,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             columnName: columnName),
                         statements: statements,
-                        referenceId: ResultId));
+                        referenceId: ResultId,
+                        verUp: verUp));
             return statements;
         }
 
-        private void WriteAttachments(Context context, SiteSettings ss)
+        private void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
         {
             ColumnNames()
                 .Where(columnName => columnName.StartsWith("Attachments"))
@@ -1893,7 +1903,8 @@ namespace Implem.Pleasanter.Models
                         column: ss.GetColumn(
                             context: context,
                             columnName: columnName),
-                        referenceId: ResultId));
+                        referenceId: ResultId,
+                        verUp: verUp));
         }
 
         public void UpdateRelatedRecords(

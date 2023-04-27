@@ -1005,7 +1005,8 @@ namespace Implem.Pleasanter.Models
             EnumerableRowCollection<DataRow> dataRows,
             SiteSettings ss = null,
             Column column = null,
-            long referenceId = 0)
+            long referenceId = 0,
+            bool verUp = false)
         {
             dataRows.ForEach(binary =>
             {
@@ -1016,7 +1017,8 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column,
-                        referenceId: referenceId);
+                        referenceId: referenceId,
+                        verUp: verUp);
                 }
                 else if (binaryType == "Images")
                 {

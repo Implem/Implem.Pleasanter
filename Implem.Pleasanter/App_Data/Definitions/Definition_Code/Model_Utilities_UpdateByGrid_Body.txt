@@ -71,7 +71,8 @@
             statements.AddRange(#modelName#Model.UpdateStatements(
                 context: context,
                 ss: ss,
-                dataTableName: formData.Id.ToString()));
+                dataTableName: formData.Id.ToString(),
+                verUp: #modelName#Model.VerUp));
         }
         else if (formData.Id < 0)
         {
