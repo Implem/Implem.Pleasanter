@@ -354,45 +354,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Column column = null,
-            bool _using = true)
+            bool _using = true,
+            bool isUserMade = false)
         {
             var srcId = column?.RelatingSrcId().ToString() ?? string.Empty;
-            return _using
-                ? hb
-                    .Select(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId)
-                            .Name(controlId)
-                            .Class(Css.Class(
-                                "control-dropdown" + (optionCollection?.Any(o =>
-                                    !o.Value.Css.IsNullOrEmpty() ||
-                                    !o.Value.Style.IsNullOrEmpty()) == true
-                                        ? " has-css"
-                                        : string.Empty),
-                                controlCss))
-                            .DataId(srcId)
-                            .Multiple(multiple)
-                            .Disabled(disabled)
-                            .DataAlwaysSend(alwaysSend)
-                            .OnChange(onChange)
-                            .DataValidateRequired(validateRequired)
-                            .DataAction(action)
-                            .DataMethod(method),
-                        action: () => hb
-                            .OptionCollection(
-                                context: context,
-                                optionCollection: optionCollection,
-                                selectedValue: selectedValue,
-                                multiple: multiple,
-                                addSelectedValue: addSelectedValue,
-                                insertBlank: insertBlank,
-                                column: column))
-                    .Div(
-                        attributes: new HtmlAttributes()
-                            .Id(controlId + "-clear")
-                            .Class("ui-icon ui-icon-close clear-search")
-                            .OnClick($"$p.set($('#{controlId}'),'');"))
-                : hb;
+            if (_using)
+            {
+                hb.Select(
+                    attributes: new HtmlAttributes()
+                        .Id(controlId)
+                        .Name(controlId)
+                        .Class(Css.Class(
+                            "control-dropdown" + (optionCollection?.Any(o =>
+                                !o.Value.Css.IsNullOrEmpty() ||
+                                !o.Value.Style.IsNullOrEmpty()) == true
+                                    ? " has-css"
+                                    : string.Empty),
+                            controlCss))
+                        .DataId(srcId)
+                        .Multiple(multiple)
+                        .Disabled(disabled)
+                        .DataAlwaysSend(alwaysSend)
+                        .OnChange(onChange)
+                        .DataValidateRequired(validateRequired)
+                        .DataAction(action)
+                        .DataMethod(method),
+                    action: () => hb
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: optionCollection,
+                            selectedValue: selectedValue,
+                            multiple: multiple,
+                            addSelectedValue: addSelectedValue,
+                            insertBlank: insertBlank,
+                            column: column));
+
+                if (isUserMade)
+                {
+                    hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id(controlId + "-clear")
+                        .Class("ui-icon ui-icon-close clear-search")
+                        .OnClick($"$p.set($('#{controlId}'),'');"));
+                }
+            }
+
+            return hb;
         }
 
         public static HtmlBuilder OptionCollection(
