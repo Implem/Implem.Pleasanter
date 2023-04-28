@@ -4928,6 +4928,10 @@ namespace Implem.Pleasanter.Models
                                 ?? Enumerable.Empty<Attachment>())
                         .Where(o => o != null)
                         .Select(o => o.Guid)
+                        .Concat(GetNotDeleteHistoryGuids(
+                            context: context,
+                            ss: ss,
+                            issueId: dataRow.Long("IssueId")))
                         .Distinct()
                         .ToArray()
                 })
@@ -5057,7 +5061,12 @@ namespace Implem.Pleasanter.Models
                             .Values
                             .SelectMany(o => o.AsEnumerable())
                             .Select(o => o.Guid)
-                            .Distinct().ToArray());
+                            .Concat(GetNotDeleteHistoryGuids(
+                                context: context,
+                                ss: ss,
+                                issueId: issueModel.IssueId))
+                            .Distinct()
+                            .ToArray());
                     SessionUtilities.Set(
                         context: context,
                         message: Messages.RestoredFromHistory(
@@ -5072,6 +5081,46 @@ namespace Implem.Pleasanter.Models
                 default:
                     return errorData.MessageJson(context: context);
             }
+        }
+
+        private static IEnumerable<string> GetNotDeleteHistoryGuids(
+            Context context,
+            SiteSettings ss,
+            long issueId)
+        {
+            var ret = new List<string>();
+            var sqlColumn = new SqlColumnCollection();
+            ss.Columns
+                ?.Where(column => column.ControlType == "Attachments")
+                .Where(column => column?.NotDeleteExistHistory == true)
+                .ForEach(column => sqlColumn.Add(column: column));
+            if (sqlColumn.Any())
+            {
+                var dataRows = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectIssues(
+                        tableType: Sqls.TableTypes.History,
+                        column: sqlColumn,
+                        where: Rds.IssuesWhere()
+                            .SiteId(ss.SiteId)
+                            .IssueId(issueId),
+                        distinct: true))
+                            .AsEnumerable();
+                foreach (var dataRow in dataRows)
+                {
+                    foreach (DataColumn dataColumn in dataRow.Table.Columns)
+                    {
+                        var column = new ColumnNameInfo(dataColumn.ColumnName);
+                        if (dataRow[column.ColumnName] != DBNull.Value)
+                        {
+                            dataRow[column.ColumnName].ToString().Deserialize<Attachments>()
+                                ?.ForEach(attachment =>
+                                    ret.Add(attachment.Guid));
+                        }
+                    }
+                }
+            }
+            return ret.Distinct();
         }
 
         public static string Histories(
