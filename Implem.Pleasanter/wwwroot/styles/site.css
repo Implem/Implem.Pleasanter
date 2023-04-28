@@ -2177,6 +2177,10 @@ label.required:after{
     z-index: 10;
 }
 
+.clear-search:has('+.current-user') {
+    right: 36px;
+}
+
 .control-spinner{
     width:auto;
     height:22px;
