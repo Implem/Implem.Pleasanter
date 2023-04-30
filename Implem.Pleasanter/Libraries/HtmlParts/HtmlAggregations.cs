@@ -359,7 +359,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy, string key, Dictionary<string, string> linkedLabelHash)
         {
             return groupBy?.HasChoices() == true
-                ? groupBy.ChoiceHash.Get(key) != null
+                ? groupBy.UseSearch == true
+                    || groupBy.ChoiceHash.Get(key) != null
                     || linkedLabelHash?.Get(key) != null
                     || UserNotSet(
                         groupBy: groupBy,
