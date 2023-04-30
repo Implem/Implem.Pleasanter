@@ -2,4 +2,5 @@
     #ColumnName# = SiteInfo.User(
         context: context,
         userId: column.GetDefaultInput(context: context).ToInt());
+    if (init) Saved#ColumnName# = #ColumnName##RecordingData#;
     break;
