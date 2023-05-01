@@ -2848,6 +2848,14 @@ h3.title-header{
     fill:darkseagreen;
 }
 
+.show-password {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    cursor: pointer;
+    z-index: 10;
+}
+
 .axis{
     fill:none;
     stroke:gray;
