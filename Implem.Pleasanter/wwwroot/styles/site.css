@@ -2851,9 +2851,13 @@ h3.title-header{
 .show-password {
     position: absolute;
     top: 9px;
-    right: 9px;
+    right: -17px;
     cursor: pointer;
     z-index: 10;
+}
+
+#Users_Password::-ms-reveal {
+    display: none;
 }
 
 .axis{
