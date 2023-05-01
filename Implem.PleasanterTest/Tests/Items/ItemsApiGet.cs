@@ -45,7 +45,8 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(title: "ディスク容量の要件に誤り"),
                 new TestPart(title: "株式会社プリザンター"),
                 new TestPart(title: "業務改善コンサルティング"),
-                new TestPart(title: "R社システム開発")
+                new TestPart(title: "R社システム開発"),
+                new TestPart(title: "Wiki1")
             };
             foreach (var testPart in testParts)
             {
