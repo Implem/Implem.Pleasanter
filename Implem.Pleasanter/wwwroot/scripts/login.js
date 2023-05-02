@@ -1,5 +1,9 @@
 ﻿$p.showPassword = function () {
-    $('#Users_Password').attr('type') === 'password'
-        ? $('#Users_Password').attr('type', 'text')
-        : $('#Users_Password').attr('type', 'password');
+    if ($('#Users_Password').attr('type') === 'password') {
+        $('#Users_Password').attr('type', 'text');
+        $('#show_password').text('visibility_off');
+    } else {
+        $('#Users_Password').attr('type', 'password');
+        $('#show_password').text('visibility');
+    }
 }

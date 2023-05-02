@@ -1245,9 +1245,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         if(textType == HtmlTypes.TextTypes.Password)
                         {
                             hb.Div(
+                                id: "show_password",
                             attributes: new HtmlAttributes()
-                                .Class("ui-icon ui-icon-locked show-password")
-                                .OnClick("$p.showPassword()"));
+                                .Class("material-symbols-outlined show-password")
+                                .OnClick("$p.showPassword()"),
+                            action: () => hb.Text("visibility"));
                         }
 
                         controlOption?.Invoke();
