@@ -2850,8 +2850,8 @@ h3.title-header{
 
 .show-password {
     position: absolute;
-    top: 4px;
-    right: -27px;
+    top: 10px;
+    right: -20px;
     cursor: pointer;
     z-index: 10;
 }

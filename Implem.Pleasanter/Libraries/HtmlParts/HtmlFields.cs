@@ -1247,9 +1247,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             hb.Div(
                                 id: "show_password",
                             attributes: new HtmlAttributes()
-                                .Class("material-symbols-outlined show-password")
-                                .OnClick("$p.showPassword()"),
-                            action: () => hb.Text("visibility"));
+                                .Class("fa fa-eye show-password")
+                                .OnClick("$p.showPassword()"));
                         }
 
                         controlOption?.Invoke();
