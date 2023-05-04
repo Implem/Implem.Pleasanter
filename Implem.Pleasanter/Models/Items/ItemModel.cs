@@ -1473,6 +1473,28 @@ namespace Implem.Pleasanter.Models
             }
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    var siteSs = Site.SitesSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string siteRequestString)
+                    {
+                        context.ApiRequestBody = siteRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        context.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
+                            context: context,
+                            ss: siteSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return SiteUtilities.CreateByServerScript(
+                        context: context,
+                        ss: siteSs,
+                        model: model);
                 case "Issues":
                     var issueSs = Site.IssuesSiteSettings(
                         context: context,
@@ -1803,8 +1825,31 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            switch (Site.ReferenceType)
+            switch (ReferenceType)
             {
+                case "Sites":
+                    var siteSs = Site.SitesSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string siteRequestString)
+                    {
+                        context.ApiRequestBody = siteRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel issueApiModel)
+                    {
+                        context.ApiRequestBody = issueApiModel.ToJsonString(
+                            context: context,
+                            ss: siteSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return SiteUtilities.UpdateByServerScript(
+                        context: context,
+                        siteModel: Site,
+                        siteId: Site.SiteId,
+                        model: model);
                 case "Issues":
                     var issueSs = Site.IssuesSiteSettings(
                         context: context,
@@ -2076,8 +2121,15 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            switch (Site.ReferenceType)
+            switch (ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.DeleteByServerScript(
+                        context: context,
+                        ss: Site.SitesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId),
+                        siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.DeleteByServerScript(
                         context: context,

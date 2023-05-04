@@ -1975,8 +1975,8 @@ namespace Implem.Pleasanter.Models
             data.SiteId = SiteId;
             data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context);
             data.Ver = Ver;
-            data.Title = SiteSettings.Title;
-            data.Body = SiteSettings.Body;
+            data.Title = Title.Value;
+            data.Body = Body;
             data.SiteName = SiteName;
             data.SiteGroupName = SiteGroupName;
             data.GridGuide = GridGuide;
@@ -1988,9 +1988,9 @@ namespace Implem.Pleasanter.Models
             data.TimeSeriesGuide = TimeSeriesGuide;
             data.KambanGuide = KambanGuide;
             data.ImageLibGuide = ImageLibGuide;
-            data.ReferenceType = SiteSettings.ReferenceType;
-            data.ParentId = SiteSettings.ParentId;
-            data.InheritPermission = SiteSettings.InheritPermission;
+            data.ReferenceType = ReferenceType;
+            data.ParentId = ParentId;
+            data.InheritPermission = InheritPermission;
             if(context.CanManagePermission(ss: SiteSettings))
             {
                 data.Permissions = PermissionUtilities.CurrentCollection(
@@ -2000,7 +2000,7 @@ namespace Implem.Pleasanter.Models
                         .ToList();
             }
             data.SiteSettings = SiteSettings.RecordingData(context: context);
-            data.Publish = SiteSettings.Publish;
+            data.Publish = Publish;
             data.DisableCrossSearch = DisableCrossSearch;
             data.LockedTime = LockedTime.Value.ToLocal(context: context);
             data.LockedUser = LockedUser.Id;

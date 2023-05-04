@@ -495,8 +495,31 @@ public bool UpdateByServerScript(Context context, object model)
     {
         return false;
     }
-    switch (Site.ReferenceType)
+    switch (ReferenceType)
     {
+        case "Sites":
+            var siteSs = Site.SitesSiteSettings(
+                context: context,
+                referenceId: ReferenceId);
+            if (model is string siteRequestString)
+            {
+                context.ApiRequestBody = siteRequestString;
+            }
+            else if (model is ServerScriptModelApiModel issueApiModel)
+            {
+                context.ApiRequestBody = issueApiModel.ToJsonString(
+                    context: context,
+                    ss: siteSs);
+            }
+            else
+            {
+                return false;
+            }
+            return SiteUtilities.UpdateByServerScript(
+                context: context,
+                siteModel: Site,
+                siteId: Site.SiteId,
+                model: model);
 
 <!--Model_UpdateByServerScriptCases-->
 
@@ -621,6 +644,7 @@ public ContentResultInheritance DeleteByApi(Context context, string referenceTyp
                 context: context,
                 ss: Site.SiteSettings,
                 siteId: ReferenceId);
+
 <!--Model_DeleteByApiCases-->
 
         default:
@@ -635,29 +659,11 @@ public bool DeleteByServerScript(Context context)
     {
         return false;
     }
-    switch (Site.ReferenceType)
+    switch (ReferenceType)
     {
-        case "Issues":
-            return IssueUtilities.DeleteByServerScript(
-                context: context,
-                ss: Site.IssuesSiteSettings(
-                    context: context,
-                    referenceId: ReferenceId),
-                issueId: ReferenceId);
-        case "Results":
-            return ResultUtilities.DeleteByServerScript(
-                context: context,
-                ss: Site.ResultsSiteSettings(
-                    context: context,
-                    referenceId: ReferenceId),
-                resultId: ReferenceId);
-        case "Wikis":
-            return WikiUtilities.DeleteByServerScript(
-                context: context,
-                ss: Site.WikisSiteSettings(
-                    context: context,
-                    referenceId: ReferenceId),
-                wikiId: ReferenceId);
+
+<!--Model_DeleteByServerScriptCases-->
+
         default:
             return false;
     }
