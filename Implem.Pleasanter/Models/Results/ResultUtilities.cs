@@ -5420,7 +5420,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss.SiteId) + "\n");
                         body.Append(
-                            $"{Displays.Issues_Updator(context: context)}: ",
+                            $"{Displays.Results_Updator(context: context)}: ",
                             $"{context.User.Name}\n");
                         if (notification.AfterBulkDelete != false)
                         {
