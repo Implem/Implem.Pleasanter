@@ -3758,10 +3758,13 @@ namespace Implem.Pleasanter.Models
                 var index = orderModel.Data.IndexOf(siteModel.SiteId);
                 siteModel.SiteMenu = (index != -1 ? index : int.MaxValue);
             });
-            return siteCollection
-                .Where(o => !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
-                    && o.SiteSettings?.NoDisplayIfReadOnly == true))
-                .OrderBy(o => o.SiteMenu);
+            return context.HasPrivilege
+                ? siteCollection
+                    .OrderBy(o => o.SiteMenu)
+                : siteCollection
+                    .Where(o => !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
+                        && o.SiteSettings?.NoDisplayIfReadOnly == true))
+                    .OrderBy(o => o.SiteMenu);
         }
 
         /// <summary>
