@@ -5503,9 +5503,11 @@ namespace Implem.Pleasanter.Libraries.Settings
             return body;
         }
 
-        public bool GetNoDisplayIfReadOnly()
+        public bool GetNoDisplayIfReadOnly(Context context)
         {
-            return PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
+            return context.HasPrivilege
+                ? false
+                : PermissionType == Permissions.Types.Read && NoDisplayIfReadOnly;
         }
 
         public void LinkActions(

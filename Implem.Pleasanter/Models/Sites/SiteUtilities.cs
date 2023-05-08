@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -356,7 +356,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             sort: false,
                             checkRow: checkRow,
@@ -1775,9 +1775,9 @@ namespace Implem.Pleasanter.Models
         }
 
         private static int PhysicalBulkDelete(
-            Context context, 
-            SiteSettings ss, 
-            List<long> selected, 
+            Context context,
+            SiteSettings ss,
+            List<long> selected,
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
@@ -1880,7 +1880,7 @@ namespace Implem.Pleasanter.Models
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
                 return ApiResults.BadRequest(context: context);
-            }            
+            }
             var invalid = SiteValidators.OnEntry(
                 context: context,
                 ss: ss,
@@ -3759,8 +3759,9 @@ namespace Implem.Pleasanter.Models
                 siteModel.SiteMenu = (index != -1 ? index : int.MaxValue);
             });
             return siteCollection
-                .Where(o => !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
-                    && o.SiteSettings?.NoDisplayIfReadOnly == true))
+                .Where(o => context.HasPrivilege
+                    || !(context.PermissionHash.Get(o.SiteId) == Permissions.Types.Read
+                        && o.SiteSettings?.NoDisplayIfReadOnly == true))
                 .OrderBy(o => o.SiteMenu);
         }
 
