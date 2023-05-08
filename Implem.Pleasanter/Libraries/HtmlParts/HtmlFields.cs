@@ -545,7 +545,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                                 _using: !Parameters.General.HideCurrentDeptIcon
                                                     && column.Type == Column.Types.Dept);
                                     }
-                                });
+                                },
+                                isUserMade: true);
                         case ControlTypes.Radio:
                             return hb.FieldRadio(
                                 fieldId: controlId + "Field",
@@ -1240,6 +1241,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             action: action,
                             method: method,
                             attributes: attributes);
+
+                        if(textType == HtmlTypes.TextTypes.Password)
+                        {
+                            hb.Div(
+                                id: "show_password",
+                            attributes: new HtmlAttributes()
+                                .Class("fa fa-eye show-password")
+                                .OnClick("$p.showPassword()"));
+                        }
+
                         controlOption?.Invoke();
                         hb.Span(
                             css: "unit",
@@ -1474,7 +1485,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string extendedHtmlBetweenLabelAndControl = null,
             string extendedHtmlAfterControl = null,
             Action controlOption = null,
-            bool _using = true)
+            bool _using = true,
+            bool isUserMade = false)
         {
             return _using
                 ? hb.Field(
@@ -1512,7 +1524,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 validateRequired: validateRequired,
                                 action: action,
                                 method: method,
-                                column: column);
+                                column: column,
+                                isUserMade: isUserMade);
                         controlOption?.Invoke();
                     })
                 : hb;

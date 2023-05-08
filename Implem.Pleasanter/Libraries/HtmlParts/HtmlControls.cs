@@ -354,11 +354,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string action = null,
             string method = null,
             Column column = null,
-            bool _using = true)
+            bool _using = true,
+            bool isUserMade = false)
         {
             var srcId = column?.RelatingSrcId().ToString() ?? string.Empty;
-            return _using
-                ? hb.Select(
+            if (_using)
+            {
+                hb.Select(
                     attributes: new HtmlAttributes()
                         .Id(controlId)
                         .Name(controlId)
@@ -385,8 +387,19 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             multiple: multiple,
                             addSelectedValue: addSelectedValue,
                             insertBlank: insertBlank,
-                            column: column))
-                : hb;
+                            column: column));
+
+                if (isUserMade)
+                {
+                    hb.Div(
+                    attributes: new HtmlAttributes()
+                        .Id(controlId + "-clear")
+                        .Class("ui-icon ui-icon-close clear-search")
+                        .OnClick($"$p.set($('#{controlId}'),'');"));
+                }
+            }
+
+            return hb;
         }
 
         public static HtmlBuilder OptionCollection(

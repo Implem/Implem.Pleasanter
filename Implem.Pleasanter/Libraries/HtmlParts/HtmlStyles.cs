@@ -119,6 +119,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Link(
                     href: Responses.Locations.Get(
                         context: context,
+                        parts: "Styles/Plugins/fontawesome/css/all.min.css"),
+                    rel: "stylesheet")
+                .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
                         parts: "Styles/Plugins/jquery.multiselect.filter.css"),
                     rel: "stylesheet")
                 .Link(

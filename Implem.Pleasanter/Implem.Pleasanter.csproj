@@ -124,4 +124,11 @@
     <Folder Include="App_Data\UserPlugins\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\styles\plugins\fontawesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\styles\plugins\fontawesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\styles\plugins\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\styles\plugins\fontawesome\webfonts\fa-v4compatibility.woff2" />
+  </ItemGroup>
+
 </Project>
