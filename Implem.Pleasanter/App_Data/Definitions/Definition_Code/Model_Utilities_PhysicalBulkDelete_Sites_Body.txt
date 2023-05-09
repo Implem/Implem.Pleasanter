@@ -45,9 +45,9 @@
 }
 
 private static int PhysicalBulkDelete(
-    Context context, 
-    SiteSettings ss, 
-    List<long> selected, 
+    Context context,
+    SiteSettings ss,
+    List<long> selected,
     bool negative = false,
     Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
 {

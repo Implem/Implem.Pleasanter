@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             editRow: editRow,
                             checkRow: checkRow,

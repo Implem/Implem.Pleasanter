@@ -356,7 +356,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             sort: false,
                             checkRow: checkRow,
@@ -1775,9 +1775,9 @@ namespace Implem.Pleasanter.Models
         }
 
         private static int PhysicalBulkDelete(
-            Context context, 
-            SiteSettings ss, 
-            List<long> selected, 
+            Context context,
+            SiteSettings ss,
+            List<long> selected,
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {

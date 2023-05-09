@@ -367,7 +367,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             checkRow: checkRow,
                             checkAll: checkAll,
