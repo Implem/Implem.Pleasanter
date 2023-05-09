@@ -5,6 +5,7 @@
     "NotPk": "1",
     "Form": "1",
     "NotUserColumn": "1",
+    "Exclude": "Timestamp",
     "ExcludeTypeName": "datetime",
     "ExcludeTypeCs": "Attachments"
 }

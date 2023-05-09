@@ -1,3 +1,4 @@
 ﻿case "#ColumnName#":
     #ColumnName##RecordingData# = defaultInput#CastType#;
+    if (init) Saved#ColumnName# = #ColumnName##RecordingData#;
     break;

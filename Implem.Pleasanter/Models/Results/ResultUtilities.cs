@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             editRow: editRow,
                             checkRow: checkRow,
@@ -2501,7 +2501,8 @@ namespace Implem.Pleasanter.Models
                                                         column: column,
                                                         baseModel: resultModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
-                                                    allowDelete: column.AllowDeleteAttachments != false),
+                                                    allowDelete: column.AllowDeleteAttachments != false,
+                                                    validateRequired: column.ValidateRequired != false),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -3488,7 +3489,8 @@ namespace Implem.Pleasanter.Models
                         resultModel.SetDefault(
                             context: context,
                             ss: ss,
-                            column: column);
+                            column: column,
+                            init: true);
                         hb.Field(
                             context: context,
                             ss: ss,
@@ -3733,7 +3735,8 @@ namespace Implem.Pleasanter.Models
                     statements.AddRange(resultModel.UpdateStatements(
                         context: context,
                         ss: ss,
-                        dataTableName: formData.Id.ToString()));
+                        dataTableName: formData.Id.ToString(),
+                        verUp: resultModel.VerUp));
                 }
                 else if (formData.Id < 0)
                 {
@@ -4741,6 +4744,10 @@ namespace Implem.Pleasanter.Models
                                 ?? Enumerable.Empty<Attachment>())
                         .Where(o => o != null)
                         .Select(o => o.Guid)
+                        .Concat(GetNotDeleteHistoryGuids(
+                            context: context,
+                            ss: ss,
+                            resultId: dataRow.Long("ResultId")))
                         .Distinct()
                         .ToArray()
                 })
@@ -4870,7 +4877,12 @@ namespace Implem.Pleasanter.Models
                             .Values
                             .SelectMany(o => o.AsEnumerable())
                             .Select(o => o.Guid)
-                            .Distinct().ToArray());
+                            .Concat(GetNotDeleteHistoryGuids(
+                                context: context,
+                                ss: ss,
+                                resultId: resultModel.ResultId))
+                            .Distinct()
+                            .ToArray());
                     SessionUtilities.Set(
                         context: context,
                         message: Messages.RestoredFromHistory(
@@ -4885,6 +4897,46 @@ namespace Implem.Pleasanter.Models
                 default:
                     return errorData.MessageJson(context: context);
             }
+        }
+
+        private static IEnumerable<string> GetNotDeleteHistoryGuids(
+            Context context,
+            SiteSettings ss,
+            long resultId)
+        {
+            var ret = new List<string>();
+            var sqlColumn = new SqlColumnCollection();
+            ss.Columns
+                ?.Where(column => column.ControlType == "Attachments")
+                .Where(column => column?.NotDeleteExistHistory == true)
+                .ForEach(column => sqlColumn.Add(column: column));
+            if (sqlColumn.Any())
+            {
+                var dataRows = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectResults(
+                        tableType: Sqls.TableTypes.History,
+                        column: sqlColumn,
+                        where: Rds.ResultsWhere()
+                            .SiteId(ss.SiteId)
+                            .ResultId(resultId),
+                        distinct: true))
+                            .AsEnumerable();
+                foreach (var dataRow in dataRows)
+                {
+                    foreach (DataColumn dataColumn in dataRow.Table.Columns)
+                    {
+                        var column = new ColumnNameInfo(dataColumn.ColumnName);
+                        if (dataRow[column.ColumnName] != DBNull.Value)
+                        {
+                            dataRow[column.ColumnName].ToString().Deserialize<Attachments>()
+                                ?.ForEach(attachment =>
+                                    ret.Add(attachment.Guid));
+                        }
+                    }
+                }
+            }
+            return ret.Distinct();
         }
 
         public static string Histories(
@@ -5369,7 +5421,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss.SiteId) + "\n");
                         body.Append(
-                            $"{Displays.Issues_Updator(context: context)}: ",
+                            $"{Displays.Results_Updator(context: context)}: ",
                             $"{context.User.Name}\n");
                         if (notification.AfterBulkDelete != false)
                         {

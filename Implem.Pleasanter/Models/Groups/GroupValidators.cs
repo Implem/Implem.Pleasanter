@@ -76,7 +76,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (ss.GetNoDisplayIfReadOnly())
+            if (ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(type: Error.Types.NotFound);
             }

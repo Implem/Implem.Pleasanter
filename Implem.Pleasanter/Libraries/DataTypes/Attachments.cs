@@ -131,7 +131,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
             SiteSettings ss,
             Column column,
             List<SqlStatement> statements,
-            long referenceId)
+            long referenceId,
+            bool verUp = false)
         {
             this
                 .Where(o => !o.Guid.IsNullOrEmpty())
@@ -142,13 +143,17 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                         ss: ss,
                         column: column,
                         statements: statements,
-                        referenceId: referenceId);
+                        referenceId: referenceId,
+                        verUp: verUp);
                 });
         }
 
-        public void Write(Context context, Column column,
-        SiteSettings ss,
-        long referenceId)
+        public void Write(
+            Context context,
+            Column column,
+            SiteSettings ss,
+            long referenceId,
+            bool verUp)
         {
             this
                 .Where(o => !o.Guid.IsNullOrEmpty())
@@ -168,7 +173,8 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                             context: context,
                             ss: ss,
                             column: column,
-                            referenceId: referenceId);
+                            referenceId: referenceId,
+                            verUp: verUp);
                     }
                 });
         }

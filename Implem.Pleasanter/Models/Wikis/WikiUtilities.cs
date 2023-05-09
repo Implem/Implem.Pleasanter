@@ -1406,7 +1406,8 @@ namespace Implem.Pleasanter.Models
                                                         column: column,
                                                         baseModel: wikiModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
-                                                    allowDelete: column.AllowDeleteAttachments != false),
+                                                    allowDelete: column.AllowDeleteAttachments != false,
+                                                    validateRequired: column.ValidateRequired != false),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -2337,6 +2338,10 @@ namespace Implem.Pleasanter.Models
                                 ?? Enumerable.Empty<Attachment>())
                         .Where(o => o != null)
                         .Select(o => o.Guid)
+                        .Concat(GetNotDeleteHistoryGuids(
+                            context: context,
+                            ss: ss,
+                            wikiId: dataRow.Long("WikiId")))
                         .Distinct()
                         .ToArray()
                 })
@@ -2466,7 +2471,12 @@ namespace Implem.Pleasanter.Models
                             .Values
                             .SelectMany(o => o.AsEnumerable())
                             .Select(o => o.Guid)
-                            .Distinct().ToArray());
+                            .Concat(GetNotDeleteHistoryGuids(
+                                context: context,
+                                ss: ss,
+                                wikiId: wikiModel.WikiId))
+                            .Distinct()
+                            .ToArray());
                     SessionUtilities.Set(
                         context: context,
                         message: Messages.RestoredFromHistory(
@@ -2481,6 +2491,46 @@ namespace Implem.Pleasanter.Models
                 default:
                     return errorData.MessageJson(context: context);
             }
+        }
+
+        private static IEnumerable<string> GetNotDeleteHistoryGuids(
+            Context context,
+            SiteSettings ss,
+            long wikiId)
+        {
+            var ret = new List<string>();
+            var sqlColumn = new SqlColumnCollection();
+            ss.Columns
+                ?.Where(column => column.ControlType == "Attachments")
+                .Where(column => column?.NotDeleteExistHistory == true)
+                .ForEach(column => sqlColumn.Add(column: column));
+            if (sqlColumn.Any())
+            {
+                var dataRows = Rds.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectWikis(
+                        tableType: Sqls.TableTypes.History,
+                        column: sqlColumn,
+                        where: Rds.WikisWhere()
+                            .SiteId(ss.SiteId)
+                            .WikiId(wikiId),
+                        distinct: true))
+                            .AsEnumerable();
+                foreach (var dataRow in dataRows)
+                {
+                    foreach (DataColumn dataColumn in dataRow.Table.Columns)
+                    {
+                        var column = new ColumnNameInfo(dataColumn.ColumnName);
+                        if (dataRow[column.ColumnName] != DBNull.Value)
+                        {
+                            dataRow[column.ColumnName].ToString().Deserialize<Attachments>()
+                                ?.ForEach(attachment =>
+                                    ret.Add(attachment.Guid));
+                        }
+                    }
+                }
+            }
+            return ret.Distinct();
         }
 
         public static string Histories(

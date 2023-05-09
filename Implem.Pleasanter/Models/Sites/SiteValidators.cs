@@ -310,7 +310,7 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData OnShowingMenu(Context context, SiteSettings ss, SiteModel siteModel)
         {
-            if (ss.GetNoDisplayIfReadOnly())
+            if (ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(type: Error.Types.NotFound);
             }

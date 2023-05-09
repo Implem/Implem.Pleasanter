@@ -31,7 +31,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (!api && ss.GetNoDisplayIfReadOnly())
+            if (!api && ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(type: Error.Types.NotFound);
             }
@@ -81,7 +81,7 @@ namespace Implem.Pleasanter.Models
                     return apiErrorData;
                 }
             }
-            if (ss.GetNoDisplayIfReadOnly())
+            if (ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(type: Error.Types.NotFound);
             }
