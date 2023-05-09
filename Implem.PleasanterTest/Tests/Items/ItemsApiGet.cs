@@ -46,7 +46,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(title: "株式会社プリザンター"),
                 new TestPart(title: "業務改善コンサルティング"),
                 new TestPart(title: "R社システム開発"),
-                new TestPart(title: "Wiki1")
+                new TestPart(title: "ApiGetWiki")
             };
             foreach (var testPart in testParts)
             {
