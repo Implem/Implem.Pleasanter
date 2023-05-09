@@ -412,6 +412,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
                     case "Model_DeleteAttachments": Code.Model_DeleteAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteAttachments, definitionRow, CodeXls); break;
                     case "Model_DeleteByApiCases": Code.Model_DeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByApiCases, definitionRow, CodeXls); break;
+                    case "Model_DeleteByServerScriptCases": Code.Model_DeleteByServerScriptCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByServerScriptCases, definitionRow, CodeXls); break;
                     case "Model_DeleteCases": Code.Model_DeleteCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCases, definitionRow, CodeXls); break;
                     case "Model_DeleteCommentCases": Code.Model_DeleteCommentCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteCommentCases, definitionRow, CodeXls); break;
                     case "Model_DeleteHistoryCases": Code.Model_DeleteHistoryCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteHistoryCases, definitionRow, CodeXls); break;
@@ -6811,6 +6812,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete_SitesItems;
         public string Model_DeleteAttachments;
         public string Model_DeleteByApiCases;
+        public string Model_DeleteByServerScriptCases;
         public string Model_DeleteCases;
         public string Model_DeleteCommentCases;
         public string Model_DeleteHistoryCases;
@@ -7591,6 +7593,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
         public CodeDefinition Model_DeleteAttachments = new CodeDefinition();
         public CodeDefinition Model_DeleteByApiCases = new CodeDefinition();
+        public CodeDefinition Model_DeleteByServerScriptCases = new CodeDefinition();
         public CodeDefinition Model_DeleteCases = new CodeDefinition();
         public CodeDefinition Model_DeleteCommentCases = new CodeDefinition();
         public CodeDefinition Model_DeleteHistoryCases = new CodeDefinition();

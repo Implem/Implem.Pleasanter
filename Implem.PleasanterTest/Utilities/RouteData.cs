@@ -1434,6 +1434,17 @@ namespace Implem.PleasanterTest.Utilities
             };
         }
 
+        public static Dictionary<string, string> ItemsApiCreateSite(long id)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "controller", "items" },
+                { "action", "createsite" },
+                { "id", id.ToString() }
+            };
+        }
+
+
         public static Dictionary<string, string> ItemsApiDelete(long id)
         {
             return new Dictionary<string, string>()

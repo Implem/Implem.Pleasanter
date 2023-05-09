@@ -1974,6 +1974,54 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
+        {
+            var siteModel = new SiteModel(
+                context: context,
+                parentId: ss.SiteId,
+                inheritPermission: ss.InheritPermission,
+                setByApi: true);
+            if (context.ContractSettings.SitesLimit(context: context))
+            {
+                return false;
+            }
+            if (ss.ParentId == 0)
+            {
+                ss.PermissionType = context.SiteTopPermission();
+            }
+            var invalid = SiteValidators.OnCreating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            var errorData = siteModel.Create(
+                context: context,
+                otherInitValue: true);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is SiteModel data)
+                        {
+                            data.SiteId = siteModel.SiteId;
+                            data.SetByModel(siteModel: siteModel);
+                        }
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance UpdateByApi(
             Context context,
             SiteModel siteModel,
@@ -2060,6 +2108,77 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static bool UpdateByServerScript(
+            Context context,
+            SiteModel siteModel,
+            long siteId,
+            object model)
+        {
+            var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);
+            siteModel.SetByApi(
+                context: context,
+                ss: ss);
+            siteModel.SiteSettings = SiteSettingsUtilities.Get(
+                context: context,
+                siteModel: siteModel,
+                referenceId: siteId);
+            var invalid = SiteValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                siteModel: siteModel);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            siteModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: siteModel);
+            if (siteModel.InheritPermission > 0)
+            {
+                ss.InheritPermission = siteModel.InheritPermission;
+            }
+            if (siteModel.RecordPermissions?.Count > 0
+                && Parameters.Permissions.CheckManagePermission)
+            {
+                if (!new PermissionCollection(
+                    context: context,
+                    referenceId: siteModel.SiteId,
+                    permissions: siteModel.RecordPermissions)
+                        .Any(permission =>
+                            permission.PermissionType.HasFlag(
+                                Permissions.Types.ManagePermission
+                                | Permissions.Types.ManageSite)))
+                {
+                    return false;
+                }
+            }
+            var errorData = siteModel.Update(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is SiteModel data)
+                        {
+                            data.SetByModel(siteModel: siteModel);
+                        }
+                    }
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static ContentResultInheritance DeleteByApi(
             Context context,
             SiteSettings ss,
@@ -2098,6 +2217,43 @@ namespace Implem.Pleasanter.Models
                     return ApiResults.Error(
                         context: context,
                         errorData: errorData);
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static bool DeleteByServerScript(
+            Context context,
+            SiteSettings ss,
+            long siteId)
+        {
+            var siteModel = new SiteModel(context, siteId);
+            if (siteModel.AccessStatus != Databases.AccessStatuses.Selected)
+            {
+                return false;
+            }
+            var invalid = SiteValidators.OnDeleting(
+                context: context,
+                ss: ss,
+                siteModel: siteModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return false;
+            }
+            var errorData = siteModel.Delete(
+                context: context,
+                ss: ss);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    return true;
+                default:
+                    return false;
             }
         }
 
