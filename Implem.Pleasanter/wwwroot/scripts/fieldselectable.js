@@ -55,12 +55,12 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
     }
     afterSourceColumns = [].concat(beforeSourceColumns);
     if (mode === 1 || mode === 2) {
-        var toTopOrBottom = [].concat(selected.get());
         if (mode === 1) {
             beforeColumns = beforeColumns.reverse();
         }
         for (i = 0; i < beforeColumns.length; i++) {
             if (selected.get().indexOf(beforeColumns[i]) >= 0) {
+                // 選択項目をPoolに退避する処理はCTRLキー併用クリック時にはやらず最後に処理する
                 if (!event.ctrlKey) liListPool.push(beforeColumns[i]);
             }
             else {
@@ -79,7 +79,9 @@ $p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepS
             beforeColumns = beforeColumns.reverse();
             afterColumns = afterColumns.reverse();
         }
+        // CTRLキー併用時に一番上 or 下に選択項目を移動する
         if (event.ctrlKey) {
+            var toTopOrBottom = [].concat(selected.get());
             if (mode === 1) {
                 afterColumns = toTopOrBottom.concat(afterColumns);
             }
