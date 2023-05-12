@@ -3952,7 +3952,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     }
                 }
             }
-            return columns;
+            return columns
+                .DistinctBy(column => column.ColumnName)
+                .ToList();
         }
 
         public List<Link> GetUseSearchLinks(Context context)
