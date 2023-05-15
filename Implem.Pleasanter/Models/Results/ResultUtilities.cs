@@ -3488,8 +3488,7 @@ namespace Implem.Pleasanter.Models
                         resultModel.SetDefault(
                             context: context,
                             ss: ss,
-                            column: column,
-                            init: true);
+                            column: column);
                         hb.Field(
                             context: context,
                             ss: ss,

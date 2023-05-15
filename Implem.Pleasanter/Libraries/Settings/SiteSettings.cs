@@ -2464,6 +2464,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 ?.Where(o => !o.NotSelect)
                 .Where(o => o.Required
+                    || !o.DefaultInput.IsNullOrEmpty()
                     || EditorColumnHash?.Any(tab => tab
                         .Value
                         ?.Contains(o.ColumnName) == true) == true);
