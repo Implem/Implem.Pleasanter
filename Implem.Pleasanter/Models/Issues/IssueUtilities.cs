@@ -3677,8 +3677,7 @@ namespace Implem.Pleasanter.Models
                         issueModel.SetDefault(
                             context: context,
                             ss: ss,
-                            column: column,
-                            init: true);
+                            column: column);
                         hb.Field(
                             context: context,
                             ss: ss,

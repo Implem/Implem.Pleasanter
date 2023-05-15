@@ -2471,6 +2471,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Columns
                 ?.Where(o => !o.NotSelect)
                 .Where(o => o.Required
+                    // 規定値が含まれている項目も select して Set の際に Saved に保存済の値を格納する必用がある
+                    // Saved に保存済の値が格納されていない場合、model 初期化時の SetDefault にて Updated 状態となり
+                    // 項目のアクセス制御の権限が無い場合に、更新操作が失敗する
+                    || !o.DefaultInput.IsNullOrEmpty()
                     || EditorColumnHash?.Any(tab => tab
                         .Value
                         ?.Contains(o.ColumnName) == true) == true);

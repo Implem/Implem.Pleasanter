@@ -4,5 +4,4 @@
         ss: ss,
         value: column.DefaultTime(context: context),
         status: Status);
-    if (init) Saved#ColumnName# = #ColumnName##RecordingData#;
     break;
