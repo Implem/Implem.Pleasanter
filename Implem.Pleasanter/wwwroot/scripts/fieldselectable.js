@@ -1,21 +1,21 @@
-﻿$p.enableColumns = function ($control, columnHeader, columnsTypeControl) {
+﻿$p.enableColumns = function (event, $control, columnHeader, columnsTypeControl) {
     if ($('#' + columnsTypeControl + " option:selected").attr("data-type") === 'multiple') {
         $p.send($control);
     }
     else {
-        $p.moveColumns($control, columnHeader);
+        $p.moveColumns(event, $control, columnHeader);
     }
 }
-$p.moveColumns = function ($control, columnHeader, isKeepSource, isJoin, type) {
+$p.moveColumns = function (event, $control, columnHeader, isKeepSource, isJoin, type) {
     if (formId === undefined) return false;
     if (type === undefined) type = 'Columns';
-    return $p.moveColumnsById($control,
+    return $p.moveColumnsById(event, $control,
         columnHeader + type,
         columnHeader + 'Source' + type,
         isKeepSource,
         isJoin !== undefined && isJoin === true ? columnHeader + 'Join' : undefined);
 };
-$p.moveColumnsById = function ($control, columnsId, srcColumnsId, isKeepSource, joinId) {
+$p.moveColumnsById = function (event, $control, columnsId, srcColumnsId, isKeepSource, joinId) {
     if ($p.outsideDialog($control)) {
         alert("outsideDialog");
         return false;
@@ -60,7 +60,7 @@ $p.moveColumnsById = function ($control, columnsId, srcColumnsId, isKeepSource, 
         }
         for (i = 0; i < beforeColumns.length; i++) {
             if (selected.get().indexOf(beforeColumns[i]) >= 0) {
-                liListPool.push(beforeColumns[i]);
+                if (!event.ctrlKey) liListPool.push(beforeColumns[i]);
             }
             else {
                 afterColumns.push(beforeColumns[i]);
@@ -77,6 +77,15 @@ $p.moveColumnsById = function ($control, columnsId, srcColumnsId, isKeepSource, 
         if (mode === 1) {
             beforeColumns = beforeColumns.reverse();
             afterColumns = afterColumns.reverse();
+        }
+        if (event.ctrlKey) {
+            var toTopOrBottom = [].concat(selected.get());
+            if (mode === 1) {
+                afterColumns = toTopOrBottom.concat(afterColumns);
+            }
+            else {
+                afterColumns = afterColumns.concat(toTopOrBottom);
+            }
         }
     }
     else if (mode === 3) {

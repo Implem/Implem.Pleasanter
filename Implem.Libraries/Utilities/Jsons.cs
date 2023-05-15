@@ -5,10 +5,12 @@ namespace Implem.Libraries.Utilities
     {
         public static string ToJson(
             this object obj,
+            DefaultValueHandling defaultValueHandling = DefaultValueHandling.Include,
             Formatting formatting = Formatting.None)
         {
             var settings = new JsonSerializerSettings();
             settings.NullValueHandling = NullValueHandling.Ignore;
+            settings.DefaultValueHandling = defaultValueHandling;
             settings.Formatting = formatting;
             return JsonConvert.SerializeObject(obj, settings);
         }

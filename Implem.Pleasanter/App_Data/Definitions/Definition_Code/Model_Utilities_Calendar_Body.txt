@@ -120,9 +120,11 @@ public static string UpdateByCalendar(Context context, SiteSettings ss)
             : 0,
         update: true,
         message: updated
-            ? Messages.Updated(
-                context: context,
-                data: #modelName#Model.Title.MessageDisplay(context: context))
+            ? context.ErrorData.Type != Error.Types.None
+                ? context.ErrorData.Message(context: context)
+                : Messages.Updated(
+                    context: context,
+                    data: #modelName#Model.Title.MessageDisplay(context: context))
             : null);
 }
 

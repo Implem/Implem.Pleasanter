@@ -258,19 +258,21 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        public static ErrorData OnDeleting(Context context, SiteSettings ss, SiteModel siteModel, bool api = false)
+        public static ErrorData OnDeleting(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel,
+            bool api = false,
+            bool serverScript = false)
         {
             if (api)
             {
-                if ((!Parameters.Api.Enabled
-                    || context.ContractSettings.Api == false
-                    || context.UserSettings?.AllowApi(context: context) == false))
+                var apiErrorData = Validators.ValidateApi(
+                    context: context,
+                    serverScript: serverScript);
+                if (apiErrorData.Type != Error.Types.None)
                 {
-                    return new ErrorData(type: Error.Types.InvalidRequest);
-                }
-                if (context.InvalidJsonData)
-                {
-                    return new ErrorData(type: Error.Types.InvalidJsonData);
+                    return apiErrorData;
                 }
             }
             else if (ss.Title != context.Forms.Data("DeleteSiteTitle")
@@ -308,7 +310,7 @@ namespace Implem.Pleasanter.Models
 
         public static ErrorData OnShowingMenu(Context context, SiteSettings ss, SiteModel siteModel)
         {
-            if (ss.GetNoDisplayIfReadOnly())
+            if (ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(type: Error.Types.NotFound);
             }

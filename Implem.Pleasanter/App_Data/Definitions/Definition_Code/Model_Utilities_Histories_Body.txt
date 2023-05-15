@@ -46,6 +46,9 @@ private static void HistoriesTableBody(
         <!--Model_SiteSettingsWithParameterNameLower-->
 
         column: HistoryColumn(columns),
+
+        <!--Model_Utilities_Histories_Join-->
+
         where: Rds.#TableName#Where().#ModelName#Id(#modelName#Model.#ModelName#Id),
         orderBy: Rds.#TableName#OrderBy().Ver(SqlOrderBy.Types.desc),
         tableType: Sqls.TableTypes.NormalAndHistory)
@@ -88,7 +91,7 @@ private static SqlColumnCollection HistoryColumn(List<Column> columns)
         .Ver();
     columns.ForEach(column =>
         sqlColumn.#TableName#Column(columnName: column.ColumnName));
-    return sqlColumn;
+    return sqlColumn<!--Model_Utilities_Histories_ItemTitleColumn-->;
 }
 
 <!--Model_Utilities_History-->

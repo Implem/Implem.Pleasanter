@@ -666,7 +666,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             }
             return hb.Table(
                 id: dataTableName,
-                css: "grid" + (ss.GetNoDisplayIfReadOnly()
+                css: "grid" + (ss.GetNoDisplayIfReadOnly(context: context)
                     ? " not-link"
                     : string.Empty),
                 attributes: new HtmlAttributes()
