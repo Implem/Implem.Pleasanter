@@ -3246,11 +3246,20 @@ textarea:focus{
     background-color: white;
 }
 
+.timeline-titlebody:hover {
+    background-color: lightgray;
+    cursor:pointer;
+}
+
 .timeline-record-time {
-    margin-left: 8px;
+    float: right;
 }
 
 .timeline-body {
     overflow: auto;
-    max-height: 100px;
+    max-height: 6em;
+}
+
+.timeline-header {
+    margin-bottom: 2px;
 }

@@ -58,6 +58,7 @@ namespace Implem.Pleasanter.Models
 
         /// <summary>
         /// Fixed:
+        /// </summary>
         private static string ViewModeTemplate(
             this HtmlBuilder hb,
             Context context,
@@ -88,7 +89,10 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             dashboard: dashboard);
                     case DashboardType.TimeLine:
-                        return new DashboardLayout();
+                        return TimeLineLayout(
+                            context: context,
+                            ss: ss,
+                            dashboard: dashboard);
                     default:
                         return new DashboardLayout();
                 };
@@ -128,11 +132,14 @@ namespace Implem.Pleasanter.Models
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
-                                controlId: "DashbordLayouts",
+                                controlId: "DashboardLayouts",
                                 value: dashboardLayouts)))
                     .ToString();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static DashboardLayout QuickAccessLayout(Context context, Dashboard dashboard)
         {
             var sites = dashboard.GetDashboardSites(context: context);
@@ -149,6 +156,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, IList<long> sites)
         {
             var ss = SiteSettingsUtilities.SitesSiteSettings(
@@ -174,6 +184,9 @@ namespace Implem.Pleasanter.Models
                                     siteConditions: siteConditions)))));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
         {
             return new SiteCollection(
@@ -191,6 +204,201 @@ namespace Implem.Pleasanter.Models
                         _using: !context.HasPrivilege));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardLayout TimeLineLayout(
+            Context context,
+            SiteSettings ss,
+            Dashboard dashboard)
+        {
+            var timeLineItems = GetTimeLineRecords(
+                context: context,
+                dashboard: dashboard);
+            var hb = new HtmlBuilder();
+            var timeLine = hb
+                .Div(
+                    id: "TimelineContainer",
+                    css: "timeline-container",
+                    action: () =>
+                    {
+                        foreach (var item in timeLineItems)
+                        {
+                            hb.TimeLineItem(context,item);
+                        }
+                    }).ToString();
+            return new DashboardLayout()
+            {
+                X = dashboard.X,
+                Y = dashboard.Y,
+                W = dashboard.Width,
+                H = dashboard.Height,
+                Content = timeLine
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void TimeLineItem(this HtmlBuilder hb, Context context, TimeLineItem item)
+        {
+            hb.Div(
+                css: "timeline-item",
+                action: () =>
+                {
+                    hb.Div(
+                        css: "timeline-header",
+                        action: () =>
+                                {
+                                    var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
+                                        ? $"updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
+                                        : $"created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
+                                    hb
+                                        .A(
+                                            text: item.SiteTitle.Title(context: context),
+                                            href: Locations.ItemIndex(
+                                                context: context,
+                                                id: item.SiteId))
+                                        .P(css: "timeline-record-time",
+                                            action: () => hb.Text(recordTime));
+                                })
+                        .Div(
+                        css: "timeline-titlebody",
+                        attributes: new HtmlAttributes()
+                            .Add(
+                                "data-url",
+                                Locations.Edit(
+                                    context: context,
+                                    "items",
+                                    item.Id)),
+                        action: () => hb
+                            .Div(
+                                css: "timeline-title",
+                                action: () => hb
+                                    .A(
+                                        css: "timeline-record-link",
+                                        text: item.Title.DisplayValue,
+                                        href: Locations.Edit(
+                                            context: context,
+                                            "items",
+                                            item.Id)))
+                            .Div(
+                                css: "timeline-body markup",
+                                action: () =>
+                                        {
+                                            hb.Text(text: item.Body);
+                                        }));
+                        });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<TimeLineItem> GetTimeLineRecords(Context context, Dashboard dashboard)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboard.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboard.Sites;
+            ss.SetSiteIntegration(context: context);
+            //Viewからフィルタ条件とソート条件を取得
+            var where = dashboard.View.Where(
+                context: context,
+                ss: ss);
+            var orderBy = dashboard.View.OrderBy(
+                context: context,
+                ss: ss);
+            if (ss.ReferenceType == "Issues")
+            {
+                return GetTimeLineIssues(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: orderBy);
+            }
+            else if(ss.ReferenceType == "Results")
+            {
+                return GetTimeLineResults(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: orderBy);
+            }
+            else
+            {
+                return Enumerable.Empty<TimeLineItem>();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<TimeLineItem> GetTimeLineResults(Context context, SiteSettings ss, SqlWhereCollection where, SqlOrderByCollection orderBy)
+        {
+            var results = new ResultCollection(
+                context: context,
+                ss: ss,
+                //column: column,
+                where: where,
+                orderBy: orderBy,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                            where,
+                            orderBy
+                    }
+                ));
+            return results
+                .Select(model => new TimeLineItem
+                {
+                    Id = model.ResultId,
+                    SiteId = model.SiteId,
+                    SiteTitle = model.SiteTitle,
+                    Title = model.Title,
+                    Body = model.Body,
+                    CreatedTime = model.CreatedTime,
+                    UpdatedTime = model.UpdatedTime,
+                    Creator = model.Creator,
+                    Updator = model.Updator
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<TimeLineItem> GetTimeLineIssues(Context context, SiteSettings ss, SqlWhereCollection where, SqlOrderByCollection orderBy)
+        {
+            var issues = new IssueCollection(
+                context: context,
+                ss: ss,
+                //column: column,
+                where: where,
+                orderBy: orderBy,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                            where,
+                            orderBy
+                    }
+                ));
+            return issues
+                .Select(model => new TimeLineItem
+                {
+                    Id = model.IssueId,
+                    SiteId = model.SiteId,
+                    SiteTitle = model.SiteTitle,
+                    Title = model.Title,
+                    Body = model.Body,
+                    CreatedTime = model.CreatedTime,
+                    UpdatedTime = model.UpdatedTime,
+                    Creator = model.Creator,
+                    Updator = model.Updator
+                });
+        }
 
         public static string IndexJson(Context context, SiteSettings ss)
         {

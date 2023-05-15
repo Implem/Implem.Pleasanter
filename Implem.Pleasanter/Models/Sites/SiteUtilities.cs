@@ -10346,7 +10346,6 @@ namespace Implem.Pleasanter.Models
             View view,
             string prefix = "",
             bool currentTableOnly = false,
-            Dictionary<string,string> viewFilterOptions = null,
             Action action = null)
         {
             return hb.FieldSet(id: $"{prefix}ViewFiltersTab", action: () =>
@@ -10495,11 +10494,10 @@ namespace Implem.Pleasanter.Models
                                         controlId: $"{prefix}ViewFilterSelector",
                                         fieldCss: "field-auto-thin",
                                         controlCss: " always-send",
-                                        optionCollection: viewFilterOptions ??
-                                            ss.ViewFilterOptions(
-                                                context: context,
-                                                view: view,
-                                                currentTableOnly: currentTableOnly))
+                                        optionCollection: ss.ViewFilterOptions(
+                                            context: context,
+                                            view: view,
+                                            currentTableOnly: currentTableOnly))
                                     .Button(
                                         controlId: $"Add{prefix}ViewFilter",
                                         controlCss: "button-icon",
@@ -10706,7 +10704,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             bool usekeepSorterState = true,
-            Dictionary<string, string> viewSorterOptions = null)
+            bool currentTableOnly = false)
         {
             return hb.FieldSet(id: "ViewSortersTab", action: () => hb
                 .FieldCheckBox(
@@ -10742,7 +10740,9 @@ namespace Implem.Pleasanter.Models
                     controlId: "ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
-                    optionCollection: viewSorterOptions?? ss.ViewSorterOptions(context: context))
+                    optionCollection: ss.ViewSorterOptions(
+                        context: context,
+                        currentTableOnly: currentTableOnly))
                 .FieldDropDown(
                     context: context,
                     controlId: "ViewSorterOrderTypes",
@@ -13872,6 +13872,7 @@ namespace Implem.Pleasanter.Models
                      .FieldDropDown(
                         context: context,
                         controlId: "DashboardType",
+                        controlCss: " always-send",
                         labelText: "タイプ",
                         optionCollection: new Dictionary<string, string>
                         {
@@ -13940,14 +13941,25 @@ namespace Implem.Pleasanter.Models
                                         max: 12,
                                         step: 1,
                                         width: 25)))
-                    .DashboardViewFiltersTab(
-                        context: context,
-                        ss: ss,
-                        dashboard: dashboard)
-                    .DashboardViewSorterTab(
-                        context: context,
-                        ss: ss,
-                        dashboard: dashboard)
+                     .FieldSet(
+                        id: "DashboardTimeLineEditor",
+                        css: dashboard.Type == DashboardType.TimeLine
+                            ? ""
+                            : " hidden",
+                        action: ()=>
+                            hb
+                                .FieldTextBox(
+                                    controlId: "DashboardSiteId",
+                                    controlCss: " always-send",
+                                    labelText: "基準サイトID",
+                                    text: dashboard.SiteId.ToString(),
+                                    validateNumber: true)
+                                .DashboardViewFiltersTab(
+                                    context: context,
+                                    dashboard: dashboard)
+                                .DashboardViewSorterTab(
+                                    context: context,
+                                    dashboard: dashboard))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -13981,41 +13993,50 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder DashboardViewFiltersTab(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss,
-            Dashboard dashboard)
+            Dashboard dashboard,
+            bool _using = true)
         {
+            if(_using == false) return hb;
             var view = dashboard.View ?? new View();
-            var viewFilterOptions = Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == "Issues")
-                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+            var currentSs = SiteSettingsUtilities.Get(
+                context: context,
+                dashboard.SiteId);
+            if (currentSs == null)
+            {
+                return hb;
+            }
             return hb.ViewFiltersTab(
                 context: context,
-                ss: ss,
+                ss: currentSs,
                 view: view,
                 prefix: "Dashboard",
-                currentTableOnly: true,
-                viewFilterOptions: viewFilterOptions);
+                currentTableOnly: true);
         }
 
 
         private static HtmlBuilder DashboardViewSorterTab(
             this HtmlBuilder hb,
             Context context,
-            SiteSettings ss,
-            Dashboard dashboard)
+            Dashboard dashboard,
+            bool _using = true)
         {
+            if (_using == false) return hb;
             var view = dashboard.View ?? new View();
-            var viewSorterOptions = Def.ColumnDefinitionCollection
-                .Where(o => o.TableName == "Issues")
-                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                dashboard.SiteId);
+            if(ss == null)
+            {
+                return hb;
+            }
             return hb.ViewSortersTab(
                 context: context,
                 ss: ss,
                 view: view,
                 usekeepSorterState: false,
-                viewSorterOptions: viewSorterOptions);
+                currentTableOnly: true);
         }
-
 
         /// <summary>
         /// Fixed:

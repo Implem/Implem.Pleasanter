@@ -1,4 +1,4 @@
 ﻿{
     "Id": "Model_Utilities_InitSiteSettings",
-    "Include": "Sites,Dashbords"
+    "Include": "Sites,Dashboards"
 }

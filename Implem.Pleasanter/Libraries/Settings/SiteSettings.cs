@@ -1095,7 +1095,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 {
                     ss.Dashboards = new SettingList<Dashboard>();
                 }
-                ss.Dashboards.Add(dashboards.GetRecordingData());
+                ss.Dashboards.Add(dashboards.GetRecordingData(context: context));
             });
             if (!ExtendedHeader.IsNullOrEmpty())
             {
@@ -2739,10 +2739,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        public Dictionary<string, string> ViewSorterOptions(Context context)
+        public Dictionary<string, string> ViewSorterOptions(
+            Context context,
+            bool currentTableOnly = false)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions().ForEach(join =>
+            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);

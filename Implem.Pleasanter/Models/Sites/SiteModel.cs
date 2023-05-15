@@ -2984,10 +2984,14 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardViewFilter":
+                    var ss = SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: context.Forms.Long("DashboardSiteId"));
                     AddViewFilter(
                         context: context,
                         res: res,
-                        prefix: "Dashboard");
+                        prefix: "Dashboard",
+                        ss: ss);
                     break;
                 default:
                     if (controlId.Contains("_NumericRange"))
@@ -5259,10 +5263,12 @@ namespace Implem.Pleasanter.Models
         private void AddViewFilter(
             Context context,
             ResponseCollection res,
-            string prefix = "")
+            string prefix = "",
+            SiteSettings ss = null)
         {
-            SiteSettings.SetChoiceHash(context: context);
-            var column = SiteSettings.GetColumn(
+            ss = ss ?? SiteSettings;
+            ss.SetChoiceHash(context: context);
+            var column = ss.GetColumn(
                 context: context,
                 columnName: context.Forms.Data($"{prefix}ViewFilterSelector"));
             if (column != null)
@@ -5272,7 +5278,7 @@ namespace Implem.Pleasanter.Models
                         $"#{prefix}ViewFiltersTab .items",
                         new HtmlBuilder().ViewFilter(
                             context: context,
-                            ss: SiteSettings,
+                            ss: ss,
                             column: column,
                             prefix: prefix))
                     .Remove($"#{prefix}ViewFilterSelector option:selected");
@@ -6806,23 +6812,50 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void AddDashboard(Context context, ResponseCollection res, string controlId)
         {
-            SiteSettings.Dashboards.Add(
-                new Dashboard()
-                {
-                    Id = SiteSettings.Scripts.MaxOrDefault(o => o.Id) + 1,
-                    Title = context.Forms.Data("DashboardTitle"),
-                    Type = context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
-                    X= context.Forms.Int("DashboardX"),
-                    Y = context.Forms.Int("DashboardY"),
-                    Width = context.Forms.Int("DashboardWidth"),
-                    Height = context.Forms.Int("DashboardHeight")
-                });
+            var dashboard = new Dashboard()
+            {
+                Id = SiteSettings.Dashboards.MaxOrDefault(o => o.Id) + 1,
+                Title = context.Forms.Data("DashboardTitle"),
+                Type = context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
+                X = context.Forms.Int("DashboardX"),
+                Y = context.Forms.Int("DashboardY"),
+                Width = context.Forms.Int("DashboardWidth"),
+                Height = context.Forms.Int("DashboardHeight"),
+                Sites = context.Forms.Data("DashboardSites")?
+                    .Split(",")
+                    .Select(o => o.Trim())
+                    .Where(o => !o.IsNullOrEmpty())
+                    .ToList()?? new List<string>(),
+                SiteId = context.Forms.Long("DashboardSiteId"),
+            };
+            dashboard.View = GetDashboardView(
+                context: context,
+                dashboard: dashboard);
+            SiteSettings.Dashboards.Add(dashboard);
             res
                 .ReplaceAll("#EditDashboard", new HtmlBuilder()
                     .EditDashboard(
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private View GetDashboardView(Context context, Dashboard dashboard)
+        {
+            var ss = SiteSettingsUtilities.Get(context: context, siteId: dashboard.SiteId);
+            if (ss == null)
+            {
+                return new View();
+            }
+            var view = dashboard.View ?? new View();
+            view.SetByForm(
+                context: context,
+                ss: ss,
+                prefix: "Dashboard");
+            return view;
         }
 
         /// <summary>
@@ -6836,11 +6869,7 @@ namespace Implem.Pleasanter.Models
             {
                 return;
             }
-            var view = dashboard.View ?? new View();
-            view.SetByForm(
-                context: context,
-                ss: SiteSettings,
-                prefix: "Dashboard");
+            var view = GetDashboardView(context: context, dashboard: dashboard);
             dashboard.Update(
                 title: context.Forms.Data("DashboardTitle"),
                 type: context.Forms.Data("DashboardType").ToEnum<DashboardType>(),
@@ -6849,6 +6878,7 @@ namespace Implem.Pleasanter.Models
                 width: context.Forms.Int("DashboardWidth"),
                 height: context.Forms.Int("DashboardHeight"),
                 sites: context.Forms.Data("DashboardSites"),
+                siteId: context.Forms.Long("DashboardSiteId"),
                 view: view);
             res
                 .Html("#EditDashboard", new HtmlBuilder()
