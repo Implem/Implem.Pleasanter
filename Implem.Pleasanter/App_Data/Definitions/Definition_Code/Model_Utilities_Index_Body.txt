@@ -350,7 +350,7 @@ private static HtmlBuilder GridRows(
                 .GridHeader(
                     context: context,
                     ss: ss,
-                    columns: columns, 
+                    columns: columns,
                     view: view,
 
 <!--Model_Utilities_Index_NoSort-->

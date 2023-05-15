@@ -68,7 +68,8 @@ private static HtmlBuilder BulkUpdateEditor(
                 #modelName#Model.SetDefault(
                     context: context,
                     ss: ss,
-                    column: column);
+                    column: column,
+                    init: true);
                 hb.Field(
                     context: context,
                     ss: ss,

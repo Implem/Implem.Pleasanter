@@ -53,6 +53,11 @@ public static string KambanJson(
     }
     var view = Views.GetBySession(context: context, ss: ss);
     var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+    var res = new ResponseCollection(context: context);
+    if (context.ErrorData.Type != Error.Types.None)
+    {
+        res.Message(context.ErrorData.Message(context: context));
+    }
     if (InRange(
         context: context,
         ss: ss,
@@ -67,7 +72,7 @@ public static string KambanJson(
             changedItemId: updated
                 ? context.Forms.Long("KambanId")
                 : 0);
-        return new ResponseCollection(context: context)
+        return res
             .ViewMode(
                 context: context,
                 ss: ss,
@@ -87,7 +92,7 @@ public static string KambanJson(
             view: view,
             bodyOnly: bodyOnly,
             inRange: false);
-        return new ResponseCollection(context: context)
+        return res
             .ViewMode(
                 context: context,
                 ss: ss,

@@ -78,6 +78,29 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             return NewIssue();
         }
 
+        public ServerScriptModelApiModel NewSite(string referenceType)
+        {
+            var siteModel = new SiteModel()
+            {
+                ReferenceType = referenceType
+            };
+            var apiContext = ServerScriptUtilities.CreateContext(
+                context: Context,
+                controller: "Items",
+                action: "New",
+                id: 0,
+                apiRequestBody: string.Empty);
+            var ss = new SiteSettings(
+                context: apiContext,
+                referenceType: referenceType);
+            siteModel.SiteSettings = ss;
+            var apiModel = new ServerScriptModelApiModel(
+                context: Context,
+                model: siteModel,
+                onTesting: OnTesting);
+            return apiModel;
+        }
+
         public ServerScriptModelApiModel NewIssue()
         {
             var issueModel = new IssueModel();

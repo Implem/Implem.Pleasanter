@@ -3,15 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
-    <AssemblyVersion>1.3.37.0</AssemblyVersion>
-    <FileVersion>1.3.37.0</FileVersion>
-    <Version>1.3.37.0</Version>
+    <AssemblyVersion>1.3.38.0</AssemblyVersion>
+    <FileVersion>1.3.38.0</FileVersion>
+    <Version>1.3.38.0</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="15.0.3" />
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.17.1" />
+    <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.3" />
     <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />

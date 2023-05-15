@@ -341,7 +341,13 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             {
                 Model.UpdatedTime = new DataTypes.Time();
             }
-            if (Model is IssueModel issueModel)
+            if (Model is SiteModel siteModel)
+            {
+                var apiModel = siteModel.GetByApi(context: context);
+                apiModel.Comments = null;
+                return apiModel.ToJson();
+            }
+            else if (Model is IssueModel issueModel)
             {
                 var apiModel = issueModel.GetByApi(
                     context: context,
@@ -352,6 +358,14 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
             else if (Model is ResultModel resultModel)
             {
                 var apiModel = resultModel.GetByApi(
+                    context: context,
+                    ss: ss);
+                apiModel.Comments = null;
+                return apiModel.ToJson();
+            }
+            else if (Model is WikiModel wikiModel)
+            {
+                var apiModel = wikiModel.GetByApi(
                     context: context,
                     ss: ss);
                 apiModel.Comments = null;
@@ -371,13 +385,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public bool Update()
         {
             var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
-            if (Model is IssueModel issueModel)
+            if (Model is SiteModel siteModel)
+            {
+                return serverScript.Update(siteModel.SiteId, this);
+            }
+            else if (Model is IssueModel issueModel)
             {
                 return serverScript.Update(issueModel.IssueId, this);
             }
             else if (Model is ResultModel resultModel)
             {
                 return serverScript.Update(resultModel.ResultId, this);
+            }
+            else if (Model is WikiModel wikiModel)
+            {
+                return serverScript.Update(wikiModel.WikiId, this);
             }
             else
             {
@@ -388,13 +410,21 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         public bool Delete()
         {
             var serverScript = new ServerScriptModelApiItems(context: Context, onTesting: OnTesting);
-            if (Model is IssueModel issueModel)
+            if (Model is SiteModel siteModel)
+            {
+                return serverScript.Delete(siteModel.SiteId);
+            }
+            else if (Model is IssueModel issueModel)
             {
                 return serverScript.Delete(issueModel.IssueId);
             }
             else if (Model is ResultModel resultModel)
             {
                 return serverScript.Delete(resultModel.ResultId);
+            }
+            else if (Model is WikiModel wikiModel)
+            {
+                return serverScript.Delete(wikiModel.WikiId);
             }
             else
             {

@@ -1321,6 +1321,14 @@ namespace Implem.Pleasanter.Models
                             ? ReferenceId
                             : 0,
                         internalRequest: internalRequest);
+                case "Wikis":
+                    return WikiUtilities.GetByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        wikiId: SiteId != ReferenceId
+                            ? ReferenceId
+                            : 0,
+                        internalRequest: internalRequest);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
@@ -1375,6 +1383,27 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     referenceId: ReferenceId),
                                 resultId: ReferenceId)
+                        }.Where(model => model != null).ToArray();
+                    }
+                case "Wikis":
+                    if (SiteId == ReferenceId)
+                    {
+                        return WikiUtilities.GetByServerScript(
+                            context: context,
+                            ss: Site.WikisSiteSettings(
+                                context: context,
+                                referenceId: ReferenceId));
+                    }
+                    else
+                    {
+                        return new[]
+                        {
+                            WikiUtilities.GetByServerScript(
+                                context: context,
+                                ss: Site.WikisSiteSettings(
+                                    context: context,
+                                    referenceId: ReferenceId),
+                                wikiId: ReferenceId)
                         }.Where(model => model != null).ToArray();
                     }
                 default:
@@ -1453,6 +1482,10 @@ namespace Implem.Pleasanter.Models
                     return ResultUtilities.CreateByApi(
                         context: context,
                         ss: Site.SiteSettings);
+                case "Wikis":
+                    return WikiUtilities.CreateByApi(
+                        context: context,
+                        ss: Site.SiteSettings);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
@@ -1467,6 +1500,28 @@ namespace Implem.Pleasanter.Models
             }
             switch (Site.ReferenceType)
             {
+                case "Sites":
+                    var siteSs = Site.SitesSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string siteRequestString)
+                    {
+                        context.ApiRequestBody = siteRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        context.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
+                            context: context,
+                            ss: siteSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return SiteUtilities.CreateByServerScript(
+                        context: context,
+                        ss: siteSs,
+                        model: model);
                 case "Issues":
                     var issueSs = Site.IssuesSiteSettings(
                         context: context,
@@ -1510,6 +1565,28 @@ namespace Implem.Pleasanter.Models
                     return ResultUtilities.CreateByServerScript(
                         context: context,
                         ss: resultSs,
+                        model: model);
+                case "Wikis":
+                    var wikiSs = Site.WikisSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string wikiRequestString)
+                    {
+                        context.ApiRequestBody = wikiRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        context.ApiRequestBody = serverScriptModelApiModel.ToJsonString(
+                            context: context,
+                            ss: wikiSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return WikiUtilities.CreateByServerScript(
+                        context: context,
+                        ss: wikiSs,
                         model: model);
                 default:
                     return false;
@@ -1734,6 +1811,12 @@ namespace Implem.Pleasanter.Models
                         ss: Site.SiteSettings,
                         resultId: ReferenceId,
                         previousTitle: Title);
+                case "Wikis":
+                    return WikiUtilities.UpdateByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        wikiId: ReferenceId,
+                        previousTitle: Title);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
@@ -1775,8 +1858,31 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            switch (Site.ReferenceType)
+            switch (ReferenceType)
             {
+                case "Sites":
+                    var siteSs = Site.SitesSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string siteRequestString)
+                    {
+                        context.ApiRequestBody = siteRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel issueApiModel)
+                    {
+                        context.ApiRequestBody = issueApiModel.ToJsonString(
+                            context: context,
+                            ss: siteSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return SiteUtilities.UpdateByServerScript(
+                        context: context,
+                        siteModel: Site,
+                        siteId: Site.SiteId,
+                        model: model);
                 case "Issues":
                     var issueSs = Site.IssuesSiteSettings(
                         context: context,
@@ -1823,6 +1929,30 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: resultSs,
                         resultId: ReferenceId,
+                        previousTitle: Title,
+                        model: model);
+                case "Wikis":
+                    var wikiSs = Site.WikisSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if(model is string wikiRequestString)
+                    {
+                        context.ApiRequestBody = wikiRequestString;
+                    }
+                    else if(model is ServerScriptModelApiModel wikiApiModel)
+                    {
+                        context.ApiRequestBody = wikiApiModel.ToJsonString(
+                            context: context,
+                            ss: wikiSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return WikiUtilities.UpdateByServerScript(
+                        context: context,
+                        ss: wikiSs,
+                        wikiId: ReferenceId,
                         previousTitle: Title,
                         model: model);
                 default:
@@ -2018,6 +2148,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings,
                         resultId: ReferenceId);
+                case "Wikis":
+                    return WikiUtilities.DeleteByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        wikiId: ReferenceId);
                 default:
                     return ApiResults.Get(ApiResponses.NotFound(context: context));
             }
@@ -2030,8 +2165,15 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
-            switch (Site.ReferenceType)
+            switch (ReferenceType)
             {
+                case "Sites":
+                    return SiteUtilities.DeleteByServerScript(
+                        context: context,
+                        ss: Site.SitesSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId),
+                        siteId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.DeleteByServerScript(
                         context: context,
@@ -2046,6 +2188,13 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             referenceId: ReferenceId),
                         resultId: ReferenceId);
+                case "Wikis":
+                    return WikiUtilities.DeleteByServerScript(
+                        context: context,
+                        ss: Site.WikisSiteSettings(
+                            context: context,
+                            referenceId: ReferenceId),
+                        wikiId: ReferenceId);
                 default:
                     return false;
             }

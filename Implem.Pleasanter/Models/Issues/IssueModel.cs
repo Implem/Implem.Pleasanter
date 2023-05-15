@@ -674,7 +674,8 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             SetDefault(
                 context: context,
-                ss: ss);
+                ss: ss,
+                init: true);
             SiteId = ss.SiteId;
             if (formData != null)
             {
@@ -713,7 +714,8 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             SetDefault(
                 context: context,
-                ss: ss);
+                ss: ss,
+                init: true);
             IssueId = issueId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -1766,7 +1768,9 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     setIdentity: true),
             });
-            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
+            statements.AddRange(UpdateAttachmentsStatements(
+                context: context,
+                ss: ss));
             statements.AddRange(PermissionUtilities.InsertStatements(
                 context: context,
                 ss: ss,
@@ -1870,7 +1874,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true) 
+            bool checkConflict = true)
         {
             SetByBeforeUpdateServerScript(
                 context: context,
@@ -1897,13 +1901,18 @@ namespace Implem.Pleasanter.Models
                     id: IssueId,
                     timestamp: Timestamp.ToDateTime());
             }
+            var verUp = Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp);
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                checkConflict: checkConflict));
+                checkConflict: checkConflict,
+                verUp: verUp));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1931,7 +1940,8 @@ namespace Implem.Pleasanter.Models
                         overwrite: false));
             WriteAttachments(
                 context: context,
-                ss: ss);
+                ss: ss,
+                verUp: verUp);
             if (synchronizeSummary)
             {
                 SynchronizeSummary(
@@ -2004,7 +2014,8 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool checkConflict = true)
+            bool checkConflict = true,
+            bool verUp = false)
         {
             ss.Columns
                 .Where(column => column.ColumnName.StartsWith("Attachments"))
@@ -2016,10 +2027,7 @@ namespace Implem.Pleasanter.Models
                 issueModel: this)
                     .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
             statements.AddRange(IfDuplicatedStatements(ss: ss));
-            if (Versions.VerUp(
-                context: context,
-                ss: ss,
-                verUp: VerUp))
+            if (verUp)
             {
                 statements.Add(Rds.IssuesCopyToStatement(
                     where: where,
@@ -2034,7 +2042,10 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            statements.AddRange(UpdateAttachmentsStatements(context: context, ss: ss));
+            statements.AddRange(UpdateAttachmentsStatements(
+                context: context,
+                ss: ss,
+                verUp: verUp));
             if (ss.PermissionForUpdating?.Any() == true)
             {
                 statements.AddRange(PermissionUtilities.UpdateStatements(
@@ -2092,7 +2103,7 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-        private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss)
+        private List<SqlStatement> UpdateAttachmentsStatements(Context context, SiteSettings ss, bool verUp = false)
         {
             var statements = new List<SqlStatement>();
             ColumnNames()
@@ -2106,11 +2117,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             columnName: columnName),
                         statements: statements,
-                        referenceId: IssueId));
+                        referenceId: IssueId,
+                        verUp: verUp));
             return statements;
         }
 
-        private void WriteAttachments(Context context, SiteSettings ss)
+        private void WriteAttachments(Context context, SiteSettings ss, bool verUp = false)
         {
             ColumnNames()
                 .Where(columnName => columnName.StartsWith("Attachments"))
@@ -2122,7 +2134,8 @@ namespace Implem.Pleasanter.Models
                         column: ss.GetColumn(
                             context: context,
                             columnName: columnName),
-                        referenceId: IssueId));
+                        referenceId: IssueId,
+                        verUp: verUp));
         }
 
         public void UpdateRelatedRecords(
@@ -2549,11 +2562,18 @@ namespace Implem.Pleasanter.Models
             return statements;
         }
 
-        public void SetDefault(Context context, SiteSettings ss)
+        public void SetDefault(
+            Context context,
+            SiteSettings ss,
+            bool init = false)
         {
             ss.Columns
                 .Where(o => !o.DefaultInput.IsNullOrEmpty())
-                .ForEach(column => SetDefault(context: context, ss: ss, column: column));
+                .ForEach(column => SetDefault(
+                    context: context,
+                    ss: ss,
+                    column: column,
+                    init: init));
         }
 
         public void SetCopyDefault(Context context, SiteSettings ss)
@@ -2571,44 +2591,54 @@ namespace Implem.Pleasanter.Models
                     column: column));
         }
 
-        public void SetDefault(Context context, SiteSettings ss, Column column)
+        public void SetDefault(
+            Context context,
+            SiteSettings ss,
+            Column column,
+            bool init = false)
         {
             var defaultInput = column.GetDefaultInput(context: context);
             switch (column.ColumnName)
             {
                 case "Title":
                     Title.Value = defaultInput.ToString();
+                    if (init) SavedTitle = Title.Value;
                     break;
                 case "Body":
                     Body = defaultInput.ToString();
+                    if (init) SavedBody = Body;
                     break;
                 case "WorkValue":
                     WorkValue.Value = defaultInput.ToDecimal();
+                    if (init) SavedWorkValue = WorkValue.Value;
                     break;
                 case "ProgressRate":
                     ProgressRate.Value = defaultInput.ToDecimal();
+                    if (init) SavedProgressRate = ProgressRate.Value;
                     break;
                 case "Status":
                     Status.Value = defaultInput.ToInt();
+                    if (init) SavedStatus = Status.Value;
                     break;
                 case "Locked":
                     Locked = defaultInput.ToBool();
-                    break;
-                case "Timestamp":
-                    Timestamp = defaultInput.ToString();
+                    if (init) SavedLocked = Locked;
                     break;
                 case "Manager":
                     Manager = SiteInfo.User(
                         context: context,
                         userId: column.GetDefaultInput(context: context).ToInt());
+                    if (init) SavedManager = Manager.Id;
                     break;
                 case "Owner":
                     Owner = SiteInfo.User(
                         context: context,
                         userId: column.GetDefaultInput(context: context).ToInt());
+                    if (init) SavedOwner = Owner.Id;
                     break;
                 case "StartTime":
                     StartTime = column.DefaultTime(context: context);
+                    if (init) SavedStartTime = StartTime;
                     break;
                 case "CompletionTime":
                     CompletionTime = new CompletionTime(
@@ -2616,6 +2646,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         value: column.DefaultTime(context: context),
                         status: Status);
+                    if (init) SavedCompletionTime = CompletionTime.Value;
                     break;
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
@@ -2624,6 +2655,9 @@ namespace Implem.Pleasanter.Models
                             SetClass(
                                 column: column,
                                 value: defaultInput);
+                            if (init) SetSavedClass(
+                                columnName: column.Name,
+                                value: GetClass(columnName: column.Name));
                             break;
                         case "Num":
                             SetNum(
@@ -2632,26 +2666,41 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: defaultInput));
+                            if (init) SetSavedNum(
+                                columnName: column.Name,
+                                value: GetNum(columnName: column.Name).Value);
                             break;
                         case "Date":
                             SetDate(
                                 column: column,
                                 value: column.DefaultTime(context: context));
+                            if (init) SetSavedDate(
+                                columnName: column.Name,
+                                value: GetDate(columnName: column.Name));
                             break;
                         case "Description":
                             SetDescription(
                                 column: column,
                                 value: defaultInput.ToString());
+                            if (init) SetSavedDescription(
+                                columnName: column.Name,
+                                value: GetDescription(columnName: column.Name));
                             break;
                         case "Check":
                             SetCheck(
                                 column: column,
                                 value: defaultInput.ToBool());
+                            if (init) SetSavedCheck(
+                                columnName: column.Name,
+                                value: GetCheck(columnName: column.Name));
                             break;
                         case "Attachments":
                             SetAttachments(
                                 column: column,
                                 value: new Attachments());
+                            if (init) SetSavedAttachments(
+                                columnName: column.Name,
+                                value: GetAttachments(columnName: column.Name).ToJson());
                             break;
                     }
                     break;

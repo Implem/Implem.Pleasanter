@@ -1,5 +1,5 @@
 ﻿.Div(
-    id: "ViewSelectorField", 
+    id: "ViewSelectorField",
     action: () => hb
         .ViewSelector(
             context: context,

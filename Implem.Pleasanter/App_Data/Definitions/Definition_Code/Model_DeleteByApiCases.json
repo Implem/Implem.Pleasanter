@@ -1,8 +1,8 @@
 ﻿{
-    "Id": "Model_DeleteByApiCases",
-    "RepeatType": "Table",
-    "Indent": "4",
-    "Separator": "\\r\\n",
-    "ItemOnly": "1",
-    "Exclude": "Sites,Wikis,Dashboards"
+  "Id": "Model_DeleteByApiCases",
+  "RepeatType": "Table",
+  "Indent": "4",
+  "Separator": "\\r\\n",
+  "ItemOnly": "1",
+  "Exclude": "Sites,Dashboards"
 }

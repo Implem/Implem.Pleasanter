@@ -322,7 +322,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     link.ColumnName = null;
                     link.JsonFormat = null;
                 });
-                return links.ToJson(Formatting.Indented);
+                return links.ToJson(
+                    defaultValueHandling: DefaultValueHandling.Ignore,
+                    formatting: Formatting.Indented);
             }
             var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[).+(?=\]\])");
             var data = match?.Success == true

@@ -1065,20 +1065,25 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true) 
+            bool checkConflict = true)
         {
             if (setBySession)
             {
                 SetBySession(context: context);
             }
             var statements = new List<SqlStatement>();
+            var verUp = Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp);
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                checkConflict: checkConflict));
+                checkConflict: checkConflict,
+                verUp: verUp));
             statements.AddRange(GetReminderSchedulesStatements(context: context));
             var response = Repository.ExecuteScalar_response(
                 context: context,
@@ -1111,7 +1116,8 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool checkConflict = true)
+            bool checkConflict = true,
+            bool verUp = false)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
@@ -1119,10 +1125,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteModel: this)
                     .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
-            if (Versions.VerUp(
-                context: context,
-                ss: ss,
-                verUp: VerUp))
+            if (verUp)
             {
                 statements.Add(Rds.SitesCopyToStatement(
                     where: where,
@@ -1980,8 +1983,8 @@ namespace Implem.Pleasanter.Models
             data.SiteId = SiteId;
             data.UpdatedTime = UpdatedTime.Value.ToLocal(context: context);
             data.Ver = Ver;
-            data.Title = SiteSettings.Title;
-            data.Body = SiteSettings.Body;
+            data.Title = Title.Value;
+            data.Body = Body;
             data.SiteName = SiteName;
             data.SiteGroupName = SiteGroupName;
             data.GridGuide = GridGuide;
@@ -1993,9 +1996,9 @@ namespace Implem.Pleasanter.Models
             data.TimeSeriesGuide = TimeSeriesGuide;
             data.KambanGuide = KambanGuide;
             data.ImageLibGuide = ImageLibGuide;
-            data.ReferenceType = SiteSettings.ReferenceType;
-            data.ParentId = SiteSettings.ParentId;
-            data.InheritPermission = SiteSettings.InheritPermission;
+            data.ReferenceType = ReferenceType;
+            data.ParentId = ParentId;
+            data.InheritPermission = InheritPermission;
             if(context.CanManagePermission(ss: SiteSettings))
             {
                 data.Permissions = PermissionUtilities.CurrentCollection(
@@ -2005,7 +2008,7 @@ namespace Implem.Pleasanter.Models
                         .ToList();
             }
             data.SiteSettings = SiteSettings.RecordingData(context: context);
-            data.Publish = SiteSettings.Publish;
+            data.Publish = Publish;
             data.DisableCrossSearch = DisableCrossSearch;
             data.LockedTime = LockedTime.Value.ToLocal(context: context);
             data.LockedUser = LockedUser.Id;

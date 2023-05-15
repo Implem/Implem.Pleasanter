@@ -112,7 +112,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     controlId: "ToDisableDropDownSearchResults",
                                     controlCss: "button-icon",
                                     text: Displays.ToDisable(context: context),
-                                    onClick: "$p.moveColumns($(this),'DropDownSearch',false,false,'Results');",
+                                    onClick: "$p.moveColumns(event, $(this),'DropDownSearch',false,false,'Results');",
                                     icon: "ui-icon-circle-triangle-e")))
                     .FieldSelectable(
                         controlId: "DropDownSearchSourceResults",
@@ -132,7 +132,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     controlId: "ToEnableDropDownSearchResults",
                                     text: Displays.ToEnable(context: context),
                                     controlCss: "button-icon",
-                                    onClick: "$p.moveColumns($(this),'DropDownSearch',false,false,'Results');",
+                                    onClick: "$p.moveColumns(event, $(this),'DropDownSearch',false,false,'Results');",
                                     icon: "ui-icon-circle-triangle-w")
                                 .TextBox(
                                     controlId: "DropDownSearchText",

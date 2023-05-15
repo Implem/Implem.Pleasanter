@@ -1,0 +1,7 @@
+﻿case "#TableName#":
+    return #ModelName#Utilities.DeleteByServerScript(
+        context: context,
+        ss: Site.#TableName#SiteSettings(
+            context: context,
+            referenceId: ReferenceId),
+        #modelName#Id: ReferenceId);

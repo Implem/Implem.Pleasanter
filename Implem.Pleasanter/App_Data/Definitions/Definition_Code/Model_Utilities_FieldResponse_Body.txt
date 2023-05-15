@@ -114,7 +114,8 @@
                                                 column: column,
                                                 baseModel: #modelName#Model)
                                                     != Permissions.ColumnPermissionTypes.Update,
-                                            allowDelete: column.AllowDeleteAttachments != false),
+                                            allowDelete: column.AllowDeleteAttachments != false,
+                                            validateRequired: column.ValidateRequired != false),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
                         }

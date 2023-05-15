@@ -313,7 +313,7 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 .Join("&");
             if (Id > 0
                 && column.SiteSettings?.TableType == Sqls.TableTypes.Normal
-                && column.SiteSettings?.GetNoDisplayIfReadOnly() != true
+                && column.SiteSettings?.GetNoDisplayIfReadOnly(context: context) != true
                 && column.SiteSettings?.DisableLinkToEdit != true)
             {
                 hb.A(
