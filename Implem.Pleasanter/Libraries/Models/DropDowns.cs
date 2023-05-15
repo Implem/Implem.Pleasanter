@@ -270,13 +270,11 @@ namespace Implem.Pleasanter.Libraries.Models
                 || controlId.StartsWith("ProcessViewFilters__")
                 || controlId.StartsWith("StatusControlViewFilters__")
                 || controlId.StartsWith("ViewFiltersOnGridHeader__");
-            var searchText = context.Forms.Data("DropDownSearchText");
             var column = SearchDropDownColumn(
                 context: context,
                 ss: ss,
                 controlId: controlId,
                 referenceId: referenceId,
-                searchText: searchText,
                 searchFormat: false);
             var multiple = context.Forms.Bool("DropDownSearchMultiple");
             var selected = multiple
@@ -315,7 +313,7 @@ namespace Implem.Pleasanter.Libraries.Models
             SiteSettings ss,
             string controlId,
             long referenceId,
-            string searchText,
+            string searchText = "",
             int offset = 0,
             string parentClass = "",
             List<long> parentIds = null,

@@ -68,7 +68,7 @@
                     context: context,
                     ss.SiteId) + "\n");
                 body.Append(
-                    $"{Displays.Issues_Updator(context: context)}: ",
+                    $"{Displays.#TableName#_Updator(context: context)}: ",
                     $"{context.User.Name}\n");
                 if (notification.AfterBulkDelete != false)
                 {

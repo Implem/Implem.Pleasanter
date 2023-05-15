@@ -355,7 +355,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             checkRow: checkRow,
                             checkAll: checkAll,
@@ -1685,7 +1685,8 @@ namespace Implem.Pleasanter.Models
                                                         column: column,
                                                         baseModel: registrationModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
-                                                    allowDelete: column.AllowDeleteAttachments != false),
+                                                    allowDelete: column.AllowDeleteAttachments != false,
+                                                    validateRequired: column.ValidateRequired != false),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }

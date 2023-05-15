@@ -9,7 +9,7 @@
 <!--Model_Validator_ShowProfiles-->
 <!--Model_Validator_ApiCanRead-->
 
-    if (!api && ss.GetNoDisplayIfReadOnly())
+    if (!api && ss.GetNoDisplayIfReadOnly(context: context))
     {
         return new ErrorData(type: Error.Types.NotFound);
     }
@@ -45,7 +45,7 @@ public static ErrorData OnEditing(
 <!--Model_Validator_Api-->
 <!--Model_Validator_ShowProfilesAndHasPrivilege-->
 
-    if (ss.GetNoDisplayIfReadOnly())
+    if (ss.GetNoDisplayIfReadOnly(context: context))
     {
         return new ErrorData(type: Error.Types.NotFound);
     }

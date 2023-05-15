@@ -3,6 +3,5 @@
     "RepeatType": "Table",
     "Indent": "4",
     "Separator": "\\r\\n",
-    "ItemOnly": "1",
-    "Exclude": "Sites,Wikis"
+    "ItemOnly": "1"
 }

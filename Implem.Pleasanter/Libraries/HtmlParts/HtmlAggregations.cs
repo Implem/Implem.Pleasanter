@@ -319,7 +319,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "Status":
                     if (key == "0")
                     {
-                        return "\t";
+                        return "\\t";
                     }
                     break;
                 default:
@@ -327,12 +327,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         if (SiteInfo.AnonymousId.ToInt().ToString() == key)
                         {
-                            return "\t";
+                            return "\\t";
                         }
                     }
                     break;
             }
-            return key != string.Empty ? key : "\t";
+            return key != string.Empty ? key : "\\t";
         }
 
         private static HtmlBuilder LabelValue(
@@ -359,7 +359,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy, string key, Dictionary<string, string> linkedLabelHash)
         {
             return groupBy?.HasChoices() == true
-                ? groupBy.ChoiceHash.Get(key) != null
+                ? groupBy.UseSearch == true
+                    || groupBy.ChoiceHash.Get(key) != null
                     || linkedLabelHash?.Get(key) != null
                     || UserNotSet(
                         groupBy: groupBy,

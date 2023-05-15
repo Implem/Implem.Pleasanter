@@ -99,7 +99,7 @@ namespace Implem.Pleasanter.Models
                                 id: ss.SiteId)),
                         action: () => hb
                             .Div(
-                                id: "ViewSelectorField", 
+                                id: "ViewSelectorField",
                                 action: () => hb
                                     .ViewSelector(
                                         context: context,
@@ -431,7 +431,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             editRow: editRow,
                             checkRow: checkRow,
@@ -2682,7 +2682,8 @@ namespace Implem.Pleasanter.Models
                                                         column: column,
                                                         baseModel: issueModel)
                                                             != Permissions.ColumnPermissionTypes.Update,
-                                                    allowDelete: column.AllowDeleteAttachments != false),
+                                                    allowDelete: column.AllowDeleteAttachments != false,
+                                                    validateRequired: column.ValidateRequired != false),
                                             options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                         break;
                                 }
@@ -3676,7 +3677,8 @@ namespace Implem.Pleasanter.Models
                         issueModel.SetDefault(
                             context: context,
                             ss: ss,
-                            column: column);
+                            column: column,
+                            init: true);
                         hb.Field(
                             context: context,
                             ss: ss,
@@ -5173,6 +5175,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 column: HistoryColumn(columns),
+                join: ss.Join(context: context),
                 where: Rds.IssuesWhere().IssueId(issueModel.IssueId),
                 orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
                 tableType: Sqls.TableTypes.NormalAndHistory)
@@ -5215,7 +5218,7 @@ namespace Implem.Pleasanter.Models
                 .Ver();
             columns.ForEach(column =>
                 sqlColumn.IssuesColumn(columnName: column.ColumnName));
-            return sqlColumn;
+            return sqlColumn.ItemTitle(tableName: "Issues");
         }
 
         public static string History(Context context, SiteSettings ss, long issueId)
@@ -6929,9 +6932,11 @@ namespace Implem.Pleasanter.Models
                     : 0,
                 update: true,
                 message: updated
-                    ? Messages.Updated(
-                        context: context,
-                        data: issueModel.Title.MessageDisplay(context: context))
+                    ? context.ErrorData.Type != Error.Types.None
+                        ? context.ErrorData.Message(context: context)
+                        : Messages.Updated(
+                            context: context,
+                            data: issueModel.Title.MessageDisplay(context: context))
                     : null);
         }
 
@@ -8299,6 +8304,11 @@ namespace Implem.Pleasanter.Models
             }
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Kamban");
+            var res = new ResponseCollection(context: context);
+            if (context.ErrorData.Type != Error.Types.None)
+            {
+                res.Message(context.ErrorData.Message(context: context));
+            }
             if (InRange(
                 context: context,
                 ss: ss,
@@ -8313,7 +8323,7 @@ namespace Implem.Pleasanter.Models
                     changedItemId: updated
                         ? context.Forms.Long("KambanId")
                         : 0);
-                return new ResponseCollection(context: context)
+                return res
                     .ViewMode(
                         context: context,
                         ss: ss,
@@ -8333,7 +8343,7 @@ namespace Implem.Pleasanter.Models
                     view: view,
                     bodyOnly: bodyOnly,
                     inRange: false);
-                return new ResponseCollection(context: context)
+                return res
                     .ViewMode(
                         context: context,
                         ss: ss,
