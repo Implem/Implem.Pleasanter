@@ -1,4 +1,3 @@
 ﻿case "#ColumnName#":
     #ColumnName##RecordingData# = column.DefaultTime(context: context);
-    if (init) Saved#ColumnName# = #ColumnName##RecordingData#;
     break;
