@@ -1,4 +1,3 @@
 ﻿SetDefault(
     context: context,
-    ss: ss,
-    init: true);
+    ss: ss);
