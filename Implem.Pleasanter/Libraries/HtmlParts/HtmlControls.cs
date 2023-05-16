@@ -575,6 +575,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string labelText = null,
             string labelIcon = null,
             string labelRaw = null,
+            bool controlOnly = false,
             bool _checked = false,
             bool disabled = false,
             bool alwaysSend = false,
@@ -601,24 +602,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .DataMethod(method)
                     .DataReadOnly(disabled)
                     .Checked(_checked));
-                if (labelRaw != null)
+                if (!controlOnly)
                 {
-                    hb.Raw(text: labelRaw);
-                }
-                else if (labelText != string.Empty)
-                {
-                    if (!labelIcon.IsNullOrEmpty())
+                    if (labelRaw != null)
                     {
-                        hb.Span(css: $"ui-icon {labelIcon}");
+                        hb.Raw(text: labelRaw);
                     }
-                    hb.Label(
-                        attributes: new HtmlAttributes()
-                            .For(controlId)
-                            .Class(validateRequired
-                                ? " required"
-                                : string.Empty),
-                        action: () => hb
-                            .Text(text: labelText));
+                    else if (labelText != string.Empty)
+                    {
+                        if (!labelIcon.IsNullOrEmpty())
+                        {
+                            hb.Span(css: $"ui-icon {labelIcon}");
+                        }
+                        hb.Label(
+                            attributes: new HtmlAttributes()
+                                .For(controlId)
+                                .Class(validateRequired
+                                    ? " required"
+                                    : string.Empty),
+                            action: () => hb
+                                .Text(text: labelText));
+                    }
                 }
             }
             return hb;
