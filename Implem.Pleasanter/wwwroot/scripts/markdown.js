@@ -78,7 +78,7 @@ $p.markup = function (markdownValue, encoded) {
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
-                    ? getEncordedATag($1, $1)
+                    ? getEncordedATag($1, $1, anchorTargetBlank)
                     : $1;
             });
     }
