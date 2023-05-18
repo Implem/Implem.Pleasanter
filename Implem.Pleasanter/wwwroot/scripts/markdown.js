@@ -66,20 +66,17 @@ $p.markup = function (markdownValue, encoded) {
         var regex_i = /(!\[[^\]]+\]\(.+?\))/gi;
         var regex_t = /(\[[^\]]+\]\(.+?\))/gi;
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
-        var anchorTargetBlank = $('#AnchorTargetBlank').length === 1
-            ? ' target="_blank"'
-            : '';
+        var anchorTargetBlank = $('#AnchorTargetBlank').length === 1;
         return text
             .replace(regex_i, function ($1) {
-                return '<a href="' + address($1) + '" target="_blank">'
-                    + '<img src="' + address($1) + '?thumbnail=1" alt="' + title($1) + '" /></a>';
+                return getEncordedImgTag(address($1),title($1));
             })
             .replace(regex_t, function ($1) {
-                return '<a href="' + address($1) + '"' + anchorTargetBlank + '>' + title($1) + '</a>';
+                return getEncordedATag(address($1), title($1), anchorTargetBlank);
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
-                    ? '<a href="' + $1 + '"' + anchorTargetBlank + '>' + $1 + '</a>'
+                    ? getEncordedATag($1, $1, anchorTargetBlank)
                     : $1;
             });
     }
@@ -89,17 +86,29 @@ $p.markup = function (markdownValue, encoded) {
         var regex = /(\B\\\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+\\((?!:|\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
         return text
             .replace(regex_t, function ($1) {
-                return '<a href="file://' + address($1) + '">' + title($1) + '</a>';
+                return getEncordedATag('file://' + address($1), title($1));
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
-                    ? '<a href="file://' + $1 + '">' + $1 + '</a>'
+                    ? getEncordedATag('file://' + $1, $1)
                     : $1;
             });
     }
 
     function getEncordedHtml(value) {
         return $('<div/>').text(value).html();
+    }
+
+    function getEncordedATag(href, text, anchorTargetBlank) {
+        let $tag = $('<a/>').attr('href', href).text(text);
+        if (anchorTargetBlank) $tag.attr('target', '_blank');
+        return $tag.prop('outerHTML');
+    }
+
+    function getEncordedImgTag(url, text) {
+        let $tag = $('<a/>').attr('href', url).attr('target', '_blank')
+            .append($('<img/>').attr('src', url + '?thumbnail=1').attr('alt', text));
+        return $tag.prop('outerHTML');
     }
 
     function address($1) {
