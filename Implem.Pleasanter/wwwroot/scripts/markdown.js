@@ -66,9 +66,7 @@ $p.markup = function (markdownValue, encoded) {
         var regex_i = /(!\[[^\]]+\]\(.+?\))/gi;
         var regex_t = /(\[[^\]]+\]\(.+?\))/gi;
         var regex = /(\b(https?|notes|ftp):\/\/((?!\*|"|<|>|\||&gt;|&lt;).)+"?)/gi;
-        var anchorTargetBlank = $('#AnchorTargetBlank').length === 1
-            ? true
-            : false;
+        var anchorTargetBlank = $('#AnchorTargetBlank').length === 1;
         return text
             .replace(regex_i, function ($1) {
                 return getEncordedImgTag(address($1),title($1));
@@ -103,12 +101,12 @@ $p.markup = function (markdownValue, encoded) {
 
     function getEncordedATag(href, text, anchorTargetBlank) {
         let $tag = $('<a/>').attr('href', href).text(text);
-        if (anchorTargetBlank) $tag.attr('target', "_blank");
+        if (anchorTargetBlank) $tag.attr('target', '_blank');
         return $tag.prop('outerHTML');
     }
 
     function getEncordedImgTag(url, text) {
-        let $tag = $('<a/>').attr('href', url).attr('target', "_blank")
+        let $tag = $('<a/>').attr('href', url).attr('target', '_blank')
             .append($('<img/>').attr('src', url + '?thumbnail=1').attr('alt', text));
         return $tag.prop('outerHTML');
     }
