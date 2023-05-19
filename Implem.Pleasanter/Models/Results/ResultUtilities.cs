@@ -3104,12 +3104,17 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
+                    var duplicatedColumn = ss.GetColumn(
+                        context: context,
+                        columnName: errorData.ColumnName);
                     return ApiResults.Error(
                         context: context,
                         errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        data: new string[] {
+                            ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText,
+                            duplicatedColumn.MessageWhenDuplicated });
                 default:
                     return ApiResults.Error(
                         context: context,

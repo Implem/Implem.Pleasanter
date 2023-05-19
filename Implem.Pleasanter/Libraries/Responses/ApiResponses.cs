@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -62,6 +63,11 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return NotMatchRegex(
                         context: context,
                         errorData: errorData);
+                case General.Error.Types.Duplicated:
+                    return Duplicated(
+                        context: context,
+                        errorData: errorData,
+                        data: dataList);
                 default:
                     return new ApiResponse(
                         id: context.Id,
@@ -202,6 +208,21 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.NotMatchRegex(
                     context: context,
                     data: errorData.Data));
+        }
+
+        public static ApiResponse Duplicated(Context context, ErrorData errorData, List<string> data)
+        {
+            var messageWhenDuplicated = data.Count() > 1
+                ? data[1]
+                : string.Empty;
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 423,
+                message: messageWhenDuplicated.IsNullOrEmpty()
+                    ? Displays.Duplicated(
+                        context: context,
+                        data: errorData.Data)
+                    : messageWhenDuplicated);
         }
     }
 }
