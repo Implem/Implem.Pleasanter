@@ -2044,12 +2044,25 @@ namespace Implem.Pleasanter.Models
                             .TenantId(TenantId)
                             .Title(Title.Value.MaxLength(1024))
                             .Body(Body)
+                            .SiteName(SiteName)
+                            .SiteGroupName(SiteGroupName)
+                            .GridGuide(GridGuide)
+                            .EditorGuide(EditorGuide)
+                            .CalendarGuide(CalendarGuide)
+                            .CrosstabGuide(CrosstabGuide)
+                            .GanttGuide(GanttGuide)
+                            .BurnDownGuide(BurnDownGuide)
+                            .TimeSeriesGuide(TimeSeriesGuide)
+                            .KambanGuide(KambanGuide)
+                            .ImageLibGuide(ImageLibGuide)
                             .ReferenceType(ReferenceType.MaxLength(32))
                             .ParentId(ParentId)
                             .InheritPermission(raw: notInheritPermission
                                 ? Def.Sql.Identity
                                 : InheritPermission.ToString())
                             .SiteSettings(SiteSettings.RecordingJson(context: context))
+                            .Publish(Publish)
+                            .DisableCrossSearch(DisableCrossSearch)
                             .Comments(Comments.ToJson())),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
