@@ -63,11 +63,6 @@ namespace Implem.Pleasanter.Libraries.Responses
                     return NotMatchRegex(
                         context: context,
                         errorData: errorData);
-                case General.Error.Types.Duplicated:
-                    return Duplicated(
-                        context: context,
-                        errorData: errorData,
-                        data: dataList);
                 default:
                     return new ApiResponse(
                         id: context.Id,
@@ -210,19 +205,12 @@ namespace Implem.Pleasanter.Libraries.Responses
                     data: errorData.Data));
         }
 
-        public static ApiResponse Duplicated(Context context, ErrorData errorData, List<string> data)
+        public static ApiResponse Duplicated(Context context, string message)
         {
-            var messageWhenDuplicated = data.Count() > 1
-                ? data[1]
-                : string.Empty;
             return new ApiResponse(
                 id: context.Id,
-                statusCode: 423,
-                message: messageWhenDuplicated.IsNullOrEmpty()
-                    ? Displays.Duplicated(
-                        context: context,
-                        data: errorData.Data)
-                    : messageWhenDuplicated);
+                statusCode: 500,
+                message: message);
         }
     }
 }

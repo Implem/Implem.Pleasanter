@@ -3107,14 +3107,21 @@ namespace Implem.Pleasanter.Models
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
                         columnName: errorData.ColumnName);
-                    return ApiResults.Error(
-                        context: context,
-                        errorData: errorData,
-                        data: new string[] {
-                            ss.GetColumn(
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        return ApiResults.Error(
+                            context: context,
+                            errorData: errorData,
+                            data: ss.GetColumn(
                                 context: context,
-                                columnName: errorData.ColumnName)?.LabelText,
-                            duplicatedColumn.MessageWhenDuplicated });
+                                columnName: errorData.ColumnName)?.LabelText);
+                    }
+                    else
+                    {
+                        return ApiResults.Duplicated(
+                            context: context,
+                            message: duplicatedColumn.MessageWhenDuplicated);
+                    }
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -4158,12 +4165,24 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
+                        columnName: errorData.ColumnName);
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        return ApiResults.Error(
                             context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                            errorData: errorData,
+                            data: ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText);
+                    }
+                    else
+                    {
+                        return ApiResults.Duplicated(
+                            context: context,
+                            message: duplicatedColumn.MessageWhenDuplicated);
+                    }
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -4325,12 +4344,24 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
+                        columnName: errorData.ColumnName);
+                    if (duplicatedColumn.MessageWhenDuplicated.IsNullOrEmpty())
+                    {
+                        return ApiResults.Error(
                             context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                            errorData: errorData,
+                            data: ss.GetColumn(
+                                context: context,
+                                columnName: errorData.ColumnName)?.LabelText);
+                    }
+                    else
+                    {
+                        return ApiResults.Duplicated(
+                            context: context,
+                            message: duplicatedColumn.MessageWhenDuplicated);
+                    }
                 default:
                     return ApiResults.Error(
                         context: context,
