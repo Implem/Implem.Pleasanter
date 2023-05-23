@@ -205,16 +205,12 @@ namespace Implem.Pleasanter.Libraries.Responses
                     data: errorData.Data));
         }
 
-        public static ApiResponse Duplicated(Context context, string labelText, string message)
+        public static ApiResponse Duplicated(Context context, string message)
         {
             return new ApiResponse(
                 id: context.Id,
                 statusCode: 409,
-                message: message?.IsNullOrEmpty() != false
-                    ? Displays.Duplicated(
-                        context: context,
-                        data: labelText)
-                    : message);
+                message: message);
         }
     }
 }
