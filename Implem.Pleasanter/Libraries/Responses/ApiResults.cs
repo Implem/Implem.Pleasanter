@@ -94,10 +94,11 @@ namespace Implem.Pleasanter.Libraries.Responses
             return result;
         }
 
-        public static ContentResultInheritance Duplicated(Context context, string message)
+        public static ContentResultInheritance Duplicated(Context context, string labelText, string message)
         {
             return Get(ApiResponses.Duplicated(
                 context: context,
+                labelText: labelText,
                 message: message));
         }
 
