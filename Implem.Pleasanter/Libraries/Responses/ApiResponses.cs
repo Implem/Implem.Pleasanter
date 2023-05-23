@@ -1,6 +1,7 @@
 ﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
+using System.Collections.Generic;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -202,6 +203,14 @@ namespace Implem.Pleasanter.Libraries.Responses
                 message: Displays.NotMatchRegex(
                     context: context,
                     data: errorData.Data));
+        }
+
+        public static ApiResponse Duplicated(Context context, string message)
+        {
+            return new ApiResponse(
+                id: context.Id,
+                statusCode: 409,
+                message: message);
         }
     }
 }
