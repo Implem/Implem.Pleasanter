@@ -122,7 +122,7 @@ $p.markup = function (markdownValue, encoded) {
     }
 
     function decode($1) {
-        return $1.replace('&amp;', '&');
+        return $1.replace(/&amp;/g, '&');
     }
 }
 
