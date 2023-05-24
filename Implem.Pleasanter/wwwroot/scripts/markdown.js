@@ -69,14 +69,14 @@ $p.markup = function (markdownValue, encoded) {
         var anchorTargetBlank = $('#AnchorTargetBlank').length === 1;
         return text
             .replace(regex_i, function ($1) {
-                return getEncordedImgTag(address($1),title($1));
+                return getEncordedImgTag(address($1), title($1));
             })
             .replace(regex_t, function ($1) {
                 return getEncordedATag(address($1), title($1), anchorTargetBlank);
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
-                    ? getEncordedATag($1, $1, anchorTargetBlank)
+                    ? getEncordedATag(decode($1), decode($1), anchorTargetBlank)
                     : $1;
             });
     }
@@ -90,7 +90,7 @@ $p.markup = function (markdownValue, encoded) {
             })
             .replace(regex, function ($1) {
                 return $1.slice(-1) != '"'
-                    ? getEncordedATag('file://' + $1, $1)
+                    ? getEncordedATag('file://' + decode($1), decode($1))
                     : $1;
             });
     }
@@ -113,12 +113,16 @@ $p.markup = function (markdownValue, encoded) {
 
     function address($1) {
         var m = $1.match(/\]\(.+?\)/gi)[0];
-        return m.substring(2, m.length - 1);
+        return decode(m.substring(2, m.length - 1));
     }
 
     function title($1) {
         var m = $1.match(/\[[^\]]+\]\(/i)[0];
         return m.substring(1, m.length - 2);
+    }
+
+    function decode($1) {
+        return $1.replace('&amp;', '&');
     }
 }
 
