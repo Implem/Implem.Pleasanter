@@ -3122,6 +3122,9 @@ namespace Implem.Pleasanter.Models
                             case "Disabled":
                                 userModel.Disabled = recordingData.ToBool();
                                 break;
+                            case "Lockout":
+                                userModel.Lockout = recordingData.ToBool();
+                                break;
                             case "ApiKey":
                                 userModel.ApiKey = recordingData.ToString();
                                 break;
