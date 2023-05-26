@@ -14490,7 +14490,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "ToEnableBulkUpdateColumnColumnsLocal",
                                             text: Displays.ToEnable(context: context),
                                             controlCss: "button-icon",
-                                            onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                            onClick: "$p.moveColumns(event, $(this),'BulkUpdateColumn');",
                                             icon: "ui-icon-circle-triangle-w"))))
                     .Hidden(
                         controlId: "BulkUpdateColumnDetails",
@@ -14707,19 +14707,19 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpRelatingColumnColumnsLocal",
                                         text: Displays.MoveUp(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownRelatingColumnColumnsLocal",
                                         text: Displays.MoveDown(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableRelatingColumnColumnsLocal",
                                         text: Displays.ToDisable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "RelatingColumnSourceColumns",
@@ -14738,7 +14738,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableRelatingColumnColumnsLocal",
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-w"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
