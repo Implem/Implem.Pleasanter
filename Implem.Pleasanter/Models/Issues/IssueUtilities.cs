@@ -3246,11 +3246,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ItemsLimit));
             }
+            var issueApiModel = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (issueApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
                 issueId: 0,
-                setByApi: true);
+                issueApiModel: issueApiModel);
             var invalid = IssueValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -3264,10 +3269,34 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             issueModel.SiteId = ss.SiteId;
-            issueModel.SetTitle(context: context, ss: ss);
+            issueModel.SetTitle(
+                context: context,
+                ss: ss);
+            var process = ss.Processes?.FirstOrDefault(process => process.Id == issueApiModel.ProcessId);
+            if (process != null)
+            {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    issueModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                {
+                    return ApiResults.BadRequest(context: context);
+                }
+            }
             var errorData = issueModel.Create(
                 context: context,
                 ss: ss,
+                processes: process?.ToSingleList(),
                 notice: true);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -3281,9 +3310,11 @@ namespace Implem.Pleasanter.Models
                         id: issueModel.IssueId,
                         limitPerDate: context.ContractSettings.ApiLimit(),
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: issueModel.Title.MessageDisplay(context: context)));
+                            ss: ss,
+                            issueModel: issueModel,
+                            process: process).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
@@ -3308,11 +3339,16 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
+            var issueApiModel = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (issueApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
                 issueId: 0,
-                setByApi: true);
+                issueApiModel: issueApiModel);
             var invalid = IssueValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -3591,9 +3627,8 @@ namespace Implem.Pleasanter.Models
             IssueModel issueModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -4295,11 +4330,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var issueApiModel = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (issueApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
                 issueId: issueId,
-                setByApi: true);
+                issueApiModel: issueApiModel);
             if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -4324,9 +4364,31 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 baseModel: issueModel);
+            var process = ss.Processes?.FirstOrDefault(process => process.Id == issueApiModel.ProcessId);
+            if (process != null)
+            {
+                process.MatchConditions = issueModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    issueModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                {
+                    return ApiResults.BadRequest(context: context);
+                }
+            }
             var errorData = issueModel.Update(
                 context: context,
                 ss: ss,
+                processes: process?.ToSingleList(),
                 notice: true,
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
@@ -4341,9 +4403,11 @@ namespace Implem.Pleasanter.Models
                         issueModel.IssueId,
                         limitPerDate: context.ContractSettings.ApiLimit(),
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Updated(
+                        message: UpdatedMessage(
                             context: context,
-                            data: issueModel.Title.MessageDisplay(context: context)));
+                            ss: ss,
+                            issueModel: issueModel,
+                            processes: process?.ToSingleList()).Text);
                 case Error.Types.Duplicated:
                     var duplicatedColumn = ss.GetColumn(
                         context: context,
@@ -4369,11 +4433,16 @@ namespace Implem.Pleasanter.Models
             string previousTitle,
             object model)
         {
+            var issueApiModel = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (issueApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
                 issueId: issueId,
-                setByApi: true);
+                issueApiModel: issueApiModel);
             if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return false;
@@ -4456,12 +4525,17 @@ namespace Implem.Pleasanter.Models
                         searchType: Column.SearchTypes.ExactMatch);
                 }
             });
+            var issueApiModel = context.RequestDataString.Deserialize<IssueApiModel>();
+            if (issueApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
                 issueId: 0,
                 view: api.View,
-                setByApi: true);
+                issueApiModel: issueApiModel);
             switch (issueModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:

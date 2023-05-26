@@ -538,7 +538,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            ResultApiModel resultApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -553,8 +553,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
-            if (formData != null || setByApi)
+            if (resultApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: resultApiModel);
+            }
+            if (formData != null || resultApiModel != null)
             {
                 SetByLookups(
                     context: context,
@@ -575,7 +578,7 @@ namespace Implem.Pleasanter.Models
             View view = null,
             bool setCopyDefault = false,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            ResultApiModel resultApiModel = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -613,8 +616,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
-            if (formData != null || setByApi)
+            if (resultApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: resultApiModel);
+            }
+            if (formData != null || resultApiModel != null)
             {
                 SetByLookups(
                     context: context,
@@ -2729,14 +2735,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = resultModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, ResultApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<ResultApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.Title != null) Title = new Title(data.ResultId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Status != null) Status = new Status(data.Status.ToInt());;

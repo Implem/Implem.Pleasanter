@@ -1,0 +1,10 @@
+﻿case Error.Types.None:
+    return ApiResults.Success(
+        #modelName#Model.#ModelName#Id,
+        limitPerDate: context.ContractSettings.ApiLimit(),
+        limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+        message: UpdatedMessage(
+            context: context,
+            ss: ss,
+            #modelName#Model: #modelName#Model,
+            processes: process?.ToSingleList()).Text);

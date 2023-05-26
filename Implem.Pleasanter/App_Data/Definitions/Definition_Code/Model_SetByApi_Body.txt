@@ -1,11 +1,5 @@
-﻿public void SetByApi(Context context, SiteSettings ss)
+﻿public void SetByApi(Context context, SiteSettings ss, #ModelName#ApiModel data)
 {
-    var data = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
-    if (data == null)
-    {
-        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-        return;
-    }
 
 <!--Model_SetByApi_ColumnCases-->
 <!--Model_SetByApi_ColumnCasesSite-->

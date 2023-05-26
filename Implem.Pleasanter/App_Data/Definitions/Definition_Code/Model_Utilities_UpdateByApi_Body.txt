@@ -8,11 +8,16 @@
     {
         return ApiResults.BadRequest(context: context);
     }
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: #modelName#Id,
-        setByApi: true);
+        #modelName#ApiModel: #modelName#ApiModel);
     if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
     {
         return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -37,9 +42,15 @@
         context: context,
         ss: ss,
         baseModel: #modelName#Model);
+
+<!--Model_Utilities_SetProcessApi_Tables-->
+
     var errorData = #modelName#Model.Update(
         context: context,
         ss: ss,
+
+<!--Model_Utilities_SetProcessParamApi-->
+
         notice: true,
         previousTitle: previousTitle);
     BinaryUtilities.UploadImage(
@@ -49,15 +60,9 @@
         postedFileHash: #modelName#Model.PostedImageHash);
     switch (errorData.Type)
     {
-        case Error.Types.None:
-            return ApiResults.Success(
-                #modelName#Model.#ModelName#Id,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                message: Displays.Updated(
-                    context: context,
-                    data: #modelName#Model.Title.MessageDisplay(context: context)));
 
+<!--Model_Utilities_ApiUpdatedMessage-->
+<!--Model_Utilities_ApiUpdatedMessage_Table-->
 <!--Model_Utilities_ApiDuplicatedMessage-->
 
         default:
@@ -74,11 +79,16 @@ public static bool UpdateByServerScript(
     string previousTitle,
     object model)
 {
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: #modelName#Id,
-        setByApi: true);
+        #modelName#ApiModel: #modelName#ApiModel);
     if (#modelName#Model.AccessStatus != Databases.AccessStatuses.Selected)
     {
         return false;

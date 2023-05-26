@@ -2667,9 +2667,8 @@ namespace Implem.Pleasanter.Models
             UserModel userModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -4541,7 +4540,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.UsersLimit));
             }
-            var userModel = new UserModel(context, ss, 0, setByApi: true);
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var userModel = new UserModel(
+                context: context,
+                ss: ss,
+                userId: 0,
+                userApiModel: userApiModel);
             var invalid = UserValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -4603,7 +4611,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var userModel = new UserModel(context, ss, userId: userId, setByApi: true);
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var userModel = new UserModel(
+                context: context,
+                ss: ss,
+                userId: userId,
+                userApiModel: userApiModel);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -4677,7 +4694,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var userModel = new UserModel(context, ss, userId: userId, setByApi: true);
+            var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
+            if (userApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var userModel = new UserModel(
+                context: context,
+                ss:ss,
+                userId: userId,
+                userApiModel: userApiModel);
             if (userModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));

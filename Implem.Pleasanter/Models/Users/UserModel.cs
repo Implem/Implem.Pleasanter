@@ -1215,7 +1215,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            UserApiModel userApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -1227,7 +1227,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (userApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: userApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -1237,7 +1240,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int userId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            UserApiModel userApiModel = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -1266,7 +1269,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (userApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: userApiModel);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -2963,14 +2969,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = userModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, UserApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<UserApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.LoginId != null) LoginId = data.LoginId.ToString().ToString();
             if (data.GlobalId != null) GlobalId = data.GlobalId.ToString().ToString();
             if (data.Name != null) Name = data.Name.ToString().ToString();
