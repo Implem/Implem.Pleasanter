@@ -3,9 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <AssemblyVersion>1.3.38.2</AssemblyVersion>
-    <FileVersion>1.3.38.2</FileVersion>
-    <Version>1.3.38.2</Version>
+    <AssemblyVersion>1.3.38.3</AssemblyVersion>
+    <FileVersion>1.3.38.3</FileVersion>
+    <Version>1.3.38.3</Version>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
