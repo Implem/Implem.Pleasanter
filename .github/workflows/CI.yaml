@@ -14,6 +14,7 @@ env:
 jobs:
     build_and_e2e_test:
         name: Build and E2E test
+        if: github.repository == 'Implem/Implem.Pleasanter.NetCore.Private'
         runs-on: ubuntu-latest
         env:
             Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString: ${{ secrets.PLEASANTER_RDS_SA_CONN }}

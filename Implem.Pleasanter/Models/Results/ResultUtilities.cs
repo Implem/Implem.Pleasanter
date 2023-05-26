@@ -3104,12 +3104,16 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        columnName: errorData.ColumnName);
+                    return ApiResults.Duplicated(
+                        context: context,
+                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                            ? Displays.Duplicated(
+                                context: context,
+                                data: duplicatedColumn?.LabelText)
+                            : duplicatedColumn?.MessageWhenDuplicated);
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -4153,12 +4157,16 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        columnName: errorData.ColumnName);
+                    return ApiResults.Duplicated(
+                        context: context,
+                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                            ? Displays.Duplicated(
+                                context: context,
+                                data: duplicatedColumn?.LabelText)
+                            : duplicatedColumn?.MessageWhenDuplicated);
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -4320,12 +4328,16 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        columnName: errorData.ColumnName);
+                    return ApiResults.Duplicated(
+                        context: context,
+                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                            ? Displays.Duplicated(
+                                context: context,
+                                data: duplicatedColumn?.LabelText)
+                            : duplicatedColumn?.MessageWhenDuplicated);
                 default:
                     return ApiResults.Error(
                         context: context,
