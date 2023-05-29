@@ -413,7 +413,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var nextPreviously = new List<long>();
             if (previously != null)
             {
-                nextPreviously.AddRange(nextPreviously);
+                nextPreviously.AddRange(previously);
             }
             // 探索履歴に現在のサイトIDを追加
             nextPreviously.Add(SiteId);
