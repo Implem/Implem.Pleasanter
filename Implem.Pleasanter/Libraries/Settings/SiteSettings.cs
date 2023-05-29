@@ -404,7 +404,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             var nextPreviously = new List<long>();
             if (previously != null)
             {
-                nextPreviously.AddRange(nextPreviously);
+                nextPreviously.AddRange(previously);
             }
             nextPreviously.Add(SiteId);
             if (joinedSsHash == null)
