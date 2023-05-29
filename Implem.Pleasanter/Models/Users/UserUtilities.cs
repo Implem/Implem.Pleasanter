@@ -4652,7 +4652,7 @@ namespace Implem.Pleasanter.Models
             {
                 foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
                 {
-                    if (userModel.Password_Updated(context: context) && !userModel.Password.RegexExists(policy.Regex))
+                    if (userModel.Password_Updated(context: context) && !(context.RequestDataString.Deserialize<UserApiModel>().Password ?? "").RegexExists(policy.Regex))
                     {
                         return ApiResults.Error(
                             context: context,
