@@ -4249,14 +4249,22 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private string Deny(Context context)
         {
-            LoginFailureLog(
-                context: context,
-                description: nameof(Deny));
-            IncrementsNumberOfDenial(context: context);
+            DenyLog(context: context);
             return Messages.ResponseAuthentication(
                 context: context,
                 target: "#LoginMessage")
                     .Focus("#Password").ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public void DenyLog(Context context)
+        {
+            LoginFailureLog(
+                context: context,
+                description: nameof(Deny));
+            IncrementsNumberOfDenial(context: context);
         }
 
         /// <summary>

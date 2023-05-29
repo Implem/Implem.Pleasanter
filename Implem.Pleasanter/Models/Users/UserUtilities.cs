@@ -3509,8 +3509,13 @@ namespace Implem.Pleasanter.Models
                 userModel: userModel);
             switch (invalid.Type)
             {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                case Error.Types.None:
+                    break;
+                case Error.Types.IncorrectCurrentPassword:
+                    userModel.DenyLog(context: context);
+                    return invalid.MessageJson(context: context);
+                default:
+                    return invalid.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_ChangedPassword") == userModel.LoginId)
@@ -3547,8 +3552,13 @@ namespace Implem.Pleasanter.Models
             var invalid = UserValidators.OnPasswordResetting(context: context);
             switch (invalid.Type)
             {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                case Error.Types.None:
+                    break;
+                case Error.Types.IncorrectCurrentPassword:
+                    userModel.DenyLog(context: context);
+                    return invalid.MessageJson(context: context);
+                default:
+                    return invalid.MessageJson(context: context);
             }
             if (Parameters.Security.JoeAccountCheck
                 && context.Forms.Data("Users_AfterResetPassword") == userModel.LoginId)
