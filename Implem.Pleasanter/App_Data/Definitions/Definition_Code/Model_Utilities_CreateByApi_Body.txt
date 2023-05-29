@@ -10,11 +10,16 @@
             context: context,
             errorData: new ErrorData(type: Error.Types.ItemsLimit));
     }
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: 0,
-        setByApi: true);
+        #modelName#ApiModel: #modelName#ApiModel);
     var invalid = #ModelName#Validators.OnCreating(
         context: context,
         ss: ss,
@@ -28,10 +33,18 @@
             errorData: invalid);
     }
     #modelName#Model.SiteId = ss.SiteId;
-    #modelName#Model.SetTitle(context: context, ss: ss);
+    #modelName#Model.SetTitle(
+        context: context,
+        ss: ss);
+
+<!--Model_Utilities_SetProcessApi_Tables-->
+
     var errorData = #modelName#Model.Create(
         context: context,
         ss: ss,
+
+<!--Model_Utilities_SetProcessParamApi-->
+
         notice: true);
     BinaryUtilities.UploadImage(
         context: context,
@@ -40,15 +53,9 @@
         postedFileHash: #modelName#Model.PostedImageHash);
     switch (errorData.Type)
     {
-        case Error.Types.None:
-            return ApiResults.Success(
-                id: #modelName#Model.#ModelName#Id,
-                limitPerDate: context.ContractSettings.ApiLimit(),
-                limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                message: Displays.Created(
-                    context: context,
-                    data: #modelName#Model.Title.MessageDisplay(context: context)));
 
+<!--Model_Utilities_ApiCreatedMessage-->
+<!--Model_Utilities_ApiCreatedMessage_Table-->
 <!--Model_Utilities_ApiDuplicatedMessage-->
 
         default:
@@ -64,11 +71,16 @@ public static bool CreateByServerScript(Context context, SiteSettings ss, object
     {
         return false;
     }
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: 0,
-        setByApi: true);
+        #modelName#ApiModel: #modelName#ApiModel);
     var invalid = #ModelName#Validators.OnCreating(
         context: context,
         ss: ss,

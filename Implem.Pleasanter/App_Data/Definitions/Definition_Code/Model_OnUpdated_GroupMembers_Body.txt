@@ -1,6 +1,6 @@
 ﻿if (updateGroupMembers)
 {
-    var groupMembers = setByApi
+    var groupMembers = groupApiModel != null
         ? GroupMembers
         : context.Forms.List("CurrentMembersAll");
     if (groupMembers != null)

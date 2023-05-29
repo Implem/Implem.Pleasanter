@@ -332,7 +332,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            GroupApiModel groupApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -344,7 +344,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (groupApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: groupApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -354,7 +357,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int groupId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            GroupApiModel groupApiModel = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -383,7 +386,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (groupApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: groupApiModel);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -893,17 +899,17 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             Sqls.TableTypes tableType = Sqls.TableTypes.Normal,
             SqlParamCollection param = null,
-            bool setByApi = false,
+            GroupApiModel groupApiModel = null,
             string noticeType = "Created",
             bool otherInitValue = false,
             bool get = true)
         {
             TenantId = context.TenantId;
             var statements = new List<SqlStatement>();
-            var groupMembers = setByApi
+            var groupMembers = groupApiModel != null
                 ? GroupMembers
                 : context.Forms.List("CurrentMembersAll");
-            var addMyselfGroupmembers = !setByApi || groupMembers == null;
+            var addMyselfGroupmembers = groupApiModel == null || groupMembers == null;
             statements.AddRange(CreateStatements(
                 context: context,
                 ss: ss,
@@ -987,7 +993,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             bool refleshSiteInfo = true,
             bool updateGroupMembers = true,
-            bool setByApi = false,
+            GroupApiModel groupApiModel = null,
             SqlParamCollection param = null,
             List<SqlStatement> additionalStatements = null,
             bool otherInitValue = false,
@@ -1028,7 +1034,7 @@ namespace Implem.Pleasanter.Models
             }
             if (updateGroupMembers)
             {
-                var groupMembers = setByApi
+                var groupMembers = groupApiModel != null
                     ? GroupMembers
                     : context.Forms.List("CurrentMembersAll");
                 if (groupMembers != null)
@@ -1342,14 +1348,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = groupModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, GroupApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<GroupApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.TenantId != null) TenantId = data.TenantId.ToInt().ToInt();
             if (data.GroupName != null) GroupName = data.GroupName.ToString().ToString();
             if (data.Body != null) Body = data.Body.ToString().ToString();

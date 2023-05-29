@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Models
 
 <!--Model_ApiPropertyCases-->
 <!--Model_ApiItemTitle-->
+<!--Model_ApiProcessId-->
 <!--Model_ApiGroupMembers-->
 <!--Model_ApiMailAddresses-->
 

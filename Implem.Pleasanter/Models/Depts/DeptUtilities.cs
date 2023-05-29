@@ -1688,9 +1688,8 @@ namespace Implem.Pleasanter.Models
             DeptModel deptModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -2337,11 +2336,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var deptApiModel = context.RequestDataString.Deserialize<DeptApiModel>();
+            if (deptApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var deptModel = new DeptModel(
                 context: context,
                 ss: ss,
                 deptId: 0,
-                setByApi: true);
+                deptApiModel: deptApiModel);
             var invalid = DeptValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -2394,11 +2398,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var deptApiModel = context.RequestDataString.Deserialize<DeptApiModel>();
+            if (deptApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var deptModel = new DeptModel(
                 context: context,
                 ss: ss,
                 deptId: deptId,
-                setByApi: true);
+                deptApiModel: deptApiModel);
             if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -2456,11 +2465,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var deptApiModel = context.RequestDataString.Deserialize<DeptApiModel>();
+            if (deptApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var deptModel = new DeptModel(
                 context: context,
                 ss: ss,
                 deptId: deptId,
-                setByApi: true);
+                deptApiModel: deptApiModel);
             if (deptModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));

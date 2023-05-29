@@ -1680,9 +1680,8 @@ namespace Implem.Pleasanter.Models
             GroupModel groupModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -3076,7 +3075,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var groupModel = new GroupModel(context, ss, 0, setByApi: true);
+            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
+            if (groupApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: 0,
+                groupApiModel: groupApiModel);
             var invalid = GroupValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -3105,7 +3113,7 @@ namespace Implem.Pleasanter.Models
             var errorData = groupModel.Create(
                 context: context,
                 ss: ss,
-                setByApi: true);
+                groupApiModel: groupApiModel);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3130,7 +3138,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var groupModel = new GroupModel(context, ss, groupId: groupId, setByApi: true);
+            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
+            if (groupApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: groupId,
+                groupApiModel: groupApiModel);
             if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -3163,7 +3180,7 @@ namespace Implem.Pleasanter.Models
             var errorData = groupModel.Update(
                 context: context,
                 ss: ss,
-                setByApi: true,
+                groupApiModel: groupApiModel,
                 get: false);
             switch (errorData.Type)
             {
@@ -3189,11 +3206,16 @@ namespace Implem.Pleasanter.Models
             int groupId,
             object model)
         {
+            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
+            if (groupApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var groupModel = new GroupModel(
                 context: context,
                 ss: ss,
                 groupId: groupId,
-                setByApi: true);
+                groupApiModel: groupApiModel);
             if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return false;
@@ -3216,7 +3238,7 @@ namespace Implem.Pleasanter.Models
             var errorData = groupModel.Update(
                 context: context,
                 ss: ss,
-                setByApi: true);
+                groupApiModel: groupApiModel);
             switch (errorData.Type)
             {
                 case Error.Types.None:
@@ -3237,7 +3259,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
-            var groupModel = new GroupModel(context, ss, groupId: groupId, setByApi: true);
+            var groupApiModel = context.RequestDataString.Deserialize<GroupApiModel>();
+            if (groupApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
+            var groupModel = new GroupModel(
+                context: context,
+                ss: ss,
+                groupId: groupId,
+                groupApiModel: groupApiModel);
             if (groupModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));

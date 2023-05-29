@@ -33,12 +33,17 @@
                 searchType: Column.SearchTypes.ExactMatch);
         }
     });
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (#modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+    }
     var #modelName#Model = new #ModelName#Model(
         context: context,
         ss: ss,
         #modelName#Id: 0,
         view: api.View,
-        setByApi: true);
+        #modelName#ApiModel: #modelName#ApiModel);
     switch (#modelName#Model.AccessStatus)
     {
         case Databases.AccessStatuses.Selected:

@@ -179,7 +179,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            RegistrationApiModel registrationApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -191,7 +191,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (registrationApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: registrationApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -201,7 +204,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int registrationId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            RegistrationApiModel registrationApiModel = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -230,7 +233,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (registrationApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: registrationApiModel);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -1203,14 +1209,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = registrationModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, RegistrationApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<RegistrationApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.MailAddress != null) MailAddress = data.MailAddress.ToString().ToString();
             if (data.Invitee != null) Invitee = data.Invitee.ToInt().ToInt();
             if (data.InviteeName != null) InviteeName = data.InviteeName.ToString().ToString();
