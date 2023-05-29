@@ -396,42 +396,58 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetLinkedSiteSettings(
             Context context,
+            Dictionary<long, DataRow> siteDataRows = null,
             Dictionary<long, SiteSettings> joinedSsHash = null,
             bool destinations = true,
             bool sources = true,
-            List<long> previously = null)
+            List<long> previously = null,
+            bool recursion = false)
         {
             if ((!destinations || Destinations != null) && (!sources || Sources != null))
             {
                 return;
             }
+            // キャッシュされたサイト設定のDataRowsを取得
+            siteDataRows = siteDataRows ?? SiteInfo.Sites(context: context);
+            // ツリーの並列の履歴と混在しないよう探索履歴のインスタンスを作り直す
+            var nextPreviously = new List<long>();
+            if (previously != null)
+            {
+                nextPreviously.AddRange(nextPreviously);
+            }
+            // 探索履歴に現在のサイトIDを追加
+            nextPreviously.Add(SiteId);
             if (joinedSsHash == null)
             {
                 joinedSsHash = new Dictionary<long, SiteSettings>()
                 {
                     { SiteId, this }
                 };
-                JoinedSsHash = joinedSsHash;
             }
+            JoinedSsHash = joinedSsHash;
             if (destinations)
             {
                 Destinations = SiteSettingsList(
                     context: context,
                     direction: "Destinations",
+                    siteDataRows: siteDataRows,
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: nextPreviously,
+                    recursion: recursion);
             }
             if (sources)
             {
                 Sources = SiteSettingsList(
                     context: context,
                     direction: "Sources",
+                    siteDataRows: siteDataRows,
                     joinedSsHash: joinedSsHash,
                     joinStacks: JoinStacks,
                     links: Links,
-                    previously: previously);
+                    previously: nextPreviously,
+                    recursion: recursion);
             }
             if (destinations && sources)
             {
@@ -442,43 +458,31 @@ namespace Implem.Pleasanter.Libraries.Settings
         private Dictionary<long, SiteSettings> SiteSettingsList(
             Context context,
             string direction,
+            Dictionary<long, DataRow> siteDataRows,
             Dictionary<long, SiteSettings> joinedSsHash,
             List<JoinStack> joinStacks,
             List<Link> links,
             List<long> previously,
-            Dictionary<long, DataSet> cache = null)
+            bool recursion)
         {
-            var hash = new Dictionary<long, SiteSettings>();
+            var siteSettingsList = new Dictionary<long, SiteSettings>();
             var linkIds = direction == "Destinations"
                 ? SiteInfo.Links(context: context)?.SourceKeyValues.Get(SiteId)
                 : SiteInfo.Links(context: context)?.DestinationKeyValues.Get(SiteId);
-            if (linkIds == null) return hash;
-            SiteInfo.Sites(context: context)
-                .Where(o => linkIds?.Any(siteId => siteId == o.Key) == true)
-                .Select(o => o.Value)
-                .Where(dataRow => previously?.Contains(dataRow.Long("SiteId")) != true)
-                .ToList()
-                .ForEach(dataRow =>
+            if (linkIds == null) return siteSettingsList;
+            linkIds
+                .Select(linkId => GetSiteSettingsFromDataRow(
+                    context: context,
+                    siteDataRows: siteDataRows,
+                    linkId: linkId))
+                .Where(ss => ss != null)
+                // リンクツリーの再帰呼び出しの無限ループを回避するため下記の何れかの条件に合致した場合のみ探索を継続
+                //  ・探索履歴 previously にサイトIDが含まれていないこと
+                //  ・現在のサイトIDと探索先のサイトIDが一致している（再帰リンク）で探索の初回 !recursion であること
+                .Where(ss => !previously.Contains(ss.SiteId)
+                    || (!recursion && SiteId == ss.SiteId))
+                .ForEach(ss =>
                 {
-                    var ss = SiteSettingsUtilities.Get(context: context, dataRow: dataRow);
-                    ss.SiteId = dataRow.Long("SiteId");
-                    ss.Title = dataRow.String("Title");
-                    ss.Body = dataRow.String("Body");
-                    ss.GridGuide = dataRow.String("GridGuide");
-                    ss.EditorGuide = dataRow.String("EditorGuide");
-                    ss.CalendarGuide = dataRow.String("CalendarGuide");
-                    ss.CrosstabGuide = dataRow.String("CrosstabGuide");
-                    ss.GanttGuide = dataRow.String("GanttGuide");
-                    ss.BurnDownGuide = dataRow.String("BurnDownGuide");
-                    ss.TimeSeriesGuide = dataRow.String("TimeSeriesGuide");
-                    ss.KambanGuide = dataRow.String("KambanGuide");
-                    ss.ImageLibGuide = dataRow.String("ImageLibGuide");
-                    ss.ReferenceType = dataRow.String("ReferenceType");
-                    ss.ParentId = dataRow.Long("ParentId");
-                    ss.InheritPermission = dataRow.Long("InheritPermission");
-                    ss.Linked = true;
-                    if (previously == null) previously = new List<long>();
-                    previously.Add(ss.SiteId);
                     switch (direction)
                     {
                         case "Destinations":
@@ -499,7 +503,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: true,
                                 sources: false,
-                                previously: previously);
+                                previously: previously,
+                                recursion: SiteId == ss.SiteId);
                             break;
                         case "Sources":
                             ss.Links
@@ -519,16 +524,49 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 joinedSsHash: joinedSsHash,
                                 destinations: false,
                                 sources: true,
-                                previously: previously);
+                                previously: previously,
+                                recursion: SiteId == ss.SiteId);
                             break;
                     }
-                    hash.Add(ss.SiteId, ss);
+                    siteSettingsList.Add(ss.SiteId, ss);
                     if (!joinedSsHash.ContainsKey(ss.SiteId))
                     {
                         joinedSsHash.Add(ss.SiteId, ss);
                     }
                 });
-            return hash;
+            return siteSettingsList;
+        }
+
+        private SiteSettings GetSiteSettingsFromDataRow(
+            Context context,
+            Dictionary<long, DataRow> siteDataRows,
+            long linkId)
+        {
+            var dataRow = siteDataRows.Get(linkId);
+            if (dataRow != null)
+            {
+                var ss = SiteSettingsUtilities.Get(
+                    context: context,
+                    dataRow: dataRow);
+                ss.SiteId = dataRow.Long("SiteId");
+                ss.Title = dataRow.String("Title");
+                ss.Body = dataRow.String("Body");
+                ss.GridGuide = dataRow.String("GridGuide");
+                ss.EditorGuide = dataRow.String("EditorGuide");
+                ss.CalendarGuide = dataRow.String("CalendarGuide");
+                ss.CrosstabGuide = dataRow.String("CrosstabGuide");
+                ss.GanttGuide = dataRow.String("GanttGuide");
+                ss.BurnDownGuide = dataRow.String("BurnDownGuide");
+                ss.TimeSeriesGuide = dataRow.String("TimeSeriesGuide");
+                ss.KambanGuide = dataRow.String("KambanGuide");
+                ss.ImageLibGuide = dataRow.String("ImageLibGuide");
+                ss.ReferenceType = dataRow.String("ReferenceType");
+                ss.ParentId = dataRow.Long("ParentId");
+                ss.InheritPermission = dataRow.Long("InheritPermission");
+                ss.Linked = true;
+                return ss;
+            }
+            return null;
         }
 
         public void SetPermissions(Context context, long referenceId)

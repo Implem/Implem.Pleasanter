@@ -94,6 +94,13 @@ namespace Implem.Pleasanter.Libraries.Responses
             return result;
         }
 
+        public static ContentResultInheritance Duplicated(Context context, string message)
+        {
+            return Get(ApiResponses.Duplicated(
+                context: context,
+                message: message));
+        }
+
         public static ContentResultInheritance ToHttpResponse(this ContentResultInheritance self, HttpRequest request)
         {
             var response = new ContentResultInheritance();

@@ -919,6 +919,10 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.IncorrectCurrentPassword);
             }
+            if (userModel.Lockout)
+            {
+                return new ErrorData(type: Error.Types.UserLockout);
+            }
             return new ErrorData(type: Error.Types.None);
         }
 

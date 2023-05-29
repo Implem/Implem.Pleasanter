@@ -965,7 +965,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            SysLogApiModel sysLogApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -976,7 +976,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (sysLogApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: sysLogApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -986,7 +989,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long sysLogId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            SysLogApiModel sysLogApiModel = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -1014,7 +1017,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (sysLogApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: sysLogApiModel);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -2268,14 +2274,8 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, SysLogApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<SysLogApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.SysLogType != null) SysLogType = (SysLogTypes)data.SysLogType.ToInt().ToInt();
             if (data.OnAzure != null) OnAzure = data.OnAzure.ToBool().ToBool();
             if (data.MachineName != null) MachineName = data.MachineName.ToString().ToString();
@@ -2955,6 +2955,7 @@ namespace Implem.Pleasanter.Models
             switch (requestData.Substring(0, requestData.IndexOf("=")).ToLower())
             {
                 case "users_password": return "Users_Password=*";
+                case "users_oldpassword": return "Users_OldPassword=*";
                 case "users_changedpassword": return "Users_ChangedPassword=*";
                 case "users_afterresetpassword": return "Users_AfterResetPassword=*";
                 default: return requestData;

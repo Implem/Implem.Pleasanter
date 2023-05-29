@@ -187,7 +187,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            TenantApiModel tenantApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -199,7 +199,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (tenantApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: tenantApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -209,7 +212,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             int tenantId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            TenantApiModel tenantApiModel = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -237,7 +240,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (tenantApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: tenantApiModel);
+            }
             SwitchTargets = switchTargets;
             MethodType = methodType;
             OnConstructed(context: context);
@@ -874,14 +880,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = tenantModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, TenantApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<TenantApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.TenantName != null) TenantName = data.TenantName.ToString().ToString();
             if (data.Title != null) Title = new Title(data.Title.ToString());
             if (data.Body != null) Body = data.Body.ToString().ToString();

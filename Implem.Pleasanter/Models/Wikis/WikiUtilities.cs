@@ -1710,11 +1710,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ItemsLimit));
             }
+            var wikiApiModel = context.RequestDataString.Deserialize<WikiApiModel>();
+            if (wikiApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
                 wikiId: 0,
-                setByApi: true);
+                wikiApiModel: wikiApiModel);
             var invalid = WikiValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -1728,7 +1733,9 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             wikiModel.SiteId = ss.SiteId;
-            wikiModel.SetTitle(context: context, ss: ss);
+            wikiModel.SetTitle(
+                context: context,
+                ss: ss);
             var errorData = wikiModel.Create(
                 context: context,
                 ss: ss,
@@ -1761,11 +1768,16 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
+            var wikiApiModel = context.RequestDataString.Deserialize<WikiApiModel>();
+            if (wikiApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
                 wikiId: 0,
-                setByApi: true);
+                wikiApiModel: wikiApiModel);
             var invalid = WikiValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -1964,9 +1976,8 @@ namespace Implem.Pleasanter.Models
             WikiModel wikiModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -1994,11 +2005,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var wikiApiModel = context.RequestDataString.Deserialize<WikiApiModel>();
+            if (wikiApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
                 wikiId: wikiId,
-                setByApi: true);
+                wikiApiModel: wikiApiModel);
             if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -2057,11 +2073,16 @@ namespace Implem.Pleasanter.Models
             string previousTitle,
             object model)
         {
+            var wikiApiModel = context.RequestDataString.Deserialize<WikiApiModel>();
+            if (wikiApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var wikiModel = new WikiModel(
                 context: context,
                 ss: ss,
                 wikiId: wikiId,
-                setByApi: true);
+                wikiApiModel: wikiApiModel);
             if (wikiModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return false;
