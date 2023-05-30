@@ -260,7 +260,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             }
             else
             {
-                //BinariyTypeが"TenantManagementImages"の画像はImagesフォルダに格納する
+                //BinariyTypeが"TenantManagementImages"の画像はImagesフォルダを参照する
                 var binaryType = dataRow.String("BinaryType") == "TenantManagementImages"
                     ? "Images"
                     : dataRow.String("BinaryType");
