@@ -472,7 +472,7 @@ namespace Implem.Pleasanter.Libraries.Server
 
         public static Dictionary<long, DataRow> Sites(Context context)
         {
-            return TenantCaches.Get(context.TenantId).Sites;
+            return TenantCaches.Get(context.TenantId)?.Sites;
         }
 
         public static LinkKeyValues Links(Context context)

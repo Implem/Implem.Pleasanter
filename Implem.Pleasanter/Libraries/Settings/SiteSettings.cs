@@ -401,6 +401,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return;
             }
             siteDataRows = siteDataRows ?? SiteInfo.Sites(context: context);
+            if (siteDataRows == null)
+            {
+                return;
+            }
             var nextPreviously = new List<long>();
             if (previously != null)
             {
