@@ -37,7 +37,12 @@ namespace Implem.Pleasanter.Models
         public string Application = string.Empty;
         public string Class = string.Empty;
         public string Method = string.Empty;
+        public string Description = string.Empty;
+        public long ReferenceId = 0;
+        public string ReferenceType = string.Empty;
         public string RequestData = string.Empty;
+        public long SiteId = 0;
+        public long Status = 0;
         public string HttpMethod = string.Empty;
         public int RequestSize = 0;
         public int ResponseSize = 0;
@@ -82,7 +87,12 @@ namespace Implem.Pleasanter.Models
         public string SavedApplication = string.Empty;
         public string SavedClass = string.Empty;
         public string SavedMethod = string.Empty;
+        public string SavedDescription = string.Empty;
+        public long SavedReferenceId = 0;
+        public string SavedReferenceType = string.Empty;
         public string SavedRequestData = string.Empty;
+        public long SavedSiteId = 0;
+        public long SavedStatus = 0;
         public string SavedHttpMethod = string.Empty;
         public int SavedRequestSize = 0;
         public int SavedResponseSize = 0;
@@ -180,12 +190,52 @@ namespace Implem.Pleasanter.Models
                 column.GetDefaultInput(context: context).ToString() != Method);
         }
 
+        public bool Description_Updated(Context context, Column column = null)
+        {
+            return Description != SavedDescription && Description != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != Description);
+        }
+
+        public bool ReferenceId_Updated(Context context, Column column = null)
+        {
+            return ReferenceId != SavedReferenceId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+        }
+
+        public bool ReferenceType_Updated(Context context, Column column = null)
+        {
+            return ReferenceType != SavedReferenceType && ReferenceType != null &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToString() != ReferenceType);
+        }
+
         public bool RequestData_Updated(Context context, Column column = null)
         {
             return RequestData != SavedRequestData && RequestData != null &&
                 (column == null ||
                 column.DefaultInput.IsNullOrEmpty() ||
                 column.GetDefaultInput(context: context).ToString() != RequestData);
+        }
+
+        public bool SiteId_Updated(Context context, Column column = null)
+        {
+            return SiteId != SavedSiteId &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToLong() != SiteId);
+        }
+
+        public bool Status_Updated(Context context, Column column = null)
+        {
+            return Status != SavedStatus &&
+                (column == null ||
+                column.DefaultInput.IsNullOrEmpty() ||
+                column.GetDefaultInput(context: context).ToLong() != Status);
         }
 
         public bool HttpMethod_Updated(Context context, Column column = null)
@@ -523,6 +573,42 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
+                case "Description":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Description.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ReferenceId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ReferenceId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ReferenceType":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ReferenceType.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
                 case "RequestData":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -530,6 +616,30 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? RequestData.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SiteId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SiteId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Status":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Status.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -1116,7 +1226,12 @@ namespace Implem.Pleasanter.Models
                     case "Application": data.Application = Application; break;
                     case "Class": data.Class = Class; break;
                     case "Method": data.Method = Method; break;
+                    case "Description": data.Description = Description; break;
+                    case "ReferenceId": data.ReferenceId = ReferenceId; break;
+                    case "ReferenceType": data.ReferenceType = ReferenceType; break;
                     case "RequestData": data.RequestData = RequestData; break;
+                    case "SiteId": data.SiteId = SiteId; break;
+                    case "Status": data.Status = Status; break;
                     case "HttpMethod": data.HttpMethod = HttpMethod; break;
                     case "RequestSize": data.RequestSize = RequestSize; break;
                     case "ResponseSize": data.ResponseSize = ResponseSize; break;
@@ -1502,8 +1617,33 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Description":
+                    return Description.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceId":
+                    return ReferenceId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceType":
+                    return ReferenceType.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "RequestData":
                     return RequestData.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteId":
+                    return SiteId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1778,8 +1918,33 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Description":
+                    return Description.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceId":
+                    return ReferenceId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceType":
+                    return ReferenceType.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "RequestData":
                     return RequestData.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteId":
+                    return SiteId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2500,9 +2665,29 @@ namespace Implem.Pleasanter.Models
                             Method = dataRow[column.ColumnName].ToString();
                             SavedMethod = Method;
                             break;
+                        case "Description":
+                            Description = dataRow[column.ColumnName].ToString();
+                            SavedDescription = Description;
+                            break;
+                        case "ReferenceId":
+                            ReferenceId = dataRow[column.ColumnName].ToLong();
+                            SavedReferenceId = ReferenceId;
+                            break;
+                        case "ReferenceType":
+                            ReferenceType = dataRow[column.ColumnName].ToString();
+                            SavedReferenceType = ReferenceType;
+                            break;
                         case "RequestData":
                             RequestData = dataRow[column.ColumnName].ToString();
                             SavedRequestData = RequestData;
+                            break;
+                        case "SiteId":
+                            SiteId = dataRow[column.ColumnName].ToLong();
+                            SavedSiteId = SiteId;
+                            break;
+                        case "Status":
+                            Status = dataRow[column.ColumnName].ToLong();
+                            SavedStatus = Status;
                             break;
                         case "HttpMethod":
                             HttpMethod = dataRow[column.ColumnName].ToString();
@@ -2694,7 +2879,12 @@ namespace Implem.Pleasanter.Models
                 || Application_Updated(context: context)
                 || Class_Updated(context: context)
                 || Method_Updated(context: context)
+                || Description_Updated(context: context)
+                || ReferenceId_Updated(context: context)
+                || ReferenceType_Updated(context: context)
                 || RequestData_Updated(context: context)
+                || SiteId_Updated(context: context)
+                || Status_Updated(context: context)
                 || HttpMethod_Updated(context: context)
                 || RequestSize_Updated(context: context)
                 || ResponseSize_Updated(context: context)

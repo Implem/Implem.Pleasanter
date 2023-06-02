@@ -1403,6 +1403,12 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             ss: ss,
                             column: column);
+                case "ReferenceType":
+                    return sysLogModel.ReferenceType
+                        .ToControl(
+                            context: context,
+                            ss: ss,
+                            column: column);
                 case "RequestData":
                     return sysLogModel.RequestData
                         .ToControl(

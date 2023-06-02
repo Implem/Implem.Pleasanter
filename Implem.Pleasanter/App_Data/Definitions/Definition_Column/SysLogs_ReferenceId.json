@@ -1,0 +1,22 @@
+﻿{
+    "Id": "SysLogs_ReferenceId",
+    "SchemaVersion": 2,
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "システムログ",
+    "ColumnName": "ReferenceId",
+    "LabelText": "参照ID",
+    "No": "111",
+    "History": "111",
+    "LinkColumn": "111",
+    "HistoryColumn": "111",
+    "TypeName": "bigint",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Reference ID",
+    "LabelText_zh": "参考ID",
+    "LabelText_de": "Referenz-ID",
+    "LabelText_ko": "참조 ID",
+    "LabelText_es": "ID de referencia",
+    "LabelText_vn": "ID Thạm chiếu"
+}

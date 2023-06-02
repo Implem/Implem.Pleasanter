@@ -1,0 +1,23 @@
+﻿{
+    "Id": "SysLogs_Description",
+    "SchemaVersion": 2,
+    "ModelName": "SysLog",
+    "TableName": "SysLogs",
+    "Label": "拡張機能",
+    "ColumnName": "Description",
+    "LabelText": "説明",
+    "No": "111",
+    "History": "111",
+    "LinkColumn": "111",
+    "HistoryColumn": "111",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "NotForm": "1",
+    "LabelText_en": "Description",
+    "LabelText_zh": "说明",
+    "LabelText_de": "Beschreibung",
+    "LabelText_ko": "설명",
+    "LabelText_es": "Descripción",
+    "LabelText_vn": "Mô tả"
+}

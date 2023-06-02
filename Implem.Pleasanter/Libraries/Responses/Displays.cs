@@ -11919,6 +11919,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SysLogs_Description(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_Description",
+                data: data);
+        }
+
         public static string SysLogs_Elapsed(
             Context context,
             params string[] data)
@@ -12029,6 +12039,26 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SysLogs_ReferenceId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_ReferenceId",
+                data: data);
+        }
+
+        public static string SysLogs_ReferenceType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_ReferenceType",
+                data: data);
+        }
+
         public static string SysLogs_RequestData(
             Context context,
             params string[] data)
@@ -12099,6 +12129,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SysLogs_SiteId(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_SiteId",
+                data: data);
+        }
+
         public static string SysLogs_StartTime(
             Context context,
             params string[] data)
@@ -12106,6 +12146,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "SysLogs_StartTime",
+                data: data);
+        }
+
+        public static string SysLogs_Status(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_Status",
                 data: data);
         }
 

@@ -17,7 +17,12 @@ namespace Implem.Pleasanter.Models
         public string Application { get; set; }
         public new string Class { get; set; }
         public string Method { get; set; }
+        public string Description { get; set; }
+        public long? ReferenceId { get; set; }
+        public string ReferenceType { get; set; }
         public string RequestData { get; set; }
+        public long? SiteId { get; set; }
+        public long? Status { get; set; }
         public string HttpMethod { get; set; }
         public int? RequestSize { get; set; }
         public int? ResponseSize { get; set; }
@@ -66,7 +71,12 @@ namespace Implem.Pleasanter.Models
                 case "Application": return Application;
                 case "Class": return Class;
                 case "Method": return Method;
+                case "Description": return Description;
+                case "ReferenceId": return ReferenceId;
+                case "ReferenceType": return ReferenceType;
                 case "RequestData": return RequestData;
+                case "SiteId": return SiteId;
+                case "Status": return Status;
                 case "HttpMethod": return HttpMethod;
                 case "RequestSize": return RequestSize;
                 case "ResponseSize": return ResponseSize;

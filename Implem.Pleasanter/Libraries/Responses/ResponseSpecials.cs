@@ -7250,6 +7250,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#SysLogs_Method", value);
         }
 
+        public static SysLogsResponseCollection ReferenceType(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#SysLogs_ReferenceType",
+                res.SysLogModel.ReferenceType.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ReferenceType")));
+        }
+
+        public static SysLogsResponseCollection ReferenceType(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.Val("#SysLogs_ReferenceType", value);
+        }
+
+        public static SysLogsResponseCollection ReferenceType_FormData(
+            this SysLogsResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#SysLogs_ReferenceType",
+                res.SysLogModel.ReferenceType.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "ReferenceType")));
+        }
+
+        public static SysLogsResponseCollection ReferenceType_FormData(
+            this SysLogsResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#SysLogs_ReferenceType", value);
+        }
+
         public static SysLogsResponseCollection RequestData(
             this SysLogsResponseCollection res,
             Context context,
