@@ -196,6 +196,11 @@ namespace Implem.Libraries.Utilities
             return validFileName;
         }
 
+        public static bool ValidateFileName(string fileName)
+        {
+            return fileName.IndexOfAny(Path.GetInvalidFileNameChars()) < 0;
+        }
+
         public static void DeleteDirectory(
             string path, string searchPattern = "", bool recursive = true)
         {
