@@ -409,6 +409,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             // キャッシュされたサイト設定のDataRowsを取得
             siteDataRows = siteDataRows ?? SiteInfo.Sites(context: context);
+            if (siteDataRows == null)
+            {
+                return;
+            }
             // ツリーの並列の履歴と混在しないよう探索履歴のインスタンスを作り直す
             var nextPreviously = new List<long>();
             if (previously != null)
