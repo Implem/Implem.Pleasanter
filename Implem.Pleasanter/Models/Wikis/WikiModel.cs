@@ -189,7 +189,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            WikiApiModel wikiApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -201,7 +201,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (wikiApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: wikiApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -211,7 +214,7 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             long wikiId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            WikiApiModel wikiApiModel = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -239,7 +242,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (wikiApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: wikiApiModel);
+            }
             if (SavedLocked)
             {
                 ss.SetLockedRecord(
@@ -1246,14 +1252,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = wikiModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, WikiApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<WikiApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.Title != null) Title = new Title(data.WikiId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();

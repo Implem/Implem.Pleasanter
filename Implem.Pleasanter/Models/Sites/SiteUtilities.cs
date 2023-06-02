@@ -1263,9 +1263,8 @@ namespace Implem.Pleasanter.Models
             SiteModel siteModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -1922,11 +1921,16 @@ namespace Implem.Pleasanter.Models
             long parentId,
             long inheritPermission)
         {
+            var siteApiModel = context.RequestDataString.Deserialize<SiteApiModel>();
+            if (siteApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var siteModel = new SiteModel(
                 context: context,
                 parentId: parentId,
                 inheritPermission: inheritPermission,
-                setByApi: true);
+                siteApiModel: siteApiModel);
             var ss = siteModel.SiteSettings;
             if (!Mime.ValidateOnApi(contentType: context.ContentType))
             {
@@ -1984,11 +1988,16 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static bool CreateByServerScript(Context context, SiteSettings ss, object model)
         {
+            var siteApiModel = context.RequestDataString.Deserialize<SiteApiModel>();
+            if (siteApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var siteModel = new SiteModel(
                 context: context,
                 parentId: ss.SiteId,
                 inheritPermission: ss.InheritPermission,
-                setByApi: true);
+                siteApiModel: siteApiModel);
             if (context.ContractSettings.SitesLimit(context: context))
             {
                 return false;
@@ -2040,9 +2049,15 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.BadRequest(context: context);
             }
             var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);
+            var siteApiModel = context.RequestDataString.Deserialize<SiteApiModel>();
+            if (siteApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             siteModel.SetByApi(
                 context: context,
-                ss: ss);
+                ss: ss,
+                data: siteApiModel);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -2123,9 +2138,15 @@ namespace Implem.Pleasanter.Models
             object model)
         {
             var ss = siteModel.SiteSettings.SiteSettingsOnUpdate(context: context);
+            var siteApiModel = context.RequestDataString.Deserialize<SiteApiModel>();
+            if (siteApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             siteModel.SetByApi(
                 context: context,
-                ss: ss);
+                ss: ss,
+                data: siteApiModel);
             siteModel.SiteSettings = SiteSettingsUtilities.Get(
                 context: context,
                 siteModel: siteModel,
@@ -14886,7 +14907,7 @@ namespace Implem.Pleasanter.Models
                                             controlId: "ToEnableBulkUpdateColumnColumnsLocal",
                                             text: Displays.ToEnable(context: context),
                                             controlCss: "button-icon",
-                                            onClick: "$p.moveColumns($(this),'BulkUpdateColumn');",
+                                            onClick: "$p.moveColumns(event, $(this),'BulkUpdateColumn');",
                                             icon: "ui-icon-circle-triangle-w"))))
                     .Hidden(
                         controlId: "BulkUpdateColumnDetails",
@@ -15103,19 +15124,19 @@ namespace Implem.Pleasanter.Models
                                         controlId: "MoveUpRelatingColumnColumnsLocal",
                                         text: Displays.MoveUp(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-n")
                                     .Button(
                                         controlId: "MoveDownRelatingColumnColumnsLocal",
                                         text: Displays.MoveDown(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-s")
                                     .Button(
                                         controlId: "ToDisableRelatingColumnColumnsLocal",
                                         text: Displays.ToDisable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-e")))
                         .FieldSelectable(
                             controlId: "RelatingColumnSourceColumns",
@@ -15134,7 +15155,7 @@ namespace Implem.Pleasanter.Models
                                         controlId: "ToEnableRelatingColumnColumnsLocal",
                                         text: Displays.ToEnable(context: context),
                                         controlCss: "button-icon",
-                                        onClick: "$p.moveColumns($(this),'RelatingColumn');",
+                                        onClick: "$p.moveColumns(event, $(this),'RelatingColumn');",
                                         icon: "ui-icon-circle-triangle-w"))))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb

@@ -538,14 +538,13 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            ResultApiModel resultApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
             SetDefault(
                 context: context,
-                ss: ss,
-                init: true);
+                ss: ss);
             SiteId = ss.SiteId;
             if (formData != null)
             {
@@ -554,8 +553,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
-            if (formData != null || setByApi)
+            if (resultApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: resultApiModel);
+            }
+            if (formData != null || resultApiModel != null)
             {
                 SetByLookups(
                     context: context,
@@ -576,7 +578,7 @@ namespace Implem.Pleasanter.Models
             View view = null,
             bool setCopyDefault = false,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            ResultApiModel resultApiModel = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -584,8 +586,7 @@ namespace Implem.Pleasanter.Models
             OnConstructing(context: context);
             SetDefault(
                 context: context,
-                ss: ss,
-                init: true);
+                ss: ss);
             ResultId = resultId;
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
@@ -615,8 +616,11 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
-            if (formData != null || setByApi)
+            if (resultApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: resultApiModel);
+            }
+            if (formData != null || resultApiModel != null)
             {
                 SetByLookups(
                     context: context,
@@ -2315,16 +2319,14 @@ namespace Implem.Pleasanter.Models
 
         public void SetDefault(
             Context context,
-            SiteSettings ss,
-            bool init = false)
+            SiteSettings ss)
         {
             ss.Columns
                 .Where(o => !o.DefaultInput.IsNullOrEmpty())
                 .ForEach(column => SetDefault(
                     context: context,
                     ss: ss,
-                    column: column,
-                    init: init));
+                    column: column));
         }
 
         public void SetCopyDefault(Context context, SiteSettings ss)
@@ -2345,39 +2347,32 @@ namespace Implem.Pleasanter.Models
         public void SetDefault(
             Context context,
             SiteSettings ss,
-            Column column,
-            bool init = false)
+            Column column)
         {
             var defaultInput = column.GetDefaultInput(context: context);
             switch (column.ColumnName)
             {
                 case "Title":
                     Title.Value = defaultInput.ToString();
-                    if (init) SavedTitle = Title.Value;
                     break;
                 case "Body":
                     Body = defaultInput.ToString();
-                    if (init) SavedBody = Body;
                     break;
                 case "Status":
                     Status.Value = defaultInput.ToInt();
-                    if (init) SavedStatus = Status.Value;
                     break;
                 case "Locked":
                     Locked = defaultInput.ToBool();
-                    if (init) SavedLocked = Locked;
                     break;
                 case "Manager":
                     Manager = SiteInfo.User(
                         context: context,
                         userId: column.GetDefaultInput(context: context).ToInt());
-                    if (init) SavedManager = Manager.Id;
                     break;
                 case "Owner":
                     Owner = SiteInfo.User(
                         context: context,
                         userId: column.GetDefaultInput(context: context).ToInt());
-                    if (init) SavedOwner = Owner.Id;
                     break;
                 default:
                     switch (Def.ExtendedColumnTypes.Get(column?.ColumnName ?? string.Empty))
@@ -2386,9 +2381,6 @@ namespace Implem.Pleasanter.Models
                             SetClass(
                                 column: column,
                                 value: defaultInput);
-                            if (init) SetSavedClass(
-                                columnName: column.Name,
-                                value: GetClass(columnName: column.Name));
                             break;
                         case "Num":
                             SetNum(
@@ -2397,41 +2389,26 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column,
                                     value: defaultInput));
-                            if (init) SetSavedNum(
-                                columnName: column.Name,
-                                value: GetNum(columnName: column.Name).Value);
                             break;
                         case "Date":
                             SetDate(
                                 column: column,
                                 value: column.DefaultTime(context: context));
-                            if (init) SetSavedDate(
-                                columnName: column.Name,
-                                value: GetDate(columnName: column.Name));
                             break;
                         case "Description":
                             SetDescription(
                                 column: column,
                                 value: defaultInput.ToString());
-                            if (init) SetSavedDescription(
-                                columnName: column.Name,
-                                value: GetDescription(columnName: column.Name));
                             break;
                         case "Check":
                             SetCheck(
                                 column: column,
                                 value: defaultInput.ToBool());
-                            if (init) SetSavedCheck(
-                                columnName: column.Name,
-                                value: GetCheck(columnName: column.Name));
                             break;
                         case "Attachments":
                             SetAttachments(
                                 column: column,
                                 value: new Attachments());
-                            if (init) SetSavedAttachments(
-                                columnName: column.Name,
-                                value: GetAttachments(columnName: column.Name).ToJson());
                             break;
                     }
                     break;
@@ -2758,14 +2735,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = resultModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, ResultApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<ResultApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.Title != null) Title = new Title(data.ResultId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Status != null) Status = new Status(data.Status.ToInt());;

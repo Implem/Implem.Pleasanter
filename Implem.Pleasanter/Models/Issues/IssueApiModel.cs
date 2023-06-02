@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Models
         public int? Updator { get; set; }
         public DateTime? CreatedTime { get; set; }
         public string ItemTitle { get; set; }
+        public int? ProcessId { get; set; }
 
         public IssueApiModel()
         {

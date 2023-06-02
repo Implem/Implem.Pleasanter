@@ -3066,11 +3066,16 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: new ErrorData(type: Error.Types.ItemsLimit));
             }
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
-                setByApi: true);
+                resultApiModel: resultApiModel);
             var invalid = ResultValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -3084,10 +3089,34 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
             resultModel.SiteId = ss.SiteId;
-            resultModel.SetTitle(context: context, ss: ss);
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            var process = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId);
+            if (process != null)
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                {
+                    return ApiResults.BadRequest(context: context);
+                }
+            }
             var errorData = resultModel.Create(
                 context: context,
                 ss: ss,
+                processes: process?.ToSingleList(),
                 notice: true);
             BinaryUtilities.UploadImage(
                 context: context,
@@ -3101,16 +3130,22 @@ namespace Implem.Pleasanter.Models
                         id: resultModel.ResultId,
                         limitPerDate: context.ContractSettings.ApiLimit(),
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Created(
+                        message: CreatedMessage(
                             context: context,
-                            data: resultModel.Title.MessageDisplay(context: context)));
+                            ss: ss,
+                            resultModel: resultModel,
+                            process: process).Text);
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        columnName: errorData.ColumnName);
+                    return ApiResults.Duplicated(
+                        context: context,
+                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                            ? Displays.Duplicated(
+                                context: context,
+                                data: duplicatedColumn?.LabelText)
+                            : duplicatedColumn?.MessageWhenDuplicated);
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -3124,11 +3159,16 @@ namespace Implem.Pleasanter.Models
             {
                 return false;
             }
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
-                setByApi: true);
+                resultApiModel: resultApiModel);
             var invalid = ResultValidators.OnCreating(
                 context: context,
                 ss: ss,
@@ -3400,9 +3440,8 @@ namespace Implem.Pleasanter.Models
             ResultModel resultModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -3490,8 +3529,7 @@ namespace Implem.Pleasanter.Models
                         resultModel.SetDefault(
                             context: context,
                             ss: ss,
-                            column: column,
-                            init: true);
+                            column: column);
                         hb.Field(
                             context: context,
                             ss: ss,
@@ -4105,11 +4143,16 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.BadRequest(context: context);
             }
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: resultId,
-                setByApi: true);
+                resultApiModel: resultApiModel);
             if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return ApiResults.Get(ApiResponses.NotFound(context: context));
@@ -4134,9 +4177,31 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 baseModel: resultModel);
+            var process = ss.Processes?.FirstOrDefault(process => process.Id == resultApiModel.ProcessId);
+            if (process != null)
+            {
+                process.MatchConditions = resultModel.GetProcessMatchConditions(
+                    context: context,
+                    ss: ss,
+                    process: process);
+                if (process.MatchConditions && process.Accessable(
+                    context: context,
+                    ss: ss))
+                {
+                    resultModel.SetByProcess(
+                        context: context,
+                        ss: ss,
+                        process: process);
+                }
+                else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+                {
+                    return ApiResults.BadRequest(context: context);
+                }
+            }
             var errorData = resultModel.Update(
                 context: context,
                 ss: ss,
+                processes: process?.ToSingleList(),
                 notice: true,
                 previousTitle: previousTitle);
             BinaryUtilities.UploadImage(
@@ -4151,16 +4216,22 @@ namespace Implem.Pleasanter.Models
                         resultModel.ResultId,
                         limitPerDate: context.ContractSettings.ApiLimit(),
                         limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
-                        message: Displays.Updated(
+                        message: UpdatedMessage(
                             context: context,
-                            data: resultModel.Title.MessageDisplay(context: context)));
+                            ss: ss,
+                            resultModel: resultModel,
+                            processes: process?.ToSingleList()).Text);
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        columnName: errorData.ColumnName);
+                    return ApiResults.Duplicated(
+                        context: context,
+                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                            ? Displays.Duplicated(
+                                context: context,
+                                data: duplicatedColumn?.LabelText)
+                            : duplicatedColumn?.MessageWhenDuplicated);
                 default:
                     return ApiResults.Error(
                         context: context,
@@ -4175,11 +4246,16 @@ namespace Implem.Pleasanter.Models
             string previousTitle,
             object model)
         {
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: resultId,
-                setByApi: true);
+                resultApiModel: resultApiModel);
             if (resultModel.AccessStatus != Databases.AccessStatuses.Selected)
             {
                 return false;
@@ -4262,12 +4338,17 @@ namespace Implem.Pleasanter.Models
                         searchType: Column.SearchTypes.ExactMatch);
                 }
             });
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+            }
             var resultModel = new ResultModel(
                 context: context,
                 ss: ss,
                 resultId: 0,
                 view: api.View,
-                setByApi: true);
+                resultApiModel: resultApiModel);
             switch (resultModel.AccessStatus)
             {
                 case Databases.AccessStatuses.Selected:
@@ -4322,12 +4403,16 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             data: resultModel.Title.MessageDisplay(context: context)));
                 case Error.Types.Duplicated:
-                    return ApiResults.Error(
+                    var duplicatedColumn = ss.GetColumn(
                         context: context,
-                        errorData: errorData,
-                        data: ss.GetColumn(
-                            context: context,
-                            columnName: errorData.ColumnName)?.LabelText);
+                        columnName: errorData.ColumnName);
+                    return ApiResults.Duplicated(
+                        context: context,
+                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                            ? Displays.Duplicated(
+                                context: context,
+                                data: duplicatedColumn?.LabelText)
+                            : duplicatedColumn?.MessageWhenDuplicated);
                 default:
                     return ApiResults.Error(
                         context: context,

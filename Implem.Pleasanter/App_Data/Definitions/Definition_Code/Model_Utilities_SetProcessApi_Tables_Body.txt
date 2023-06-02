@@ -1,0 +1,21 @@
+﻿var process = ss.Processes?.FirstOrDefault(process => process.Id == #modelName#ApiModel.ProcessId);
+if (process != null)
+{
+    process.MatchConditions = #modelName#Model.GetProcessMatchConditions(
+        context: context,
+        ss: ss,
+        process: process);
+    if (process.MatchConditions && process.Accessable(
+        context: context,
+        ss: ss))
+    {
+        #modelName#Model.SetByProcess(
+            context: context,
+            ss: ss,
+            process: process);
+    }
+    else if (process.ExecutionType != Process.ExecutionTypes.CreateOrUpdate)
+    {
+        return ApiResults.BadRequest(context: context);
+    }
+}

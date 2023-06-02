@@ -45,7 +45,23 @@ namespace Implem.Pleasanter.Libraries.DataTypes
                 Extention = Path.GetExtension(Name ?? FileName);
                 ContentType = Strings.CoalesceEmpty(ContentType, "text/plain");
                 Added = true;
-                Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+                if (Files.ValidateFileName(Name ?? FileName))
+                {
+                    Files.Write(bin, Path.Combine(Directories.Temp(), Guid, Name ?? FileName));
+                }
+                else
+                {
+                    var context = new Context(
+                        sessionStatus: false,
+                        sessionData: false,
+                        item: false,
+                        setPermissions: false);
+                    new SysLogModel(
+                        context: context,
+                        method: $"{nameof(Attachment)}.{nameof(OnDeserialized)}",
+                        message: $"Invalid File Name: '{Name ?? FileName}'",
+                        sysLogType: SysLogModel.SysLogTypes.Info);
+                }
             }
         }
 

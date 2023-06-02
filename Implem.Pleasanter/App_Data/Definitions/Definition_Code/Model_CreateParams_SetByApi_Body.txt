@@ -1,1 +1,1 @@
-﻿bool setByApi = false,
+﻿#ModelName#ApiModel #modelName#ApiModel = null,

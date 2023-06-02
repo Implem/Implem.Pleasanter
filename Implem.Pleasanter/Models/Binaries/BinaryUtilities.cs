@@ -425,7 +425,10 @@ namespace Implem.Pleasanter.Models
             {
                 columnName = "Comments";
             }
-            var invalid = BinaryValidators.OnUploadingImage(context: context);
+            var file = context.PostedFiles.FirstOrDefault();
+            var invalid = BinaryValidators.OnUploadingImage(
+                context: context,
+                file: file);
             switch (invalid)
             {
                 case Error.Types.OverTenantStorageSize:
@@ -435,7 +438,6 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
-            var file = context.PostedFiles.FirstOrDefault();
             UploadImage(
                 context: context,
                 id: id,
@@ -465,7 +467,8 @@ namespace Implem.Pleasanter.Models
                 invalid = BinaryValidators.OnUploadingImage(
                     context: context,
                     ss: ss,
-                    columnName: file.Key);
+                    columnName: file.Key,
+                    file: file.Value);
                 switch (invalid)
                 {
                     case Error.Types.None:

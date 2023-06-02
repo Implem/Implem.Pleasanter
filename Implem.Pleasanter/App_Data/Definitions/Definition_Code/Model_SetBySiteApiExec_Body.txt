@@ -1,1 +1,7 @@
-﻿if (setByApi) SetByApi(context: context, ss: new SiteSettings());
+﻿if (siteApiModel != null)
+{
+    SetByApi(
+        context: context,
+        ss: new SiteSettings(),
+        data: siteApiModel);
+}

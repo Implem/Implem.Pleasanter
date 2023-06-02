@@ -19,6 +19,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TableName;
         public string ColumnName;
         public long SiteId;
+        public int? Priority;
         public bool? NoAddButton;
         public bool? AddSource;
         public bool? ExcludeMe;
@@ -83,6 +84,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TableName.IsNullOrEmpty()) link.TableName = TableName;
             if (!ColumnName.IsNullOrEmpty()) link.ColumnName = ColumnName;
             link.SiteId = SiteId;
+            if (Priority > 0) link.Priority = Priority;
             if (NoAddButton == true) link.NoAddButton = true;
             if (AddSource == true) link.AddSource = true;
             if (ExcludeMe == true) link.ExcludeMe = true;

@@ -1,4 +1,4 @@
-﻿if (formData != null || setByApi)
+﻿if (formData != null || #modelName#ApiModel != null)
 {
     SetByLookups(
         context: context,

@@ -636,7 +636,7 @@ namespace Implem.Pleasanter.Models
             long parentId,
             long inheritPermission,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            SiteApiModel siteApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -649,7 +649,13 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: new SiteSettings());
+            if (siteApiModel != null)
+            {
+                SetByApi(
+                    context: context,
+                    ss: new SiteSettings(),
+                    data: siteApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -658,7 +664,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             long siteId,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            SiteApiModel siteApiModel = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -1551,14 +1557,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = siteModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, SiteApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<SiteApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.Title != null) Title = new Title(SiteId, data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.SiteName != null) SiteName = data.SiteName.ToString().ToString();
@@ -2049,12 +2049,25 @@ namespace Implem.Pleasanter.Models
                             .TenantId(TenantId)
                             .Title(Title.Value.MaxLength(1024))
                             .Body(Body)
+                            .SiteName(SiteName)
+                            .SiteGroupName(SiteGroupName)
+                            .GridGuide(GridGuide)
+                            .EditorGuide(EditorGuide)
+                            .CalendarGuide(CalendarGuide)
+                            .CrosstabGuide(CrosstabGuide)
+                            .GanttGuide(GanttGuide)
+                            .BurnDownGuide(BurnDownGuide)
+                            .TimeSeriesGuide(TimeSeriesGuide)
+                            .KambanGuide(KambanGuide)
+                            .ImageLibGuide(ImageLibGuide)
                             .ReferenceType(ReferenceType.MaxLength(32))
                             .ParentId(ParentId)
                             .InheritPermission(raw: notInheritPermission
                                 ? Def.Sql.Identity
                                 : InheritPermission.ToString())
                             .SiteSettings(SiteSettings.RecordingJson(context: context))
+                            .Publish(Publish)
+                            .DisableCrossSearch(DisableCrossSearch)
                             .Comments(Comments.ToJson())),
                     Rds.UpdateItems(
                         where: Rds.ItemsWhere().ReferenceId(raw: Def.Sql.Identity),
