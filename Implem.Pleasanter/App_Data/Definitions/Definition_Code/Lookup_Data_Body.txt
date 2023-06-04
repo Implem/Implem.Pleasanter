@@ -15,6 +15,7 @@
         {
 
 <!--Lookup_DataColumnCases-->
+<!--Lookup_DataMailAddress-->
 
             default:
                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))

@@ -312,16 +312,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     {
                         text = text.Replace(
                             "[MailAddresses]",
-                            Rds.ExecuteTable(
-                                context: context,
-                                statements: Rds.SelectMailAddresses(
-                                    column: Rds.MailAddressesColumn().MailAddress(),
-                                    where: Rds.MailAddressesWhere()
-                                        .OwnerId(userModel.UserId)
-                                        .OwnerType("Users")))
-                                            .AsEnumerable()
-                                            .Select(dataRow => dataRow.String("MailAddress"))
-                                            .Join());
+                            userModel.GetMailAddresses(context: context).Join());
                     }
                     var userMine = userModel.Mine(context: context);
                     ss.IncludedColumns(SearchFormat)
