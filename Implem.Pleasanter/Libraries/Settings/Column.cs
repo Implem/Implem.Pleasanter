@@ -161,6 +161,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? LocalFolderTotalLimitSize;
         public int? DateTimeStep;
         [NonSerialized]
+        public bool LowSchemaVersion;
+        [NonSerialized]
         public int? No;
         [NonSerialized]
         public bool Id_Ver;

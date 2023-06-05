@@ -3102,6 +3102,23 @@ namespace Implem.Pleasanter.Models
                 UserAgent = context.UserAgent;
                 SessionGuid = context.SessionGuid;
             }
+            if (Parameters.Rds.SysLogsSchemaVersion >= 2)
+            {
+                ReferenceId = context.Id;
+                switch (context.Controller)
+                {
+                    case "items":
+                        var itemModel = new ItemModel(
+                            context: context,
+                            referenceId: context.Id);
+                        if (itemModel.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            SiteId = itemModel.SiteId;
+                            ReferenceType = itemModel.ReferenceType;
+                        }
+                        break;
+                }
+            }
             InDebug = Debugs.InDebug();
             AssemblyVersion = Environments.AssemblyVersion;
         }

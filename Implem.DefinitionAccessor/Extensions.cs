@@ -2,18 +2,18 @@
 {
     public static class Extensions
     {
-        public static bool CheckSchemaVersion(this ColumnDefinition columnDefinition)
+        public static bool LowSchemaVersion(this ColumnDefinition columnDefinition)
         {
             switch (columnDefinition.TableName)
             {
                 case "SysLogs":
                     if (columnDefinition.SchemaVersion > Parameters.Rds.SysLogsSchemaVersion)
                     {
-                        return false;
+                        return true;
                     }
                     break;
             }
-            return true;
+            return false;
         }
     }
 }
