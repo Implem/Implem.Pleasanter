@@ -1,0 +1,33 @@
+﻿{
+    "Id": "UpdatedWord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Updated"
+        },
+        {
+            "Language": "zh",
+            "Body": "更新"
+        },
+        {
+            "Language": "ja",
+            "Body": "更新"
+        },
+        {
+            "Language": "de",
+            "Body": "Aktualisiert"
+        },
+        {
+            "Language": "ko",
+            "Body": "업데이트됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Actualizado"
+        },
+        {
+            "Language": "vn",
+            "Body": "cập nhật"
+        }
+    ]
+}
