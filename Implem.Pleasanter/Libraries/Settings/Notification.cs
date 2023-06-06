@@ -86,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int id,
             Types type,
             string prefix,
+            string subject,
             string address,
             string token,
             MethodTypes methodType,
@@ -110,6 +111,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             Id = id;
             Type = type;
             Prefix = prefix;
+            Subject = subject;
             Address = address;
             Token = token;
             MethodType = methodType;
@@ -146,6 +148,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public void Update(
             Types type,
             string prefix,
+            string subject,
             string address,
             string token,
             MethodTypes methodType,
@@ -169,6 +172,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             Type = type;
             Prefix = prefix;
+            Subject = subject;
             Address = address;
             Token = token;
             MethodType = methodType;

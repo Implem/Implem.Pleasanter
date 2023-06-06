@@ -26,17 +26,20 @@ namespace Implem.Libraries.Classes
 
         private void Construct(byte[] csv)
         {
+            var csvConfiguration = new CsvHelper.Configuration.CsvConfiguration(CultureInfo.CurrentCulture)
+            {
+                HasHeaderRecord = false
+            };
             using (var stream = new MemoryStream(csv))
             using (var reader = new StreamReader(stream))
-            using (var data = new CsvHelper.CsvReader(reader, CultureInfo.CurrentCulture))
+            using (var data = new CsvHelper.CsvReader(reader, csvConfiguration))
             {
-                data.Configuration.HasHeaderRecord = false;
                 var header = true;
                 while (data.Read())
                 {
                     if (header)
                     {
-                        foreach (var value in data.Context.Record)
+                        foreach (var value in data.Parser.Record)
                         {
                             Headers.Add(value);
                         }
@@ -45,7 +48,7 @@ namespace Implem.Libraries.Classes
                     else
                     {
                         var row = new List<string>();
-                        foreach (var value in data.Context.Record)
+                        foreach (var value in data.Parser.Record)
                         {
                             row.Add(value);
                         }

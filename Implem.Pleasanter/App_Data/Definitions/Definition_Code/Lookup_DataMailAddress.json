@@ -1,0 +1,6 @@
+﻿{
+    "Id": "Lookup_DataMailAddress",
+    "RepeatType": "Column",
+    "Indent": "5",
+    "Include": "MailAddresses"
+}

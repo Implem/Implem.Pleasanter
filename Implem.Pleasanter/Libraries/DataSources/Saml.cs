@@ -32,27 +32,59 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
-            var setMailAddress = false;
-            if (Parameters.Authentication?.SamlParameters?
-                    .Attributes?["MailAddress"] == "{NameId}")
+            //メールアドレスは下記フォーマットで設定可能
+            //1. "MailAddress" : "{NameId}" (Name ID をメールアドレスとする)
+            //2. "MailAddress" : "SAMLAttributeName|{NameId}" (指定した属性がない場合はName IDをメールアドレスとする)
+            //3. "MailAddress" : "SAMLAttributeName"　(通常の属性指定)
+            var attributeMailAddress = Parameters.Authentication?.SamlParameters?.Attributes?["MailAddress"];
+            //1. Name ID をメールアドレスとする場合
+            if (attributeMailAddress == "{NameId}")
             {
-                setMailAddress = true;
                 attributes.Add("MailAddress", nameId);
             }
+            //2. 指定した属性がない場合はName IDをメールアドレスとする場合
+            else if (attributeMailAddress.EndsWith("|{NameId}"))
+            {
+                var attributeName = attributeMailAddress.Split_1st('|');
+                var claimMailAddress = claims.FirstOrDefault(claim => claim.Type == attributeName);
+                if (claimMailAddress != null)
+                {
+                    attributes.Add("MailAddress", claimMailAddress.Value);
+                }
+                else
+                {
+                    //SAMLAttributeNameがClaimに含まれない場合
+                    attributes.Add("MailAddress", nameId);
+                }
+            }
+            //3. 通常の属性指定の場合
+            else
+            {
+                var claimMailAddress = claims.FirstOrDefault(claim => claim.Type == attributeMailAddress);
+                if (claimMailAddress != null)
+                {
+                    attributes.Add("MailAddress", claimMailAddress.Value);
+                }
+            }
+            //その他の属性
             foreach (var claim in claims)
             {
                 var attribute = Parameters
-                    .Authentication?
-                    .SamlParameters?
-                    .Attributes?
-                    .FirstOrDefault(kvp => kvp.Value == claim.Type) ?? default(KeyValuePair<string, string>);
-                if (attribute.Key == null)
+                    .Authentication
+                    ?.SamlParameters
+                    ?.Attributes
+                    ?.FirstOrDefault(kvp => kvp.Value == claim.Type)
+                        ?? default(KeyValuePair<string, string>);
+                //メールアドレスは関数上部で設定しているのでここではスキップする
+                if (attribute.Key == null
+                    || attribute.Key == "MailAddress")
                 {
                     continue;
                 }
-                if ((typeof(UserModel).GetField(attribute.Key) != null
-                    || attribute.Key == "Dept" || attribute.Key == "DeptCode"
-                    || (setMailAddress == false && attribute.Key == "MailAddress")))
+                //UserModelのフィールドにある属性名のみ処理する。例外としてDeptとDeptCodeは個別に判定
+                if (typeof(UserModel).GetField(attribute.Key) != null
+                    || attribute.Key == "Dept"
+                    || attribute.Key == "DeptCode")
                 {
                     attributes.Add(attribute.Key, claim.Value);
                 }

@@ -130,10 +130,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (!inRange) return hb;
             var choicesY = CorrectedChoices(
-                groupByY, groupByY?.EditChoices(
+                groupBy: groupByY,
+                choices: groupByY?.EditChoices(
                     context: context,
                     insertBlank: true,
-                    view: view));
+                    view: view,
+                    limit: Parameters.General.KambanYLimit));
             return hb.Div(
                 attributes: new HtmlAttributes()
                     .Id("KambanBody")
@@ -142,13 +144,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action: () => groupByX?.EditChoices(
                     context: context,
                     insertBlank: true,
-                    view: view)
+                    view: view,
+                    limit: Parameters.General.KambanXLimit)
                         .Chunk(columns)
                         .ForEach(choicesX => hb
                             .Table(
                                 context: context,
                                 ss: ss,
-                                choicesX: CorrectedChoices(groupByX, choicesX),
+                                choicesX: CorrectedChoices(
+                                    groupBy: groupByX,
+                                    choices: choicesX),
                                 choicesY: choicesY,
                                 aggregateType: aggregateType,
                                 value: value,
