@@ -32,27 +32,48 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static SamlAttributes MapAttributes(IEnumerable<Claim> claims, string nameId)
         {
             var attributes = new SamlAttributes();
-            var setMailAddress = false;
-            if (Parameters.Authentication?.SamlParameters?
-                    .Attributes?["MailAddress"] == "{NameId}")
+            var attributeMailAddress = Parameters.Authentication?.SamlParameters?.Attributes?["MailAddress"];
+            if (attributeMailAddress == "{NameId}")
             {
-                setMailAddress = true;
                 attributes.Add("MailAddress", nameId);
+            }
+            else if (attributeMailAddress.EndsWith("|{NameId}"))
+            {
+                var attributeName = attributeMailAddress.Split_1st('|');
+                var claimMailAddress = claims.FirstOrDefault(claim => claim.Type == attributeName);
+                if (claimMailAddress != null)
+                {
+                    attributes.Add("MailAddress", claimMailAddress.Value);
+                }
+                else
+                {
+                    attributes.Add("MailAddress", nameId);
+                }
+            }
+            else
+            {
+                var claimMailAddress = claims.FirstOrDefault(claim => claim.Type == attributeMailAddress);
+                if (claimMailAddress != null)
+                {
+                    attributes.Add("MailAddress", claimMailAddress.Value);
+                }
             }
             foreach (var claim in claims)
             {
                 var attribute = Parameters
-                    .Authentication?
-                    .SamlParameters?
-                    .Attributes?
-                    .FirstOrDefault(kvp => kvp.Value == claim.Type) ?? default(KeyValuePair<string, string>);
-                if (attribute.Key == null)
+                    .Authentication
+                    ?.SamlParameters
+                    ?.Attributes
+                    ?.FirstOrDefault(kvp => kvp.Value == claim.Type)
+                        ?? default(KeyValuePair<string, string>);
+                if (attribute.Key == null
+                    || attribute.Key == "MailAddress")
                 {
                     continue;
                 }
-                if ((typeof(UserModel).GetField(attribute.Key) != null
-                    || attribute.Key == "Dept" || attribute.Key == "DeptCode"
-                    || (setMailAddress == false && attribute.Key == "MailAddress")))
+                if (typeof(UserModel).GetField(attribute.Key) != null
+                    || attribute.Key == "Dept"
+                    || attribute.Key == "DeptCode")
                 {
                     attributes.Add(attribute.Key, claim.Value);
                 }

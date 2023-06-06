@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CreatedWord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Created"
+        },
+        {
+            "Language": "zh",
+            "Body": "已创建"
+        },
+        {
+            "Language": "ja",
+            "Body": "作成"
+        },
+        {
+            "Language": "de",
+            "Body": "Erstellt"
+        },
+        {
+            "Language": "ko",
+            "Body": "만들어진"
+        },
+        {
+            "Language": "es",
+            "Body": "Creado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tạo"
+        }
+    ]
+}

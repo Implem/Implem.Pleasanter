@@ -16,8 +16,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlLinks
     {
+        private struct LinkData
+        {
+            public long SiteId;
+            public int? Priority;
+            public string Direction;
+            public SiteSettings SiteSettings;
+            public string DataTableName;
+        }
+
         public static HtmlBuilder Links(
-            this HtmlBuilder hb, Context context, SiteSettings ss, long id, DataSet dataSet = null)
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            long id,
+            DataSet dataSet = null)
         {
             dataSet = dataSet ?? DataSet(
                 context: context,
@@ -295,48 +308,69 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             SiteSettings ss,
             DataSet dataSet)
         {
+            var linkData = new List<LinkData>();
             return hb.Div(action: () =>
             {
                 ss.Destinations.Keys.ForEach(siteId =>
                 {
+                    var direction = "Destination";
                     var currentSs = ss.JoinedSsHash.Get(siteId);
                     var dataTableName = DataTableName(
                         ss: currentSs,
-                        direction: "Destination");
-                    hb.LinkTable(
-                        context: context,
-                        ss: currentSs,
-                        view: Views.GetBySession(
-                            context: context,
-                            ss: currentSs,
-                            dataTableName: dataTableName),
-                        dataRows: DataRows(
-                            dataSet: dataSet,
-                            ss: currentSs,
-                            dataTableName: dataTableName),
-                        direction: "Destination",
-                        dataTableName: dataTableName);
+                        direction: direction);
+                    linkData.Add(new LinkData()
+                    {
+                        SiteId = siteId,
+                        Priority = ss.Links
+                            ?.Where(link => link.SiteId == siteId)
+                            .OrderBy(link => link.Priority ?? int.MaxValue)
+                            .FirstOrDefault()
+                            ?.Priority ?? int.MaxValue,
+                        Direction = direction,
+                        SiteSettings = currentSs,
+                        DataTableName = dataTableName
+                    });
                 });
                 ss.Sources.Keys.ForEach(siteId =>
                 {
+                    var direction = "Source";
                     var currentSs = ss.JoinedSsHash.Get(siteId);
                     var dataTableName = DataTableName(
                         ss: currentSs,
-                        direction: "Source");
-                    hb.LinkTable(
-                        context: context,
-                        ss: currentSs,
-                        view: Views.GetBySession(
-                            context: context,
-                            ss: currentSs,
-                            dataTableName: dataTableName),
-                        dataRows: DataRows(
-                            dataSet: dataSet,
-                            ss: currentSs,
-                            dataTableName: dataTableName),
-                        direction: "Source",
-                        dataTableName: dataTableName);
+                        direction: direction);
+                    linkData.Add(new LinkData()
+                    {
+                        SiteId = siteId,
+                        Priority = currentSs.Links
+                            ?.Where(link => link.SiteId == ss.SiteId)
+                            .OrderBy(link => link.Priority ?? int.MaxValue)
+                            .FirstOrDefault()
+                            ?.Priority ?? int.MaxValue,
+                        Direction = direction,
+                        SiteSettings = currentSs,
+                        DataTableName = dataTableName
+                    });
                 });
+                if (linkData.Any(data => data.Priority != int.MaxValue))
+                {
+                    linkData = linkData
+                        .OrderBy(data => data.Priority)
+                        .ThenBy(data => data.SiteId)
+                        .ToList();
+                }
+                linkData.ForEach(data => hb.LinkTable(
+                    context: context,
+                    ss: data.SiteSettings,
+                    view: Views.GetBySession(
+                        context: context,
+                        ss: data.SiteSettings,
+                        dataTableName: data.DataTableName),
+                    dataRows: DataRows(
+                        dataSet: dataSet,
+                        ss: data.SiteSettings,
+                        dataTableName: data.DataTableName),
+                    direction: data.Direction,
+                    dataTableName: data.DataTableName));
                 hb.Button(
                     controlId: "ViewSorters_Reset",
                     controlCss: "hidden",

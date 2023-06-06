@@ -4711,5 +4711,22 @@ namespace Implem.Pleasanter.Models
                     ? Parameters.Locations.LoginAfterUrl
                     : returnUrl;
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public List<string> GetMailAddresses(Context context)
+        {
+            return Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectMailAddresses(
+                    column: Rds.MailAddressesColumn().MailAddress(),
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(UserId)
+                        .OwnerType("Users")))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.String("MailAddress"))
+                            .ToList();
+        }
     }
 }

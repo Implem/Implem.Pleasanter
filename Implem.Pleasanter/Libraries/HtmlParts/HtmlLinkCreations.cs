@@ -41,7 +41,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 
         public static List<Link> Links(Context context, SiteSettings ss)
         {
-            return new LinkCollection(
+            var links = new LinkCollection(
                 context: context,
                 column: Rds.LinksColumn()
                     .SourceId()
@@ -58,6 +58,27 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 ss: ss.Sources.Get(linkModel.SourceId)))
                             .Where(o => o != null)
                             .ToList();
+            var sortedSources = GetSortedSources(ss: ss).Keys.ToList();
+            return links
+                .OrderBy(link => sortedSources.IndexOf(link.SourceId))
+                .ToList();
+        }
+
+        private static Dictionary<long, SiteSettings> GetSortedSources(SiteSettings ss)
+        {
+            return ss.Sources?.Any(o => o.Value.Links
+                .Where(p => p.SiteId == ss.SiteId)
+                .Any(p => p.Priority != null)) == true
+                    ? ss.Sources
+                        ?.OrderBy(o => o.Value.Links
+                            .Where(p => p.SiteId == ss.SiteId)
+                            .Select(p => p.Priority > 0
+                                ? p.Priority
+                                : int.MaxValue)
+                            .Min())
+                        .ThenBy(o => o.Key)
+                        .ToDictionary(o => o.Key, o => o.Value)
+                    : ss.Sources ?? new Dictionary<long, SiteSettings>();
         }
 
         private static Link GetLink(LinkModel linkModel, SiteSettings ss)

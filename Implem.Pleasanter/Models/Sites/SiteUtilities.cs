@@ -11475,6 +11475,8 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Prefix(context: context)))
                     .Th(action: () => hb
+                        .Text(text: Displays.Subject(context: context)))
+                    .Th(action: () => hb
                         .Text(text: Displays.Address(context: context)))
                     .Th(action: () => hb
                         .Text(text: Displays.Notifications(context: context)))
@@ -11530,6 +11532,8 @@ namespace Implem.Pleasanter.Models
                                 id: notification.Type.ToString())))
                         .Td(action: () => hb
                             .Text(text: notification.Prefix))
+                        .Td(action: () => hb
+                            .Text(text: ss.ColumnNameToLabelText(notification.Subject)))
                         .Td(action: () => hb
                             .Text(text: ss.ColumnNameToLabelText(notification.Address)))
                         .Td(action: () => hb
@@ -11618,6 +11622,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Prefix(context: context),
                         text: notification.Prefix)
+                    .FieldTextBox(
+                        controlId: "NotificationSubject",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Subject(context: context),
+                        text: ss.ColumnNameToLabelText(notification.Subject))
                     .FieldTextBox(
                         controlId: "NotificationAddress",
                         fieldCss: "field-wide",

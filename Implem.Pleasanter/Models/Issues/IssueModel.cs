@@ -3903,9 +3903,16 @@ namespace Implem.Pleasanter.Models
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Created(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
+                                title: notification.Subject.IsNullOrEmpty()
+                                    ? Displays.Created(
+                                        context: context,
+                                        data: Title.DisplayValue).ToString()
+                                    : ReplacedDisplayValues(
+                                        context: context,
+                                        ss: ss,
+                                        value: notification.Subject.Replace(
+                                            "[NotificationTrigger]",
+                                            Displays.CreatedWord(context: context))),
                                 body: NoticeBody(
                                     context: context,
                                     ss: ss,
@@ -3927,9 +3934,16 @@ namespace Implem.Pleasanter.Models
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Updated(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
+                                title: notification.Subject.IsNullOrEmpty()
+                                    ? Displays.Updated(
+                                        context: context,
+                                        data: Title.DisplayValue).ToString()
+                                    : ReplacedDisplayValues(
+                                        context: context,
+                                        ss: ss,
+                                        value: notification.Subject.Replace(
+                                            "[NotificationTrigger]",
+                                            Displays.UpdatedWord(context: context))),
                                 body: body,
                                 values: values);
                         }
@@ -3940,9 +3954,16 @@ namespace Implem.Pleasanter.Models
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Deleted(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
+                                title: notification.Subject.IsNullOrEmpty()
+                                    ? Displays.Deleted(
+                                        context: context,
+                                        data: Title.DisplayValue).ToString()
+                                    : ReplacedDisplayValues(
+                                        context: context,
+                                        ss: ss,
+                                        value: notification.Subject.Replace(
+                                            "[NotificationTrigger]",
+                                            Displays.DeletedWord(context: context))),
                                 body: NoticeBody(
                                     context: context,
                                     ss: ss,

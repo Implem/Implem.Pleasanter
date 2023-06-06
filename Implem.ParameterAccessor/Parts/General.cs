@@ -72,6 +72,8 @@ namespace Implem.ParameterAccessor.Parts
         public int BurnDownLimit;
         public int TimeSeriesLimit;
         public int KambanLimit;
+        public int KambanXLimit;
+        public int KambanYLimit;
         public int KambanMinColumns;
         public int KambanMaxColumns;
         public int KambanColumns;

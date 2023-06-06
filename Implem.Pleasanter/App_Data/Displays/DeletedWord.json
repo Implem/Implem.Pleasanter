@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DeletedWord",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Deleted"
+        },
+        {
+            "Language": "zh",
+            "Body": "已删除"
+        },
+        {
+            "Language": "ja",
+            "Body": "削除"
+        },
+        {
+            "Language": "de",
+            "Body": "Gelöscht"
+        },
+        {
+            "Language": "ko",
+            "Body": "삭제됨"
+        },
+        {
+            "Language": "es",
+            "Body": "Eliminado"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đã xóa"
+        }
+    ]
+}

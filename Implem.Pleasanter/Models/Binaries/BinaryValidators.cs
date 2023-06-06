@@ -112,11 +112,16 @@ namespace Implem.Pleasanter.Models
         public static Error.Types OnUploadingImage(
             Context context,
             SiteSettings ss = null,
-            string columnName = null)
+            string columnName = null,
+            PostedFile file = null)
         {
             if (!context.ContractSettings.Attachments())
             {
                 return Error.Types.BadRequest;
+            }
+            if (!file.ContentType.StartsWith("image/"))
+            {
+                return Error.Types.InvalidRequest;
             }
             var newTotalFileSize = context.PostedFiles.Sum(x => x.Size);
             if (OverTenantStorageSize(

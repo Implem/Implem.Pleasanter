@@ -354,6 +354,7 @@ namespace Implem.DefinitionAccessor
                     case "Lookup": Code.Lookup = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup, definitionRow, CodeXls); break;
                     case "Lookup_Data": Code.Lookup_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_Data, definitionRow, CodeXls); break;
                     case "Lookup_DataColumnCases": Code.Lookup_DataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_DataColumnCases, definitionRow, CodeXls); break;
+                    case "Lookup_DataMailAddress": Code.Lookup_DataMailAddress = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_DataMailAddress, definitionRow, CodeXls); break;
                     case "Messages": Code.Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages, definitionRow, CodeXls); break;
                     case "Messages_Parts": Code.Messages_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Parts, definitionRow, CodeXls); break;
                     case "Messages_Resonses": Code.Messages_Resonses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Resonses, definitionRow, CodeXls); break;
@@ -6761,6 +6762,7 @@ namespace Implem.DefinitionAccessor
         public string Lookup;
         public string Lookup_Data;
         public string Lookup_DataColumnCases;
+        public string Lookup_DataMailAddress;
         public string Messages;
         public string Messages_Parts;
         public string Messages_Resonses;
@@ -7549,6 +7551,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Lookup = new CodeDefinition();
         public CodeDefinition Lookup_Data = new CodeDefinition();
         public CodeDefinition Lookup_DataColumnCases = new CodeDefinition();
+        public CodeDefinition Lookup_DataMailAddress = new CodeDefinition();
         public CodeDefinition Messages = new CodeDefinition();
         public CodeDefinition Messages_Parts = new CodeDefinition();
         public CodeDefinition Messages_Resonses = new CodeDefinition();

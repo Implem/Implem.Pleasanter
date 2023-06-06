@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -96,7 +97,38 @@ namespace Implem.PleasanterFilters
                     }
                 }
             }
+            if (!ValidatePostFiles(context, filterContext))
+            {
+                filterContext.Result = new ContentResult()
+                {
+                    StatusCode = 400,
+                    Content = "400 Bad Request "
+                };
+                return;
+            }
             SiteInfo.Reflesh(context: context);
+        }
+
+        private bool ValidatePostFiles(Context context, AuthorizationFilterContext filterContext)
+        {
+            if (filterContext.HttpContext.Request.HasFormContentType == false) return true;
+            var files = filterContext.HttpContext.Request.Form?.Files;
+            if (files != null)
+            {
+                foreach (var f in files)
+                {
+                    if (Files.ValidateFileName(f.FileName) == false)
+                    {
+                        new SysLogModel(
+                            context: context,
+                            method: $"{nameof(CheckContextAttributes)}.{nameof(OnAuthorization)}",
+                            message: $"Invalid File Name: '{f.FileName}'",
+                            sysLogType: SysLogModel.SysLogTypes.Info);
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }
