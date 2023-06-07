@@ -4660,6 +4660,20 @@ namespace Implem.Pleasanter.Models
                     }
                 }
             }
+            if (Parameters.Security.JoeAccountCheck
+                && (context.RequestDataString.Deserialize<UserApiModel>()?.Password ?? string.Empty) == userModel.LoginId)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.JoeAccountCheck));
+            }
+            var error = userModel.ChangePasswordbyApi(context: context);
+            if (error.Has())
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: error));
+            }
             foreach (var column in ss.Columns
                 .Where(o => o.ValidateRequired ?? false)
                 .Where(o => typeof(UserApiModel).GetField(o.ColumnName) != null))
