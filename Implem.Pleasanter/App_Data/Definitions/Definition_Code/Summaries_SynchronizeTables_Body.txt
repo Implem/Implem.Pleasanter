@@ -19,14 +19,17 @@
         var where = Rds.#TableName#Where()
             .SiteId(destinationSiteId)
             .#ModelName#Id(#modelName#Id, _using: #modelName#Id != 0);
-        var #modelName#Collection = new #ModelName#Collection(
+        var #modelName#Ids = new #ModelName#Collection(
             context: context,
             ss: destinationSs,
+            column: Rds.#TableName#Column().#ModelName#Id(),
             where: Where(
                 context: context,
                 ss: destinationSs,
                 view: null,
-                where: where));
+                where: where))
+                    .Select(o => o.#ModelName#Id)
+                    .ToList();
         var matchingConditions = destinationCondition != null
             ? Repository.ExecuteTable(
                 context: context,
@@ -40,15 +43,13 @@
                             .AsEnumerable()
                             .Select(dataRow => dataRow.Long("#ModelName#Id"))
                             .ToList()
-            : #modelName#Collection
-                .Select(o => o.#ModelName#Id)
-                .ToList();
-        var data = #modelName#Collection.Any()
+            : #modelName#Ids;
+        var data = #modelName#Ids.Any()
             ? Data(
                 context: context,
                 ss: ss,
                 destinationColumn: destinationColumn,
-                destinations: #modelName#Collection.Select(o => o.#ModelName#Id),
+                destinations: #modelName#Ids,
                 sourceSiteId: sourceSiteId,
                 sourceReferenceType: sourceReferenceType,
                 linkColumn: linkColumn,
@@ -56,14 +57,18 @@
                 sourceColumn: sourceColumn,
                 sourceCondition: sourceCondition)
             : new Dictionary<long, decimal>();
-        #modelName#Collection.ForEach(#modelName#Model =>
+        #modelName#Ids.ForEach(#modelName#Id =>
         {
+            var #modelName#Model = new #ModelName#Model(
+                context: context,
+                ss: destinationSs,
+                #modelName#Id: #modelName#Id);
             if (matchingConditions.Any(o => o == #modelName#Model.#ModelName#Id))
             {
                 Set(
-                    #modelName#Model,
-                    destinationColumn,
-                    data.Get(#modelName#Model.#ModelName#Id));
+                    #modelName#Model: #modelName#Model,
+                    destinationColumn: destinationColumn,
+                    value: data.Get(#modelName#Model.#ModelName#Id));
             }
             else if (setZeroWhenOutOfCondition)
             {
@@ -71,8 +76,12 @@
             }
             if (#modelName#Model.Updated(context: context))
             {
-                #modelName#Model.SetByFormula(context: context, ss: destinationSs);
-                #modelName#Model.SetChoiceHash(context: context, ss: destinationSs);
+                #modelName#Model.SetByFormula(
+                    context: context,
+                    ss: destinationSs);
+                #modelName#Model.SetChoiceHash(
+                    context: context,
+                    ss: destinationSs);
                 #modelName#Model.Update(
                     context: context,
                     ss: destinationSs,
