@@ -1,9 +1,11 @@
 ﻿namespace Implem.Pleasanter.Libraries.Settings
 {
-    public enum DashboardType
+    public enum DashboardPartType
     {
         QuickAccess,
-        TimeLine
+        TimeLine,
+        Custom,
+        CustomHtml
     }
 
 

@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<ServerScript> ServerScripts;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
-        public SettingList<Dashboard> Dashboards;
+        public SettingList<DashboardPart> DashboardParts;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
         public bool? AllowEditingComments;
@@ -351,7 +351,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (BulkUpdateColumns == null) BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
-            if (Dashboards == null) Dashboards = new SettingList<Dashboard>();
+            if (DashboardParts == null) DashboardParts = new SettingList<DashboardPart>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
             AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
@@ -1131,13 +1131,13 @@ namespace Implem.Pleasanter.Libraries.Settings
                 }
                 ss.RelatingColumns.Add(relatingColumn.GetRecordingData());
             });
-            Dashboards?.ForEach(dashboards =>
+            DashboardParts?.ForEach(dashboards =>
             {
-                if(ss.Dashboards == null)
+                if(ss.DashboardParts == null)
                 {
-                    ss.Dashboards = new SettingList<Dashboard>();
+                    ss.DashboardParts = new SettingList<DashboardPart>();
                 }
-                ss.Dashboards.Add(dashboards.GetRecordingData(context: context));
+                ss.DashboardParts.Add(dashboards.GetRecordingData(context: context));
             });
             if (!ExtendedHeader.IsNullOrEmpty())
             {

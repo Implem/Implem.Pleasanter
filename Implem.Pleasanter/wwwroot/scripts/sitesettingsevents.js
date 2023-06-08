@@ -129,9 +129,11 @@
     $(document).on('change', '#FormulaCondition', function () {
         $('#FormulaOutOfConditionField').toggle($(this).val() !== '');
     });
-    $(document).on('click', '#AddViewSorter', function () {
-        var $dataViewSorter = $('#ViewSorterSelector option:selected');
-        var orderType = $('#ViewSorterOrderTypes option:selected').val();
+    $(document).on('click', '.add-view-sorter', function () {
+        var $control = $(this);
+        var prefix = $control.data('prefix');
+        var $dataViewSorter = $('#' + prefix + 'ViewSorterSelector option:selected');
+        var orderType = $('#' + prefix + 'ViewSorterOrderTypes option:selected').val();
         var orderText = '';
         switch (orderType) {
             case 'asc':
@@ -142,7 +144,7 @@
                 break;
         }
         $p.addBasket(
-            $('#ViewSorters'),
+            $('#' + prefix + 'ViewSorters'),
             $dataViewSorter.text() + orderText,
             $dataViewSorter.val() + '&' + orderType);
     });

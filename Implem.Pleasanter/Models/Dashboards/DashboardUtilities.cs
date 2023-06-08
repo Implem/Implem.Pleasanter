@@ -80,21 +80,29 @@ namespace Implem.Pleasanter.Models
                     errorData: invalid);
             }
 
-            var dashboardLayouts = ss.Dashboards.Select(dashboard =>
+            var dashboardPartLayouts = ss.DashboardParts.Select(dashboardPart =>
             {
-                switch (dashboard.Type)
+                switch (dashboardPart.Type)
                 {
-                    case DashboardType.QuickAccess:
+                    case DashboardPartType.QuickAccess:
                         return QuickAccessLayout(
                             context: context,
-                            dashboard: dashboard);
-                    case DashboardType.TimeLine:
+                            dashboardPart: dashboardPart);
+                    case DashboardPartType.TimeLine:
                         return TimeLineLayout(
                             context: context,
                             ss: ss,
-                            dashboard: dashboard);
+                            dashboardPart: dashboardPart);
+                    case DashboardPartType.Custom:
+                        return CustomLayouyt(
+                            context: context,
+                            dashboardPart: dashboardPart);
+                    case DashboardPartType.CustomHtml:
+                        return CustomHtmlLayouyt(
+                            context: context,
+                            dashboardPart: dashboardPart);
                     default:
-                        return new DashboardLayout();
+                        return new DashboardPartLayout();
                 };
             }).ToJson();
             
@@ -132,26 +140,93 @@ namespace Implem.Pleasanter.Models
                                 controlId: "BaseUrl",
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
-                                controlId: "DashboardLayouts",
-                                value: dashboardLayouts)))
+                                controlId: "DashboardPartLayouts",
+                                value: dashboardPartLayouts)))
                     .ToString();
+        }
+
+        private static DashboardPartLayout CustomLayouyt(Context context, DashboardPart dashboardPart)
+        {
+            var content = new HtmlBuilder()
+                .Custom(context: context, dashboardPart: dashboardPart).ToString();
+            return new DashboardPartLayout()
+            {
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
+        }
+
+        private static DashboardPartLayout CustomHtmlLayouyt(Context context, DashboardPart dashboardPart)
+        {
+            var content = new HtmlBuilder()
+                .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
+            return new DashboardPartLayout()
+            {
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
+        }
+
+        private static HtmlBuilder Custom(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
+        {
+            return hb.Div(
+                id: $"DashboardCustom_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb
+                        .Div(
+                            css: "dashboard-custom-body markup",
+                            action: () => hb.Text(text: dashboardPart.Content));
+                    
+                });
+        }
+        private static HtmlBuilder CustomHtml(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
+        {
+            return hb.Div(
+                id: $"DashboardCustomHtml_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb
+                        .Div(
+                            css: "dashboard-custom-html-body",
+                            action: () => hb.Raw(text: dashboardPart.Content));
+                    
+                });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardLayout QuickAccessLayout(Context context, Dashboard dashboard)
+        private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
         {
-            var sites = dashboard.GetDashboardSites(context: context);
-
             var content = new HtmlBuilder()
-                .QuickAccessMenu(context: context, sites).ToString();
-            return new DashboardLayout()
+                .QuickAccessMenu(context: context, dashboardPart).ToString();
+            return new DashboardPartLayout()
             {
-                X = dashboard.X,
-                Y = dashboard.Y,
-                W = dashboard.Width,
-                H = dashboard.Height,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
                 Content = content
             };
         }
@@ -159,8 +234,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, IList<long> sites)
+        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
         {
+            var sites = DashboardPart.GetDashboardPartSites(context: context, dashboardPart.QuickAccessSites);
             var ss = SiteSettingsUtilities.SitesSiteSettings(
                    context: context,
                    siteId: 0);
@@ -169,19 +245,31 @@ namespace Implem.Pleasanter.Models
                 .Get(context.TenantId)?
                 .SiteMenu
                 .SiteConditions(context: context, ss: ss);
-            return hb.Div(id: "SiteMenu", action: () => hb
-                .Nav(css: "cf", action: () => hb
-                    .Ul(css: "nav-sites sortable", action: () =>
-                        QuickAccessSites(context: context, sites: sites)
-                            .ForEach(siteModelChild => hb
-                                .SiteMenu(
-                                    context: context,
-                                    ss: ss,
-                                    currentSs: siteModelChild.SiteSettings,
-                                    siteId: siteModelChild.SiteId,
-                                    referenceType: siteModelChild.ReferenceType,
-                                    title: siteModelChild.Title.Value,
-                                    siteConditions: siteConditions)))));
+            return hb.Div(
+                id: $"QuickAccessContainer_{dashboardPart}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb
+                        .Nav(css: "cf", action: () => hb
+                            .Ul(css: "nav-sites sortable", action: () =>
+                                QuickAccessSites(context: context, sites: sites)
+                                    .ForEach(siteModelChild => hb
+                                        .SiteMenu(
+                                            context: context,
+                                            ss: ss,
+                                            currentSs: siteModelChild.SiteSettings,
+                                            siteId: siteModelChild.SiteId,
+                                            referenceType: siteModelChild.ReferenceType,
+                                            title: siteModelChild.Title.Value,
+                                            siteConditions: siteConditions))));
+                });
         }
 
         /// <summary>
@@ -207,32 +295,39 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static DashboardLayout TimeLineLayout(
+        private static DashboardPartLayout TimeLineLayout(
             Context context,
             SiteSettings ss,
-            Dashboard dashboard)
+            DashboardPart dashboardPart)
         {
             var timeLineItems = GetTimeLineRecords(
                 context: context,
-                dashboard: dashboard);
+                dashboardPart: dashboardPart);
             var hb = new HtmlBuilder();
             var timeLine = hb
                 .Div(
-                    id: "TimelineContainer",
-                    css: "timeline-container",
+                    id: $"TimelineContainer_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-timeline-container",
                     action: () =>
                     {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
                         foreach (var item in timeLineItems)
                         {
                             hb.TimeLineItem(context,item);
                         }
                     }).ToString();
-            return new DashboardLayout()
+            return new DashboardPartLayout()
             {
-                X = dashboard.X,
-                Y = dashboard.Y,
-                W = dashboard.Width,
-                H = dashboard.Height,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
                 Content = timeLine
             };
         }
@@ -240,83 +335,77 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void TimeLineItem(this HtmlBuilder hb, Context context, TimeLineItem item)
+        private static void TimeLineItem(this HtmlBuilder hb, Context context, DashboardTimeLineItem item)
         {
             hb.Div(
-                css: "timeline-item",
+                css: "dashboard-timeline-item",
                 action: () =>
                 {
-                    hb.Div(
-                        css: "timeline-header",
-                        action: () =>
-                                {
-                                    var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
-                                        ? $"updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
-                                        : $"created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
-                                    hb
-                                        .A(
-                                            text: item.SiteTitle.Title(context: context),
-                                            href: Locations.ItemIndex(
-                                                context: context,
-                                                id: item.SiteId))
-                                        .P(css: "timeline-record-time",
-                                            action: () => hb.Text(recordTime));
-                                })
+                    hb
                         .Div(
-                        css: "timeline-titlebody",
-                        attributes: new HtmlAttributes()
-                            .Add(
-                                "data-url",
-                                Locations.Edit(
-                                    context: context,
-                                    "items",
-                                    item.Id)),
-                        action: () => hb
-                            .Div(
-                                css: "timeline-title",
-                                action: () => hb
-                                    .A(
-                                        css: "timeline-record-link",
-                                        text: item.Title.DisplayValue,
-                                        href: Locations.Edit(
-                                            context: context,
-                                            "items",
-                                            item.Id)))
-                            .Div(
-                                css: "timeline-body markup",
-                                action: () =>
-                                        {
-                                            hb.Text(text: item.Body);
-                                        }));
-                        });
+                            css: "dashboard-timeline-header",
+                            action: () =>
+                                    {
+                                        var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
+                                            ? $"Updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
+                                            : $"Created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
+                                        hb
+                                            .A(
+                                                text: item.SiteTitle.Title(context: context),
+                                                href: Locations.ItemIndex(
+                                                    context: context,
+                                                    id: item.SiteId))
+                                            .P(css: "dashboard-timeline-record-time",
+                                                action: () => hb.Text(recordTime));
+                                    })
+                        .Div(
+                            css: "dashboard-timeline-titlebody",
+                            attributes: new HtmlAttributes()
+                                .Add(
+                                    "data-url",
+                                    Locations.Edit(
+                                        context: context,
+                                        "items",
+                                        item.Id)),
+                            action: () => hb
+                                .Div(
+                                    css: "dashboard-timeline-title",
+                                    action: () => hb.Text(item.Title))
+                                .Div(
+                                    css: "dashboard-timeline-body markup",
+                                    action: () => hb.Text(text: item.Body)));
+                            });
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<TimeLineItem> GetTimeLineRecords(Context context, Dashboard dashboard)
+        private static IEnumerable<DashboardTimeLineItem> GetTimeLineRecords(Context context, DashboardPart dashboardPart)
         {
             //基準となるサイトからSiteSettingsを取得
             var ss = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboard.SiteId);
+                siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboard.Sites;
+            ss.IntegratedSites = dashboardPart.TimeLineSites;
             ss.SetSiteIntegration(context: context);
             //Viewからフィルタ条件とソート条件を取得
-            var where = dashboard.View.Where(
+            var where = dashboardPart.View.Where(
                 context: context,
                 ss: ss);
-            var orderBy = dashboard.View.OrderBy(
+            var orderBy = dashboardPart.View.OrderBy(
                 context: context,
                 ss: ss);
+
             if (ss.ReferenceType == "Issues")
             {
                 return GetTimeLineIssues(
                     context: context,
                     ss: ss,
                     where: where,
-                    orderBy: orderBy);
+                    orderBy: orderBy,
+                    titleTemplate: dashboardPart.TimeLineTitle,
+                    bodyTemplate: dashboardPart.TimeLineBody);
             }
             else if(ss.ReferenceType == "Results")
             {
@@ -324,23 +413,30 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     where: where,
-                    orderBy: orderBy);
+                    orderBy: orderBy,
+                    titleTemplate: dashboardPart.TimeLineTitle,
+                    bodyTemplate: dashboardPart.TimeLineBody);
             }
             else
             {
-                return Enumerable.Empty<TimeLineItem>();
+                return Enumerable.Empty<DashboardTimeLineItem>();
             }
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<TimeLineItem> GetTimeLineResults(Context context, SiteSettings ss, SqlWhereCollection where, SqlOrderByCollection orderBy)
+        private static IEnumerable<DashboardTimeLineItem> GetTimeLineResults(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            string titleTemplate,
+            string bodyTemplate)
         {
             var results = new ResultCollection(
                 context: context,
                 ss: ss,
-                //column: column,
                 where: where,
                 orderBy: orderBy,
                 join: ss.Join(
@@ -351,14 +447,28 @@ namespace Implem.Pleasanter.Models
                             orderBy
                     }
                 ));
+
+            var columns = ss.IncludedColumns(
+                value: titleTemplate,
+                labelText: true);
+            var title = ss.LabelTextToColumnName(titleTemplate);
+            var body = ss.LabelTextToColumnName(bodyTemplate);
             return results
-                .Select(model => new TimeLineItem
+                .Select(model => new DashboardTimeLineItem
                 {
                     Id = model.ResultId,
                     SiteId = model.SiteId,
                     SiteTitle = model.SiteTitle,
-                    Title = model.Title,
-                    Body = model.Body,
+                    Title = model.ReplaceLineByResultModel(
+                        context: context,
+                        ss: ss,
+                        line: title,
+                        itemTitle: model.Title.DisplayValue),
+                    Body = model.ReplaceLineByResultModel(
+                        context: context,
+                        ss: ss,
+                        line: body,
+                        itemTitle: model.Title.DisplayValue),
                     CreatedTime = model.CreatedTime,
                     UpdatedTime = model.UpdatedTime,
                     Creator = model.Creator,
@@ -369,12 +479,17 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<TimeLineItem> GetTimeLineIssues(Context context, SiteSettings ss, SqlWhereCollection where, SqlOrderByCollection orderBy)
+        private static IEnumerable<DashboardTimeLineItem> GetTimeLineIssues(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            string titleTemplate,
+            string bodyTemplate)
         {
             var issues = new IssueCollection(
                 context: context,
                 ss: ss,
-                //column: column,
                 where: where,
                 orderBy: orderBy,
                 join: ss.Join(
@@ -385,14 +500,24 @@ namespace Implem.Pleasanter.Models
                             orderBy
                     }
                 ));
+            var title = ss.LabelTextToColumnName(titleTemplate);
+            var body = ss.LabelTextToColumnName(bodyTemplate);
             return issues
-                .Select(model => new TimeLineItem
+                .Select(model => new DashboardTimeLineItem
                 {
                     Id = model.IssueId,
                     SiteId = model.SiteId,
                     SiteTitle = model.SiteTitle,
-                    Title = model.Title,
-                    Body = model.Body,
+                    Title = model.ReplaceLineByIssueModel(
+                        context: context,
+                        ss: ss,
+                        line: title,
+                        itemTitle: model.Title.DisplayValue),
+                    Body = model.ReplaceLineByIssueModel(
+                        context: context,
+                        ss: ss,
+                        line: body,
+                        itemTitle: model.Title.DisplayValue),
                     CreatedTime = model.CreatedTime,
                     UpdatedTime = model.UpdatedTime,
                     Creator = model.Creator,
@@ -487,7 +612,7 @@ namespace Implem.Pleasanter.Models
                             .ToString())
                 .Hidden(
                     controlId: "GridRowIds",
-                    value: gridData.DataRows.Select(g => g.Long("DashboardId")).ToJson())
+                    value: gridData.DataRows.Select(g => g.Long("DashboardPartId")).ToJson())
                 .Hidden(
                     controlId: "GridColumns",
                     value: columns.Select(o => o.ColumnName).ToJson())
@@ -557,7 +682,7 @@ namespace Implem.Pleasanter.Models
                     offset,
                     gridData.DataRows.Count(),
                     gridData.TotalCount))
-                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("DashboardId")).ToJson())
+                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("DashboardPartId")).ToJson())
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)

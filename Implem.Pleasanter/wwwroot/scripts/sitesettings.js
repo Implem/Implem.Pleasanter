@@ -244,12 +244,31 @@ $p.setRelatingColumn = function ($control) {
     $p.send($control);
 }
 
-$p.openDashboardDialog = function ($control) {
+$p.openDashboardPartDialog = function ($control) {
     $p.data.DashboardForm = {};
-    $p.openSiteSettingsDialog($control, '#DashboardDialog');
+    $p.openSiteSettingsDialog($control, '#DashboardPartDialog');
 }
 
-$p.setDashboard = function ($control) {
-    $p.setData($('#EditDashboard'), $p.getData($control));
+$p.setDashboardPart = function ($control) {
+    $p.setData($('#EditDashboardPart'), $p.getData($control));
     $p.send($control);
+}
+
+$p.openDashboardPartTimeLineSitesDialog = function ($control) {
+    $p.data.TimeLineSitesForm = {};
+    $p.openSiteSettingsDialog($control, '#DashboardPartTimeLineSitesDialog');
+}
+
+$p.updateDashboardPartTimeLineSites = function ($control) {
+    $p.send($control);
+}
+
+$p.confirmTimeLineSites = function (value) {
+    var result = confirm('基準となるサイトが変更されるため、「フィルタ」および「ソータ」をリセットします。');
+    if (result) {
+        $('#DashboardPartTimeLineSitesValue').text(value);
+        $p.set($('#DashboardPartTimeLineSites'), value);
+        $p.send($("#ClearDashboardView"));
+        $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
+    }
 }

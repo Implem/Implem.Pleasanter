@@ -8206,5 +8206,158 @@ namespace Implem.Pleasanter.Models
                     resultModel.UpdatedTime.DisplayValue.ToString(context.CultureInfo())
                 });
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string ReplaceLineByResultModel(
+            this ResultModel resultModel,
+            Context context,
+            SiteSettings ss,
+            string line,
+            string itemTitle)
+        {
+            ss.IncludedColumns(line).ForEach(column =>
+            {
+                switch (column.ColumnName)
+                {
+                    case "Title":
+                        line = line.Replace("[Title]", itemTitle);
+                        break;
+                    case "SiteId":
+                        line = line.Replace(
+                            "[SiteId]",
+                            resultModel.SiteId.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "UpdatedTime":
+                        line = line.Replace(
+                            "[UpdatedTime]",
+                            resultModel.UpdatedTime.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "ResultId":
+                        line = line.Replace(
+                            "[ResultId]",
+                            resultModel.ResultId.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Ver":
+                        line = line.Replace(
+                            "[Ver]",
+                            resultModel.Ver.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Body":
+                        line = line.Replace(
+                            "[Body]",
+                            resultModel.Body.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Status":
+                        line = line.Replace(
+                            "[Status]",
+                            resultModel.Status.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Manager":
+                        line = line.Replace(
+                            "[Manager]",
+                            resultModel.Manager.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Owner":
+                        line = line.Replace(
+                            "[Owner]",
+                            resultModel.Owner.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Locked":
+                        line = line.Replace(
+                            "[Locked]",
+                            resultModel.Locked.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Comments":
+                        line = line.Replace(
+                            "[Comments]",
+                            resultModel.Comments.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Creator":
+                        line = line.Replace(
+                            "[Creator]",
+                            resultModel.Creator.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Updator":
+                        line = line.Replace(
+                            "[Updator]",
+                            resultModel.Updator.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "CreatedTime":
+                        line = line.Replace(
+                            "[CreatedTime]",
+                            resultModel.CreatedTime.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                        {
+                            case "Class":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    resultModel.GetClass(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Num":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    resultModel.GetNum(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Date":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    resultModel.GetDate(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Description":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    resultModel.GetDescription(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Check":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    resultModel.GetCheck(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                        }
+                        break;
+                }
+            });
+            return line;
+        }
     }
 }

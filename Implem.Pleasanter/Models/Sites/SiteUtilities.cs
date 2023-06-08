@@ -3249,6 +3249,11 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#DashboardPartSettingsEditor",
+                                            text: "ダッシュボードパーツ")
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#StylesSettingsEditor",
                                             text: Displays.Styles(context: context)),
                                     _using: context.ContractSettings.Style != false)
@@ -3257,12 +3262,7 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
-                                    _using: context.ContractSettings.Script != false)
-                                .Li(
-                                    action: () => hb
-                                        .A(
-                                            href: "#DashboardSettingsEditor",
-                                            text: "ダッシュボード"));
+                                    _using: context.ContractSettings.Script != false));
                             break;
                         case "Wikis":
                             hb
@@ -4450,9 +4450,14 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Script != false)
                 .Div(
                     attributes: new HtmlAttributes()
-                        .Id("DashboardDialog")
+                        .Id("DashboardPartDialog")
                         .Class("dialog")
                         .Title("ダッシュボード"))
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("DashboardPartTimeLineSitesDialog")
+                        .Class("dialog")
+                        .Title("サイトID"))
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ServerScriptDialog")
@@ -4603,9 +4608,9 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "Dashboards":
                         hb
+                            .DashboardPartSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .DashboardSettingsEditor(context: context, ss: siteModel.SiteSettings);
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
                         break;
                     case "Wikis":
                         hb
@@ -10517,7 +10522,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewFiltersTab(
+        public static HtmlBuilder ViewFiltersTab(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
@@ -10876,15 +10881,16 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder ViewSortersTab(
+        public static HtmlBuilder ViewSortersTab(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
             View view,
+            string prefix = "",
             bool usekeepSorterState = true,
             bool currentTableOnly = false)
         {
-            return hb.FieldSet(id: "ViewSortersTab", action: () => hb
+            return hb.FieldSet(id: $"{prefix}ViewSortersTab", action: () => hb
                 .FieldCheckBox(
                     controlId: "KeepSorterState",
                     fieldCss: "field-auto-thin",
@@ -10893,7 +10899,7 @@ namespace Implem.Pleasanter.Models
                     labelPositionIsRight: true,
                     _using: usekeepSorterState)
                 .FieldSet(
-                    id: "ViewFiltersSorterConditionSettingsEditor",
+                    id: $"{prefix}ViewFiltersSorterConditionSettingsEditor",
                     css: "both" + (view.KeepSorterState == true
                         ? " hidden"
                         : string.Empty),
@@ -10903,7 +10909,7 @@ namespace Implem.Pleasanter.Models
                         legendText: Displays.SortCondition(context: context),
                         action: () => hb
                 .FieldBasket(
-                    controlId: "ViewSorters",
+                    controlId: $"{prefix}ViewSorters",
                     fieldCss: "field-wide",
                     controlCss: "control-basket cf",
                     listItemCollection: view.ColumnSorterHash?.ToDictionary(
@@ -10915,7 +10921,7 @@ namespace Implem.Pleasanter.Models
                         .Text(text: Displays.Sorters(context: context)))
                 .FieldDropDown(
                     context: context,
-                    controlId: "ViewSorterSelector",
+                    controlId: $"{prefix}ViewSorterSelector",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
                     optionCollection: ss.ViewSorterOptions(
@@ -10923,7 +10929,7 @@ namespace Implem.Pleasanter.Models
                         currentTableOnly: currentTableOnly))
                 .FieldDropDown(
                     context: context,
-                    controlId: "ViewSorterOrderTypes",
+                    controlId: $"{prefix}ViewSorterOrderTypes",
                     fieldCss: "field-auto-thin",
                     controlCss: " always-send",
                     optionCollection: new Dictionary<string, string>
@@ -10932,8 +10938,9 @@ namespace Implem.Pleasanter.Models
                         { "desc", Displays.OrderDesc(context: context) }
                     })
                 .Button(
-                    controlId: "AddViewSorter",
-                    controlCss: "button-icon",
+                    controlId: $"Add{prefix}ViewSorter",
+                    controlCss: " add-view-sorter button-icon",
+                    attributes: new Dictionary<string, string>() { { "data-prefix", prefix } },
                     text: Displays.Add(context: context),
                     icon: "ui-icon-plus"))));
         }
@@ -13890,54 +13897,54 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder DashboardSettingsEditor(
+        private static HtmlBuilder DashboardPartSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
             if (context.ContractSettings.Script == false) return hb;
-            return hb.FieldSet(id: "DashboardSettingsEditor", action: () => hb
+            return hb.FieldSet(id: "DashboardPartSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(
-                        controlId: "MoveUpDashboards",
+                        controlId: "MoveUpDashboardParts",
                         controlCss: "button-icon",
                         text: Displays.MoveUp(context: context),
-                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        onClick: "$p.setAndSend('#EditDashboardPart', $(this));",
                         icon: "ui-icon-circle-triangle-n",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
-                        controlId: "MoveDownDashboards",
+                        controlId: "MoveDownDashboardParts",
                         controlCss: "button-icon",
                         text: Displays.MoveDown(context: context),
-                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        onClick: "$p.setAndSend('#EditDashboardPart', $(this));",
                         icon: "ui-icon-circle-triangle-s",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
-                        controlId: "NewDashboard",
+                        controlId: "NewDashboardPart",
                         text: Displays.New(context: context),
                         controlCss: "button-icon",
-                        onClick: "$p.openDashboardDialog($(this));",
+                        onClick: "$p.openDashboardPartDialog($(this));",
                         icon: "ui-icon-gear",
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
-                        controlId: "CopyDashboards",
+                        controlId: "CopyDashboardParts",
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
-                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        onClick: "$p.setAndSend('#EditDashboardPart', $(this));",
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
-                        controlId: "DeleteDashboards",
+                        controlId: "DeleteDashboardParts",
                         text: Displays.Delete(context: context),
                         controlCss: "button-icon",
-                        onClick: "$p.setAndSend('#EditDashboard', $(this));",
+                        onClick: "$p.setAndSend('#EditDashboardPart', $(this));",
                         icon: "ui-icon-trash",
                         action: "SetSiteSettings",
                         method: "delete",
                         confirm: Displays.ConfirmDelete(context: context)))
-                .EditDashboard(
+                .EditDashboardPart(
                     context: context,
                     ss: ss));
         }
@@ -13945,24 +13952,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder EditDashboard(
+        public static HtmlBuilder EditDashboardPart(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            var selected = context.Forms.Data("EditDashboard").Deserialize<IEnumerable<int>>();
+            var selected = context.Forms.Data("EditDashboardPart").Deserialize<IEnumerable<int>>();
             return hb.Table(
-                id: "EditDashboard",
+                id: "EditDashboardPart",
                 css: "grid",
                 attributes: new HtmlAttributes()
-                    .DataName("DashboardId")
-                    .DataFunc("openDashboardDialog")
+                    .DataName("DashboardPartId")
+                    .DataFunc("openDashboardPartDialog")
                     .DataAction("SetSiteSettings")
                     .DataMethod("post"),
                 action: () => hb
-                    .EditDashboardHeader(
+                    .EditDashboardPartHeader(
                         context: context,
                         ss: ss,
                         selected: selected)
-                    .EditDashboardBody(
+                    .EditDashboardPartBody(
                         ss: ss,
                         selected: selected));
         }
@@ -13970,7 +13977,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder EditDashboardHeader(
+        private static HtmlBuilder EditDashboardPartHeader(
             this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
         {
             return hb.THead(action: () => hb
@@ -13999,175 +14006,160 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder EditDashboardBody(
+        public static HtmlBuilder EditDashboardPartBody(
             this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
-                .Dashboards?.ForEach(dashboard => hb
+                .DashboardParts?.ForEach(dashboardPart => hb
                     .Tr(
                         css: "grid-row",
                         attributes: new HtmlAttributes()
-                            .DataId(dashboard.Id.ToString()),
+                            .DataId(dashboardPart.Id.ToString()),
                         action: () => hb
                             .Td(action: () => hb
                                 .CheckBox(
                                     controlCss: "select",
                                     _checked: selected?
-                                        .Contains(dashboard.Id) == true))
+                                        .Contains(dashboardPart.Id) == true))
                             .Td(action: () => hb
-                                .Text(text: dashboard.Id.ToString()))
+                                .Text(text: dashboardPart.Id.ToString()))
                             .Td(action: () => hb
-                                .Text(text: dashboard.Title))
+                                .Text(text: dashboardPart.Title))
                             .Td(action: () => hb
-                                .Text(text: dashboard.Type.ToString()))
+                                .Text(text: dashboardPart.Type.ToString()))
                             .Td(action: () => hb
-                                .Text(text: dashboard.X.ToString()))
+                                .Text(text: dashboardPart.X.ToString()))
                             .Td(action: () => hb
-                                .Text(text: dashboard.Y.ToString()))
+                                .Text(text: dashboardPart.Y.ToString()))
                             .Td(action: () => hb
-                                .Text(text: dashboard.Width.ToString()))
+                                .Text(text: dashboardPart.Width.ToString()))
                             .Td(action: () => hb
-                                .Text(text: dashboard.Height.ToString())))));
+                                .Text(text: dashboardPart.Height.ToString())))));
+        }
+
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+         public static HtmlBuilder DashboardPartTimeLineSitesDialog(
+            Context context,
+            SiteSettings ss,
+            int dashboardPartId,
+            string dashboardTimeLineSites)
+        {
+
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartTimeLineSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartTimeLineSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: "サイトID",
+                        text: dashboardTimeLineSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartTimeLineSites",
+                        alwaysSend: true,
+                        value: dashboardTimeLineSites)
+                    .Hidden(
+                        controlId: "ClearDashboardView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartTimeLineSites",
+                            text: Displays.Edit(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.updateDashboardPartTimeLineSites($(this));",
+                            action: "SetSiteSettings",
+                            method: "post")));
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static HtmlBuilder DashboardDialog(
-            Context context, SiteSettings ss, string controlId, Dashboard dashboard)
+        public static HtmlBuilder DashboardPartDialog(
+            Context context,
+            SiteSettings ss,
+            string controlId,
+            DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
-                    .Id("DashboardForm")
+                    .Id("DashboardPartForm")
                     .Action(Locations.ItemAction(
                         context: context,
                         id: ss.SiteId)),
                 action: () => hb
-                    .FieldText(
-                        controlId: "DashboardId",
-                        controlCss: " always-send",
-                        labelText: Displays.Id(context: context),
-                        text: dashboard.Id.ToString(),
-                        _using: controlId == "EditDashboard")
-                    .FieldTextBox(
-                        controlId: "DashboardTitle",
-                        fieldCss: "field-wide",
-                        controlCss: " always-send",
-                        labelText: Displays.Title(context: context),
-                        text: dashboard.Title,
-                        validateRequired: true)
-                     .FieldDropDown(
-                        context: context,
-                        controlId: "DashboardType",
-                        controlCss: " always-send",
-                        labelText: "タイプ",
-                        optionCollection: new Dictionary<string, string>
-                        {
-                            {
-                                DashboardType.QuickAccess.ToInt().ToString(),
-                                "クイックアクセス"
-                            },
-                            {
-                                DashboardType.TimeLine.ToInt().ToString(),
-                                "タイムライン"
-                            }
-                        },
-                        selectedValue: dashboard.Type.ToInt().ToString(),
-                        insertBlank: false)
-                     .FieldTextBox(
-                        controlId: "DashboardSites",
-                        fieldCss: "field-wide",
-                        controlCss: " always-send",
-                        labelText: "サイトID",
-                        text: dashboard.Sites?.Join(),
-                        validateRequired: true)
-                     .FieldSet(
-                        id: "DashboardBoundsEditor",
-                        action: ()=> hb
-                            .FieldSet(
-                                css: " enclosed-thin",
-                                legendText: "配置",
-                                action: ()=> hb     
-                                    .FieldSpinner(
-                                        controlId: "DashboardX",
-                                        fieldCss: "field-auto-thin",
-                                        controlCss: " always-send",
-                                        labelText: "X",
-                                        value: dashboard.X.ToDecimal(),
-                                        min: 0,
-                                        max: 11,
-                                        step: 1,
-                                        width: 25)
-                                    .FieldSpinner(
-                                        controlId: "DashboardY",
-                                        fieldCss: "field-auto-thin",
-                                        controlCss: " always-send",
-                                        labelText: "Y",
-                                        value: dashboard.Y.ToDecimal(),
-                                        min: 0,
-                                        max: 11,
-                                        step: 1,
-                                        width: 25)
-                                    .FieldSpinner(
-                                        controlId: "DashboardWidth",
-                                        fieldCss: "field-auto-thin",
-                                        controlCss: " always-send",
-                                        labelText: "Width",
-                                        value: dashboard.Width.ToDecimal(),
-                                        min: 1,
-                                        max: 12,
-                                        step: 1,
-                                        width: 25)
-                                    .FieldSpinner(
-                                        controlId: "DashboardHeight",
-                                        fieldCss: "field-auto-thin",
-                                        controlCss: " always-send",
-                                        labelText: "Height",
-                                        value: dashboard.Height.ToDecimal(),
-                                        min: 1,
-                                        max: 12,
-                                        step: 1,
-                                        width: 25)))
-                     .FieldSet(
-                        id: "DashboardTimeLineEditor",
-                        css: dashboard.Type == DashboardType.TimeLine
-                            ? ""
-                            : " hidden",
-                        action: ()=>
-                            hb
-                                .FieldTextBox(
-                                    controlId: "DashboardSiteId",
-                                    controlCss: " always-send",
-                                    labelText: "基準サイトID",
-                                    text: dashboard.SiteId.ToString(),
-                                    validateNumber: true)
-                                .DashboardViewFiltersTab(
-                                    context: context,
-                                    dashboard: dashboard)
-                                .DashboardViewSorterTab(
-                                    context: context,
-                                    dashboard: dashboard))
+                    .Div(
+                        id: "ViewTabsContainer",
+                        css: "tab-container",
+                        action: () => hb.Ul(
+                            id: "ViewTabs",
+                            action: () => hb
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#DashboardPartGeneralTabContainer",
+                                        text: Displays.General(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#DashboardPartViewFiltersTabContainer",
+                                        text: Displays.Filters(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#DashboardPartViewSortersTabContainer",
+                                        text: Displays.Sorters(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#DashboardPartBoundsTabContainer",
+                                        text: "配置")))
+                        .DashboardPartGeneralTab(
+                            context: context,
+                            ss: ss,
+                            dashboardPart: dashboardPart,
+                            controlId: controlId)
+                        .DashboardPartViewFiltersTab(
+                            context: context,
+                            dashboardPart: dashboardPart)
+                        .DashboardPartViewSortersTab(
+                            context: context,
+                            dashboardPart: dashboardPart)
+                        .DashboardPartBoundsTab(
+                            context: context,
+                            dashboardPart: dashboardPart))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
-                            controlId: "AddDashboard",
+                            controlId: "AddDashboardPart",
                             text: Displays.Add(context: context),
                             controlCss: "button-icon validate",
                             icon: "ui-icon-disk",
-                            onClick: "$p.setDashboard($(this));",
+                            onClick: "$p.setDashboardPart($(this));",
                             action: "SetSiteSettings",
                             method: "post",
-                            _using: controlId == "NewDashboard")
+                            _using: controlId == "NewDashboardPart")
                         .Button(
-                            controlId: "UpdateDashboard",
+                            controlId: "UpdateDashboardPart",
                             text: Displays.Change(context: context),
                             controlCss: "button-icon validate",
-                            onClick: "$p.setDashboard($(this));",
+                            onClick: "$p.setDashboardPart($(this));",
                             icon: "ui-icon-disk",
                             action: "SetSiteSettings",
                             method: "post",
-                            _using: controlId == "EditDashboard")
+                            _using: controlId == "EditDashboardPart")
                         .Button(
                             text: Displays.Cancel(context: context),
                             controlCss: "button-icon",
@@ -14178,52 +14170,240 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static HtmlBuilder DashboardViewFiltersTab(
+        private static HtmlBuilder DashboardPartGeneralTab(
             this HtmlBuilder hb,
             Context context,
-            Dashboard dashboard,
+            SiteSettings ss,
+            string controlId,
+            DashboardPart dashboardPart)
+        {
+            string hiddenCss(bool hide) => hide ? " hidden" : "";
+            return hb
+                .FieldSet(id: $"DashboardPartGeneralTabContainer", action: () => hb
+                    .FieldText(
+                        controlId: "DashboardPartId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: dashboardPart.Id.ToString(),
+                        _using: controlId == "EditDashboardPart")
+                    .FieldTextBox(
+                        controlId: "DashboardPartTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: dashboardPart.Title,
+                        validateRequired: true)
+                    .FieldCheckBox(
+                        controlId: "DashboardPartShowTitle",
+                        fieldCss: "field-wide",
+                        controlContainerCss: "m-l50",
+                        controlCss: " always-send",
+                        labelText: "タイトルを表示する",
+                        _checked: dashboardPart.ShowTitle ?? false)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartType",
+                        controlCss: " always-send",
+                        labelText: "タイプ",
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                DashboardPartType.QuickAccess.ToInt().ToString(),
+                                "クイックアクセス"
+                            },
+                            {
+                                DashboardPartType.TimeLine.ToInt().ToString(),
+                                "タイムライン"
+                            },
+                            {
+                                DashboardPartType.Custom.ToInt().ToString(),
+                                "カスタム"
+                            },
+                            {
+                                DashboardPartType.CustomHtml.ToInt().ToString(),
+                                "カスタムHTML"
+                            },
+                        },
+                        selectedValue: dashboardPart.Type.ToInt().ToString(),
+                        insertBlank: false)
+                    .FieldTextBox(
+                            controlId: "DashboardPartQuickAccessSites",
+                            fieldCss: "field-wide"
+                                + hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
+                            controlCss: " always-send",
+                            labelText: "サイトID",
+                            text: dashboardPart.QuickAccessSites?.Join(),
+                            validateRequired: dashboardPart.Type == DashboardPartType.QuickAccess)
+                    .Div(
+                        css:"both" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
+                        action:()=> hb
+                            .FieldText(
+                                controlId: "DashboardPartTimeLineSitesValue",
+                                labelText: "サイトID",
+                                text: dashboardPart.TimeLineSites?.Join())
+                            .Hidden(
+                                controlId: "DashboardPartTimeLineSites",
+                                alwaysSend: true,
+                                value: dashboardPart.TimeLineSites?.Join())
+                            .Button(
+                                    controlId: "EditTimeLineSites",
+                                    text: Displays.Edit(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.openDashboardPartTimeLineSitesDialog($(this));",
+                                    icon: "ui-icon-pencil",
+                                    action: "SetSiteSettings",
+                                    method: "post"))
+                    .FieldTextBox(
+                        controlId: "DashboardPartTimeLineTitle",
+                        fieldCss: "field-wide" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
+                        controlCss: " always-send",
+                        labelText: "レコードのタイトル",
+                        text: dashboardPart.TimeLineTitle.IsNullOrEmpty()
+                            ? $"[Title]"
+                            : SiteSettingsUtilities.Get(context: context, dashboardPart.SiteId)?
+                                .ColumnNameToLabelText(dashboardPart.TimeLineTitle),
+                        validateRequired: dashboardPart.Type == DashboardPartType.TimeLine)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "DashboardPartTimeLineBody",
+                        fieldCss: "field-wide" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
+                        controlCss: " always-send",
+                        labelText: "レコードの内容",
+                        text: dashboardPart.TimeLineBody.IsNullOrEmpty()
+                            ? $"[Body]"
+                            : SiteSettingsUtilities.Get(context: context, dashboardPart.SiteId)?
+                                .ColumnNameToLabelText(dashboardPart.TimeLineBody))
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "DashboardPartContent",
+                        fieldCss: "field-wide"
+                            + hiddenCss(dashboardPart.Type != DashboardPartType.Custom
+                                && dashboardPart.Type != DashboardPartType.CustomHtml),
+                        controlCss: " always-send",
+                        labelText: "内容",
+                        text: dashboardPart.Content,
+                        mobile: context.Mobile));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DashboardPartBoundsTab(
+            this HtmlBuilder hb,
+            Context context,
+            DashboardPart dashboardPart,
+            bool _using = true)
+        {
+            if(_using == false)
+            {
+                return hb;
+            }
+            return hb.FieldSet(
+                id: "DashboardPartBoundsTabContainer",
+                action: () => hb
+                    .FieldSpinner(
+                        controlId: "DashboardPartX",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " always-send",
+                        labelText: "X",
+                        value: dashboardPart.X.ToDecimal(),
+                        min: 0,
+                        max: 11,
+                        step: 1,
+                        width: 25)
+                    .FieldSpinner(
+                        controlId: "DashboardPartY",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " always-send",
+                        labelText: "Y",
+                        value: dashboardPart.Y.ToDecimal(),
+                        min: 0,
+                        max: 11,
+                        step: 1,
+                        width: 25)
+                    .FieldSpinner(
+                        controlId: "DashboardPartWidth",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " always-send",
+                        labelText: "Width",
+                        value: dashboardPart.Width.ToDecimal(),
+                        min: 1,
+                        max: 12,
+                        step: 1,
+                        width: 25)
+                    .FieldSpinner(
+                        controlId: "DashboardPartHeight",
+                        fieldCss: "field-auto-thin",
+                        controlCss: " always-send",
+                        labelText: "Height",
+                        value: dashboardPart.Height.ToDecimal(),
+                        min: 1,
+                        max: 12,
+                        step: 1,
+                        width: 25));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DashboardPartViewFiltersTab(
+            this HtmlBuilder hb,
+            Context context,
+            DashboardPart dashboardPart,
+            bool clearView = false,
             bool _using = true)
         {
             if(_using == false) return hb;
-            var view = dashboard.View ?? new View();
+            var view = clearView
+                ? new View()
+                : (dashboardPart.View ?? new View());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
-                dashboard.SiteId);
+                dashboardPart.SiteId);
             if (currentSs == null)
             {
-                return hb;
+                return hb.FieldSet(id: "DashboardPartViewFiltersTabContainer");
             }
-            return hb.ViewFiltersTab(
-                context: context,
-                ss: currentSs,
-                view: view,
-                prefix: "Dashboard",
-                currentTableOnly: true);
+            
+            return hb.FieldSet(id: "DashboardPartViewFiltersTabContainer",
+                action: () => hb.ViewFiltersTab(
+                    context: context,
+                    ss: currentSs,
+                    view: view,
+                    prefix: "DashboardPart",
+                    currentTableOnly: true));
         }
 
-
-        private static HtmlBuilder DashboardViewSorterTab(
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder DashboardPartViewSortersTab(
             this HtmlBuilder hb,
             Context context,
-            Dashboard dashboard,
+            DashboardPart dashboardPart,
+            bool clearView = false,
             bool _using = true)
         {
             if (_using == false) return hb;
-            var view = dashboard.View ?? new View();
-
+            var view = clearView
+                ? new View()
+                : (dashboardPart.View ?? new View());
             var ss = SiteSettingsUtilities.Get(
                 context: context,
-                dashboard.SiteId);
+                dashboardPart.SiteId);
             if(ss == null)
             {
-                return hb;
+                return hb.FieldSet(id: "DashboardPartViewSortersTabContainer");
             }
-            return hb.ViewSortersTab(
-                context: context,
-                ss: ss,
-                view: view,
-                usekeepSorterState: false,
-                currentTableOnly: true);
+            return hb.FieldSet(id: "DashboardPartViewSortersTabContainer",
+                action: ()=> hb.ViewSortersTab(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    prefix: "DashboardPart",
+                    usekeepSorterState: false,
+                    currentTableOnly: true));
         }
 
         /// <summary>
