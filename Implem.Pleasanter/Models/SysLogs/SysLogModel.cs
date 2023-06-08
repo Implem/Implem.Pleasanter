@@ -2942,7 +2942,7 @@ namespace Implem.Pleasanter.Models
             var data = requestData;
             var apiKey = data?.RegexFirst("\"ApiKey\":[ ]*\"[a-zA-Z0-9]+?\"");
             var base64 = data?.RegexFirst("\"Base64\":[ ]*\".+?\"");
-            var password = data?.RegexFirst("\"Password\":[ ]*\"[ -~]+?\"");
+            var password = data?.RegexFirst("\"Password\":[ ]*\".+?\"");
             if (!apiKey.IsNullOrEmpty()) data = data.Replace(apiKey, "\"ApiKey\": \"*\"");
             if (!base64.IsNullOrEmpty()) data = data.Replace(base64, "\"base64\": \"*\"");
             if (!password.IsNullOrEmpty()) data = data.Replace(password, "\"Password\": \"*\"");

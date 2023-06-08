@@ -4470,35 +4470,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public Error.Types ChangePasswordbyApi(Context context)
-        {
-            if (Parameters.Security.EnforcePasswordHistories > 0)
-            {
-                if (PasswordHistries?.Any(o => o.Password == Password) == true)
-                {
-                    return Error.Types.PasswordHasBeenUsed;
-                }
-                SetPasswordHistories(
-                    context: context,
-                    password: Password);
-            }
-            Repository.ExecuteNonQuery(
-                context: context,
-                statements: Rds.UpdateUsers(
-                    where: Rds.UsersWhereDefault(
-                        context: context,
-                        userModel: this),
-                    param: ChangePasswordParam(
-                        context: context,
-                        password: Password)));
-            Get(
-                context: context,
-                ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
-            return Error.Types.None;
-        }
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         public Error.Types ResetPassword(Context context)
         {
             if (Parameters.Security.EnforcePasswordHistories > 0)
