@@ -4684,7 +4684,10 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         errorData: new ErrorData(type: error));
                 }
-                userModel.SetByApi(context: context, ss: ss, data: userApiModel);
+                userModel.SetByApi(
+                    context: context,
+                    ss: ss,
+                    data: userApiModel);
             }
             foreach (var column in ss.Columns
                 .Where(o => o.ValidateRequired ?? false)
