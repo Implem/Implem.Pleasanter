@@ -3126,6 +3126,10 @@ namespace Implem.Pleasanter.Models
                         "\"Sites\"",
                         SqlJoin.JoinTypes.Inner,
                         $"\"Sites\".\"SiteId\" = \"Items\".\"SiteId\" and \"Sites\".\"TenantId\" = {Parameters.Parameter.SqlParameterPrefix}T")));
+            if (AccessStatus == Databases.AccessStatuses.NotFound)
+            {
+                context.SysLogsStatus = 404;
+            }
             OnConstructed(context: context);
         }
     }

@@ -3174,6 +3174,11 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Finish(Context context, int responseSize = 0)
         {
+            if (Parameters.Rds.SysLogsSchemaVersion >= 2)
+            {
+                Status = context.SysLogsStatus;
+                Description = context.SysLogsDescription;
+            }
             if (responseSize > 0) { ResponseSize = responseSize; }
             Elapsed = (DateTime.Now - StartTime).TotalMilliseconds;
             var currentProcess = Debugs.CurrentProcess();

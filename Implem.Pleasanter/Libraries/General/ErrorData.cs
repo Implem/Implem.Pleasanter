@@ -10,6 +10,23 @@ namespace Implem.Pleasanter.Libraries.General
         public string[] Data;
 
         public ErrorData(
+            Context context,
+            Error.Types type,
+            int sysLogsStatus = 200,
+            string sysLogsDescription = null,
+            long id = 0,
+            string columnName = null,
+            params string[] data)
+        {
+            context.SysLogsStatus = sysLogsStatus;
+            context.SysLogsDescription = sysLogsDescription;
+            Type = type;
+            Id = id;
+            ColumnName = columnName;
+            Data = data;
+        }
+
+        public ErrorData(
             Error.Types type,
             long id = 0,
             string columnName = null,

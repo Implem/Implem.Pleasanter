@@ -30,17 +30,30 @@ namespace Implem.Pleasanter.Models
             }
             if (api && !ss.IsSite(context: context) && !context.CanRead(ss: ss))
             {
-                return new ErrorData(type: Error.Types.NotFound);
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: $"{nameof(OnEntry)}: api && IsSite && CanRead");
             }
             if (!api && ss.GetNoDisplayIfReadOnly(context: context))
             {
-                return new ErrorData(type: Error.Types.NotFound);
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: 403);
             }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
                 : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        sysLogsStatus: 403)
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        sysLogsStatus: 403);
         }
 
         public static ErrorData OnGet(

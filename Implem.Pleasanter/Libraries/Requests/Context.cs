@@ -33,6 +33,8 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public StringBuilder LogBuilder { get; set; } = new StringBuilder();
+        public int SysLogsStatus { get; set; } = 200;
+        public string SysLogsDescription { get; set; }
         public ExpandoObject UserData { get; set; } = new ExpandoObject();
         public ResponseCollection ResponseCollection { get; set; } = new ResponseCollection();
         public List<Message> Messages { get; set; } = new List<Message>();
