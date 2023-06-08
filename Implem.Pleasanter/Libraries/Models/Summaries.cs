@@ -127,14 +127,17 @@ namespace Implem.Pleasanter.Libraries.Models
                 var where = Rds.IssuesWhere()
                     .SiteId(destinationSiteId)
                     .IssueId(issueId, _using: issueId != 0);
-                var issueCollection = new IssueCollection(
+                var issueIds = new IssueCollection(
                     context: context,
                     ss: destinationSs,
+                    column: Rds.IssuesColumn().IssueId(),
                     where: Where(
                         context: context,
                         ss: destinationSs,
                         view: null,
-                        where: where));
+                        where: where))
+                            .Select(o => o.IssueId)
+                            .ToList();
                 var matchingConditions = destinationCondition != null
                     ? Repository.ExecuteTable(
                         context: context,
@@ -148,15 +151,13 @@ namespace Implem.Pleasanter.Libraries.Models
                                     .AsEnumerable()
                                     .Select(dataRow => dataRow.Long("IssueId"))
                                     .ToList()
-                    : issueCollection
-                        .Select(o => o.IssueId)
-                        .ToList();
-                var data = issueCollection.Any()
+                    : issueIds;
+                var data = issueIds.Any()
                     ? Data(
                         context: context,
                         ss: ss,
                         destinationColumn: destinationColumn,
-                        destinations: issueCollection.Select(o => o.IssueId),
+                        destinations: issueIds,
                         sourceSiteId: sourceSiteId,
                         sourceReferenceType: sourceReferenceType,
                         linkColumn: linkColumn,
@@ -164,14 +165,18 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition)
                     : new Dictionary<long, decimal>();
-                issueCollection.ForEach(issueModel =>
+                issueIds.ForEach(issueId =>
                 {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: destinationSs,
+                        issueId: issueId);
                     if (matchingConditions.Any(o => o == issueModel.IssueId))
                     {
                         Set(
-                            issueModel,
-                            destinationColumn,
-                            data.Get(issueModel.IssueId));
+                            issueModel: issueModel,
+                            destinationColumn: destinationColumn,
+                            value: data.Get(issueModel.IssueId));
                     }
                     else if (setZeroWhenOutOfCondition)
                     {
@@ -179,8 +184,12 @@ namespace Implem.Pleasanter.Libraries.Models
                     }
                     if (issueModel.Updated(context: context))
                     {
-                        issueModel.SetByFormula(context: context, ss: destinationSs);
-                        issueModel.SetChoiceHash(context: context, ss: destinationSs);
+                        issueModel.SetByFormula(
+                            context: context,
+                            ss: destinationSs);
+                        issueModel.SetChoiceHash(
+                            context: context,
+                            ss: destinationSs);
                         issueModel.Update(
                             context: context,
                             ss: destinationSs,
@@ -280,14 +289,17 @@ namespace Implem.Pleasanter.Libraries.Models
                 var where = Rds.ResultsWhere()
                     .SiteId(destinationSiteId)
                     .ResultId(resultId, _using: resultId != 0);
-                var resultCollection = new ResultCollection(
+                var resultIds = new ResultCollection(
                     context: context,
                     ss: destinationSs,
+                    column: Rds.ResultsColumn().ResultId(),
                     where: Where(
                         context: context,
                         ss: destinationSs,
                         view: null,
-                        where: where));
+                        where: where))
+                            .Select(o => o.ResultId)
+                            .ToList();
                 var matchingConditions = destinationCondition != null
                     ? Repository.ExecuteTable(
                         context: context,
@@ -301,15 +313,13 @@ namespace Implem.Pleasanter.Libraries.Models
                                     .AsEnumerable()
                                     .Select(dataRow => dataRow.Long("ResultId"))
                                     .ToList()
-                    : resultCollection
-                        .Select(o => o.ResultId)
-                        .ToList();
-                var data = resultCollection.Any()
+                    : resultIds;
+                var data = resultIds.Any()
                     ? Data(
                         context: context,
                         ss: ss,
                         destinationColumn: destinationColumn,
-                        destinations: resultCollection.Select(o => o.ResultId),
+                        destinations: resultIds,
                         sourceSiteId: sourceSiteId,
                         sourceReferenceType: sourceReferenceType,
                         linkColumn: linkColumn,
@@ -317,14 +327,18 @@ namespace Implem.Pleasanter.Libraries.Models
                         sourceColumn: sourceColumn,
                         sourceCondition: sourceCondition)
                     : new Dictionary<long, decimal>();
-                resultCollection.ForEach(resultModel =>
+                resultIds.ForEach(resultId =>
                 {
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: destinationSs,
+                        resultId: resultId);
                     if (matchingConditions.Any(o => o == resultModel.ResultId))
                     {
                         Set(
-                            resultModel,
-                            destinationColumn,
-                            data.Get(resultModel.ResultId));
+                            resultModel: resultModel,
+                            destinationColumn: destinationColumn,
+                            value: data.Get(resultModel.ResultId));
                     }
                     else if (setZeroWhenOutOfCondition)
                     {
@@ -332,8 +346,12 @@ namespace Implem.Pleasanter.Libraries.Models
                     }
                     if (resultModel.Updated(context: context))
                     {
-                        resultModel.SetByFormula(context: context, ss: destinationSs);
-                        resultModel.SetChoiceHash(context: context, ss: destinationSs);
+                        resultModel.SetByFormula(
+                            context: context,
+                            ss: destinationSs);
+                        resultModel.SetChoiceHash(
+                            context: context,
+                            ss: destinationSs);
                         resultModel.Update(
                             context: context,
                             ss: destinationSs,

@@ -4579,6 +4579,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                     }
                     break;
+                case "Groups":
+                    switch (columnName)
+                    {
+                        case "GroupMembers":
+                            return new Column()
+                            {
+                                ColumnName = "GroupMembers",
+                                TypeName = "nvarchar",
+                                ControlType = "ChoicesText",
+                                ChoicesText = "HasChoices"
+                            };
+                        default:
+                            break;
+                    }
+                    break;
                 default:
                     break;
             }
