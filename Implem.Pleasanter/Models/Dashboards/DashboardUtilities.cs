@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Permissions;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -105,7 +106,9 @@ namespace Implem.Pleasanter.Models
                         return new DashboardPartLayout();
                 };
             }).ToJson();
-            
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: ss.SiteId);
             return hb.Template(
                 context: context,
                 ss: ss,
@@ -141,7 +144,11 @@ namespace Implem.Pleasanter.Models
                                 value: Locations.BaseUrl(context: context))
                             .Hidden(
                                 controlId: "DashboardPartLayouts",
-                                value: dashboardPartLayouts)))
+                                value: dashboardPartLayouts)
+                            .Hidden(
+                                controlId: "Sites_Timestamp",
+                                css: "control-hidden always-send",
+                                value: siteModel.Timestamp)))
                     .ToString();
         }
 
@@ -151,6 +158,7 @@ namespace Implem.Pleasanter.Models
                 .Custom(context: context, dashboardPart: dashboardPart).ToString();
             return new DashboardPartLayout()
             {
+                Id = dashboardPart.Id,
                 X = dashboardPart.X,
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,
@@ -165,6 +173,7 @@ namespace Implem.Pleasanter.Models
                 .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
             return new DashboardPartLayout()
             {
+                Id = dashboardPart.Id,
                 X = dashboardPart.X,
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,
@@ -220,9 +229,13 @@ namespace Implem.Pleasanter.Models
         private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
         {
             var content = new HtmlBuilder()
-                .QuickAccessMenu(context: context, dashboardPart).ToString();
+                .QuickAccessMenu(
+                    context: context,
+                    dashboardPart)
+                .ToString();
             return new DashboardPartLayout()
             {
+                Id = dashboardPart.Id,
                 X = dashboardPart.X,
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,
@@ -236,7 +249,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
         {
-            var sites = DashboardPart.GetDashboardPartSites(context: context, dashboardPart.QuickAccessSites);
+            var sites = DashboardPart.GetDashboardPartSites(
+                context: context,
+                dashboardPart.QuickAccessSites);
             var ss = SiteSettingsUtilities.SitesSiteSettings(
                    context: context,
                    siteId: 0);
@@ -257,18 +272,23 @@ namespace Implem.Pleasanter.Models
                             action: () => hb.Text(dashboardPart.Title));
                     }
                     hb
-                        .Nav(css: "cf", action: () => hb
-                            .Ul(css: "nav-sites sortable", action: () =>
-                                QuickAccessSites(context: context, sites: sites)
-                                    .ForEach(siteModelChild => hb
-                                        .SiteMenu(
-                                            context: context,
-                                            ss: ss,
-                                            currentSs: siteModelChild.SiteSettings,
-                                            siteId: siteModelChild.SiteId,
-                                            referenceType: siteModelChild.ReferenceType,
-                                            title: siteModelChild.Title.Value,
-                                            siteConditions: siteConditions))));
+                        .Nav(css: "dashboard-part-nav",
+                            action: () => hb
+                                .Ul(
+                                    css: "dashboard-part-nav-menu",
+                                    action: () => QuickAccessSites(context: context, sites: sites)
+                                        .ForEach(siteModelChild => hb
+                                            .Li(css: "dashboard-part-nav-item"
+                                                + (siteModelChild.ReferenceType == "Sites"
+                                                    ? " dashboard-part-nav-directory"
+                                                    : ""),
+                                                action: () => hb
+                                                    .A(
+                                                        css: "dashboard-part-nav-link",
+                                                        text: siteModelChild.Title.DisplayValue,
+                                                        href: Locations.ItemIndex(
+                                                            context: context,
+                                                            id: siteModelChild.SiteId))))));
                 });
         }
 
@@ -324,6 +344,7 @@ namespace Implem.Pleasanter.Models
                     }).ToString();
             return new DashboardPartLayout()
             {
+                Id = dashboardPart.Id,
                 X = dashboardPart.X,
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,

@@ -1,19 +1,17 @@
 ﻿$p.initDashboard = function() {
     let layout = $('#DashboardPartLayouts').val();
-    let gridstack = GridStack.init();
-    gridstack.load(JSON.parse(layout));
+    $p.gridstackInstance = GridStack.init({ column: 20 });
+    $p.gridstackInstance.load(JSON.parse(layout));
+};
+
+//現在のレイアウトを保存する
+$p.UpdateDashboardPartLayouts = function () {
+    let layouts = $p.gridstackInstance.save();
+    layouts.forEach(item => item.content = "");
+    $p.set($('#DashboardPartLayouts'), JSON.stringify(layouts))
+    $p.send($("#UpdateDashboardPartLayouts"));
 };
 
 $(document).on('click', '.dashboard-timeline-titlebody', function() {
     $p.transition($(this).attr('data-url'));
 });
-
-//gridstackで現在のレイアウトを取得
-$(document).on('click', '#SaveDashboardPartLayout', function () {
-    let gridstack = GridStack.init();
-    let layout = gridstack.save();
-    $('#DashboardPartLayouts').val(JSON.stringify(layout));
-    $p.post('/Dashboard/SaveLayout', { layout: JSON.stringify(layout) });
-});
-
-

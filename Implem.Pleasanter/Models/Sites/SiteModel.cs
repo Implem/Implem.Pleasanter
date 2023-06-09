@@ -2989,8 +2989,7 @@ namespace Implem.Pleasanter.Models
                 case "UpdateDashboardPart":
                     UpdateDashboardPart(
                         context: context,
-                        res: res,
-                        controlId: controlId);
+                        res: res);
                     break;
                 case "CopyDashboardParts":
                     CopyDashboardPart(
@@ -3026,6 +3025,9 @@ namespace Implem.Pleasanter.Models
                     ClearDashboardView(
                         context: context,
                         res: res);
+                    break;
+                case "UpdateDashboardPartLayouts":
+                    UpdatedashboardPartLayouts(context: context);
                     break;
                 default:
                     if (controlId.Contains("_NumericRange"))
@@ -6900,7 +6902,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void UpdateDashboardPart(Context context, ResponseCollection res, string controlId)
+        private void UpdateDashboardPart(Context context, ResponseCollection res)
         {
             var dashboardPart = SiteSettings.DashboardParts?
                 .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
@@ -6928,6 +6930,26 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdatedashboardPartLayouts(Context context)
+        {
+            var layouts = context.Forms.Data("DashboardPartLayouts")
+                .Deserialize<DashboardPartLayout[]>();
+            foreach(var dashboardPart in SiteSettings.DashboardParts)
+            {
+                var layout = layouts.FirstOrDefault(o => o.Id == dashboardPart.Id);
+                if(layout != null)
+                {
+                    dashboardPart.X = layout.X;
+                    dashboardPart.Y = layout.Y;
+                    dashboardPart.Width = layout.W;
+                    dashboardPart.Height = layout.H;
+                }
+            }
         }
 
         /// <summary>

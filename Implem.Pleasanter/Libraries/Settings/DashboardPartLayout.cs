@@ -4,6 +4,9 @@ namespace Implem.Pleasanter.Libraries.Settings
 {
     public class DashboardPartLayout
     {
+        [JsonProperty(PropertyName = "id")]
+        public int Id { get; set; } = 0;
+
         [JsonProperty(PropertyName = "x")]
         public int X { get; set; } = 0;
 

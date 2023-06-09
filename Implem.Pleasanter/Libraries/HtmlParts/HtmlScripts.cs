@@ -99,7 +99,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         script: userScript,
                         _using: context.ContractSettings.Script != false
                             && !userScript.IsNullOrEmpty())
-                    .Script(script: "$p.initDashboard();",_using: ss.ReferenceType=="Dashboards")
+                    .Script(script: "$p.initDashboard();",
+                        _using: ss.ReferenceType == "Dashboards"
+                            && context.Action == "index")
                     .OnEditorLoad(context: context);
             }
             else
