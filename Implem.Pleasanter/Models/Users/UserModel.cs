@@ -158,332 +158,496 @@ namespace Implem.Pleasanter.Models
         public string SavedLdapSearchRoot = string.Empty;
         public DateTime SavedSynchronizedTime = 0.ToDateTime();
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool UserId_Updated(Context context, Column column = null)
+        public bool UserId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return UserId != SavedUserId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != UserId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != UserId;
+            }
+            return UserId != SavedUserId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != UserId);
         }
 
-        public bool LoginId_Updated(Context context, Column column = null)
+        public bool LoginId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LoginId != SavedLoginId && LoginId != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != LoginId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LoginId;
+            }
+            return LoginId != SavedLoginId && LoginId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LoginId);
         }
 
-        public bool GlobalId_Updated(Context context, Column column = null)
+        public bool GlobalId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return GlobalId != SavedGlobalId && GlobalId != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != GlobalId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != GlobalId;
+            }
+            return GlobalId != SavedGlobalId && GlobalId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != GlobalId);
         }
 
-        public bool Name_Updated(Context context, Column column = null)
+        public bool Name_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Name != SavedName && Name != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Name);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Name;
+            }
+            return Name != SavedName && Name != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Name);
         }
 
-        public bool UserCode_Updated(Context context, Column column = null)
+        public bool UserCode_Updated(Context context, bool copy = false, Column column = null)
         {
-            return UserCode != SavedUserCode && UserCode != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != UserCode);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UserCode;
+            }
+            return UserCode != SavedUserCode && UserCode != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UserCode);
         }
 
-        public bool Password_Updated(Context context, Column column = null)
+        public bool Password_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Password != SavedPassword && Password != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Password);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Password;
+            }
+            return Password != SavedPassword && Password != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Password);
         }
 
-        public bool LastName_Updated(Context context, Column column = null)
+        public bool LastName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LastName != SavedLastName && LastName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != LastName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LastName;
+            }
+            return LastName != SavedLastName && LastName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LastName);
         }
 
-        public bool FirstName_Updated(Context context, Column column = null)
+        public bool FirstName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return FirstName != SavedFirstName && FirstName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != FirstName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != FirstName;
+            }
+            return FirstName != SavedFirstName && FirstName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != FirstName);
         }
 
-        public bool Gender_Updated(Context context, Column column = null)
+        public bool Gender_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Gender != SavedGender && Gender != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Gender);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Gender;
+            }
+            return Gender != SavedGender && Gender != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Gender);
         }
 
-        public bool Language_Updated(Context context, Column column = null)
+        public bool Language_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Language != SavedLanguage && Language != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Language);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Language;
+            }
+            return Language != SavedLanguage && Language != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Language);
         }
 
-        public bool TimeZone_Updated(Context context, Column column = null)
+        public bool TimeZone_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TimeZone != SavedTimeZone && TimeZone != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != TimeZone);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TimeZone;
+            }
+            return TimeZone != SavedTimeZone && TimeZone != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TimeZone);
         }
 
-        public bool DeptId_Updated(Context context, Column column = null)
+        public bool DeptId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DeptId != SavedDeptId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != DeptId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != DeptId;
+            }
+            return DeptId != SavedDeptId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != DeptId);
         }
 
-        public bool Theme_Updated(Context context, Column column = null)
+        public bool Theme_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Theme != SavedTheme && Theme != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Theme);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Theme;
+            }
+            return Theme != SavedTheme && Theme != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Theme);
         }
 
-        public bool FirstAndLastNameOrder_Updated(Context context, Column column = null)
+        public bool FirstAndLastNameOrder_Updated(Context context, bool copy = false, Column column = null)
         {
-            return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != FirstAndLastNameOrder.ToInt());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != FirstAndLastNameOrder.ToInt();
+            }
+            return FirstAndLastNameOrder.ToInt() != SavedFirstAndLastNameOrder
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != FirstAndLastNameOrder.ToInt());
         }
 
-        public bool Body_Updated(Context context, Column column = null)
+        public bool Body_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Body != SavedBody && Body != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Body);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Body;
+            }
+            return Body != SavedBody && Body != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Body);
         }
 
-        public bool NumberOfLogins_Updated(Context context, Column column = null)
+        public bool NumberOfLogins_Updated(Context context, bool copy = false, Column column = null)
         {
-            return NumberOfLogins != SavedNumberOfLogins &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != NumberOfLogins);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != NumberOfLogins;
+            }
+            return NumberOfLogins != SavedNumberOfLogins
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != NumberOfLogins);
         }
 
-        public bool NumberOfDenial_Updated(Context context, Column column = null)
+        public bool NumberOfDenial_Updated(Context context, bool copy = false, Column column = null)
         {
-            return NumberOfDenial != SavedNumberOfDenial &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != NumberOfDenial);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != NumberOfDenial;
+            }
+            return NumberOfDenial != SavedNumberOfDenial
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != NumberOfDenial);
         }
 
-        public bool TenantManager_Updated(Context context, Column column = null)
+        public bool TenantManager_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantManager != SavedTenantManager &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != TenantManager);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != TenantManager;
+            }
+            return TenantManager != SavedTenantManager
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != TenantManager);
         }
 
-        public bool ServiceManager_Updated(Context context, Column column = null)
+        public bool ServiceManager_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ServiceManager != SavedServiceManager &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != ServiceManager);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != ServiceManager;
+            }
+            return ServiceManager != SavedServiceManager
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != ServiceManager);
         }
 
-        public bool AllowCreationAtTopSite_Updated(Context context, Column column = null)
+        public bool AllowCreationAtTopSite_Updated(Context context, bool copy = false, Column column = null)
         {
-            return AllowCreationAtTopSite != SavedAllowCreationAtTopSite &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != AllowCreationAtTopSite);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AllowCreationAtTopSite;
+            }
+            return AllowCreationAtTopSite != SavedAllowCreationAtTopSite
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AllowCreationAtTopSite);
         }
 
-        public bool AllowGroupAdministration_Updated(Context context, Column column = null)
+        public bool AllowGroupAdministration_Updated(Context context, bool copy = false, Column column = null)
         {
-            return AllowGroupAdministration != SavedAllowGroupAdministration &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != AllowGroupAdministration);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AllowGroupAdministration;
+            }
+            return AllowGroupAdministration != SavedAllowGroupAdministration
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AllowGroupAdministration);
         }
 
-        public bool AllowGroupCreation_Updated(Context context, Column column = null)
+        public bool AllowGroupCreation_Updated(Context context, bool copy = false, Column column = null)
         {
-            return AllowGroupCreation != SavedAllowGroupCreation &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != AllowGroupCreation);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AllowGroupCreation;
+            }
+            return AllowGroupCreation != SavedAllowGroupCreation
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AllowGroupCreation);
         }
 
-        public bool AllowApi_Updated(Context context, Column column = null)
+        public bool AllowApi_Updated(Context context, bool copy = false, Column column = null)
         {
-            return AllowApi != SavedAllowApi &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != AllowApi);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AllowApi;
+            }
+            return AllowApi != SavedAllowApi
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AllowApi);
         }
 
-        public bool EnableSecondaryAuthentication_Updated(Context context, Column column = null)
+        public bool EnableSecondaryAuthentication_Updated(Context context, bool copy = false, Column column = null)
         {
-            return EnableSecondaryAuthentication != SavedEnableSecondaryAuthentication &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != EnableSecondaryAuthentication);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != EnableSecondaryAuthentication;
+            }
+            return EnableSecondaryAuthentication != SavedEnableSecondaryAuthentication
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != EnableSecondaryAuthentication);
         }
 
-        public bool DisableSecondaryAuthentication_Updated(Context context, Column column = null)
+        public bool DisableSecondaryAuthentication_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DisableSecondaryAuthentication != SavedDisableSecondaryAuthentication &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != DisableSecondaryAuthentication);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != DisableSecondaryAuthentication;
+            }
+            return DisableSecondaryAuthentication != SavedDisableSecondaryAuthentication
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != DisableSecondaryAuthentication);
         }
 
-        public bool Disabled_Updated(Context context, Column column = null)
+        public bool Disabled_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Disabled != SavedDisabled &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Disabled);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Disabled;
+            }
+            return Disabled != SavedDisabled
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
-        public bool Lockout_Updated(Context context, Column column = null)
+        public bool Lockout_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Lockout != SavedLockout &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Lockout);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Lockout;
+            }
+            return Lockout != SavedLockout
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Lockout);
         }
 
-        public bool LockoutCounter_Updated(Context context, Column column = null)
+        public bool LockoutCounter_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LockoutCounter != SavedLockoutCounter &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != LockoutCounter);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != LockoutCounter;
+            }
+            return LockoutCounter != SavedLockoutCounter
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != LockoutCounter);
         }
 
-        public bool Developer_Updated(Context context, Column column = null)
+        public bool Developer_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Developer != SavedDeveloper &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Developer);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Developer;
+            }
+            return Developer != SavedDeveloper
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Developer);
         }
 
-        public bool UserSettings_Updated(Context context, Column column = null)
+        public bool UserSettings_Updated(Context context, bool copy = false, Column column = null)
         {
-            return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != UserSettings.RecordingJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != UserSettings.RecordingJson();
+            }
+            return UserSettings.RecordingJson() != SavedUserSettings && UserSettings.RecordingJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != UserSettings.RecordingJson());
         }
 
-        public bool ApiKey_Updated(Context context, Column column = null)
+        public bool ApiKey_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ApiKey != SavedApiKey && ApiKey != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ApiKey);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ApiKey;
+            }
+            return ApiKey != SavedApiKey && ApiKey != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ApiKey);
         }
 
-        public bool PasswordHistries_Updated(Context context, Column column = null)
+        public bool PasswordHistries_Updated(Context context, bool copy = false, Column column = null)
         {
-            return PasswordHistries.ToJson() != SavedPasswordHistries && PasswordHistries.ToJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != PasswordHistries.ToJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != PasswordHistries.ToJson();
+            }
+            return PasswordHistries.ToJson() != SavedPasswordHistries && PasswordHistries.ToJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != PasswordHistries.ToJson());
         }
 
-        public bool SecondaryAuthenticationCode_Updated(Context context, Column column = null)
+        public bool SecondaryAuthenticationCode_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SecondaryAuthenticationCode != SavedSecondaryAuthenticationCode && SecondaryAuthenticationCode != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != SecondaryAuthenticationCode);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SecondaryAuthenticationCode;
+            }
+            return SecondaryAuthenticationCode != SavedSecondaryAuthenticationCode && SecondaryAuthenticationCode != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SecondaryAuthenticationCode);
         }
 
-        public bool LdapSearchRoot_Updated(Context context, Column column = null)
+        public bool LdapSearchRoot_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LdapSearchRoot;
+            }
+            return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
         }
 
-        public bool Birthday_Updated(Context context, Column column = null)
+        public bool Birthday_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Birthday.Value != SavedBirthday &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != Birthday.Value.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != Birthday.Value;
+            }
+            return Birthday.Value != SavedBirthday
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != Birthday.Value.Date);
         }
 
-        public bool LastLoginTime_Updated(Context context, Column column = null)
+        public bool LastLoginTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LastLoginTime.Value != SavedLastLoginTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != LastLoginTime.Value.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != LastLoginTime.Value;
+            }
+            return LastLoginTime.Value != SavedLastLoginTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != LastLoginTime.Value.Date);
         }
 
-        public bool PasswordExpirationTime_Updated(Context context, Column column = null)
+        public bool PasswordExpirationTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return PasswordExpirationTime.Value != SavedPasswordExpirationTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != PasswordExpirationTime.Value.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != PasswordExpirationTime.Value;
+            }
+            return PasswordExpirationTime.Value != SavedPasswordExpirationTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != PasswordExpirationTime.Value.Date);
         }
 
-        public bool PasswordChangeTime_Updated(Context context, Column column = null)
+        public bool PasswordChangeTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return PasswordChangeTime.Value != SavedPasswordChangeTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != PasswordChangeTime.Value.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != PasswordChangeTime.Value;
+            }
+            return PasswordChangeTime.Value != SavedPasswordChangeTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != PasswordChangeTime.Value.Date);
         }
 
-        public bool SecondaryAuthenticationCodeExpirationTime_Updated(Context context, Column column = null)
+        public bool SecondaryAuthenticationCodeExpirationTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SecondaryAuthenticationCodeExpirationTime.Value != SavedSecondaryAuthenticationCodeExpirationTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != SecondaryAuthenticationCodeExpirationTime.Value.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != SecondaryAuthenticationCodeExpirationTime.Value;
+            }
+            return SecondaryAuthenticationCodeExpirationTime.Value != SavedSecondaryAuthenticationCodeExpirationTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != SecondaryAuthenticationCodeExpirationTime.Value.Date);
         }
 
-        public bool SynchronizedTime_Updated(Context context, Column column = null)
+        public bool SynchronizedTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SynchronizedTime != SavedSynchronizedTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != SynchronizedTime.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != SynchronizedTime;
+            }
+            return SynchronizedTime != SavedSynchronizedTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != SynchronizedTime.Date);
         }
 
         public UserSettings Session_UserSettings(Context context)

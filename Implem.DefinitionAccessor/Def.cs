@@ -744,6 +744,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create_CopyFrom_NotItem": Code.Model_Utilities_Create_CopyFrom_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_NotItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_OnCreating": Code.Model_Utilities_Create_OnCreating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_OnCreating_Tables": Code.Model_Utilities_Create_OnCreating_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetCopyDefault": Code.Model_Utilities_Create_SetCopyDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetCopyDefault, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetProcess": Code.Model_Utilities_Create_SetProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetProcess, definitionRow, CodeXls); break;
@@ -7152,6 +7154,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create_CopyFrom_NotItem;
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_Models;
+        public string Model_Utilities_Create_OnCreating;
+        public string Model_Utilities_Create_OnCreating_Tables;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_Create_SetCopyDefault;
         public string Model_Utilities_Create_SetProcess;
@@ -7941,6 +7945,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create_CopyFrom_NotItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_OnCreating = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_OnCreating_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetCopyDefault = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetProcess = new CodeDefinition();

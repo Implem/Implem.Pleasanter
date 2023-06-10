@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             TenantModel tenantModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -134,79 +135,118 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "TenantName":
-                        if (tenantModel.TenantName_Updated(context: context, column: column))
+                        if (tenantModel.TenantName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Title":
-                        if (tenantModel.Title_Updated(context: context, column: column))
+                        if (tenantModel.Title_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Body":
-                        if (tenantModel.Body_Updated(context: context, column: column))
+                        if (tenantModel.Body_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DisableAllUsersPermission":
-                        if (tenantModel.DisableAllUsersPermission_Updated(context: context, column: column))
+                        if (tenantModel.DisableAllUsersPermission_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DisableApi":
-                        if (tenantModel.DisableApi_Updated(context: context, column: column))
+                        if (tenantModel.DisableApi_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DisableStartGuide":
-                        if (tenantModel.DisableStartGuide_Updated(context: context, column: column))
+                        if (tenantModel.DisableStartGuide_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LogoType":
-                        if (tenantModel.LogoType_Updated(context: context, column: column))
+                        if (tenantModel.LogoType_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleTop":
-                        if (tenantModel.HtmlTitleTop_Updated(context: context, column: column))
+                        if (tenantModel.HtmlTitleTop_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleSite":
-                        if (tenantModel.HtmlTitleSite_Updated(context: context, column: column))
+                        if (tenantModel.HtmlTitleSite_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HtmlTitleRecord":
-                        if (tenantModel.HtmlTitleRecord_Updated(context: context, column: column))
+                        if (tenantModel.HtmlTitleRecord_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "TopStyle":
-                        if (tenantModel.TopStyle_Updated(context: context, column: column))
+                        if (tenantModel.TopStyle_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "TopScript":
-                        if (tenantModel.TopScript_Updated(context: context, column: column))
+                        if (tenantModel.TopScript_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ContractDeadline":
-                        if (tenantModel.ContractDeadline_Updated(context: context, column: column))
+                        if (tenantModel.ContractDeadline_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -223,6 +263,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (tenantModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -232,6 +273,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (tenantModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -241,6 +283,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (tenantModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -250,6 +293,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (tenantModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -259,6 +303,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (tenantModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -268,6 +313,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (tenantModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -403,8 +449,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (tenantModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -412,8 +457,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (tenantModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -421,8 +465,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (tenantModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -430,8 +473,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (tenantModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -439,8 +481,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (tenantModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -448,8 +489,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (tenantModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }

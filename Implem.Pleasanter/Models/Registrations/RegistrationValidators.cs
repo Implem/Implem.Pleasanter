@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             RegistrationModel registrationModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -134,73 +135,109 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "MailAddress":
-                        if (registrationModel.MailAddress_Updated(context: context, column: column))
+                        if (registrationModel.MailAddress_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Invitee":
-                        if (registrationModel.Invitee_Updated(context: context, column: column))
+                        if (registrationModel.Invitee_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "InviteeName":
-                        if (registrationModel.InviteeName_Updated(context: context, column: column))
+                        if (registrationModel.InviteeName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LoginId":
-                        if (registrationModel.LoginId_Updated(context: context, column: column))
+                        if (registrationModel.LoginId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Name":
-                        if (registrationModel.Name_Updated(context: context, column: column))
+                        if (registrationModel.Name_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Password":
-                        if (registrationModel.Password_Updated(context: context, column: column))
+                        if (registrationModel.Password_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Language":
-                        if (registrationModel.Language_Updated(context: context, column: column))
+                        if (registrationModel.Language_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Passphrase":
-                        if (registrationModel.Passphrase_Updated(context: context, column: column))
+                        if (registrationModel.Passphrase_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Invitingflg":
-                        if (registrationModel.Invitingflg_Updated(context: context, column: column))
+                        if (registrationModel.Invitingflg_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UserId":
-                        if (registrationModel.UserId_Updated(context: context, column: column))
+                        if (registrationModel.UserId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DeptId":
-                        if (registrationModel.DeptId_Updated(context: context, column: column))
+                        if (registrationModel.DeptId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "GroupId":
-                        if (registrationModel.GroupId_Updated(context: context, column: column))
+                        if (registrationModel.GroupId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -217,6 +254,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (registrationModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -226,6 +264,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (registrationModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -235,6 +274,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (registrationModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -244,6 +284,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (registrationModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -253,6 +294,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (registrationModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -262,6 +304,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (registrationModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -391,8 +434,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (registrationModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -400,8 +442,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (registrationModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -409,8 +450,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (registrationModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -418,8 +458,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (registrationModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -427,8 +466,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (registrationModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -436,8 +474,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (registrationModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }

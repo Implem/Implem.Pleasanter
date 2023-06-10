@@ -39,52 +39,76 @@ namespace Implem.Pleasanter.Models
         public bool SavedAddHeader = true;
         public string SavedExportColumns = "{}";
 
-        public bool ReferenceType_Updated(Context context, Column column = null)
+        public bool ReferenceType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ReferenceType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ReferenceType;
+            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
-        public bool ReferenceId_Updated(Context context, Column column = null)
+        public bool ReferenceId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceId != SavedReferenceId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ReferenceId;
+            }
+            return ReferenceId != SavedReferenceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
-        public bool Title_Updated(Context context, Column column = null)
+        public bool Title_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Title.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Title.Value;
+            }
+            return Title.Value != SavedTitle && Title.Value != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
-        public bool ExportSettingId_Updated(Context context, Column column = null)
+        public bool ExportSettingId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ExportSettingId != SavedExportSettingId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ExportSettingId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ExportSettingId;
+            }
+            return ExportSettingId != SavedExportSettingId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ExportSettingId);
         }
 
-        public bool AddHeader_Updated(Context context, Column column = null)
+        public bool AddHeader_Updated(Context context, bool copy = false, Column column = null)
         {
-            return AddHeader != SavedAddHeader &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != AddHeader);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != AddHeader;
+            }
+            return AddHeader != SavedAddHeader
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != AddHeader);
         }
 
-        public bool ExportColumns_Updated(Context context, Column column = null)
+        public bool ExportColumns_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ExportColumns.ToJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ExportColumns.ToJson();
+            }
+            return ExportColumns.ToJson() != SavedExportColumns && ExportColumns.ToJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ExportColumns.ToJson());
         }
 
         public Title Session_Title(Context context)

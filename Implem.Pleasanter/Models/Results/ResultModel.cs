@@ -54,36 +54,52 @@ namespace Implem.Pleasanter.Models
         public int SavedOwner = 0;
         public bool SavedLocked = false;
 
-        public bool Status_Updated(Context context, Column column = null)
+        public bool Status_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Status.Value != SavedStatus &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Status.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Status.Value;
+            }
+            return Status.Value != SavedStatus
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Status.Value);
         }
 
-        public bool Manager_Updated(Context context, Column column = null)
+        public bool Manager_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Manager.Id != SavedManager &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Manager.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Manager.Id;
+            }
+            return Manager.Id != SavedManager
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Manager.Id);
         }
 
-        public bool Owner_Updated(Context context, Column column = null)
+        public bool Owner_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Owner.Id != SavedOwner &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Owner.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Owner.Id;
+            }
+            return Owner.Id != SavedOwner
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Owner.Id);
         }
 
-        public bool Locked_Updated(Context context, Column column = null)
+        public bool Locked_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Locked != SavedLocked &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Locked);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Locked;
+            }
+            return Locked != SavedLocked
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Locked);
         }
 
         public string PropertyValue(Context context, Column column)

@@ -72,6 +72,7 @@ public static ErrorData OnCreating(
     Context context,
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
+    bool copy = false,
     bool api = false,
     bool serverScript = false)
 {
@@ -112,6 +113,7 @@ public static ErrorData OnCreating(
                     case "Class":
                         if (#modelName#Model.Class_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
@@ -121,6 +123,7 @@ public static ErrorData OnCreating(
                     case "Num":
                         if (#modelName#Model.Num_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
@@ -130,6 +133,7 @@ public static ErrorData OnCreating(
                     case "Date":
                         if (#modelName#Model.Date_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
@@ -139,6 +143,7 @@ public static ErrorData OnCreating(
                     case "Description":
                         if (#modelName#Model.Description_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
@@ -148,6 +153,7 @@ public static ErrorData OnCreating(
                     case "Check":
                         if (#modelName#Model.Check_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
@@ -157,6 +163,7 @@ public static ErrorData OnCreating(
                     case "Attachments":
                         if (#modelName#Model.Attachments_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
@@ -219,8 +226,7 @@ public static ErrorData OnUpdating(
                     case "Class":
                         if (#modelName#Model.Class_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -228,8 +234,7 @@ public static ErrorData OnUpdating(
                     case "Num":
                         if (#modelName#Model.Num_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -237,8 +242,7 @@ public static ErrorData OnUpdating(
                     case "Date":
                         if (#modelName#Model.Date_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -246,8 +250,7 @@ public static ErrorData OnUpdating(
                     case "Description":
                         if (#modelName#Model.Description_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -255,8 +258,7 @@ public static ErrorData OnUpdating(
                     case "Check":
                         if (#modelName#Model.Check_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -264,8 +266,7 @@ public static ErrorData OnUpdating(
                     case "Attachments":
                         if (#modelName#Model.Attachments_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }

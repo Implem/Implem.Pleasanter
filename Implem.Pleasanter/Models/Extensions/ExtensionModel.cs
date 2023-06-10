@@ -41,60 +41,88 @@ namespace Implem.Pleasanter.Models
         public string SavedDescription = string.Empty;
         public bool SavedDisabled = false;
 
-        public bool ExtensionId_Updated(Context context, Column column = null)
+        public bool ExtensionId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ExtensionId != SavedExtensionId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != ExtensionId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != ExtensionId;
+            }
+            return ExtensionId != SavedExtensionId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != ExtensionId);
         }
 
-        public bool ExtensionType_Updated(Context context, Column column = null)
+        public bool ExtensionType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ExtensionType != SavedExtensionType && ExtensionType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ExtensionType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ExtensionType;
+            }
+            return ExtensionType != SavedExtensionType && ExtensionType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ExtensionType);
         }
 
-        public bool ExtensionName_Updated(Context context, Column column = null)
+        public bool ExtensionName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ExtensionName != SavedExtensionName && ExtensionName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ExtensionName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ExtensionName;
+            }
+            return ExtensionName != SavedExtensionName && ExtensionName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ExtensionName);
         }
 
-        public bool ExtensionSettings_Updated(Context context, Column column = null)
+        public bool ExtensionSettings_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ExtensionSettings != SavedExtensionSettings && ExtensionSettings != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ExtensionSettings);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ExtensionSettings;
+            }
+            return ExtensionSettings != SavedExtensionSettings && ExtensionSettings != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ExtensionSettings);
         }
 
-        public bool Body_Updated(Context context, Column column = null)
+        public bool Body_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Body != SavedBody && Body != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Body);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Body;
+            }
+            return Body != SavedBody && Body != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Body);
         }
 
-        public bool Description_Updated(Context context, Column column = null)
+        public bool Description_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Description != SavedDescription && Description != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Description);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Description;
+            }
+            return Description != SavedDescription && Description != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Description);
         }
 
-        public bool Disabled_Updated(Context context, Column column = null)
+        public bool Disabled_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Disabled != SavedDisabled &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Disabled);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Disabled;
+            }
+            return Disabled != SavedDisabled
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
         public ExtensionModel()

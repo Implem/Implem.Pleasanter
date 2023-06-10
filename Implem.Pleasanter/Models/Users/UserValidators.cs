@@ -110,6 +110,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             UserModel userModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -144,211 +145,316 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "LoginId":
-                        if (userModel.LoginId_Updated(context: context, column: column))
+                        if (userModel.LoginId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "GlobalId":
-                        if (userModel.GlobalId_Updated(context: context, column: column))
+                        if (userModel.GlobalId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Name":
-                        if (userModel.Name_Updated(context: context, column: column))
+                        if (userModel.Name_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UserCode":
-                        if (userModel.UserCode_Updated(context: context, column: column))
+                        if (userModel.UserCode_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Password":
-                        if (userModel.Password_Updated(context: context, column: column))
+                        if (userModel.Password_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LastName":
-                        if (userModel.LastName_Updated(context: context, column: column))
+                        if (userModel.LastName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "FirstName":
-                        if (userModel.FirstName_Updated(context: context, column: column))
+                        if (userModel.FirstName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Gender":
-                        if (userModel.Gender_Updated(context: context, column: column))
+                        if (userModel.Gender_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Language":
-                        if (userModel.Language_Updated(context: context, column: column))
+                        if (userModel.Language_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "TimeZone":
-                        if (userModel.TimeZone_Updated(context: context, column: column))
+                        if (userModel.TimeZone_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DeptId":
-                        if (userModel.DeptId_Updated(context: context, column: column))
+                        if (userModel.DeptId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Theme":
-                        if (userModel.Theme_Updated(context: context, column: column))
+                        if (userModel.Theme_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "FirstAndLastNameOrder":
-                        if (userModel.FirstAndLastNameOrder_Updated(context: context, column: column))
+                        if (userModel.FirstAndLastNameOrder_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Body":
-                        if (userModel.Body_Updated(context: context, column: column))
+                        if (userModel.Body_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "NumberOfLogins":
-                        if (userModel.NumberOfLogins_Updated(context: context, column: column))
+                        if (userModel.NumberOfLogins_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "NumberOfDenial":
-                        if (userModel.NumberOfDenial_Updated(context: context, column: column))
+                        if (userModel.NumberOfDenial_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "TenantManager":
-                        if (userModel.TenantManager_Updated(context: context, column: column))
+                        if (userModel.TenantManager_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "AllowCreationAtTopSite":
-                        if (userModel.AllowCreationAtTopSite_Updated(context: context, column: column))
+                        if (userModel.AllowCreationAtTopSite_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "AllowGroupAdministration":
-                        if (userModel.AllowGroupAdministration_Updated(context: context, column: column))
+                        if (userModel.AllowGroupAdministration_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "AllowGroupCreation":
-                        if (userModel.AllowGroupCreation_Updated(context: context, column: column))
+                        if (userModel.AllowGroupCreation_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "AllowApi":
-                        if (userModel.AllowApi_Updated(context: context, column: column))
+                        if (userModel.AllowApi_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "EnableSecondaryAuthentication":
-                        if (userModel.EnableSecondaryAuthentication_Updated(context: context, column: column))
+                        if (userModel.EnableSecondaryAuthentication_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "DisableSecondaryAuthentication":
-                        if (userModel.DisableSecondaryAuthentication_Updated(context: context, column: column))
+                        if (userModel.DisableSecondaryAuthentication_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Disabled":
-                        if (userModel.Disabled_Updated(context: context, column: column))
+                        if (userModel.Disabled_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Lockout":
-                        if (userModel.Lockout_Updated(context: context, column: column))
+                        if (userModel.Lockout_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LockoutCounter":
-                        if (userModel.LockoutCounter_Updated(context: context, column: column))
+                        if (userModel.LockoutCounter_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ApiKey":
-                        if (userModel.ApiKey_Updated(context: context, column: column))
+                        if (userModel.ApiKey_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "SecondaryAuthenticationCode":
-                        if (userModel.SecondaryAuthenticationCode_Updated(context: context, column: column))
+                        if (userModel.SecondaryAuthenticationCode_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LdapSearchRoot":
-                        if (userModel.LdapSearchRoot_Updated(context: context, column: column))
+                        if (userModel.LdapSearchRoot_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Birthday":
-                        if (userModel.Birthday_Updated(context: context, column: column))
+                        if (userModel.Birthday_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "LastLoginTime":
-                        if (userModel.LastLoginTime_Updated(context: context, column: column))
+                        if (userModel.LastLoginTime_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "PasswordExpirationTime":
-                        if (userModel.PasswordExpirationTime_Updated(context: context, column: column))
+                        if (userModel.PasswordExpirationTime_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "PasswordChangeTime":
-                        if (userModel.PasswordChangeTime_Updated(context: context, column: column))
+                        if (userModel.PasswordChangeTime_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "SecondaryAuthenticationCodeExpirationTime":
-                        if (userModel.SecondaryAuthenticationCodeExpirationTime_Updated(context: context, column: column))
+                        if (userModel.SecondaryAuthenticationCodeExpirationTime_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "SynchronizedTime":
-                        if (userModel.SynchronizedTime_Updated(context: context, column: column))
+                        if (userModel.SynchronizedTime_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -365,6 +471,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (userModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -374,6 +481,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (userModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -383,6 +491,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (userModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -392,6 +501,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (userModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -401,6 +511,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (userModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -410,6 +521,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (userModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -686,8 +798,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (userModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -695,8 +806,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (userModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -704,8 +814,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (userModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -713,8 +822,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (userModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -722,8 +830,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (userModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -731,8 +838,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (userModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }

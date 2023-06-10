@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             ResultModel resultModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -148,37 +149,55 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (resultModel.Title_Updated(context: context, column: column))
+                        if (resultModel.Title_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Body":
-                        if (resultModel.Body_Updated(context: context, column: column))
+                        if (resultModel.Body_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Status":
-                        if (resultModel.Status_Updated(context: context, column: column))
+                        if (resultModel.Status_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Manager":
-                        if (resultModel.Manager_Updated(context: context, column: column))
+                        if (resultModel.Manager_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Owner":
-                        if (resultModel.Owner_Updated(context: context, column: column))
+                        if (resultModel.Owner_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Locked":
-                        if (resultModel.Locked_Updated(context: context, column: column))
+                        if (resultModel.Locked_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -195,6 +214,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (resultModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -204,6 +224,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (resultModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -213,6 +234,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (resultModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -222,6 +244,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (resultModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -231,6 +254,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (resultModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -240,6 +264,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (resultModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -374,8 +399,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (resultModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -383,8 +407,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (resultModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -392,8 +415,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (resultModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -401,8 +423,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (resultModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -410,8 +431,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (resultModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -419,8 +439,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (resultModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }

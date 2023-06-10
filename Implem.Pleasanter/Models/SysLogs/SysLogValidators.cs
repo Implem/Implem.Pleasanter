@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SysLogModel sysLogModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -138,199 +139,298 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "SysLogType":
-                        if (sysLogModel.SysLogType_Updated(context: context, column: column))
+                        if (sysLogModel.SysLogType_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "OnAzure":
-                        if (sysLogModel.OnAzure_Updated(context: context, column: column))
+                        if (sysLogModel.OnAzure_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "MachineName":
-                        if (sysLogModel.MachineName_Updated(context: context, column: column))
+                        if (sysLogModel.MachineName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ServiceName":
-                        if (sysLogModel.ServiceName_Updated(context: context, column: column))
+                        if (sysLogModel.ServiceName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "TenantName":
-                        if (sysLogModel.TenantName_Updated(context: context, column: column))
+                        if (sysLogModel.TenantName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Application":
-                        if (sysLogModel.Application_Updated(context: context, column: column))
+                        if (sysLogModel.Application_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Class":
-                        if (sysLogModel.Class_Updated(context: context, column: column))
+                        if (sysLogModel.Class_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Method":
-                        if (sysLogModel.Method_Updated(context: context, column: column))
+                        if (sysLogModel.Method_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "RequestData":
-                        if (sysLogModel.RequestData_Updated(context: context, column: column))
+                        if (sysLogModel.RequestData_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "HttpMethod":
-                        if (sysLogModel.HttpMethod_Updated(context: context, column: column))
+                        if (sysLogModel.HttpMethod_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "RequestSize":
-                        if (sysLogModel.RequestSize_Updated(context: context, column: column))
+                        if (sysLogModel.RequestSize_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ResponseSize":
-                        if (sysLogModel.ResponseSize_Updated(context: context, column: column))
+                        if (sysLogModel.ResponseSize_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Elapsed":
-                        if (sysLogModel.Elapsed_Updated(context: context, column: column))
+                        if (sysLogModel.Elapsed_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ApplicationAge":
-                        if (sysLogModel.ApplicationAge_Updated(context: context, column: column))
+                        if (sysLogModel.ApplicationAge_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ApplicationRequestInterval":
-                        if (sysLogModel.ApplicationRequestInterval_Updated(context: context, column: column))
+                        if (sysLogModel.ApplicationRequestInterval_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "SessionAge":
-                        if (sysLogModel.SessionAge_Updated(context: context, column: column))
+                        if (sysLogModel.SessionAge_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "SessionRequestInterval":
-                        if (sysLogModel.SessionRequestInterval_Updated(context: context, column: column))
+                        if (sysLogModel.SessionRequestInterval_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "WorkingSet64":
-                        if (sysLogModel.WorkingSet64_Updated(context: context, column: column))
+                        if (sysLogModel.WorkingSet64_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "VirtualMemorySize64":
-                        if (sysLogModel.VirtualMemorySize64_Updated(context: context, column: column))
+                        if (sysLogModel.VirtualMemorySize64_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ProcessId":
-                        if (sysLogModel.ProcessId_Updated(context: context, column: column))
+                        if (sysLogModel.ProcessId_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ProcessName":
-                        if (sysLogModel.ProcessName_Updated(context: context, column: column))
+                        if (sysLogModel.ProcessName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "BasePriority":
-                        if (sysLogModel.BasePriority_Updated(context: context, column: column))
+                        if (sysLogModel.BasePriority_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "Url":
-                        if (sysLogModel.Url_Updated(context: context, column: column))
+                        if (sysLogModel.Url_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UrlReferer":
-                        if (sysLogModel.UrlReferer_Updated(context: context, column: column))
+                        if (sysLogModel.UrlReferer_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UserHostName":
-                        if (sysLogModel.UserHostName_Updated(context: context, column: column))
+                        if (sysLogModel.UserHostName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UserHostAddress":
-                        if (sysLogModel.UserHostAddress_Updated(context: context, column: column))
+                        if (sysLogModel.UserHostAddress_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UserLanguage":
-                        if (sysLogModel.UserLanguage_Updated(context: context, column: column))
+                        if (sysLogModel.UserLanguage_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "UserAgent":
-                        if (sysLogModel.UserAgent_Updated(context: context, column: column))
+                        if (sysLogModel.UserAgent_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "SessionGuid":
-                        if (sysLogModel.SessionGuid_Updated(context: context, column: column))
+                        if (sysLogModel.SessionGuid_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ErrMessage":
-                        if (sysLogModel.ErrMessage_Updated(context: context, column: column))
+                        if (sysLogModel.ErrMessage_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "ErrStackTrace":
-                        if (sysLogModel.ErrStackTrace_Updated(context: context, column: column))
+                        if (sysLogModel.ErrStackTrace_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "InDebug":
-                        if (sysLogModel.InDebug_Updated(context: context, column: column))
+                        if (sysLogModel.InDebug_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
                         break;
                     case "AssemblyVersion":
-                        if (sysLogModel.AssemblyVersion_Updated(context: context, column: column))
+                        if (sysLogModel.AssemblyVersion_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
                             return new ErrorData(type: Error.Types.HasNotPermission);
                         }
@@ -347,6 +447,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (sysLogModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -356,6 +457,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (sysLogModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -365,6 +467,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (sysLogModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -374,6 +477,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (sysLogModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -383,6 +487,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (sysLogModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -392,6 +497,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (sysLogModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
@@ -647,8 +753,7 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (sysLogModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -656,8 +761,7 @@ namespace Implem.Pleasanter.Models
                             case "Num":
                                 if (sysLogModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -665,8 +769,7 @@ namespace Implem.Pleasanter.Models
                             case "Date":
                                 if (sysLogModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -674,8 +777,7 @@ namespace Implem.Pleasanter.Models
                             case "Description":
                                 if (sysLogModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -683,8 +785,7 @@ namespace Implem.Pleasanter.Models
                             case "Check":
                                 if (sysLogModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
@@ -692,8 +793,7 @@ namespace Implem.Pleasanter.Models
                             case "Attachments":
                                 if (sysLogModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
                                     return new ErrorData(type: Error.Types.HasNotPermission);
                                 }
