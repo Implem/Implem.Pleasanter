@@ -139,7 +139,9 @@ namespace Implem.Pleasanter.Models
                             column: column,
                             copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "GroupName":
@@ -148,7 +150,9 @@ namespace Implem.Pleasanter.Models
                             column: column,
                             copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
@@ -157,7 +161,9 @@ namespace Implem.Pleasanter.Models
                             column: column,
                             copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Disabled":
@@ -166,13 +172,17 @@ namespace Implem.Pleasanter.Models
                             column: column,
                             copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (groupModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -185,7 +195,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
@@ -195,7 +207,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
@@ -205,7 +219,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
@@ -215,7 +231,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
@@ -225,7 +243,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
@@ -235,7 +255,9 @@ namespace Implem.Pleasanter.Models
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }
@@ -280,31 +302,41 @@ namespace Implem.Pleasanter.Models
                     case "TenantId":
                         if (groupModel.TenantId_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "GroupName":
                         if (groupModel.GroupName_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
                         if (groupModel.Body_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Disabled":
                         if (groupModel.Disabled_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (groupModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -315,7 +347,9 @@ namespace Implem.Pleasanter.Models
                                     columnName: column.Name,
                                     context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
@@ -323,7 +357,9 @@ namespace Implem.Pleasanter.Models
                                     columnName: column.Name,
                                     context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
@@ -331,7 +367,9 @@ namespace Implem.Pleasanter.Models
                                     columnName: column.Name,
                                     context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
@@ -339,7 +377,9 @@ namespace Implem.Pleasanter.Models
                                     columnName: column.Name,
                                     context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
@@ -347,7 +387,9 @@ namespace Implem.Pleasanter.Models
                                     columnName: column.Name,
                                     context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
@@ -355,7 +397,9 @@ namespace Implem.Pleasanter.Models
                                     columnName: column.Name,
                                     context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }

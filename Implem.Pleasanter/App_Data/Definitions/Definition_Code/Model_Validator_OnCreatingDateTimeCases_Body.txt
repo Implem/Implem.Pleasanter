@@ -4,6 +4,8 @@
         column: column,
         copy: copy))
     {
-        return new ErrorData(type: Error.Types.HasNotPermission);
+        return new ErrorData(
+            type: Error.Types.HasNotChangeColumnPermission,
+            data: column.LabelText);
     }
     break;
