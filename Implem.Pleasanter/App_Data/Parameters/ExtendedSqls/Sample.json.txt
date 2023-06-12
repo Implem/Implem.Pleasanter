@@ -10,6 +10,7 @@
     "Controllers": null,
     "Actions": null,
     "Api": false,
+    "DbUser": null,
     "Html": false,
     "OnCreating": false,
     "OnCreated": false,

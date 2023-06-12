@@ -57,113 +57,161 @@ namespace Implem.Pleasanter.Models
         public string SavedContentType = string.Empty;
         public string SavedBinarySettings = "{}";
 
-        public bool BinaryId_Updated(Context context, Column column = null)
+        public bool BinaryId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return BinaryId != SavedBinaryId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != BinaryId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != BinaryId;
+            }
+            return BinaryId != SavedBinaryId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != BinaryId);
         }
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool ReferenceId_Updated(Context context, Column column = null)
+        public bool ReferenceId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceId != SavedReferenceId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ReferenceId;
+            }
+            return ReferenceId != SavedReferenceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
-        public bool Guid_Updated(Context context, Column column = null)
+        public bool Guid_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Guid != SavedGuid && Guid != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Guid);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Guid;
+            }
+            return Guid != SavedGuid && Guid != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Guid);
         }
 
-        public bool BinaryType_Updated(Context context, Column column = null)
+        public bool BinaryType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return BinaryType != SavedBinaryType && BinaryType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != BinaryType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != BinaryType;
+            }
+            return BinaryType != SavedBinaryType && BinaryType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != BinaryType);
         }
 
-        public bool Title_Updated(Context context, Column column = null)
+        public bool Title_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Title.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Title.Value;
+            }
+            return Title.Value != SavedTitle && Title.Value != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
-        public bool Body_Updated(Context context, Column column = null)
+        public bool Body_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Body != SavedBody && Body != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Body);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Body;
+            }
+            return Body != SavedBody && Body != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Body);
         }
 
-        public bool FileName_Updated(Context context, Column column = null)
+        public bool FileName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return FileName != SavedFileName && FileName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != FileName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != FileName;
+            }
+            return FileName != SavedFileName && FileName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != FileName);
         }
 
-        public bool Extension_Updated(Context context, Column column = null)
+        public bool Extension_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Extension != SavedExtension && Extension != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Extension);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Extension;
+            }
+            return Extension != SavedExtension && Extension != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Extension);
         }
 
-        public bool Size_Updated(Context context, Column column = null)
+        public bool Size_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Size != SavedSize &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != Size);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != Size;
+            }
+            return Size != SavedSize
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != Size);
         }
 
-        public bool ContentType_Updated(Context context, Column column = null)
+        public bool ContentType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ContentType != SavedContentType && ContentType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ContentType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ContentType;
+            }
+            return ContentType != SavedContentType && ContentType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ContentType);
         }
 
-        public bool BinarySettings_Updated(Context context, Column column = null)
+        public bool BinarySettings_Updated(Context context, bool copy = false, Column column = null)
         {
-            return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != BinarySettings.ToJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != BinarySettings.ToJson();
+            }
+            return BinarySettings.ToJson() != SavedBinarySettings && BinarySettings.ToJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != BinarySettings.ToJson());
         }
 
-        public bool Bin_Updated(Context context, Column column = null)
+        public bool Bin_Updated(Context context, bool copy = false, Column column = null)
         {
             return Bin != SavedBin && Bin != null;
         }
 
-        public bool Thumbnail_Updated(Context context, Column column = null)
+        public bool Thumbnail_Updated(Context context, bool copy = false, Column column = null)
         {
             return Thumbnail != SavedThumbnail && Thumbnail != null;
         }
 
-        public bool Icon_Updated(Context context, Column column = null)
+        public bool Icon_Updated(Context context, bool copy = false, Column column = null)
         {
             return Icon != SavedIcon && Icon != null;
         }

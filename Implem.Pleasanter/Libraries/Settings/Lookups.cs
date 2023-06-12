@@ -80,6 +80,17 @@ namespace Implem.Pleasanter.Libraries.Settings
                     changedFormData.AddOrUpdate(
                         $"{ss.ReferenceType}_{lookup.To}",
                         string.Empty);
+                    // ルックアップの転記元の項目がエディタで有効化されていない場合の対処（一時的にエディタの項目に追加する）
+                    if (currentSs.EditorColumnHash?.SelectMany(o => o.Value).Contains(lookup.From) == false)
+                    {
+                        var column = currentSs.GetColumn(
+                            context: context,
+                            columnName: lookup.From);
+                        if (currentSs.EditorColumnHash?.Any() == true && column != null)
+                        {
+                            currentSs.EditorColumnHash.FirstOrDefault().Value.Add(column.ColumnName);
+                        }
+                    }
                 });
                 switch (currentSs.ReferenceType)
                 {

@@ -354,6 +354,7 @@ namespace Implem.DefinitionAccessor
                     case "Lookup": Code.Lookup = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup, definitionRow, CodeXls); break;
                     case "Lookup_Data": Code.Lookup_Data = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_Data, definitionRow, CodeXls); break;
                     case "Lookup_DataColumnCases": Code.Lookup_DataColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_DataColumnCases, definitionRow, CodeXls); break;
+                    case "Lookup_DataMailAddress": Code.Lookup_DataMailAddress = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Lookup_DataMailAddress, definitionRow, CodeXls); break;
                     case "Messages": Code.Messages = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages, definitionRow, CodeXls); break;
                     case "Messages_Parts": Code.Messages_Parts = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Parts, definitionRow, CodeXls); break;
                     case "Messages_Resonses": Code.Messages_Resonses = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Messages_Resonses, definitionRow, CodeXls); break;
@@ -743,6 +744,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create_CopyFrom_NotItem": Code.Model_Utilities_Create_CopyFrom_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_NotItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_OnCreating": Code.Model_Utilities_Create_OnCreating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_OnCreating_Tables": Code.Model_Utilities_Create_OnCreating_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetCopyDefault": Code.Model_Utilities_Create_SetCopyDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetCopyDefault, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetProcess": Code.Model_Utilities_Create_SetProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetProcess, definitionRow, CodeXls); break;
@@ -1790,6 +1793,7 @@ namespace Implem.DefinitionAccessor
                     case "Statuses_StatusId": Column.Statuses_StatusId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_StatusId, definitionRow, ColumnXls); break;
                     case "Statuses_TenantId": Column.Statuses_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_TenantId, definitionRow, ColumnXls); break;
                     case "Statuses_Value": Column.Statuses_Value = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Value, definitionRow, ColumnXls); break;
+                    case "SysLogs_Api": Column.SysLogs_Api = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Api, definitionRow, ColumnXls); break;
                     case "SysLogs_Application": Column.SysLogs_Application = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Application, definitionRow, ColumnXls); break;
                     case "SysLogs_ApplicationAge": Column.SysLogs_ApplicationAge = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ApplicationAge, definitionRow, ColumnXls); break;
                     case "SysLogs_ApplicationRequestInterval": Column.SysLogs_ApplicationRequestInterval = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ApplicationRequestInterval, definitionRow, ColumnXls); break;
@@ -6773,6 +6777,7 @@ namespace Implem.DefinitionAccessor
         public string Lookup;
         public string Lookup_Data;
         public string Lookup_DataColumnCases;
+        public string Lookup_DataMailAddress;
         public string Messages;
         public string Messages_Parts;
         public string Messages_Resonses;
@@ -7162,6 +7167,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create_CopyFrom_NotItem;
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_Models;
+        public string Model_Utilities_Create_OnCreating;
+        public string Model_Utilities_Create_OnCreating_Tables;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_Create_SetCopyDefault;
         public string Model_Utilities_Create_SetProcess;
@@ -7561,6 +7568,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Lookup = new CodeDefinition();
         public CodeDefinition Lookup_Data = new CodeDefinition();
         public CodeDefinition Lookup_DataColumnCases = new CodeDefinition();
+        public CodeDefinition Lookup_DataMailAddress = new CodeDefinition();
         public CodeDefinition Messages = new CodeDefinition();
         public CodeDefinition Messages_Parts = new CodeDefinition();
         public CodeDefinition Messages_Resonses = new CodeDefinition();
@@ -7950,6 +7958,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create_CopyFrom_NotItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_OnCreating = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_OnCreating_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetCopyDefault = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetProcess = new CodeDefinition();
@@ -9024,6 +9034,7 @@ namespace Implem.DefinitionAccessor
         public string Statuses_StatusId;
         public string Statuses_TenantId;
         public string Statuses_Value;
+        public string SysLogs_Api;
         public string SysLogs_Application;
         public string SysLogs_ApplicationAge;
         public string SysLogs_ApplicationRequestInterval;
@@ -9566,6 +9577,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Statuses_StatusId = new ColumnDefinition();
         public ColumnDefinition Statuses_TenantId = new ColumnDefinition();
         public ColumnDefinition Statuses_Value = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Api = new ColumnDefinition();
         public ColumnDefinition SysLogs_Application = new ColumnDefinition();
         public ColumnDefinition SysLogs_ApplicationAge = new ColumnDefinition();
         public ColumnDefinition SysLogs_ApplicationRequestInterval = new ColumnDefinition();

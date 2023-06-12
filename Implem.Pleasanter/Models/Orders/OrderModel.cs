@@ -35,36 +35,52 @@ namespace Implem.Pleasanter.Models
         public int SavedOwnerId = 0;
         public string SavedData = "[]";
 
-        public bool ReferenceId_Updated(Context context, Column column = null)
+        public bool ReferenceId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceId != SavedReferenceId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ReferenceId;
+            }
+            return ReferenceId != SavedReferenceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
-        public bool ReferenceType_Updated(Context context, Column column = null)
+        public bool ReferenceType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ReferenceType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ReferenceType;
+            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
-        public bool OwnerId_Updated(Context context, Column column = null)
+        public bool OwnerId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return OwnerId != SavedOwnerId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != OwnerId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != OwnerId;
+            }
+            return OwnerId != SavedOwnerId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != OwnerId);
         }
 
-        public bool Data_Updated(Context context, Column column = null)
+        public bool Data_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Data.ToJson() != SavedData && Data.ToJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Data.ToJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Data.ToJson();
+            }
+            return Data.ToJson() != SavedData && Data.ToJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Data.ToJson());
         }
 
         public OrderModel(

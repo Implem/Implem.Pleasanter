@@ -67,6 +67,8 @@
     "BurnDownLimit": 1000,
     "TimeSeriesLimit": 1000,
     "KambanLimit": 1000,
+    "KambanXLimit": 50,
+    "KambanYLimit": 300,
     "KambanMinColumns": 3,
     "KambanMaxColumns": 50,
     "KambanColumns": 10,

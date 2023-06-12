@@ -41,52 +41,76 @@ namespace Implem.Pleasanter.Models
         public string SavedFullText = string.Empty;
         public DateTime SavedSearchIndexCreatedTime = 0.ToDateTime();
 
-        public bool ReferenceId_Updated(Context context, Column column = null)
+        public bool ReferenceId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceId != SavedReferenceId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ReferenceId;
+            }
+            return ReferenceId != SavedReferenceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
-        public bool ReferenceType_Updated(Context context, Column column = null)
+        public bool ReferenceType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ReferenceType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ReferenceType;
+            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
-        public bool SiteId_Updated(Context context, Column column = null)
+        public bool SiteId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SiteId != SavedSiteId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != SiteId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != SiteId;
+            }
+            return SiteId != SavedSiteId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != SiteId);
         }
 
-        public bool Title_Updated(Context context, Column column = null)
+        public bool Title_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Title != SavedTitle && Title != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Title);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Title;
+            }
+            return Title != SavedTitle && Title != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Title);
         }
 
-        public bool FullText_Updated(Context context, Column column = null)
+        public bool FullText_Updated(Context context, bool copy = false, Column column = null)
         {
-            return FullText != SavedFullText && FullText != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != FullText);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != FullText;
+            }
+            return FullText != SavedFullText && FullText != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != FullText);
         }
 
-        public bool SearchIndexCreatedTime_Updated(Context context, Column column = null)
+        public bool SearchIndexCreatedTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != SearchIndexCreatedTime.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != SearchIndexCreatedTime;
+            }
+            return SearchIndexCreatedTime != SavedSearchIndexCreatedTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != SearchIndexCreatedTime.Date);
         }
 
         public ItemModel(

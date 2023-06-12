@@ -609,6 +609,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "MailAddresses":
+                        return userModel.GetMailAddresses(context: context).Join();
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {

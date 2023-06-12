@@ -37,44 +37,64 @@ namespace Implem.Pleasanter.Models
         public string SavedKey = string.Empty;
         public decimal? SavedNumber = 0;
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool ReferenceId_Updated(Context context, Column column = null)
+        public bool ReferenceId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceId != SavedReferenceId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ReferenceId;
+            }
+            return ReferenceId != SavedReferenceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ReferenceId);
         }
 
-        public bool ColumnName_Updated(Context context, Column column = null)
+        public bool ColumnName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ColumnName != SavedColumnName && ColumnName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ColumnName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ColumnName;
+            }
+            return ColumnName != SavedColumnName && ColumnName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ColumnName);
         }
 
-        public bool Key_Updated(Context context, Column column = null)
+        public bool Key_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Key != SavedKey && Key != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Key);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Key;
+            }
+            return Key != SavedKey && Key != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Key);
         }
 
-        public bool Number_Updated(Context context, Column column = null)
+        public bool Number_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Number != SavedNumber &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToDecimal() != Number);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDecimal() != Number;
+            }
+            return Number != SavedNumber
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToDecimal() != Number);
         }
 
         public AutoNumberingModel(

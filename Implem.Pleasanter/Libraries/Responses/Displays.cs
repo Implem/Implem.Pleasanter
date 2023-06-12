@@ -2329,6 +2329,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CreatedWord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CreatedWord",
+                data: data);
+        }
+
         public static string CreateOrUpdate(
             Context context,
             params string[] data)
@@ -2796,6 +2806,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "DeletedTime",
+                data: data);
+        }
+
+        public static string DeletedWord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "DeletedWord",
                 data: data);
         }
 
@@ -4096,6 +4116,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "HasBeenMoved",
+                data: data);
+        }
+
+        public static string HasNotChangeColumnPermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HasNotChangeColumnPermission",
                 data: data);
         }
 
@@ -9179,6 +9209,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string UpdatedWord(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "UpdatedWord",
+                data: data);
+        }
+
         public static string Upload(
             Context context,
             params string[] data)
@@ -11826,6 +11866,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Statuses_Value",
+                data: data);
+        }
+
+        public static string SysLogs_Api(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SysLogs_Api",
                 data: data);
         }
 

@@ -44,36 +44,52 @@ namespace Implem.Pleasanter.Models
         public long SavedMailAddressId = 0;
         public string SavedMailAddress = string.Empty;
 
-        public bool OwnerId_Updated(Context context, Column column = null)
+        public bool OwnerId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return OwnerId != SavedOwnerId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != OwnerId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != OwnerId;
+            }
+            return OwnerId != SavedOwnerId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != OwnerId);
         }
 
-        public bool OwnerType_Updated(Context context, Column column = null)
+        public bool OwnerType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return OwnerType != SavedOwnerType && OwnerType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != OwnerType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != OwnerType;
+            }
+            return OwnerType != SavedOwnerType && OwnerType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != OwnerType);
         }
 
-        public bool MailAddressId_Updated(Context context, Column column = null)
+        public bool MailAddressId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return MailAddressId != SavedMailAddressId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != MailAddressId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != MailAddressId;
+            }
+            return MailAddressId != SavedMailAddressId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != MailAddressId);
         }
 
-        public bool MailAddress_Updated(Context context, Column column = null)
+        public bool MailAddress_Updated(Context context, bool copy = false, Column column = null)
         {
-            return MailAddress != SavedMailAddress && MailAddress != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != MailAddress);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != MailAddress;
+            }
+            return MailAddress != SavedMailAddress && MailAddress != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != MailAddress);
         }
 
         public MailAddressModel()

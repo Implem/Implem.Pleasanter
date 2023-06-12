@@ -308,6 +308,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                         context: context,
                         ss: ss,
                         dataRow: dataRow);
+                    if (SearchFormat.Contains("[MailAddresses]"))
+                    {
+                        text = text.Replace(
+                            "[MailAddresses]",
+                            userModel.GetMailAddresses(context: context).Join());
+                    }
                     var userMine = userModel.Mine(context: context);
                     ss.IncludedColumns(SearchFormat)
                         .Where(column => column.CanRead(
@@ -628,26 +634,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             string textColumnName)
         {
             var sqlColumn = new SqlColumnCollection();
+            var keyColumn = ss.GetColumn(
+                context: context,
+                columnName: keyColumnName);
             sqlColumn.Add(
                 context: context,
-                column: ss.GetColumn(
-                    context: context,
-                    columnName: keyColumnName),
+                column: keyColumn);
+            sqlColumn.Add(
+                context: context,
+                column: keyColumn,
                 _as: "Key");
             if (textColumnName == "Title")
             {
+                sqlColumn.ItemTitle(tableName: ss.ReferenceType);
                 sqlColumn.ItemTitle(
                     tableName: ss.ReferenceType,
                     _as: "Text");
             }
             else
-            { 
+            {
+                var textColumn = ss.GetColumn(
+                    context: context,
+                    columnName: textColumnName);
                 sqlColumn.Add(
                     context: context,
-                    column: ss.GetColumn(
-                        context: context,
-                        columnName: textColumnName),
+                    column: textColumn,
                     _as: "Text");
+                sqlColumn.Add(
+                    context: context,
+                    column: textColumn);
             }
             if (!SearchFormat.IsNullOrEmpty())
             {

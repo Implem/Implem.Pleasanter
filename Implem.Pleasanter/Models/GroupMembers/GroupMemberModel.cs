@@ -35,36 +35,52 @@ namespace Implem.Pleasanter.Models
         public int SavedUserId = 0;
         public bool SavedAdmin = false;
 
-        public bool GroupId_Updated(Context context, Column column = null)
+        public bool GroupId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return GroupId != SavedGroupId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != GroupId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != GroupId;
+            }
+            return GroupId != SavedGroupId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != GroupId);
         }
 
-        public bool DeptId_Updated(Context context, Column column = null)
+        public bool DeptId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DeptId != SavedDeptId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != DeptId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != DeptId;
+            }
+            return DeptId != SavedDeptId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != DeptId);
         }
 
-        public bool UserId_Updated(Context context, Column column = null)
+        public bool UserId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return UserId != SavedUserId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != UserId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != UserId;
+            }
+            return UserId != SavedUserId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != UserId);
         }
 
-        public bool Admin_Updated(Context context, Column column = null)
+        public bool Admin_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Admin != SavedAdmin &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Admin);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Admin;
+            }
+            return Admin != SavedAdmin
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Admin);
         }
 
         public GroupMemberModel(

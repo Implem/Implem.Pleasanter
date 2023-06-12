@@ -1737,6 +1737,12 @@ namespace Implem.Pleasanter.Models
                                     value: sysLogModel.Method.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "Api":
+                                res.Val(
+                                    target: "#SysLogs_Api" + idSuffix,
+                                    value: sysLogModel.Api,
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             case "RequestData":
                                 res.Val(
                                     target: "#SysLogs_RequestData" + idSuffix,

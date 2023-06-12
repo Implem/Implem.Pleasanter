@@ -1,7 +1,11 @@
-﻿public bool #ColumnName#_Updated(Context context, Column column = null)
+﻿public bool #ColumnName#_Updated(Context context, bool copy = false, Column column = null)
 {
-    return #ColumnName##RecordingData# != Saved#ColumnName#<!--Base_PropertyUpdated_NotNull--> &&
-        (column == null ||
-        column.DefaultInput.IsNullOrEmpty() ||
-        column.DefaultTime(context: context).Date != #ColumnName##RecordingData#.Date);
+    if (copy && column?.CopyByDefault == true)
+    {
+        return column.GetDefaultInput(context: context)#CastType# != #ColumnName##RecordingData#;
+    }
+    return #ColumnName##RecordingData# != Saved#ColumnName#<!--Base_PropertyUpdated_NotNull-->
+        && (column == null
+            || column.DefaultInput.IsNullOrEmpty()
+            || column.DefaultTime(context: context).Date != #ColumnName##RecordingData#.Date);
 }

@@ -39,52 +39,76 @@ namespace Implem.Pleasanter.Models
         public bool SavedReadOnce = false;
         public bool SavedUserArea = false;
 
-        public bool SessionGuid_Updated(Context context, Column column = null)
+        public bool SessionGuid_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SessionGuid != SavedSessionGuid && SessionGuid != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != SessionGuid);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SessionGuid;
+            }
+            return SessionGuid != SavedSessionGuid && SessionGuid != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SessionGuid);
         }
 
-        public bool Key_Updated(Context context, Column column = null)
+        public bool Key_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Key != SavedKey && Key != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Key);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Key;
+            }
+            return Key != SavedKey && Key != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Key);
         }
 
-        public bool Page_Updated(Context context, Column column = null)
+        public bool Page_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Page != SavedPage && Page != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Page);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Page;
+            }
+            return Page != SavedPage && Page != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Page);
         }
 
-        public bool Value_Updated(Context context, Column column = null)
+        public bool Value_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Value != SavedValue && Value != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Value;
+            }
+            return Value != SavedValue && Value != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Value);
         }
 
-        public bool ReadOnce_Updated(Context context, Column column = null)
+        public bool ReadOnce_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReadOnce != SavedReadOnce &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != ReadOnce);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != ReadOnce;
+            }
+            return ReadOnce != SavedReadOnce
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != ReadOnce);
         }
 
-        public bool UserArea_Updated(Context context, Column column = null)
+        public bool UserArea_Updated(Context context, bool copy = false, Column column = null)
         {
-            return UserArea != SavedUserArea &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != UserArea);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != UserArea;
+            }
+            return UserArea != SavedUserArea
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != UserArea);
         }
 
         public SessionModel(
