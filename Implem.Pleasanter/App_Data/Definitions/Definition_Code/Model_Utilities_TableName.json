@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_TableName",
     "Indent": "2",
-    "Include": "Sites"
+    "Include": "Sites,Dashboards"
 }

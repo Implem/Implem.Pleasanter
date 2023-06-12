@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Security.Permissions;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -80,7 +79,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-
             var dashboardPartLayouts = ss.DashboardParts.Select(dashboardPart =>
             {
                 switch (dashboardPart.Type)
@@ -150,400 +148,6 @@ namespace Implem.Pleasanter.Models
                                 css: "control-hidden always-send",
                                 value: siteModel.Timestamp)))
                     .ToString();
-        }
-
-        private static DashboardPartLayout CustomLayouyt(Context context, DashboardPart dashboardPart)
-        {
-            var content = new HtmlBuilder()
-                .Custom(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
-        }
-
-        private static DashboardPartLayout CustomHtmlLayouyt(Context context, DashboardPart dashboardPart)
-        {
-            var content = new HtmlBuilder()
-                .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
-        }
-
-        private static HtmlBuilder Custom(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
-        {
-            return hb.Div(
-                id: $"DashboardCustom_{dashboardPart.Id}",
-                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                action: () =>
-                {
-                    if (dashboardPart.ShowTitle == true)
-                    {
-                        hb.Div(
-                            css: "dashboard-part-title",
-                            action: () => hb.Text(dashboardPart.Title));
-                    }
-                    hb
-                        .Div(
-                            css: "dashboard-custom-body markup",
-                            action: () => hb.Text(text: dashboardPart.Content));
-                    
-                });
-        }
-        private static HtmlBuilder CustomHtml(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
-        {
-            return hb.Div(
-                id: $"DashboardCustomHtml_{dashboardPart.Id}",
-                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                action: () =>
-                {
-                    if (dashboardPart.ShowTitle == true)
-                    {
-                        hb.Div(
-                            css: "dashboard-part-title",
-                            action: () => hb.Text(dashboardPart.Title));
-                    }
-                    hb
-                        .Div(
-                            css: "dashboard-custom-html-body",
-                            action: () => hb.Raw(text: dashboardPart.Content));
-                    
-                });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
-        {
-            var content = new HtmlBuilder()
-                .QuickAccessMenu(
-                    context: context,
-                    dashboardPart)
-                .ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = content
-            };
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
-        {
-            var sites = DashboardPart.GetDashboardPartSites(
-                context: context,
-                dashboardPart.QuickAccessSites);
-            var ss = SiteSettingsUtilities.SitesSiteSettings(
-                   context: context,
-                   siteId: 0);
-            ss.PermissionType = context.SiteTopPermission();
-            var siteConditions = SiteInfo.TenantCaches
-                .Get(context.TenantId)?
-                .SiteMenu
-                .SiteConditions(context: context, ss: ss);
-            return hb.Div(
-                id: $"QuickAccessContainer_{dashboardPart}",
-                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                action: () =>
-                {
-                    if (dashboardPart.ShowTitle == true)
-                    {
-                        hb.Div(
-                            css: "dashboard-part-title",
-                            action: () => hb.Text(dashboardPart.Title));
-                    }
-                    hb
-                        .Nav(css: "dashboard-part-nav",
-                            action: () => hb
-                                .Ul(
-                                    css: "dashboard-part-nav-menu",
-                                    action: () => QuickAccessSites(context: context, sites: sites)
-                                        .ForEach(siteModelChild => hb
-                                            .Li(css: "dashboard-part-nav-item"
-                                                + (siteModelChild.ReferenceType == "Sites"
-                                                    ? " dashboard-part-nav-directory"
-                                                    : ""),
-                                                action: () => hb
-                                                    .A(
-                                                        css: "dashboard-part-nav-link",
-                                                        text: siteModelChild.Title.DisplayValue,
-                                                        href: Locations.ItemIndex(
-                                                            context: context,
-                                                            id: siteModelChild.SiteId))))));
-                });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
-        {
-            return new SiteCollection(
-                context: context,
-                column: Rds.SitesColumn()
-                    .SiteId()
-                    .Title()
-                    .ReferenceType()
-                    .SiteSettings(),
-                where: Rds.SitesWhere()
-                    .TenantId(context.TenantId)
-                    .SiteId_In(sites)
-                    .Add(
-                        raw: Def.Sql.HasPermission,
-                        _using: !context.HasPrivilege));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static DashboardPartLayout TimeLineLayout(
-            Context context,
-            SiteSettings ss,
-            DashboardPart dashboardPart)
-        {
-            var timeLineItems = GetTimeLineRecords(
-                context: context,
-                dashboardPart: dashboardPart);
-            var hb = new HtmlBuilder();
-            var timeLine = hb
-                .Div(
-                    id: $"TimelineContainer_{dashboardPart.Id}",
-                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                    css: "dashboard-timeline-container",
-                    action: () =>
-                    {
-                        if (dashboardPart.ShowTitle == true)
-                        {
-                            hb.Div(
-                                css: "dashboard-part-title",
-                                action: () => hb.Text(dashboardPart.Title));
-                        }
-                        foreach (var item in timeLineItems)
-                        {
-                            hb.TimeLineItem(context,item);
-                        }
-                    }).ToString();
-            return new DashboardPartLayout()
-            {
-                Id = dashboardPart.Id,
-                X = dashboardPart.X,
-                Y = dashboardPart.Y,
-                W = dashboardPart.Width,
-                H = dashboardPart.Height,
-                Content = timeLine
-            };
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static void TimeLineItem(this HtmlBuilder hb, Context context, DashboardTimeLineItem item)
-        {
-            hb.Div(
-                css: "dashboard-timeline-item",
-                action: () =>
-                {
-                    hb
-                        .Div(
-                            css: "dashboard-timeline-header",
-                            action: () =>
-                                    {
-                                        var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
-                                            ? $"Updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
-                                            : $"Created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
-                                        hb
-                                            .A(
-                                                text: item.SiteTitle.Title(context: context),
-                                                href: Locations.ItemIndex(
-                                                    context: context,
-                                                    id: item.SiteId))
-                                            .P(css: "dashboard-timeline-record-time",
-                                                action: () => hb.Text(recordTime));
-                                    })
-                        .Div(
-                            css: "dashboard-timeline-titlebody",
-                            attributes: new HtmlAttributes()
-                                .Add(
-                                    "data-url",
-                                    Locations.Edit(
-                                        context: context,
-                                        "items",
-                                        item.Id)),
-                            action: () => hb
-                                .Div(
-                                    css: "dashboard-timeline-title",
-                                    action: () => hb.Text(item.Title))
-                                .Div(
-                                    css: "dashboard-timeline-body markup",
-                                    action: () => hb.Text(text: item.Body)));
-                            });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static IEnumerable<DashboardTimeLineItem> GetTimeLineRecords(Context context, DashboardPart dashboardPart)
-        {
-            //基準となるサイトからSiteSettingsを取得
-            var ss = SiteSettingsUtilities.Get(
-                context: context,
-                siteId: dashboardPart.SiteId);
-            //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.TimeLineSites;
-            ss.SetSiteIntegration(context: context);
-            //Viewからフィルタ条件とソート条件を取得
-            var where = dashboardPart.View.Where(
-                context: context,
-                ss: ss);
-            var orderBy = dashboardPart.View.OrderBy(
-                context: context,
-                ss: ss);
-
-            if (ss.ReferenceType == "Issues")
-            {
-                return GetTimeLineIssues(
-                    context: context,
-                    ss: ss,
-                    where: where,
-                    orderBy: orderBy,
-                    titleTemplate: dashboardPart.TimeLineTitle,
-                    bodyTemplate: dashboardPart.TimeLineBody);
-            }
-            else if(ss.ReferenceType == "Results")
-            {
-                return GetTimeLineResults(
-                    context: context,
-                    ss: ss,
-                    where: where,
-                    orderBy: orderBy,
-                    titleTemplate: dashboardPart.TimeLineTitle,
-                    bodyTemplate: dashboardPart.TimeLineBody);
-            }
-            else
-            {
-                return Enumerable.Empty<DashboardTimeLineItem>();
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static IEnumerable<DashboardTimeLineItem> GetTimeLineResults(
-            Context context,
-            SiteSettings ss,
-            SqlWhereCollection where,
-            SqlOrderByCollection orderBy,
-            string titleTemplate,
-            string bodyTemplate)
-        {
-            var results = new ResultCollection(
-                context: context,
-                ss: ss,
-                where: where,
-                orderBy: orderBy,
-                join: ss.Join(
-                    context: context,
-                    join: new IJoin[]
-                    {
-                            where,
-                            orderBy
-                    }
-                ));
-
-            var columns = ss.IncludedColumns(
-                value: titleTemplate,
-                labelText: true);
-            var title = ss.LabelTextToColumnName(titleTemplate);
-            var body = ss.LabelTextToColumnName(bodyTemplate);
-            return results
-                .Select(model => new DashboardTimeLineItem
-                {
-                    Id = model.ResultId,
-                    SiteId = model.SiteId,
-                    SiteTitle = model.SiteTitle,
-                    Title = model.ReplaceLineByResultModel(
-                        context: context,
-                        ss: ss,
-                        line: title,
-                        itemTitle: model.Title.DisplayValue),
-                    Body = model.ReplaceLineByResultModel(
-                        context: context,
-                        ss: ss,
-                        line: body,
-                        itemTitle: model.Title.DisplayValue),
-                    CreatedTime = model.CreatedTime,
-                    UpdatedTime = model.UpdatedTime,
-                    Creator = model.Creator,
-                    Updator = model.Updator
-                });
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static IEnumerable<DashboardTimeLineItem> GetTimeLineIssues(
-            Context context,
-            SiteSettings ss,
-            SqlWhereCollection where,
-            SqlOrderByCollection orderBy,
-            string titleTemplate,
-            string bodyTemplate)
-        {
-            var issues = new IssueCollection(
-                context: context,
-                ss: ss,
-                where: where,
-                orderBy: orderBy,
-                join: ss.Join(
-                    context: context,
-                    join: new IJoin[]
-                    {
-                            where,
-                            orderBy
-                    }
-                ));
-            var title = ss.LabelTextToColumnName(titleTemplate);
-            var body = ss.LabelTextToColumnName(bodyTemplate);
-            return issues
-                .Select(model => new DashboardTimeLineItem
-                {
-                    Id = model.IssueId,
-                    SiteId = model.SiteId,
-                    SiteTitle = model.SiteTitle,
-                    Title = model.ReplaceLineByIssueModel(
-                        context: context,
-                        ss: ss,
-                        line: title,
-                        itemTitle: model.Title.DisplayValue),
-                    Body = model.ReplaceLineByIssueModel(
-                        context: context,
-                        ss: ss,
-                        line: body,
-                        itemTitle: model.Title.DisplayValue),
-                    CreatedTime = model.CreatedTime,
-                    UpdatedTime = model.UpdatedTime,
-                    Creator = model.Creator,
-                    Updator = model.Updator
-                });
         }
 
         public static string IndexJson(Context context, SiteSettings ss)
@@ -633,7 +237,7 @@ namespace Implem.Pleasanter.Models
                             .ToString())
                 .Hidden(
                     controlId: "GridRowIds",
-                    value: gridData.DataRows.Select(g => g.Long("DashboardPartId")).ToJson())
+                    value: gridData.DataRows.Select(g => g.Long("DashboardId")).ToJson())
                 .Hidden(
                     controlId: "GridColumns",
                     value: columns.Select(o => o.ColumnName).ToJson())
@@ -703,7 +307,7 @@ namespace Implem.Pleasanter.Models
                     offset,
                     gridData.DataRows.Count(),
                     gridData.TotalCount))
-                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("DashboardPartId")).ToJson())
+                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("DashboardId")).ToJson())
                 .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
                 .Paging("#Grid")
                 .Message(message)
@@ -736,7 +340,7 @@ namespace Implem.Pleasanter.Models
                         .GridHeader(
                             context: context,
                             ss: ss,
-                            columns: columns, 
+                            columns: columns,
                             view: view,
                             checkRow: checkRow,
                             checkAll: checkAll,
@@ -1342,929 +946,6 @@ namespace Implem.Pleasanter.Models
                             .Text(text: gridDesign)));
         }
 
-        public static string EditorNew(Context context, SiteSettings ss)
-        {
-            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))
-            {
-                return HtmlTemplates.Error(
-                    context: context,
-                    errorData: new ErrorData(type: Error.Types.ItemsLimit));
-            }
-            DashboardModel dashboardModel = null;
-            var copyFrom = context.QueryStrings.Long("CopyFrom");
-            if (ss.AllowReferenceCopy == true && copyFrom > 0)
-            {
-                dashboardModel = new DashboardModel(
-                    context: context,
-                    ss: ss,
-                    dashboardId: copyFrom,
-                    methodType: BaseModel.MethodTypes.New);
-                if (dashboardModel.AccessStatus == Databases.AccessStatuses.Selected
-                    && Permissions.CanRead(
-                        context: context,
-                        siteId: ss.SiteId,
-                        id: dashboardModel.DashboardId))
-                {
-                    dashboardModel = dashboardModel.CopyAndInit(
-                        context: context,
-                        ss: ss);
-                }
-                else
-                {
-                    return HtmlTemplates.Error(
-                       context: context,
-                       errorData: new ErrorData(type: Error.Types.NotFound));
-                }
-            }
-            return Editor(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel ?? new DashboardModel(
-                    context: context,
-                    ss: ss,
-                    methodType: BaseModel.MethodTypes.New,
-                    formData: context.Forms));
-        }
-
-        public static string Editor(
-            Context context, SiteSettings ss, long dashboardId, bool clearSessions)
-        {
-            var dashboardModel = new DashboardModel(
-                context: context,
-                ss: ss,
-                dashboardId: dashboardId,
-                clearSessions: clearSessions,
-                methodType: BaseModel.MethodTypes.Edit);
-            dashboardModel.SwitchTargets = GetSwitchTargets(
-                context: context,
-                ss: ss,
-                dashboardId: dashboardModel.DashboardId,
-                siteId: dashboardModel.SiteId);
-            return Editor(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-        }
-
-        public static string Editor(
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            bool editInDialog = false)
-        {
-            var invalid = DashboardValidators.OnEditing(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return HtmlTemplates.Error(
-                    context: context,
-                    errorData: invalid);
-            }
-            var hb = new HtmlBuilder();
-            var serverScriptModelRow = ss.GetServerScriptModelRow(
-                context: context,
-                itemModel: dashboardModel);
-            return editInDialog
-                ? hb.DialogEditorForm(
-                    context: context,
-                    ss: ss,
-                    siteId: dashboardModel.SiteId,
-                    referenceId: dashboardModel.DashboardId,
-                    isHistory: dashboardModel.VerType == Versions.VerTypes.History,
-                    action: () => hb.EditorInDialog(
-                        context: context,
-                        ss: ss,
-                        dashboardModel: dashboardModel,
-                        editInDialog: editInDialog))
-                            .ToString()
-                : hb.Template(
-                    context: context,
-                    ss: ss,
-                    view: null,
-                    siteId: dashboardModel.SiteId,
-                    parentId: ss.ParentId,
-                    referenceType: "Dashboards",
-                    title: dashboardModel.MethodType == BaseModel.MethodTypes.New
-                        ? Displays.New(context: context)
-                        : dashboardModel.Title.MessageDisplay(context: context),
-                    body: dashboardModel.Body,
-                    useTitle: ss.TitleColumns?.Any(o => ss
-                        .GetEditorColumnNames()
-                        .Contains(o)) == true,
-                    userScript: ss.EditorScripts(
-                        context: context, methodType: dashboardModel.MethodType),
-                    userStyle: ss.EditorStyles(
-                        context: context, methodType: dashboardModel.MethodType),
-                    serverScriptModelRow: serverScriptModelRow,
-                    action: () => hb
-                        .Editor(
-                            context: context,
-                            ss: ss,
-                            dashboardModel: dashboardModel,
-                            serverScriptModelRow: serverScriptModelRow)
-                        .Hidden(controlId: "DropDownSearchPageSize", value: Parameters.General.DropDownSearchPageSize.ToString()))
-                            .ToString();
-        }
-
-        private static HtmlBuilder EditorInDialog(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            bool editInDialog)
-        {
-            if (ss.Tabs?.Any() != true)
-            {
-                hb.FieldSetGeneral(
-                    context: context,
-                    ss: ss,
-                    dashboardModel: dashboardModel,
-                    editInDialog: editInDialog);
-            }
-            else
-            {
-                hb.Div(
-                    id: "EditorTabsContainer",
-                    css: "tab-container max",
-                    attributes: new HtmlAttributes().TabActive(context: context),
-                    action: () => hb
-                        .EditorTabs(
-                            context: context,
-                            ss: ss,
-                            dashboardModel: dashboardModel,
-                            editInDialog: editInDialog)
-                        .FieldSetGeneral(
-                            context: context,
-                            ss: ss,
-                            dashboardModel: dashboardModel,
-                            editInDialog: editInDialog)
-                        .FieldSetTabs(
-                            context: context,
-                            ss: ss,
-                            id: dashboardModel.DashboardId,
-                            dashboardModel: dashboardModel,
-                            editInDialog: editInDialog));
-            }
-            return hb.Hidden(
-                controlId: "EditorInDialogRecordId",
-                value: context.Id.ToString());
-        }
-
-        private static HtmlBuilder Editor(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            ServerScriptModelRow serverScriptModelRow)
-        {
-            var commentsColumn = ss.GetColumn(context: context, columnName: "Comments");
-            var commentsColumnPermissionType =  Permissions.ColumnPermissionType(
-                context: context,
-                ss: ss,
-                column: commentsColumn,
-                baseModel: dashboardModel);
-            var showComments = ss.ShowComments(commentsColumnPermissionType);
-            var tabsCss = showComments ? null : "max";
-            var linksDataSet = HtmlLinks.DataSet(
-                context: context,
-                ss: ss,
-                id: dashboardModel.DashboardId);
-            var links = HtmlLinkCreations.Links(
-                context: context,
-                ss: ss);
-            return hb.Div(id: "Editor", action: () => hb
-                .Form(
-                    attributes: new HtmlAttributes()
-                        .Id("MainForm")
-                        .Class("main-form confirm-unload")
-                        .Action(Locations.ItemAction(
-                            context: context,
-                            id: dashboardModel.DashboardId != 0 
-                                ? dashboardModel.DashboardId
-                                : dashboardModel.SiteId)),
-                    action: () => hb
-                        .RecordHeader(
-                            context: context,
-                            ss: ss,
-                            baseModel: dashboardModel,
-                            tableName: "Dashboards")
-                        .Div(
-                            id: "EditorComments", action: () => hb
-                                .Comments(
-                                    context: context,
-                                    ss: ss,
-                                    comments: dashboardModel.Comments,
-                                    column: commentsColumn,
-                                    verType: dashboardModel.VerType,
-                                    columnPermissionType: commentsColumnPermissionType,
-                                    serverScriptModelColumn: dashboardModel
-                                        ?.ServerScriptModelRow
-                                        ?.Columns.Get(commentsColumn.ColumnName)),
-                            _using: showComments)
-                        .Div(
-                            id: "EditorTabsContainer",
-                            css: "tab-container " + tabsCss,
-                            attributes: new HtmlAttributes().TabActive(context: context),
-                            action: () => hb
-                                .EditorTabs(
-                                    context: context,
-                                    ss: ss,
-                                    dashboardModel: dashboardModel)
-                                .FieldSetGeneral(
-                                    context: context,
-                                    ss: ss,
-                                    dashboardModel: dashboardModel,
-                                    dataSet: linksDataSet,
-                                    links: links)
-                                .FieldSetTabs(
-                                    context: context,
-                                    ss: ss,
-                                    id: dashboardModel.DashboardId,
-                                    dashboardModel: dashboardModel,
-                                    dataSet: linksDataSet,
-                                    links: links)
-                                .FieldSet(
-                                    attributes: new HtmlAttributes()
-                                        .Id("FieldSetHistories")
-                                        .DataAction("Histories")
-                                        .DataMethod("post"),
-                                    _using: dashboardModel.MethodType != BaseModel.MethodTypes.New
-                                        && !context.Publish)
-                                .FieldSet(
-                                    attributes: new HtmlAttributes()
-                                        .Id("FieldSetRecordAccessControl")
-                                        .DataAction("Permissions")
-                                        .DataMethod("post"),
-                                    _using: context.CanManagePermission(ss: ss)
-                                        && !ss.Locked()
-                                        && dashboardModel.MethodType != BaseModel.MethodTypes.New))
-                        .Hidden(
-                            controlId: "BaseUrl",
-                            value: Locations.BaseUrl(context: context))
-                        .Hidden(
-                            controlId: "Ver",
-                            value: dashboardModel.Ver.ToString())
-                        .Hidden(
-                            controlId: "LockedTable",
-                            value: ss.LockedTable()
-                                ? "1"
-                                : "0")
-                        .Hidden(
-                            controlId: "LockedRecord",
-                            value: ss.LockedRecord()
-                                ? "1"
-                                : "0")
-                        .Hidden(
-                            controlId: "FromSiteId",
-                            css: "control-hidden always-send",
-                            value: context.QueryStrings.Data("FromSiteId"),
-                            _using: context.QueryStrings.Long("FromSiteId") > 0)
-                        .Hidden(
-                            controlId: "CopyFrom",
-                            css: "control-hidden always-send",
-                            value: context.QueryStrings.Long("CopyFrom").ToString(),
-                            _using: context.QueryStrings.Long("CopyFrom") > 0)
-                        .Hidden(
-                            controlId: "LinkId",
-                            css: "control-hidden always-send",
-                            value: context.QueryStrings.Data("LinkId"),
-                            _using: context.QueryStrings.Long("LinkId") > 0)
-                        .Hidden(
-                            controlId: "FromTabIndex",
-                            css: "control-hidden always-send",
-                            value: context.QueryStrings.Data("FromTabIndex"),
-                            _using: context.QueryStrings.Long("FromTabIndex") > 0)
-                        .Hidden(
-                            controlId: "ControlledOrder",
-                            css: "control-hidden always-send",
-                            value: string.Empty)
-                        .Hidden(
-                            controlId: "MethodType",
-                            value: dashboardModel.MethodType.ToString().ToLower())
-                        .Hidden(
-                            controlId: "Dashboards_Timestamp",
-                            css: "always-send",
-                            value: dashboardModel.Timestamp)
-                        .Hidden(
-                            controlId: "IsNew",
-                            css: "always-send",
-                            value: (context.Action == "new") ? "1" : "0")
-                        .Hidden(
-                            controlId: "SwitchTargets",
-                            css: "always-send",
-                            value: dashboardModel.SwitchTargets?.Join(),
-                            _using: !context.Ajax)
-                        .Hidden(
-                            controlId: "TriggerRelatingColumns_Editor", 
-                            value: Jsons.ToJson(ss.RelatingColumns)))
-                .OutgoingMailsForm(
-                    context: context,
-                    ss: ss,
-                    referenceType: "Dashboards",
-                    referenceId: dashboardModel.DashboardId,
-                    referenceVer: dashboardModel.Ver)
-                .DropDownSearchDialog(
-                    context: context,
-                    id: ss.SiteId)
-                .CopyDialog(
-                    context: context,
-                    ss: ss)
-                .MoveDialog(context: context)
-                .OutgoingMailDialog()
-                .PermissionsDialog(context: context)
-                .EditorExtensions(
-                    context: context,
-                    dashboardModel: dashboardModel,
-                    ss: ss));
-        }
-
-        private static HtmlBuilder EditorTabs(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            bool editInDialog = false)
-        {
-            return hb.Ul(id: "EditorTabs", action: () => hb
-                .Li(action: () => hb
-                    .A(
-                        href: "#FieldSetGeneral",
-                        text: ss.GeneralTabLabelText))
-                .Tabs(
-                    context: context,
-                    ss: ss)
-                .Li(
-                    _using: dashboardModel.MethodType != BaseModel.MethodTypes.New
-                        && !context.Publish
-                        && !editInDialog,
-                    action: () => hb
-                        .A(
-                            href: "#FieldSetHistories",
-                            text: Displays.ChangeHistoryList(context: context)))
-                .Li(
-                    _using: context.CanManagePermission(ss: ss)
-                        && !ss.Locked()
-                        && dashboardModel.MethodType != BaseModel.MethodTypes.New
-                        && !editInDialog
-                        && ss.ReferenceType != "Wikis",
-                    action: () => hb
-                        .A(
-                            href: "#FieldSetRecordAccessControl",
-                            text: Displays.RecordAccessControl(context: context))));
-        }
-
-        public static string PreviewTemplate(Context context, SiteSettings ss)
-        {
-            var hb = new HtmlBuilder();
-            var name = Strings.NewGuid();
-            return hb
-                .Div(css: "samples-displayed", action: () => hb
-                    .Text(text: Displays.SamplesDisplayed(context: context)))
-                .Div(css: "template-tab-container", action: () => hb
-                    .Ul(action: () => hb
-                        .Li(action: () => hb
-                            .A(
-                                href: "#" + name + "Editor",
-                                text: Displays.Editor(context: context)))
-                        .Li(action: () => hb
-                            .A(
-                                href: "#" + name + "Grid",
-                                text: Displays.Grid(context: context))))
-                    .FieldSet(
-                        id: name + "Editor",
-                        action: () => hb
-                            .FieldSetGeneralColumns(
-                                context: context,
-                                ss: ss,
-                                dashboardModel: new DashboardModel(),
-                                preview: true))
-                    .FieldSet(
-                        id: name + "Grid",
-                        action: () => hb
-                            .Table(css: "grid", action: () => hb
-                                .THead(action: () => hb
-                                    .GridHeader(
-                                        context: context,
-                                        ss: ss,
-                                        columns: ss.GetGridColumns(context: context),
-                                        view: new View(context: context, ss: ss),
-                                        sort: false,
-                                        checkRow: false)))))
-                                            .ToString();
-        }
-
-        private static HtmlBuilder FieldSetGeneral(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            DataSet dataSet = null,
-            List<Link> links = null,
-            bool editInDialog = false)
-        {
-            var mine = dashboardModel.Mine(context: context);
-            return hb.FieldSet(id: "FieldSetGeneral", action: () => hb
-                .FieldSetGeneralColumns(
-                    context: context,
-                    ss: ss,
-                    dashboardModel: dashboardModel,
-                    dataSet: dataSet,
-                    links: links,
-                    editInDialog: editInDialog));
-        }
-
-        public static HtmlBuilder FieldSetGeneralColumns(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            DataSet dataSet = null,
-            List<Link> links = null,
-            bool preview = false,
-            bool editInDialog = false)
-        {
-            hb.Fields(
-                context: context,
-                ss: ss,
-                id: dashboardModel.DashboardId,
-                dashboardModel: dashboardModel,
-                dataSet: dataSet,
-                links: links,
-                preview: preview,
-                editInDialog: editInDialog);
-            if (!preview)
-            {
-                hb.VerUpCheckBox(
-                    context: context,
-                    ss: ss,
-                    baseModel: dashboardModel);
-                if (!editInDialog
-                    && ss
-                        .EditorColumnHash
-                        ?.SelectMany(tab => tab.Value ?? Enumerable.Empty<string>())
-                        .Any(columnName => ss.LinkId(columnName) != 0) == false)
-                {
-                    hb.Div(id: "LinkCreations", css: "links", action: () => hb
-                        .LinkCreations(
-                            context: context,
-                            ss: ss,
-                            linkId: dashboardModel.DashboardId,
-                            methodType: dashboardModel.MethodType,
-                            links: links));
-                    if (ss.HideLink != true)
-                    {
-                        hb.Div(id: "Links", css: "links", action: () => hb
-                            .Links(
-                                context: context,
-                                ss: ss,
-                                id: dashboardModel.DashboardId,
-                                dataSet: dataSet));
-                    }
-                }
-            }
-            return hb;
-        }
-
-        public static HtmlBuilder Field(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            Column column,
-            bool controlOnly = false,
-            bool alwaysSend = false,
-            bool disableAutoPostBack = false,
-            string idSuffix = null,
-            bool preview = false,
-            bool disableSection = false)
-        {
-            var value = dashboardModel.ControlValue(
-                context: context,
-                ss: ss,
-                column: column);
-            if (value != null)
-            {
-                SetChoiceHashByFilterExpressions(
-                    context: context,
-                    ss: ss,
-                    column: column,
-                    dashboardModel: dashboardModel);
-                hb.Field(
-                    context: context,
-                    ss: ss,
-                    column: column,
-                    serverScriptModelColumn: dashboardModel
-                        ?.ServerScriptModelRow
-                        ?.Columns.Get(column.ColumnName),
-                    value: value,
-                    columnPermissionType: Permissions.ColumnPermissionType(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        baseModel: dashboardModel),
-                    controlOnly: controlOnly,
-                    alwaysSend: alwaysSend,
-                    disableAutoPostBack: disableAutoPostBack,
-                    idSuffix: idSuffix,
-                    preview: preview,
-                    disableSection: disableSection);
-            }
-            return hb;
-        }
-
-        private static HtmlBuilder Tabs(this HtmlBuilder hb, Context context, SiteSettings ss)
-        {
-            ss.Tabs?.ForEach(tab => hb.Li(action: () => hb.A(
-                href: $"#FieldSetTab{tab.Id}",
-                action: () => hb.Label(action: () => hb.Text(tab.LabelText)))));
-            return hb;
-        }
-
-        private static HtmlBuilder FieldSetTabs(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            long id,
-            DashboardModel dashboardModel,
-            DataSet dataSet = null,
-            List<Link> links = null,
-            bool preview = false,
-            bool editInDialog = false)
-        {
-            dataSet = dataSet ?? HtmlLinks.DataSet(
-                context: context,
-                ss: ss,
-                id: id);
-            links = links ?? HtmlLinkCreations.Links(
-                context: context,
-                ss: ss);
-            ss.Tabs?.Select((tab, index) => new { tab = tab, index = index + 1 })?.ForEach(data =>
-            {
-                hb.FieldSet(
-                    id: $"FieldSetTab{data.tab.Id}",
-                    css: " fieldset cf ui-tabs-panel ui-corner-bottom ui-widget-content ",
-                    action: () => hb.Fields(
-                        context: context,
-                        ss: ss,
-                        id: id,
-                        tab: data.tab,
-                        dataSet: dataSet,
-                        links: links,
-                        preview: preview,
-                        editInDialog: editInDialog,
-                        dashboardModel: dashboardModel,
-                        tabIndex: data.index));
-            });
-            return hb;
-        }
-
-        private static HtmlBuilder Fields(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            long id,
-            DashboardModel dashboardModel,
-            DataSet dataSet = null,
-            List<Link> links = null,
-            bool preview = false,
-            bool editInDialog = false)
-        {
-            return hb.Fields(
-                context: context,
-                ss: ss,
-                id: id,
-                tab: new Tab { Id = 0 },
-                dataSet: !preview
-                    ? dataSet ?? HtmlLinks.DataSet(
-                        context: context,
-                        ss: ss,
-                        id: id)
-                    : null,
-                links: links ?? HtmlLinkCreations.Links(
-                    context: context,
-                    ss: ss),
-                dashboardModel: dashboardModel,
-                preview: preview,
-                editInDialog: editInDialog);
-        }
-
-        private static HtmlBuilder Fields(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            long id,
-            Tab tab,
-            DataSet dataSet,
-            List<Link> links,
-            DashboardModel dashboardModel,
-            bool preview = false,
-            bool editInDialog = false,
-            int tabIndex = 0)
-        {
-            ss
-                .GetEditorColumns(
-                    context: context,
-                    tab: tab,
-                    columnOnly: false)
-                ?.Aggregate(new List<KeyValuePair<Section, List<string>>>(), (columns, column) =>
-                {
-                    var sectionId = ss.SectionId(column.ColumnName);
-                    var section = ss
-                        .Sections
-                        ?.FirstOrDefault(o => o.Id == sectionId);
-                    if (section != null)
-                    {
-                        columns.Add(new KeyValuePair<Section, List<string>>(
-                            new Section
-                            {
-                                Id = section.Id,
-                                LabelText = section.LabelText,
-                                AllowExpand = section.AllowExpand,
-                                Expand = section.Expand,
-                                Hide = section.Hide
-                            },
-                            new List<string>()));
-                    }
-                    else
-                    {
-                        if (!columns.Any())
-                        {
-                            columns.Add(new KeyValuePair<Section, List<string>>(
-                                null,
-                                new List<string>()));
-                        }
-                        columns.Last().Value.Add(column.ColumnName);
-                    }
-                    return columns;
-                }).ForEach(section =>
-                {
-                    if (section.Key == null)
-                    {
-                        hb.Fields(
-                            context: context,
-                            ss: ss,
-                            id: id,
-                            columnNames: section.Value,
-                            dataSet: dataSet,
-                            links: links,
-                            dashboardModel: dashboardModel,
-                            preview: preview,
-                            editInDialog: editInDialog,
-                            tabIndex: tabIndex);
-                    }
-                    else if (section.Key.Hide != true)
-                    {
-                        hb
-                            .Div(
-                                id: $"SectionFields{section.Key.Id}Container",
-                                css: "section-fields-container",
-                                action: () => hb
-                                    .Div(action: () => hb.Label(
-                                        css: "field-section" + (section.Key.AllowExpand == true
-                                            ? " expand"
-                                            : string.Empty),
-                                        attributes: new HtmlAttributes()
-                                            .For($"SectionFields{section.Key.Id}"),
-                                        action: () => hb
-                                            .Span(css: section.Key.AllowExpand == true
-                                                ? section.Key.Expand == true
-                                                    ? "ui-icon ui-icon-triangle-1-s"
-                                                    : "ui-icon ui-icon-triangle-1-e"
-                                                : string.Empty)
-                                            .Text(text: section.Key.LabelText)))
-                                    .Div(
-                                        id: $"SectionFields{section.Key.Id}",
-                                        css: section.Key.AllowExpand == true && section.Key.Expand != true
-                                            ? "section-fields hidden"
-                                            : "section-fields",
-                                        action: () => hb.Fields(
-                                            context: context,
-                                            ss: ss,
-                                            id: id,
-                                            columnNames: section.Value,
-                                            dataSet: dataSet,
-                                            links: links,
-                                            dashboardModel: dashboardModel,
-                                            preview: preview,
-                                            editInDialog: editInDialog,
-                                            tabIndex: tabIndex)));
-                    }
-                });
-            return hb;
-        }
-
-        private static HtmlBuilder Fields(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            long id,
-            List<string> columnNames,
-            DataSet dataSet,
-            List<Link> links,
-            DashboardModel dashboardModel,
-            bool preview = false,
-            bool editInDialog = false,
-            int tabIndex = 0)
-        {
-            columnNames.ForEach(columnName => hb.Field(
-                context: context,
-                ss: ss,
-                id: id,
-                columnName: columnName,
-                dataSet: dataSet,
-                links: links,
-                dashboardModel: dashboardModel,
-                preview: preview,
-                editInDialog: editInDialog,
-                tabIndex: tabIndex));
-            return hb;
-        }
-
-        private static HtmlBuilder Field(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            long id,
-            string columnName,
-            DataSet dataSet,
-            List<Link> links,
-            DashboardModel dashboardModel,
-            bool preview = false,
-            bool editInDialog = false,
-            int tabIndex = 0)
-        {
-            var column = ss.GetColumn(
-                context: context,
-                columnName: columnName);
-            var linkId = !preview && !editInDialog ? ss.LinkId(columnName) : 0;
-            if (column != null)
-            {
-                hb.Field(
-                    context: context,
-                    ss: ss,
-                    dashboardModel: dashboardModel,
-                    column: column,
-                    preview: preview);
-            }
-            else if (!editInDialog && linkId != 0)
-            {
-                hb.LinkField(
-                    context: context,
-                    ss: ss,
-                    id: dashboardModel.DashboardId,
-                    linkId: linkId,
-                    links: links,
-                    dataSet: dataSet,
-                    methodType: dashboardModel?.MethodType,
-                    tabIndex: tabIndex);
-            }
-            return hb;
-        }
-
-        private static HtmlAttributes TabActive(
-            this HtmlAttributes attributes,
-            Context context)
-        {
-            var tabIndex = context.QueryStrings.Get("TabIndex").ToInt();
-            return attributes.Add(
-                name: "tab-active",
-                value: tabIndex.ToString(),
-                _using: tabIndex > 0);
-        }
-
-        public static string ControlValue(
-            this DashboardModel dashboardModel,
-            Context context,
-            SiteSettings ss,
-            Column column)
-        {
-            switch (column.Name)
-            {
-                case "DashboardId":
-                    return dashboardModel.DashboardId
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                case "Ver":
-                    return dashboardModel.Ver
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                case "Title":
-                    return dashboardModel.Title
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                case "Body":
-                    return dashboardModel.Body
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                case "Locked":
-                    return dashboardModel.Locked
-                        .ToControl(
-                            context: context,
-                            ss: ss,
-                            column: column);
-                default:
-                    switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
-                    {
-                        case "Class":
-                            return dashboardModel.GetClass(columnName: column.Name)
-                                .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                        case "Num":
-                            return dashboardModel.GetNum(columnName: column.Name)
-                                .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                        case "Date":
-                            return dashboardModel.GetDate(columnName: column.Name)
-                                .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                        case "Description":
-                            return dashboardModel.GetDescription(columnName: column.Name)
-                                .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                        case "Check":
-                            return dashboardModel.GetCheck(columnName: column.Name)
-                                .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                        case "Attachments":
-                            return dashboardModel.GetAttachments(columnName: column.Name)
-                                .ToControl(
-                                    context: context,
-                                    ss: ss,
-                                    column: column);
-                        default: return null;
-                    }
-            }
-        }
-
-        private static HtmlBuilder MainCommandExtensions(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel)
-        {
-            return hb;
-        }
-
-        private static HtmlBuilder EditorExtensions(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel)
-        {
-            return hb;
-        }
-
-        public static string EditorJson(Context context, SiteSettings ss, long dashboardId)
-        {
-            return EditorResponse(context, ss, new DashboardModel(
-                context, ss, dashboardId,
-                formData: context.Forms)).ToJson();
-        }
-
-        private static ResponseCollection EditorResponse(
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            Message message = null,
-            string switchTargets = null)
-        {
-            dashboardModel.MethodType = dashboardModel.DashboardId == 0
-                ? BaseModel.MethodTypes.New
-                : BaseModel.MethodTypes.Edit;
-            return new DashboardsResponseCollection(
-                context: context,
-                dashboardModel: dashboardModel)
-                    .Invoke("clearDialogs")
-                    .ReplaceAll("#MainContainer", Editor(context, ss, dashboardModel))
-                    .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
-                    .SetMemory("formChanged", false)
-                    .Invoke("setCurrentIndex")
-                    .Message(message)
-                    .Messages(context.Messages)
-                    .ClearFormData(_using: !context.QueryStrings.Bool("control-auto-postback"));
-        }
-
         private static List<long> GetSwitchTargets(Context context, SiteSettings ss, long dashboardId, long siteId)
         {
             var view = Views.GetBySession(
@@ -2317,296 +998,65 @@ namespace Implem.Pleasanter.Models
             return switchTargets;
         }
 
-        public static ResponseCollection FieldResponse(
-            this ResponseCollection res,
+        private static HtmlBuilder ReferenceType(
+            this HtmlBuilder hb,
             Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            string idSuffix = null)
+            string referenceType,
+            BaseModel.MethodTypes methodType)
         {
-            var replaceFieldColumns = ss.ReplaceFieldColumns(
-                context: context,
-                serverScriptModelRow: dashboardModel.ServerScriptModelRow);
-            res.Val(
-                target: "#ReplaceFieldColumns",
-                value: replaceFieldColumns?.ToJson());
-            res.LookupClearFormData(
-                context: context,
-                ss: ss);
-            var columnNames = ss.GetEditorColumnNames(context.QueryStrings.Bool("control-auto-postback")
-                ? ss.GetColumn(
-                    context: context,
-                    columnName: context.Forms.ControlId().Split_2nd('_'))
-                : null);
-            columnNames
-                .Select(columnName => ss.GetColumn(
-                    context: context,
-                    columnName: columnName))
-                .Where(column => column != null)
-                .ForEach(column =>
-                {
-                    var serverScriptModelColumn = dashboardModel
-                        ?.ServerScriptModelRow
-                        ?.Columns.Get(column.ColumnName);
-                    if (replaceFieldColumns?.Contains(column.ColumnName) == true)
-                    {
-                        res.ReplaceAll(
-                            target: $"#Dashboards_{column.Name}Field" + idSuffix,
-                            value: new HtmlBuilder().Field(
-                                context: context,
-                                ss: ss,
-                                dashboardModel: dashboardModel,
-                                column: column,
-                                idSuffix: idSuffix));
-                    }
-                    else
-                    {
-                        switch (column.Name)
-                        {
-                            case "DashboardId":
-                                res.Val(
-                                    target: "#Dashboards_DashboardId" + idSuffix,
-                                    value: dashboardModel.DashboardId.ToResponse(context: context, ss: ss, column: column),
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
-                            case "Title":
-                                res.Val(
-                                    target: "#Dashboards_Title" + idSuffix,
-                                    value: dashboardModel.Title.ToResponse(context: context, ss: ss, column: column),
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
-                            case "Body":
-                                res.Val(
-                                    target: "#Dashboards_Body" + idSuffix,
-                                    value: dashboardModel.Body.ToResponse(context: context, ss: ss, column: column),
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
-                            case "Locked":
-                                res.Val(
-                                    target: "#Dashboards_Locked" + idSuffix,
-                                    value: dashboardModel.Locked,
-                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                break;
-                            default:
-                                switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+            return methodType == BaseModel.MethodTypes.New
+                ? hb.Select(
+                    attributes: new HtmlAttributes()
+                        .Id("Sites_ReferenceType")
+                        .Class("control-dropdown"),
+                    action: () => hb
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: new Dictionary<string, ControlData>
+                            {
                                 {
-                                    case "Class":
-                                        res.Val(
-                                            target: $"#Dashboards_{column.Name}{idSuffix}",
-                                            value: dashboardModel.GetClass(columnName: column.Name).ToResponse(
-                                                context: context,
-                                                ss: ss,
-                                                column: column),
-                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                        break;
-                                    case "Num":
-                                        res.Val(
-                                            target: $"#Dashboards_{column.Name}{idSuffix}",
-                                            value: dashboardModel.GetNum(columnName: column.Name).ToResponse(
-                                                context: context,
-                                                ss: ss,
-                                                column: column),
-                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                        break;
-                                    case "Date":
-                                        res.Val(
-                                            target: $"#Dashboards_{column.Name}{idSuffix}",
-                                            value: dashboardModel.GetDate(columnName: column.Name).ToResponse(
-                                                context: context,
-                                                ss: ss,
-                                                column: column),
-                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                        break;
-                                    case "Description":
-                                        res.Val(
-                                            target: $"#Dashboards_{column.Name}{idSuffix}",
-                                            value: dashboardModel.GetDescription(columnName: column.Name).ToResponse(
-                                                context: context,
-                                                ss: ss,
-                                                column: column),
-                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                        break;
-                                    case "Check":
-                                        res.Val(
-                                            target: $"#Dashboards_{column.Name}{idSuffix}",
-                                            value: dashboardModel.GetCheck(columnName: column.Name),
-                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                        break;
-                                    case "Attachments":
-                                        res.ReplaceAll(
-                                            target: $"#Dashboards_{column.Name}Field",
-                                            value: new HtmlBuilder()
-                                                .FieldAttachments(
-                                                    context: context,
-                                                    fieldId: $"Dashboards_{column.Name}Field",
-                                                    controlId: $"Dashboards_{column.Name}",
-                                                    columnName: column.ColumnName,
-                                                    fieldCss: column.FieldCss
-                                                        + (column.TextAlign == SiteSettings.TextAlignTypes.Right
-                                                            ? " right-align"
-                                                            : string.Empty),
-                                                    fieldDescription: column.Description,
-                                                    labelText: column.LabelText,
-                                                    value: dashboardModel.GetAttachments(columnName: column.Name).ToJson(),
-                                                    readOnly: Permissions.ColumnPermissionType(
-                                                        context: context,
-                                                        ss: ss,
-                                                        column: column,
-                                                        baseModel: dashboardModel)
-                                                            != Permissions.ColumnPermissionTypes.Update,
-                                                    allowDelete: column.AllowDeleteAttachments != false),
-                                            options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
-                                        break;
+                                    "Sites",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Sites"))
+                                },
+                                {
+                                    "Issues",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Issues"))
                                 }
-                                break;
-                        }
-                    }
-                });
-            return res;
+,
+                                {
+                                    "Results",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Results"))
+                                }
+,
+                                {
+                                    "Wikis",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Wikis"))
+                                }
+                            },
+                        selectedValue: referenceType))
+                : hb.Span(css: "control-text", action: () => hb
+                    .Text(text: ReferenceTypeDisplayName(
+                        context: context,
+                        referenceType: referenceType)));
         }
 
-        public static void SetChoiceHashByFilterExpressions(
-            Context context,
-            SiteSettings ss,
-            Column column,
-            DashboardModel dashboardModel,
-            string searchText = null,
-            int offset = 0,
-            bool search = false,
-            bool searchFormat = false)
+        private static string ReferenceTypeDisplayName(Context context, string referenceType)
         {
-            var link = ss.ColumnFilterExpressionsLink(
-                context: context,
-                column: column);
-            if (link != null)
+            switch (referenceType)
             {
-                var view = link.View;
-                var targetSs = ss.GetLinkedSiteSettings(
-                    context: context,
-                    link: link);
-                if (targetSs != null)
-                {
-                    if (view.ColumnFilterHash == null)
-                    {
-                        view.ColumnFilterHash = new Dictionary<string, string>();
-                    }
-                    view.ColumnFilterExpressions.ForEach(data =>
-                    {
-                        var columnName = data.Key;
-                        var targetColumn = targetSs?.GetFilterExpressionsColumn(
-                            context: context,
-                            link: link,
-                            columnName: columnName);
-                        if (targetColumn != null)
-                        {
-                            var expression = data.Value;
-                            var raw = expression.StartsWith("=");
-                            var hash = new Dictionary<string, Column>();
-                            ss.IncludedColumns(value: data.Value).ForEach(includedColumn =>
-                            {
-                                var guid = Strings.NewGuid();
-                                expression = expression.Replace(
-                                    $"[{includedColumn.ExpressionColumnName()}]",
-                                    guid);
-                                hash.Add(guid, includedColumn);
-                            });
-                            hash.ForEach(hashData =>
-                            {
-                                var guid = hashData.Key;
-                                var includedColumn = hashData.Value;
-                                expression = expression.Replace(
-                                    guid,
-                                    includedColumn.OutputType == Column.OutputTypes.DisplayValue
-                                        ? dashboardModel.ToDisplay(
-                                            context: context,
-                                            ss: ss,
-                                            column: includedColumn,
-                                            mine: dashboardModel.Mine(context: context))
-                                        : dashboardModel.ToValue(
-                                            context: context,
-                                            ss: ss,
-                                            column: includedColumn,
-                                            mine: dashboardModel.Mine(context: context)));
-                            });
-                            view.SetColumnFilterHashByExpression(
-                                ss: targetSs,
-                                targetColumn: targetColumn,
-                                columnName: columnName,
-                                expression: expression,
-                                raw: raw);
-                        }
-                    });
-                    column.SetChoiceHash(
-                        context: context,
-                        ss: ss,
-                        link: link,
-                        searchText: searchText,
-                        offset: offset,
-                        search: search,
-                        searchFormat: searchFormat,
-                        setChoices: true);
-                }
-            }
-        }
-
-        public static string Create(Context context, SiteSettings ss)
-        {
-            ﻿var copyFrom = context.Forms.Int("CopyFrom");
-            if (copyFrom > 0 && !Permissions.CanRead(
-                context: context,
-                siteId: context.SiteId,
-                id: copyFrom))
-            {
-                return Error.Types.HasNotPermission.MessageJson(context: context);
-            }
-            var dashboardModel = new DashboardModel(
-                context: context,
-                ss: ss,
-                dashboardId: copyFrom,
-                setCopyDefault: copyFrom > 0,
-                formData: context.Forms);
-            dashboardModel.DashboardId = 0;
-            dashboardModel.Ver = 1;
-            var invalid = DashboardValidators.OnCreating(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            List<Process> processes = null;
-            var errorData = dashboardModel.Create(context: context, ss: ss, notice: true);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    SessionUtilities.Set(
-                        context: context,
-                        message: CreatedMessage(
-                            context: context,
-                            ss: ss,
-                            dashboardModel: dashboardModel,
-                            process: processes?.FirstOrDefault(o => o.MatchConditions)));
-                    return new ResponseCollection(
-                        context: context,
-                        id: dashboardModel.DashboardId)
-                            .SetMemory("formChanged", false)
-                            .Messages(context.Messages)
-                            .Href(Locations.Edit(
-                                context: context,
-                                controller: context.Controller,
-                                id: ss.Columns.Any(o => o.Linking)
-                                    ? context.Forms.Long("LinkId")
-                                    : dashboardModel.DashboardId)
-                                        + "?new=1"
-                                        + (ss.Columns.Any(o => o.Linking)
-                                            && context.Forms.Long("FromTabIndex") > 0
-                                                ? $"&TabIndex={context.Forms.Long("FromTabIndex")}"
-                                                : string.Empty))
-                            .ToJson();
-                default:
-                    return errorData.MessageJson(context: context);
+                case "Sites": return Displays.Folder(context: context);
+                case "Issues": return Displays.Get(context: context, id: "Issues");
+                case "Results": return Displays.Get(context: context, id: "Results");
+                case "Wikis": return Displays.Get(context: context, id: "Wikis");
+                default: return null;
             }
         }
 
@@ -2620,7 +1070,7 @@ namespace Implem.Pleasanter.Models
             {
                 return Messages.Created(
                     context: context,
-                    data: dashboardModel.Title.DisplayValue);
+                    data: dashboardModel.Title.Value);
             }
             else
             {
@@ -2633,168 +1083,14 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Update(Context context, SiteSettings ss, long dashboardId, string previousTitle)
-        {
-            var dashboardModel = new DashboardModel(
-                context: context,
-                ss: ss,
-                dashboardId: dashboardId,
-                formData: context.Forms);
-            var invalid = DashboardValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            if (dashboardModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return Messages.ResponseDeleteConflicts(context: context).ToJson();
-            }
-            List<Process> processes = null;
-            var errorData = dashboardModel.Update(
-                context: context,
-                ss: ss,
-                processes: processes,
-                notice: true,
-                previousTitle: previousTitle);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    var res = new DashboardsResponseCollection(
-                        context: context,
-                        dashboardModel: dashboardModel);
-                    return ResponseByUpdate(res, context, ss, dashboardModel, processes)
-                        .PrependComment(
-                            context: context,
-                            ss: ss,
-                            column: ss.GetColumn(context: context, columnName: "Comments"),
-                            comments: dashboardModel.Comments,
-                            verType: dashboardModel.VerType)
-                        .ToJson();
-                case Error.Types.UpdateConflicts:
-                    return Messages.ResponseUpdateConflicts(
-                        context: context,
-                        data: dashboardModel.Updator.Name)
-                            .ToJson();
-                default:
-                    return errorData.MessageJson(context: context);
-            }
-        }
-
-        private static ResponseCollection ResponseByUpdate(
-            DashboardsResponseCollection res,
-            Context context,
-            SiteSettings ss,
-            DashboardModel dashboardModel,
-            List<Process> processes)
-        {
-            ss.ClearColumnAccessControlCaches(baseModel: dashboardModel);
-            if (context.Forms.Bool("IsDialogEditorForm"))
-            {
-                var view = Views.GetBySession(
-                    context: context,
-                    ss: ss,
-                    setSession: false);
-                var gridData = new GridData(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    tableType: Sqls.TableTypes.Normal,
-                    where: Rds.DashboardsWhere().DashboardId(dashboardModel.DashboardId));
-                var columns = ss.GetGridColumns(
-                    context: context,
-                    view: view,
-                    checkPermission: true);
-                return res
-                    .ReplaceAll(
-                        $"[data-id=\"{dashboardModel.DashboardId}\"][data-latest]",
-                        new HtmlBuilder().GridRows(
-                            context: context,
-                            ss: ss,
-                            view: view,
-                            dataRows: gridData.DataRows,
-                            columns: columns))
-                    .CloseDialog()
-                    .Message(message: UpdatedMessage(
-                        context: context,
-                        ss: ss,
-                        dashboardModel: dashboardModel,
-                        processes: processes))
-                    .Messages(context.Messages);
-            }
-            else if (dashboardModel.Locked)
-            {
-                ss.SetLockedRecord(
-                    context: context,
-                    time: dashboardModel.UpdatedTime,
-                    user: dashboardModel.Updator);
-                return EditorResponse(
-                    context: context,
-                    ss: ss,
-                    dashboardModel: dashboardModel)
-                        .SetMemory("formChanged", false)
-                        .Message(message: UpdatedMessage(
-                            context: context,
-                            ss: ss,
-                            dashboardModel: dashboardModel,
-                            processes: processes))
-                        .Messages(context.Messages)
-                        .ClearFormData();
-            }
-            else
-            {
-                var verUp = Versions.VerUp(
-                    context: context,
-                    ss: ss,
-                    verUp: false);
-                return res
-                    .Ver(context: context, ss: ss)
-                    .Timestamp(context: context, ss: ss)
-                    .FieldResponse(context: context, ss: ss, dashboardModel: dashboardModel)
-                    .Val("#VerUp", verUp)
-                    .Val("#Ver", dashboardModel.Ver)
-                    .Disabled("#VerUp", verUp)
-                    .Html("#HeaderTitle", HttpUtility.HtmlEncode(dashboardModel.Title.DisplayValue))
-                    .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
-                        context: context,
-                        baseModel: dashboardModel,
-                        tableName: "Dashboards"))
-                    .Html("#Links", new HtmlBuilder().Links(
-                        context: context,
-                        ss: ss,
-                        id: dashboardModel.DashboardId))
-                    .Links(
-                        context: context,
-                        ss: ss,
-                        id: dashboardModel.DashboardId,
-                        methodType: dashboardModel.MethodType)
-                    .SetMemory("formChanged", false)
-                    .Message(Messages.Updated(
-                        context: context,
-                        data: dashboardModel.Title.DisplayValue))
-                    .Messages(context.Messages)
-                    .Comment(
-                        context: context,
-                        ss: ss,
-                        column: ss.GetColumn(context: context, columnName: "Comments"),
-                        comments: dashboardModel.Comments,
-                        deleteCommentId: dashboardModel.DeleteCommentId)
-                    .ClearFormData();
-            }
-        }
-
         private static Message UpdatedMessage(
             Context context,
             SiteSettings ss,
             DashboardModel dashboardModel,
             List<Process> processes)
         {
-            var process = processes
-                .FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
-                    && o.MatchConditions);
+            var process = processes?.FirstOrDefault(o => !o.SuccessMessage.IsNullOrEmpty()
+                && o.MatchConditions);
             if (process == null)
             {
                 return Messages.Updated(
@@ -2812,49 +1108,104 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static string Delete(Context context, SiteSettings ss, long dashboardId)
+        public static string Copy(Context context, SiteModel siteModel)
         {
-            var dashboardModel = new DashboardModel(context, ss, dashboardId);
-            var invalid = DashboardValidators.OnDeleting(
+            var ss = siteModel.SiteSettings;
+            if (siteModel.ParentId == 0
+                && Permissions.SiteTopPermission(context: context) != (Permissions.Types)Parameters.Permissions.Manager)
+            {
+                return Error.Types.HasNotPermission.MessageJson(context: context);
+            }
+            siteModel.Title.Value += Parameters.General.CharToAddWhenCopying;
+            if (!context.Forms.Bool("CopyWithComments"))
+            {
+                siteModel.Comments.Clear();
+            }
+            if (!context.Forms.Bool("CopyWithNotifications")
+                || Parameters.Notification.CopyWithNotifications == ParameterAccessor.Parts.Types.OptionTypes.Disabled)
+            {
+                ss.Notifications.Clear();
+            }
+            if (!context.Forms.Bool("CopyWithReminders")
+                || Parameters.Reminder.CopyWithReminders == ParameterAccessor.Parts.Types.OptionTypes.Disabled)
+            {
+                ss.Reminders.Clear();
+            }
+            var beforeSiteId = siteModel.SiteId;
+            var beforeInheritPermission = siteModel.InheritPermission;
+            var errorData = siteModel.Create(context: context, otherInitValue: true);
+            if (siteModel.SiteSettings.Exports?.Any() == true)
+            {
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    statements: Rds.UpdateSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId(siteModel.SiteId),
+                        param: Rds.SitesParam()
+                            .SiteSettings(siteModel.SiteSettings.RecordingJson(
+                                context: context))));
+            }
+            if (beforeSiteId == beforeInheritPermission)
+            {
+                var dataTable = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectPermissions(
+                        column: Rds.PermissionsColumn()
+                            .ReferenceId()
+                            .DeptId()
+                            .GroupId()
+                            .UserId()
+                            .PermissionType(),
+                        where: Rds.PermissionsWhere()
+                            .ReferenceId(beforeSiteId)));
+                var statements = new List<SqlStatement>();
+                dataTable
+                    .AsEnumerable()
+                    .ForEach(dataRow =>
+                        statements.Add(Rds.InsertPermissions(
+                            param: Rds.PermissionsParam()
+                                .ReferenceId(siteModel.SiteId)
+                                .DeptId(dataRow.Long("DeptId"))
+                                .GroupId(dataRow.Long("GroupId"))
+                                .UserId(dataRow.Long("UserId"))
+                                .PermissionType(dataRow.Long("PermissionType")))));
+                statements.Add(
+                    Rds.UpdateSites(
+                        where: Rds.SitesWhere()
+                            .TenantId(context.TenantId)
+                            .SiteId(siteModel.SiteId),
+                        param: Rds.SitesParam()
+                            .InheritPermission(siteModel.SiteId)));
+                Repository.ExecuteNonQuery(
+                    context: context,
+                    transactional: true,
+                    statements: statements.ToArray());
+            }
+            SessionUtilities.Set(
                 context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            var errorData = dashboardModel.Delete(context: context, ss: ss, notice: true);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    SessionUtilities.Set(
-                        context: context,
-                        message: Messages.Deleted(
-                            context: context,
-                            data: dashboardModel.Title.MessageDisplay(context: context)));
-                    var res = new DashboardsResponseCollection(
-                        context: context,
-                        dashboardModel: dashboardModel);
-                    return res.ToJson();
-                default:
-                    return errorData.MessageJson(context: context);
-            }
+                message: Messages.Copied(context: context));
+            var res = new ResponseCollection(context: context)
+                .SetMemory("formChanged", false)
+                .Href(Locations.ItemEdit(
+                    context: context,
+                    id: siteModel.SiteId));
+            return res.ToJson();
         }
 
-        public static string Restore(Context context, SiteSettings ss)
+        public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
-            if (!Parameters.Deleted.Restore)
+            if (!Parameters.Deleted.PhysicalDelete)
             {
                 return Error.Types.InvalidRequest.MessageJson(context: context);
             }
-            else if (context.CanManageSite(ss: ss))
+            if (context.CanManageSite(ss: ss))
             {
                 var selector = new RecordSelector(context: context);
                 var count = 0;
                 if (selector.All)
                 {
-                    count = Restore(
+                    count = PhysicalBulkDelete(
                         context: context,
                         ss: ss,
                         selected: selector.Selected,
@@ -2864,7 +1215,7 @@ namespace Implem.Pleasanter.Models
                 {
                     if (selector.Selected.Any())
                     {
-                        count = Restore(
+                        count = PhysicalBulkDelete(
                             context: context,
                             ss: ss,
                             selected: selector.Selected);
@@ -2874,12 +1225,11 @@ namespace Implem.Pleasanter.Models
                         return Messages.ResponseSelectTargets(context: context).ToJson();
                     }
                 }
-                Summaries.Synchronize(context: context, ss: ss);
                 return GridRows(
                     context: context,
                     ss: ss,
                     clearCheck: true,
-                    message: Messages.BulkRestored(
+                    message: Messages.PhysicalBulkDeletedFromRecycleBin(
                         context: context,
                         data: count.ToString()));
             }
@@ -2889,469 +1239,606 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public static int Restore(
-            Context context, SiteSettings ss, List<long> selected, bool negative = false)
+        private static int PhysicalBulkDelete(
+            Context context,
+            SiteSettings ss,
+            List<long> selected,
+            bool negative = false,
+            Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
-            var subWhere = Views.GetBySession(
-                context: context,
-                ss: ss)
-                    .Where(
-                        context: context,
-                        ss: ss,
-                        itemJoin: false);
-            var where = Rds.DashboardsWhere()
-                .SiteId(
-                    value: ss.SiteId,
-                    tableName: "Dashboards_Deleted")
-                .DashboardId_In(
-                    value: selected,
-                    tableName: "Dashboards_Deleted",
-                    negative: negative,
-                    _using: selected.Any())
-                .DashboardId_In(
-                    tableName: "Dashboards_Deleted",
-                    sub: Rds.SelectDashboards(
-                        tableType: Sqls.TableTypes.Deleted,
-                        column: Rds.DashboardsColumn().DashboardId(),
-                        join: ss.Join(
-                            context: context,
-                            join: new IJoin[]
-                            {
-                                subWhere
-                            }),
-                        where: subWhere));
-            var sub = Rds.SelectDashboards(
-                tableType: Sqls.TableTypes.Deleted,
-                _as: "Dashboards_Deleted",
-                column: Rds.DashboardsColumn()
-                    .DashboardId(tableName: "Dashboards_Deleted"),
-                where: where);
-            var column = new Rds.DashboardsColumnCollection();
-                column.DashboardId();
-                ss.Columns
-                    .Where(o => o.TypeCs == "Attachments")
-                    .Select(o => o.ColumnName)
-                    .ForEach(columnName =>
-                        column.Add($"\"{columnName}\""));
-            var attachments = Repository.ExecuteTable(
-                context: context,
-                statements: Rds.SelectDashboards(
-                    tableType: Sqls.TableTypes.Deleted,
-                    column: column,
-                    where: Rds.DashboardsWhere()
-                        .SiteId(ss.SiteId)
-                        .DashboardId_In(sub: sub)))
-                .AsEnumerable()
-                .Select(dataRow => new
-                {
-                    dashboardId = dataRow.Long("DashboardId"),
-                    attachments = dataRow
-                        .Columns()
-                        .Where(columnName => columnName.StartsWith("Attachments"))
-                        .SelectMany(columnName => 
-                            Jsons.Deserialize<IEnumerable<Attachment>>(dataRow.String(columnName)) 
-                                ?? Enumerable.Empty<Attachment>())
-                        .Where(o => o != null)
-                        .Select(o => o.Guid)
-                        .Distinct()
-                        .ToArray()
-                })
-                .Where(o => o.attachments.Length > 0);
-            var guid = Strings.NewGuid();
-            var itemsSub = Rds.SelectItems(
-                tableType: Sqls.TableTypes.Deleted,
-                column: Rds.ItemsColumn().ReferenceId(),
-                where: Rds.ItemsWhere().ReferenceType(guid));
-            var count = Repository.ExecuteScalar_response(
-                context: context,
-                connectionString: Parameters.Rds.OwnerConnectionString,
-                transactional: true,
-                statements: new SqlStatement[]
-                {
-                    Rds.UpdateItems(
-                        tableType: Sqls.TableTypes.Deleted,
-                        where: Rds.ItemsWhere()
-                            .SiteId(ss.SiteId)
-                            .ReferenceId_In(sub: sub),
-                        param: Rds.ItemsParam()
-                            .ReferenceType(guid)),
-                    Rds.RestoreDashboards(
-                        factory: context,
-                        where: Rds.DashboardsWhere()
-                            .DashboardId_In(sub: itemsSub)),
-                    Rds.RowCount(),
-                    Rds.RestoreBinaries(
-                        factory: context,
-                        where: Rds.BinariesWhere()
-                            .ReferenceId_In(sub: itemsSub)
-                            .BinaryType("Images")),
-                    Rds.RestoreItems(
-                        factory: context,
-                        where: Rds.ItemsWhere()
-                            .SiteId(ss.SiteId)
-                            .ReferenceType(guid)),
-                    Rds.UpdateItems(
-                        where: Rds.ItemsWhere()
-                            .SiteId(ss.SiteId)
-                            .ReferenceType(guid),
-                        param: Rds.ItemsParam()
-                            .ReferenceType(ss.ReferenceType))
-                }).Count.ToInt();
-            attachments.ForEach(o =>
+            var tableName = string.Empty;
+            switch (tableType)
             {
-                RestoreAttachments(context, o.dashboardId, o.attachments);
-            });    
-            return count;
-        }
-
-        private static void RestoreAttachments(Context context, long dashboardId, IList<string> attachments)
-        {
-            var raw = $" ({string.Join(", ", attachments.Select(o => $"'{o}'"))}) ";
-            Repository.ExecuteNonQuery(
-                context: context,
-                connectionString: Parameters.Rds.OwnerConnectionString,
-                statements: new SqlStatement[] {
-                    Rds.DeleteBinaries(
-                        factory: context,
-                        where: Rds.BinariesWhere()
-                            .ReferenceId(dashboardId)
-                            .BinaryType("Attachments")
-                            .Binaries_Guid(
-                                _operator:" not in ",
-                                raw: raw,
-                                _using: attachments.Any())),
-                    Rds.RestoreBinaries(
-                        factory: context,
-                        where: Rds.BinariesWhere()
-                            .ReferenceId(dashboardId)
-                            .BinaryType("Attachments")
-                            .Binaries_Guid(
-                                _operator: $" in ",
-                                raw: raw),
-                        _using: attachments.Any())
-            }, transactional: true);
-        }
-
-        public static string RestoreFromHistory(
-            Context context, SiteSettings ss, long dashboardId)
-        {
-            if (!Parameters.History.Restore
-                || ss.AllowRestoreHistories == false)
-            {
-                return Error.Types.InvalidRequest.MessageJson(context: context);
-            }
-            var dashboardModel = new DashboardModel(context, ss, dashboardId);
-            var invalid = DashboardValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            var ver = context.Forms.Data("GridCheckedItems")
-                .Split(',')
-                .Where(o => !o.IsNullOrEmpty())
-                .ToList();
-            if (ver.Count() != 1)
-            {
-                return Error.Types.SelectOne.MessageJson(context: context);
-            }
-            dashboardModel.SetByModel(new DashboardModel().Get(
-                context: context,
-                ss: ss,
-                tableType: Sqls.TableTypes.History,
-                where: Rds.DashboardsWhere()
-                    .SiteId(ss.SiteId)
-                    .DashboardId(dashboardId)
-                    .Ver(ver.First().ToInt())));
-            dashboardModel.VerUp = true;
-            var errorData = dashboardModel.Update(
-                context: context,
-                ss: ss,
-                otherInitValue: true);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    RestoreAttachments(
-                        context: context,
-                        dashboardId: dashboardModel.DashboardId,
-                        attachments: dashboardModel
-                            .AttachmentsHash
-                            .Values
-                            .SelectMany(o => o.AsEnumerable())
-                            .Select(o => o.Guid)
-                            .Distinct().ToArray());
-                    SessionUtilities.Set(
-                        context: context,
-                        message: Messages.RestoredFromHistory(
-                            context: context,
-                            data: ver.First().ToString()));
-                    return new ResponseCollection(context: context)
-                        .SetMemory("formChanged", false)
-                        .Href(Locations.ItemEdit(
-                            context: context,
-                            id: dashboardId))
-                        .ToJson();
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
                 default:
-                    return errorData.MessageJson(context: context);
+                    break;
             }
-        }
-
-        public static string Histories(
-            Context context, SiteSettings ss, long dashboardId, Message message = null)
-        {
-            var dashboardModel = new DashboardModel(context: context, ss: ss, dashboardId: dashboardId);
-            var columns = ss.GetHistoryColumns(context: context, checkPermission: true);
-            if (!context.CanRead(ss: ss))
-            {
-                return Error.Types.HasNotPermission.MessageJson(context: context);
-            }
-            var hb = new HtmlBuilder();
-            hb
-                .HistoryCommands(context: context, ss: ss)
-                .Table(
-                    attributes: new HtmlAttributes().Class("grid history"),
-                    action: () => hb
-                        .THead(action: () => hb
-                            .GridHeader(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                sort: false,
-                                checkRow: true))
-                        .TBody(action: () => hb
-                            .HistoriesTableBody(
-                                context: context,
-                                ss: ss,
-                                columns: columns,
-                                dashboardModel: dashboardModel)));
-            return new DashboardsResponseCollection(
-                context: context,
-                dashboardModel: dashboardModel)
-                    .Html("#FieldSetHistories", hb)
-                    .Message(message)
-                    .Messages(context.Messages)
-                    .ToJson();
-        }
-
-        private static void HistoriesTableBody(
-            this HtmlBuilder hb,
-            Context context,
-            SiteSettings ss,
-            List<Column> columns,
-            DashboardModel dashboardModel)
-        {
-            new DashboardCollection(
-                context: context,
-                ss: ss,
-                column: HistoryColumn(columns),
-                where: Rds.DashboardsWhere().DashboardId(dashboardModel.DashboardId),
-                orderBy: Rds.DashboardsOrderBy().Ver(SqlOrderBy.Types.desc),
-                tableType: Sqls.TableTypes.NormalAndHistory)
-                    .ForEach(dashboardModelHistory => hb
-                        .Tr(
-                            attributes: new HtmlAttributes()
-                                .Class("grid-row")
-                                .DataAction("History")
-                                .DataMethod("post")
-                                .DataVer(dashboardModelHistory.Ver)
-                                .DataLatest(
-                                    value: 1,
-                                    _using: dashboardModelHistory.Ver == dashboardModel.Ver),
-                            action: () =>
-                            {
-                                hb.Td(
-                                    css: "grid-check-td",
-                                    action: () => hb
-                                        .CheckBox(
-                                            controlCss: "grid-check",
-                                            _checked: false,
-                                            dataId: dashboardModelHistory.Ver.ToString(),
-                                            _using: dashboardModelHistory.Ver < dashboardModel.Ver));
-                                columns.ForEach(column => hb
-                                    .TdValue(
-                                        context: context,
-                                        ss: ss,
-                                        column: column,
-                                        dashboardModel: dashboardModelHistory));
-                            }));
-        }
-
-        private static SqlColumnCollection HistoryColumn(List<Column> columns)
-        {
-            var sqlColumn = new Rds.DashboardsColumnCollection()
-                .DashboardId()
-                .Ver();
-            columns.ForEach(column =>
-                sqlColumn.DashboardsColumn(columnName: column.ColumnName));
-            return sqlColumn;
-        }
-
-        public static string History(Context context, SiteSettings ss, long dashboardId)
-        {
-            var dashboardModel = new DashboardModel(context: context, ss: ss, dashboardId: dashboardId);
-            dashboardModel.Get(
-                context: context,
-                ss: ss,
-                where: Rds.DashboardsWhere()
-                    .DashboardId(dashboardModel.DashboardId)
-                    .Ver(context.Forms.Int("Ver")),
-                tableType: Sqls.TableTypes.NormalAndHistory);
-            dashboardModel.VerType = context.Forms.Bool("Latest")
-                ? Versions.VerTypes.Latest
-                : Versions.VerTypes.History;
-            return EditorResponse(context, ss, dashboardModel)
-                .PushState("History", Locations.Get(
-                    context: context,
-                    parts: new string[]
-                    {
-                        "Items",
-                        dashboardId.ToString() 
-                            + (dashboardModel.VerType == Versions.VerTypes.History
-                                ? "?ver=" + context.Forms.Int("Ver") 
-                                : string.Empty)
-                    }))
-                .ToJson();
-        }
-
-        public static string DeleteHistory(Context context, SiteSettings ss, long dashboardId)
-        {
-            var dashboardModel = new DashboardModel(
-                context: context,
-                ss: ss,
-                dashboardId: dashboardId);
-            var invalid = DashboardValidators.OnDeleteHistory(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            var selector = new RecordSelector(context: context);
-            var selected = selector
-                .Selected
-                .Select(o => o.ToInt())
-                .ToList();
-            var count = 0;
-            if (selector.All)
-            {
-                count = DeleteHistory(
-                    context: context,
-                    ss: ss,
-                    dashboardId: dashboardId,
-                    selected: selected,
-                    negative: true);
-            }
-            else
-            {
-                if (selector.Selected.Any())
-                {
-                    count = DeleteHistory(
-                        context: context,
-                        ss: ss,
-                        dashboardId: dashboardId,
-                        selected: selected);
-                }
-                else
-                {
-                    return Messages.ResponseSelectTargets(context: context).ToJson();
-                }
-            }
-            return Histories(
-                context: context,
-                ss: ss,
-                dashboardId: dashboardId,
-                message: Messages.HistoryDeleted(
-                    context: context,
-                    data: count.ToString()));
-        }
-
-        private static int DeleteHistory(
-            Context context,
-            SiteSettings ss,
-            long dashboardId,
-            List<int> selected,
-            bool negative = false)
-        {
+            var where = Rds.SitesWhere()
+                .TenantId(
+                    value: context.TenantId,
+                    tableName: "Sites" + tableName)
+                .ParentId(
+                    value: ss.SiteId,
+                    tableName: "Sites" + tableName)
+                .SiteId_In(
+                    value: selected,
+                    tableName: "Sites" + tableName,
+                    negative: negative,
+                    _using: selected.Any());
+            var sub = Rds.SelectSites(
+                tableType: tableType,
+                _as: "Sites" + tableName,
+                column: Rds.SitesColumn()
+                    .SiteId(tableName: "Sites" + tableName),
+                where: where);
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
                 statements: new SqlStatement[]
                 {
-                    Rds.PhysicalDeleteDashboards(
-                        tableType: Sqls.TableTypes.History,
-                        where: Rds.DashboardsWhere()
-                            .SiteId(
-                                value: ss.SiteId,
-                                tableName: "Dashboards_History")
-                            .DashboardId(
-                                value: dashboardId,
-                                tableName: "Dashboards_History")
-                            .Ver_In(
-                                value: selected,
-                                tableName: "Dashboards_History",
-                                negative: negative,
-                                _using: selected.Any())
-                            .DashboardId_In(
-                                tableName: "Dashboards_History",
-                                sub: Rds.SelectDashboards(
-                                    tableType: Sqls.TableTypes.History,
-                                    column: Rds.DashboardsColumn().DashboardId(),
-                                    where: new View()
-                                        .Where(
-                                            context: context,
-                                            ss: ss)))),
+                    Rds.PhysicalDeleteItems(
+                        tableType: tableType,
+                        where: Rds.ItemsWhere()
+                            .ReferenceId_In(sub:
+                                Rds.SelectWikis(
+                                    tableType: tableType,
+                                    column: Rds.WikisColumn().WikiId(),
+                                    where: Rds.WikisWhere().SiteId_In(sub: sub)))
+                            .ReferenceType("Wikis")),
+                    Rds.PhysicalDeleteWikis(
+                        tableType: tableType,
+                        where: Rds.WikisWhere().SiteId_In(sub: sub)),
+                    Rds.PhysicalDeleteItems(
+                        tableType: tableType,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.PhysicalDeleteBinaries(
+                        tableType: tableType,
+                        where: Rds.ItemsWhere().ReferenceId_In(sub: sub)),
+                    Rds.PhysicalDeleteSites(
+                        tableType: tableType,
+                        where: where),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
 
-        public static string UnlockRecord(
-            Context context, SiteSettings ss, long dashboardId)
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static string ReplaceLineByDashboardModel(
+            this DashboardModel dashboardModel,
+            Context context,
+            SiteSettings ss,
+            string line,
+            string itemTitle)
         {
-            var dashboardModel = new DashboardModel(
-                context: context,
-                ss: ss,
-                dashboardId: dashboardId,
-                formData: context.Forms);
-            var invalid = DashboardValidators.OnUnlockRecord(
-                context: context,
-                ss: ss,
-                dashboardModel: dashboardModel);
-            switch (invalid.Type)
+            ss.IncludedColumns(line).ForEach(column =>
             {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
+                switch (column.ColumnName)
+                {
+                    case "Title":
+                        line = line.Replace("[Title]", itemTitle);
+                        break;
+                    case "SiteId":
+                        line = line.Replace(
+                            "[SiteId]",
+                            dashboardModel.SiteId.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "UpdatedTime":
+                        line = line.Replace(
+                            "[UpdatedTime]",
+                            dashboardModel.UpdatedTime.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "DashboardId":
+                        line = line.Replace(
+                            "[DashboardId]",
+                            dashboardModel.DashboardId.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Ver":
+                        line = line.Replace(
+                            "[Ver]",
+                            dashboardModel.Ver.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Body":
+                        line = line.Replace(
+                            "[Body]",
+                            dashboardModel.Body.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Locked":
+                        line = line.Replace(
+                            "[Locked]",
+                            dashboardModel.Locked.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Comments":
+                        line = line.Replace(
+                            "[Comments]",
+                            dashboardModel.Comments.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Creator":
+                        line = line.Replace(
+                            "[Creator]",
+                            dashboardModel.Creator.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "Updator":
+                        line = line.Replace(
+                            "[Updator]",
+                            dashboardModel.Updator.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    case "CreatedTime":
+                        line = line.Replace(
+                            "[CreatedTime]",
+                            dashboardModel.CreatedTime.ToExport(
+                                context: context,
+                                column: column));
+                        break;
+                    default:
+                        switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
+                        {
+                            case "Class":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    dashboardModel.GetClass(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Num":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    dashboardModel.GetNum(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Date":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    dashboardModel.GetDate(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Description":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    dashboardModel.GetDescription(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                            case "Check":
+                                line = line.Replace(
+                                    $"[{column.Name}]",
+                                    dashboardModel.GetCheck(column: column).ToExport(
+                                        context: context,
+                                        column: column));
+                                break;
+                        }
+                        break;
+                }
+            });
+            return line;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout CustomHtmlLayouyt(Context context, DashboardPart dashboardPart)
+        {
+            var content = new HtmlBuilder()
+                .CustomHtml(context: context, dashboardPart: dashboardPart).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout CustomLayouyt(Context context, DashboardPart dashboardPart)
+        {
+            var content = new HtmlBuilder()
+                .Custom(context: context, dashboardPart: dashboardPart).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder Custom(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
+        {
+            return hb.Div(
+                id: $"DashboardCustom_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb
+                        .Div(
+                            css: "dashboard-custom-body markup",
+                            action: () => hb.Text(text: dashboardPart.Content));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder CustomHtml(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
+        {
+            return hb.Div(
+                id: $"DashboardCustomHtml_{dashboardPart.Id}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb
+                        .Div(
+                            css: "dashboard-custom-html-body",
+                            action: () => hb.Raw(text: dashboardPart.Content));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout QuickAccessLayout(Context context, DashboardPart dashboardPart)
+        {
+            var content = new HtmlBuilder()
+                .QuickAccessMenu(
+                    context: context,
+                    dashboardPart)
+                .ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = content
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
+        {
+            var sites = DashboardPart.GetDashboardPartSites(
+                context: context,
+                dashboardPart.QuickAccessSites);
+            var ss = SiteSettingsUtilities.SitesSiteSettings(
+                   context: context,
+                   siteId: 0);
+            ss.PermissionType = context.SiteTopPermission();
+            var siteConditions = SiteInfo.TenantCaches
+                .Get(context.TenantId)?
+                .SiteMenu
+                .SiteConditions(context: context, ss: ss);
+            return hb.Div(
+                id: $"QuickAccessContainer_{dashboardPart}",
+                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                action: () =>
+                {
+                    if (dashboardPart.ShowTitle == true)
+                    {
+                        hb.Div(
+                            css: "dashboard-part-title",
+                            action: () => hb.Text(dashboardPart.Title));
+                    }
+                    hb
+                        .Nav(css: "dashboard-part-nav",
+                            action: () => hb
+                                .Ul(
+                                    css: "dashboard-part-nav-menu",
+                                    action: () => QuickAccessSites(context: context, sites: sites)
+                                        .ForEach(siteModelChild => hb
+                                            .Li(css: "dashboard-part-nav-item"
+                                                + (siteModelChild.ReferenceType == "Sites"
+                                                    ? " dashboard-part-nav-directory"
+                                                    : ""),
+                                                action: () => hb
+                                                    .A(
+                                                        css: "dashboard-part-nav-link",
+                                                        text: siteModelChild.Title.DisplayValue,
+                                                        href: Locations.ItemIndex(
+                                                            context: context,
+                                                            id: siteModelChild.SiteId))))));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
+        {
+            return new SiteCollection(
+                context: context,
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .Title()
+                    .ReferenceType()
+                    .SiteSettings(),
+                where: Rds.SitesWhere()
+                    .TenantId(context.TenantId)
+                    .SiteId_In(sites)
+                    .Add(
+                        raw: Def.Sql.HasPermission,
+                        _using: !context.HasPrivilege));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout TimeLineLayout(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var timeLineItems = GetTimeLineRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            var timeLine = hb
+                .Div(
+                    id: $"TimelineContainer_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-timeline-container",
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        foreach (var item in timeLineItems)
+                        {
+                            hb.TimeLineItem(context, item);
+                        }
+                    }).ToString();
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = timeLine
+            };
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void TimeLineItem(this HtmlBuilder hb, Context context, DashboardTimeLineItem item)
+        {
+            hb.Div(
+                css: "dashboard-timeline-item",
+                action: () =>
+                {
+                    hb
+                        .Div(
+                            css: "dashboard-timeline-header",
+                            action: () =>
+                            {
+                                var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
+                                    ? $"Updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
+                                    : $"Created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
+                                hb
+                                    .A(
+                                        text: item.SiteTitle.Title(context: context),
+                                        href: Locations.ItemIndex(
+                                            context: context,
+                                            id: item.SiteId))
+                                    .P(css: "dashboard-timeline-record-time",
+                                        action: () => hb.Text(recordTime));
+                            })
+                        .Div(
+                            css: "dashboard-timeline-titlebody",
+                            attributes: new HtmlAttributes()
+                                .Add(
+                                    "data-url",
+                                    Locations.Edit(
+                                        context: context,
+                                        "items",
+                                        item.Id)),
+                            action: () => hb
+                                .Div(
+                                    css: "dashboard-timeline-title",
+                                    action: () => hb.Text(item.Title))
+                                .Div(
+                                    css: "dashboard-timeline-body markup",
+                                    action: () => hb.Text(text: item.Body)));
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<DashboardTimeLineItem> GetTimeLineRecords(Context context, DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            ss.IntegratedSites = dashboardPart.TimeLineSites;
+            ss.SetSiteIntegration(context: context);
+            //Viewからフィルタ条件とソート条件を取得
+            var where = dashboardPart.View.Where(
+                context: context,
+                ss: ss);
+            var orderBy = dashboardPart.View.OrderBy(
+                context: context,
+                ss: ss);
+            if (ss.ReferenceType == "Issues")
+            {
+                return GetTimeLineIssues(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: orderBy,
+                    titleTemplate: dashboardPart.TimeLineTitle,
+                    bodyTemplate: dashboardPart.TimeLineBody);
             }
-            dashboardModel.Timestamp = context.Forms.Get("Timestamp");
-            dashboardModel.Locked = false;
-            var errorData = dashboardModel.Update(
+            else if (ss.ReferenceType == "Results")
+            {
+                return GetTimeLineResults(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: orderBy,
+                    titleTemplate: dashboardPart.TimeLineTitle,
+                    bodyTemplate: dashboardPart.TimeLineBody);
+            }
+            else
+            {
+                return Enumerable.Empty<DashboardTimeLineItem>();
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<DashboardTimeLineItem> GetTimeLineResults(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            string titleTemplate,
+            string bodyTemplate)
+        {
+            var results = new ResultCollection(
                 context: context,
                 ss: ss,
-                notice: true);
-            switch (errorData.Type)
-            {
-                case Error.Types.None:
-                    ss.LockedRecordTime = null;
-                    ss.LockedRecordUser = null;
-                    return EditorResponse(
+                where: where,
+                orderBy: orderBy,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                            where,
+                            orderBy
+                    }
+                ));
+            var columns = ss.IncludedColumns(
+                value: titleTemplate,
+                labelText: true);
+            var title = ss.LabelTextToColumnName(titleTemplate);
+            var body = ss.LabelTextToColumnName(bodyTemplate);
+            return results
+                .Select(model => new DashboardTimeLineItem
+                {
+                    Id = model.ResultId,
+                    SiteId = model.SiteId,
+                    SiteTitle = model.SiteTitle,
+                    Title = model.ReplaceLineByResultModel(
                         context: context,
                         ss: ss,
-                        dashboardModel: dashboardModel)
-                            .Message(Messages.UnlockedRecord(context: context))
-                            .Messages(context.Messages)
-                            .ToJson();
-                case Error.Types.UpdateConflicts:
-                    return Messages.ResponseUpdateConflicts(
+                        line: title,
+                        itemTitle: model.Title.DisplayValue),
+                    Body = model.ReplaceLineByResultModel(
                         context: context,
-                        data: dashboardModel.Updator.Name)
-                            .ToJson();
-                default:
-                    return errorData.MessageJson(context: context);
-            }
+                        ss: ss,
+                        line: body,
+                        itemTitle: model.Title.DisplayValue),
+                    CreatedTime = model.CreatedTime,
+                    UpdatedTime = model.UpdatedTime,
+                    Creator = model.Creator,
+                    Updator = model.Updator
+                });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static IEnumerable<DashboardTimeLineItem> GetTimeLineIssues(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            string titleTemplate,
+            string bodyTemplate)
+        {
+            var issues = new IssueCollection(
+                context: context,
+                ss: ss,
+                where: where,
+                orderBy: orderBy,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                            where,
+                            orderBy
+                    }
+                ));
+            var title = ss.LabelTextToColumnName(titleTemplate);
+            var body = ss.LabelTextToColumnName(bodyTemplate);
+            return issues
+                .Select(model => new DashboardTimeLineItem
+                {
+                    Id = model.IssueId,
+                    SiteId = model.SiteId,
+                    SiteTitle = model.SiteTitle,
+                    Title = model.ReplaceLineByIssueModel(
+                        context: context,
+                        ss: ss,
+                        line: title,
+                        itemTitle: model.Title.DisplayValue),
+                    Body = model.ReplaceLineByIssueModel(
+                        context: context,
+                        ss: ss,
+                        line: body,
+                        itemTitle: model.Title.DisplayValue),
+                    CreatedTime = model.CreatedTime,
+                    UpdatedTime = model.UpdatedTime,
+                    Creator = model.Creator,
+                    Updator = model.Updator
+                });
         }
     }
 }

@@ -705,10 +705,6 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                case "Dashboards":
-                    return DashboardUtilities.EditorNew(
-                        context: context,
-                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.EditorNew(
                         context: context,
@@ -756,11 +752,6 @@ namespace Implem.Pleasanter.Models
                     initSiteSettings: true);
                 switch (Site.ReferenceType)
                 {
-                    case "Dashboards":
-                        return DashboardUtilities.EditorJson(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            dashboardId: 0);
                     case "Issues":
                         return IssueUtilities.EditorJson(
                             context: context,
@@ -841,12 +832,6 @@ namespace Implem.Pleasanter.Models
                     return SiteUtilities.Editor(
                         context: context,
                         siteId: ReferenceId,
-                        clearSessions: true);
-                case "Dashboards":
-                    return DashboardUtilities.Editor(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId,
                         clearSessions: true);
                 case "Issues":
                     return IssueUtilities.Editor(
@@ -1649,12 +1634,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: Site,
                         siteId: ReferenceId);
-                case "Dashboards":
-                    return DashboardUtilities.Update(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId,
-                        previousTitle: Title);
                 case "Issues":
                     return IssueUtilities.Update(
                         context: context,
@@ -1972,12 +1951,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         siteModel: Site,
                         siteId: ReferenceId);
-                case "Dashboards":
-                    return DashboardUtilities.Update(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId,
-                        previousTitle: Title);
                 case "Issues":
                     return IssueUtilities.Update(
                         context: context,
@@ -2094,11 +2067,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings,
                         siteId: ReferenceId);
-                case "Dashboards":
-                    return DashboardUtilities.Delete(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.Delete(
                         context: context,
@@ -2338,11 +2306,6 @@ namespace Implem.Pleasanter.Models
             {
                 switch (Site.ReferenceType)
                 {
-                    case "Dashboards":
-                        return DashboardUtilities.DeleteHistory(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            dashboardId: ReferenceId);
                     case "Issues":
                         return IssueUtilities.DeleteHistory(
                             context: context,
@@ -2402,10 +2365,6 @@ namespace Implem.Pleasanter.Models
                     return SiteUtilities.Restore(
                         context: context,
                         ss: Site.SiteSettings);
-                case "Dashboards":
-                    return DashboardUtilities.Restore(
-                        context: context,
-                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.Restore(
                         context: context,
@@ -2432,11 +2391,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: Site.SiteSettings,
                         siteId: ReferenceId);
-                case "Dashboards":
-                    return DashboardUtilities.RestoreFromHistory(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.RestoreFromHistory(
                         context: context,
@@ -2503,11 +2457,6 @@ namespace Implem.Pleasanter.Models
                     return SiteUtilities.Histories(
                         context: context,
                         siteModel: Site);
-                case "Dashboards":
-                    return DashboardUtilities.Histories(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.Histories(
                         context: context,
@@ -2540,11 +2489,6 @@ namespace Implem.Pleasanter.Models
                     return SiteUtilities.History(
                         context: context,
                         siteModel: Site);
-                case "Dashboards":
-                    return DashboardUtilities.History(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.History(
                         context: context,
@@ -2576,11 +2520,6 @@ namespace Implem.Pleasanter.Models
                     return SiteUtilities.EditorJson(
                         context: context,
                         siteModel: Site);
-                case "Dashboards":
-                    return DashboardUtilities.EditorJson(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: ReferenceId);
                 case "Issues":
                     return IssueUtilities.EditorJson(
                         context: context,
@@ -2861,11 +2800,6 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true);
             switch (Site.ReferenceType)
             {
-                case "Dashboards":
-                    return DashboardUtilities.UnlockRecord(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        dashboardId: id);
                 case "Issues":
                     return IssueUtilities.UnlockRecord(
                         context: context,

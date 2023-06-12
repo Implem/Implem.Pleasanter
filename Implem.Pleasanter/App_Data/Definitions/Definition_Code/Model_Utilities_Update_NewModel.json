@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_Update_NewModel",
     "Indent": "3",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashboards"
 }

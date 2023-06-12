@@ -1,7 +1,6 @@
 ﻿{
-    "Id": "Model_IndexCases",
-    "RepeatType": "Table",
-    "Indent": "4",
+    "Id": "Model_Utilities_ReplaceLine",
+    "Indent": "2",
     "Separator": "\\r\\n",
     "ItemOnly": "1",
     "Exclude": "Sites,Wikis"

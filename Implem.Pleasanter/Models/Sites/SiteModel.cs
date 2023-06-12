@@ -392,8 +392,7 @@ namespace Implem.Pleasanter.Models
                 case "CreatedTime": return CreatedTime.Value.ToString();
                 case "VerUp": return VerUp.ToString();
                 case "Timestamp": return Timestamp;
-                default:
-                    return GetValue(
+                default: return GetValue(
                     context: context,
                     column: column);
             }
@@ -434,8 +433,7 @@ namespace Implem.Pleasanter.Models
                 case "Creator": return SavedCreator.ToString();
                 case "Updator": return SavedUpdator.ToString();
                 case "CreatedTime": return SavedCreatedTime.ToString();
-                default:
-                    return GetSavedValue(
+                default: return GetSavedValue(
                     context: context,
                     column: column);
             }
@@ -612,7 +610,7 @@ namespace Implem.Pleasanter.Models
                 case "Comments": return Comments_Updated(context: context);
                 case "Creator": return Creator_Updated(context: context);
                 case "Updator": return Updator_Updated(context: context);
-                default:
+                default: 
                     switch (Def.ExtendedColumnTypes.Get(name ?? string.Empty))
                     {
                         case "Class": return Class_Updated(name);
@@ -1421,8 +1419,7 @@ namespace Implem.Pleasanter.Models
                     case "Sites_Publish": Publish = value.ToBool(); break;
                     case "Sites_DisableCrossSearch": DisableCrossSearch = value.ToBool(); break;
                     case "Sites_Timestamp": Timestamp = value.ToString(); break;
-                    case "Comments":
-                        Comments.Prepend(
+                    case "Comments": Comments.Prepend(
                         context: context,
                         ss: ss,
                         body: value); break;
@@ -6992,21 +6989,20 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void UpdateDashboardPartTimeLineSites(Context context, ResponseCollection res)
         {
             var savedTimeLineSites = context.Forms.Data("SavedDashboardPartTimeLineSites");
             var timeLineSites = context.Forms.Data("DashboardPartTimeLineSitesEdit");
-
             var savedSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
                 timeLineSitesString: savedTimeLineSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
                     context: context,
                     timeLineSitesString: timeLineSites);
-
-
-            if(currentSs==null || currentSs.SiteId == 0)
+            if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
                     new Message(
@@ -7028,13 +7024,15 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ClearDashboardView(Context context, ResponseCollection res)
         {
-
             var currentSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
                 context.Forms.Data("DashboardPartTimeLineSitesEdit"));
-            if(currentSs == null)
+            if (currentSs == null)
             {
                 res.Message(
                    new Message(

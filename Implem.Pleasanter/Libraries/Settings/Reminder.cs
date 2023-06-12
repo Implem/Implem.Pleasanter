@@ -710,12 +710,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Results":
                     var resultModel = new ResultModel(
                         context: context, ss: ss, dataRow: dataRow);
-                    line = resultModel.ReplaceLineByResultModel(context, ss, line,dataRow.String("ItemTitle"));
+                    line = resultModel.ReplaceLineByResultModel(context, ss, line, dataRow.String("ItemTitle"));
                     break;
             }
             return line;
         }
-
-        
     }
 }

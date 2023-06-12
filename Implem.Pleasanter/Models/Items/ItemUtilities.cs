@@ -128,13 +128,6 @@ namespace Implem.Pleasanter.Models
         {
             switch (ss?.ReferenceType)
             {
-                case "Dashboards":
-                    UpdateDashboardTitles(
-                        context: context,
-                        ss: ss,
-                        siteIdList: siteIdList,
-                        idList: idList);
-                    break;
                 case "Issues":
                     UpdateIssueTitles(
                         context: context,
@@ -159,79 +152,6 @@ namespace Implem.Pleasanter.Models
                 default:
                     break;
             }
-        }
-
-        private static void UpdateDashboardTitles(
-            Context context,
-            SiteSettings ss,
-            IList<long> siteIdList,
-            IList<long> idList)
-        {
-            var dashboards = GetDashboards(
-                context: context,
-                ss: ss,
-                idList: idList);
-            if (ss.Links
-                ?.Where(o => o.SiteId > 0)
-                .Any(o => ss.TitleColumns.Any(p => p == o.ColumnName)) == true)
-            {
-                dashboards.ForEach(dashboardModel =>
-                    dashboardModel.Title = new Title(
-                        context: context,
-                        ss: ss,
-                        id: dashboardModel.DashboardId,
-                        ver: dashboardModel.Ver,
-                        isHistory: dashboardModel.VerType == Versions.VerTypes.History, 
-                        data: dashboardModel.PropertyValues(
-                            context: context,
-                            columns: ss.GetTitleColumns(context: context)),
-                        getLinkedTitle: true));
-            }
-            dashboards.ForEach(dashboardModel =>
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    statements: Rds.UpdateItems(
-                        param: Rds.ItemsParam()
-                            .Title(dashboardModel.Title.MessageDisplay(context: context))
-                            .SearchIndexCreatedTime(raw: "null"),
-                        where: Rds.ItemsWhere()
-                            .ReferenceId(dashboardModel.DashboardId)
-                            .SiteId(ss.SiteId),
-                        addUpdatorParam: false,
-                        addUpdatedTimeParam: false)));
-            if (ss.Sources?.Any() == true)
-            {
-                UpdateSourceTitles(
-                    context: context,
-                    ss: ss,
-                    siteIdList: siteIdList,
-                    idList: dashboards.Select(o => o.DashboardId).ToList());
-            }
-        }
-
-        private static List<DashboardModel> GetDashboards(
-            Context context,
-            SiteSettings ss,
-            IList<long> idList)
-        {
-            var column = Rds.DashboardsColumn()
-                .DashboardId()
-                .Title();
-            ss.TitleColumns.ForEach(columnName =>
-                column.DashboardsColumn(columnName: columnName));
-            return idList?.Count <= 100
-                ? new DashboardCollection(
-                    context: context,
-                    ss: ss,
-                    column: column,
-                    where: Rds.DashboardsWhere()
-                        .SiteId(ss.SiteId)
-                        .DashboardId_In(idList))
-                : new DashboardCollection(
-                    context: context,
-                    ss: ss,
-                    column: column,
-                    where: Rds.DashboardsWhere().SiteId(ss.SiteId));
         }
 
         private static void UpdateIssueTitles(

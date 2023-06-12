@@ -972,13 +972,6 @@ namespace Implem.Pleasanter.Models
                                         referenceType: "Sites"))
                                 },
                                 {
-                                    "Dashboards",
-                                    new ControlData(ReferenceTypeDisplayName(
-                                        context: context,
-                                        referenceType: "Dashboards"))
-                                }
-,
-                                {
                                     "Issues",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
@@ -1011,7 +1004,6 @@ namespace Implem.Pleasanter.Models
             switch (referenceType)
             {
                 case "Sites": return Displays.Folder(context: context);
-                case "Dashboards": return Displays.Get(context: context, id: "Dashboards");
                 case "Issues": return Displays.Get(context: context, id: "Issues");
                 case "Results": return Displays.Get(context: context, id: "Results");
                 case "Wikis": return Displays.Get(context: context, id: "Wikis");
@@ -14037,17 +14029,15 @@ namespace Implem.Pleasanter.Models
                                 .Text(text: dashboardPart.Height.ToString())))));
         }
 
-
         /// <summary>
         /// Fixed:
         /// </summary>
-         public static HtmlBuilder DashboardPartTimeLineSitesDialog(
+        public static HtmlBuilder DashboardPartTimeLineSitesDialog(
             Context context,
             SiteSettings ss,
             int dashboardPartId,
             string dashboardTimeLineSites)
         {
-
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -14365,7 +14355,6 @@ namespace Implem.Pleasanter.Models
             {
                 return hb.FieldSet(id: "DashboardPartViewFiltersTabContainer");
             }
-            
             return hb.FieldSet(id: "DashboardPartViewFiltersTabContainer",
                 action: () => hb.ViewFiltersTab(
                     context: context,

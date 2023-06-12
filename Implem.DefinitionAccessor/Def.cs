@@ -837,6 +837,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_RedirectAfterDelete_Wikis": Code.Model_Utilities_RedirectAfterDelete_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDelete_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteItem": Code.Model_Utilities_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteNotItem": Code.Model_Utilities_RedirectAfterDeleteNotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteNotItem, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ReplaceLine": Code.Model_Utilities_ReplaceLine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ReplaceLine, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_SiteSettings": Code.Model_Utilities_ResponseByUpdate_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_SiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseLinks": Code.Model_Utilities_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseLinks, definitionRow, CodeXls); break;
@@ -1015,7 +1016,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_WherePkSemicolon": Code.Rds_WherePkSemicolon = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_WherePkSemicolon, definitionRow, CodeXls); break;
                     case "Reminder": Code.Reminder = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder, definitionRow, CodeXls); break;
                     case "Reminder_ColumnCases": Code.Reminder_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_ColumnCases, definitionRow, CodeXls); break;
-                    case "Reminder_TableCases": Code.Reminder_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_TableCases, definitionRow, CodeXls); break;
                     case "ResponseCollection": Code.ResponseCollection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection, definitionRow, CodeXls); break;
                     case "ResponseCollection_Models": Code.ResponseCollection_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection_Models, definitionRow, CodeXls); break;
                     case "ResponseCollection_ValueColumns": Code.ResponseCollection_ValueColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection_ValueColumns, definitionRow, CodeXls); break;
@@ -7262,6 +7262,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_RedirectAfterDelete_Wikis;
         public string Model_Utilities_RedirectAfterDeleteItem;
         public string Model_Utilities_RedirectAfterDeleteNotItem;
+        public string Model_Utilities_ReplaceLine;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
         public string Model_Utilities_ResponseByUpdate_SiteSettings;
         public string Model_Utilities_ResponseLinks;
@@ -7440,7 +7441,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_WherePkSemicolon;
         public string Reminder;
         public string Reminder_ColumnCases;
-        public string Reminder_TableCases;
         public string ResponseCollection;
         public string ResponseCollection_Models;
         public string ResponseCollection_ValueColumns;
@@ -8053,6 +8053,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_RedirectAfterDelete_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteNotItem = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ReplaceLine = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_SiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseLinks = new CodeDefinition();
@@ -8231,7 +8232,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_WherePkSemicolon = new CodeDefinition();
         public CodeDefinition Reminder = new CodeDefinition();
         public CodeDefinition Reminder_ColumnCases = new CodeDefinition();
-        public CodeDefinition Reminder_TableCases = new CodeDefinition();
         public CodeDefinition ResponseCollection = new CodeDefinition();
         public CodeDefinition ResponseCollection_Models = new CodeDefinition();
         public CodeDefinition ResponseCollection_ValueColumns = new CodeDefinition();

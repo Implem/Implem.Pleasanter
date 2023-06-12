@@ -191,7 +191,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            DashboardApiModel dashboardApiModel = null,
             MethodTypes methodType = MethodTypes.NotSet)
         {
             OnConstructing(context: context);
@@ -203,7 +203,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (dashboardApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: dashboardApiModel);
+            }
             MethodType = methodType;
             OnConstructed(context: context);
         }
@@ -214,7 +217,7 @@ namespace Implem.Pleasanter.Models
             long dashboardId,
             bool setCopyDefault = false,
             Dictionary<string, string> formData = null,
-            bool setByApi = false,
+            DashboardApiModel dashboardApiModel = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -243,7 +246,10 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     formData: formData);
             }
-            if (setByApi) SetByApi(context: context, ss: ss);
+            if (dashboardApiModel != null)
+            {
+                SetByApi(context: context, ss: ss, data: dashboardApiModel);
+            }
             if (SavedLocked)
             {
                 ss.SetLockedRecord(
@@ -996,7 +1002,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true) 
+            bool checkConflict = true)
         {
             var notifications = GetNotifications(
                 context: context,
@@ -1016,13 +1022,18 @@ namespace Implem.Pleasanter.Models
                     id: DashboardId,
                     timestamp: Timestamp.ToDateTime());
             }
+            var verUp = Versions.VerUp(
+                context: context,
+                ss: ss,
+                verUp: VerUp);
             statements.AddRange(UpdateStatements(
                 context: context,
                 ss: ss,
                 param: param,
                 otherInitValue: otherInitValue,
                 additionalStatements: additionalStatements,
-                checkConflict: checkConflict));
+                checkConflict: checkConflict,
+                verUp: verUp));
             var response = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -1091,7 +1102,8 @@ namespace Implem.Pleasanter.Models
             SqlParamCollection param = null,
             bool otherInitValue = false,
             List<SqlStatement> additionalStatements = null,
-            bool checkConflict = true)
+            bool checkConflict = true,
+            bool verUp = false)
         {
             var timestamp = Timestamp.ToDateTime();
             var statements = new List<SqlStatement>();
@@ -1099,10 +1111,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 dashboardModel: this)
                     .UpdatedTime(timestamp, _using: timestamp.InRange() && checkConflict);
-            if (Versions.VerUp(
-                context: context,
-                ss: ss,
-                verUp: VerUp))
+            if (verUp)
             {
                 statements.Add(Rds.DashboardsCopyToStatement(
                     where: where,
@@ -1488,14 +1497,8 @@ namespace Implem.Pleasanter.Models
             AttachmentsHash = dashboardModel.AttachmentsHash;
         }
 
-        public void SetByApi(Context context, SiteSettings ss)
+        public void SetByApi(Context context, SiteSettings ss, DashboardApiModel data)
         {
-            var data = context.RequestDataString.Deserialize<DashboardApiModel>();
-            if (data == null)
-            {
-                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
-                return;
-            }
             if (data.Title != null) Title = new Title(data.DashboardId.ToLong(), data.Title);
             if (data.Body != null) Body = data.Body.ToString().ToString();
             if (data.Locked != null) Locked = data.Locked.ToBool().ToBool();
@@ -1915,9 +1918,16 @@ namespace Implem.Pleasanter.Models
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Created(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
+                                title: notification.Subject.IsNullOrEmpty()
+                                    ? Displays.Created(
+                                        context: context,
+                                        data: Title.DisplayValue).ToString()
+                                    : ReplacedDisplayValues(
+                                        context: context,
+                                        ss: ss,
+                                        value: notification.Subject.Replace(
+                                            "[NotificationTrigger]",
+                                            Displays.CreatedWord(context: context))),
                                 body: NoticeBody(
                                     context: context,
                                     ss: ss,
@@ -1939,9 +1949,16 @@ namespace Implem.Pleasanter.Models
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Updated(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
+                                title: notification.Subject.IsNullOrEmpty()
+                                    ? Displays.Updated(
+                                        context: context,
+                                        data: Title.DisplayValue).ToString()
+                                    : ReplacedDisplayValues(
+                                        context: context,
+                                        ss: ss,
+                                        value: notification.Subject.Replace(
+                                            "[NotificationTrigger]",
+                                            Displays.UpdatedWord(context: context))),
                                 body: body,
                                 values: values);
                         }
@@ -1952,9 +1969,16 @@ namespace Implem.Pleasanter.Models
                             notification.Send(
                                 context: context,
                                 ss: ss,
-                                title: Displays.Deleted(
-                                    context: context,
-                                    data: Title.DisplayValue).ToString(),
+                                title: notification.Subject.IsNullOrEmpty()
+                                    ? Displays.Deleted(
+                                        context: context,
+                                        data: Title.DisplayValue).ToString()
+                                    : ReplacedDisplayValues(
+                                        context: context,
+                                        ss: ss,
+                                        value: notification.Subject.Replace(
+                                            "[NotificationTrigger]",
+                                            Displays.DeletedWord(context: context))),
                                 body: NoticeBody(
                                     context: context,
                                     ss: ss,

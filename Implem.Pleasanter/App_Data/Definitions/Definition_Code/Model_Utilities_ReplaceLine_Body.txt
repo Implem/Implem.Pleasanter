@@ -1,12 +1,16 @@
-﻿case "#TableName#":
-    var #modelName#Model = new #ModelName#Model(
-        context: context, ss: ss, dataRow: dataRow);
+﻿public static string ReplaceLineBy#ModelName#Model(
+    this #ModelName#Model #modelName#Model,
+    Context context,
+    SiteSettings ss,
+    string line,
+    string itemTitle)
+{
     ss.IncludedColumns(line).ForEach(column =>
     {
         switch (column.ColumnName)
         {
             case "Title":
-                line = line.Replace("[Title]", dataRow.String("ItemTitle"));
+                line = line.Replace("[Title]", itemTitle);
                 break;
 
 <!--Reminder_ColumnCases-->
@@ -53,4 +57,5 @@
                 break;
         }
     });
-    break;
+    return line;
+}
