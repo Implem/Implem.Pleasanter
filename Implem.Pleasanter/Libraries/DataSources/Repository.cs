@@ -336,6 +336,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             var set = Rds.ExecuteScalar(
                 context: context,
+                connectionString: connectionString,
                 transactional: transactional,
                 func: (transaction, connection) =>
                 {
