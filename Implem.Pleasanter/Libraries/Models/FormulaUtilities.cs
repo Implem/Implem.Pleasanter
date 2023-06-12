@@ -76,24 +76,32 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
-            new DashboardCollection(
+            Rds.ExecuteTable(
                 context: context,
-                ss: ss,
-                where: Rds.DashboardsWhere()
-                    .SiteId(siteId)
-                    .DashboardId(id, _using: id != 0))
-                        .ForEach(dashboardModel =>
-                        {
-                            if (hasFormula) dashboardModel.UpdateFormulaColumns(
-                                context: context, ss: ss, selected: selected);
-                            dashboardModel.UpdateRelatedRecords(
-                                context: context,
-                                ss: ss,
-                                extendedSqls: true,
-                                addUpdatedTimeParam: false,
-                                addUpdatorParam: false,
-                                updateItems: false);
-                        });
+                statements: Rds.SelectDashboards(
+                    column: Rds.DashboardsColumn().DashboardId(),
+                    where: Rds.DashboardsWhere()
+                        .SiteId(siteId)
+                        .DashboardId(id, _using: id != 0)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("DashboardId"))
+                            .ForEach(dashboardId =>
+                            {
+                                var dashboardModel = new DashboardModel(
+                                    context: context,
+                                    ss: ss,
+                                    dashboardId: dashboardId,
+                                    column: Rds.DashboardsDefaultColumns());
+                                if (hasFormula) dashboardModel.UpdateFormulaColumns(
+                                    context: context, ss: ss, selected: selected);
+                                dashboardModel.UpdateRelatedRecords(
+                                    context: context,
+                                    ss: ss,
+                                    extendedSqls: true,
+                                    addUpdatedTimeParam: false,
+                                    addUpdatorParam: false,
+                                    updateItems: false);
+                            });
         }
 
         private static void UpdateIssues(
