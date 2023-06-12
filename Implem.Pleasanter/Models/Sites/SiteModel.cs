@@ -753,6 +753,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             Dictionary<string, string> formData = null,
             SiteApiModel siteApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)

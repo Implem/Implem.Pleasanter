@@ -6,22 +6,30 @@
     IEnumerable<int> selected = null,
     bool hasFormula = false)
 {
-    new #ModelName#Collection(
+    Rds.ExecuteTable(
         context: context,
-        ss: ss,
-        where: Rds.#TableName#Where()
-            .SiteId(siteId)
-            .#ModelName#Id(id, _using: id != 0))
-                .ForEach(#modelName#Model =>
-                {
-                    if (hasFormula) #modelName#Model.UpdateFormulaColumns(
-                        context: context, ss: ss, selected: selected);
-                    #modelName#Model.UpdateRelatedRecords(
-                        context: context,
-                        ss: ss,
-                        extendedSqls: true,
-                        addUpdatedTimeParam: false,
-                        addUpdatorParam: false,
-                        updateItems: false);
-                });
+        statements: Rds.Select#TableName#(
+            column: Rds.#TableName#Column().#ModelName#Id(),
+            where: Rds.#TableName#Where()
+                .SiteId(siteId)
+                .#ModelName#Id(id, _using: id != 0)))
+                    .AsEnumerable()
+                    .Select(dataRow => dataRow.Long("#ModelName#Id"))
+                    .ForEach(#modelName#Id =>
+                    {
+                        var #modelName#Model = new #ModelName#Model(
+                            context: context,
+                            ss: ss,
+                            #modelName#Id: #modelName#Id,
+                            column: Rds.#TableName#DefaultColumns());
+                        if (hasFormula) #modelName#Model.UpdateFormulaColumns(
+                            context: context, ss: ss, selected: selected);
+                        #modelName#Model.UpdateRelatedRecords(
+                            context: context,
+                            ss: ss,
+                            extendedSqls: true,
+                            addUpdatedTimeParam: false,
+                            addUpdatorParam: false,
+                            updateItems: false);
+                    });
 }

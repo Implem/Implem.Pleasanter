@@ -415,6 +415,7 @@ namespace Implem.Pleasanter.Models
             int deptId,
             Dictionary<string, string> formData = null,
             DeptApiModel deptApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -424,8 +425,10 @@ namespace Implem.Pleasanter.Models
             DeptId = deptId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.DeptsWhereDefault(
                         context: context,
                         deptModel: this)
@@ -433,7 +436,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

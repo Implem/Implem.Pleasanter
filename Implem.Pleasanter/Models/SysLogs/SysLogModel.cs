@@ -1126,6 +1126,7 @@ namespace Implem.Pleasanter.Models
             long sysLogId,
             Dictionary<string, string> formData = null,
             SysLogApiModel sysLogApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -1134,8 +1135,10 @@ namespace Implem.Pleasanter.Models
             SysLogId = sysLogId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.SysLogsWhereDefault(
                         context: context,
                         sysLogModel: this)
@@ -1143,7 +1146,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

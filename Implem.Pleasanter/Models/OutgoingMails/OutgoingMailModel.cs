@@ -229,6 +229,7 @@ namespace Implem.Pleasanter.Models
         public OutgoingMailModel(
             Context context,
             long outgoingMailId,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -236,8 +237,10 @@ namespace Implem.Pleasanter.Models
             OutgoingMailId = outgoingMailId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.OutgoingMailsWhereDefault(
                         context: context,
                         outgoingMailModel: this)
@@ -245,7 +248,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context);
+                Get(
+                    context: context,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;

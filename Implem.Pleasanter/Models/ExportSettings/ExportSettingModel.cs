@@ -175,6 +175,7 @@ namespace Implem.Pleasanter.Models
         public ExportSettingModel(
             Context context,
             long exportSettingId,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -182,8 +183,10 @@ namespace Implem.Pleasanter.Models
             ExportSettingId = exportSettingId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.ExportSettingsWhereDefault(
                         context: context,
                         exportSettingModel: this)
@@ -191,7 +194,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context);
+                Get(
+                    context: context,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;

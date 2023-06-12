@@ -219,6 +219,7 @@ namespace Implem.Pleasanter.Models
             long wikiId,
             Dictionary<string, string> formData = null,
             WikiApiModel wikiApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -227,8 +228,10 @@ namespace Implem.Pleasanter.Models
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.WikisWhereDefault(
                         context: context,
                         wikiModel: this)
@@ -236,7 +239,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

@@ -141,6 +141,7 @@ namespace Implem.Pleasanter.Models
         public ExtensionModel(
             Context context,
             int extensionId,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -148,8 +149,10 @@ namespace Implem.Pleasanter.Models
             ExtensionId = extensionId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.ExtensionsWhereDefault(
                         context: context,
                         extensionModel: this)
@@ -157,7 +160,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context);
+                Get(
+                    context: context,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;

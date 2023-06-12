@@ -1,8 +1,10 @@
-﻿using Implem.Pleasanter.Libraries.DataSources;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Models
 {
@@ -65,24 +67,32 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
-            new IssueCollection(
+            Rds.ExecuteTable(
                 context: context,
-                ss: ss,
-                where: Rds.IssuesWhere()
-                    .SiteId(siteId)
-                    .IssueId(id, _using: id != 0))
-                        .ForEach(issueModel =>
-                        {
-                            if (hasFormula) issueModel.UpdateFormulaColumns(
-                                context: context, ss: ss, selected: selected);
-                            issueModel.UpdateRelatedRecords(
-                                context: context,
-                                ss: ss,
-                                extendedSqls: true,
-                                addUpdatedTimeParam: false,
-                                addUpdatorParam: false,
-                                updateItems: false);
-                        });
+                statements: Rds.SelectIssues(
+                    column: Rds.IssuesColumn().IssueId(),
+                    where: Rds.IssuesWhere()
+                        .SiteId(siteId)
+                        .IssueId(id, _using: id != 0)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("IssueId"))
+                            .ForEach(issueId =>
+                            {
+                                var issueModel = new IssueModel(
+                                    context: context,
+                                    ss: ss,
+                                    issueId: issueId,
+                                    column: Rds.IssuesDefaultColumns());
+                                if (hasFormula) issueModel.UpdateFormulaColumns(
+                                    context: context, ss: ss, selected: selected);
+                                issueModel.UpdateRelatedRecords(
+                                    context: context,
+                                    ss: ss,
+                                    extendedSqls: true,
+                                    addUpdatedTimeParam: false,
+                                    addUpdatorParam: false,
+                                    updateItems: false);
+                            });
         }
 
         private static void UpdateResults(
@@ -93,24 +103,32 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
-            new ResultCollection(
+            Rds.ExecuteTable(
                 context: context,
-                ss: ss,
-                where: Rds.ResultsWhere()
-                    .SiteId(siteId)
-                    .ResultId(id, _using: id != 0))
-                        .ForEach(resultModel =>
-                        {
-                            if (hasFormula) resultModel.UpdateFormulaColumns(
-                                context: context, ss: ss, selected: selected);
-                            resultModel.UpdateRelatedRecords(
-                                context: context,
-                                ss: ss,
-                                extendedSqls: true,
-                                addUpdatedTimeParam: false,
-                                addUpdatorParam: false,
-                                updateItems: false);
-                        });
+                statements: Rds.SelectResults(
+                    column: Rds.ResultsColumn().ResultId(),
+                    where: Rds.ResultsWhere()
+                        .SiteId(siteId)
+                        .ResultId(id, _using: id != 0)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("ResultId"))
+                            .ForEach(resultId =>
+                            {
+                                var resultModel = new ResultModel(
+                                    context: context,
+                                    ss: ss,
+                                    resultId: resultId,
+                                    column: Rds.ResultsDefaultColumns());
+                                if (hasFormula) resultModel.UpdateFormulaColumns(
+                                    context: context, ss: ss, selected: selected);
+                                resultModel.UpdateRelatedRecords(
+                                    context: context,
+                                    ss: ss,
+                                    extendedSqls: true,
+                                    addUpdatedTimeParam: false,
+                                    addUpdatorParam: false,
+                                    updateItems: false);
+                            });
         }
 
         private static void UpdateWikis(
@@ -121,24 +139,32 @@ namespace Implem.Pleasanter.Libraries.Models
             IEnumerable<int> selected = null,
             bool hasFormula = false)
         {
-            new WikiCollection(
+            Rds.ExecuteTable(
                 context: context,
-                ss: ss,
-                where: Rds.WikisWhere()
-                    .SiteId(siteId)
-                    .WikiId(id, _using: id != 0))
-                        .ForEach(wikiModel =>
-                        {
-                            if (hasFormula) wikiModel.UpdateFormulaColumns(
-                                context: context, ss: ss, selected: selected);
-                            wikiModel.UpdateRelatedRecords(
-                                context: context,
-                                ss: ss,
-                                extendedSqls: true,
-                                addUpdatedTimeParam: false,
-                                addUpdatorParam: false,
-                                updateItems: false);
-                        });
+                statements: Rds.SelectWikis(
+                    column: Rds.WikisColumn().WikiId(),
+                    where: Rds.WikisWhere()
+                        .SiteId(siteId)
+                        .WikiId(id, _using: id != 0)))
+                            .AsEnumerable()
+                            .Select(dataRow => dataRow.Long("WikiId"))
+                            .ForEach(wikiId =>
+                            {
+                                var wikiModel = new WikiModel(
+                                    context: context,
+                                    ss: ss,
+                                    wikiId: wikiId,
+                                    column: Rds.WikisDefaultColumns());
+                                if (hasFormula) wikiModel.UpdateFormulaColumns(
+                                    context: context, ss: ss, selected: selected);
+                                wikiModel.UpdateRelatedRecords(
+                                    context: context,
+                                    ss: ss,
+                                    extendedSqls: true,
+                                    addUpdatedTimeParam: false,
+                                    addUpdatorParam: false,
+                                    updateItems: false);
+                            });
         }
     }
 }
