@@ -331,6 +331,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
         public static DataSet ExecuteDataSet(
             Context context,
             bool transactional = false,
+            string connectionString = null,
             params SqlStatement[] statements)
         {
             var set = Rds.ExecuteScalar(
@@ -342,6 +343,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         context: context,
                         dbTransaction: transaction,
                         dbConnection: connection,
+                        connectionString: connectionString,
                         statements: statements);
                     return (true, dataSet);
                 });
