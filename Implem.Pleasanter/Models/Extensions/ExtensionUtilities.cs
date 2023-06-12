@@ -100,6 +100,16 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
+            string connectionString;
+            switch (extendedSql.DbUser)
+            {
+                case "Owner":
+                    connectionString = Parameters.Rds.OwnerConnectionString;
+                    break;
+                default:
+                    connectionString = null;
+                    break;
+            }
             var param = new SqlParamCollection();
             _params?.ForEach(part =>
                 param.Add(
@@ -107,6 +117,7 @@ namespace Implem.Pleasanter.Models
                     value: part.Value));
             var dataSet = Repository.ExecuteDataSet(
                 context: context,
+                connectionString: connectionString,
                 statements: new SqlStatement(
                     commandText: extendedSql.CommandText
                         .Replace("{{SiteId}}", context.SiteId.ToString())

@@ -5,6 +5,7 @@ namespace Implem.ParameterAccessor.Parts
     public class ExtendedSql : ExtendedBase
     {
         public bool Api;
+        public string DbUser;
         public bool Html;
         public bool OnCreating;
         public bool OnCreated;
