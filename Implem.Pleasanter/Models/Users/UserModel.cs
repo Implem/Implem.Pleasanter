@@ -4049,7 +4049,7 @@ namespace Implem.Pleasanter.Models
                                 _operator: context.Sqls.LikeWithEscape),
                             param: Rds.UsersParam()
                                 .LockoutCounter(raw: "\"Users\".\"LockoutCounter\"+1")
-                                .Lockout(raw: "case when \"Users\".\"LockoutCounter\"+1>={0} then {1} else {2} end"
+                                .Lockout(raw: "case when \"Users\".\"Lockout\"={1} or \"Users\".\"LockoutCounter\"+1>={0} then {1} else {2} end"
                                     .Params(
                                         Parameters.Security.LockoutCount,
                                         context.Sqls.TrueString,
