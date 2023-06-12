@@ -54,36 +54,52 @@ namespace Implem.Pleasanter.Models
         public int SavedOwner = 0;
         public bool SavedLocked = false;
 
-        public bool Status_Updated(Context context, Column column = null)
+        public bool Status_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Status.Value != SavedStatus &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Status.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Status.Value;
+            }
+            return Status.Value != SavedStatus
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Status.Value);
         }
 
-        public bool Manager_Updated(Context context, Column column = null)
+        public bool Manager_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Manager.Id != SavedManager &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Manager.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Manager.Id;
+            }
+            return Manager.Id != SavedManager
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Manager.Id);
         }
 
-        public bool Owner_Updated(Context context, Column column = null)
+        public bool Owner_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Owner.Id != SavedOwner &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Owner.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Owner.Id;
+            }
+            return Owner.Id != SavedOwner
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Owner.Id);
         }
 
-        public bool Locked_Updated(Context context, Column column = null)
+        public bool Locked_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Locked != SavedLocked &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Locked);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Locked;
+            }
+            return Locked != SavedLocked
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Locked);
         }
 
         public string PropertyValue(Context context, Column column)
@@ -579,6 +595,7 @@ namespace Implem.Pleasanter.Models
             bool setCopyDefault = false,
             Dictionary<string, string> formData = null,
             ResultApiModel resultApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -591,8 +608,10 @@ namespace Implem.Pleasanter.Models
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.ResultsWhereDefault(
                         context: context,
                         resultModel: this)
@@ -600,7 +619,11 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss, view: view);
+                Get(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    column: column);
             }
             if (setCopyDefault)
             {

@@ -2933,7 +2933,8 @@ namespace Implem.Pleasanter.Models
             var invalid = ResultValidators.OnCreating(
                 context: context,
                 ss: ss,
-                resultModel: resultModel);
+                resultModel: resultModel,
+                copy: copyFrom > 0);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

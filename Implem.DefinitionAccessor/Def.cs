@@ -649,6 +649,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettings": Code.Model_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings, definitionRow, CodeXls); break;
                     case "Model_SiteSettings_Sites": Code.Model_SiteSettings_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings_Sites, definitionRow, CodeXls); break;
                     case "Model_SiteSettings_SitesOnly": Code.Model_SiteSettings_SitesOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettings_SitesOnly, definitionRow, CodeXls); break;
+                    case "Model_SiteSettingsAfterComma": Code.Model_SiteSettingsAfterComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsAfterComma, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsBeforeComma": Code.Model_SiteSettingsBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsBeforeComma, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsContext": Code.Model_SiteSettingsContext = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsContext, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsOnly": Code.Model_SiteSettingsOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsOnly, definitionRow, CodeXls); break;
@@ -745,6 +746,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create_CopyFrom_NotItem": Code.Model_Utilities_Create_CopyFrom_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_NotItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_OnCreating": Code.Model_Utilities_Create_OnCreating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_OnCreating_Tables": Code.Model_Utilities_Create_OnCreating_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_PasswordPolicies": Code.Model_Utilities_Create_PasswordPolicies = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_PasswordPolicies, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetCopyDefault": Code.Model_Utilities_Create_SetCopyDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetCopyDefault, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_SetProcess": Code.Model_Utilities_Create_SetProcess = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_SetProcess, definitionRow, CodeXls); break;
@@ -926,7 +929,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Validator_ShowProfilesAndHasPrivilege": Code.Model_Validator_ShowProfilesAndHasPrivilege = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Validator_ShowProfilesAndHasPrivilege, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods": Code.Model_ValidatorMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods, definitionRow, CodeXls); break;
                     case "Model_ValidatorMethods_Binaries": Code.Model_ValidatorMethods_Binaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ValidatorMethods_Binaries, definitionRow, CodeXls); break;
-                    case "Model_ViewBeforeComma": Code.Model_ViewBeforeComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ViewBeforeComma, definitionRow, CodeXls); break;
+                    case "Model_ViewAfterComma": Code.Model_ViewAfterComma = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ViewAfterComma, definitionRow, CodeXls); break;
                     case "Model_ViewParameter": Code.Model_ViewParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ViewParameter, definitionRow, CodeXls); break;
                     case "Model_WhereDefault": Code.Model_WhereDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereDefault, definitionRow, CodeXls); break;
                     case "Model_WhereSiteIdOrDefault": Code.Model_WhereSiteIdOrDefault = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_WhereSiteIdOrDefault, definitionRow, CodeXls); break;
@@ -7074,6 +7077,7 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettings;
         public string Model_SiteSettings_Sites;
         public string Model_SiteSettings_SitesOnly;
+        public string Model_SiteSettingsAfterComma;
         public string Model_SiteSettingsBeforeComma;
         public string Model_SiteSettingsContext;
         public string Model_SiteSettingsOnly;
@@ -7170,6 +7174,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create_CopyFrom_NotItem;
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_Models;
+        public string Model_Utilities_Create_OnCreating;
+        public string Model_Utilities_Create_OnCreating_Tables;
         public string Model_Utilities_Create_PasswordPolicies;
         public string Model_Utilities_Create_SetCopyDefault;
         public string Model_Utilities_Create_SetProcess;
@@ -7351,7 +7357,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Validator_ShowProfilesAndHasPrivilege;
         public string Model_ValidatorMethods;
         public string Model_ValidatorMethods_Binaries;
-        public string Model_ViewBeforeComma;
+        public string Model_ViewAfterComma;
         public string Model_ViewParameter;
         public string Model_WhereDefault;
         public string Model_WhereSiteIdOrDefault;
@@ -7865,6 +7871,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettings = new CodeDefinition();
         public CodeDefinition Model_SiteSettings_Sites = new CodeDefinition();
         public CodeDefinition Model_SiteSettings_SitesOnly = new CodeDefinition();
+        public CodeDefinition Model_SiteSettingsAfterComma = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsBeforeComma = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsContext = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsOnly = new CodeDefinition();
@@ -7961,6 +7968,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create_CopyFrom_NotItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_OnCreating = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_OnCreating_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_PasswordPolicies = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetCopyDefault = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_SetProcess = new CodeDefinition();
@@ -8142,7 +8151,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Validator_ShowProfilesAndHasPrivilege = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods = new CodeDefinition();
         public CodeDefinition Model_ValidatorMethods_Binaries = new CodeDefinition();
-        public CodeDefinition Model_ViewBeforeComma = new CodeDefinition();
+        public CodeDefinition Model_ViewAfterComma = new CodeDefinition();
         public CodeDefinition Model_ViewParameter = new CodeDefinition();
         public CodeDefinition Model_WhereDefault = new CodeDefinition();
         public CodeDefinition Model_WhereSiteIdOrDefault = new CodeDefinition();

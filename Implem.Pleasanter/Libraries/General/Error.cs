@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.General
             ExternalMailAddress,
             FailedReadFile,
             FileNotFound,
+            HasNotChangeColumnPermission,
             HasNotPermission,
             ImportMax,
             InCircleInvalidToken,
@@ -222,6 +223,10 @@ namespace Implem.Pleasanter.Libraries.General
                         data: data);
                 case Types.FileNotFound:
                     return Messages.FileNotFound(
+                        context: context,
+                        data: data);
+                case Types.HasNotChangeColumnPermission:
+                    return Messages.HasNotChangeColumnPermission(
                         context: context,
                         data: data);
                 case Types.HasNotPermission:

@@ -4119,6 +4119,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string HasNotChangeColumnPermission(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HasNotChangeColumnPermission",
+                data: data);
+        }
+
         public static string HasNotPermission(
             Context context,
             params string[] data)

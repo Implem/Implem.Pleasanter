@@ -40,6 +40,7 @@ public #ModelName#Model(
     <!--Model_FormDataParameter-->
     <!--Model_SetByApiParameter-->
 
+    SqlColumnCollection column = null,
     bool clearSessions = false,
 
     <!--Model_SwitchTargetsParameter-->

@@ -11249,7 +11249,7 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.MaxColumns(context: context),
                                 optionCollection: Enumerable.Range(
                                     Parameters.General.KambanMinColumns,
-                                    Parameters.General.KambanMaxColumns)
+                                    Parameters.General.KambanMaxColumns - Parameters.General.KambanMinColumns + 1)
                                         .ToDictionary(o => o.ToString(), o => o.ToString()),
                                 selectedValue: view.GetKambanColumns().ToString())
                             .FieldCheckBox(

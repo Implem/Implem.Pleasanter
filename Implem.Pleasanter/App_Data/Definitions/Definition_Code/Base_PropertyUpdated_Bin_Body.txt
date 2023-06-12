@@ -1,4 +1,4 @@
-﻿public bool #ColumnName#_Updated(Context context, Column column = null)
+﻿public bool #ColumnName#_Updated(Context context, bool copy = false, Column column = null)
 {
     return #ColumnName##RecordingData# != Saved#ColumnName#<!--Base_PropertyUpdated_NotNull-->;
 }

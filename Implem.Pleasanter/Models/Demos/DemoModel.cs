@@ -43,60 +43,88 @@ namespace Implem.Pleasanter.Models
         public bool SavedInitialized = false;
         public int SavedTimeLag = 0;
 
-        public bool DemoId_Updated(Context context, Column column = null)
+        public bool DemoId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DemoId != SavedDemoId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != DemoId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != DemoId;
+            }
+            return DemoId != SavedDemoId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != DemoId);
         }
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool Title_Updated(Context context, Column column = null)
+        public bool Title_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Title.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Title.Value;
+            }
+            return Title.Value != SavedTitle && Title.Value != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
-        public bool LoginId_Updated(Context context, Column column = null)
+        public bool LoginId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LoginId != SavedLoginId && LoginId != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != LoginId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LoginId;
+            }
+            return LoginId != SavedLoginId && LoginId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LoginId);
         }
 
-        public bool Passphrase_Updated(Context context, Column column = null)
+        public bool Passphrase_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Passphrase != SavedPassphrase && Passphrase != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Passphrase);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Passphrase;
+            }
+            return Passphrase != SavedPassphrase && Passphrase != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Passphrase);
         }
 
-        public bool MailAddress_Updated(Context context, Column column = null)
+        public bool MailAddress_Updated(Context context, bool copy = false, Column column = null)
         {
-            return MailAddress != SavedMailAddress && MailAddress != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != MailAddress);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != MailAddress;
+            }
+            return MailAddress != SavedMailAddress && MailAddress != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != MailAddress);
         }
 
-        public bool Initialized_Updated(Context context, Column column = null)
+        public bool Initialized_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Initialized != SavedInitialized &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Initialized);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Initialized;
+            }
+            return Initialized != SavedInitialized
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Initialized);
         }
 
         /// <summary>
@@ -119,6 +147,7 @@ namespace Implem.Pleasanter.Models
         public DemoModel(
             Context context,
             int demoId,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -127,8 +156,10 @@ namespace Implem.Pleasanter.Models
             DemoId = demoId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.DemosWhereDefault(
                         context: context,
                         demoModel: this)
@@ -136,7 +167,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context);
+                Get(
+                    context: context,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;
