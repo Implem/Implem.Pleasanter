@@ -18,12 +18,12 @@ namespace Implem.Pleasanter.Libraries.General
             string columnName = null,
             params string[] data)
         {
-            context.SysLogsStatus = sysLogsStatus;
-            context.SysLogsDescription = sysLogsDescription;
             Type = type;
             Id = id;
             ColumnName = columnName;
             Data = data;
+            context.SysLogsStatus = sysLogsStatus;
+            context.SysLogsDescription = $"{sysLogsDescription}:{Message(context: context)?.Text}";
         }
 
         public ErrorData(

@@ -34,14 +34,15 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     type: Error.Types.NotFound,
                     sysLogsStatus: 403,
-                    sysLogsDescription: $"{nameof(OnEntry)}: api && IsSite && CanRead");
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             if (!api && ss.GetNoDisplayIfReadOnly(context: context))
             {
                 return new ErrorData(
                     context: context,
                     type: Error.Types.NotFound,
-                    sysLogsStatus: 403);
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             return context.HasPermission(ss: ss)
                 ? new ErrorData(type: Error.Types.None)
@@ -49,11 +50,13 @@ namespace Implem.Pleasanter.Models
                     ? new ErrorData(
                         context: context,
                         type: Error.Types.NotFound,
-                        sysLogsStatus: 403)
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
                     : new ErrorData(
                         context: context,
                         type: Error.Types.HasNotPermission,
-                        sysLogsStatus: 403);
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnGet(
