@@ -193,4 +193,19 @@
     $(document).on('change', '#KeepSorterState', function () {
         $('#ViewFiltersSorterConditionSettingsEditor').toggle();
     });
+    $(document).on('change', '#DashboardPartType', function () {
+        let $control = $(this);
+        let selected = $control.val();        
+        //selected==0: QuickAccess のみ表示
+        $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
+        //selected==1: TimeLine のみ表示
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1');
+        $('#DashboardPartViewSortersTabControl').toggle(selected === '1');
+        $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
+        $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
+        $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
+        //selected==2 or 3: Custom or CustomHtml のみ表示
+        $('#DashboardPartContentField').toggle(selected === '2' || selected === '3');
+
+    });
 });

@@ -1,5 +1,4 @@
 ﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Controllers;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
@@ -66,10 +65,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             string title,
             bool showTitle,
             DashboardPartType type,
-            int x,
-            int y,
-            int width,
-            int height,
             string quickAccessSites,
             string timeLineSites,
             string timeLineTitle,
@@ -82,10 +77,10 @@ namespace Implem.Pleasanter.Libraries.Settings
                 title: title,
                 showTitle: showTitle,
                 type: type,
-                x: x,
-                y: y,
-                width: width,
-                height: height,
+                x: 0,
+                y: 0,
+                width: 2,
+                height: 2,
                 quickAccessSites: quickAccessSites,
                 timeLineSites: timeLineSites,
                 timeLineTitle: timeLineTitle,

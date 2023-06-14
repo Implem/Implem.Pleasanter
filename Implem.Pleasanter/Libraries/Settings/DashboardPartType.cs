@@ -2,11 +2,9 @@
 {
     public enum DashboardPartType
     {
-        QuickAccess,
-        TimeLine,
-        Custom,
-        CustomHtml
+        QuickAccess = 0,
+        TimeLine = 1,
+        Custom = 2,
+        CustomHtml = 3
     }
-
-
 }

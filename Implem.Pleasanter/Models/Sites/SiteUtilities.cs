@@ -14086,6 +14086,7 @@ namespace Implem.Pleasanter.Models
             string controlId,
             DashboardPart dashboardPart)
         {
+            var filterVisible = dashboardPart.Type == DashboardPartType.TimeLine;
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -14100,22 +14101,26 @@ namespace Implem.Pleasanter.Models
                         action: () => hb.Ul(
                             id: "ViewTabs",
                             action: () => hb
-                                .Li(action: () => hb
+                                .Li(
+                                    id: "DashboardPartGeneralTabControl",
+                                    action: () => hb
                                     .A(
                                         href: "#DashboardPartGeneralTabContainer",
                                         text: Displays.General(context: context)))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#DashboardPartViewFiltersTabContainer",
-                                        text: Displays.Filters(context: context)))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#DashboardPartViewSortersTabContainer",
-                                        text: Displays.Sorters(context: context)))
-                                .Li(action: () => hb
-                                    .A(
-                                        href: "#DashboardPartBoundsTabContainer",
-                                        text: "配置")))
+                                .Li(
+                                    id: "DashboardPartViewFiltersTabControl",
+                                    css: filterVisible? "" : "hidden",
+                                    action: () => hb
+                                        .A(
+                                            href: "#DashboardPartViewFiltersTabContainer",
+                                            text: Displays.Filters(context: context)))
+                                .Li(
+                                    id: "DashboardPartViewSortersTabControl",
+                                    css: filterVisible ? "" : "hidden",
+                                    action: () => hb
+                                        .A(
+                                            href: "#DashboardPartViewSortersTabContainer",
+                                            text: Displays.Sorters(context: context))))
                         .DashboardPartGeneralTab(
                             context: context,
                             ss: ss,
@@ -14125,9 +14130,6 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             dashboardPart: dashboardPart)
                         .DashboardPartViewSortersTab(
-                            context: context,
-                            dashboardPart: dashboardPart)
-                        .DashboardPartBoundsTab(
                             context: context,
                             dashboardPart: dashboardPart))
                     .P(css: "message-dialog")
@@ -14218,14 +14220,15 @@ namespace Implem.Pleasanter.Models
                         insertBlank: false)
                     .FieldTextBox(
                             controlId: "DashboardPartQuickAccessSites",
+                            fieldId: "DashboardPartQuickAccessSitesField",
                             fieldCss: "field-wide"
                                 + hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
                             controlCss: " always-send",
                             labelText: "サイトID",
-                            text: dashboardPart.QuickAccessSites?.Join(),
-                            validateRequired: dashboardPart.Type == DashboardPartType.QuickAccess)
+                            text: dashboardPart.QuickAccessSites?.Join())
                     .Div(
-                        css:"both" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
+                        id: "DashboardPartTimeLineSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         action:()=> hb
                             .FieldText(
                                 controlId: "DashboardPartTimeLineSitesValue",
@@ -14245,17 +14248,18 @@ namespace Implem.Pleasanter.Models
                                     method: "post"))
                     .FieldTextBox(
                         controlId: "DashboardPartTimeLineTitle",
+                        fieldId: "DashboardPartTimeLineTitleField",
                         fieldCss: "field-wide" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         controlCss: " always-send",
                         labelText: "レコードのタイトル",
                         text: dashboardPart.TimeLineTitle.IsNullOrEmpty()
                             ? $"[Title]"
                             : SiteSettingsUtilities.Get(context: context, dashboardPart.SiteId)?
-                                .ColumnNameToLabelText(dashboardPart.TimeLineTitle),
-                        validateRequired: dashboardPart.Type == DashboardPartType.TimeLine)
+                                .ColumnNameToLabelText(dashboardPart.TimeLineTitle))
                     .FieldTextBox(
                         textType: HtmlTypes.TextTypes.MultiLine,
                         controlId: "DashboardPartTimeLineBody",
+                        fieldId: "DashboardPartTimeLineBodyField",
                         fieldCss: "field-wide" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         controlCss: " always-send",
                         labelText: "レコードの内容",
@@ -14267,6 +14271,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         controlId: "DashboardPartContent",
+                        fieldId: "DashboardPartContentField",
                         fieldCss: "field-wide"
                             + hiddenCss(dashboardPart.Type != DashboardPartType.Custom
                                 && dashboardPart.Type != DashboardPartType.CustomHtml),
