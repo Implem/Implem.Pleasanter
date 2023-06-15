@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         loginId: loginId,
                         password: password);
                 default:
-                    return LdapNovelDs.Authenticate(
+                    return LdapNovellDs.Authenticate(
                         context: context,
                         loginId: loginId,
                         password: password);
@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         loginId: loginId);
                     break;
                 default:
-                    LdapNovelDs.UpdateOrInsert(
+                    LdapNovellDs.UpdateOrInsert(
                         context: context,
                         loginId: loginId);
                     break;
@@ -47,24 +47,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     LdapDs.Sync(context: context);
                     break;
                 default:
-                    LdapNovelDs.Sync(context: context);
+                    LdapNovellDs.Sync(context: context);
                     break;
             }
         }
 
         private static string Platform(Context context)
         {
-            if (Parameters.Authentication.DsProvider == "Novell")
+            switch (Parameters.Authentication.DsProvider)
             {
-                return "others";
-            }
-            if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true) 
-            {
-                return "windows";
-            }
-            else
-            {
-                return "others";
+                case "Novell":
+                    return "others";
+                default:
+                    if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true)
+                    {
+                        return "windows";
+                    }
+                    else
+                    {
+                        return "others";
+                    }
             }
         }
     }
