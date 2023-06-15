@@ -1,4 +1,6 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+//using DocumentFormat.OpenXml.Spreadsheet;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -53,7 +55,12 @@ namespace Implem.Pleasanter.Libraries.DataSources
 
         private static string Platform(Context context)
         {
-            if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true)
+            if (Parameters.Authentication.DsProvider == "Novell")
+            {
+                return "others";
+            }
+
+            if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true) 
             {
                 return "windows";
             }

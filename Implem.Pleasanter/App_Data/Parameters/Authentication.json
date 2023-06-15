@@ -1,5 +1,6 @@
 ﻿{
-    "Provider": null,
+    "Provider": "LDAP+Local",
+    "DsProvider": "Novell",
     "ServiceId": null,
     "ExtensionUrl": null,
     "RejectUnregisteredUser": false,
