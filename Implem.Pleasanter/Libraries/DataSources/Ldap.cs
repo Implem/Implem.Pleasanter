@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-//using DocumentFormat.OpenXml.Spreadsheet;
 using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.DataSources
