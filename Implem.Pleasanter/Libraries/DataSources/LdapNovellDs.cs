@@ -15,7 +15,7 @@ using Implem.ParameterAccessor.Parts;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
-    public static class LdapNovelDs
+    public static class LdapNovellDs
     {
         public static bool Authenticate(Context context, string loginId, string password)
         {

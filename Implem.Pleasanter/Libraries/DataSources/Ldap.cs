@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Libraries.Requests;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Libraries.Requests;
 using System;
 namespace Implem.Pleasanter.Libraries.DataSources
 {
@@ -14,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         loginId: loginId,
                         password: password);
                 default:
-                    return LdapNovelDs.Authenticate(
+                    return LdapNovellDs.Authenticate(
                         context: context,
                         loginId: loginId,
                         password: password);
@@ -31,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         loginId: loginId);
                     break;
                 default:
-                    LdapNovelDs.UpdateOrInsert(
+                    LdapNovellDs.UpdateOrInsert(
                         context: context,
                         loginId: loginId);
                     break;
@@ -46,20 +47,26 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     LdapDs.Sync(context: context);
                     break;
                 default:
-                    LdapNovelDs.Sync(context: context);
+                    LdapNovellDs.Sync(context: context);
                     break;
             }
         }
 
         private static string Platform(Context context)
         {
-            if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true)
+            switch (Parameters.Authentication.DsProvider)
             {
-                return "windows";
-            }
-            else
-            {
-                return "others";
+                case "Novell":
+                    return "others";
+                default:
+                    if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true)
+                    {
+                        return "windows";
+                    }
+                    else
+                    {
+                        return "others";
+                    }
             }
         }
     }
