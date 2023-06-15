@@ -58,7 +58,6 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 return "others";
             }
-
             if (Environment.OSVersion?.ToString().ToLower().Contains("windows") == true) 
             {
                 return "windows";
