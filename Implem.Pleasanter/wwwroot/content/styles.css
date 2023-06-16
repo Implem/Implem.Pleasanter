@@ -3308,6 +3308,11 @@ textarea:focus {
     background-color: #f8f8f8;
 }
 
+.dashboard-part-nav-dashboard {
+    font-weight: bold;
+    background-color: azure;
+}
+
 .dashboard-part-nav-link {
     color: #333;
     text-decoration: none;

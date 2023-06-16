@@ -363,7 +363,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? canCreateGroups
                             : context.CanCreate(ss: ss, site: true)
                                 && ss.ReferenceType != "Wikis"
-                                && context.Action != "trashbox";
+                                && context.Action != "trashbox"
+                                && ss.ReferenceType != "Dashboards";
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);

@@ -1574,18 +1574,27 @@ namespace Implem.Pleasanter.Models
                                 .Ul(
                                     css: "dashboard-part-nav-menu",
                                     action: () => QuickAccessSites(context: context, sites: sites)
-                                        .ForEach(siteModelChild => hb
-                                            .Li(css: "dashboard-part-nav-item"
-                                                + (siteModelChild.ReferenceType == "Sites"
-                                                    ? " dashboard-part-nav-directory"
-                                                    : ""),
+                                        .ForEach(siteModelChild =>
+                                        {
+                                            var itemTypeCss = string.Empty;
+                                            switch(siteModelChild.ReferenceType)
+                                            {
+                                                case "Sites":
+                                                    itemTypeCss = " dashboard-part-nav-directory";
+                                                    break;
+                                                case "Dashboards":
+                                                    itemTypeCss = " dashboard-part-nav-dashboard";
+                                                    break;
+                                            }
+                                            hb.Li(css: "dashboard-part-nav-item" + itemTypeCss,
                                                 action: () => hb
                                                     .A(
                                                         css: "dashboard-part-nav-link",
                                                         text: siteModelChild.Title.DisplayValue,
                                                         href: Locations.ItemIndex(
                                                             context: context,
-                                                            id: siteModelChild.SiteId))))));
+                                                            id: siteModelChild.SiteId)));
+                                        })));
                 });
         }
 

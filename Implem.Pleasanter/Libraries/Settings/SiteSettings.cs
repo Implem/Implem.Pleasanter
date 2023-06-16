@@ -666,10 +666,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return false;
             }
-            if(ReferenceType=="Dashboards" && context.Action == "index")
-            {
-                return true;
-            }
             switch (context.Action)
             {
                 case "edit":
@@ -688,6 +684,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 default:
                     return false;
             }
+        }
+
+        public bool IsDashboards()
+        {
+            return ReferenceType == "Dashboards";
         }
 
         public string RecordingJson(Context context)
