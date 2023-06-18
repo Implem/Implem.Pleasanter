@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             TenantModel tenantModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -134,87 +135,154 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "TenantName":
-                        if (tenantModel.TenantName_Updated(context: context, column: column))
+                        if (tenantModel.TenantName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Title":
-                        if (tenantModel.Title_Updated(context: context, column: column))
+                        if (tenantModel.Title_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
-                        if (tenantModel.Body_Updated(context: context, column: column))
+                        if (tenantModel.Body_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DisableAllUsersPermission":
-                        if (tenantModel.DisableAllUsersPermission_Updated(context: context, column: column))
+                        if (tenantModel.DisableAllUsersPermission_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DisableApi":
-                        if (tenantModel.DisableApi_Updated(context: context, column: column))
+                        if (tenantModel.DisableApi_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DisableStartGuide":
-                        if (tenantModel.DisableStartGuide_Updated(context: context, column: column))
+                        if (tenantModel.DisableStartGuide_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "LogoType":
-                        if (tenantModel.LogoType_Updated(context: context, column: column))
+                        if (tenantModel.LogoType_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "HtmlTitleTop":
-                        if (tenantModel.HtmlTitleTop_Updated(context: context, column: column))
+                        if (tenantModel.HtmlTitleTop_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "HtmlTitleSite":
-                        if (tenantModel.HtmlTitleSite_Updated(context: context, column: column))
+                        if (tenantModel.HtmlTitleSite_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "HtmlTitleRecord":
-                        if (tenantModel.HtmlTitleRecord_Updated(context: context, column: column))
+                        if (tenantModel.HtmlTitleRecord_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "TopStyle":
-                        if (tenantModel.TopStyle_Updated(context: context, column: column))
+                        if (tenantModel.TopStyle_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "TopScript":
-                        if (tenantModel.TopScript_Updated(context: context, column: column))
+                        if (tenantModel.TopScript_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "ContractDeadline":
-                        if (tenantModel.ContractDeadline_Updated(context: context, column: column))
+                        if (tenantModel.ContractDeadline_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (tenantModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -223,55 +291,73 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (tenantModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
                                 if (tenantModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
                                 if (tenantModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
                                 if (tenantModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
                                 if (tenantModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
                                 if (tenantModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }
@@ -316,85 +402,113 @@ namespace Implem.Pleasanter.Models
                     case "TenantName":
                         if (tenantModel.TenantName_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Title":
                         if (tenantModel.Title_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
                         if (tenantModel.Body_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DisableAllUsersPermission":
                         if (tenantModel.DisableAllUsersPermission_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DisableApi":
                         if (tenantModel.DisableApi_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DisableStartGuide":
                         if (tenantModel.DisableStartGuide_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "LogoType":
                         if (tenantModel.LogoType_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "HtmlTitleTop":
                         if (tenantModel.HtmlTitleTop_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "HtmlTitleSite":
                         if (tenantModel.HtmlTitleSite_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "HtmlTitleRecord":
                         if (tenantModel.HtmlTitleRecord_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "TopStyle":
                         if (tenantModel.TopStyle_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "TopScript":
                         if (tenantModel.TopScript_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (tenantModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -403,55 +517,61 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (tenantModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
                                 if (tenantModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
                                 if (tenantModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
                                 if (tenantModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
                                 if (tenantModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
                                 if (tenantModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }

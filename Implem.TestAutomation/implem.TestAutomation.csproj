@@ -4,9 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Copyright>Copyright © Implem Inc 2014 - 2023</Copyright>
-    <AssemblyVersion>1.3.40.2</AssemblyVersion>
-    <FileVersion>1.3.40.2</FileVersion>
-    <Version>1.3.40.2</Version>
+    <AssemblyVersion>1.3.41.0</AssemblyVersion>
+    <FileVersion>1.3.41.0</FileVersion>
+    <Version>1.3.41.0</Version>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>  
   </PropertyGroup>
 
@@ -27,7 +27,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Selenium.Support" Version="4.9.1" />
     <PackageReference Include="Selenium.WebDriver" Version="4.9.1" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="114.0.5735.9000" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="113.0.5672.6300" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.8.1" />
     <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="113.0.1774.50" />
     <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />

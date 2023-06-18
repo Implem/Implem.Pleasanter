@@ -55,44 +55,64 @@ namespace Implem.Pleasanter.Models
         public string SavedMemberName = string.Empty;
         public bool? SavedMemberIsAdmin = null;
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool GroupId_Updated(Context context, Column column = null)
+        public bool GroupId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return GroupId != SavedGroupId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != GroupId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != GroupId;
+            }
+            return GroupId != SavedGroupId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != GroupId);
         }
 
-        public bool GroupName_Updated(Context context, Column column = null)
+        public bool GroupName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return GroupName != SavedGroupName && GroupName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != GroupName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != GroupName;
+            }
+            return GroupName != SavedGroupName && GroupName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != GroupName);
         }
 
-        public bool Body_Updated(Context context, Column column = null)
+        public bool Body_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Body != SavedBody && Body != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Body);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Body;
+            }
+            return Body != SavedBody && Body != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Body);
         }
 
-        public bool Disabled_Updated(Context context, Column column = null)
+        public bool Disabled_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Disabled != SavedDisabled &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Disabled);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Disabled;
+            }
+            return Disabled != SavedDisabled
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Disabled);
         }
 
         public string CsvData(
@@ -358,6 +378,7 @@ namespace Implem.Pleasanter.Models
             int groupId,
             Dictionary<string, string> formData = null,
             GroupApiModel groupApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -367,8 +388,10 @@ namespace Implem.Pleasanter.Models
             GroupId = groupId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.GroupsWhereDefault(
                         context: context,
                         groupModel: this)
@@ -376,7 +399,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

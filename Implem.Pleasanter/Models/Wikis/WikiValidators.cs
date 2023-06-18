@@ -104,6 +104,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             WikiModel wikiModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -144,27 +145,44 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        if (wikiModel.Title_Updated(context: context, column: column))
+                        if (wikiModel.Title_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
-                        if (wikiModel.Body_Updated(context: context, column: column))
+                        if (wikiModel.Body_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Locked":
-                        if (wikiModel.Locked_Updated(context: context, column: column))
+                        if (wikiModel.Locked_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (wikiModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -173,55 +191,73 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (wikiModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
                                 if (wikiModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
                                 if (wikiModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
                                 if (wikiModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
                                 if (wikiModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
                                 if (wikiModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }
@@ -287,25 +323,33 @@ namespace Implem.Pleasanter.Models
                     case "Title":
                         if (wikiModel.Title_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
                         if (wikiModel.Body_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Locked":
                         if (wikiModel.Locked_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (wikiModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -314,55 +358,61 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (wikiModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
                                 if (wikiModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
                                 if (wikiModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
                                 if (wikiModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
                                 if (wikiModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
                                 if (wikiModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }

@@ -40,12 +40,16 @@ namespace Implem.Pleasanter.Models
         public long SavedWikiId = 0;
         public bool SavedLocked = false;
 
-        public bool Locked_Updated(Context context, Column column = null)
+        public bool Locked_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Locked != SavedLocked &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Locked);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Locked;
+            }
+            return Locked != SavedLocked
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Locked);
         }
 
         public string PropertyValue(Context context, Column column)
@@ -215,6 +219,7 @@ namespace Implem.Pleasanter.Models
             long wikiId,
             Dictionary<string, string> formData = null,
             WikiApiModel wikiApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -223,8 +228,10 @@ namespace Implem.Pleasanter.Models
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.WikisWhereDefault(
                         context: context,
                         wikiModel: this)
@@ -232,7 +239,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

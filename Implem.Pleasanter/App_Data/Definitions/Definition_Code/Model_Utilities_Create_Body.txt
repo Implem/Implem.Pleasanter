@@ -1,10 +1,8 @@
 ﻿<!--Model_Utilities_CreateParams-->
 <!--Model_Utilities_CreateParams_Sites-->
+<!--Model_Utilities_Create_OnCreating-->
+<!--Model_Utilities_Create_OnCreating_Tables-->
 
-    var invalid = #ModelName#Validators.OnCreating(
-        context: context,
-        ss: ss,
-        #modelName#Model: #modelName#Model);
     switch (invalid.Type)
     {
         case Error.Types.None: break;

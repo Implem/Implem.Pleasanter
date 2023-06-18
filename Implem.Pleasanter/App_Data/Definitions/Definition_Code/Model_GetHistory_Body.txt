@@ -1,7 +1,9 @@
 ﻿if (context.QueryStrings.ContainsKey("ver"))
 {
-    Get(context: context,
+    Get(
+        context: context,
         tableType: Sqls.TableTypes.NormalAndHistory,
+        column: column,
         where: Rds.#TableName#WhereDefault(
             context: context,
             #modelName#Model: this)
@@ -9,5 +11,9 @@
 }
 else
 {
-    Get(context: context<!--Model_SiteSettingsBeforeComma--><!--Model_ViewBeforeComma-->);
+    Get(
+        context: context,
+        <!--Model_SiteSettingsAfterComma-->
+        <!--Model_ViewAfterComma-->
+        column: column);
 }

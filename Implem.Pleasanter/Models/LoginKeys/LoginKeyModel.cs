@@ -37,44 +37,64 @@ namespace Implem.Pleasanter.Models
         public int SavedTenantId = 0;
         public int SavedUserId = 0;
 
-        public bool LoginId_Updated(Context context, Column column = null)
+        public bool LoginId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LoginId != SavedLoginId && LoginId != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != LoginId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != LoginId;
+            }
+            return LoginId != SavedLoginId && LoginId != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != LoginId);
         }
 
-        public bool Key_Updated(Context context, Column column = null)
+        public bool Key_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Key != SavedKey && Key != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Key);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Key;
+            }
+            return Key != SavedKey && Key != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Key);
         }
 
-        public bool TenantNames_Updated(Context context, Column column = null)
+        public bool TenantNames_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantNames != SavedTenantNames && TenantNames != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != TenantNames);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TenantNames;
+            }
+            return TenantNames != SavedTenantNames && TenantNames != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TenantNames);
         }
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool UserId_Updated(Context context, Column column = null)
+        public bool UserId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return UserId != SavedUserId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != UserId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != UserId;
+            }
+            return UserId != SavedUserId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != UserId);
         }
 
         public LoginKeyModel(

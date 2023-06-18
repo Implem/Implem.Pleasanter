@@ -72,6 +72,7 @@ public static ErrorData OnCreating(
     Context context,
     SiteSettings ss,
     #ModelName#Model #modelName#Model,
+    bool copy = false,
     bool api = false,
     bool serverScript = false)
 {
@@ -103,7 +104,9 @@ public static ErrorData OnCreating(
             case "Comments":
                 if (#modelName#Model.Comments_Updated(context: context))
                 {
-                    return new ErrorData(type: Error.Types.HasNotPermission);
+                    return new ErrorData(
+                        type: Error.Types.HasNotChangeColumnPermission,
+                        data: column.LabelText);
                 }
                 break;
             default:
@@ -112,55 +115,73 @@ public static ErrorData OnCreating(
                     case "Class":
                         if (#modelName#Model.Class_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Num":
                         if (#modelName#Model.Num_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Date":
                         if (#modelName#Model.Date_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Description":
                         if (#modelName#Model.Description_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Check":
                         if (#modelName#Model.Check_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Attachments":
                         if (#modelName#Model.Attachments_Updated(
                             columnName: column.Name,
+                            copy: copy,
                             context: context,
                             column: column))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                 }
@@ -210,7 +231,9 @@ public static ErrorData OnUpdating(
             case "Comments":
                 if (#modelName#Model.Comments_Updated(context: context))
                 {
-                    return new ErrorData(type: Error.Types.HasNotPermission);
+                    return new ErrorData(
+                        type: Error.Types.HasNotChangeColumnPermission,
+                        data: column.LabelText);
                 }
                 break;
             default:
@@ -219,55 +242,61 @@ public static ErrorData OnUpdating(
                     case "Class":
                         if (#modelName#Model.Class_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Num":
                         if (#modelName#Model.Num_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Date":
                         if (#modelName#Model.Date_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Description":
                         if (#modelName#Model.Description_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Check":
                         if (#modelName#Model.Check_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Attachments":
                         if (#modelName#Model.Attachments_Updated(
                             columnName: column.Name,
-                            context: context,
-                            column: column))
+                            context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                 }

@@ -102,6 +102,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             DeptModel deptModel,
+            bool copy = false,
             bool api = false,
             bool serverScript = false)
         {
@@ -132,33 +133,55 @@ namespace Implem.Pleasanter.Models
                 switch (column.ColumnName)
                 {
                     case "DeptCode":
-                        if (deptModel.DeptCode_Updated(context: context, column: column))
+                        if (deptModel.DeptCode_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DeptName":
-                        if (deptModel.DeptName_Updated(context: context, column: column))
+                        if (deptModel.DeptName_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
-                        if (deptModel.Body_Updated(context: context, column: column))
+                        if (deptModel.Body_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Disabled":
-                        if (deptModel.Disabled_Updated(context: context, column: column))
+                        if (deptModel.Disabled_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (deptModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -167,55 +190,73 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (deptModel.Class_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
                                 if (deptModel.Num_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
                                 if (deptModel.Date_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
                                 if (deptModel.Description_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
                                 if (deptModel.Check_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
                                 if (deptModel.Attachments_Updated(
                                     columnName: column.Name,
+                                    copy: copy,
                                     context: context,
                                     column: column))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }
@@ -260,31 +301,41 @@ namespace Implem.Pleasanter.Models
                     case "DeptCode":
                         if (deptModel.DeptCode_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "DeptName":
                         if (deptModel.DeptName_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Body":
                         if (deptModel.Body_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Disabled":
                         if (deptModel.Disabled_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     case "Comments":
                         if (deptModel.Comments_Updated(context: context))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
                         }
                         break;
                     default:
@@ -293,55 +344,61 @@ namespace Implem.Pleasanter.Models
                             case "Class":
                                 if (deptModel.Class_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Num":
                                 if (deptModel.Num_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Date":
                                 if (deptModel.Date_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Description":
                                 if (deptModel.Description_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Check":
                                 if (deptModel.Check_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                             case "Attachments":
                                 if (deptModel.Attachments_Updated(
                                     columnName: column.Name,
-                                    context: context,
-                                    column: column))
+                                    context: context))
                                 {
-                                    return new ErrorData(type: Error.Types.HasNotPermission);
+                                    return new ErrorData(
+                                        type: Error.Types.HasNotChangeColumnPermission,
+                                        data: column.LabelText);
                                 }
                                 break;
                         }

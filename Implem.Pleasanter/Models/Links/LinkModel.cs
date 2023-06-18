@@ -41,20 +41,28 @@ namespace Implem.Pleasanter.Models
         public string SavedSubset = string.Empty;
         public string SavedSiteTitle = string.Empty;
 
-        public bool DestinationId_Updated(Context context, Column column = null)
+        public bool DestinationId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DestinationId != SavedDestinationId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != DestinationId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != DestinationId;
+            }
+            return DestinationId != SavedDestinationId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != DestinationId);
         }
 
-        public bool SourceId_Updated(Context context, Column column = null)
+        public bool SourceId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SourceId != SavedSourceId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != SourceId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != SourceId;
+            }
+            return SourceId != SavedSourceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != SourceId);
         }
 
         public LinkModel(

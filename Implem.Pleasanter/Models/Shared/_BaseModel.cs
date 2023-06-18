@@ -46,36 +46,52 @@ namespace Implem.Pleasanter.Models
         public string SavedComments = "[]";
         public ServerScriptModelRow ServerScriptModelRow = new ServerScriptModelRow();
 
-        public bool Ver_Updated(Context context, Column column = null)
+        public bool Ver_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Ver != SavedVer &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Ver);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Ver;
+            }
+            return Ver != SavedVer
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Ver);
         }
 
-        public bool Comments_Updated(Context context, Column column = null)
+        public bool Comments_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Comments.ToJson() != SavedComments && Comments.ToJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Comments.ToJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Comments.ToJson();
+            }
+            return Comments.ToJson() != SavedComments && Comments.ToJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Comments.ToJson());
         }
 
-        public bool Creator_Updated(Context context, Column column = null)
+        public bool Creator_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Creator.Id != SavedCreator &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Creator.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Creator.Id;
+            }
+            return Creator.Id != SavedCreator
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Creator.Id);
         }
 
-        public bool Updator_Updated(Context context, Column column = null)
+        public bool Updator_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Updator.Id != SavedUpdator &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Updator.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Updator.Id;
+            }
+            return Updator.Id != SavedUpdator
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Updator.Id);
         }
 
         public Dictionary<string, string> ClassHash = new Dictionary<string, string>();
@@ -286,10 +302,15 @@ namespace Implem.Pleasanter.Models
 
         public bool Class_Updated(
             string columnName,
+            bool copy = false,
             Context context = null,
             Column column = null)
         {
             var value = GetClass(columnName: columnName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context) != value;
+            }
             return value != GetSavedClass(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -356,12 +377,17 @@ namespace Implem.Pleasanter.Models
 
         public bool Num_Updated(
             string columnName,
+            bool copy = false,
             Context context = null,
             Column column = null,
             bool paramDefault = false)
         {
             var value = GetNum(columnName: columnName)?.Value;
             var savedValue = GetSavedNum(columnName: columnName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDecimal() != value;
+            }
             if (column?.Nullable !=  true)
             {
                 value = value ?? 0;
@@ -438,10 +464,15 @@ namespace Implem.Pleasanter.Models
 
         public bool Date_Updated(
             string columnName,
+            bool copy = false,
             Context context = null,
             Column column = null)
         {
             var value = GetDate(columnName: columnName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != value;
+            }
             return value != GetSavedDate(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -508,10 +539,15 @@ namespace Implem.Pleasanter.Models
 
         public bool Description_Updated(
             string columnName,
+            bool copy = false,
             Context context = null,
             Column column = null)
         {
             var value = GetDescription(columnName: columnName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context) != value;
+            }
             return value != GetSavedDescription(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -578,10 +614,15 @@ namespace Implem.Pleasanter.Models
 
         public bool Check_Updated(
             string columnName,
+            bool copy = false,
             Context context = null,
             Column column = null)
         {
             var value = GetCheck(columnName: columnName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != value;
+            }
             return value != GetSavedCheck(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -648,10 +689,15 @@ namespace Implem.Pleasanter.Models
 
         public bool Attachments_Updated(
             string columnName,
+            bool copy = false,
             Context context = null,
             Column column = null)
         {
             var value = GetAttachments(columnName: columnName).RecordingJson();
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context) != value;
+            }
             return value != GetSavedAttachments(columnName: columnName)
                 && (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -820,28 +866,40 @@ namespace Implem.Pleasanter.Models
         public string SavedBody = string.Empty;
         public List<string> RecordPermissions;
 
-        public bool SiteId_Updated(Context context, Column column = null)
+        public bool SiteId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SiteId != SavedSiteId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != SiteId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != SiteId;
+            }
+            return SiteId != SavedSiteId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != SiteId);
         }
 
-        public bool Title_Updated(Context context, Column column = null)
+        public bool Title_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Title.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Title.Value;
+            }
+            return Title.Value != SavedTitle && Title.Value != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
-        public bool Body_Updated(Context context, Column column = null)
+        public bool Body_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Body != SavedBody && Body != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Body);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Body;
+            }
+            return Body != SavedBody && Body != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Body);
         }
 
         public override ServerScriptModelRow SetByWhenloadingRecordServerScript(

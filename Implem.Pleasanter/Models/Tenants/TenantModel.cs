@@ -57,124 +57,184 @@ namespace Implem.Pleasanter.Models
         public string SavedTopStyle = string.Empty;
         public string SavedTopScript = string.Empty;
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool TenantName_Updated(Context context, Column column = null)
+        public bool TenantName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantName != SavedTenantName && TenantName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != TenantName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TenantName;
+            }
+            return TenantName != SavedTenantName && TenantName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TenantName);
         }
 
-        public bool Title_Updated(Context context, Column column = null)
+        public bool Title_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Title.Value != SavedTitle && Title.Value != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Title.Value);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Title.Value;
+            }
+            return Title.Value != SavedTitle && Title.Value != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Title.Value);
         }
 
-        public bool Body_Updated(Context context, Column column = null)
+        public bool Body_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Body != SavedBody && Body != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != Body);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Body;
+            }
+            return Body != SavedBody && Body != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Body);
         }
 
-        public bool ContractSettings_Updated(Context context, Column column = null)
+        public bool ContractSettings_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ContractSettings?.RecordingJson());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ContractSettings?.RecordingJson();
+            }
+            return ContractSettings?.RecordingJson() != SavedContractSettings && ContractSettings?.RecordingJson() != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ContractSettings?.RecordingJson());
         }
 
-        public bool DisableAllUsersPermission_Updated(Context context, Column column = null)
+        public bool DisableAllUsersPermission_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DisableAllUsersPermission != SavedDisableAllUsersPermission &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != DisableAllUsersPermission);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != DisableAllUsersPermission;
+            }
+            return DisableAllUsersPermission != SavedDisableAllUsersPermission
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != DisableAllUsersPermission);
         }
 
-        public bool DisableApi_Updated(Context context, Column column = null)
+        public bool DisableApi_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DisableApi != SavedDisableApi &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != DisableApi);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != DisableApi;
+            }
+            return DisableApi != SavedDisableApi
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != DisableApi);
         }
 
-        public bool DisableStartGuide_Updated(Context context, Column column = null)
+        public bool DisableStartGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DisableStartGuide != SavedDisableStartGuide &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != DisableStartGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != DisableStartGuide;
+            }
+            return DisableStartGuide != SavedDisableStartGuide
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != DisableStartGuide);
         }
 
-        public bool LogoType_Updated(Context context, Column column = null)
+        public bool LogoType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LogoType.ToInt() != SavedLogoType &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != LogoType.ToInt());
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != LogoType.ToInt();
+            }
+            return LogoType.ToInt() != SavedLogoType
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != LogoType.ToInt());
         }
 
-        public bool HtmlTitleTop_Updated(Context context, Column column = null)
+        public bool HtmlTitleTop_Updated(Context context, bool copy = false, Column column = null)
         {
-            return HtmlTitleTop != SavedHtmlTitleTop && HtmlTitleTop != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != HtmlTitleTop);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != HtmlTitleTop;
+            }
+            return HtmlTitleTop != SavedHtmlTitleTop && HtmlTitleTop != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != HtmlTitleTop);
         }
 
-        public bool HtmlTitleSite_Updated(Context context, Column column = null)
+        public bool HtmlTitleSite_Updated(Context context, bool copy = false, Column column = null)
         {
-            return HtmlTitleSite != SavedHtmlTitleSite && HtmlTitleSite != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != HtmlTitleSite);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != HtmlTitleSite;
+            }
+            return HtmlTitleSite != SavedHtmlTitleSite && HtmlTitleSite != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != HtmlTitleSite);
         }
 
-        public bool HtmlTitleRecord_Updated(Context context, Column column = null)
+        public bool HtmlTitleRecord_Updated(Context context, bool copy = false, Column column = null)
         {
-            return HtmlTitleRecord != SavedHtmlTitleRecord && HtmlTitleRecord != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != HtmlTitleRecord);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != HtmlTitleRecord;
+            }
+            return HtmlTitleRecord != SavedHtmlTitleRecord && HtmlTitleRecord != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != HtmlTitleRecord);
         }
 
-        public bool TopStyle_Updated(Context context, Column column = null)
+        public bool TopStyle_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TopStyle != SavedTopStyle && TopStyle != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != TopStyle);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TopStyle;
+            }
+            return TopStyle != SavedTopStyle && TopStyle != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TopStyle);
         }
 
-        public bool TopScript_Updated(Context context, Column column = null)
+        public bool TopScript_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TopScript != SavedTopScript && TopScript != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != TopScript);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TopScript;
+            }
+            return TopScript != SavedTopScript && TopScript != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TopScript);
         }
 
-        public bool ContractDeadline_Updated(Context context, Column column = null)
+        public bool ContractDeadline_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ContractDeadline != SavedContractDeadline &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != ContractDeadline.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != ContractDeadline;
+            }
+            return ContractDeadline != SavedContractDeadline
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != ContractDeadline.Date);
         }
 
         public List<int> SwitchTargets;
@@ -213,6 +273,7 @@ namespace Implem.Pleasanter.Models
             int tenantId,
             Dictionary<string, string> formData = null,
             TenantApiModel tenantApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -221,8 +282,10 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.TenantsWhereDefault(
                         context: context,
                         tenantModel: this)
@@ -230,7 +293,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)
