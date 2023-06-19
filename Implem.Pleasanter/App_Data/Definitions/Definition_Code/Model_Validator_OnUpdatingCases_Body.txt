@@ -1,6 +1,8 @@
 ﻿case "#ColumnName#":
     if (#modelName#Model.#ColumnName#_Updated(context: context))
     {
-        return new ErrorData(type: Error.Types.HasNotPermission);
+        return new ErrorData(
+            type: Error.Types.HasNotChangeColumnPermission,
+            data: column.LabelText);
     }
     break;

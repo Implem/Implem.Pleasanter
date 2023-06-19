@@ -33,28 +33,40 @@ namespace Implem.Pleasanter.Models
         public int SavedId = 0;
         public DateTime SavedScheduledTime = 0.ToDateTime();
 
-        public bool SiteId_Updated(Context context, Column column = null)
+        public bool SiteId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SiteId != SavedSiteId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != SiteId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != SiteId;
+            }
+            return SiteId != SavedSiteId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != SiteId);
         }
 
-        public bool Id_Updated(Context context, Column column = null)
+        public bool Id_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Id != SavedId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != Id;
+            }
+            return Id != SavedId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != Id);
         }
 
-        public bool ScheduledTime_Updated(Context context, Column column = null)
+        public bool ScheduledTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ScheduledTime != SavedScheduledTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != ScheduledTime.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != ScheduledTime;
+            }
+            return ScheduledTime != SavedScheduledTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != ScheduledTime.Date);
         }
 
         public ReminderScheduleModel(

@@ -4572,6 +4572,13 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
+            if (Parameters.Security.JoeAccountCheck
+                && (context.RequestDataString.Deserialize<UserApiModel>()?.Password ?? string.Empty) == userModel.LoginId)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.JoeAccountCheck));
+            }
             if (!Parameters.Security.DisableCheckPasswordPolicyIfApi)
             {
                 foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
@@ -4648,6 +4655,13 @@ namespace Implem.Pleasanter.Models
                        context: context,
                        errorData: invalid);
             }
+            if (Parameters.Security.JoeAccountCheck
+                && (context.RequestDataString.Deserialize<UserApiModel>()?.Password ?? string.Empty) == userModel.LoginId)
+            {
+                return ApiResults.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.JoeAccountCheck));
+            }
             if (!Parameters.Security.DisableCheckPasswordPolicyIfApi)
             {
                 foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
@@ -4659,6 +4673,21 @@ namespace Implem.Pleasanter.Models
                             errorData: new ErrorData(type: Error.Types.PasswordPolicyViolation));
                     }
                 }
+            }
+            if (!(context.RequestDataString.Deserialize<UserApiModel>()?.Password).IsNullOrEmpty())
+            {
+                userModel.ChangedPassword = (context.RequestDataString.Deserialize<UserApiModel>()?.Password ?? string.Empty).Sha512Cng();
+                var error = userModel.ChangePassword(context: context);
+                if (error.Has())
+                {
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: new ErrorData(type: error));
+                }
+                userModel.SetByApi(
+                    context: context,
+                    ss: ss,
+                    data: userApiModel);
             }
             foreach (var column in ss.Columns
                 .Where(o => o.ValidateRequired ?? false)

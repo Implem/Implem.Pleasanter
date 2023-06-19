@@ -1,0 +1,4 @@
+﻿var invalid = #ModelName#Validators.OnCreating(
+    context: context,
+    ss: ss,
+    #modelName#Model: #modelName#Model);

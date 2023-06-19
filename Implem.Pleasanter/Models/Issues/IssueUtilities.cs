@@ -3113,7 +3113,8 @@ namespace Implem.Pleasanter.Models
             var invalid = IssueValidators.OnCreating(
                 context: context,
                 ss: ss,
-                issueModel: issueModel);
+                issueModel: issueModel,
+                copy: copyFrom > 0);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

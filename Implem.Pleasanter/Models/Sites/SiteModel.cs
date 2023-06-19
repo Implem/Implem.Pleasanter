@@ -92,180 +92,268 @@ namespace Implem.Pleasanter.Models
         public int SavedApiCount = 0;
         public bool SavedDisableSiteCreatorPermission = false;
 
-        public bool TenantId_Updated(Context context, Column column = null)
+        public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TenantId != SavedTenantId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != TenantId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != TenantId;
+            }
+            return TenantId != SavedTenantId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != TenantId);
         }
 
-        public bool SiteName_Updated(Context context, Column column = null)
+        public bool SiteName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SiteName != SavedSiteName && SiteName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != SiteName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SiteName;
+            }
+            return SiteName != SavedSiteName && SiteName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SiteName);
         }
 
-        public bool SiteGroupName_Updated(Context context, Column column = null)
+        public bool SiteGroupName_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SiteGroupName != SavedSiteGroupName && SiteGroupName != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != SiteGroupName);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SiteGroupName;
+            }
+            return SiteGroupName != SavedSiteGroupName && SiteGroupName != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SiteGroupName);
         }
 
-        public bool GridGuide_Updated(Context context, Column column = null)
+        public bool GridGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return GridGuide != SavedGridGuide && GridGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != GridGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != GridGuide;
+            }
+            return GridGuide != SavedGridGuide && GridGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != GridGuide);
         }
 
-        public bool EditorGuide_Updated(Context context, Column column = null)
+        public bool EditorGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return EditorGuide != SavedEditorGuide && EditorGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != EditorGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != EditorGuide;
+            }
+            return EditorGuide != SavedEditorGuide && EditorGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != EditorGuide);
         }
 
-        public bool CalendarGuide_Updated(Context context, Column column = null)
+        public bool CalendarGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return CalendarGuide != SavedCalendarGuide && CalendarGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != CalendarGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != CalendarGuide;
+            }
+            return CalendarGuide != SavedCalendarGuide && CalendarGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != CalendarGuide);
         }
 
-        public bool CrosstabGuide_Updated(Context context, Column column = null)
+        public bool CrosstabGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return CrosstabGuide != SavedCrosstabGuide && CrosstabGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != CrosstabGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != CrosstabGuide;
+            }
+            return CrosstabGuide != SavedCrosstabGuide && CrosstabGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != CrosstabGuide);
         }
 
-        public bool GanttGuide_Updated(Context context, Column column = null)
+        public bool GanttGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return GanttGuide != SavedGanttGuide && GanttGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != GanttGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != GanttGuide;
+            }
+            return GanttGuide != SavedGanttGuide && GanttGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != GanttGuide);
         }
 
-        public bool BurnDownGuide_Updated(Context context, Column column = null)
+        public bool BurnDownGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return BurnDownGuide != SavedBurnDownGuide && BurnDownGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != BurnDownGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != BurnDownGuide;
+            }
+            return BurnDownGuide != SavedBurnDownGuide && BurnDownGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != BurnDownGuide);
         }
 
-        public bool TimeSeriesGuide_Updated(Context context, Column column = null)
+        public bool TimeSeriesGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return TimeSeriesGuide != SavedTimeSeriesGuide && TimeSeriesGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != TimeSeriesGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TimeSeriesGuide;
+            }
+            return TimeSeriesGuide != SavedTimeSeriesGuide && TimeSeriesGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TimeSeriesGuide);
         }
 
-        public bool KambanGuide_Updated(Context context, Column column = null)
+        public bool KambanGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return KambanGuide != SavedKambanGuide && KambanGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != KambanGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != KambanGuide;
+            }
+            return KambanGuide != SavedKambanGuide && KambanGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != KambanGuide);
         }
 
-        public bool ImageLibGuide_Updated(Context context, Column column = null)
+        public bool ImageLibGuide_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ImageLibGuide != SavedImageLibGuide && ImageLibGuide != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ImageLibGuide);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ImageLibGuide;
+            }
+            return ImageLibGuide != SavedImageLibGuide && ImageLibGuide != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ImageLibGuide);
         }
 
-        public bool ReferenceType_Updated(Context context, Column column = null)
+        public bool ReferenceType_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ReferenceType != SavedReferenceType && ReferenceType != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != ReferenceType);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ReferenceType;
+            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ReferenceType);
         }
 
-        public bool ParentId_Updated(Context context, Column column = null)
+        public bool ParentId_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ParentId != SavedParentId &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != ParentId);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ParentId;
+            }
+            return ParentId != SavedParentId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ParentId);
         }
 
-        public bool InheritPermission_Updated(Context context, Column column = null)
+        public bool InheritPermission_Updated(Context context, bool copy = false, Column column = null)
         {
-            return InheritPermission != SavedInheritPermission &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToLong() != InheritPermission);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != InheritPermission;
+            }
+            return InheritPermission != SavedInheritPermission
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != InheritPermission);
         }
 
-        public bool SiteSettings_Updated(Context context, Column column = null)
+        public bool SiteSettings_Updated(Context context, bool copy = false, Column column = null)
         {
-            return SiteSettings.RecordingJson(context: context) != SavedSiteSettings && SiteSettings.RecordingJson(context: context) != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != SiteSettings.RecordingJson(context: context));
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SiteSettings.RecordingJson(context: context);
+            }
+            return SiteSettings.RecordingJson(context: context) != SavedSiteSettings && SiteSettings.RecordingJson(context: context) != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SiteSettings.RecordingJson(context: context));
         }
 
-        public bool Publish_Updated(Context context, Column column = null)
+        public bool Publish_Updated(Context context, bool copy = false, Column column = null)
         {
-            return Publish != SavedPublish &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != Publish);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Publish;
+            }
+            return Publish != SavedPublish
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Publish);
         }
 
-        public bool DisableCrossSearch_Updated(Context context, Column column = null)
+        public bool DisableCrossSearch_Updated(Context context, bool copy = false, Column column = null)
         {
-            return DisableCrossSearch != SavedDisableCrossSearch &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != DisableCrossSearch);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != DisableCrossSearch;
+            }
+            return DisableCrossSearch != SavedDisableCrossSearch
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != DisableCrossSearch);
         }
 
-        public bool LockedUser_Updated(Context context, Column column = null)
+        public bool LockedUser_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LockedUser.Id != SavedLockedUser &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != LockedUser.Id);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != LockedUser.Id;
+            }
+            return LockedUser.Id != SavedLockedUser
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != LockedUser.Id);
         }
 
-        public bool ApiCount_Updated(Context context, Column column = null)
+        public bool ApiCount_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ApiCount != SavedApiCount &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToInt() != ApiCount);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToInt() != ApiCount;
+            }
+            return ApiCount != SavedApiCount
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToInt() != ApiCount);
         }
 
-        public bool LockedTime_Updated(Context context, Column column = null)
+        public bool LockedTime_Updated(Context context, bool copy = false, Column column = null)
         {
-            return LockedTime.Value != SavedLockedTime &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != LockedTime.Value.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != LockedTime.Value;
+            }
+            return LockedTime.Value != SavedLockedTime
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != LockedTime.Value.Date);
         }
 
-        public bool ApiCountDate_Updated(Context context, Column column = null)
+        public bool ApiCountDate_Updated(Context context, bool copy = false, Column column = null)
         {
-            return ApiCountDate != SavedApiCountDate &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.DefaultTime(context: context).Date != ApiCountDate.Date);
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToDateTime() != ApiCountDate;
+            }
+            return ApiCountDate != SavedApiCountDate
+                && (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.DefaultTime(context: context).Date != ApiCountDate.Date);
         }
 
         public SiteSettings Session_SiteSettings(Context context)
@@ -665,6 +753,7 @@ namespace Implem.Pleasanter.Models
             long siteId,
             Dictionary<string, string> formData = null,
             SiteApiModel siteApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)

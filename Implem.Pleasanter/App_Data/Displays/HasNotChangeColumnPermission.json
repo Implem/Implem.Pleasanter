@@ -1,0 +1,33 @@
+﻿{
+    "Id": "HasNotChangeColumnPermission",
+    "Type": 240,
+    "Languages": [
+        {
+            "Body": "You don't have permission to change \" {0} \"."
+        },
+        {
+            "Language": "zh",
+            "Body": "您无权更改 \" {0} \""
+        },
+        {
+            "Language": "ja",
+            "Body": "\" {0} \" を変更する権限がありません。"
+        },
+        {
+            "Language": "de",
+            "Body": "Sie haben keine Berechtigung zum Ändern von \" {0} \""
+        },
+        {
+            "Language": "ko",
+            "Body": "\" {0} \" 을(를) 변경할 수 있는 권한이 없습니다."
+        },
+        {
+            "Language": "es",
+            "Body": "No tienes permiso para cambiar \" {0} \""
+        },
+        {
+            "Language": "vn",
+            "Body": "Bạn không có quyền thay đổi \" {0} \""
+        }
+    ]
+}
