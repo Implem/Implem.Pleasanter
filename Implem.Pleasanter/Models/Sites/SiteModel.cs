@@ -3088,9 +3088,10 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
+
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
-                        siteId: context.Forms.Long("DashboardPartSiteId"));
+                        siteId: context.Forms.Long("DashboardPartBaseSiteId"));
                     AddViewFilter(
                         context: context,
                         res: res,
@@ -7105,7 +7106,12 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Invoke("confirmTimeLineSites", timeLineSites);
+                    .Invoke("confirmTimeLineSites",
+                        new
+                        {
+                            timeLineSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
             }
         }
 

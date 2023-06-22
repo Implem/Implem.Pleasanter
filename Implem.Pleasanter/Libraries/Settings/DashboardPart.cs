@@ -143,6 +143,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public static SiteSettings GetBaseSiteSettings(Context context, string timeLineSitesString)
         {
+            if (timeLineSitesString.IsNullOrEmpty())
+            {
+                return null;
+            }
             var timeLineSites = timeLineSitesString
                 .Split(",")
                 .Select(o => o.Trim())

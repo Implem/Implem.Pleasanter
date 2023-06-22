@@ -1853,6 +1853,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
+                    case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
                     case "Tenants_TopStyle": Column.Tenants_TopStyle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopStyle, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPassword": Column.Users_AfterResetPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPassword, definitionRow, ColumnXls); break;
@@ -9098,6 +9099,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_TenantId;
         public string Tenants_TenantName;
         public string Tenants_Title;
+        public string Tenants_TopDashboards;
         public string Tenants_TopScript;
         public string Tenants_TopStyle;
         public string Users_AfterResetPassword;
@@ -9649,6 +9651,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
+        public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();
         public ColumnDefinition Tenants_TopStyle = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPassword = new ColumnDefinition();

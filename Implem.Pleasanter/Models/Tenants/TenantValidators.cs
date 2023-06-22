@@ -266,6 +266,17 @@ namespace Implem.Pleasanter.Models
                                 data: column.LabelText);
                         }
                         break;
+                    case "TopDashboards":
+                        if (tenantModel.TopDashboards_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
+                        }
+                        break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(
                             context: context,
@@ -497,6 +508,14 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "TopScript":
                         if (tenantModel.TopScript_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText);
+                        }
+                        break;
+                    case "TopDashboards":
+                        if (tenantModel.TopDashboards_Updated(context: context))
                         {
                             return new ErrorData(
                                 type: Error.Types.HasNotChangeColumnPermission,

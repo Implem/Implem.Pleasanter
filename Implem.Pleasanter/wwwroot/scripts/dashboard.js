@@ -1,6 +1,9 @@
 ﻿$p.initDashboard = function() {
     let layout = $('#DashboardPartLayouts').val();
-    $p.gridstackInstance = GridStack.init({ column: 20 });
+    $p.gridstackInstance = GridStack.init({
+        column: 20,
+        cellHeight: 'initial'
+    });
     $p.gridstackInstance.load(JSON.parse(layout));
 };
 

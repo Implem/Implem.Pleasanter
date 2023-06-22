@@ -264,10 +264,12 @@ $p.updateDashboardPartTimeLineSites = function ($control) {
 }
 
 $p.confirmTimeLineSites = function (value) {
+    var args = JSON.parse(value);
     var result = confirm('基準となるサイトが変更されるため、「フィルタ」および「ソータ」をリセットします。');
     if (result) {
-        $('#DashboardPartTimeLineSitesValue').text(value);
-        $p.set($('#DashboardPartTimeLineSites'), value);
+        $('#DashboardPartTimeLineSitesValue').text(args.timeLineSites);
+        $p.set($('#DashboardPartTimeLineSites'), args.timeLineSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
         $p.send($("#ClearDashboardView"));
         $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
     }

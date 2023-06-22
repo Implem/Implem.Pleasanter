@@ -14229,23 +14229,37 @@ namespace Implem.Pleasanter.Models
                     .Div(
                         id: "DashboardPartTimeLineSitesField",
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
-                        action:()=> hb
-                            .FieldText(
-                                controlId: "DashboardPartTimeLineSitesValue",
-                                labelText: "サイトID",
-                                text: dashboardPart.TimeLineSites?.Join())
-                            .Hidden(
-                                controlId: "DashboardPartTimeLineSites",
-                                alwaysSend: true,
-                                value: dashboardPart.TimeLineSites?.Join())
-                            .Button(
-                                    controlId: "EditTimeLineSites",
-                                    text: Displays.Edit(context: context),
-                                    controlCss: "button-icon",
-                                    onClick: "$p.openDashboardPartTimeLineSitesDialog($(this));",
-                                    icon: "ui-icon-pencil",
-                                    action: "SetSiteSettings",
-                                    method: "post"))
+                        action:()=>
+                        {
+                            var timeLineSites = dashboardPart.TimeLineSites?.Join();
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
+                                context: context,
+                                timeLineSitesString: timeLineSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartTimeLineSitesValue",
+                                    labelText: "サイトID",
+                                    text: timeLineSites)
+                                .Hidden(
+                                    controlId: "DashboardPartTimeLineSites",
+                                    alwaysSend: true,
+                                    value: timeLineSites)
+                                .Hidden(
+                                    controlId: "DashboardPartBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditTimeLineSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartTimeLineSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
                     .FieldTextBox(
                         controlId: "DashboardPartTimeLineTitle",
                         fieldId: "DashboardPartTimeLineTitleField",

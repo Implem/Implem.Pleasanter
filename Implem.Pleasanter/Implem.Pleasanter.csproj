@@ -113,7 +113,7 @@
     <Content Remove="App_Data\Definitions\Definition_Column\Results_SiteTitle - コピー.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Status - コピー.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Title - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TopPageDashboards.json" />
+    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TopDashboards.json" />
     <Content Remove="App_Data\Definitions\Definition_Template\Template420.json" />
     <Content Remove="App_Data\Definitions\Definition_Template\Template420_SiteSettingsTemplate.json" />
   </ItemGroup>
