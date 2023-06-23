@@ -1480,7 +1480,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder Custom(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
         {
             return hb.Div(
-                id: $"DashboardCustom_{dashboardPart.Id}",
+                id: $"DashboardPart_{dashboardPart.Id}",
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                 action: () =>
                 {
@@ -1503,7 +1503,7 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder CustomHtml(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
         {
             return hb.Div(
-                id: $"DashboardCustomHtml_{dashboardPart.Id}",
+                id: $"DashboardPart_{dashboardPart.Id}",
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                 action: () =>
                 {
@@ -1549,16 +1549,8 @@ namespace Implem.Pleasanter.Models
             var sites = DashboardPart.GetDashboardPartSites(
                 context: context,
                 dashboardPart.QuickAccessSites);
-            var ss = SiteSettingsUtilities.SitesSiteSettings(
-                   context: context,
-                   siteId: 0);
-            ss.PermissionType = context.SiteTopPermission();
-            var siteConditions = SiteInfo.TenantCaches
-                .Get(context.TenantId)?
-                .SiteMenu
-                .SiteConditions(context: context, ss: ss);
             return hb.Div(
-                id: $"QuickAccessContainer_{dashboardPart}",
+                id: $"DashboardPart_{dashboardPart.Id}",
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                 action: () =>
                 {
@@ -1576,24 +1568,45 @@ namespace Implem.Pleasanter.Models
                                     action: () => QuickAccessSites(context: context, sites: sites)
                                         .ForEach(siteModelChild =>
                                         {
+                                            if (siteModelChild.SiteId == 0)
+                                            {
+                                                siteModelChild.Title = new Title() { DisplayValue =　Displays.Top(context:context) };
+                                                siteModelChild.ReferenceType = "Sites";
+                                            }
                                             var itemTypeCss = string.Empty;
-                                            switch(siteModelChild.ReferenceType)
+                                            var iconName = "table";
+                                            switch (siteModelChild.ReferenceType)
                                             {
                                                 case "Sites":
-                                                    itemTypeCss = " dashboard-part-nav-directory";
+                                                    itemTypeCss = " dashboard-part-nav-folder";
+                                                    iconName = "folder";
                                                     break;
                                                 case "Dashboards":
                                                     itemTypeCss = " dashboard-part-nav-dashboard";
+                                                    iconName = "dashboard";
+                                                    break;
+                                                case "Wikis":
+                                                    iconName = "text_snippet";
                                                     break;
                                             }
                                             hb.Li(css: "dashboard-part-nav-item" + itemTypeCss,
                                                 action: () => hb
+                                                    .Span(css: "material-symbols-outlined",
+                                                        action: () => hb.Text(iconName))
                                                     .A(
                                                         css: "dashboard-part-nav-link",
                                                         text: siteModelChild.Title.DisplayValue,
-                                                        href: Locations.ItemIndex(
-                                                            context: context,
-                                                            id: siteModelChild.SiteId)));
+                                                        href: siteModelChild.ReferenceType == "Wikis"
+                                                            ? Locations.ItemEdit(
+                                                                context: context,
+                                                                id: Repository.ExecuteScalar_long(
+                                                                    context: context,
+                                                                    statements: Rds.SelectWikis(
+                                                                        column: Rds.WikisColumn().WikiId(),
+                                                                        where: Rds.WikisWhere().SiteId(siteModelChild.SiteId))))
+                                                            : Locations.ItemIndex(
+                                                                context: context,
+                                                                id: siteModelChild.SiteId)));
                                         })));
                 });
         }
@@ -1603,7 +1616,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
         {
-            return new SiteCollection(
+            var siteModels = new SiteCollection(
                 context: context,
                 column: Rds.SitesColumn()
                     .SiteId()
@@ -1616,6 +1629,11 @@ namespace Implem.Pleasanter.Models
                     .Add(
                         raw: Def.Sql.HasPermission,
                         _using: !context.HasPrivilege));
+            return sites
+                .Select(siteId => siteId == 0
+                    ? new SiteModel(context: context, siteId: 0)
+                    : siteModels.FirstOrDefault(model => model.SiteId == siteId))
+                .Where(model => model != null);
         }
 
         /// <summary>
@@ -1632,7 +1650,7 @@ namespace Implem.Pleasanter.Models
             var hb = new HtmlBuilder();
             var timeLine = hb
                 .Div(
-                    id: $"TimelineContainer_{dashboardPart.Id}",
+                    id: $"DashboardPart_{dashboardPart.Id}",
                     attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                     css: "dashboard-timeline-container",
                     action: () =>

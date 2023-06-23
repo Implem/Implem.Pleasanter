@@ -127,6 +127,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         parts: "Scripts/Plugins/gridstack.js/gridstack.min.css"),
                     rel: "stylesheet")
                 .Link(
+                    href: Responses.Locations.Get(
+                        context: context,
+                        parts: "Styles/Plugins/material-symbols-0.8.0/material-symbols/index.css"),
+                    rel: "stylesheet")
+                .Link(
                     href: context.VirtualPathToAbsolute($"~/content/styles.min.css?v={Environments.BundlesVersions.Get("styles.css")}"),
                     rel: "stylesheet")
                 .Link(

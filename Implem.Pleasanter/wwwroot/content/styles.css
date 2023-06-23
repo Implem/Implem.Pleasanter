@@ -3253,6 +3253,7 @@ textarea:focus {
 .dashboard-timeline-title {
     font-size: 1.2em;
     font-weight: bold;
+    color: #333333;
     margin-bottom: 10px;
 }
 
@@ -3272,7 +3273,7 @@ textarea:focus {
 
 .grid-stack-item-content {
     background-color: #f2f2f2;
-    padding: 20px;
+    padding: 16px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -3280,7 +3281,8 @@ textarea:focus {
 }
 
 .dashboard-part-title {
-    font-size: 18px;
+    font-size: 1.2em;
+    color: #333333;
     font-weight: bold;
     margin-bottom: 10px;
 }
@@ -3303,14 +3305,18 @@ textarea:focus {
     display: flex;
 }
 
-.dashboard-part-nav-directory {
+    .dashboard-part-nav-item:hover {
+        background-color: #ebebeb;
+    }
+
+.dashboard-part-nav-folder {
     font-weight: bold;
-    background-color: #f8f8f8;
+    background-color: #f9f9f9;
 }
 
 .dashboard-part-nav-dashboard {
     font-weight: bold;
-    background-color: azure;
+    background-color: #f9f9f9;
 }
 
 .dashboard-part-nav-link {
@@ -3321,11 +3327,6 @@ textarea:focus {
     border-radius: 5px;
     flex-grow: 1;
 }
-
-    .dashboard-part-nav-link:hover {
-        background-color: #ff6600;
-        color: #fff;
-    }
 
 .grid-stack-20 > .grid-stack-item {
     width: 5%;

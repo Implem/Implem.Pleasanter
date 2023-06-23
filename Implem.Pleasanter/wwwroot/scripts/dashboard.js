@@ -2,7 +2,7 @@
     let layout = $('#DashboardPartLayouts').val();
     $p.gridstackInstance = GridStack.init({
         column: 20,
-        cellHeight: 'initial'
+        cellHeight: 80
     });
     $p.gridstackInstance.load(JSON.parse(layout));
 };
