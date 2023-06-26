@@ -2684,7 +2684,7 @@ namespace Implem.Pleasanter.Models
                     orderBy: Rds.GroupMembersOrderBy()
                         .DeptId()
                         .UserId()))
-                        .AsEnumerable();
+                            .AsEnumerable();
         }
 
         /// <summary>
