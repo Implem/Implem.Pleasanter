@@ -14069,7 +14069,7 @@ namespace Implem.Pleasanter.Models
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "UpdateDashboardPartTimeLineSites",
-                            text: Displays.Edit(context: context),
+                            text: Displays.OK(context: context),
                             controlCss: "button-icon validate",
                             icon: "ui-icon-pencil",
                             onClick: "$p.updateDashboardPartTimeLineSites($(this));",

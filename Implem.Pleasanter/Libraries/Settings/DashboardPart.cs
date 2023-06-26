@@ -28,6 +28,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Content { get; set; }
         public long SiteId { get; set; }
 
+        private static readonly int initialWidth = 2;
+        private static readonly int initialHeight = 10;
+
         public DashboardPart GetRecordingData(Context context)
         {
             var dashboardPart = new DashboardPart();
@@ -82,8 +85,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 type: type,
                 x: 0,
                 y: 0,
-                width: 2,
-                height: 2,
+                width: initialWidth,
+                height: initialHeight,
                 quickAccessSites: quickAccessSites,
                 quickAccessLayout: quickAccessLayout,
                 timeLineSites: timeLineSites,

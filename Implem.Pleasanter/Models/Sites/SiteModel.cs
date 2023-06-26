@@ -7104,6 +7104,10 @@ namespace Implem.Pleasanter.Models
                     .Set("#DashboardPartTimeLineSites", timeLineSites)
                     .Add("SetValue", "#DashboardPartTimeLineSitesValue", timeLineSites)
                     .CloseDialog("#DashboardPartTimeLineSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardView(context: context, res: res);
+                }
             }
             else
             {

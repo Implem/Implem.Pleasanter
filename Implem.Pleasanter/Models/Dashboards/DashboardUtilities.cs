@@ -1504,7 +1504,8 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
-                attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                attributes: new HtmlAttributes()
+                    .DataId(dashboardPart.Id.ToString()),
                 action: () =>
                 {
                     if (dashboardPart.ShowTitle == true)
