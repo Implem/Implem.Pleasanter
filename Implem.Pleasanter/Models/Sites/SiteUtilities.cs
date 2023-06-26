@@ -14226,6 +14226,25 @@ namespace Implem.Pleasanter.Models
                             controlCss: " always-send",
                             labelText: "サイトID",
                             text: dashboardPart.QuickAccessSites?.Join())
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "DashboardPartQuickAccessLayout",
+                        controlCss: " always-send",
+                        labelText: "レイアウト",
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                QuickAccessLayout.Horizontal.ToInt().ToString(),
+                                "横方向"
+                            },
+                            {
+                                QuickAccessLayout.Vertical.ToInt().ToString(),
+                                "縦方向"
+                            }
+                           
+                        },
+                        selectedValue: dashboardPart.QuickAccessLayout.ToInt().ToString(),
+                        insertBlank: false)
                     .Div(
                         id: "DashboardPartTimeLineSitesField",
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),

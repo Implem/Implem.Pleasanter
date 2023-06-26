@@ -24,13 +24,17 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string DashboardUrl(Context context)
         {
             var tenantModel = new TenantModel(
-            context: context,
+                context: context,
                 ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
                 tenantId: context.TenantId);
             var dashboards = tenantModel.TopDashboards
                 ?.Deserialize<long[]>()
                     ?? System.Array.Empty<long>();
-            var dashboardId = dashboards.FirstOrDefault(id => Permissions.CanRead(context: context, siteId: id));
+            var dashboardId = dashboards
+                .FirstOrDefault(id => Permissions
+                    .CanRead(
+                        context: context,
+                        siteId: id));
             return dashboardId != 0
                 ? ItemIndex(
                     context: context,

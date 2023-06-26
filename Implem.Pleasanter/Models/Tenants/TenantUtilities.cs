@@ -1334,6 +1334,9 @@ namespace Implem.Pleasanter.Models
                     .Val("#VerUp", verUp)
                     .Val("#Ver", tenantModel.Ver)
                     .Disabled("#VerUp", verUp)
+                    .ReplaceAll("#Breadcrumb", new HtmlBuilder().TenantsBreadcrumb(
+                        context: context,
+                        ss:ss))
                     .Html("#HeaderTitle", HttpUtility.HtmlEncode(tenantModel.Title.Value))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,

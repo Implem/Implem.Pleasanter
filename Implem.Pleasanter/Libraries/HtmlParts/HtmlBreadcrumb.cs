@@ -35,26 +35,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         controller: context.Controller,
                         display: Displays.Depts(context: context));
                 case "tenants":
-                    return Permissions.CanManageTenant(context: context)
-                        ? Breadcrumb(
-                            hb: hb,
-                            context: context,
-                            ss: ss,
-                            controller: context.Controller,
-                            display: Displays.Tenants(context: context),
-                            action: "Edit")
-                        : (context.UserSettings?.EnableManageTenant == true)
-                            ? BreadcrumbWithoutAdmins(
-                                hb: hb,
-                                context: context,
-                                ss: ss,
-                                controller: context.Controller,
-                                display: Displays.Tenants(context: context),
-                                action: "Edit")
-                            : Breadcrumb(
-                                hb: hb,
-                                context: context,
-                                ss: ss);
+                    return hb.TenantsBreadcrumb(
+                        context: context,
+                        ss: ss);
                 case "groups":
                     return Permissions.CanManageTenant(context: context)
                         ? Breadcrumb(
@@ -133,6 +116,32 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 default:
                     return hb;
             }
+        }
+        public static HtmlBuilder TenantsBreadcrumb(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss)
+        {
+            return Permissions.CanManageTenant(context: context)
+                ? Breadcrumb(
+                    hb: hb,
+                    context: context,
+                    ss: ss,
+                    controller: context.Controller,
+                    display: Displays.Tenants(context: context),
+                    action: "Edit")
+                : (context.UserSettings?.EnableManageTenant == true)
+                    ? BreadcrumbWithoutAdmins(
+                        hb: hb,
+                        context: context,
+                        ss: ss,
+                        controller: context.Controller,
+                        display: Displays.Tenants(context: context),
+                        action: "Edit")
+                    : Breadcrumb(
+                        hb: hb,
+                        context: context,
+                        ss: ss);
         }
 
         private static HtmlBuilder Breadcrumb(

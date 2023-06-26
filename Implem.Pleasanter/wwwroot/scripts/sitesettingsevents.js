@@ -198,6 +198,7 @@
         let selected = $control.val();        
         //selected==0: QuickAccess のみ表示
         $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
+        $('#DashboardPartQuickAccessLayout').toggle(selected === '0');
         //selected==1: TimeLine のみ表示
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1');
         $('#DashboardPartViewSortersTabControl').toggle(selected === '1');

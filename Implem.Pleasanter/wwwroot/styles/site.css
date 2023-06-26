@@ -3296,6 +3296,24 @@ textarea:focus {
     padding: 0;
     margin: 0;
     display: flex;
+    flex-wrap: wrap;
+}
+
+    .dashboard-part-nav-menu > .dashboard-part-nav-item {
+        max-width: 200px;
+        min-width: 120px;
+        margin-left: 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+.dashboard-part-nav-menu-vartical {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
     flex-direction: column;
 }
 
@@ -3303,6 +3321,7 @@ textarea:focus {
     margin-bottom: 5px;
     padding: 4px;
     display: flex;
+    border-radius: 5px;
 }
 
     .dashboard-part-nav-item:hover {

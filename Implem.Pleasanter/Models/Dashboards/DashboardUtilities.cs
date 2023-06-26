@@ -1564,7 +1564,8 @@ namespace Implem.Pleasanter.Models
                         .Nav(css: "dashboard-part-nav",
                             action: () => hb
                                 .Ul(
-                                    css: "dashboard-part-nav-menu",
+                                    css: dashboardPart.QuickAccessLayout == Libraries.Settings.QuickAccessLayout.Vertical
+                                        ? "dashboard-part-nav-menu-vertical" : "dashboard-part-nav-menu",
                                     action: () => QuickAccessSites(context: context, sites: sites)
                                         .ForEach(siteModelChild =>
                                         {

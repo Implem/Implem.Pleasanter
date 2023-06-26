@@ -20,6 +20,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Width { get; set; }
         public int Height { get; set; }
         public List<string> QuickAccessSites { get; set; }
+        public QuickAccessLayout QuickAccessLayout { get; set; }
         public List<string> TimeLineSites { get; set; }
         public View View { get; set; }
         public string TimeLineTitle { get; set; }
@@ -41,6 +42,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboardPart.Width = Width;
             dashboardPart.Height = Height;
             dashboardPart.QuickAccessSites = QuickAccessSites;
+            dashboardPart.QuickAccessLayout = QuickAccessLayout;
             dashboardPart.TimeLineSites = TimeLineSites;
             dashboardPart.TimeLineTitle = TimeLineTitle;
             dashboardPart.TimeLineBody = TimeLineBody;
@@ -66,6 +68,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool showTitle,
             DashboardPartType type,
             string quickAccessSites,
+            QuickAccessLayout quickAccessLayout,
             string timeLineSites,
             string timeLineTitle,
             string timeLineBody,
@@ -82,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 width: 2,
                 height: 2,
                 quickAccessSites: quickAccessSites,
+                quickAccessLayout: quickAccessLayout,
                 timeLineSites: timeLineSites,
                 timeLineTitle: timeLineTitle,
                 timeLineBody: timeLineBody,
@@ -98,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             int width,
             int height,
             string quickAccessSites,
+            QuickAccessLayout quickAccessLayout,
             string timeLineSites,
             string timeLineTitle,
             string timeLineBody,
@@ -115,6 +120,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Select(o => o.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
+            QuickAccessLayout = quickAccessLayout;
             TimeLineSites = timeLineSites
                 .Split(",")
                 .Select(o => o.Trim())
