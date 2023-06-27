@@ -1,5 +1,6 @@
 ﻿{
     "Provider": null,
+    "DsProvider": null,
     "ServiceId": null,
     "ExtensionUrl": null,
     "RejectUnregisteredUser": false,
