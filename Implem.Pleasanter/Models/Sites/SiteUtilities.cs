@@ -14230,6 +14230,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         fieldId: "DashboardPartQuickAccessLayout",
                         controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
                         labelText: "レイアウト",
                         optionCollection: new Dictionary<string, string>
                         {
@@ -14241,7 +14242,6 @@ namespace Implem.Pleasanter.Models
                                 QuickAccessLayout.Vertical.ToInt().ToString(),
                                 "縦方向"
                             }
-                           
                         },
                         selectedValue: dashboardPart.QuickAccessLayout.ToInt().ToString(),
                         insertBlank: false)
@@ -14300,6 +14300,31 @@ namespace Implem.Pleasanter.Models
                             ? $"[Body]"
                             : SiteSettingsUtilities.Get(context: context, dashboardPart.SiteId)?
                                 .ColumnNameToLabelText(dashboardPart.TimeLineBody))
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartTimeLineDisplayType",
+                        fieldId: "DashboardPartTimeLineDisplayTypeField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
+                        labelText: "表示タイプ",
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                TimeLineDisplayType.Simple.ToInt().ToString(),
+                                "簡易"
+                            },
+                            {
+                                TimeLineDisplayType.Standard.ToInt().ToString(),
+                                "標準"
+                            },
+                            {
+                                TimeLineDisplayType.Detailed.ToInt().ToString(),
+                                "詳細"
+                            }
+
+                        },
+                        selectedValue: dashboardPart.TimeLineDisplayType.ToInt().ToString(),
+                        insertBlank: false)
                     .FieldMarkDown(
                         context: context,
                         ss: ss,

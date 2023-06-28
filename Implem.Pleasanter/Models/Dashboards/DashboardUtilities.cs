@@ -1665,7 +1665,7 @@ namespace Implem.Pleasanter.Models
                         }
                         foreach (var item in timeLineItems)
                         {
-                            hb.TimeLineItem(context, item);
+                            hb.TimeLineItem(context, item, dashboardPart.TimeLineDisplayType);
                         }
                     }).ToString();
             return new DashboardPartLayout()
@@ -1682,7 +1682,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static void TimeLineItem(this HtmlBuilder hb, Context context, DashboardTimeLineItem item)
+        private static void TimeLineItem(this HtmlBuilder hb, Context context, DashboardTimeLineItem item, TimeLineDisplayType displayType)
         {
             hb.Div(
                 css: "dashboard-timeline-item",
@@ -1690,7 +1690,10 @@ namespace Implem.Pleasanter.Models
                 {
                     hb
                         .Div(
-                            css: "dashboard-timeline-header",
+                            css: "dashboard-timeline-header"
+                                + (displayType == TimeLineDisplayType.Simple
+                                    ? " dashboard-timeline-header-closed"
+                                    : ""),
                             action: () =>
                             {
                                 var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
@@ -1719,7 +1722,10 @@ namespace Implem.Pleasanter.Models
                                     css: "dashboard-timeline-title",
                                     action: () => hb.Text(item.Title))
                                 .Div(
-                                    css: "dashboard-timeline-body markup",
+                                    css: "dashboard-timeline-body markup"
+                                        + (displayType != TimeLineDisplayType.Detailed
+                                        ? " dashboard-timeline-body-closed"
+                                        : ""),
                                     action: () => hb.Text(text: item.Body)));
                 });
         }

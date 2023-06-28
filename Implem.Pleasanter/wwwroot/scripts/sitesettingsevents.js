@@ -205,6 +205,7 @@
         $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
         $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
+        $('#DashboardPartTimeLineDisplayType').toggle(selected === '1');
         //selected==2 or 3: Custom or CustomHtml のみ表示
         $('#DashboardPartContentField').toggle(selected === '2' || selected === '3');
 

@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeLineTitle { get; set; }
         public string TimeLineBody { get; set; }
         public string Content { get; set; }
+        public TimeLineDisplayType TimeLineDisplayType { get; set; } = Settings.TimeLineDisplayType.Standard;
         public long SiteId { get; set; }
 
         private static readonly int initialWidth = 2;
@@ -51,6 +52,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboardPart.TimeLineBody = TimeLineBody;
             dashboardPart.Content = Content;
             dashboardPart.SiteId = SiteId;
+            dashboardPart.TimeLineDisplayType = TimeLineDisplayType;
             var ss = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: SiteId);
@@ -75,7 +77,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineSites,
             string timeLineTitle,
             string timeLineBody,
-            string content)
+            string content,
+            TimeLineDisplayType timeLineDisplayType)
         {
             var dashboardPart = new DashboardPart() { Id = id };
             return dashboardPart.Update(
@@ -92,7 +95,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 timeLineSites: timeLineSites,
                 timeLineTitle: timeLineTitle,
                 timeLineBody: timeLineBody,
-                content: content);
+                content: content,
+                timeLineDisplayType: timeLineDisplayType);
         }
 
         public DashboardPart Update(
@@ -109,7 +113,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineSites,
             string timeLineTitle,
             string timeLineBody,
-            string content)
+            string content,
+            TimeLineDisplayType timeLineDisplayType)
         {
             Title = title;
             ShowTitle = showTitle;
@@ -132,6 +137,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeLineTitle = timeLineTitle;
             TimeLineBody = timeLineBody;
             Content = content;
+            TimeLineDisplayType = timeLineDisplayType;
             var currentSs = GetBaseSiteSettings(
                 context: context,
                 timeLineSites: TimeLineSites);

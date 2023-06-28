@@ -2,7 +2,8 @@
     let layout = $('#DashboardPartLayouts').val();
     $p.gridstackInstance = GridStack.init({
         column: 20,
-        cellHeight: 16
+        cellHeight: 16,
+        draggable: {cancel:".no-drag"}
     });
     $p.gridstackInstance.load(JSON.parse(layout));
 };
