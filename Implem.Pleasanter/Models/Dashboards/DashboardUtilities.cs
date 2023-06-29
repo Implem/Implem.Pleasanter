@@ -1481,6 +1481,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
+                css: dashboardPart.ExtendedCss,
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                 action: () =>
                 {
@@ -1504,6 +1505,7 @@ namespace Implem.Pleasanter.Models
         {
             return hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
+                css: dashboardPart.ExtendedCss,
                 attributes: new HtmlAttributes()
                     .DataId(dashboardPart.Id.ToString()),
                 action: () =>
@@ -1552,6 +1554,7 @@ namespace Implem.Pleasanter.Models
                 dashboardPart.QuickAccessSites);
             return hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
+                css: dashboardPart.ExtendedCss,
                 attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
                 action: () =>
                 {
@@ -1654,7 +1657,7 @@ namespace Implem.Pleasanter.Models
                 .Div(
                     id: $"DashboardPart_{dashboardPart.Id}",
                     attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                    css: "dashboard-timeline-container",
+                    css: "dashboard-timeline-container " + dashboardPart.ExtendedCss,
                     action: () =>
                     {
                         if (dashboardPart.ShowTitle == true)

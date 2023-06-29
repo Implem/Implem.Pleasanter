@@ -28,6 +28,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string Content { get; set; }
         public TimeLineDisplayType TimeLineDisplayType { get; set; } = Settings.TimeLineDisplayType.Standard;
         public long SiteId { get; set; }
+        public  string ExtendedCss { get; set; }
 
         private static readonly int initialWidth = 2;
         private static readonly int initialHeight = 10;
@@ -53,6 +54,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboardPart.Content = Content;
             dashboardPart.SiteId = SiteId;
             dashboardPart.TimeLineDisplayType = TimeLineDisplayType;
+            dashboardPart.ExtendedCss = ExtendedCss;
             var ss = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: SiteId);
@@ -78,7 +80,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineTitle,
             string timeLineBody,
             string content,
-            TimeLineDisplayType timeLineDisplayType)
+            TimeLineDisplayType timeLineDisplayType,
+            string extendedCss)
         {
             var dashboardPart = new DashboardPart() { Id = id };
             return dashboardPart.Update(
@@ -96,7 +99,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 timeLineTitle: timeLineTitle,
                 timeLineBody: timeLineBody,
                 content: content,
-                timeLineDisplayType: timeLineDisplayType);
+                timeLineDisplayType: timeLineDisplayType,
+                extendedCss: extendedCss);
         }
 
         public DashboardPart Update(
@@ -114,7 +118,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineTitle,
             string timeLineBody,
             string content,
-            TimeLineDisplayType timeLineDisplayType)
+            TimeLineDisplayType timeLineDisplayType,
+            string extendedCss)
         {
             Title = title;
             ShowTitle = showTitle;
@@ -138,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeLineBody = timeLineBody;
             Content = content;
             TimeLineDisplayType = timeLineDisplayType;
+            ExtendedCss = extendedCss;
             var currentSs = GetBaseSiteSettings(
                 context: context,
                 timeLineSites: TimeLineSites);

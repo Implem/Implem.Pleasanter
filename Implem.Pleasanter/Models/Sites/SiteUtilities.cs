@@ -14228,7 +14228,8 @@ namespace Implem.Pleasanter.Models
                             text: dashboardPart.QuickAccessSites?.Join())
                     .FieldDropDown(
                         context: context,
-                        fieldId: "DashboardPartQuickAccessLayout",
+                        controlId: "DashboardPartQuickAccessLayout",
+                        fieldId: "DashboardPartQuickAccessLayoutField",
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
                         labelText: "レイアウト",
@@ -14336,7 +14337,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: "内容",
                         text: dashboardPart.Content,
-                        mobile: context.Mobile));
+                        mobile: context.Mobile)
+                    .FieldTextBox(
+                        controlId: "DashboardPartExtendedCss",
+                        controlCss: " always-send",
+                        labelText: "CSS",
+                        text: dashboardPart.ExtendedCss));
         }
 
         /// <summary>

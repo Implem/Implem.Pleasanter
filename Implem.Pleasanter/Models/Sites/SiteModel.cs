@@ -6934,7 +6934,8 @@ namespace Implem.Pleasanter.Models
                 timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
                 timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
                 content: context.Forms.Data("DashboardPartContent"),
-                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>());
+                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                extendedCss: context.Forms.Data("DashboardPartExtendedCss"));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
                 .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
@@ -6987,7 +6988,8 @@ namespace Implem.Pleasanter.Models
                 timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
                 timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
                 content: context.Forms.Data("DashboardPartContent"),
-                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>());
+                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                extendedCss: context.Forms.Data("DashboardPartExtendedCss"));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
                     .EditDashboardPart(
