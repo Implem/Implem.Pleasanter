@@ -2020,6 +2020,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
                 .Where(o => ColumnDefinitionHash?.ContainsKey(o?.Name ?? string.Empty) == true)
+                .Where(o => !o.LowSchemaVersion)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
 

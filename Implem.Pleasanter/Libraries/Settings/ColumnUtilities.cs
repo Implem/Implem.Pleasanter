@@ -394,6 +394,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columns: columns);
             return columns
                 .Where(o => o != null)
+                .Where(o => !o.LowSchemaVersion)
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
                 .AllowedColumns(

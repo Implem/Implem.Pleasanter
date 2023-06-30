@@ -4,15 +4,18 @@
     string columnName = "#ColumnName#",
     string _as = #As#,
     Sqls.Functions function = Sqls.Functions.None,
-    SqlStatement sub = null)
+    SqlStatement sub = null,
+    bool _using = true)
 {
-    return self.Add(
-        columnBracket: "#ColumnBracket#",
-        tableName: tableName,
-        columnName: columnName,
-        _as: _as,
-        function: function,
-        sub: sub);
+    return _using
+        ? self.Add(
+            columnBracket: "#ColumnBracket#",
+            tableName: tableName,
+            columnName: columnName,
+            _as: _as,
+            function: function,
+            sub: sub)
+        : self;
 }
 
 public static SqlColumnCollection #TableName#_#ColumnName#(
@@ -21,13 +24,16 @@ public static SqlColumnCollection #TableName#_#ColumnName#(
     string columnName = "#ColumnName#",
     string _as = #As#,
     Sqls.Functions function = Sqls.Functions.None,
-    SqlStatement sub = null)
+    SqlStatement sub = null,
+    bool _using = true)
 {
-    return self.Add(
-        columnBracket: "#ColumnBracket#",
-        tableName: tableName,
-        columnName: columnName,
-        _as: _as,
-        function: function,
-        sub: sub);
+    return _using
+        ? self.Add(
+            columnBracket: "#ColumnBracket#",
+            tableName: tableName,
+            columnName: columnName,
+            _as: _as,
+            function: function,
+            sub: sub)
+        : self;
 }
