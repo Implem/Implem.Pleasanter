@@ -29,7 +29,8 @@ namespace Implem.CodeDefiner.Functions.Rds
                     commandText: 
                         Def.Sql.GrantPrivilegeAdmin
                         .Replace("#Uid#", cn["uid"])
-                        .Replace("#ServiceName#", Environments.ServiceName));
+                        .Replace("#ServiceName#", Environments.ServiceName)
+                        .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName ?? Environments.ServiceName));
             }
             else
             {
@@ -40,16 +41,18 @@ namespace Implem.CodeDefiner.Functions.Rds
                     commandText:
                         Def.Sql.GrantPrivilegeUser
                         .Replace("#Uid#", cn["uid"])
-                        .Replace("#ServiceName#", Environments.ServiceName));
+                        .Replace("#ServiceName#", Environments.ServiceName)
+                        .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName ?? Environments.ServiceName));
             }
         }
 
-        private static string CommandText(string uid)
+        private static string CommandText(ISqlObjectFactory factory, string uid)
         {
             return (uid.EndsWith("_Owner")
                 ? Def.Sql.GrantPrivilegeAdmin.Replace("#Uid#", uid)
                 : Def.Sql.GrantPrivilegeUser.Replace("#Uid#", uid))
-                .Replace("#ServiceName#", Environments.ServiceName);
+                .Replace("#ServiceName#", Environments.ServiceName)
+                .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName ?? Environments.ServiceName);
         }
     }
 }

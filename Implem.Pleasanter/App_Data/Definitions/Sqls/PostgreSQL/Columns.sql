@@ -22,6 +22,6 @@
         else 0
     end as "is_identity"
 from information_schema.columns
-where table_schema = 'public'
+where table_schema = '#SchemaName#'
 and table_name = '#TableName#'
 order by table_name, ordinal_position;

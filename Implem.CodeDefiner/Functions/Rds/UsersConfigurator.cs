@@ -20,7 +20,6 @@ namespace Implem.CodeDefiner.Functions.Rds
         {
             var cn = new TextData(connectionString, ';', '=');
             Consoles.Write(cn["uid"], Consoles.Types.Info);
-            Spids.Kill(factory: factory, uid: cn["uid"]);
             if (Exists(factory: factory, uid: cn["uid"], sql: Def.Sql.ExistsUser))
             {
                 Alter(factory: factory, uid: cn["uid"], sql: AlterLoginRoleCommandText(pwd: cn["pwd"]));
@@ -68,6 +67,22 @@ namespace Implem.CodeDefiner.Functions.Rds
                 factory: factory,
                 commandText: sql.Replace("#Uid#", uid).Replace("#ServiceName#", Environments.ServiceName))
                 .Rows.Count == 1;
+        }
+
+        internal static void KillTask(ISqlObjectFactory factory)
+        {
+            KillTask(
+                factory: factory,
+                connectionString: Parameters.Rds.OwnerConnectionString);
+            KillTask(
+                factory: factory,
+                connectionString: Parameters.Rds.UserConnectionString);
+        }
+
+        private static void KillTask(ISqlObjectFactory factory, string connectionString)
+        {
+            var cn = new TextData(connectionString, ';', '=');
+            Spids.Kill(factory: factory, uid: cn["uid"]);
         }
     }
 }

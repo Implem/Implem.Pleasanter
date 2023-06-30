@@ -13335,6 +13335,9 @@ namespace Implem.DefinitionAccessor
         public string DropLoginRole;
         public string DropUser;
         public string CreateLoginRole;
+        public string ExistsSchema;
+        public string CreateSchema;
+        public string CreateDatabase2;
     }
 
     /// <summary>
@@ -13383,5 +13386,8 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition Spaceused = new SqlDefinition();
         public SqlDefinition SelectPkName = new SqlDefinition();
         public SqlDefinition CreateFullText = new SqlDefinition();
+        public SqlDefinition ExistsSchema = new SqlDefinition();
+        public SqlDefinition CreateSchema = new SqlDefinition();
+        public SqlDefinition CreateDatabase2 = new SqlDefinition();
     }
 }

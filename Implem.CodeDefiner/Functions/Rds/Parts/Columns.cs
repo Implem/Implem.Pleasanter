@@ -13,7 +13,9 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
         {
             return Def.SqlIoByAdmin(factory: factory).ExecuteTable(
                 factory: factory,
-                commandText: Def.Sql.Columns.Replace("#TableName#", sourceTableName))
+                commandText: Def.Sql.Columns
+                    .Replace("#TableName#", sourceTableName)
+                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName ?? Environments.ServiceName))
                 .AsEnumerable();
         }
 
