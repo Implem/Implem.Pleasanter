@@ -267,16 +267,29 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 if (ss.ReferenceType == "Dashboards"
                                     && context.Action == "index")
                                 {
-                                    hb.Button(
-                                        controlId: "UpdateDashboardPartLayouts",
-                                        text:"レイアウトの保存",
-                                        controlCss:"button-icon",
-                                        accessKey:"s",
-                                        icon: "ui-icon-disk",
-                                        onClick: "$p.UpdateDashboardPartLayouts();",
-                                        action: "Update",
-                                        method: "put",
-                                        _using: context.CanUpdate(ss: ss));
+                                    hb
+                                        .Button(
+                                            controlId: "LockDashboardPartLayouts",
+                                            text: "レイアウトの固定",
+                                            controlCss: "button-icon",
+                                            icon: "ui-icon-locked",
+                                            onClick: "$p.LockDashboardPartLayouts(true);")
+                                        .Button(
+                                            controlId: "UnLockDashboardPartLayouts",
+                                            text: "レイアウトの固定解除",
+                                            controlCss: "button-icon hidden",
+                                            icon: "ui-icon-unlocked",
+                                            onClick: "$p.LockDashboardPartLayouts(false);")
+                                        .Button(
+                                            controlId: "UpdateDashboardPartLayouts",
+                                            text:"レイアウトの保存",
+                                            controlCss:"button-icon",
+                                            accessKey:"s",
+                                            icon: "ui-icon-disk",
+                                            onClick: "$p.UpdateDashboardPartLayouts();",
+                                            action: "Update",
+                                            method: "put",
+                                            _using: context.CanUpdate(ss: ss));
                                     break;
                                 }
                                 hb.Common(

@@ -3208,6 +3208,7 @@ textarea:focus {
 
 .grid-stack {
     background-color: white;
+    margin: 10px;
 }
 
 .grid-stack-item-content {
