@@ -15,7 +15,7 @@ namespace Implem.CodeDefiner.Functions.Rds.Parts
                 factory: factory,
                 commandText: Def.Sql.Columns
                     .Replace("#TableName#", sourceTableName)
-                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName ?? Environments.ServiceName))
+                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName))
                 .AsEnumerable();
         }
 

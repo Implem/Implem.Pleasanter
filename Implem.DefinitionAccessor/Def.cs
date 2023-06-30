@@ -13337,7 +13337,8 @@ namespace Implem.DefinitionAccessor
         public string CreateLoginRole;
         public string ExistsSchema;
         public string CreateSchema;
-        public string CreateDatabase2;
+        public string CreateDatabaseForPostgres;
+        public string CreateUserForPostgres;
     }
 
     /// <summary>
@@ -13388,6 +13389,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition CreateFullText = new SqlDefinition();
         public SqlDefinition ExistsSchema = new SqlDefinition();
         public SqlDefinition CreateSchema = new SqlDefinition();
-        public SqlDefinition CreateDatabase2 = new SqlDefinition();
+        public SqlDefinition CreateDatabaseForPostgres = new SqlDefinition();
+        public SqlDefinition CreateUserForPostgres = new SqlDefinition();
     }
 }
