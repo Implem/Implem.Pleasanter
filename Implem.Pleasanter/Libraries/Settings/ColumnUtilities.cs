@@ -189,6 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return definitions.Values
                 .Where(o => o.GridColumn > 0)
                 .Where(o => o.ControlType != "Attachment")
+                .Where(o => !o.LowSchemaVersion())
                 .OrderBy(o => o.GridColumn);
         }
 
