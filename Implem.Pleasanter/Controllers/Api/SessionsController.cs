@@ -20,7 +20,8 @@ namespace Implem.Pleasanter.Controllers.Api
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
             var context = new Context(
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? SessionUtilities.GetByApi(context: context)
@@ -36,7 +37,8 @@ namespace Implem.Pleasanter.Controllers.Api
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
             var context = new Context(
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? SessionUtilities.SetByApi(context: context)
@@ -52,7 +54,8 @@ namespace Implem.Pleasanter.Controllers.Api
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
             var context = new Context(
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? SessionUtilities.DeleteByApi(context: context)

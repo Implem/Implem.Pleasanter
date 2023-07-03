@@ -12,6 +12,7 @@ namespace Implem.Pleasanter.Libraries.General
         public ErrorData(
             Context context,
             Error.Types type,
+            bool api = false,
             int sysLogsStatus = 200,
             string sysLogsDescription = null,
             long id = 0,
@@ -22,8 +23,11 @@ namespace Implem.Pleasanter.Libraries.General
             Id = id;
             ColumnName = columnName;
             Data = data;
+            context.Api = api;
             context.SysLogsStatus = sysLogsStatus;
-            context.SysLogsDescription = $"{sysLogsDescription}:{Message(context: context)?.Text}";
+            if (sysLogsStatus != 200) {
+                context.SysLogsDescription = $"{sysLogsDescription}:{Message(context: context)?.Text}";
+            }
         }
 
         public ErrorData(

@@ -3195,6 +3195,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             string method,
             string message,
+            int sysLogsStatus = 200,
+            string sysLogsDescription = null,
             string errStackTrace = null,
             SysLogTypes sysLogType = SysLogTypes.Info)
         {
@@ -3218,6 +3220,8 @@ namespace Implem.Pleasanter.Models
                     };
                     break;
             }
+            Status = sysLogsStatus;
+            Description = sysLogsDescription;
             ErrStackTrace = errStackTrace;
             WriteSysLog(
                 context: context,
@@ -3383,6 +3387,7 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.Rds.SysLogsSchemaVersion >= 2)
             {
+                Api = context.Api;
                 Status = context.SysLogsStatus;
                 Description = context.SysLogsDescription;
             }

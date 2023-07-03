@@ -221,7 +221,11 @@ namespace Implem.Pleasanter.Models
             {
                 return HtmlTemplates.Error(
                     context: context,
-                    errorData: new ErrorData(type: Error.Types.NotFound));
+                    errorData: new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        sysLogsStatus: 404,
+                        sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
             SetSite(
                 context: context,
@@ -243,7 +247,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -279,7 +287,11 @@ namespace Implem.Pleasanter.Models
             {
                 return HtmlTemplates.Error(
                     context: context,
-                    errorData: new ErrorData(type: Error.Types.NotFound));
+                    errorData: new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        sysLogsStatus: 404,
+                        sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
             SetSite(
                 context: context,
@@ -293,7 +305,11 @@ namespace Implem.Pleasanter.Models
                 {
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
                 }
                 return SiteUtilities.TrashBox(
                     context: context,
@@ -303,7 +319,11 @@ namespace Implem.Pleasanter.Models
             {
                 return HtmlTemplates.Error(
                     context: context,
-                    errorData: new ErrorData(type: Error.Types.NotFound));
+                    errorData: new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        sysLogsStatus: 404,
+                        sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
             switch (Site.ReferenceType)
             {
@@ -322,7 +342,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -392,7 +416,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -440,7 +468,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -484,7 +516,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -524,7 +560,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -586,7 +626,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -634,7 +678,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -682,7 +730,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -732,7 +784,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -782,7 +838,11 @@ namespace Implem.Pleasanter.Models
                     default:
                         return HtmlTemplates.Error(
                             context: context,
-                            errorData: new ErrorData(type: Error.Types.NotFound));
+                            errorData: new ErrorData(
+                                context: context,
+                                type: Error.Types.NotFound,
+                                sysLogsStatus: 404,
+                                sysLogsDescription: Debugs.GetSysLogsDescription()));
                 }
             }
         }
@@ -806,7 +866,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -866,7 +930,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
         }
 
@@ -2750,7 +2818,11 @@ namespace Implem.Pleasanter.Models
                 default:
                     return (null, HtmlTemplates.Error(
                         context: context,
-                        errorData: new ErrorData(type: Error.Types.NotFound)));
+                        errorData: new ErrorData(
+                            context: context,
+                            type: Error.Types.NotFound,
+                            sysLogsStatus: 404,
+                            sysLogsDescription: Debugs.GetSysLogsDescription())));
             }
         }
 
@@ -2872,7 +2944,11 @@ namespace Implem.Pleasanter.Models
             {
                 return ApiResults.Error(
                     context: context,
-                    errorData: new ErrorData(type: Error.Types.BadRequest));
+                    errorData: new ErrorData(
+                        context: context,
+                        type: Error.Types.BadRequest,
+                        sysLogsStatus: 400,
+                        sysLogsDescription: Debugs.GetSysLogsDescription()));
             }
             var result = SiteUtilities.SynchronizeSummaries(
                 context: context,

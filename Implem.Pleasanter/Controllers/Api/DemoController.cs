@@ -21,7 +21,8 @@ namespace Implem.Pleasanter.Controllers.Api
             using (var reader = new StreamReader(Request.Body)) body = reader.ReadToEnd();
             var context = new Context(
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             if (Parameters.Service.DemoApi)
             {

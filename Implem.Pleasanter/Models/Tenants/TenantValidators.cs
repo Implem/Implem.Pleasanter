@@ -30,13 +30,33 @@ namespace Implem.Pleasanter.Models
             }
             if (!api && ss.GetNoDisplayIfReadOnly(context: context))
             {
-                return new ErrorData(type: Error.Types.NotFound);
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             return context.HasPermission(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
+                ? new ErrorData(
+                    context: context,
+                    type: Error.Types.None,
+                    api: api,
+                    sysLogsStatus: 200,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())
                 : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnGet(
@@ -56,8 +76,18 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return context.CanRead(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.NotFound);
+                ? new ErrorData(
+                    context: context,
+                    type: Error.Types.None,
+                    api: api,
+                    sysLogsStatus: 200,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())
+                : new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnEditing(
@@ -79,7 +109,12 @@ namespace Implem.Pleasanter.Models
             }
             if (ss.GetNoDisplayIfReadOnly(context: context))
             {
-                return new ErrorData(type: Error.Types.NotFound);
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             switch (tenantModel.MethodType)
             {
@@ -87,16 +122,46 @@ namespace Implem.Pleasanter.Models
                     return
                         context.CanRead(ss: ss)
                         && tenantModel.AccessStatus != Databases.AccessStatuses.NotFound
-                            ? new ErrorData(type: Error.Types.None)
-                            : new ErrorData(type: Error.Types.NotFound);
+                            ? new ErrorData(
+                                context: context,
+                                type: Error.Types.None,
+                                api: api,
+                                sysLogsStatus: 200,
+                                sysLogsDescription: Debugs.GetSysLogsDescription())
+                            : new ErrorData(
+                                context: context,
+                                type: Error.Types.NotFound,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                 case BaseModel.MethodTypes.New:
                     return context.CanCreate(ss: ss)
-                        ? new ErrorData(type: Error.Types.None)
+                        ? new ErrorData(
+                            context: context,
+                            type: Error.Types.None,
+                            api: api,
+                            sysLogsStatus: 200,
+                            sysLogsDescription: Debugs.GetSysLogsDescription())
                         : !context.CanRead(ss: ss)
-                            ? new ErrorData(type: Error.Types.NotFound)
-                            : new ErrorData(type: Error.Types.HasNotPermission);
+                            ? new ErrorData(
+                                context: context,
+                                type: Error.Types.NotFound,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription())
+                            : new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotPermission,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                 default:
-                    return new ErrorData(type: Error.Types.NotFound);
+                    return new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
             }
         }
 
@@ -121,8 +186,18 @@ namespace Implem.Pleasanter.Models
             if (!context.CanCreate(ss: ss) || tenantModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanCreate(
@@ -141,8 +216,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Title":
@@ -152,8 +231,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Body":
@@ -163,8 +246,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "DisableAllUsersPermission":
@@ -174,8 +261,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "DisableApi":
@@ -185,8 +276,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "DisableStartGuide":
@@ -196,8 +291,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "LogoType":
@@ -207,8 +306,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "HtmlTitleTop":
@@ -218,8 +321,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "HtmlTitleSite":
@@ -229,8 +336,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "HtmlTitleRecord":
@@ -240,8 +351,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "TopStyle":
@@ -251,8 +366,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "TopScript":
@@ -262,8 +381,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "ContractDeadline":
@@ -273,16 +396,24 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Comments":
                         if (tenantModel.Comments_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     default:
@@ -296,8 +427,12 @@ namespace Implem.Pleasanter.Models
                                     column: column))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Num":
@@ -308,8 +443,12 @@ namespace Implem.Pleasanter.Models
                                     column: column))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Date":
@@ -320,8 +459,12 @@ namespace Implem.Pleasanter.Models
                                     column: column))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Description":
@@ -332,8 +475,12 @@ namespace Implem.Pleasanter.Models
                                     column: column))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Check":
@@ -344,8 +491,12 @@ namespace Implem.Pleasanter.Models
                                     column: column))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Attachments":
@@ -356,15 +507,24 @@ namespace Implem.Pleasanter.Models
                                     column: column))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                         }
                         break;
                 }
             }
-            return new ErrorData(type: Error.Types.None);
+            return new ErrorData(
+                context: context,
+                type: Error.Types.None,
+                api: api,
+                sysLogsStatus: 200,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnUpdating(
@@ -387,8 +547,18 @@ namespace Implem.Pleasanter.Models
             if (!context.CanUpdate(ss: ss) || tenantModel.ReadOnly)
             {
                 return !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
             }
             foreach (var column in ss.Columns
                 .Where(o => !o.CanUpdate(
@@ -403,112 +573,168 @@ namespace Implem.Pleasanter.Models
                         if (tenantModel.TenantName_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Title":
                         if (tenantModel.Title_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Body":
                         if (tenantModel.Body_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "ContractDeadline":
                         if (tenantModel.ContractDeadline_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "DisableAllUsersPermission":
                         if (tenantModel.DisableAllUsersPermission_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "DisableApi":
                         if (tenantModel.DisableApi_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "DisableStartGuide":
                         if (tenantModel.DisableStartGuide_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "LogoType":
                         if (tenantModel.LogoType_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "HtmlTitleTop":
                         if (tenantModel.HtmlTitleTop_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "HtmlTitleSite":
                         if (tenantModel.HtmlTitleSite_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "HtmlTitleRecord":
                         if (tenantModel.HtmlTitleRecord_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "TopStyle":
                         if (tenantModel.TopStyle_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "TopScript":
                         if (tenantModel.TopScript_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Comments":
                         if (tenantModel.Comments_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     default:
@@ -520,8 +746,12 @@ namespace Implem.Pleasanter.Models
                                     context: context))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Num":
@@ -530,8 +760,12 @@ namespace Implem.Pleasanter.Models
                                     context: context))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Date":
@@ -540,8 +774,12 @@ namespace Implem.Pleasanter.Models
                                     context: context))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Description":
@@ -550,8 +788,12 @@ namespace Implem.Pleasanter.Models
                                     context: context))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Check":
@@ -560,8 +802,12 @@ namespace Implem.Pleasanter.Models
                                     context: context))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                             case "Attachments":
@@ -570,15 +816,24 @@ namespace Implem.Pleasanter.Models
                                     context: context))
                                 {
                                     return new ErrorData(
+                                        context: context,
                                         type: Error.Types.HasNotChangeColumnPermission,
-                                        data: column.LabelText);
+                                        data: column.LabelText,
+                                        api: api,
+                                        sysLogsStatus: 403,
+                                        sysLogsDescription: Debugs.GetSysLogsDescription());
                                 }
                                 break;
                         }
                         break;
                 }
             }
-            return new ErrorData(type: Error.Types.None);
+            return new ErrorData(
+                context: context,
+                type: Error.Types.None,
+                api: api,
+                sysLogsStatus: 200,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnDeleting(
@@ -599,10 +854,25 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return context.CanDelete(ss: ss) && !tenantModel.ReadOnly
-                ? new ErrorData(type: Error.Types.None)
+                ? new ErrorData(
+                    context: context,
+                    type: Error.Types.None,
+                    api: api,
+                    sysLogsStatus: 200,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())
                 : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnRestoring(
@@ -622,8 +892,18 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return Permissions.CanManageTenant(context: context)
-                ? new ErrorData(type: Error.Types.None)
-                : new ErrorData(type: Error.Types.HasNotPermission);
+                ? new ErrorData(
+                    context: context,
+                    type: Error.Types.None,
+                    api: api,
+                    sysLogsStatus: 200,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())
+                : new ErrorData(
+                    context: context,
+                    type: Error.Types.HasNotPermission,
+                    api: api,
+                    sysLogsStatus: 403,
+                    sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnImporting(
@@ -643,10 +923,25 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return context.CanImport(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
+                ? new ErrorData(
+                    context: context,
+                    type: Error.Types.None,
+                    api: api,
+                    sysLogsStatus: 200,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())
                 : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         public static ErrorData OnExporting(
@@ -666,10 +961,25 @@ namespace Implem.Pleasanter.Models
                 }
             }
             return context.CanExport(ss: ss)
-                ? new ErrorData(type: Error.Types.None)
+                ? new ErrorData(
+                    context: context,
+                    type: Error.Types.None,
+                    api: api,
+                    sysLogsStatus: 200,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())
                 : !context.CanRead(ss: ss)
-                    ? new ErrorData(type: Error.Types.NotFound)
-                    : new ErrorData(type: Error.Types.HasNotPermission);
+                    ? new ErrorData(
+                        context: context,
+                        type: Error.Types.NotFound,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription())
+                    : new ErrorData(
+                        context: context,
+                        type: Error.Types.HasNotPermission,
+                        api: api,
+                        sysLogsStatus: 403,
+                        sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         /// <summary>
