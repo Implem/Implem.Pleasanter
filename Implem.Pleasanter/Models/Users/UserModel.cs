@@ -3828,9 +3828,7 @@ namespace Implem.Pleasanter.Models
                                 ? OpenChangePasswordAtLoginDialog(context: context)
                                 : Allow(
                                     context: context,
-                                    returnUrl: GetReturnUrl(
-                                        context: context,
-                                        returnUrl: returnUrl),
+                                    returnUrl: returnUrl,
                                     createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
                 else if (PasswordExpired())
@@ -3841,9 +3839,7 @@ namespace Implem.Pleasanter.Models
                 {
                     return Allow(
                         context: context,
-                        returnUrl: GetReturnUrl(
-                            context: context,
-                            returnUrl: returnUrl),
+                        returnUrl: returnUrl,
                         createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
             }
@@ -4328,6 +4324,10 @@ namespace Implem.Pleasanter.Models
             bool atLogin = false,
             bool createPersistentCookie = false)
         {
+            context.SetUserProperties(this);
+            var loginAfterUrl = GetReturnUrl(
+                context: context,
+                returnUrl: returnUrl);
             IncrementsNumberOfLogins(context: context);
             SetFormsAuthentication(
                 context: context,
@@ -4339,9 +4339,9 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.LoginIn(context: context),
                         target: "#LoginMessage")
-                    .Href(returnUrl.IsNullOrEmpty()
+                    .Href(loginAfterUrl.IsNullOrEmpty()
                         ? Locations.Top(context: context)
-                        : returnUrl).ToJson();
+                        : loginAfterUrl).ToJson();
         }
 
         /// <summary>
@@ -4888,8 +4888,6 @@ namespace Implem.Pleasanter.Models
             }
             if (returnUrl.IsNullOrEmpty() || returnUrl == "/")
             {
-                context.SetUser(this);
-                context.SetPermissions();
                 var dashboardUrl = Locations.DashboardUrl(context: context);
                 return dashboardUrl.IsNullOrEmpty()
                     ? Parameters.Locations.LoginAfterUrl

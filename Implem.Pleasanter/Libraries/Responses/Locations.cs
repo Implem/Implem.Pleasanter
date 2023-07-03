@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Responses
             return dashboardId != 0
                 ? ItemIndex(
                     context: context,
-                    dashboardId)
+                    id: dashboardId)
                 : null;
         }
 
