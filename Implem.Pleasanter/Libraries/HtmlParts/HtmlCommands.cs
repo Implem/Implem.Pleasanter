@@ -269,18 +269,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 {
                                     hb
                                         .Button(
-                                            controlId: "LockDashboardPartLayouts",
-                                            text: "レイアウトの固定",
-                                            controlCss: "button-icon",
-                                            icon: "ui-icon-locked",
-                                            onClick: "$p.LockDashboardPartLayouts(true);")
-                                        .Button(
-                                            controlId: "UnLockDashboardPartLayouts",
-                                            text: "レイアウトの固定解除",
-                                            controlCss: "button-icon hidden",
-                                            icon: "ui-icon-unlocked",
-                                            onClick: "$p.LockDashboardPartLayouts(false);")
-                                        .Button(
                                             controlId: "UpdateDashboardPartLayouts",
                                             text:"レイアウトの保存",
                                             controlCss:"button-icon",
