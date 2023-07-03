@@ -684,7 +684,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return (Responses.Locations.UserLockout(context: context), null);
                 }
                 var redirectResultUrl = Strings.CoalesceEmpty(
-                    user.GetReturnUrl(returnUrl: returnUrl),
+                    user.GetReturnUrl(
+                        context: context,
+                        returnUrl: returnUrl),
                     Responses.Locations.Top(context: context));
                 user.Allow(
                     context: context,

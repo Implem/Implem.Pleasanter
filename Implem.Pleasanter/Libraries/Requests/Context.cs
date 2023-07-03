@@ -423,7 +423,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .Lockout(false));
         }
 
-        private void SetUser(UserModel userModel)
+        public void SetUser(UserModel userModel)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {

@@ -3828,7 +3828,9 @@ namespace Implem.Pleasanter.Models
                                 ? OpenChangePasswordAtLoginDialog(context: context)
                                 : Allow(
                                     context: context,
-                                    returnUrl: GetReturnUrl(returnUrl: returnUrl),
+                                    returnUrl: GetReturnUrl(
+                                        context: context,
+                                        returnUrl: returnUrl),
                                     createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
                 else if (PasswordExpired())
@@ -3839,7 +3841,9 @@ namespace Implem.Pleasanter.Models
                 {
                     return Allow(
                         context: context,
-                        returnUrl: GetReturnUrl(returnUrl: returnUrl),
+                        returnUrl: GetReturnUrl(
+                            context: context,
+                            returnUrl: returnUrl),
                         createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
                 }
             }
@@ -4876,13 +4880,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string GetReturnUrl(string returnUrl)
+        public string GetReturnUrl(Context context, string returnUrl)
         {
-            return Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers
-                ? returnUrl
-                : returnUrl.IsNullOrEmpty() || returnUrl == "/"
+            if (Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
+            {
+                return returnUrl;
+            }
+            if (returnUrl.IsNullOrEmpty() || returnUrl == "/")
+            {
+                context.SetUser(this);
+                context.SetPermissions();
+                var dashboardUrl = Locations.DashboardUrl(context: context);
+                return dashboardUrl.IsNullOrEmpty()
                     ? Parameters.Locations.LoginAfterUrl
-                    : returnUrl;
+                    : dashboardUrl;
+            }
+            return returnUrl;
         }
 
         /// <summary>
