@@ -79,7 +79,12 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     errorData: invalid);
             }
-            var dashboardPartLayouts = ss.DashboardParts.Select(dashboardPart =>
+            var dashboardPartLayouts = ss.DashboardParts
+                .Where(dashboardPart => dashboardPart
+                    .Accessable(
+                        context: context,
+                        ss: ss))
+                .Select(dashboardPart =>
             {
                 switch (dashboardPart.Type)
                 {

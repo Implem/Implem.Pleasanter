@@ -14220,7 +14220,11 @@ namespace Implem.Pleasanter.Models
                                     action: () => hb
                                         .A(
                                             href: "#DashboardPartViewSortersTabContainer",
-                                            text: Displays.Sorters(context: context))))
+                                            text: Displays.Sorters(context: context)))
+                                .Li(action: () => hb
+                                    .A(
+                                        href: "#DashboardPartAccessControlsTab",
+                                        text: Displays.AccessControls(context: context))))
                         .DashboardPartGeneralTab(
                             context: context,
                             ss: ss,
@@ -14231,6 +14235,10 @@ namespace Implem.Pleasanter.Models
                             dashboardPart: dashboardPart)
                         .DashboardPartViewSortersTab(
                             context: context,
+                            dashboardPart: dashboardPart)
+                        .DashboardPartAccessControlsTab(
+                            context: context,
+                            ss: ss,
                             dashboardPart: dashboardPart))
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
@@ -14525,6 +14533,87 @@ namespace Implem.Pleasanter.Models
                     prefix: "DashboardPart",
                     usekeepSorterState: false,
                     currentTableOnly: true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder DashboardPartAccessControlsTab(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var currentPermissions = dashboardPart.GetPermissions(ss: ss);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: ss,
+                searchText: context.Forms.Data("SearchDashboardPartAccessControlElements"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            var offset = context.Forms.Int("SourceDashboardPartAccessControlOffset");
+            return hb.FieldSet(id: "DashboardPartAccessControlsTab", action: () => hb
+                .Div(id: "DashboardPartAccessControlEditor", action: () => hb
+                    .FieldSelectable(
+                        controlId: "CurrentDashboardPartAccessControl",
+                        fieldCss: "field-vertical both",
+                        controlContainerCss: "container-selectable",
+                        controlCss: " always-send send-all",
+                        labelText: Displays.Permissions(context: context),
+                        listItemCollection: currentPermissions.ToDictionary(
+                            o => o.Key(), o => o.ControlData(
+                                context: context,
+                                ss: ss,
+                                withType: false)),
+                        commandOptionPositionIsTop: true,
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.DeletePermission(context: context),
+                                    onClick: "$p.deleteDashboardPartAccessControl();",
+                                    icon: "ui-icon-circle-triangle-e")))
+                    .FieldSelectable(
+                        controlId: "SourceDashboardPartAccessControl",
+                        fieldCss: "field-vertical",
+                        controlContainerCss: "container-selectable",
+                        controlWrapperCss: " h300",
+                        labelText: Displays.OptionList(context: context),
+                        listItemCollection: sourcePermissions
+                            .Page(offset)
+                            .ListItemCollection(
+                                context: context,
+                                ss: ss,
+                                withType: false),
+                        commandOptionPositionIsTop: true,
+                        action: "Permissions",
+                        method: "post",
+                        commandOptionAction: () => hb
+                            .Div(css: "command-left", action: () => hb
+                                .Button(
+                                    controlCss: "button-icon",
+                                    text: Displays.AddPermission(context: context),
+                                    onClick: "$p.addDashboardPartAccessControl();",
+                                    icon: "ui-icon-circle-triangle-w")
+                                .TextBox(
+                                    controlId: "SearchDashboardPartAccessControl",
+                                    controlCss: " auto-postback w100",
+                                    placeholder: Displays.Search(context: context),
+                                    action: "SetSiteSettings",
+                                    method: "post")
+                                .Button(
+                                    text: Displays.Search(context: context),
+                                    controlCss: "button-icon",
+                                    onClick: "$p.send($('#SearchDashboardPartAccessControl'));",
+                                    icon: "ui-icon-search")))
+                    .Hidden(
+                        controlId: "SourceDashboardPartAccessControlOffset",
+                        css: "always-send",
+                        value: Paging.NextOffset(
+                            offset: offset,
+                            totalCount: sourcePermissions.Count(),
+                            pageSize: Parameters.Permissions.PageSize)
+                                .ToString())));
         }
 
         /// <summary>

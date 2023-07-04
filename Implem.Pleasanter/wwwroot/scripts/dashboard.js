@@ -22,3 +22,12 @@ $p.UpdateDashboardPartLayouts = function () {
 $(document).on('click', '.dashboard-timeline-titlebody', function() {
     $p.transition($(this).attr('data-url'));
 });
+
+$p.addDashboardPartAccessControl = function () {
+    $('#SourceDashboardPartAccessControl li.ui-selected').appendTo('#CurrentDashboardPartAccessControl');
+    $p.setData($('#CurrentDashboardPartAccessControl'));
+}
+
+$p.deleteDashboardPartAccessControl = function () {
+    $('#CurrentDashboardPartAccessControl li.ui-selected').appendTo('#SourceDashboardPartAccessControl');
+}

@@ -1,10 +1,13 @@
-﻿using Implem.Libraries.Utilities;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
 using SendGrid.Helpers.Mail.Model;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Settings
@@ -32,6 +35,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public TimeLineDisplayType? TimeLineDisplayType { get; set; }
         public long SiteId { get; set; }
         public string ExtendedCss { get; set; }
+        public List<int> Depts { get; set; }
+        public List<int> Groups { get; set; }
+        public List<int> Users { get; set; }
         private static readonly int initialWidth = 2;
         private static readonly int initialHeight = 10;
 
@@ -53,6 +59,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             dashboardPart.Width = Width;
             dashboardPart.Height = Height;
             dashboardPart.ExtendedCss = ExtendedCss;
+            if (Depts?.Any() == true)
+            {
+                dashboardPart.Depts = Depts;
+            }
+            if (Groups?.Any() == true)
+            {
+                dashboardPart.Groups = Groups;
+            }
+            if (Users?.Any() == true)
+            {
+                dashboardPart.Users = Users;
+            }
             switch (Type)
             {
                 case DashboardPartType.QuickAccess:
@@ -107,7 +125,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
-            string extendedCss)
+            string extendedCss,
+            List<Permission> permissions)
         {
             var dashboardPart = new DashboardPart() { Id = id };
             return dashboardPart.Update(
@@ -128,7 +147,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 content: content,
                 htmlContent: htmlContent,
                 timeLineDisplayType: timeLineDisplayType,
-                extendedCss: extendedCss);
+                extendedCss: extendedCss,
+                permissions: permissions);
         }
 
         public DashboardPart Update(
@@ -149,7 +169,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
-            string extendedCss)
+            string extendedCss,
+            List<Permission> permissions)
         {
             Title = title;
             ShowTitle = showTitle;
@@ -184,6 +205,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 context: context,
                 ss: currentSs,
                 view: View);
+            SetPermissions(permissions);
             return this;
         }
 
@@ -241,6 +263,98 @@ namespace Implem.Pleasanter.Libraries.Settings
                     yield return site.Key;
                 }
             }
+        }
+
+        private void SetPermissions(List<Permission> permissions)
+        {
+            Depts?.Clear();
+            Groups?.Clear();
+            Users?.Clear();
+            foreach (var permission in permissions)
+            {
+                switch (permission.Name)
+                {
+                    case "Dept":
+                        if (Depts == null)
+                        {
+                            Depts = new List<int>();
+                        }
+                        if (!Depts.Contains(permission.Id))
+                        {
+                            Depts.Add(permission.Id);
+                        }
+                        break;
+                    case "Group":
+                        if (Groups == null)
+                        {
+                            Groups = new List<int>();
+                        }
+                        if (!Groups.Contains(permission.Id))
+                        {
+                            Groups.Add(permission.Id);
+                        }
+                        break;
+                    case "User":
+                        if (Users == null)
+                        {
+                            Users = new List<int>();
+                        }
+                        if (!Users.Contains(permission.Id))
+                        {
+                            Users.Add(permission.Id);
+                        }
+                        break;
+                }
+            }
+        }
+
+        public List<Permission> GetPermissions(SiteSettings ss)
+        {
+            var permissions = new List<Permission>();
+            Depts?.ForEach(deptId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Dept",
+                id: deptId)));
+            Groups?.ForEach(groupId => permissions.Add(new Permission(
+                ss: ss,
+                name: "Group",
+                id: groupId)));
+            Users?.ForEach(userId => permissions.Add(new Permission(
+                ss: ss,
+                name: "User",
+                id: userId)));
+            return permissions;
+        }
+
+        public bool Accessable(Context context, SiteSettings ss)
+        {
+            if (!context.CanUpdate(ss: ss))
+            {
+                return false;
+            }
+            if (context.HasPrivilege)
+            {
+                return true;
+            }
+            if (Depts?.Any() != true
+                && Groups?.Any() != true
+                && Users?.Any() != true)
+            {
+                return true;
+            }
+            if (Depts?.Contains(context.DeptId) == true)
+            {
+                return true;
+            }
+            if (Groups?.Any(groupId => context.Groups.Contains(groupId)) == true)
+            {
+                return true;
+            }
+            if (Users?.Contains(context.UserId) == true)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

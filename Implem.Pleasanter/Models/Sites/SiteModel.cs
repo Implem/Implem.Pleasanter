@@ -3092,6 +3092,11 @@ namespace Implem.Pleasanter.Models
                 case "UpdateDashboardPartLayouts":
                     UpdatedashboardPartLayouts(context: context);
                     break;
+                case "SearchDashboardPartAccessControl":
+                    SearchDashboardPartAccessControl(
+                        context: context,
+                        res: res);
+                    break;
                 default:
                     if (controlId.Contains("_NumericRange"))
                     {
@@ -6940,7 +6945,8 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
-                extendedCss: context.Forms.Data("DashboardPartExtendedCss"));
+                extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
             res
                 .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
@@ -6996,13 +7002,54 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
-                extendedCss: context.Forms.Data("DashboardPartExtendedCss"));
+                extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                permissions: DashboardPartPermissions(context: context));
             res
                 .Html("#EditDashboardPart", new HtmlBuilder()
                     .EditDashboardPart(
                         context: context,
                         ss: SiteSettings))
                 .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<Permission> DashboardPartPermissions(Context context)
+        {
+            return context.Forms.List("CurrentDashboardPartAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SearchDashboardPartAccessControl(Context context, ResponseCollection res)
+        {
+            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"))
+                ?? new Process();
+            var currentPermissions = process.GetPermissions(ss: SiteSettings);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: SiteSettings,
+                searchText: context.Forms.Data("SearchDashboardPartAccessControl"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            return res
+                .Html("#SourceDashboardPartAccessControl", PermissionUtilities.PermissionListItem(
+                    context: context,
+                    ss: SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: context.Forms.Data("SourceDashboardPartAccessControl")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceDashboardPartAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
         }
 
         /// <summary>
@@ -7147,6 +7194,8 @@ namespace Implem.Pleasanter.Models
                             usekeepSorterState: false,
                             currentTableOnly: true));
         }
+
+
 
         /// <summary>
         /// Fixed:
