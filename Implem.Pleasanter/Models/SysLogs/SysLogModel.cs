@@ -3220,8 +3220,11 @@ namespace Implem.Pleasanter.Models
                     };
                     break;
             }
-            Status = sysLogsStatus;
-            Description = sysLogsDescription;
+            if (Parameters.Rds.SysLogsSchemaVersion >= 2)
+            {
+                Status = sysLogsStatus;
+                Description = sysLogsDescription;
+            }
             ErrStackTrace = errStackTrace;
             WriteSysLog(
                 context: context,
