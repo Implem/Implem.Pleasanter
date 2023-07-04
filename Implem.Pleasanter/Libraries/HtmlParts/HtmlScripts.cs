@@ -92,7 +92,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: !extendedScripts.IsNullOrEmpty())
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
-                        script: ss.GetScriptBody(context: context, peredicate: o => o.All == true),
+                        script: ss.GetScriptBody(
+                            context: context,
+                            peredicate: o =>
+                                o.All == true
+                                && o.Disabled != true),
                         _using: context.ContractSettings.Script != false
                             && ss.Scripts?.Any() == true)
                     .Script(

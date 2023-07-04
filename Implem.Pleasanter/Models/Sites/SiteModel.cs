@@ -6596,6 +6596,7 @@ namespace Implem.Pleasanter.Models
                 timeSeries: context.Forms.Bool("StyleTimeSeries"),
                 kamban: context.Forms.Bool("StyleKamban"),
                 imageLib: context.Forms.Bool("StyleImageLib"),
+                disabled: context.Forms.Bool("StyleDisabled"),
                 body: context.Forms.Data("StyleBody")));
             res
                 .ReplaceAll("#EditStyle", new HtmlBuilder()
@@ -6625,6 +6626,7 @@ namespace Implem.Pleasanter.Models
                     timeSeries: context.Forms.Bool("StyleTimeSeries"),
                     kamban: context.Forms.Bool("StyleKamban"),
                     imageLib: context.Forms.Bool("StyleImageLib"),
+                    disabled: context.Forms.Bool("StyleDisabled"),
                     body: context.Forms.Data("StyleBody"));
             res
                 .Html("#EditStyle", new HtmlBuilder()
@@ -6760,6 +6762,7 @@ namespace Implem.Pleasanter.Models
                 timeSeries: context.Forms.Bool("ScriptTimeSeries"),
                 kamban: context.Forms.Bool("ScriptKamban"),
                 imageLib: context.Forms.Bool("ScriptImageLib"),
+                disabled: context.Forms.Bool("ScriptDisabled"),
                 body: context.Forms.Data("ScriptBody")));
             res
                 .ReplaceAll("#EditScript", new HtmlBuilder()
@@ -6789,6 +6792,7 @@ namespace Implem.Pleasanter.Models
                     timeSeries: context.Forms.Bool("ScriptTimeSeries"),
                     kamban: context.Forms.Bool("ScriptKamban"),
                     imageLib: context.Forms.Bool("ScriptImageLib"),
+                    disabled: context.Forms.Bool("ScriptDisabled"),
                     body: context.Forms.Data("ScriptBody"));
             res
                 .Html("#EditScript", new HtmlBuilder()

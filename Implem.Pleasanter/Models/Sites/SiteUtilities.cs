@@ -976,20 +976,24 @@ namespace Implem.Pleasanter.Models
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
                                         referenceType: "Issues"))
-                                }
-,
+                                },
                                 {
                                     "Results",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
                                         referenceType: "Results"))
-                                }
-,
+                                },
                                 {
                                     "Wikis",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
                                         referenceType: "Wikis"))
+                                },
+                                {
+                                    "Dashboards",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Dashboards"))
                                 }
                             },
                         selectedValue: referenceType))
@@ -1007,6 +1011,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues": return Displays.Get(context: context, id: "Issues");
                 case "Results": return Displays.Get(context: context, id: "Results");
                 case "Wikis": return Displays.Get(context: context, id: "Wikis");
+                case "Dashboards": return Displays.Get(context: context, id: "Dashboards");
                 default: return null;
             }
         }
@@ -4677,7 +4682,9 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         labelText: ss.ReferenceType == "Sites"
                             ? Displays.MenuGuide(context: context)
-                            : Displays.Sites_GridGuide(context: context),
+                            : (ss.ReferenceType == "Dashboards"
+                                ? "ダッシュボードのガイド"
+                                : Displays.Sites_GridGuide(context: context)),
                         text: siteModel.GridGuide,
                         mobile: context.Mobile,
                         _using: siteModel.ReferenceType != "Wikis")
@@ -4689,7 +4696,8 @@ namespace Implem.Pleasanter.Models
                         labelText: Displays.Sites_EditorGuide(context: context),
                         text: siteModel.EditorGuide,
                         mobile: context.Mobile,
-                        _using: ss.ReferenceType != "Sites")
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
@@ -4699,7 +4707,8 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.CalendarGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
-                            && ss.ReferenceType != "Wikis")
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
@@ -4709,7 +4718,8 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.CrosstabGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
-                            && ss.ReferenceType != "Wikis")
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
@@ -4737,7 +4747,8 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.TimeSeriesGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
-                            && ss.ReferenceType != "Wikis")
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
@@ -4747,7 +4758,8 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.KambanGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
-                            && ss.ReferenceType != "Wikis")
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
@@ -4757,7 +4769,8 @@ namespace Implem.Pleasanter.Models
                         text: siteModel.ImageLibGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
-                            && ss.ReferenceType != "Wikis")));
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")));
         }
 
         /// <summary>
@@ -13326,27 +13339,41 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Title(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.All(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.New(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Edit(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Index(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Calendar(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Crosstab(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Gantt(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.BurnDown(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.TimeSeries(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Kamban(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.ImageLib(context: context)))));
+                        .Text(text: Displays.Disabled(context: context)))
+                    .EditDestinationStyleHeader(
+                        context: context,
+                        _using: ss.ReferenceType != "Dashboards")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDestinationStyleHeader(this HtmlBuilder hb, Context context, bool _using)
+        {
+            if (!_using) return hb;
+            return hb
+                .Th(action: () => hb
+                    .Text(text: Displays.All(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.New(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Edit(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Index(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Calendar(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Crosstab(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Gantt(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.BurnDown(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.TimeSeries(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Kamban(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.ImageLib(context: context)));
         }
 
         /// <summary>
@@ -13374,47 +13401,63 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: style.All == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.New == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Edit == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Index == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Calendar == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Crosstab == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Gantt == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.BurnDown == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.TimeSeries == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.Kamban == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: style.ImageLib == true)))));
+                                    _using: style.Disabled == true))
+                            .EditDestinationStyleBody(
+                                style: style,
+                                _using: ss.ReferenceType != "Dashboards"))));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDestinationStyleBody(this HtmlBuilder hb, Style style, bool _using)
+        {
+            if (!_using) return hb;
+            return hb
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.All == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.New == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Edit == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Index == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Calendar == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Crosstab == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Gantt == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.BurnDown == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Kamban == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.ImageLib == true));
         }
 
         /// <summary>
@@ -13460,6 +13503,12 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Style(context: context),
                         text: style.Body)
+                    .FieldCheckBox(
+                        fieldId: "StyleDisabled",
+                        controlId: "StyleDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: style.Disabled == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
@@ -13529,7 +13578,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.ImageLib(context: context),
-                                _checked: style.ImageLib == true))
+                                _checked: style.ImageLib == true),
+                        _using: ss.ReferenceType != "Dashboards")
+                    .Hidden(
+                        controlId: "StyleAll",
+                        css: " always-send",
+                        value: "1",
+                        _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
@@ -13655,27 +13710,41 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Title(context: context)))
                     .Th(action: () => hb
-                        .Text(text: Displays.All(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.New(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Edit(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Index(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Calendar(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Crosstab(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Gantt(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.BurnDown(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.TimeSeries(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.Kamban(context: context)))
-                    .Th(action: () => hb
-                        .Text(text: Displays.ImageLib(context: context)))));
+                        .Text(text: Displays.Disabled(context: context)))
+                    .EditDestinationScriptHeader(
+                        context:context,
+                        _using: ss.ReferenceType != "Dashboards")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDestinationScriptHeader(this HtmlBuilder hb, Context context, bool _using)
+        {
+            if (!_using) return hb;
+            return hb
+                .Th(action: () => hb
+                    .Text(text: Displays.All(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.New(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Edit(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Index(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Calendar(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Crosstab(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Gantt(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.BurnDown(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.TimeSeries(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Kamban(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.ImageLib(context: context)));
         }
 
         /// <summary>
@@ -13703,48 +13772,65 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Span(
                                     css: "ui-icon ui-icon-circle-check",
-                                    _using: script.All == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.New == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Edit == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Index == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Calendar == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Crosstab == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Gantt == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.BurnDown == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.TimeSeries == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.Kamban == true))
-                            .Td(action: () => hb
-                                .Span(
-                                    css: "ui-icon ui-icon-circle-check",
-                                    _using: script.ImageLib == true)))));
+                                    _using: script.Disabled == true))
+                            .EditDestinationScriptBody(
+                                script: script,
+                                _using: ss.ReferenceType != "Dashboards"))));
         }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDestinationScriptBody(this HtmlBuilder hb, Script script, bool _using)
+        {
+            if (!_using) return hb;
+            return hb
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.All == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.New == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Edit == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Index == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Calendar == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Crosstab == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Gantt == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.BurnDown == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Kamban == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.ImageLib == true));
+        }
+
 
         /// <summary>
         /// Fixed:
@@ -13789,6 +13875,13 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         labelText: Displays.Script(context: context),
                         text: script.Body)
+                    .FieldCheckBox(
+                        fieldId: "ScriptDisabled",
+                        controlId: "ScriptDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: script.Disabled == true,
+                        _using: ss.ReferenceType == "Dashboards")
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
@@ -13858,7 +13951,13 @@ namespace Implem.Pleasanter.Models
                                 fieldCss: outputDestinationCss,
                                 controlCss: " always-send",
                                 labelText: Displays.ImageLib(context: context),
-                                _checked: script.ImageLib == true))
+                                _checked: script.ImageLib == true),
+                        _using: ss.ReferenceType != "Dashboards")
+                    .Hidden(
+                        controlId: "ScriptAll",
+                        css: " always-send",
+                        value: "1",
+                        _using: ss.ReferenceType == "Dashboards")
                     .P(css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(

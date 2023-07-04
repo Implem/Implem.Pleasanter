@@ -75,7 +75,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             var style = ss.GetStyleBody(
                 context: context,
-                peredicate: o => o.All == true);
+                peredicate: o =>
+                    o.All == true
+                    && o.Disabled != true);
             return hb
                 .Style(
                     style: style,
