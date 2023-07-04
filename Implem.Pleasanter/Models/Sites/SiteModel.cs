@@ -15,6 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using SendGrid.Helpers.Mail.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6938,6 +6939,7 @@ namespace Implem.Pleasanter.Models
                 timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
                 timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
                 content: context.Forms.Data("DashboardPartContent"),
+                htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"));
             SiteSettings.DashboardParts.Add(dashboardPart);
@@ -6992,6 +6994,7 @@ namespace Implem.Pleasanter.Models
                 timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
                 timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
                 content: context.Forms.Data("DashboardPartContent"),
+                htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"));
             res

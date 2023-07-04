@@ -14431,75 +14431,27 @@ namespace Implem.Pleasanter.Models
                         controlId: "DashboardPartContent",
                         fieldId: "DashboardPartContentField",
                         fieldCss: "field-wide"
-                            + hiddenCss(dashboardPart.Type != DashboardPartType.Custom
-                                && dashboardPart.Type != DashboardPartType.CustomHtml),
+                            + hiddenCss(dashboardPart.Type != DashboardPartType.Custom),
                         controlCss: " always-send",
                         labelText: "内容",
                         text: dashboardPart.Content,
                         mobile: context.Mobile)
+                    .Field(
+                        fieldId: "DashboardPartHtmlContentField",
+                        fieldCss: "field-wide"
+                            + hiddenCss(dashboardPart.Type != DashboardPartType.CustomHtml),
+                        labelText: "内容",
+                        controlAction: ()=>hb
+                            .TextArea(
+                                css: "control-textarea always-send",
+                                name: "DashboardPartHtmlContent",
+                                id: "DashboardPartHtmlContent",
+                                text: dashboardPart.HtmlContent))
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",
                         labelText: "CSS",
                         text: dashboardPart.ExtendedCss));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static HtmlBuilder DashboardPartBoundsTab(
-            this HtmlBuilder hb,
-            Context context,
-            DashboardPart dashboardPart,
-            bool _using = true)
-        {
-            if(_using == false)
-            {
-                return hb;
-            }
-            return hb.FieldSet(
-                id: "DashboardPartBoundsTabContainer",
-                action: () => hb
-                    .FieldSpinner(
-                        controlId: "DashboardPartX",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " always-send",
-                        labelText: "X",
-                        value: dashboardPart.X.ToDecimal(),
-                        min: 0,
-                        max: 11,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "DashboardPartY",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " always-send",
-                        labelText: "Y",
-                        value: dashboardPart.Y.ToDecimal(),
-                        min: 0,
-                        max: 11,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "DashboardPartWidth",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " always-send",
-                        labelText: "Width",
-                        value: dashboardPart.Width.ToDecimal(),
-                        min: 1,
-                        max: 12,
-                        step: 1,
-                        width: 25)
-                    .FieldSpinner(
-                        controlId: "DashboardPartHeight",
-                        fieldCss: "field-auto-thin",
-                        controlCss: " always-send",
-                        labelText: "Height",
-                        value: dashboardPart.Height.ToDecimal(),
-                        min: 1,
-                        max: 12,
-                        step: 1,
-                        width: 25));
         }
 
         /// <summary>

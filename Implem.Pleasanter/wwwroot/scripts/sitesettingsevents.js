@@ -206,8 +206,9 @@
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
         $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
         $('#DashboardPartTimeLineDisplayType').toggle(selected === '1');
-        //selected==2 or 3: Custom or CustomHtml のみ表示
-        $('#DashboardPartContentField').toggle(selected === '2' || selected === '3');
-
+        //selected==2: Customのみ表示
+        $('#DashboardPartContentField').toggle(selected === '2');
+        //selected==3: CustomHtmlのみ表示
+        $('#DashboardPartHtmlContentField').toggle(selected === '3');
     });
 });

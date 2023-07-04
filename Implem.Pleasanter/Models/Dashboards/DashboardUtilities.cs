@@ -1519,7 +1519,7 @@ namespace Implem.Pleasanter.Models
                     hb
                         .Div(
                             css: "dashboard-custom-html-body",
-                            action: () => hb.Raw(text: dashboardPart.Content));
+                            action: () => hb.Raw(text: dashboardPart.HtmlContent));
                 });
         }
 
@@ -1668,7 +1668,11 @@ namespace Implem.Pleasanter.Models
                         }
                         foreach (var item in timeLineItems)
                         {
-                            hb.TimeLineItem(context, item, dashboardPart.TimeLineDisplayType);
+                            hb.TimeLineItem(
+                                context: context,
+                                item: item,
+                                dashboardPart.TimeLineDisplayType
+                                    ?? TimeLineDisplayType.Standard);
                         }
                     }).ToString();
             return new DashboardPartLayout()

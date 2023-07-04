@@ -3,6 +3,7 @@ using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
+using SendGrid.Helpers.Mail.Model;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,51 +21,72 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Width { get; set; }
         public int Height { get; set; }
         public List<string> QuickAccessSites { get; set; }
-        public QuickAccessLayout QuickAccessLayout { get; set; }
+        public QuickAccessLayout? QuickAccessLayout { get; set; }
         public List<string> TimeLineSites { get; set; }
         public View View { get; set; }
         public string TimeLineTitle { get; set; }
         public string TimeLineBody { get; set; }
         public string Content { get; set; }
-        public TimeLineDisplayType TimeLineDisplayType { get; set; } = Settings.TimeLineDisplayType.Standard;
+        public string HtmlContent { get; set; }
+        public TimeLineDisplayType? TimeLineDisplayType { get; set; }
         public long SiteId { get; set; }
-        public  string ExtendedCss { get; set; }
-
+        public string ExtendedCss { get; set; }
         private static readonly int initialWidth = 2;
         private static readonly int initialHeight = 10;
+
+        public DashboardPart()
+        {
+            TimeLineDisplayType = Settings.TimeLineDisplayType.Standard;
+        }
 
         public DashboardPart GetRecordingData(Context context)
         {
             var dashboardPart = new DashboardPart();
+            //共通
             dashboardPart.Id = Id;
             dashboardPart.Title = Title;
-            dashboardPart.ShowTitle = ShowTitle != true
-                ? null
-                : ShowTitle;
+            if (ShowTitle == true) dashboardPart.ShowTitle = true;
             dashboardPart.Type = Type;
             dashboardPart.X = X;
             dashboardPart.Y = Y;
             dashboardPart.Width = Width;
             dashboardPart.Height = Height;
-            dashboardPart.QuickAccessSites = QuickAccessSites;
-            dashboardPart.QuickAccessLayout = QuickAccessLayout;
-            dashboardPart.TimeLineSites = TimeLineSites;
-            dashboardPart.TimeLineTitle = TimeLineTitle;
-            dashboardPart.TimeLineBody = TimeLineBody;
-            dashboardPart.Content = Content;
-            dashboardPart.SiteId = SiteId;
-            dashboardPart.TimeLineDisplayType = TimeLineDisplayType;
             dashboardPart.ExtendedCss = ExtendedCss;
-            var ss = SiteSettingsUtilities.Get(
-                context: context,
-                siteId: SiteId);
-            if (ss != null)
+            switch (Type)
             {
-                View = View.GetRecordingData(
-                    context: context,
-                    ss: ss);
+                case DashboardPartType.QuickAccess:
+                    dashboardPart.QuickAccessSites = QuickAccessSites;
+                    if(QuickAccessLayout != Settings.QuickAccessLayout.Horizontal)
+                    {
+                        dashboardPart.QuickAccessLayout = QuickAccessLayout;
+                    }
+                    break;
+                case DashboardPartType.TimeLine:
+                    dashboardPart.TimeLineSites = TimeLineSites;
+                    dashboardPart.TimeLineTitle = TimeLineTitle;
+                    dashboardPart.TimeLineBody = TimeLineBody;
+                    dashboardPart.SiteId = SiteId;
+                    var ss = SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: SiteId);
+                    if (ss != null)
+                    {
+                        View = View.GetRecordingData(
+                            context: context,
+                            ss: ss);
+                    }
+                    dashboardPart.View = View;
+                    dashboardPart.TimeLineDisplayType = (TimeLineDisplayType != Settings.TimeLineDisplayType.Standard)
+                        ? TimeLineDisplayType
+                        : null;
+                    break;
+                case DashboardPartType.Custom:
+                    dashboardPart.Content = Content;
+                    break;
+                case DashboardPartType.CustomHtml:
+                    dashboardPart.HtmlContent = HtmlContent;
+                    break;
             }
-            dashboardPart.View = View;
             return dashboardPart;
         }
 
@@ -80,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineTitle,
             string timeLineBody,
             string content,
+            string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
             string extendedCss)
         {
@@ -99,6 +122,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 timeLineTitle: timeLineTitle,
                 timeLineBody: timeLineBody,
                 content: content,
+                htmlContent: htmlContent,
                 timeLineDisplayType: timeLineDisplayType,
                 extendedCss: extendedCss);
         }
@@ -118,6 +142,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineTitle,
             string timeLineBody,
             string content,
+            string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
             string extendedCss)
         {
@@ -142,6 +167,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeLineTitle = timeLineTitle;
             TimeLineBody = timeLineBody;
             Content = content;
+            HtmlContent = htmlContent;
             TimeLineDisplayType = timeLineDisplayType;
             ExtendedCss = extendedCss;
             var currentSs = GetBaseSiteSettings(
