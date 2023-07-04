@@ -17,8 +17,6 @@
     "LinkColumn": "115",
     "HistoryColumn": "115",
     "TypeName": "bigint",
-    "Pk": "5",
-    "PkHistory": "5",
     "Nullable": "1",
     "NotForm": "1",
     "UpdateAccessControl": "ManageService",

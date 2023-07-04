@@ -2829,27 +2829,6 @@ namespace Implem.Pleasanter.Models
                                 SavedSysLogId = SysLogId;
                             }
                             break;
-                        case "SiteId":
-                            if (dataRow[column.ColumnName] != DBNull.Value)
-                            {
-                                SiteId = dataRow[column.ColumnName].ToLong();
-                                SavedSiteId = SiteId;
-                            }
-                            break;
-                        case "ReferenceId":
-                            if (dataRow[column.ColumnName] != DBNull.Value)
-                            {
-                                ReferenceId = dataRow[column.ColumnName].ToLong();
-                                SavedReferenceId = ReferenceId;
-                            }
-                            break;
-                        case "Status":
-                            if (dataRow[column.ColumnName] != DBNull.Value)
-                            {
-                                Status = dataRow[column.ColumnName].ToLong();
-                                SavedStatus = Status;
-                            }
-                            break;
                         case "Ver":
                             Ver = dataRow[column.ColumnName].ToInt();
                             SavedVer = Ver;
@@ -2890,9 +2869,21 @@ namespace Implem.Pleasanter.Models
                             Api = dataRow[column.ColumnName].ToBool();
                             SavedApi = Api;
                             break;
+                        case "SiteId":
+                            SiteId = dataRow[column.ColumnName].ToLong();
+                            SavedSiteId = SiteId;
+                            break;
+                        case "ReferenceId":
+                            ReferenceId = dataRow[column.ColumnName].ToLong();
+                            SavedReferenceId = ReferenceId;
+                            break;
                         case "ReferenceType":
                             ReferenceType = dataRow[column.ColumnName].ToString();
                             SavedReferenceType = ReferenceType;
+                            break;
+                        case "Status":
+                            Status = dataRow[column.ColumnName].ToLong();
+                            SavedStatus = Status;
                             break;
                         case "Description":
                             Description = dataRow[column.ColumnName].ToString();
