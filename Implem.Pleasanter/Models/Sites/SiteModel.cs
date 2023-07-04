@@ -15,7 +15,6 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
-using SendGrid.Helpers.Mail.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -3066,7 +3065,6 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
-
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
                         siteId: context.Forms.Long("DashboardPartBaseSiteId"));

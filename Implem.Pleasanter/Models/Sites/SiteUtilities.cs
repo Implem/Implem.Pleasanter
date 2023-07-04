@@ -972,28 +972,30 @@ namespace Implem.Pleasanter.Models
                                         referenceType: "Sites"))
                                 },
                                 {
+                                    "Dashboards",
+                                    new ControlData(ReferenceTypeDisplayName(
+                                        context: context,
+                                        referenceType: "Dashboards"))
+                                },
+                                {
                                     "Issues",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
                                         referenceType: "Issues"))
-                                },
+                                }
+,
                                 {
                                     "Results",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
                                         referenceType: "Results"))
-                                },
+                                }
+,
                                 {
                                     "Wikis",
                                     new ControlData(ReferenceTypeDisplayName(
                                         context: context,
                                         referenceType: "Wikis"))
-                                },
-                                {
-                                    "Dashboards",
-                                    new ControlData(ReferenceTypeDisplayName(
-                                        context: context,
-                                        referenceType: "Dashboards"))
                                 }
                             },
                         selectedValue: referenceType))
@@ -1008,10 +1010,10 @@ namespace Implem.Pleasanter.Models
             switch (referenceType)
             {
                 case "Sites": return Displays.Folder(context: context);
+                case "Dashboards": return Displays.Get(context: context, id: "Dashboards");
                 case "Issues": return Displays.Get(context: context, id: "Issues");
                 case "Results": return Displays.Get(context: context, id: "Results");
                 case "Wikis": return Displays.Get(context: context, id: "Wikis");
-                case "Dashboards": return Displays.Get(context: context, id: "Dashboards");
                 default: return null;
             }
         }
@@ -13831,7 +13833,6 @@ namespace Implem.Pleasanter.Models
                         _using: script.ImageLib == true));
         }
 
-
         /// <summary>
         /// Fixed:
         /// </summary>
@@ -14421,7 +14422,6 @@ namespace Implem.Pleasanter.Models
                                 TimeLineDisplayType.Detailed.ToInt().ToString(),
                                 "詳細"
                             }
-
                         },
                         selectedValue: dashboardPart.TimeLineDisplayType.ToInt().ToString(),
                         insertBlank: false)

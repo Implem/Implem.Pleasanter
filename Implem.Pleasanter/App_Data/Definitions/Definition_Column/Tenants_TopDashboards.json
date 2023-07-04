@@ -9,7 +9,7 @@
     "History": "120",
     "TypeName": "nvarchar",
     "MaxLength": "-1",
-    "SetByForm": "$\"[{value.ToString()}]\"",
+    "ByForm": "$\"[{value.ToLong()}]\"",
     "LabelText_en": "Top Dashboards",
     "LabelText_zh": "顶部仪表板",
     "LabelText_de": "Obere Seite Dashboard",

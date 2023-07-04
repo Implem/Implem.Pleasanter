@@ -105,6 +105,7 @@
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_EditorMainCommands.json" />
     <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
+    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ResponseBreadcrumb_Tenants.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Dashboards_Locked.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Issues_Locked.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Manager - コピー.json" />
@@ -116,6 +117,7 @@
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TopDashboards.json" />
     <Content Remove="App_Data\Definitions\Definition_Template\Template420.json" />
     <Content Remove="App_Data\Definitions\Definition_Template\Template420_SiteSettingsTemplate.json" />
+    <Content Remove="App_Data\Parameters\Dashboard.json" />
   </ItemGroup>
 
   <ItemGroup>
