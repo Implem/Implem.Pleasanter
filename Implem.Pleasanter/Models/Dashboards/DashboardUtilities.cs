@@ -1771,7 +1771,8 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     orderBy: orderBy,
                     titleTemplate: dashboardPart.TimeLineTitle,
-                    bodyTemplate: dashboardPart.TimeLineBody);
+                    bodyTemplate: dashboardPart.TimeLineBody,
+                    top: dashboardPart.TimeLineItemCount);
             }
             else if (ss.ReferenceType == "Results")
             {
@@ -1781,7 +1782,8 @@ namespace Implem.Pleasanter.Models
                     where: where,
                     orderBy: orderBy,
                     titleTemplate: dashboardPart.TimeLineTitle,
-                    bodyTemplate: dashboardPart.TimeLineBody);
+                    bodyTemplate: dashboardPart.TimeLineBody,
+                    top: dashboardPart.TimeLineItemCount);
             }
             else
             {
@@ -1798,11 +1800,13 @@ namespace Implem.Pleasanter.Models
             SqlWhereCollection where,
             SqlOrderByCollection orderBy,
             string titleTemplate,
-            string bodyTemplate)
+            string bodyTemplate,
+            int top)
         {
             var results = new ResultCollection(
                 context: context,
                 ss: ss,
+                top: top,
                 where: where,
                 orderBy: orderBy,
                 join: ss.Join(
@@ -1850,11 +1854,13 @@ namespace Implem.Pleasanter.Models
             SqlWhereCollection where,
             SqlOrderByCollection orderBy,
             string titleTemplate,
-            string bodyTemplate)
+            string bodyTemplate,
+            int top)
         {
             var issues = new IssueCollection(
                 context: context,
                 ss: ss,
+                top: top,
                 where: where,
                 orderBy: orderBy,
                 join: ss.Join(

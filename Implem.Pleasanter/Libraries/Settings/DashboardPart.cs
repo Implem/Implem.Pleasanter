@@ -26,6 +26,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public View View { get; set; }
         public string TimeLineTitle { get; set; }
         public string TimeLineBody { get; set; }
+        public int TimeLineItemCount { get; set; }
         public string Content { get; set; }
         public string HtmlContent { get; set; }
         public TimeLineDisplayType? TimeLineDisplayType { get; set; }
@@ -65,6 +66,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     dashboardPart.TimeLineSites = TimeLineSites;
                     dashboardPart.TimeLineTitle = TimeLineTitle;
                     dashboardPart.TimeLineBody = TimeLineBody;
+                    dashboardPart.TimeLineItemCount = TimeLineItemCount;
                     dashboardPart.SiteId = SiteId;
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
@@ -101,6 +103,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineSites,
             string timeLineTitle,
             string timeLineBody,
+            int timeLineItemCount,
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
@@ -121,6 +124,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 timeLineSites: timeLineSites,
                 timeLineTitle: timeLineTitle,
                 timeLineBody: timeLineBody,
+                timeLineItemCount: timeLineItemCount,
                 content: content,
                 htmlContent: htmlContent,
                 timeLineDisplayType: timeLineDisplayType,
@@ -141,6 +145,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             string timeLineSites,
             string timeLineTitle,
             string timeLineBody,
+            int timeLineItemCount,
             string content,
             string htmlContent,
             TimeLineDisplayType timeLineDisplayType,
@@ -166,6 +171,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
             TimeLineTitle = timeLineTitle;
             TimeLineBody = timeLineBody;
+            TimeLineItemCount = timeLineItemCount;
             Content = content;
             HtmlContent = htmlContent;
             TimeLineDisplayType = timeLineDisplayType;

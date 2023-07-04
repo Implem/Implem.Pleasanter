@@ -205,7 +205,9 @@
         $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
         $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
         $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
-        $('#DashboardPartTimeLineDisplayType').toggle(selected === '1');
+        $('#DashboardPartTimeLineDisplayTypeField').toggle(selected === '1');
+        $('#DashboardPartTimeLineItemCountField').toggle(selected === '1');
+        
         //selected==2: Customのみ表示
         $('#DashboardPartContentField').toggle(selected === '2');
         //selected==3: CustomHtmlのみ表示

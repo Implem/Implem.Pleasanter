@@ -14425,6 +14425,18 @@ namespace Implem.Pleasanter.Models
                         },
                         selectedValue: dashboardPart.TimeLineDisplayType.ToInt().ToString(),
                         insertBlank: false)
+                    .FieldSpinner(
+                        controlId: "DashboardPartTimeLineItemCount",
+                        fieldId: "DashboardPartTimeLineItemCountField",
+                        fieldCss: "field-auto",
+                        controlCss: " always-send",
+                        labelText: "表示件数",
+                        value: dashboardPart.TimeLineItemCount==0
+                            ? Parameters.Dashboard.TimeLineItemCount
+                            : dashboardPart.TimeLineItemCount,
+                        min: Parameters.Dashboard.TimeLineItemCountMin,
+                        max: Parameters.Dashboard.TimeLineItemCountMax,
+                        step: 1)
                     .FieldMarkDown(
                         context: context,
                         ss: ss,
