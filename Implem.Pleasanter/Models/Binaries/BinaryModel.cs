@@ -249,6 +249,7 @@ namespace Implem.Pleasanter.Models
         public BinaryModel(
             Context context,
             long binaryId,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -257,8 +258,10 @@ namespace Implem.Pleasanter.Models
             BinaryId = binaryId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.BinariesWhereDefault(
                         context: context,
                         binaryModel: this)
@@ -266,7 +269,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context);
+                Get(
+                    context: context,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;

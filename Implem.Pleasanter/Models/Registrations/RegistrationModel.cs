@@ -261,6 +261,7 @@ namespace Implem.Pleasanter.Models
             int registrationId,
             Dictionary<string, string> formData = null,
             RegistrationApiModel registrationApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -270,8 +271,10 @@ namespace Implem.Pleasanter.Models
             RegistrationId = registrationId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.RegistrationsWhereDefault(
                         context: context,
                         registrationModel: this)
@@ -279,7 +282,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

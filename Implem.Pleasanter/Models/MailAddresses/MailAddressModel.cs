@@ -108,6 +108,7 @@ namespace Implem.Pleasanter.Models
         public MailAddressModel(
             Context context,
             long mailAddressId,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -115,8 +116,10 @@ namespace Implem.Pleasanter.Models
             MailAddressId = mailAddressId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.MailAddressesWhereDefault(
                         context: context,
                         mailAddressModel: this)
@@ -124,7 +127,9 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context);
+                Get(
+                    context: context,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             MethodType = methodType;

@@ -595,6 +595,7 @@ namespace Implem.Pleasanter.Models
             bool setCopyDefault = false,
             Dictionary<string, string> formData = null,
             ResultApiModel resultApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<long> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -607,8 +608,10 @@ namespace Implem.Pleasanter.Models
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.ResultsWhereDefault(
                         context: context,
                         resultModel: this)
@@ -616,7 +619,11 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss, view: view);
+                Get(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    column: column);
             }
             if (setCopyDefault)
             {

@@ -219,6 +219,7 @@ namespace Implem.Pleasanter.Models
             long wikiId,
             Dictionary<string, string> formData = null,
             WikiApiModel wikiApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             MethodTypes methodType = MethodTypes.NotSet)
         {
@@ -227,8 +228,10 @@ namespace Implem.Pleasanter.Models
             SiteId = ss.SiteId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.WikisWhereDefault(
                         context: context,
                         wikiModel: this)
@@ -236,7 +239,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)
@@ -896,29 +902,6 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
-            if (ss.PermissionForUpdating?.Any() == true)
-            {
-                statements.AddRange(PermissionUtilities.UpdateStatements(
-                    context: context,
-                    ss: ss,
-                    referenceId: WikiId,
-                    columns: ss.Columns
-                        .Where(o => o.Type != Column.Types.Normal)
-                        .ToDictionary(
-                            o => $"{o.ColumnName},{o.Type}",
-                            o => (o.MultipleSelections == true
-                                ? PropertyValue(
-                                    context: context,
-                                    column: o)?.Deserialize<List<int>>()
-                                : PropertyValue(
-                                    context: context,
-                                    column: o)?.ToInt().ToSingleList()) ?? new List<int>()),
-                    permissions: ss.PermissionForUpdating));
-            }
-            else if (RecordPermissions != null)
-            {
-                statements.UpdatePermissions(context, ss, WikiId, RecordPermissions);
-            }
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);

@@ -1405,6 +1405,7 @@ namespace Implem.Pleasanter.Models
             int userId,
             Dictionary<string, string> formData = null,
             UserApiModel userApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -1414,8 +1415,10 @@ namespace Implem.Pleasanter.Models
             UserId = userId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.UsersWhereDefault(
                         context: context,
                         userModel: this)
@@ -1423,7 +1426,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

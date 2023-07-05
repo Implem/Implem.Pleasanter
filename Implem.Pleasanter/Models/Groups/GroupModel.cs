@@ -378,6 +378,7 @@ namespace Implem.Pleasanter.Models
             int groupId,
             Dictionary<string, string> formData = null,
             GroupApiModel groupApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -387,8 +388,10 @@ namespace Implem.Pleasanter.Models
             GroupId = groupId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.GroupsWhereDefault(
                         context: context,
                         groupModel: this)
@@ -396,7 +399,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

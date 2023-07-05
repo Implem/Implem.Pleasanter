@@ -273,6 +273,7 @@ namespace Implem.Pleasanter.Models
             int tenantId,
             Dictionary<string, string> formData = null,
             TenantApiModel tenantApiModel = null,
+            SqlColumnCollection column = null,
             bool clearSessions = false,
             List<int> switchTargets = null,
             MethodTypes methodType = MethodTypes.NotSet)
@@ -281,8 +282,10 @@ namespace Implem.Pleasanter.Models
             TenantId = context.TenantId;
             if (context.QueryStrings.ContainsKey("ver"))
             {
-                Get(context: context,
+                Get(
+                    context: context,
                     tableType: Sqls.TableTypes.NormalAndHistory,
+                    column: column,
                     where: Rds.TenantsWhereDefault(
                         context: context,
                         tenantModel: this)
@@ -290,7 +293,10 @@ namespace Implem.Pleasanter.Models
             }
             else
             {
-                Get(context: context, ss: ss);
+                Get(
+                    context: context,
+                    ss: ss,
+                    column: column);
             }
             if (clearSessions) ClearSessions(context: context);
             if (formData != null)

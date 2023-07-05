@@ -62,7 +62,8 @@
             var #modelName#Model = new #ModelName#Model(
                 context: context,
                 ss: destinationSs,
-                #modelName#Id: #modelName#Id);
+                #modelName#Id: #modelName#Id,
+                column: Rds.#TableName#DefaultColumns());
             if (matchingConditions.Any(o => o == #modelName#Model.#ModelName#Id))
             {
                 Set(

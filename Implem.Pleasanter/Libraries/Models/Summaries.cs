@@ -170,7 +170,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     var issueModel = new IssueModel(
                         context: context,
                         ss: destinationSs,
-                        issueId: issueId);
+                        issueId: issueId,
+                        column: Rds.IssuesDefaultColumns());
                     if (matchingConditions.Any(o => o == issueModel.IssueId))
                     {
                         Set(
@@ -332,7 +333,8 @@ namespace Implem.Pleasanter.Libraries.Models
                     var resultModel = new ResultModel(
                         context: context,
                         ss: destinationSs,
-                        resultId: resultId);
+                        resultId: resultId,
+                        column: Rds.ResultsDefaultColumns());
                     if (matchingConditions.Any(o => o == resultModel.ResultId))
                     {
                         Set(
