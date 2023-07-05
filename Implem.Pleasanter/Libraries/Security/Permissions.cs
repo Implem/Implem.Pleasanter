@@ -473,7 +473,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "publishes":
                     return context.Publish;
                 default:
-                    if (ss.IsSiteEditor(context: context) || ss.IsDashboards())
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -506,7 +506,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "versions":
                     return false;
                 default:
-                    if (ss.IsSiteEditor(context: context) || ss.IsDashboards())
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -542,7 +542,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    if (ss.IsSiteEditor(context: context) || ss.IsDashboards())
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -582,7 +582,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
                 default:
-                    if (ss.IsSiteEditor(context: context) || ss.IsDashboards())
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -613,7 +613,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
                 default:
-                    if (ss.IsSiteEditor(context: context) || ss.IsDashboards())
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }

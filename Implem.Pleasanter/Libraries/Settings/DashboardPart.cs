@@ -328,7 +328,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool Accessable(Context context, SiteSettings ss)
         {
-            if (!context.CanUpdate(ss: ss))
+            if (!context.CanRead(ss: ss))
             {
                 return false;
             }
