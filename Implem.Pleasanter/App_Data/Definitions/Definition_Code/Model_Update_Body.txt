@@ -106,6 +106,7 @@ public List<SqlStatement> UpdateStatements(
 
 <!--Model_UpdateAttachmentsStatements-->
 <!--Model_UpdatePermissions-->
+<!--Model_UpdatePermissions_Sites-->
 
     if (additionalStatements?.Any() == true)
     {

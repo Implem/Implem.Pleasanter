@@ -1865,7 +1865,11 @@ namespace Implem.Pleasanter.Models
             }
             else if (RecordPermissions != null)
             {
-                statements.UpdatePermissions(context, ss, ResultId, RecordPermissions);
+                statements.UpdatePermissions(
+                    context: context,
+                    ss: ss,
+                    referenceId: ResultId,
+                    permissions: RecordPermissions);
             }
             if (additionalStatements?.Any() == true)
             {
