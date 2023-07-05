@@ -8,5 +8,6 @@
     "MinimumTime": 3,
     "DeadlockRetryCount": 4,
     "DeadlockRetryInterval": 1000,
-    "DisableIndexChangeDetection": true
+    "DisableIndexChangeDetection": true,
+    "SysLogsSchemaVersion": 1
 }

@@ -1,5 +1,10 @@
 ﻿public static #TableName#ColumnCollection #TableName#DefaultColumns()
 {
+    var targets = Def.ColumnDefinitionCollection
+        .Where(columnDefinition => columnDefinition.TableName == "#TableName#")
+        .Where(columnDefinition => !columnDefinition.LowSchemaVersion())
+        .Select(columnDefinition => columnDefinition.ColumnName)
+        .ToList();
     var column = #TableName#Column()
 
 <!--Rds_ColumnDefault-->;

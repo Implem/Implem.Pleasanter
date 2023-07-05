@@ -4402,6 +4402,8 @@ namespace Implem.Pleasanter.Models
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
+                    sysLogsStatus: 401,
+                    sysLogsDescription: $"{Debugs.GetSysLogsDescription()}:{Messages.Authentication(context: context).Text}",
                     message: new
                     {
                         LoginId = LoginId,

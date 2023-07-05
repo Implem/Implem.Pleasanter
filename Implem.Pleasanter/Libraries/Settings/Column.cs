@@ -161,6 +161,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         public decimal? LocalFolderTotalLimitSize;
         public int? DateTimeStep;
         [NonSerialized]
+        public bool LowSchemaVersion;
+        [NonSerialized]
         public int? No;
         [NonSerialized]
         public bool Id_Ver;
@@ -1829,6 +1831,24 @@ namespace Implem.Pleasanter.Libraries.Settings
                             break;
                         case "Method":
                             sql.SysLogs_Method(tableName: path, _as: _as);
+                            break;
+                        case "Api":
+                            sql.SysLogs_Api(tableName: path, _as: _as);
+                            break;
+                        case "SiteId":
+                            sql.SysLogs_SiteId(tableName: path, _as: _as);
+                            break;
+                        case "ReferenceId":
+                            sql.SysLogs_ReferenceId(tableName: path, _as: _as);
+                            break;
+                        case "ReferenceType":
+                            sql.SysLogs_ReferenceType(tableName: path, _as: _as);
+                            break;
+                        case "Status":
+                            sql.SysLogs_Status(tableName: path, _as: _as);
+                            break;
+                        case "Description":
+                            sql.SysLogs_Description(tableName: path, _as: _as);
                             break;
                         case "RequestData":
                             sql.SysLogs_RequestData(tableName: path, _as: _as);

@@ -33,6 +33,8 @@ namespace Implem.Pleasanter.Libraries.Requests
     {
         public Stopwatch Stopwatch { get; set; } = new Stopwatch();
         public StringBuilder LogBuilder { get; set; } = new StringBuilder();
+        public int SysLogsStatus { get; set; } = 200;
+        public string SysLogsDescription { get; set; }
         public ExpandoObject UserData { get; set; } = new ExpandoObject();
         public ResponseCollection ResponseCollection { get; set; } = new ResponseCollection();
         public List<Message> Messages { get; set; } = new List<Message>();
@@ -100,6 +102,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public UserSettings UserSettings { get; set; }
         public bool HasPrivilege { get; set; }
         public ContractSettings ContractSettings { get; set; } = new ContractSettings();
+        public bool Api { get; set; }
         public decimal ApiVersion { get; set; } = Parameters.Api.Version;
         public string ApiRequestBody { get; set; }
         public string ApiKey { get; set; }
@@ -123,7 +126,8 @@ namespace Implem.Pleasanter.Libraries.Requests
             bool item = true,
             bool setPermissions = true,
             string apiRequestBody = null,
-            string contentType = null)
+            string contentType = null,
+            bool api = false)
         {
             Request = request;
             Set(
@@ -139,6 +143,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 SiteInfo.Reflesh(context: this);
             }
+            Api = api;
         }
 
         public Context(
@@ -185,10 +190,11 @@ namespace Implem.Pleasanter.Libraries.Requests
             SetTenantCaches();
         }
 
-        public Context(ICollection<IFormFile> files, string apiRequestBody = null)
+        public Context(ICollection<IFormFile> files, string apiRequestBody = null, bool api = false)
         {
             Set(apiRequestBody: apiRequestBody);
             SetPostedFiles(files: files);
+            Api = api;
         }
 
         public void Set(

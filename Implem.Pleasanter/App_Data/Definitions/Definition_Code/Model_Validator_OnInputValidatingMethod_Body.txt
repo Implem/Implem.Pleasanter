@@ -14,7 +14,11 @@
             ?? new List<ErrorData>();
     if (errors.Count == 0)
     {
-        errors.Add(new ErrorData(type: Error.Types.None));
+        errors.Add(new ErrorData(
+            context: context,
+            type: Error.Types.None,
+            sysLogsStatus: 200,
+            sysLogsDescription: Debugs.GetSysLogsDescription()));
     }
     return errors;
 }
@@ -77,7 +81,11 @@ private static List<ErrorData> OnInputValidating(
         });
     if (errors.Count == 0)
     {
-        errors.Add(new ErrorData(type: Error.Types.None));
+        errors.Add(new ErrorData(
+            context: context,
+            type: Error.Types.None,
+            sysLogsStatus: 200,
+            sysLogsDescription: Debugs.GetSysLogsDescription()));
     }
     return errors;
 }

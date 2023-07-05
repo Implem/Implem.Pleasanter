@@ -2679,8 +2679,11 @@ namespace Implem.Pleasanter.Models
                             .Sub(sub: Rds.ExistsDepts(where: Rds.DeptsWhere()
                                 .DeptId(raw: "\"GroupMembers\".\"DeptId\"")))
                             .Sub(sub: Rds.ExistsUsers(where: Rds.UsersWhere()
-                                .UserId(raw: "\"GroupMembers\".\"UserId\""))))))
-                                    .AsEnumerable();
+                                .UserId(raw: "\"GroupMembers\".\"UserId\"")))),
+                    orderBy: Rds.GroupMembersOrderBy()
+                        .DeptId()
+                        .UserId()))
+                            .AsEnumerable();
         }
 
         /// <summary>

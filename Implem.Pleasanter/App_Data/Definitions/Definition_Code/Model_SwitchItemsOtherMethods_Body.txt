@@ -38,7 +38,11 @@ public ContentResultInheritance SynchronizeSummariesByApi(Context context)
     {
         return ApiResults.Error(
             context: context,
-            errorData: new ErrorData(type: Error.Types.BadRequest));
+            errorData: new ErrorData(
+                context: context,
+                type: Error.Types.BadRequest,
+                sysLogsStatus: 400,
+                sysLogsDescription: Debugs.GetSysLogsDescription()));
     }
     var result = SiteUtilities.SynchronizeSummaries(
         context: context,
