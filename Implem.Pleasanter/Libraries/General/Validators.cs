@@ -77,11 +77,17 @@ namespace Implem.Pleasanter.Libraries.General
                     || context.ContractSettings.Api == false
                     || context.UserSettings?.AllowApi(context: context) == false))
             {
-                return new ErrorData(type: Error.Types.InvalidRequest);
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.InvalidRequest,
+                    sysLogsStatus: 403);
             }
             if (context.InvalidJsonData)
             {
-                return new ErrorData(type: Error.Types.InvalidJsonData);
+                return new ErrorData(
+                    context: context,
+                    type: Error.Types.InvalidJsonData,
+                    sysLogsStatus: 400);
             }
             return new ErrorData(type: Error.Types.None);
         }

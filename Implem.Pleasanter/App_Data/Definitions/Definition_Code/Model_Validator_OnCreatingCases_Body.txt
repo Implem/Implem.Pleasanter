@@ -5,7 +5,11 @@
         copy: copy))
     {
         return new ErrorData(
+            context: context,
             type: Error.Types.HasNotChangeColumnPermission,
-            data: column.LabelText);
+            data: column.LabelText,
+            api: api,
+            sysLogsStatus: 403,
+            sysLogsDescription: Debugs.GetSysLogsDescription());
     }
     break;

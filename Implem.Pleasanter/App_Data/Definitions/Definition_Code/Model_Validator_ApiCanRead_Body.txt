@@ -1,4 +1,9 @@
 ﻿if (api && !ss.IsSite(context: context) && !context.CanRead(ss: ss))
 {
-    return new ErrorData(type: Error.Types.NotFound);
+    return new ErrorData(
+        context: context,
+        type: Error.Types.NotFound,
+        api: api,
+        sysLogsStatus: 403,
+        sysLogsDescription: Debugs.GetSysLogsDescription());
 }

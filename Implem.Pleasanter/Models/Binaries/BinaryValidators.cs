@@ -27,7 +27,11 @@ namespace Implem.Pleasanter.Models
             {
                 return new ErrorData(type: Error.Types.HasNotPermission);
             }
-            return new ErrorData(type: Error.Types.None);
+            return new ErrorData(
+                context: context,
+                type: Error.Types.None,
+                sysLogsStatus: 200,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
         }
 
         /// <summary>

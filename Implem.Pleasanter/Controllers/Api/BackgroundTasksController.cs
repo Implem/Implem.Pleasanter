@@ -26,7 +26,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             if (!context.Authenticated)
             {
                 return ApiResults.Unauthorized(context: context);
