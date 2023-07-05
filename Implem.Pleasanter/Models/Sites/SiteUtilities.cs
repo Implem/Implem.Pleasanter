@@ -3249,7 +3249,7 @@ namespace Implem.Pleasanter.Models
                                     action: () => hb
                                         .A(
                                             href: "#DashboardPartSettingsEditor",
-                                            text: "ダッシュボードパーツ")
+                                            text: Displays.DashboardParts(context: context))
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -4451,12 +4451,12 @@ namespace Implem.Pleasanter.Models
                     attributes: new HtmlAttributes()
                         .Id("DashboardPartDialog")
                         .Class("dialog")
-                        .Title("ダッシュボード"))
+                        .Title(Displays.Dashboards(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("DashboardPartTimeLineSitesDialog")
                         .Class("dialog")
-                        .Title("サイトID"))
+                        .Title(Displays.SiteId(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("ServerScriptDialog")
@@ -4685,7 +4685,7 @@ namespace Implem.Pleasanter.Models
                         labelText: ss.ReferenceType == "Sites"
                             ? Displays.MenuGuide(context: context)
                             : (ss.ReferenceType == "Dashboards"
-                                ? "ダッシュボードのガイド"
+                                ? Displays.DashboardGuide(context: context)
                                 : Displays.Sites_GridGuide(context: context)),
                         text: siteModel.GridGuide,
                         mobile: context.Mobile,
@@ -14084,15 +14084,15 @@ namespace Implem.Pleasanter.Models
                     .Th(action: () => hb
                         .Text(text: Displays.Title(context: context)))
                     .Th(action: () => hb
-                        .Text(text: "タイプ"))
+                        .Text(text: Displays.PartsType(context: context)))
                     .Th(action: () => hb
                         .Text(text: "X"))
                     .Th(action: () => hb
                         .Text(text: "Y"))
                     .Th(action: () => hb
-                        .Text(text: "Width"))
+                        .Text(text: Displays.Width(context: context)))
                     .Th(action: () => hb
-                        .Text(text: "Height"))));
+                        .Text(text: Displays.Height(context: context)))));
         }
 
         /// <summary>
@@ -14150,7 +14150,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "DashboardPartTimeLineSitesEdit",
                         fieldCss: "field-wide",
                         controlCss: " always-send",
-                        labelText: "サイトID",
+                        labelText: Displays.SiteId(context: context),
                         text: dashboardTimeLineSites,
                         validateRequired: true)
                     .Hidden(
@@ -14298,30 +14298,30 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         controlContainerCss: "m-l50",
                         controlCss: " always-send",
-                        labelText: "タイトルを表示する",
+                        labelText: Displays.DisplayTitle(context: context),
                         _checked: dashboardPart.ShowTitle ?? false)
                     .FieldDropDown(
                         context: context,
                         controlId: "DashboardPartType",
                         controlCss: " always-send",
-                        labelText: "タイプ",
+                        labelText: Displays.PartsType(context: context),
                         optionCollection: new Dictionary<string, string>
                         {
                             {
                                 DashboardPartType.QuickAccess.ToInt().ToString(),
-                                "クイックアクセス"
+                                Displays.QuickAccess(context: context)
                             },
                             {
                                 DashboardPartType.TimeLine.ToInt().ToString(),
-                                "タイムライン"
+                                Displays.TimeLine(context: context)
                             },
                             {
                                 DashboardPartType.Custom.ToInt().ToString(),
-                                "カスタム"
+                                Displays.DashboardCustom(context: context)
                             },
                             {
                                 DashboardPartType.CustomHtml.ToInt().ToString(),
-                                "カスタムHTML"
+                                Displays.DashboardCustomHtml(context: context)
                             },
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
@@ -14332,7 +14332,7 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-wide"
                                 + hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
                             controlCss: " always-send",
-                            labelText: "サイトID",
+                            labelText: Displays.SiteId(context: context),
                             text: dashboardPart.QuickAccessSites?.Join())
                     .FieldDropDown(
                         context: context,
@@ -14340,16 +14340,16 @@ namespace Implem.Pleasanter.Models
                         fieldId: "DashboardPartQuickAccessLayoutField",
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
-                        labelText: "レイアウト",
+                        labelText: Displays.QuickAccessLayout(context: context),
                         optionCollection: new Dictionary<string, string>
                         {
                             {
                                 QuickAccessLayout.Horizontal.ToInt().ToString(),
-                                "横方向"
+                                Displays.Horizontal(context: context)
                             },
                             {
                                 QuickAccessLayout.Vertical.ToInt().ToString(),
-                                "縦方向"
+                                Displays.Vertical(context: context)
                             }
                         },
                         selectedValue: dashboardPart.QuickAccessLayout.ToInt().ToString(),
@@ -14367,7 +14367,7 @@ namespace Implem.Pleasanter.Models
                             hb
                                 .FieldText(
                                     controlId: "DashboardPartTimeLineSitesValue",
-                                    labelText: "サイトID",
+                                    labelText: Displays.SiteId(context: context),
                                     text: timeLineSites)
                                 .Hidden(
                                     controlId: "DashboardPartTimeLineSites",
@@ -14393,7 +14393,7 @@ namespace Implem.Pleasanter.Models
                         fieldId: "DashboardPartTimeLineTitleField",
                         fieldCss: "field-wide" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         controlCss: " always-send",
-                        labelText: "レコードのタイトル",
+                        labelText: Displays.RecordTitle(context: context),
                         text: dashboardPart.TimeLineTitle.IsNullOrEmpty()
                             ? $"[Title]"
                             : SiteSettingsUtilities.Get(context: context, dashboardPart.SiteId)?
@@ -14404,7 +14404,7 @@ namespace Implem.Pleasanter.Models
                         fieldId: "DashboardPartTimeLineBodyField",
                         fieldCss: "field-wide" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         controlCss: " always-send",
-                        labelText: "レコードの内容",
+                        labelText: Displays.RecordBody(context: context),
                         text: dashboardPart.TimeLineBody.IsNullOrEmpty()
                             ? $"[Body]"
                             : SiteSettingsUtilities.Get(context: context, dashboardPart.SiteId)?
@@ -14415,20 +14415,20 @@ namespace Implem.Pleasanter.Models
                         fieldId: "DashboardPartTimeLineDisplayTypeField",
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
-                        labelText: "表示タイプ",
+                        labelText: Displays.TimeLineDisplayType(context: context),
                         optionCollection: new Dictionary<string, string>
                         {
                             {
                                 TimeLineDisplayType.Simple.ToInt().ToString(),
-                                "簡易"
+                                Displays.TimeLineSimple(context: context)
                             },
                             {
                                 TimeLineDisplayType.Standard.ToInt().ToString(),
-                                "標準"
+                                Displays.TimeLineStandard(context: context)
                             },
                             {
                                 TimeLineDisplayType.Detailed.ToInt().ToString(),
-                                "詳細"
+                                Displays.TimeLineDetailed(context: context)
                             }
                         },
                         selectedValue: dashboardPart.TimeLineDisplayType.ToInt().ToString(),
@@ -14438,7 +14438,7 @@ namespace Implem.Pleasanter.Models
                         fieldId: "DashboardPartTimeLineItemCountField",
                         fieldCss: "field-auto",
                         controlCss: " always-send",
-                        labelText: "表示件数",
+                        labelText: Displays.DisplayCount(context: context),
                         value: dashboardPart.TimeLineItemCount==0
                             ? Parameters.Dashboard.TimeLineItemCount
                             : dashboardPart.TimeLineItemCount,
@@ -14453,14 +14453,14 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide"
                             + hiddenCss(dashboardPart.Type != DashboardPartType.Custom),
                         controlCss: " always-send",
-                        labelText: "内容",
+                        labelText: Displays.Body(context: context),
                         text: dashboardPart.Content,
                         mobile: context.Mobile)
                     .Field(
                         fieldId: "DashboardPartHtmlContentField",
                         fieldCss: "field-wide"
                             + hiddenCss(dashboardPart.Type != DashboardPartType.CustomHtml),
-                        labelText: "内容",
+                        labelText: Displays.Body(context: context),
                         controlAction: ()=>hb
                             .TextArea(
                                 css: "control-textarea always-send",

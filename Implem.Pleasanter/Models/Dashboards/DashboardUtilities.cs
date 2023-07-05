@@ -1715,17 +1715,30 @@ namespace Implem.Pleasanter.Models
                                     : ""),
                             action: () =>
                             {
-                                var recordTime = item.UpdatedTime.Value > item.CreatedTime.Value
-                                    ? $"Updated by {item.Updator.Name} at {item.UpdatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}"
-                                    : $"Created by {item.Creator.Name} at {item.CreatedTime.DisplayValue:yyyy/MM/dd HH:mm:ss}";
                                 hb
                                     .A(
                                         text: item.SiteTitle.Title(context: context),
                                         href: Locations.ItemIndex(
                                             context: context,
                                             id: item.SiteId))
-                                    .P(css: "dashboard-timeline-record-time",
-                                        action: () => hb.Text(recordTime));
+                                    .Div(css: "dashboard-timeline-record-time",
+                                        action: () =>
+                                        {
+                                            if(item.UpdatedTime.Value > item.CreatedTime.Value)
+                                            {
+                                                hb.UpdatedInfo(
+                                                    context: context,
+                                                    item.UpdatedTime,
+                                                    item.Updator.Name);
+                                            }
+                                            else
+                                            {
+                                                hb.CreatedInfo(
+                                                    context: context,
+                                                    item.CreatedTime,
+                                                    item.Creator.Name);
+                                            }              
+                                        });
                             })
                         .Div(
                             css: "dashboard-timeline-titlebody",

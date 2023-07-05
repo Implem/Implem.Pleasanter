@@ -1,0 +1,33 @@
+{
+    "Id": "DisplayTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Show title"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "タイトルを表示する"
+        },
+        {
+            "Language": "de",
+            "Body": "Titel anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "타이틀 표시"
+        },
+        {
+            "Language": "es",
+            "Body": "Mostrar título"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hiển thị tiêu đề"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "Id": "TimeLineDisplayType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Display type"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示タイプ"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzeigetyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "표시 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de visualización"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại hiển thị"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "Id": "DisplayCount",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Number of displays"
+        },
+        {
+            "Language": "zh",
+            "Body": "显示数量"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示件数"
+        },
+        {
+            "Language": "de",
+            "Body": "Anzahl der Anzeigen"
+        },
+        {
+            "Language": "ko",
+            "Body": "표시 개수"
+        },
+        {
+            "Language": "es",
+            "Body": "Número de visualizaciones"
+        },
+        {
+            "Language": "vn",
+            "Body": "Số lượng hiển thị"
+        }
+    ]
+}

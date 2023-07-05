@@ -1,0 +1,33 @@
+{
+    "Id": "InvalidTimeLineSites",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Specify the site ID or site group name of the record table or deadline table"
+        },
+        {
+            "Language": "zh",
+            "Body": "指定记录表或截止日期表的站点ID或站点组名"
+        },
+        {
+            "Language": "ja",
+            "Body": "記録テーブルまたは期限付きテーブルのサイトIDもしくはサイトグループ名を指定してください。"
+        },
+        {
+            "Language": "de",
+            "Body": "Geben Sie die Site-ID oder den Namen der Site-Gruppe für die Aufzeichnungstabelle oder die Fristtabelle an"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 테이블 또는 마감 테이블의 사이트 ID 또는 사이트 그룹 이름을 지정하십시오"
+        },
+        {
+            "Language": "es",
+            "Body": "Especifique el ID del sitio o el nombre del grupo de sitios de la tabla de registros o la tabla de plazos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hãy chỉ định ID trang web hoặc tên nhóm trang web của bảng ghi hoặc bảng hạn chế"
+        }
+    ]
+}

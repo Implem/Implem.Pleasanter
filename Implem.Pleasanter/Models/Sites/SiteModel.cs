@@ -7130,7 +7130,7 @@ namespace Implem.Pleasanter.Models
                 res.Message(
                     new Message(
                         "InvalidTimeLineSites",
-                        "記録テーブルまたは期限付きテーブルのサイトIDもしくはサイトグループ名を指定してください。",
+                        Displays.InvalidTimeLineSites(context: context),
                         "alert-error"));
             }
             else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
@@ -7169,7 +7169,7 @@ namespace Implem.Pleasanter.Models
                 res.Message(
                    new Message(
                        "InvalidTimeLineSites",
-                       "記録テーブルまたは期限付きテーブルのサイトIDもしくはサイトグループ名を指定してください。",
+                       Displays.InvalidTimeLineSites(context: context),
                        "alert-error"));
                 return;
             }
@@ -7194,8 +7194,6 @@ namespace Implem.Pleasanter.Models
                             usekeepSorterState: false,
                             currentTableOnly: true));
         }
-
-
 
         /// <summary>
         /// Fixed:

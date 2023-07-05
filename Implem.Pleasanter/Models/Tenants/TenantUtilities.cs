@@ -607,7 +607,7 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     controlId: "Tenants_TopDashboards",
                     controlCss: " always-send",
-                    labelText: "ダッシュボード",
+                    labelText: Displays.Dashboards(context: context),
                     optionCollection: GetDashboardSelectOptions(context: context),
                     selectedValue: tenantModel.TopDashboards
                         ?.Deserialize<long?[]>()

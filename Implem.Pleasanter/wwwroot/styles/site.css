@@ -3260,7 +3260,23 @@ textarea:focus {
     font-size: 0.8em;
     color: #777;
     margin-top: 5px;
+    font-weight: bold;
+    display: flex;
 }
+
+    .dashboard-timeline-record-time .createdInfo-creator, .dashboard-timeline-record-time .updatedInfo-updator {
+        margin-left: 4px;
+    }
+
+    .dashboard-timeline-record-time time {
+        margin-left: 4px;
+    }
+
+    .dashboard-timeline-record-time .elapsed-time {
+        margin-left: 4px;
+        font-weight: bold;
+        background-color: #eee;
+    }
 
 .dashboard-timeline-title {
     font-size: 1.2em;

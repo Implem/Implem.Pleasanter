@@ -570,7 +570,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "Wikis":
                     return Displays.ManageWiki(context: context);
                 case "Dashboards":
-                    return "ダッシュボードの管理";
+                    return Displays.ManageDashboard(context: context);
                 default:
                     return null;
             }

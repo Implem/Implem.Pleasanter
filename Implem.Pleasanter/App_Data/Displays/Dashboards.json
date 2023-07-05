@@ -1,0 +1,33 @@
+{
+    "Id": "Dashboards",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Dashboard"
+        },
+        {
+            "Language": "zh",
+            "Body": "仪表盘"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダッシュボード"
+        },
+        {
+            "Language": "de",
+            "Body": "Das Armaturenbrett"
+        },
+        {
+            "Language": "ko",
+            "Body": "대시보드"
+        },
+        {
+            "Language": "es",
+            "Body": "Tablero de instrumentos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bảng điều khiển"
+        }
+    ]
+}
