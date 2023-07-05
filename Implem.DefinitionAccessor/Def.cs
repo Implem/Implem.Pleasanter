@@ -658,7 +658,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsParameterOnly": Code.Model_SiteSettingsParameterOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterOnly, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterName": Code.Model_SiteSettingsWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterName, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
-                    case "Model_SiteTrue": Code.Model_SiteTrue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteTrue, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_SwitchItems2": Code.Model_SwitchItems2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems2, definitionRow, CodeXls); break;
                     case "Model_SwitchItemsLockMethods": Code.Model_SwitchItemsLockMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItemsLockMethods, definitionRow, CodeXls); break;
@@ -711,6 +710,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateParams_SetByApi": Code.Model_UpdateParams_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_SetByApi, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
+                    case "Model_UpdatePermissions_Sites": Code.Model_UpdatePermissions_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions_Sites, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecordsMethod": Code.Model_UpdateRelatedRecordsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecordsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateReminders": Code.Model_UpdateReminders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateReminders, definitionRow, CodeXls); break;
@@ -7082,7 +7082,6 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsParameterOnly;
         public string Model_SiteSettingsWithParameterName;
         public string Model_SiteSettingsWithParameterNameLower;
-        public string Model_SiteTrue;
         public string Model_SwitchItems;
         public string Model_SwitchItems2;
         public string Model_SwitchItemsLockMethods;
@@ -7135,6 +7134,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateParams_SetByApi;
         public string Model_UpdateParams_Users;
         public string Model_UpdatePermissions;
+        public string Model_UpdatePermissions_Sites;
         public string Model_UpdateRelatedRecords;
         public string Model_UpdateRelatedRecordsMethod;
         public string Model_UpdateReminders;
@@ -7874,7 +7874,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsParameterOnly = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterName = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
-        public CodeDefinition Model_SiteTrue = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_SwitchItems2 = new CodeDefinition();
         public CodeDefinition Model_SwitchItemsLockMethods = new CodeDefinition();
@@ -7927,6 +7926,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateParams_SetByApi = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
+        public CodeDefinition Model_UpdatePermissions_Sites = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecordsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateReminders = new CodeDefinition();
