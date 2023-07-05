@@ -11,7 +11,7 @@
     "GridColumn": "112",
     "GridEnabled": "1",
     "FilterColumn": "112",
-    "FilterEnabled": "1",
+    "FilterEnabled": "0",
     "EditorColumn": "112",
     "EditorEnabled": "1",
     "LinkColumn": "112",
