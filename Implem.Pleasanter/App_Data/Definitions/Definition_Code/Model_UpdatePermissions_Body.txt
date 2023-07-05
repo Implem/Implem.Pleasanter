@@ -19,5 +19,9 @@
 }
 else if (RecordPermissions != null)
 {
-    statements.UpdatePermissions(context, ss, #ModelName#Id, RecordPermissions<!--Model_SiteTrue-->);
+    statements.UpdatePermissions(
+        context: context,
+        ss: ss,
+        referenceId: #ModelName#Id,
+        permissions: RecordPermissions);
 }

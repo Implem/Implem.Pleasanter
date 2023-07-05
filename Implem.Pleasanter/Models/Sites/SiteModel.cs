@@ -1235,6 +1235,15 @@ namespace Implem.Pleasanter.Models
                 where: where,
                 param: param,
                 otherInitValue: otherInitValue));
+            if (RecordPermissions != null)
+            {
+                statements.UpdatePermissions(
+                    context: context,
+                    ss: ss,
+                    referenceId: SiteId,
+                    permissions: RecordPermissions,
+                    site: true);
+            }
             if (additionalStatements?.Any() == true)
             {
                 statements.AddRange(additionalStatements);
