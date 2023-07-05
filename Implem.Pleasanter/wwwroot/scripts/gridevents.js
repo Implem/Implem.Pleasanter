@@ -105,7 +105,7 @@ $(function () {
             $menuSort
                 .css('position', 'fixed')
                 .css('top', $control.offset().top + $control.outerHeight() - $(window).scrollTop())
-                .css('left', $control.offset().left)
+                .css('left', $control.offset().left - $(window).scrollLeft())
                 .outerWidth($control.outerWidth() > $menuSort.outerWidth()
                     ? $control.outerWidth()
                     : $menuSort.outerWidth())

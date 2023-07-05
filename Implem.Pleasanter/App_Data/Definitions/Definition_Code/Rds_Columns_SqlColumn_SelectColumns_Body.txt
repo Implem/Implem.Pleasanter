@@ -2,21 +2,25 @@
     this #TableName#ColumnCollection self,
     string tableName = "#JoinTableName#",
     string _as = #As#,
-    Sqls.Functions function = Sqls.Functions.None)
+    Sqls.Functions function = Sqls.Functions.None,
+    bool _using = true)
 {
-    (function != Sqls.Functions.None || function == Sqls.Functions.SingleColumn
-        ? new List<string> { "#ColumnName#" }
-        : new List<string> { #ColumnBrackets# })
-            .Select((o, i) => new { ColumnName = o, Index = i })
-            .ForEach(data =>
-                self.Add(
-                    columnBracket: "\"" + data.ColumnName + "\"",
-                    tableName: tableName,
-                    columnName: data.ColumnName,
-                    _as: _as?.Contains(",") == true
-                        ? _as.Split_1st() + "," + data.ColumnName
-                        : _as,
-                    function: function));
+    if (_using)
+    {
+        (function != Sqls.Functions.None || function == Sqls.Functions.SingleColumn
+            ? new List<string> { "#ColumnName#" }
+            : new List<string> { #ColumnBrackets# })
+                .Select((o, i) => new { ColumnName = o, Index = i })
+                .ForEach(data =>
+                    self.Add(
+                        columnBracket: "\"" + data.ColumnName + "\"",
+                        tableName: tableName,
+                        columnName: data.ColumnName,
+                        _as: _as?.Contains(",") == true
+                            ? _as.Split_1st() + "," + data.ColumnName
+                            : _as,
+                        function: function));
+    }
     return self;
 }
 
@@ -24,20 +28,24 @@ public static SqlColumnCollection #TableName#_#ColumnName#(
     this SqlColumnCollection self,
     string tableName = "#JoinTableName#",
     string _as = #As#,
-    Sqls.Functions function = Sqls.Functions.None)
+    Sqls.Functions function = Sqls.Functions.None,
+    bool _using = true)
 {
-    (function != Sqls.Functions.None || function == Sqls.Functions.SingleColumn
-        ? new List<string> { "#ColumnName#" }
-        : new List<string> { #ColumnBrackets# })
-            .Select((o, i) => new { ColumnName = o, Index = i })
-            .ForEach(data =>
-                self.Add(
-                    columnBracket: "\"" + data.ColumnName + "\"",
-                    tableName: tableName,
-                    columnName: data.ColumnName,
-                    _as: _as?.Contains(",") == true
-                        ? _as.Split_1st() + "," + data.ColumnName
-                        : _as,
-                    function: function));
+    if (_using)
+    {
+        (function != Sqls.Functions.None || function == Sqls.Functions.SingleColumn
+            ? new List<string> { "#ColumnName#" }
+            : new List<string> { #ColumnBrackets# })
+                .Select((o, i) => new { ColumnName = o, Index = i })
+                .ForEach(data =>
+                    self.Add(
+                        columnBracket: "\"" + data.ColumnName + "\"",
+                        tableName: tableName,
+                        columnName: data.ColumnName,
+                        _as: _as?.Contains(",") == true
+                            ? _as.Split_1st() + "," + data.ColumnName
+                            : _as,
+                        function: function));
+    }
     return self;
 }

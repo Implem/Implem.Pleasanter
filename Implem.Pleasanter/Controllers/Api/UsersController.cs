@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.GetByApi(
@@ -45,7 +46,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.CreateByApi(
@@ -65,7 +67,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.UpdateByApi(
@@ -86,7 +89,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? UserUtilities.DeleteByApi(

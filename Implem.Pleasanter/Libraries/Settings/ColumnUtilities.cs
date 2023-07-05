@@ -189,6 +189,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return definitions.Values
                 .Where(o => o.GridColumn > 0)
                 .Where(o => o.ControlType != "Attachment")
+                .Where(o => !o.LowSchemaVersion())
                 .OrderBy(o => o.GridColumn);
         }
 
@@ -394,6 +395,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 columns: columns);
             return columns
                 .Where(o => o != null)
+                .Where(o => !o.LowSchemaVersion)
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
                 .AllowedColumns(

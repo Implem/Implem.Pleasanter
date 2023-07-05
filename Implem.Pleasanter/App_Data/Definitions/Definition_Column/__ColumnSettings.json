@@ -1,5 +1,6 @@
 ﻿{
     "Id": "string",
+    "SchemaVersion": "int",
     "ModelName": "string",
     "TableName": "string",
     "Base": "bool",
