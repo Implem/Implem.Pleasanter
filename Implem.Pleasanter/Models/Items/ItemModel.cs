@@ -2623,6 +2623,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                 case "Wikis":
+                case "Dashboards":
                     return Libraries.SitePackages.Utilities.OpenImportSitePackageDialog(
                         context: context,
                         ss: Site.SiteSettings);
@@ -2646,6 +2647,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                 case "Wikis":
+                case "Dashboards":
                 default:
                     throw new NotImplementedException();
             }
@@ -2667,6 +2669,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                 case "Wikis":
+                case "Dashboards":
                     return Libraries.SitePackages.Utilities.OpenExportSitePackageDialog(
                         context: context,
                         ss: Site.SiteSettings,
@@ -2691,6 +2694,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                 case "Wikis":
+                case "Dashboards":
                     return Libraries.SitePackages.Utilities.ExportSitePackage(
                         context: context,
                         ss: Site.SiteSettings);
@@ -2717,6 +2721,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                 case "Results":
                 case "Wikis":
+                case "Dashboards":
                     var response = Libraries.SitePackages.Utilities.ImportSitePackage(
                         context: context,
                         ss: Site.SiteSettings,

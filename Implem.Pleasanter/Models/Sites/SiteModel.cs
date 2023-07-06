@@ -6849,355 +6849,6 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void SetDashboardPartsOrder(Context context, ResponseCollection res, string controlId)
-        {
-            var selected = context.Forms.IntList("EditDashboardPart");
-            if (selected?.Any() != true)
-            {
-                res.Message(Messages.SelectTargets(context: context)).ToJson();
-            }
-            else
-            {
-                SiteSettings.DashboardParts.MoveUpOrDown(
-                    ColumnUtilities.ChangeCommand(controlId), selected);
-                res.Html("#EditDashboardPart", new HtmlBuilder()
-                    .EditDashboardPart(
-                        context: context,
-                        ss: SiteSettings));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenDashboardPartDialog(Context context, ResponseCollection res, DashboardPart dashboardPart)
-        {
-            res.Html("#DashboardPartDialog", SiteUtilities.DashboardPartDialog(
-                context: context,
-                ss: SiteSettings,
-                controlId: context.Forms.ControlId(),
-                dashboardPart: dashboardPart));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenDashboardPartTimeLineSitesDialog(Context context, ResponseCollection res)
-        {
-            res.Html("#DashboardPartTimeLineSitesDialog", SiteUtilities.DashboardPartTimeLineSitesDialog(
-                context: context,
-                ss: SiteSettings,
-                dashboardPartId: context.Forms.Int("DashboardPartId"),
-                dashboardTimeLineSites: context.Forms.Data("DashboardPartTimeLineSites")));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
-        {
-            if (controlId == "NewDashboardPart")
-            {
-                var dashboardPart = new DashboardPart();
-                OpenDashboardPartDialog(
-                    context: context,
-                    res: res,
-                    dashboardPart: dashboardPart);
-            }
-            else
-            {
-                var dashboardPart = SiteSettings.DashboardParts?.Get(context.Forms.Int("DashboardPartId"));
-                if (dashboardPart == null)
-                {
-                    OpenDialogError(
-                        res: res,
-                        message: Messages.SelectOne(context: context));
-                }
-                else
-                {
-                    SiteSettingsUtilities.Get(
-                        context: context, siteModel: this, referenceId: SiteId);
-                    OpenDashboardPartDialog(
-                        context: context,
-                        res: res,
-                        dashboardPart: dashboardPart);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void AddDashboardPart(Context context, ResponseCollection res, string controlId)
-        {
-            var dashboardPart = DashboardPart.Create(
-                context: context,
-                id: SiteSettings.DashboardParts.MaxOrDefault(o => o.Id) + 1,
-                title: context.Forms.Data("DashboardPartTitle"),
-                showTitle: context.Forms.Bool("DashboardPartShowTitle"),
-                type: context.Forms.Data("DashboardPartType").ToEnum<DashboardPartType>(),
-                quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
-                quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
-                timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
-                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
-                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
-                timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
-                content: context.Forms.Data("DashboardPartContent"),
-                htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
-                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
-                extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
-                permissions: DashboardPartPermissions(context: context));
-            SiteSettings.DashboardParts.Add(dashboardPart);
-            res
-                .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
-                    .EditDashboardPart(
-                        context: context,
-                        ss: SiteSettings))
-                .CloseDialog();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public static View GetDashboardPartView(Context context, SiteSettings ss, View view)
-        {
-            view = view ?? new View();
-            if (ss == null)
-            {
-                return view;
-            }
-            view.SetByForm(
-                context: context,
-                ss: ss,
-                prefix: "DashboardPart");
-            return view;
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void UpdateDashboardPart(Context context, ResponseCollection res)
-        {
-            var dashboardPart = SiteSettings.DashboardParts?
-                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
-            if (dashboardPart == null)
-            {
-                return;
-            }
-            dashboardPart.Update(
-                context: context,
-                title: context.Forms.Data("DashboardPartTitle"),
-                showTitle: context.Forms.Bool("DashboardPartShowTitle"),
-                type: context.Forms.Data("DashboardPartType").ToEnum<DashboardPartType>(),
-                x: dashboardPart.X,
-                y: dashboardPart.Y,
-                width: dashboardPart.Width,
-                height: dashboardPart.Height,
-                quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
-                quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
-                timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
-                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
-                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
-                timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
-                content: context.Forms.Data("DashboardPartContent"),
-                htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
-                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
-                extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
-                permissions: DashboardPartPermissions(context: context));
-            res
-                .Html("#EditDashboardPart", new HtmlBuilder()
-                    .EditDashboardPart(
-                        context: context,
-                        ss: SiteSettings))
-                .CloseDialog();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private List<Permission> DashboardPartPermissions(Context context)
-        {
-            return context.Forms.List("CurrentDashboardPartAccessControlAll")
-                .Select(data => new Permission(
-                    name: data.Split_1st(),
-                    id: data.Split_2nd().ToInt(),
-                    type: Permissions.Types.NotSet))
-                .ToList();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        public string SearchDashboardPartAccessControl(Context context, ResponseCollection res)
-        {
-            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"))
-                ?? new Process();
-            var currentPermissions = process.GetPermissions(ss: SiteSettings);
-            var sourcePermissions = PermissionUtilities.SourceCollection(
-                context: context,
-                ss: SiteSettings,
-                searchText: context.Forms.Data("SearchDashboardPartAccessControl"),
-                currentPermissions: currentPermissions,
-                allUsers: false);
-            return res
-                .Html("#SourceDashboardPartAccessControl", PermissionUtilities.PermissionListItem(
-                    context: context,
-                    ss: SiteSettings,
-                    permissions: sourcePermissions.Page(0),
-                    selectedValueTextCollection: context.Forms.Data("SourceDashboardPartAccessControl")
-                        .Deserialize<List<string>>()?
-                        .Where(o => o != string.Empty),
-                    withType: false))
-                .Val("#SourceDashboardPartAccessControlOffset", Parameters.Permissions.PageSize)
-                .ToJson();
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void UpdatedashboardPartLayouts(Context context)
-        {
-            var layouts = context.Forms.Data("DashboardPartLayouts")
-                .Deserialize<DashboardPartLayout[]>();
-            foreach(var dashboardPart in SiteSettings.DashboardParts)
-            {
-                var layout = layouts.FirstOrDefault(o => o.Id == dashboardPart.Id);
-                if(layout != null)
-                {
-                    dashboardPart.X = layout.X;
-                    dashboardPart.Y = layout.Y;
-                    dashboardPart.Width = layout.W;
-                    dashboardPart.Height = layout.H;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void CopyDashboardPart(Context context, ResponseCollection res)
-        {
-            var selected = context.Forms.IntList("EditDashboardPart");
-            if (selected?.Any() != true)
-            {
-                res.Message(Messages.SelectTargets(context: context)).ToJson();
-            }
-            else
-            {
-                SiteSettings.DashboardParts.Copy(selected);
-                res.ReplaceAll("#EditDashboardPart", new HtmlBuilder()
-                    .EditDashboardPart(
-                        context: context,
-                        ss: SiteSettings));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void DeleteDashboardPart(Context context, ResponseCollection res)
-        {
-            var selected = context.Forms.IntList("EditDashboardPart");
-            if (selected?.Any() != true)
-            {
-                res.Message(Messages.SelectTargets(context: context)).ToJson();
-            }
-            else
-            {
-                SiteSettings.DashboardParts.Delete(selected);
-                res.ReplaceAll("#EditDashboardPart", new HtmlBuilder()
-                    .EditDashboardPart(
-                        context: context,
-                        ss: SiteSettings));
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void UpdateDashboardPartTimeLineSites(Context context, ResponseCollection res)
-        {
-            var savedTimeLineSites = context.Forms.Data("SavedDashboardPartTimeLineSites");
-            var timeLineSites = context.Forms.Data("DashboardPartTimeLineSitesEdit");
-            var savedSs = DashboardPart.GetBaseSiteSettings(
-                context: context,
-                timeLineSitesString: savedTimeLineSites);
-            var currentSs = DashboardPart.GetBaseSiteSettings(
-                    context: context,
-                    timeLineSitesString: timeLineSites);
-            if (currentSs == null || currentSs.SiteId == 0)
-            {
-                res.Message(
-                    new Message(
-                        "InvalidTimeLineSites",
-                        Displays.InvalidTimeLineSites(context: context),
-                        "alert-error"));
-            }
-            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
-            {
-                res
-                    .Set("#DashboardPartTimeLineSites", timeLineSites)
-                    .Add("SetValue", "#DashboardPartTimeLineSitesValue", timeLineSites)
-                    .CloseDialog("#DashboardPartTimeLineSitesDialog");
-                if (savedSs == null || savedSs?.SiteId == 0)
-                {
-                    ClearDashboardView(context: context, res: res);
-                }
-            }
-            else
-            {
-                res
-                    .Invoke("confirmTimeLineSites",
-                        new
-                        {
-                            timeLineSites,
-                            baseSiteId = currentSs.SiteId
-                        }.ToJson());
-            }
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private void ClearDashboardView(Context context, ResponseCollection res)
-        {
-            var currentSs = DashboardPart.GetBaseSiteSettings(
-                context: context,
-                context.Forms.Data("DashboardPartTimeLineSitesEdit"));
-            if (currentSs == null)
-            {
-                res.Message(
-                   new Message(
-                       "InvalidTimeLineSites",
-                       Displays.InvalidTimeLineSites(context: context),
-                       "alert-error"));
-                return;
-            }
-            res
-                .Html(
-                    "#DashboardPartViewFiltersTabContainer",
-                    new HtmlBuilder()
-                        .ViewFiltersTab(
-                            context: context,
-                            ss: currentSs,
-                            view: new View(),
-                            prefix: "DashboardPart",
-                            currentTableOnly: true))
-                .Html(
-                    "#DashboardPartViewSortersTabContainer",
-                    new HtmlBuilder()
-                        .ViewSortersTab(
-                            context: context,
-                            ss: currentSs,
-                            view: new View(),
-                            prefix: "DashboardPart",
-                            usekeepSorterState: false,
-                            currentTableOnly: true));
-        }
-
-        /// <summary>
-        /// Fixed:
-        /// </summary>
         private void SetServerScriptsOrder(Context context, ResponseCollection res, string controlId)
         {
             var selected = context.Forms.IntList("EditServerScript");
@@ -7790,6 +7441,355 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: SiteSettings));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetDashboardPartsOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditDashboardPart");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.DashboardParts.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditDashboardPart", new HtmlBuilder()
+                    .EditDashboardPart(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardPartDialog(Context context, ResponseCollection res, DashboardPart dashboardPart)
+        {
+            res.Html("#DashboardPartDialog", SiteUtilities.DashboardPartDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                dashboardPart: dashboardPart));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardPartTimeLineSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartTimeLineSitesDialog", SiteUtilities.DashboardPartTimeLineSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardTimeLineSites: context.Forms.Data("DashboardPartTimeLineSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewDashboardPart")
+            {
+                var dashboardPart = new DashboardPart();
+                OpenDashboardPartDialog(
+                    context: context,
+                    res: res,
+                    dashboardPart: dashboardPart);
+            }
+            else
+            {
+                var dashboardPart = SiteSettings.DashboardParts?.Get(context.Forms.Int("DashboardPartId"));
+                if (dashboardPart == null)
+                {
+                    OpenDialogError(
+                        res: res,
+                        message: Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenDashboardPartDialog(
+                        context: context,
+                        res: res,
+                        dashboardPart: dashboardPart);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddDashboardPart(Context context, ResponseCollection res, string controlId)
+        {
+            var dashboardPart = DashboardPart.Create(
+                context: context,
+                id: SiteSettings.DashboardParts.MaxOrDefault(o => o.Id) + 1,
+                title: context.Forms.Data("DashboardPartTitle"),
+                showTitle: context.Forms.Bool("DashboardPartShowTitle"),
+                type: context.Forms.Data("DashboardPartType").ToEnum<DashboardPartType>(),
+                quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
+                quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
+                timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
+                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
+                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
+                timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
+                content: context.Forms.Data("DashboardPartContent"),
+                htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
+                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                permissions: DashboardPartPermissions(context: context));
+            SiteSettings.DashboardParts.Add(dashboardPart);
+            res
+                .ReplaceAll("#EditDashboardPart", new HtmlBuilder()
+                    .EditDashboardPart(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static View GetDashboardPartView(Context context, SiteSettings ss, View view)
+        {
+            view = view ?? new View();
+            if (ss == null)
+            {
+                return view;
+            }
+            view.SetByForm(
+                context: context,
+                ss: ss,
+                prefix: "DashboardPart");
+            return view;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDashboardPart(Context context, ResponseCollection res)
+        {
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart == null)
+            {
+                return;
+            }
+            dashboardPart.Update(
+                context: context,
+                title: context.Forms.Data("DashboardPartTitle"),
+                showTitle: context.Forms.Bool("DashboardPartShowTitle"),
+                type: context.Forms.Data("DashboardPartType").ToEnum<DashboardPartType>(),
+                x: dashboardPart.X,
+                y: dashboardPart.Y,
+                width: dashboardPart.Width,
+                height: dashboardPart.Height,
+                quickAccessSites: context.Forms.Data("DashboardPartQuickAccessSites"),
+                quickAccessLayout: context.Forms.Data("DashboardPartQuickAccessLayout").ToEnum<QuickAccessLayout>(),
+                timeLineSites: context.Forms.Data("DashboardPartTimeLineSites"),
+                timeLineTitle: context.Forms.Data("DashboardPartTimeLineTitle"),
+                timeLineBody: context.Forms.Data("DashboardPartTimeLineBody"),
+                timeLineItemCount: context.Forms.Int("DashboardPartTimeLineItemCount"),
+                content: context.Forms.Data("DashboardPartContent"),
+                htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
+                timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
+                permissions: DashboardPartPermissions(context: context));
+            res
+                .Html("#EditDashboardPart", new HtmlBuilder()
+                    .EditDashboardPart(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private List<Permission> DashboardPartPermissions(Context context)
+        {
+            return context.Forms.List("CurrentDashboardPartAccessControlAll")
+                .Select(data => new Permission(
+                    name: data.Split_1st(),
+                    id: data.Split_2nd().ToInt(),
+                    type: Permissions.Types.NotSet))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string SearchDashboardPartAccessControl(Context context, ResponseCollection res)
+        {
+            var process = SiteSettings.Processes.Get(context.Forms.Int("ProcessId"))
+                ?? new Process();
+            var currentPermissions = process.GetPermissions(ss: SiteSettings);
+            var sourcePermissions = PermissionUtilities.SourceCollection(
+                context: context,
+                ss: SiteSettings,
+                searchText: context.Forms.Data("SearchDashboardPartAccessControl"),
+                currentPermissions: currentPermissions,
+                allUsers: false);
+            return res
+                .Html("#SourceDashboardPartAccessControl", PermissionUtilities.PermissionListItem(
+                    context: context,
+                    ss: SiteSettings,
+                    permissions: sourcePermissions.Page(0),
+                    selectedValueTextCollection: context.Forms.Data("SourceDashboardPartAccessControl")
+                        .Deserialize<List<string>>()?
+                        .Where(o => o != string.Empty),
+                    withType: false))
+                .Val("#SourceDashboardPartAccessControlOffset", Parameters.Permissions.PageSize)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdatedashboardPartLayouts(Context context)
+        {
+            var layouts = context.Forms.Data("DashboardPartLayouts")
+                .Deserialize<DashboardPartLayout[]>();
+            foreach (var dashboardPart in SiteSettings.DashboardParts)
+            {
+                var layout = layouts.FirstOrDefault(o => o.Id == dashboardPart.Id);
+                if (layout != null)
+                {
+                    dashboardPart.X = layout.X;
+                    dashboardPart.Y = layout.Y;
+                    dashboardPart.Width = layout.W;
+                    dashboardPart.Height = layout.H;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyDashboardPart(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditDashboardPart");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.DashboardParts.Copy(selected);
+                res.ReplaceAll("#EditDashboardPart", new HtmlBuilder()
+                    .EditDashboardPart(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteDashboardPart(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditDashboardPart");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.DashboardParts.Delete(selected);
+                res.ReplaceAll("#EditDashboardPart", new HtmlBuilder()
+                    .EditDashboardPart(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateDashboardPartTimeLineSites(Context context, ResponseCollection res)
+        {
+            var savedTimeLineSites = context.Forms.Data("SavedDashboardPartTimeLineSites");
+            var timeLineSites = context.Forms.Data("DashboardPartTimeLineSitesEdit");
+            var savedSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                timeLineSitesString: savedTimeLineSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                    context: context,
+                    timeLineSitesString: timeLineSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    new Message(
+                        "InvalidTimeLineSites",
+                        Displays.InvalidTimeLineSites(context: context),
+                        "alert-error"));
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set("#DashboardPartTimeLineSites", timeLineSites)
+                    .Add("SetValue", "#DashboardPartTimeLineSitesValue", timeLineSites)
+                    .CloseDialog("#DashboardPartTimeLineSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res
+                    .Invoke("confirmTimeLineSites",
+                        new
+                        {
+                            timeLineSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartTimeLineSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidTimeLineSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    "#DashboardPartViewSortersTabContainer",
+                    new HtmlBuilder()
+                        .ViewSortersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            usekeepSorterState: false,
+                            currentTableOnly: true));
         }
 
         /// <summary>

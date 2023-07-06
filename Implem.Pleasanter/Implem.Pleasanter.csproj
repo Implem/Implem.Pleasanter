@@ -115,8 +115,10 @@
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Status - コピー.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Results_Title - コピー.json" />
     <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TopDashboards.json" />
-    <Content Remove="App_Data\Definitions\Definition_Template\Template420.json" />
-    <Content Remove="App_Data\Definitions\Definition_Template\Template420_SiteSettingsTemplate.json" />
+    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard.json" />
+    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard_ja.json" />
+    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard_ja_SiteSettingsTemplate.json" />
+    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard_SiteSettingsTemplate.json" />
     <Content Remove="App_Data\Parameters\Dashboard.json" />
   </ItemGroup>
 

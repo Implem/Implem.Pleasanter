@@ -646,8 +646,17 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public bool IsDashboardEditor(Context context)
         {
-            return ReferenceType == "Dashboards"
-                && context.Action != "index";
+            if (ReferenceType != "Dashboards")
+            {
+                return false;
+            }
+            switch (context.Action)
+            {
+                case "index":
+                    return false;
+                default:
+                    return true;
+            }
         }
 
         public string RecordingJson(Context context)

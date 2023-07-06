@@ -4,6 +4,7 @@ using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
+using Microsoft.AspNetCore.Http.Connections;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -178,6 +179,22 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     column.ColumnName = ReplaceJoinColumn(
                         header: header,
                         source: column.ColumnName)));
+            ss.DashboardParts?.ForEach(dashboardPart =>
+            {
+                dashboardPart.SiteId = header.GetConvertedId(dashboardPart.SiteId);
+                dashboardPart.QuickAccessSites = dashboardPart.QuickAccessSites
+                    ?.Select(s =>
+                        long.TryParse(s, out long siteId)
+                            ? header.GetConvertedId(siteId).ToString()
+                            : s)
+                    .ToList();
+                dashboardPart.TimeLineSites = dashboardPart.TimeLineSites
+                    ?.Select(s =>
+                        long.TryParse(s, out long siteId)
+                            ? header.GetConvertedId(siteId).ToString()
+                            : s)
+                    .ToList();
+            });
             ss.Views?.ForEach(view =>
             {
                 if (view.GridColumns?.Any() == true)
@@ -241,6 +258,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                 }
             });
+
             if (!includeColumnPermission)
             {
                 ss.CreateColumnAccessControls?.Clear();

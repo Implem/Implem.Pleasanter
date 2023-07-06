@@ -151,7 +151,11 @@ namespace Implem.Pleasanter.Models
                             .Hidden(
                                 controlId: "Sites_Timestamp",
                                 css: "control-hidden always-send",
-                                value: siteModel.Timestamp)))
+                                value: siteModel.Timestamp))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("ExportSitePackageDialog")
+                        .Class("dialog")
+                        .Title(Displays.ExportSitePackage(context: context))))
                     .ToString();
         }
 
