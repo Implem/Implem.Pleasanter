@@ -396,8 +396,12 @@ namespace Implem.Pleasanter.Models
                             copy: copy))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "ContractDeadline":
@@ -740,8 +744,12 @@ namespace Implem.Pleasanter.Models
                         if (tenantModel.TopDashboards_Updated(context: context))
                         {
                             return new ErrorData(
+                                context: context,
                                 type: Error.Types.HasNotChangeColumnPermission,
-                                data: column.LabelText);
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "Comments":
