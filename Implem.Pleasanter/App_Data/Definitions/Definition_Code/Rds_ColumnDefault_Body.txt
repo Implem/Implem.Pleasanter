@@ -1,1 +1,1 @@
-﻿.#ColumnName#()
+﻿.#ColumnName#(_using: targets.Contains("#ColumnName#"))

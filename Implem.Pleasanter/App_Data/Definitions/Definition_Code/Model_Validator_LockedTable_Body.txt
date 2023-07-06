@@ -1,10 +1,13 @@
 ﻿if (ss.LockedTable())
 {
     return new ErrorData(
+        context: context,
         type: Error.Types.LockedTable,
         data: new string[]
         {
             ss.LockedTableUser.Name,
             ss.LockedTableTime.DisplayValue.ToString(context.CultureInfo())
-        });
+        },
+        sysLogsStatus: 400,
+        sysLogsDescription: Debugs.GetSysLogsDescription());
 }

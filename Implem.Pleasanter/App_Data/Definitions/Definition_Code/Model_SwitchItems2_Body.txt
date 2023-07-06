@@ -1130,6 +1130,10 @@ public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId
         default:
             return (null, HtmlTemplates.Error(
                 context: context,
-                errorData: new ErrorData(type: Error.Types.NotFound)));
+                errorData: new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: 404,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())));
     }
 }

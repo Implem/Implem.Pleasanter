@@ -29,7 +29,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? BinaryUtilities.ApiDonwload(
@@ -49,7 +50,8 @@ namespace Implem.Pleasanter.Controllers.Api
                  sessionStatus: User?.Identity?.IsAuthenticated == true,
                  sessionData: User?.Identity?.IsAuthenticated == true,
                  apiRequestBody: body,
-                 contentType: Request.ContentType);
+                 contentType: Request.ContentType,
+                 api: true);
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {
@@ -93,7 +95,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 apiRequestBody: new
                 {
                     ApiKey = AuthorizationHeaderValue()
-                }.ToJson());
+                }.ToJson(),
+                api: true);
             var log = new SysLogModel(context: context);
             if (!context.Authenticated)
             {

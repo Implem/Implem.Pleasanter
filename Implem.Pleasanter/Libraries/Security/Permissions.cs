@@ -150,7 +150,7 @@ namespace Implem.Pleasanter.Libraries.Security
             }
             else
             {
-                if (ss.ColumnHash.ContainsKey("SiteId"))
+                if (ss.ColumnHash.ContainsKey("SiteId") && ss.SiteId > 0)
                 {
                     if (ss.AllowedIntegratedSites == null)
                     {

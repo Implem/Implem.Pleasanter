@@ -14,7 +14,15 @@
         destination: destinationSs)
             || #modelName#Model.ReadOnly)
     {
-        return new ErrorData(type: Error.Types.HasNotPermission);
+        return new ErrorData(
+            context: context,
+            type: Error.Types.HasNotPermission,
+            sysLogsStatus: 403,
+            sysLogsDescription: Debugs.GetSysLogsDescription());
     }
-    return new ErrorData(type: Error.Types.None);
+    return new ErrorData(
+        context: context,
+        type: Error.Types.None,
+        sysLogsStatus: 200,
+        sysLogsDescription: Debugs.GetSysLogsDescription());
 }

@@ -78,6 +78,7 @@ namespace Implem.CodeDefiner.Functions.Rds
                 .Where(o => !o.NotUpdate)
                 .Where(o => o.JoinTableName.IsNullOrEmpty())
                 .Where(o => o.Calc.IsNullOrEmpty())
+                .Where(o => !o.LowSchemaVersion())
                 .OrderBy(o => o.No)
                 .ToList();
             var columnDefinitionHistoryCollection = columnDefinitionCollection

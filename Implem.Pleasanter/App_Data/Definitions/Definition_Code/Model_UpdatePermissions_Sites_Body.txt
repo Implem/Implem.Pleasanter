@@ -1,0 +1,9 @@
+﻿if (RecordPermissions != null)
+{
+    statements.UpdatePermissions(
+        context: context,
+        ss: ss,
+        referenceId: SiteId,
+        permissions: RecordPermissions,
+        site: true);
+}
