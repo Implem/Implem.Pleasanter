@@ -14062,6 +14062,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         selected: selected)
                     .EditDashboardPartBody(
+                        context: context,
                         ss: ss,
                         selected: selected));
         }
@@ -14099,7 +14100,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         public static HtmlBuilder EditDashboardPartBody(
-            this HtmlBuilder hb, SiteSettings ss, IEnumerable<int> selected)
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
         {
             return hb.TBody(action: () => ss
                 .DashboardParts?.ForEach(dashboardPart => hb
@@ -14118,7 +14119,7 @@ namespace Implem.Pleasanter.Models
                             .Td(action: () => hb
                                 .Text(text: dashboardPart.Title))
                             .Td(action: () => hb
-                                .Text(text: dashboardPart.Type.ToString()))
+                                .Text(text: dashboardPart.PartTypeString(context: context)))
                             .Td(action: () => hb
                                 .Text(text: dashboardPart.X.ToString()))
                             .Td(action: () => hb
@@ -14436,7 +14437,7 @@ namespace Implem.Pleasanter.Models
                     .FieldSpinner(
                         controlId: "DashboardPartTimeLineItemCount",
                         fieldId: "DashboardPartTimeLineItemCountField",
-                        fieldCss: "field-auto",
+                        fieldCss: "field-auto" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         controlCss: " always-send",
                         labelText: Displays.DisplayCount(context: context),
                         value: dashboardPart.TimeLineItemCount==0

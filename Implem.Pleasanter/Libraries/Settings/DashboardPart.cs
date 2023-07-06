@@ -1,13 +1,11 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
-using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Models;
-using SendGrid.Helpers.Mail.Model;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Settings
@@ -355,6 +353,26 @@ namespace Implem.Pleasanter.Libraries.Settings
                 return true;
             }
             return false;
+        }
+
+        public string PartTypeString(Context context)
+        {
+            switch (Type)
+            {
+                case DashboardPartType.QuickAccess:
+                    return Displays.QuickAccess(context: context);
+                    
+                case DashboardPartType.TimeLine:
+                    return Displays.TimeLine(context: context);
+                    
+                case DashboardPartType.Custom:
+                    return Displays.DashboardCustom(context: context);
+                    
+                case DashboardPartType.CustomHtml:
+                    return Displays.DashboardCustomHtml(context: context);
+                default:
+                    return Displays.QuickAccess(context: context);
+            }
         }
     }
 }
