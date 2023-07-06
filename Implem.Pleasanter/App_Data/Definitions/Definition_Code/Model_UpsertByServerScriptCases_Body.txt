@@ -16,9 +16,8 @@
     {
         return false;
     }
-    return #ModelName#Utilities.UpdateByServerScript(
+    return #ModelName#Utilities.UpsertByServerScript(
         context: context,
         ss: #modelName#Ss,
-        #modelName#Id: ReferenceId,
         previousTitle: Title,
         model: model);
