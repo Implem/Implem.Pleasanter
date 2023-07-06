@@ -13985,7 +13985,7 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.closeDialog($(this));",
                             icon: "ui-icon-cancel")));
         }
-                
+
         /// <summary>
         /// Fixed:
         /// </summary>

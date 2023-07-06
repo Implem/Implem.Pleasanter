@@ -4783,6 +4783,8 @@ namespace Implem.DefinitionAccessor
             {
                 switch (definitionRow[0].ToString())
                 {
+                    case "Dashboard": Template.Dashboard = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard, definitionRow, TemplateXls); break;
+                    case "Dashboard_ja": Template.Dashboard_ja = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard_ja, definitionRow, TemplateXls); break;
                     case "Template1": Template.Template1 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template1, definitionRow, TemplateXls); break;
                     case "Template10": Template.Template10 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template10, definitionRow, TemplateXls); break;
                     case "Template105": Template.Template105 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template105, definitionRow, TemplateXls); break;
@@ -5133,7 +5135,6 @@ namespace Implem.DefinitionAccessor
                     case "Template418": Template.Template418 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template418, definitionRow, TemplateXls); break;
                     case "Template419": Template.Template419 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template419, definitionRow, TemplateXls); break;
                     case "Template42": Template.Template42 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template42, definitionRow, TemplateXls); break;
-                    case "Template420": Template.Template420 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template420, definitionRow, TemplateXls); break;
                     case "Template43": Template.Template43 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template43, definitionRow, TemplateXls); break;
                     case "Template44": Template.Template44 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template44, definitionRow, TemplateXls); break;
                     case "Template45": Template.Template45 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template45, definitionRow, TemplateXls); break;
@@ -12402,6 +12403,8 @@ namespace Implem.DefinitionAccessor
 
     public class TemplateColumn2nd
     {
+        public string Dashboard;
+        public string Dashboard_ja;
         public string Template1;
         public string Template10;
         public string Template105;
@@ -12752,7 +12755,6 @@ namespace Implem.DefinitionAccessor
         public string Template418;
         public string Template419;
         public string Template42;
-        public string Template420;
         public string Template43;
         public string Template44;
         public string Template45;
@@ -12809,6 +12811,8 @@ namespace Implem.DefinitionAccessor
 
     public class TemplateTable
     {
+        public TemplateDefinition Dashboard = new TemplateDefinition();
+        public TemplateDefinition Dashboard_ja = new TemplateDefinition();
         public TemplateDefinition Template1 = new TemplateDefinition();
         public TemplateDefinition Template10 = new TemplateDefinition();
         public TemplateDefinition Template105 = new TemplateDefinition();
@@ -13159,7 +13163,6 @@ namespace Implem.DefinitionAccessor
         public TemplateDefinition Template418 = new TemplateDefinition();
         public TemplateDefinition Template419 = new TemplateDefinition();
         public TemplateDefinition Template42 = new TemplateDefinition();
-        public TemplateDefinition Template420 = new TemplateDefinition();
         public TemplateDefinition Template43 = new TemplateDefinition();
         public TemplateDefinition Template44 = new TemplateDefinition();
         public TemplateDefinition Template45 = new TemplateDefinition();
