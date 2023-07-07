@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Microsoft.AspNetCore.Http.Connections;
@@ -181,19 +182,23 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                         source: column.ColumnName)));
             ss.DashboardParts?.ForEach(dashboardPart =>
             {
+                dashboardPart.SetSitesData();
                 dashboardPart.SiteId = header.GetConvertedId(dashboardPart.SiteId);
-                dashboardPart.QuickAccessSites = dashboardPart.QuickAccessSites
+                foreach (var quickAccessSite in dashboardPart.QuickAccessSitesData)
+                {
+                    if (long.TryParse(quickAccessSite.Id, out long siteId))
+                    {
+                        quickAccessSite.Id = header.GetConvertedId(siteId).ToString();
+                    }
+                }
+                dashboardPart.SetQuickAccessSites();
+                dashboardPart.TimeLineSitesData = dashboardPart.TimeLineSitesData
                     ?.Select(s =>
                         long.TryParse(s, out long siteId)
                             ? header.GetConvertedId(siteId).ToString()
                             : s)
                     .ToList();
-                dashboardPart.TimeLineSites = dashboardPart.TimeLineSites
-                    ?.Select(s =>
-                        long.TryParse(s, out long siteId)
-                            ? header.GetConvertedId(siteId).ToString()
-                            : s)
-                    .ToList();
+                dashboardPart.SetTimeLineSites();
             });
             ss.Views?.ForEach(view =>
             {

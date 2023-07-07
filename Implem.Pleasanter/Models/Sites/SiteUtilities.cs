@@ -14926,11 +14926,12 @@ namespace Implem.Pleasanter.Models
                     .FieldTextBox(
                             controlId: "DashboardPartQuickAccessSites",
                             fieldId: "DashboardPartQuickAccessSitesField",
+                            textType: HtmlTypes.TextTypes.MultiLine,
                             fieldCss: "field-wide"
                                 + hiddenCss(dashboardPart.Type != DashboardPartType.QuickAccess),
                             controlCss: " always-send",
                             labelText: Displays.SiteId(context: context),
-                            text: dashboardPart.QuickAccessSites?.Join())
+                            text: dashboardPart.QuickAccessSites)
                     .FieldDropDown(
                         context: context,
                         controlId: "DashboardPartQuickAccessLayout",
@@ -14956,7 +14957,7 @@ namespace Implem.Pleasanter.Models
                         css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.TimeLine),
                         action: () =>
                         {
-                            var timeLineSites = dashboardPart.TimeLineSites?.Join();
+                            var timeLineSites = dashboardPart.TimeLineSites;
                             var baseSiteId = DashboardPart.GetBaseSiteSettings(
                                 context: context,
                                 timeLineSitesString: timeLineSites)

@@ -86,6 +86,7 @@ namespace Implem.Pleasanter.Models
                         ss: ss))
                 .Select(dashboardPart =>
             {
+                dashboardPart.SetSitesData();
                 switch (dashboardPart.Type)
                 {
                     case DashboardPartType.QuickAccess:
@@ -1565,9 +1566,9 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static HtmlBuilder QuickAccessMenu(this HtmlBuilder hb, Context context, DashboardPart dashboardPart)
         {
-            var sites = DashboardPart.GetDashboardPartSites(
+            var sites = DashboardPart.GetQuickAccessSites(
                 context: context,
-                dashboardPart.QuickAccessSites);
+                dashboardPart.QuickAccessSitesData);
             return hb.Div(
                 id: $"DashboardPart_{dashboardPart.Id}",
                 css: dashboardPart.ExtendedCss,
@@ -1587,47 +1588,52 @@ namespace Implem.Pleasanter.Models
                                     css: dashboardPart.QuickAccessLayout == Libraries.Settings.QuickAccessLayout.Vertical
                                         ? "dashboard-part-nav-menu-vertical" : "dashboard-part-nav-menu",
                                     action: () => QuickAccessSites(context: context, sites: sites)
-                                        .ForEach(siteModelChild =>
+                                        .ForEach(quickAccess =>
                                         {
-                                            if (siteModelChild.SiteId == 0)
+                                            if (quickAccess.Model.SiteId == 0)
                                             {
-                                                siteModelChild.Title = new Title() { DisplayValue =　Displays.Top(context:context) };
-                                                siteModelChild.ReferenceType = "Sites";
+                                                quickAccess.Model.Title = new Title() { DisplayValue =　Displays.Top(context:context) };
+                                                quickAccess.Model.ReferenceType = "Sites";
                                             }
                                             var itemTypeCss = string.Empty;
-                                            var iconName = "table";
-                                            switch (siteModelChild.ReferenceType)
+                                            var iconName = string.Empty;
+                                            switch (quickAccess.Model.ReferenceType)
                                             {
                                                 case "Sites":
-                                                    itemTypeCss = " dashboard-part-nav-folder";
-                                                    iconName = "folder";
+                                                    itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Css;
+                                                    iconName = Strings.CoalesceEmpty( quickAccess.Icon, "folder");
                                                     break;
                                                 case "Dashboards":
-                                                    itemTypeCss = " dashboard-part-nav-dashboard";
-                                                    iconName = "dashboard";
+                                                    itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "dashboard");
                                                     break;
                                                 case "Wikis":
-                                                    iconName = "text_snippet";
+                                                    itemTypeCss = " dashboard-part-nav-wiki " + quickAccess.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "text_snippet");
+                                                    break;
+                                                default:
+                                                    itemTypeCss = " dashboard-part-nav-table " + quickAccess.Css;
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "table");
                                                     break;
                                             }
-                                            hb.Li(css: "dashboard-part-nav-item" + itemTypeCss,
+                                            hb.Li(css: "dashboard-part-nav-item" + itemTypeCss.TrimEnd(),
                                                 action: () => hb
                                                     .Span(css: "material-symbols-outlined",
                                                         action: () => hb.Text(iconName))
                                                     .A(
                                                         css: "dashboard-part-nav-link",
-                                                        text: siteModelChild.Title.DisplayValue,
-                                                        href: siteModelChild.ReferenceType == "Wikis"
+                                                        text: quickAccess.Model.Title.DisplayValue,
+                                                        href: quickAccess.Model.ReferenceType == "Wikis"
                                                             ? Locations.ItemEdit(
                                                                 context: context,
                                                                 id: Repository.ExecuteScalar_long(
                                                                     context: context,
                                                                     statements: Rds.SelectWikis(
                                                                         column: Rds.WikisColumn().WikiId(),
-                                                                        where: Rds.WikisWhere().SiteId(siteModelChild.SiteId))))
+                                                                        where: Rds.WikisWhere().SiteId(quickAccess.Model.SiteId))))
                                                             : Locations.ItemIndex(
                                                                 context: context,
-                                                                id: siteModelChild.SiteId)));
+                                                                id: quickAccess.Model.SiteId)));
                                         })));
                 });
         }
@@ -1635,7 +1641,9 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private static IEnumerable<SiteModel> QuickAccessSites(Context context, IList<long> sites)
+        private static IEnumerable<QuickAccessSiteModel> QuickAccessSites(
+            Context context,
+            IEnumerable<(long Id,string Icon,string Css)> sites)
         {
             var siteModels = new SiteCollection(
                 context: context,
@@ -1646,14 +1654,24 @@ namespace Implem.Pleasanter.Models
                     .SiteSettings(),
                 where: Rds.SitesWhere()
                     .TenantId(context.TenantId)
-                    .SiteId_In(sites)
+                    .SiteId_In(sites.Select(o=>o.Id))
                     .Add(
                         raw: Def.Sql.HasPermission,
                         _using: !context.HasPrivilege));
             return sites
-                .Select(siteId => siteId == 0
-                    ? new SiteModel(context: context, siteId: 0)
-                    : siteModels.FirstOrDefault(model => model.SiteId == siteId))
+                .Select(o => o.Id == 0
+                    ? new QuickAccessSiteModel()
+                    {
+                        Model = new SiteModel(context: context, siteId: 0),
+                        Icon = o.Icon,
+                        Css = o.Css
+                    }
+                    : new QuickAccessSiteModel()
+                    {
+                        Model = siteModels.FirstOrDefault(model => model.SiteId == o.Id),
+                        Icon = o.Icon,
+                        Css = o.Css
+                    })
                 .Where(model => model != null);
         }
 
@@ -1776,7 +1794,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            ss.IntegratedSites = dashboardPart.TimeLineSites;
+            ss.IntegratedSites = dashboardPart.TimeLineSitesData;
             ss.SetSiteIntegration(context: context);
             //Viewからフィルタ条件とソート条件を取得
             var where = dashboardPart.View.Where(

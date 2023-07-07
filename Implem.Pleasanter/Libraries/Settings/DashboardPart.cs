@@ -10,6 +10,18 @@ using System.Linq;
 
 namespace Implem.Pleasanter.Libraries.Settings
 {
+    public class QuickAccessSite
+    {
+        public string Id { get; set; }
+        public string Icon { get; set; }
+        public string Css { get; set; }
+    }
+    public class QuickAccessSiteModel
+    {
+        public SiteModel Model { get; set; }
+        public string Icon { get; set; }
+        public string Css { get; set; }
+    }
 
     public class DashboardPart : ISettingListItem
     {
@@ -21,9 +33,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public int Y { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
-        public List<string> QuickAccessSites { get; set; }
+        public string QuickAccessSites { get; set; }
+        public List<QuickAccessSite> QuickAccessSitesData { get; set; }
         public QuickAccessLayout? QuickAccessLayout { get; set; }
-        public List<string> TimeLineSites { get; set; }
+        public string TimeLineSites { get; set; }
+        public List<string> TimeLineSitesData { get; set; }
         public View View { get; set; }
         public string TimeLineTitle { get; set; }
         public string TimeLineBody { get; set; }
@@ -73,7 +87,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case DashboardPartType.QuickAccess:
                     dashboardPart.QuickAccessSites = QuickAccessSites;
-                    if(QuickAccessLayout != Settings.QuickAccessLayout.Horizontal)
+                    if (QuickAccessLayout != Settings.QuickAccessLayout.Horizontal)
                     {
                         dashboardPart.QuickAccessLayout = QuickAccessLayout;
                     }
@@ -177,17 +191,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             Y = y;
             Width = width;
             Height = height;
-            QuickAccessSites = quickAccessSites
-                .Split(",")
-                .Select(o => o.Trim())
-                .Where(o => !o.IsNullOrEmpty())
-                .ToList();
+            QuickAccessSites = quickAccessSites;
             QuickAccessLayout = quickAccessLayout;
-            TimeLineSites = timeLineSites
-                .Split(",")
-                .Select(o => o.Trim())
-                .Where(o => !o.IsNullOrEmpty())
-                .ToList();
+            TimeLineSites = timeLineSites;
             TimeLineTitle = timeLineTitle;
             TimeLineBody = timeLineBody;
             TimeLineItemCount = timeLineItemCount;
@@ -195,16 +201,66 @@ namespace Implem.Pleasanter.Libraries.Settings
             HtmlContent = htmlContent;
             TimeLineDisplayType = timeLineDisplayType;
             ExtendedCss = extendedCss;
+            SetSitesData();
+            SetPermissions(permissions);
+            SetBaseSiteData(context: context);
+            return this;
+        }
+
+        public void SetSitesData()
+        {
+            SetQuickAccessSitesData();
+            SetTimeLineSitesData();
+        }
+
+        /// <summary>
+        /// TimeLineSitesDataから基準となるサイトIDを取得し、そのIDとFormの情報からViewオブジェクトを生成する
+        /// </summary>
+        private void SetBaseSiteData(Context context)
+        { 
             var currentSs = GetBaseSiteSettings(
                 context: context,
-                timeLineSites: TimeLineSites);
+                timeLineSites: TimeLineSitesData);
             SiteId = currentSs?.SiteId ?? 0;
             View = SiteModel.GetDashboardPartView(
                 context: context,
                 ss: currentSs,
                 view: View);
-            SetPermissions(permissions);
-            return this;
+        }
+                
+        private void SetQuickAccessSitesData()
+        {
+            if(QuickAccessSites == null)
+            {
+                QuickAccessSitesData = new List<QuickAccessSite>();
+                return;
+            }
+            QuickAccessSitesData = QuickAccessSites.Deserialize<List<QuickAccessSite>>()
+                ?? QuickAccessSites
+                    ?.Split(new[] { ",", "\n", "\r\n" }, System.StringSplitOptions.RemoveEmptyEntries)
+                    .Select(o => o.Trim())
+                    .Where(o => !o.IsNullOrEmpty())
+                    .Select(o => new QuickAccessSite()
+                    {
+                        Id = o,
+                        Icon = null,
+                        Css = null
+                    })
+                    .ToList();
+        }
+                
+        private void SetTimeLineSitesData()
+        {
+            if(TimeLineSites == null)
+            {
+                TimeLineSitesData = new List<string>();
+                return;
+            }
+            TimeLineSitesData = TimeLineSites
+                .Split(",")
+                .Select(o => o.Trim())
+                .Where(o => !o.IsNullOrEmpty())
+                .ToList();
         }
 
         private static SiteSettings GetBaseSiteSettings(Context context, List<string> timeLineSites)
@@ -230,7 +286,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .FirstOrDefault(ss => ss != null);
         }
 
-        public static IList<long> GetDashboardPartSites(Context context, List<string> sites)
+        private static IList<long> GetDashboardPartSites(Context context, IEnumerable<string> sites)
         {
             return sites?.SelectMany(site =>
                 long.TryParse(site, out var siteId)
@@ -240,6 +296,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                             || row.String("SiteGroupName") == site)
                         .Select(row => row.Long("SiteId")))
                 .ToList() ?? new List<long>();
+        }
+
+        public static IList<(long Id, string Icon, string Css)> GetQuickAccessSites(Context context, IEnumerable<QuickAccessSite> sites)
+        {
+            return sites?.SelectMany(site =>
+                long.TryParse(site.Id, out var siteId)
+                    ? new[] { (siteId, site.Icon, site.Css) }
+                    : SiteInfo.Sites(context: context).Values
+                        .Where(row => row.String("SiteName") == site.Id
+                            || row.String("SiteGroupName") == site.Id)
+                        .Select(row => (row.Long("SiteId"), site.Icon, site.Css)))
+                .ToList()
+                    ?? new List<(long, string, string)>();
         }
 
         public static IEnumerable<long> GetDashboardPartTables(Context context, List<string> sites)
@@ -361,17 +430,48 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 case DashboardPartType.QuickAccess:
                     return Displays.QuickAccess(context: context);
-                    
+
                 case DashboardPartType.TimeLine:
                     return Displays.TimeLine(context: context);
-                    
+
                 case DashboardPartType.Custom:
                     return Displays.DashboardCustom(context: context);
-                    
+
                 case DashboardPartType.CustomHtml:
                     return Displays.DashboardCustomHtml(context: context);
                 default:
                     return Displays.QuickAccess(context: context);
+            }
+        }
+
+        /// <summary>
+        /// Quikc
+        /// </summary>
+        public void SetQuickAccessSites()
+        {
+            if (QuickAccessSitesData == null)
+            {
+                QuickAccessSites = string.Empty;
+            }
+            else if (QuickAccessSitesData.Any(o => o.Icon != null || o.Css != null))
+            {
+                QuickAccessSites = QuickAccessSitesData.ToJson(formatting: Newtonsoft.Json.Formatting.Indented);
+            }
+            else
+            {
+                QuickAccessSites = QuickAccessSitesData.Select(o => o.Id).Join("\n");
+            }
+        }
+
+        public void SetTimeLineSites()
+        {
+            if (TimeLineSitesData == null)
+            {
+                TimeLineSites = string.Empty;
+            }
+            else
+            {
+                TimeLineSites = TimeLineSitesData.Join(",");
             }
         }
     }
