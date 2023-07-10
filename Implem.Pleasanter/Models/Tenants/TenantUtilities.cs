@@ -1554,7 +1554,7 @@ namespace Implem.Pleasanter.Models
             };
             options.AddRange(dashboards.ToDictionary(
                 o => o.SiteId.ToString(),
-                o => o.Title.DisplayValue));
+                o => $"[{o.SiteId}] {o.Title.DisplayValue}"));
             return options;
         }
 

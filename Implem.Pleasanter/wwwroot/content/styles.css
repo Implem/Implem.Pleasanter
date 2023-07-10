@@ -3351,6 +3351,7 @@ textarea:focus {
 }
 
 .dashboard-part-nav-item {
+    color: #333;
     margin-bottom: 5px;
     padding: 4px;
     display: flex;
@@ -3372,12 +3373,8 @@ textarea:focus {
 }
 
 .dashboard-part-nav-link {
-    color: #333;
+    padding: 4px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
-    padding: 5px;
-    border-radius: 5px;
-    flex-grow: 1;
 }
 
 .gs-20 > .grid-stack-item {
