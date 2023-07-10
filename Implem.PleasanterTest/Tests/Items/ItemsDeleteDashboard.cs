@@ -9,19 +9,21 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsIndex
+    public class ItemsDeleteDashboard
     {
         [Theory]
         [MemberData(nameof(GetData))]
         public void Test(
             string title,
             UserModel userModel,
+            Forms forms,
             List<BaseTest> baseTests)
         {
-            var siteId = Initializer.Sites.Get(title).SiteId;
+            var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsIndex(id: siteId));
+                routeData: RouteData.ItemsDelete(id: id),
+                forms: forms);
             var results = Results(context: context);
             Assert.True(Tester.Test(
                 context: context,
@@ -31,28 +33,32 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var existsGridTest = BaseData.Tests(HtmlData.ExistsOne(selector: "#Grid"));
+            var baseTests = new List<BaseTest>()
+            {
+                JsonData.ExistsOne(
+                    method: "SetMemory",
+                    target: "formChanged"),
+                JsonData.ExistsOne(
+                    method: "Href")
+            };
             var testParts = new List<TestPart>()
             {
-                new TestPart(title: "WBS", baseTests: existsGridTest),
-                new TestPart(title: "課題管理", baseTests: existsGridTest),
-                new TestPart(title: "レビュー記録", baseTests: existsGridTest),
-                new TestPart(title: "顧客マスタ", baseTests: existsGridTest),
-                new TestPart(title: "商談", baseTests: existsGridTest),
-                new TestPart(title: "仕入", baseTests: existsGridTest),
                 new TestPart(
-                    title: "ダッシュボード1",
-                    baseTests: BaseData.Tests(
-                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_1"),
-                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_2"),
-                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_3"),
-                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_4")))
+                    title: "ダッシュボード削除用",
+                    userType: UserData.UserTypes.TenantManager1,
+                    baseTests: baseTests)
             };
+            
             foreach (var testPart in testParts)
             {
+                var forms = FormsUtilities.Get(
+                    new KeyValue("DeleteSiteTitle", testPart.Title),
+                    new KeyValue("Users_LoginId", testPart.UserModel.LoginId),
+                    new KeyValue("Users_Password", "ABCDEF"));
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
+                    forms: forms,
                     baseTests: testPart.BaseTests);
             }
         }
@@ -60,12 +66,14 @@ namespace Implem.PleasanterTest.Tests.Items
         private static object[] TestData(
             string title,
             UserModel userModel,
+            Forms forms,
             List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
+                forms,
                 baseTests
             };
         }
@@ -73,7 +81,7 @@ namespace Implem.PleasanterTest.Tests.Items
         private static string Results(Context context)
         {
             var itemModel = Initializer.ItemIds.Get(context.Id);
-            return itemModel.Index(context: context);
+            return itemModel.Delete(context: context);
         }
     }
 }
