@@ -1402,7 +1402,10 @@ namespace Implem.Pleasanter.Models
 
         public BaseItemModel[] GetByServerScript(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return null;
