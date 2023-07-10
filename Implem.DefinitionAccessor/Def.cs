@@ -720,6 +720,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateTitles": Code.Model_UpdateTitles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateTitles, definitionRow, CodeXls); break;
                     case "Model_UpdateWikiTitle": Code.Model_UpdateWikiTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateWikiTitle, definitionRow, CodeXls); break;
                     case "Model_UpsertByApiCases": Code.Model_UpsertByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByApiCases, definitionRow, CodeXls); break;
+                    case "Model_UpsertByServerScriptCases": Code.Model_UpsertByServerScriptCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByServerScriptCases, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiCreatedMessage": Code.Model_Utilities_ApiCreatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiCreatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiCreatedMessage_Table": Code.Model_Utilities_ApiCreatedMessage_Table = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiCreatedMessage_Table, definitionRow, CodeXls); break;
@@ -906,6 +907,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateNotItems": Code.Model_Utilities_UpdateNotItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateNotItems, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByApi": Code.Model_Utilities_UpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByApi, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpsertByServerScript": Code.Model_Utilities_UpsertByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByServerScript, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
@@ -7164,6 +7166,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateTitles;
         public string Model_UpdateWikiTitle;
         public string Model_UpsertByApiCases;
+        public string Model_UpsertByServerScriptCases;
         public string Model_Utilities;
         public string Model_Utilities_ApiCreatedMessage;
         public string Model_Utilities_ApiCreatedMessage_Table;
@@ -7350,6 +7353,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateNotItems;
         public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_UpsertByApi;
+        public string Model_Utilities_UpsertByServerScript;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
         public string Model_Utilities_WhereTenantId;
@@ -7959,6 +7963,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateTitles = new CodeDefinition();
         public CodeDefinition Model_UpdateWikiTitle = new CodeDefinition();
         public CodeDefinition Model_UpsertByApiCases = new CodeDefinition();
+        public CodeDefinition Model_UpsertByServerScriptCases = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiCreatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiCreatedMessage_Table = new CodeDefinition();
@@ -8145,6 +8150,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateNotItems = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByApi = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpsertByServerScript = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
