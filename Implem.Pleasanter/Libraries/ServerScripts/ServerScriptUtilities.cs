@@ -1336,6 +1336,22 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         model: model);
         }
 
+        public static bool Upsert(Context context, long id, object model)
+        {
+            var apiContext = CreateContext(
+                context: context,
+                controller: "Items",
+                action: "Upsert",
+                id: id,
+                apiRequestBody: GetApiRequestBody(model: model));
+            return new ItemModel(
+                context: apiContext,
+                referenceId: id)
+                    .UpsertByServerScript(
+                        context: apiContext,
+                        model: model);
+        }
+
         public static bool Delete(Context context, long id)
         {
             var apiContext = CreateContext(
