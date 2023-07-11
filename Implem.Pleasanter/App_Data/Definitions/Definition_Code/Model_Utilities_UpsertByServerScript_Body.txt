@@ -1,0 +1,92 @@
+﻿public static bool UpsertByServerScript(
+    Context context,
+    SiteSettings ss,
+    string previousTitle,
+    object model)
+{
+    var api = context.RequestDataString.Deserialize<Api>();
+    var #modelName#ApiModel = context.RequestDataString.Deserialize<#ModelName#ApiModel>();
+    if (api?.Keys?.Any() != true || #modelName#ApiModel == null)
+    {
+        context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+        return false;
+    }
+    api.View = api.View ?? new View();
+    api.Keys.ForEach(columnName =>
+    {
+        var objectValue = #modelName#ApiModel.ObjectValue(columnName: columnName);
+        if (objectValue != null)
+        {
+            api.View.AddColumnFilterHash(
+                context: context,
+                ss: ss,
+                column: ss.GetColumn(
+                    context: context,
+                    columnName: columnName),
+                objectValue: objectValue);
+            api.View.AddColumnFilterSearchTypes(
+                columnName: columnName,
+                searchType: Column.SearchTypes.ExactMatch);
+        }
+    });
+    var #modelName#Model = new #ModelName#Model(
+        context: context,
+        ss: ss,
+        #modelName#Id: 0,
+        view: api.View,
+        #modelName#ApiModel: #modelName#ApiModel);
+    switch (#modelName#Model.AccessStatus)
+    {
+        case Databases.AccessStatuses.Selected:
+            break;
+        case Databases.AccessStatuses.NotFound:
+            return CreateByServerScript(
+                context: context,
+                ss: ss,
+                model: model);
+        default:
+            return false;
+    }
+    var invalid = #ModelName#Validators.OnUpdating(
+        context: context,
+        ss: ss,
+        #modelName#Model: #modelName#Model,
+        api: true,
+        serverScript: true);
+    switch (invalid.Type)
+    {
+        case Error.Types.None:
+            break;
+        default:
+            return false;
+    }
+    #modelName#Model.SiteId = ss.SiteId;
+    #modelName#Model.SetTitle(
+        context: context,
+        ss: ss);
+    #modelName#Model.VerUp = Versions.MustVerUp(
+        context: context,
+        ss: ss,
+        baseModel: #modelName#Model);
+    var errorData = #modelName#Model.Update(
+        context: context,
+        ss: ss,
+        notice: true,
+        previousTitle: previousTitle);
+    switch (errorData.Type)
+    {
+        case Error.Types.None:
+            if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+            {
+                if (serverScriptModelApiModel.Model is #ModelName#Model data)
+                {
+                    data.SetByModel(#modelName#Model: #modelName#Model);
+                }
+            }
+            return true;
+        case Error.Types.Duplicated:
+            return false;
+        default:
+            return false;
+    }
+}

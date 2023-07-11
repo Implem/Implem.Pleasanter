@@ -1354,7 +1354,8 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -1401,7 +1402,10 @@ namespace Implem.Pleasanter.Models
 
         public BaseItemModel[] GetByServerScript(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return null;
@@ -1881,35 +1885,6 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        public ContentResultInheritance UpsertByApi(Context context, string referenceType = null)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true);
-            if (!Site.WithinApiLimits(context: context))
-            {
-                return ApiResults.Get(ApiResponses.OverLimitApi(
-                    context: context,
-                    siteId: Site.SiteId,
-                    limitPerSite: context.ContractSettings.ApiLimit()));
-            }
-            switch (referenceType ?? Site.ReferenceType)
-            {
-                case "Issues":
-                    return IssueUtilities.UpsertByApi(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        previousTitle: Title);
-                case "Results":
-                    return ResultUtilities.UpsertByApi(
-                        context: context,
-                        ss: Site.SiteSettings,
-                        previousTitle: Title);
-                default:
-                    return ApiResults.Get(ApiResponses.NotFound(context: context));
-            }
-        }
-
         public bool UpdateByServerScript(Context context, object model)
         {
             SetSite(context: context);
@@ -1946,11 +1921,11 @@ namespace Implem.Pleasanter.Models
                     var issueSs = Site.IssuesSiteSettings(
                         context: context,
                         referenceId: ReferenceId);
-                    if(model is string issueRequestString)
+                    if (model is string issueRequestString)
                     {
                         context.ApiRequestBody = issueRequestString;
                     }
-                    else if(model is ServerScriptModelApiModel issueApiModel)
+                    else if (model is ServerScriptModelApiModel issueApiModel)
                     {
                         context.ApiRequestBody = issueApiModel.ToJsonString(
                             context: context,
@@ -1970,11 +1945,11 @@ namespace Implem.Pleasanter.Models
                     var resultSs = Site.ResultsSiteSettings(
                         context: context,
                         referenceId: ReferenceId);
-                    if(model is string resultRequestString)
+                    if (model is string resultRequestString)
                     {
                         context.ApiRequestBody = resultRequestString;
                     }
-                    else if(model is ServerScriptModelApiModel resultApiModel)
+                    else if (model is ServerScriptModelApiModel resultApiModel)
                     {
                         context.ApiRequestBody = resultApiModel.ToJsonString(
                             context: context,
@@ -1994,11 +1969,11 @@ namespace Implem.Pleasanter.Models
                     var wikiSs = Site.WikisSiteSettings(
                         context: context,
                         referenceId: ReferenceId);
-                    if(model is string wikiRequestString)
+                    if (model is string wikiRequestString)
                     {
                         context.ApiRequestBody = wikiRequestString;
                     }
-                    else if(model is ServerScriptModelApiModel wikiApiModel)
+                    else if (model is ServerScriptModelApiModel wikiApiModel)
                     {
                         context.ApiRequestBody = wikiApiModel.ToJsonString(
                             context: context,
@@ -2012,6 +1987,95 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: wikiSs,
                         wikiId: ReferenceId,
+                        previousTitle: Title,
+                        model: model);
+                default:
+                    return false;
+            }
+        }
+
+        public ContentResultInheritance UpsertByApi(Context context, string referenceType = null)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (referenceType ?? Site.ReferenceType)
+            {
+                case "Issues":
+                    return IssueUtilities.UpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        previousTitle: Title);
+                case "Results":
+                    return ResultUtilities.UpsertByApi(
+                        context: context,
+                        ss: Site.SiteSettings,
+                        previousTitle: Title);
+                default:
+                    return ApiResults.Get(ApiResponses.NotFound(context: context));
+            }
+        }
+
+        public bool UpsertByServerScript(Context context, object model)
+        {
+            SetSite(context: context);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return false;
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    var issueSs = Site.IssuesSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string issueRequestString)
+                    {
+                        context.ApiRequestBody = issueRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel issueApiModel)
+                    {
+                        context.ApiRequestBody = issueApiModel.ToJsonString(
+                            context: context,
+                            ss: issueSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return IssueUtilities.UpsertByServerScript(
+                        context: context,
+                        ss: issueSs,
+                        previousTitle: Title,
+                        model: model);
+                case "Results":
+                    var resultSs = Site.ResultsSiteSettings(
+                        context: context,
+                        referenceId: ReferenceId);
+                    if (model is string resultRequestString)
+                    {
+                        context.ApiRequestBody = resultRequestString;
+                    }
+                    else if (model is ServerScriptModelApiModel resultApiModel)
+                    {
+                        context.ApiRequestBody = resultApiModel.ToJsonString(
+                            context: context,
+                            ss: resultSs);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                    return ResultUtilities.UpsertByServerScript(
+                        context: context,
+                        ss: resultSs,
                         previousTitle: Title,
                         model: model);
                 default:

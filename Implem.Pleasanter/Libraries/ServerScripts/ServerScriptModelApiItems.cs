@@ -169,6 +169,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 model: model);
         }
 
+        public bool Upsert(object id, object model)
+        {
+            if (OnTesting)
+            {
+                return false;
+            }
+            return ServerScriptUtilities.Upsert(
+                context: Context,
+                id: id.ToLong(),
+                model: model);
+        }
+
         public bool Delete(object id)
         {
             if (OnTesting)
