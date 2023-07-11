@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsCreateDashboard
+    public class ItemsCreateByTemplate
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -25,7 +25,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 routeData: RouteData.ItemsCreateByTemplate(id: id),
                 httpMethod: "POST",
                 forms: forms);
-            var results = Results(context: context, parentId: id);
+            var results = Results(context: context);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,
@@ -34,10 +34,16 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var forms = FormsUtilities.Get(
+            var formsForSite = FormsUtilities.Get(
                 new KeyValue("ControlId", "CreateByTemplate"),
+                new KeyValue("SiteTitle", "テンプレートから作成したテーブル"),
+                new KeyValue("TemplateId", "Template30"));
+            var formsForDashboard = FormsUtilities.Get(
+                new KeyValue("ControlId", "CreateByTemplate"),
+                new KeyValue("SiteTitle", "テンプレートから作成したダッシュボード"),
                 new KeyValue("TemplateId", "Dashboard_ja"));
             var baseTests = BaseData.Tests(
+                JsonData.ExistsOne(method: "CloseDialog"),
                 JsonData.ExistsOne(
                     method: "ReplaceAll",
                     target: "#SiteMenu"),
@@ -51,11 +57,21 @@ namespace Implem.PleasanterTest.Tests.Items
             {
                 new TestPart(
                     title: string.Empty,
-                    forms: forms,
+                    forms: formsForSite,
                     baseTests: baseTests),
                 new TestPart(
+                    title: "プロジェクト管理の例",
+                    forms: formsForSite,
+                    baseTests: baseTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "商談管理の例",
+                    forms: formsForSite,
+                    baseTests: baseTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
                     title: "ダッシュボードの例",
-                    forms: forms,
+                    forms: formsForDashboard,
                     baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
@@ -84,12 +100,10 @@ namespace Implem.PleasanterTest.Tests.Items
             };
         }
 
-        private static string Results(Context context, long parentId)
+        private static string Results(Context context)
         {
-            return SiteUtilities.CreateByTemplate(
-                context: context,
-                parentId: parentId,
-                inheritPermission: parentId);
+            var itemModel = Initializer.ItemIds.Get(context.Id) ?? new ItemModel();
+            return itemModel.CreateByTemplate(context: context);
         }
     }
 }
