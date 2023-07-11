@@ -8,6 +8,7 @@
     "No": "120",
     "History": "120",
     "TypeName": "nvarchar",
+    "Nullable": "1",
     "MaxLength": "-1",
     "ByForm": "$\"[{value.ToLong()}]\"",
     "LabelText_en": "Top Dashboards",
