@@ -3375,6 +3375,7 @@ textarea:focus {
 .dashboard-part-nav-link {
     padding: 4px;
     text-decoration: none;
+    color:inherit;
 }
 
 .gs-20 > .grid-stack-item {

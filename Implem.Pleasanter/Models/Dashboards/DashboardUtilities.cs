@@ -1672,7 +1672,7 @@ namespace Implem.Pleasanter.Models
                         Icon = o.Icon,
                         Css = o.Css
                     })
-                .Where(model => model != null);
+                .Where(model => model.Model != null);
         }
 
         /// <summary>
