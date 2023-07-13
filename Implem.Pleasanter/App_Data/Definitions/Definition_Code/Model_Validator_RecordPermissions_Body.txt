@@ -1,4 +1,9 @@
 ﻿if (#modelName#Model.RecordPermissions != null && !context.CanManagePermission(ss: ss))
 {
-    return new ErrorData(type: Error.Types.HasNotPermission);
+    return new ErrorData(
+        context: context,
+        type: Error.Types.HasNotPermission,
+        api: api,
+        sysLogsStatus: 403,
+        sysLogsDescription: Debugs.GetSysLogsDescription());
 }

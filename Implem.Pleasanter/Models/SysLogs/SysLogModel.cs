@@ -37,6 +37,12 @@ namespace Implem.Pleasanter.Models
         public string Application = string.Empty;
         public string Class = string.Empty;
         public string Method = string.Empty;
+        public bool Api = false;
+        public long SiteId = 0;
+        public long ReferenceId = 0;
+        public string ReferenceType = string.Empty;
+        public long Status = 0;
+        public string Description = string.Empty;
         public string RequestData = string.Empty;
         public string HttpMethod = string.Empty;
         public int RequestSize = 0;
@@ -82,6 +88,12 @@ namespace Implem.Pleasanter.Models
         public string SavedApplication = string.Empty;
         public string SavedClass = string.Empty;
         public string SavedMethod = string.Empty;
+        public bool SavedApi = false;
+        public long SavedSiteId = 0;
+        public long SavedReferenceId = 0;
+        public string SavedReferenceType = string.Empty;
+        public long SavedStatus = 0;
+        public string SavedDescription = string.Empty;
         public string SavedRequestData = string.Empty;
         public string SavedHttpMethod = string.Empty;
         public int SavedRequestSize = 0;
@@ -214,6 +226,78 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != Method);
+        }
+
+        public bool Api_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != Api;
+            }
+            return Api != SavedApi
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != Api);
+        }
+
+        public bool SiteId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != SiteId;
+            }
+            return SiteId != SavedSiteId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != SiteId);
+        }
+
+        public bool ReferenceId_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != ReferenceId;
+            }
+            return ReferenceId != SavedReferenceId
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != ReferenceId);
+        }
+
+        public bool ReferenceType_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != ReferenceType;
+            }
+            return ReferenceType != SavedReferenceType && ReferenceType != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != ReferenceType);
+        }
+
+        public bool Status_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToLong() != Status;
+            }
+            return Status != SavedStatus
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToLong() != Status);
+        }
+
+        public bool Description_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != Description;
+            }
+            return Description != SavedDescription && Description != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != Description);
         }
 
         public bool RequestData_Updated(Context context, bool copy = false, Column column = null)
@@ -654,6 +738,78 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? Method.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Api":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Api.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SiteId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SiteId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ReferenceId":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ReferenceId.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "ReferenceType":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? ReferenceType.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Status":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Status.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "Description":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? Description.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -1258,6 +1414,12 @@ namespace Implem.Pleasanter.Models
                     case "Application": data.Application = Application; break;
                     case "Class": data.Class = Class; break;
                     case "Method": data.Method = Method; break;
+                    case "Api": data.Api = Api; break;
+                    case "SiteId": data.SiteId = SiteId; break;
+                    case "ReferenceId": data.ReferenceId = ReferenceId; break;
+                    case "ReferenceType": data.ReferenceType = ReferenceType; break;
+                    case "Status": data.Status = Status; break;
+                    case "Description": data.Description = Description; break;
                     case "RequestData": data.RequestData = RequestData; break;
                     case "HttpMethod": data.HttpMethod = HttpMethod; break;
                     case "RequestSize": data.RequestSize = RequestSize; break;
@@ -1365,6 +1527,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "Method":
                     return Method.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Api":
+                    return Api.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1644,6 +1811,36 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Api":
+                    return Api.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteId":
+                    return SiteId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceId":
+                    return ReferenceId.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceType":
+                    return ReferenceType.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Description":
+                    return Description.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "RequestData":
                     return RequestData.ToApiDisplayValue(
                         context: context,
@@ -1739,6 +1936,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Title":
+                    return Title.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "UserAgent":
                     return UserAgent.ToApiDisplayValue(
                         context: context,
@@ -1756,11 +1958,6 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "ErrStackTrace":
                     return ErrStackTrace.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Title":
-                    return Title.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -1920,6 +2117,36 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Api":
+                    return Api.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SiteId":
+                    return SiteId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceId":
+                    return ReferenceId.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "ReferenceType":
+                    return ReferenceType.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Status":
+                    return Status.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "Description":
+                    return Description.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "RequestData":
                     return RequestData.ToApiValue(
                         context: context,
@@ -2015,6 +2242,11 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
+                case "Title":
+                    return Title.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
                 case "UserAgent":
                     return UserAgent.ToApiValue(
                         context: context,
@@ -2032,11 +2264,6 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "ErrStackTrace":
                     return ErrStackTrace.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "Title":
-                    return Title.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2317,6 +2544,7 @@ namespace Implem.Pleasanter.Models
                     case "SysLogs_Application": Application = value.ToString(); break;
                     case "SysLogs_Class": Class = value.ToString(); break;
                     case "SysLogs_Method": Method = value.ToString(); break;
+                    case "SysLogs_Api": Api = value.ToBool(); break;
                     case "SysLogs_RequestData": RequestData = value.ToString(); break;
                     case "SysLogs_HttpMethod": HttpMethod = value.ToString(); break;
                     case "SysLogs_RequestSize": RequestSize = value.ToInt(); break;
@@ -2426,6 +2654,7 @@ namespace Implem.Pleasanter.Models
             if (data.Application != null) Application = data.Application.ToString().ToString();
             if (data.Class != null) Class = data.Class.ToString().ToString();
             if (data.Method != null) Method = data.Method.ToString().ToString();
+            if (data.Api != null) Api = data.Api.ToBool().ToBool();
             if (data.RequestData != null) RequestData = data.RequestData.ToString().ToString();
             if (data.HttpMethod != null) HttpMethod = data.HttpMethod.ToString().ToString();
             if (data.RequestSize != null) RequestSize = data.RequestSize.ToInt().ToInt();
@@ -2642,6 +2871,30 @@ namespace Implem.Pleasanter.Models
                             Method = dataRow[column.ColumnName].ToString();
                             SavedMethod = Method;
                             break;
+                        case "Api":
+                            Api = dataRow[column.ColumnName].ToBool();
+                            SavedApi = Api;
+                            break;
+                        case "SiteId":
+                            SiteId = dataRow[column.ColumnName].ToLong();
+                            SavedSiteId = SiteId;
+                            break;
+                        case "ReferenceId":
+                            ReferenceId = dataRow[column.ColumnName].ToLong();
+                            SavedReferenceId = ReferenceId;
+                            break;
+                        case "ReferenceType":
+                            ReferenceType = dataRow[column.ColumnName].ToString();
+                            SavedReferenceType = ReferenceType;
+                            break;
+                        case "Status":
+                            Status = dataRow[column.ColumnName].ToLong();
+                            SavedStatus = Status;
+                            break;
+                        case "Description":
+                            Description = dataRow[column.ColumnName].ToString();
+                            SavedDescription = Description;
+                            break;
                         case "RequestData":
                             RequestData = dataRow[column.ColumnName].ToString();
                             SavedRequestData = RequestData;
@@ -2836,6 +3089,12 @@ namespace Implem.Pleasanter.Models
                 || Application_Updated(context: context)
                 || Class_Updated(context: context)
                 || Method_Updated(context: context)
+                || Api_Updated(context: context)
+                || SiteId_Updated(context: context)
+                || ReferenceId_Updated(context: context)
+                || ReferenceType_Updated(context: context)
+                || Status_Updated(context: context)
+                || Description_Updated(context: context)
                 || RequestData_Updated(context: context)
                 || HttpMethod_Updated(context: context)
                 || RequestSize_Updated(context: context)
@@ -2942,6 +3201,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             string method,
             string message,
+            int sysLogsStatus = 200,
+            string sysLogsDescription = null,
             string errStackTrace = null,
             SysLogTypes sysLogType = SysLogTypes.Info)
         {
@@ -2964,6 +3225,11 @@ namespace Implem.Pleasanter.Models
                         }
                     };
                     break;
+            }
+            if (Parameters.Rds.SysLogsSchemaVersion >= 2)
+            {
+                Status = sysLogsStatus;
+                Description = sysLogsDescription;
             }
             ErrStackTrace = errStackTrace;
             WriteSysLog(
@@ -3054,6 +3320,23 @@ namespace Implem.Pleasanter.Models
                 UserAgent = context.UserAgent;
                 SessionGuid = context.SessionGuid;
             }
+            if (Parameters.Rds.SysLogsSchemaVersion >= 2)
+            {
+                ReferenceId = context.Id;
+                switch (context.Controller)
+                {
+                    case "items":
+                        var itemModel = new ItemModel(
+                            context: context,
+                            referenceId: context.Id);
+                        if (itemModel.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            SiteId = itemModel.SiteId;
+                            ReferenceType = itemModel.ReferenceType;
+                        }
+                        break;
+                }
+            }
             InDebug = Debugs.InDebug();
             AssemblyVersion = Environments.AssemblyVersion;
         }
@@ -3111,6 +3394,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public void Finish(Context context, int responseSize = 0)
         {
+            if (Parameters.Rds.SysLogsSchemaVersion >= 2)
+            {
+                Api = context.Api;
+                Status = context.SysLogsStatus;
+                Description = context.SysLogsDescription;
+            }
             if (responseSize > 0) { ResponseSize = responseSize; }
             Elapsed = (DateTime.Now - StartTime).TotalMilliseconds;
             var currentProcess = Debugs.CurrentProcess();

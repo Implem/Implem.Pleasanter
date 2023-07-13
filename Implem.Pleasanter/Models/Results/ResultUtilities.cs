@@ -4420,6 +4420,99 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static bool UpsertByServerScript(
+            Context context,
+            SiteSettings ss,
+            string previousTitle,
+            object model)
+        {
+            var api = context.RequestDataString.Deserialize<Api>();
+            var resultApiModel = context.RequestDataString.Deserialize<ResultApiModel>();
+            if (api?.Keys?.Any() != true || resultApiModel == null)
+            {
+                context.InvalidJsonData = !context.RequestDataString.IsNullOrEmpty();
+                return false;
+            }
+            api.View = api.View ?? new View();
+            api.Keys.ForEach(columnName =>
+            {
+                var objectValue = resultApiModel.ObjectValue(columnName: columnName);
+                if (objectValue != null)
+                {
+                    api.View.AddColumnFilterHash(
+                        context: context,
+                        ss: ss,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName),
+                        objectValue: objectValue);
+                    api.View.AddColumnFilterSearchTypes(
+                        columnName: columnName,
+                        searchType: Column.SearchTypes.ExactMatch);
+                }
+            });
+            var resultModel = new ResultModel(
+                context: context,
+                ss: ss,
+                resultId: 0,
+                view: api.View,
+                resultApiModel: resultApiModel);
+            switch (resultModel.AccessStatus)
+            {
+                case Databases.AccessStatuses.Selected:
+                    break;
+                case Databases.AccessStatuses.NotFound:
+                    return CreateByServerScript(
+                        context: context,
+                        ss: ss,
+                        model: model);
+                default:
+                    return false;
+            }
+            var invalid = ResultValidators.OnUpdating(
+                context: context,
+                ss: ss,
+                resultModel: resultModel,
+                api: true,
+                serverScript: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None:
+                    break;
+                default:
+                    return false;
+            }
+            resultModel.SiteId = ss.SiteId;
+            resultModel.SetTitle(
+                context: context,
+                ss: ss);
+            resultModel.VerUp = Versions.MustVerUp(
+                context: context,
+                ss: ss,
+                baseModel: resultModel);
+            var errorData = resultModel.Update(
+                context: context,
+                ss: ss,
+                notice: true,
+                previousTitle: previousTitle);
+            switch (errorData.Type)
+            {
+                case Error.Types.None:
+                    if (model is Libraries.ServerScripts.ServerScriptModelApiModel serverScriptModelApiModel)
+                    {
+                        if (serverScriptModelApiModel.Model is ResultModel data)
+                        {
+                            data.SetByModel(resultModel: resultModel);
+                        }
+                    }
+                    return true;
+                case Error.Types.Duplicated:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
         public static string Copy(Context context, SiteSettings ss, long resultId)
         {
             if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId))

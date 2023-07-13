@@ -1,0 +1,23 @@
+﻿case "#TableName#":
+    var #modelName#Ss = Site.#TableName#SiteSettings(
+        context: context,
+        referenceId: ReferenceId);
+    if (model is string #modelName#RequestString)
+    {
+        context.ApiRequestBody = #modelName#RequestString;
+    }
+    else if (model is ServerScriptModelApiModel #modelName#ApiModel)
+    {
+        context.ApiRequestBody = #modelName#ApiModel.ToJsonString(
+            context: context,
+            ss: #modelName#Ss);
+    }
+    else
+    {
+        return false;
+    }
+    return #ModelName#Utilities.UpsertByServerScript(
+        context: context,
+        ss: #modelName#Ss,
+        previousTitle: Title,
+        model: model);

@@ -2375,6 +2375,15 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder TemplateTabsContainer(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
+            var templates = Def.TemplateDefinitionCollection
+                .Where(o => o.Language == context.Language)
+                .ToList();
+            if (!templates.Any())
+            {
+                templates = Def.TemplateDefinitionCollection
+                    .Where(o => o.Language == "en")
+                    .ToList();
+            }
             return hb
                 .Div(
                     id: "TemplateTabsContainer",
@@ -2386,269 +2395,215 @@ namespace Implem.Pleasanter.Models
                                     .A(
                                         href: "#FieldSetStandard",
                                         text: Displays.Standard(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Standard > 0))
+                                _using: templates.Any(o => o.Standard > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetProject",
                                         text: Displays.Project(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Project > 0))
+                                _using: templates.Any(o => o.Project > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetBusinessImprovement",
                                         text: Displays.BusinessImprovement(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.BusinessImprovement > 0))
+                                _using: templates.Any(o => o.BusinessImprovement > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetSales",
                                         text: Displays.Sales(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Sales > 0))
+                                _using: templates.Any(o => o.Sales > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetCustomer",
                                         text: Displays.Customer(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Customer > 0))
+                                _using: templates.Any(o => o.Customer > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetStore",
                                         text: Displays.Store(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Store > 0))
+                                _using: templates.Any(o => o.Store > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetResearchAndDevelopment",
                                         text: Displays.ResearchAndDevelopment(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.ResearchAndDevelopment > 0))
+                                _using: templates.Any(o => o.ResearchAndDevelopment > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetMarketing",
                                         text: Displays.Marketing(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Marketing > 0))
+                                _using: templates.Any(o => o.Marketing > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetManufacture",
                                         text: Displays.Manufacture(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Manufacture > 0))
+                                _using: templates.Any(o => o.Manufacture > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetInformationSystem",
                                         text: Displays.InformationSystem(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.InformationSystem > 0))
+                                _using: templates.Any(o => o.InformationSystem > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetCorporatePlanning",
                                         text: Displays.CorporatePlanning(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.CorporatePlanning > 0))
+                                _using: templates.Any(o => o.CorporatePlanning > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetHumanResourcesAndGeneralAffairs",
                                         text: Displays.HumanResourcesAndGeneralAffairs(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.HumanResourcesAndGeneralAffairs > 0))
+                                _using: templates.Any(o => o.HumanResourcesAndGeneralAffairs > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetEducation",
                                         text: Displays.Education(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Education > 0))
+                                _using: templates.Any(o => o.Education > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetPurchase",
                                         text: Displays.Purchase(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Purchase > 0))
+                                _using: templates.Any(o => o.Purchase > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetLogistics",
                                         text: Displays.Logistics(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Logistics > 0))
+                                _using: templates.Any(o => o.Logistics > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetLegalAffairs",
                                         text: Displays.LegalAffairs(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.LegalAffairs > 0))
+                                _using: templates.Any(o => o.LegalAffairs > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetProductList",
                                         text: Displays.ProductList(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.ProductList > 0))
+                                _using: templates.Any(o => o.ProductList > 0))
                             .Li(
                                 action: () => hb
                                     .A(
                                         href: "#FieldSetClassification",
                                         text: Displays.Classification(context: context)),
-                                _using: Def.TemplateDefinitionCollection
-                                    .Where(o => o.Language == context.Language)
-                                    .Any(o => o.Classification > 0)))
+                                _using: templates.Any(o => o.Classification > 0)))
                         .TemplateTab(
                             context: context,
                             name: "Standard",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Standard > 0)
                                 .OrderBy(o => o.Standard))
                         .TemplateTab(
                             context: context,
                             name: "Project",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Project > 0)
                                 .OrderBy(o => o.Project))
                         .TemplateTab(
                             context: context,
                             name: "BusinessImprovement",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.BusinessImprovement > 0)
                                 .OrderBy(o => o.BusinessImprovement))
                         .TemplateTab(
                             context: context,
                             name: "Sales",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Sales > 0)
                                 .OrderBy(o => o.Sales))
                         .TemplateTab(
                             context: context,
                             name: "Customer",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Customer > 0)
                                 .OrderBy(o => o.Customer))
                         .TemplateTab(
                             context: context,
                             name: "Store",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Store > 0)
                                 .OrderBy(o => o.Store))
                         .TemplateTab(
                             context: context,
                             name: "ResearchAndDevelopment",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.ResearchAndDevelopment > 0)
                                 .OrderBy(o => o.ResearchAndDevelopment))
                         .TemplateTab(
                             context: context,
                             name: "Marketing",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Marketing > 0)
                                 .OrderBy(o => o.Marketing))
                         .TemplateTab(
                             context: context,
                             name: "Manufacture",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Manufacture > 0)
                                 .OrderBy(o => o.Manufacture))
                         .TemplateTab(
                             context: context,
                             name: "InformationSystem",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.InformationSystem > 0)
                                 .OrderBy(o => o.InformationSystem))
                         .TemplateTab(
                             context: context,
                             name: "CorporatePlanning",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.CorporatePlanning > 0)
                                 .OrderBy(o => o.CorporatePlanning))
                         .TemplateTab(
                             context: context,
                             name: "HumanResourcesAndGeneralAffairs",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.HumanResourcesAndGeneralAffairs > 0)
                                 .OrderBy(o => o.HumanResourcesAndGeneralAffairs))
                         .TemplateTab(
                             context: context,
                             name: "Education",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Education > 0)
                                 .OrderBy(o => o.Education))
                         .TemplateTab(
                             context: context,
                             name: "Purchase",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Purchase > 0)
                                 .OrderBy(o => o.Purchase))
                         .TemplateTab(
                             context: context,
                             name: "Logistics",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Logistics > 0)
                                 .OrderBy(o => o.Logistics))
                         .TemplateTab(
                             context: context,
                             name: "LegalAffairs",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.LegalAffairs > 0)
                                 .OrderBy(o => o.LegalAffairs))
                         .TemplateTab(
                             context: context,
                             name: "ProductList",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.ProductList > 0)
                                 .OrderBy(o => o.ProductList))
                         .TemplateTab(
                             context: context,
                             name: "Classification",
-                            templates: Def.TemplateDefinitionCollection
-                                .Where(o => o.Language == context.Language)
+                            templates: templates
                                 .Where(o => o.Classification > 0)
                                 .OrderBy(o => o.Classification)));
         }
