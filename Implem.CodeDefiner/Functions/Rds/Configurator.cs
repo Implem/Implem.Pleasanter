@@ -10,8 +10,10 @@ namespace Implem.CodeDefiner.Functions.Rds
             {
                 if (Environments.RdsProvider == "Local")
                 {
+                    UsersConfigurator.KillTask(factory: factory);
                     RdsConfigurator.Configure(factory: factory);
                     UsersConfigurator.Configure(factory: factory);
+                    SchemaConfigurator.Configure(factory: factory);
                 }
                 TablesConfigurator.Configure(factory: factory);
                 if (Environments.RdsProvider == "Local")

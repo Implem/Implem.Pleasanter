@@ -13370,6 +13370,10 @@ namespace Implem.DefinitionAccessor
         public string DropLoginRole;
         public string DropUser;
         public string CreateLoginRole;
+        public string ExistsSchema;
+        public string CreateSchema;
+        public string CreateDatabaseForPostgres;
+        public string CreateUserForPostgres;
     }
 
     /// <summary>
@@ -13418,5 +13422,9 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition Spaceused = new SqlDefinition();
         public SqlDefinition SelectPkName = new SqlDefinition();
         public SqlDefinition CreateFullText = new SqlDefinition();
+        public SqlDefinition ExistsSchema = new SqlDefinition();
+        public SqlDefinition CreateSchema = new SqlDefinition();
+        public SqlDefinition CreateDatabaseForPostgres = new SqlDefinition();
+        public SqlDefinition CreateUserForPostgres = new SqlDefinition();
     }
 }
