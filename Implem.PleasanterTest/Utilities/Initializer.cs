@@ -33,6 +33,7 @@ namespace Implem.PleasanterTest.Utilities
 
         public static void Initialize()
         {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             DefinitionAccessor.Initializer.Initialize(
                 path: null,
                 assemblyVersion: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
