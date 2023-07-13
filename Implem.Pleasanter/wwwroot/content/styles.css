@@ -1422,6 +1422,10 @@ th.calendar-header {
         border-radius: 3px 3px 0px 0px / 3px 3px 0px 0px;
     }
 
+    .nav-site.dashboards {
+        box-shadow: 4px 4px 2px rgba(0, 0, 0, 0.2);
+    }
+
     .nav-site .stacking1 {
         width: 220px;
         height: 70px;
@@ -3339,7 +3343,7 @@ textarea:focus {
         white-space: nowrap;
         overflow: hidden;
         padding: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
 .dashboard-part-nav-menu-vartical {
@@ -3375,7 +3379,7 @@ textarea:focus {
 .dashboard-part-nav-link {
     padding: 4px;
     text-decoration: none;
-    color:inherit;
+    color: inherit;
 }
 
 .gs-20 > .grid-stack-item {

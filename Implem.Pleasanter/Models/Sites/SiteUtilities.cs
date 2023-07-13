@@ -3890,7 +3890,9 @@ namespace Implem.Pleasanter.Models
             {
                 switch (referenceType)
                 {
-                    case "Wikis": return hb;
+                    case "Wikis":
+                    case "Dashboards":
+                        return hb;
                     default: return hb.StackStyles();
                 }
             }
@@ -4119,6 +4121,7 @@ namespace Implem.Pleasanter.Models
             switch (ss.ReferenceType)
             {
                 case "Sites":
+                case "Dashboards":
                     html = PreviewTemplate(
                         context: context,
                         ss: ss,
@@ -4169,9 +4172,12 @@ namespace Implem.Pleasanter.Models
                     .FieldSet(
                         id: name + "Editor",
                         action: () => hb
-                            .Div(css: "nav-site sites", action: () => hb
+                            .Div(css: "nav-site"
+                                    + (ss.ReferenceType != "Dashboards"
+                                        ? " sites"
+                                        : " dashboards"), action: () => hb
                                 .Span(css: "title", action: () => hb.Text(title))
-                                .Div(css: "heading"))))
+                                .Div(css: "heading", _using: ss.ReferenceType != "Dashboards"))))
                                     .ToString();
         }
 
