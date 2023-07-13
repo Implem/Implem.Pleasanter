@@ -658,7 +658,6 @@ namespace Implem.DefinitionAccessor
                     case "Model_SiteSettingsParameterOnly": Code.Model_SiteSettingsParameterOnly = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsParameterOnly, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterName": Code.Model_SiteSettingsWithParameterName = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterName, definitionRow, CodeXls); break;
                     case "Model_SiteSettingsWithParameterNameLower": Code.Model_SiteSettingsWithParameterNameLower = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteSettingsWithParameterNameLower, definitionRow, CodeXls); break;
-                    case "Model_SiteTrue": Code.Model_SiteTrue = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SiteTrue, definitionRow, CodeXls); break;
                     case "Model_SwitchItems": Code.Model_SwitchItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems, definitionRow, CodeXls); break;
                     case "Model_SwitchItems2": Code.Model_SwitchItems2 = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItems2, definitionRow, CodeXls); break;
                     case "Model_SwitchItemsLockMethods": Code.Model_SwitchItemsLockMethods = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_SwitchItemsLockMethods, definitionRow, CodeXls); break;
@@ -711,6 +710,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateParams_SetByApi": Code.Model_UpdateParams_SetByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_SetByApi, definitionRow, CodeXls); break;
                     case "Model_UpdateParams_Users": Code.Model_UpdateParams_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateParams_Users, definitionRow, CodeXls); break;
                     case "Model_UpdatePermissions": Code.Model_UpdatePermissions = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions, definitionRow, CodeXls); break;
+                    case "Model_UpdatePermissions_Sites": Code.Model_UpdatePermissions_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdatePermissions_Sites, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecords": Code.Model_UpdateRelatedRecords = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecords, definitionRow, CodeXls); break;
                     case "Model_UpdateRelatedRecordsMethod": Code.Model_UpdateRelatedRecordsMethod = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateRelatedRecordsMethod, definitionRow, CodeXls); break;
                     case "Model_UpdateReminders": Code.Model_UpdateReminders = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateReminders, definitionRow, CodeXls); break;
@@ -719,6 +719,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpdateTitles": Code.Model_UpdateTitles = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateTitles, definitionRow, CodeXls); break;
                     case "Model_UpdateWikiTitle": Code.Model_UpdateWikiTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpdateWikiTitle, definitionRow, CodeXls); break;
                     case "Model_UpsertByApiCases": Code.Model_UpsertByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByApiCases, definitionRow, CodeXls); break;
+                    case "Model_UpsertByServerScriptCases": Code.Model_UpsertByServerScriptCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByServerScriptCases, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiCreatedMessage": Code.Model_Utilities_ApiCreatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiCreatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiCreatedMessage_Table": Code.Model_Utilities_ApiCreatedMessage_Table = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiCreatedMessage_Table, definitionRow, CodeXls); break;
@@ -902,6 +903,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_UpdateNotItems": Code.Model_Utilities_UpdateNotItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateNotItems, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpdateParameters_Sites": Code.Model_Utilities_UpdateParameters_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpdateParameters_Sites, definitionRow, CodeXls); break;
                     case "Model_Utilities_UpsertByApi": Code.Model_Utilities_UpsertByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByApi, definitionRow, CodeXls); break;
+                    case "Model_Utilities_UpsertByServerScript": Code.Model_Utilities_UpsertByServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_UpsertByServerScript, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorField": Code.Model_Utilities_ViewSelectorField = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorField, definitionRow, CodeXls); break;
                     case "Model_Utilities_ViewSelectorFieldWithShowHistory": Code.Model_Utilities_ViewSelectorFieldWithShowHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ViewSelectorFieldWithShowHistory, definitionRow, CodeXls); break;
                     case "Model_Utilities_WhereTenantId": Code.Model_Utilities_WhereTenantId = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_WhereTenantId, definitionRow, CodeXls); break;
@@ -1794,6 +1796,7 @@ namespace Implem.DefinitionAccessor
                     case "Statuses_StatusId": Column.Statuses_StatusId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_StatusId, definitionRow, ColumnXls); break;
                     case "Statuses_TenantId": Column.Statuses_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_TenantId, definitionRow, ColumnXls); break;
                     case "Statuses_Value": Column.Statuses_Value = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Statuses_Value, definitionRow, ColumnXls); break;
+                    case "SysLogs_Api": Column.SysLogs_Api = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Api, definitionRow, ColumnXls); break;
                     case "SysLogs_Application": Column.SysLogs_Application = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Application, definitionRow, ColumnXls); break;
                     case "SysLogs_ApplicationAge": Column.SysLogs_ApplicationAge = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ApplicationAge, definitionRow, ColumnXls); break;
                     case "SysLogs_ApplicationRequestInterval": Column.SysLogs_ApplicationRequestInterval = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ApplicationRequestInterval, definitionRow, ColumnXls); break;
@@ -1803,6 +1806,7 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_Comments": Column.SysLogs_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Comments, definitionRow, ColumnXls); break;
                     case "SysLogs_CreatedTime": Column.SysLogs_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_CreatedTime, definitionRow, ColumnXls); break;
                     case "SysLogs_Creator": Column.SysLogs_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Creator, definitionRow, ColumnXls); break;
+                    case "SysLogs_Description": Column.SysLogs_Description = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Description, definitionRow, ColumnXls); break;
                     case "SysLogs_Elapsed": Column.SysLogs_Elapsed = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Elapsed, definitionRow, ColumnXls); break;
                     case "SysLogs_EndTime": Column.SysLogs_EndTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_EndTime, definitionRow, ColumnXls); break;
                     case "SysLogs_ErrMessage": Column.SysLogs_ErrMessage = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ErrMessage, definitionRow, ColumnXls); break;
@@ -1814,6 +1818,8 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_OnAzure": Column.SysLogs_OnAzure = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_OnAzure, definitionRow, ColumnXls); break;
                     case "SysLogs_ProcessId": Column.SysLogs_ProcessId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ProcessId, definitionRow, ColumnXls); break;
                     case "SysLogs_ProcessName": Column.SysLogs_ProcessName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ProcessName, definitionRow, ColumnXls); break;
+                    case "SysLogs_ReferenceId": Column.SysLogs_ReferenceId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ReferenceId, definitionRow, ColumnXls); break;
+                    case "SysLogs_ReferenceType": Column.SysLogs_ReferenceType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ReferenceType, definitionRow, ColumnXls); break;
                     case "SysLogs_RequestData": Column.SysLogs_RequestData = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_RequestData, definitionRow, ColumnXls); break;
                     case "SysLogs_RequestSize": Column.SysLogs_RequestSize = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_RequestSize, definitionRow, ColumnXls); break;
                     case "SysLogs_ResponseSize": Column.SysLogs_ResponseSize = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_ResponseSize, definitionRow, ColumnXls); break;
@@ -1821,7 +1827,9 @@ namespace Implem.DefinitionAccessor
                     case "SysLogs_SessionAge": Column.SysLogs_SessionAge = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SessionAge, definitionRow, ColumnXls); break;
                     case "SysLogs_SessionGuid": Column.SysLogs_SessionGuid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SessionGuid, definitionRow, ColumnXls); break;
                     case "SysLogs_SessionRequestInterval": Column.SysLogs_SessionRequestInterval = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SessionRequestInterval, definitionRow, ColumnXls); break;
+                    case "SysLogs_SiteId": Column.SysLogs_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SiteId, definitionRow, ColumnXls); break;
                     case "SysLogs_StartTime": Column.SysLogs_StartTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_StartTime, definitionRow, ColumnXls); break;
+                    case "SysLogs_Status": Column.SysLogs_Status = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_Status, definitionRow, ColumnXls); break;
                     case "SysLogs_SysLogId": Column.SysLogs_SysLogId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogId, definitionRow, ColumnXls); break;
                     case "SysLogs_SysLogType": Column.SysLogs_SysLogType = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_SysLogType, definitionRow, ColumnXls); break;
                     case "SysLogs_TenantName": Column.SysLogs_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.SysLogs_TenantName, definitionRow, ColumnXls); break;
@@ -2148,6 +2156,11 @@ namespace Implem.DefinitionAccessor
                             newColumnDefinition.Id = customDefinitionRow.Get("Id")?.ToString() ??
                                 data.ToString();
                             newColumnDefinition.SavedId = newColumnDefinition.Id;
+                            break;
+                        case "SchemaVersion":
+                            newColumnDefinition.SchemaVersion = customDefinitionRow.Get("SchemaVersion")?.ToInt() ??
+                                data.ToInt();
+                            newColumnDefinition.SavedSchemaVersion = newColumnDefinition.SchemaVersion;
                             break;
                         case "ModelName":
                             newColumnDefinition.ModelName = customDefinitionRow.Get("ModelName")?.ToString() ??
@@ -2819,6 +2832,7 @@ namespace Implem.DefinitionAccessor
         private static void SetColumnTable(ColumnDefinition definition, XlsRow definitionRow, XlsIo columnxls)
         {
             if (definitionRow.ContainsKey("Id")) { definition.Id = definitionRow["Id"].ToString(); definition.SavedId = definition.Id; }
+            if (definitionRow.ContainsKey("SchemaVersion")) { definition.SchemaVersion = definitionRow["SchemaVersion"].ToInt(); definition.SavedSchemaVersion = definition.SchemaVersion; }
             if (definitionRow.ContainsKey("ModelName")) { definition.ModelName = definitionRow["ModelName"].ToString(); definition.SavedModelName = definition.ModelName; }
             if (definitionRow.ContainsKey("TableName")) { definition.TableName = definitionRow["TableName"].ToString(); definition.SavedTableName = definition.TableName; }
             if (definitionRow.ContainsKey("Base")) { definition.Base = definitionRow["Base"].ToBool(); definition.SavedBase = definition.Base; }
@@ -5620,6 +5634,7 @@ namespace Implem.DefinitionAccessor
                     switch (optionName)
                     {
                         case "Id": columnDefinition.Id = optionValue.ToString(); break;
+                        case "SchemaVersion": columnDefinition.SchemaVersion = optionValue.ToInt(); break;
                         case "ModelName": columnDefinition.ModelName = optionValue.ToString(); break;
                         case "TableName": columnDefinition.TableName = optionValue.ToString(); break;
                         case "Base": columnDefinition.Base = optionValue.ToBool(); break;
@@ -7069,7 +7084,6 @@ namespace Implem.DefinitionAccessor
         public string Model_SiteSettingsParameterOnly;
         public string Model_SiteSettingsWithParameterName;
         public string Model_SiteSettingsWithParameterNameLower;
-        public string Model_SiteTrue;
         public string Model_SwitchItems;
         public string Model_SwitchItems2;
         public string Model_SwitchItemsLockMethods;
@@ -7122,6 +7136,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateParams_SetByApi;
         public string Model_UpdateParams_Users;
         public string Model_UpdatePermissions;
+        public string Model_UpdatePermissions_Sites;
         public string Model_UpdateRelatedRecords;
         public string Model_UpdateRelatedRecordsMethod;
         public string Model_UpdateReminders;
@@ -7130,6 +7145,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpdateTitles;
         public string Model_UpdateWikiTitle;
         public string Model_UpsertByApiCases;
+        public string Model_UpsertByServerScriptCases;
         public string Model_Utilities;
         public string Model_Utilities_ApiCreatedMessage;
         public string Model_Utilities_ApiCreatedMessage_Table;
@@ -7313,6 +7329,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_UpdateNotItems;
         public string Model_Utilities_UpdateParameters_Sites;
         public string Model_Utilities_UpsertByApi;
+        public string Model_Utilities_UpsertByServerScript;
         public string Model_Utilities_ViewSelectorField;
         public string Model_Utilities_ViewSelectorFieldWithShowHistory;
         public string Model_Utilities_WhereTenantId;
@@ -7861,7 +7878,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_SiteSettingsParameterOnly = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterName = new CodeDefinition();
         public CodeDefinition Model_SiteSettingsWithParameterNameLower = new CodeDefinition();
-        public CodeDefinition Model_SiteTrue = new CodeDefinition();
         public CodeDefinition Model_SwitchItems = new CodeDefinition();
         public CodeDefinition Model_SwitchItems2 = new CodeDefinition();
         public CodeDefinition Model_SwitchItemsLockMethods = new CodeDefinition();
@@ -7914,6 +7930,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateParams_SetByApi = new CodeDefinition();
         public CodeDefinition Model_UpdateParams_Users = new CodeDefinition();
         public CodeDefinition Model_UpdatePermissions = new CodeDefinition();
+        public CodeDefinition Model_UpdatePermissions_Sites = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecords = new CodeDefinition();
         public CodeDefinition Model_UpdateRelatedRecordsMethod = new CodeDefinition();
         public CodeDefinition Model_UpdateReminders = new CodeDefinition();
@@ -7922,6 +7939,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpdateTitles = new CodeDefinition();
         public CodeDefinition Model_UpdateWikiTitle = new CodeDefinition();
         public CodeDefinition Model_UpsertByApiCases = new CodeDefinition();
+        public CodeDefinition Model_UpsertByServerScriptCases = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiCreatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiCreatedMessage_Table = new CodeDefinition();
@@ -8105,6 +8123,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_UpdateNotItems = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpdateParameters_Sites = new CodeDefinition();
         public CodeDefinition Model_Utilities_UpsertByApi = new CodeDefinition();
+        public CodeDefinition Model_Utilities_UpsertByServerScript = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorField = new CodeDefinition();
         public CodeDefinition Model_Utilities_ViewSelectorFieldWithShowHistory = new CodeDefinition();
         public CodeDefinition Model_Utilities_WhereTenantId = new CodeDefinition();
@@ -8260,6 +8279,7 @@ namespace Implem.DefinitionAccessor
     public class ColumnDefinition
     {
         public string Id; public string SavedId;
+        public int SchemaVersion; public int SavedSchemaVersion;
         public string ModelName; public string SavedModelName;
         public string TableName; public string SavedTableName;
         public bool Base; public bool SavedBase;
@@ -8400,6 +8420,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition(Dictionary<string, string> propertyCollection)
         {
             if (propertyCollection.ContainsKey("Id")) Id = propertyCollection["Id"].ToString(); else Id = string.Empty;
+            if (propertyCollection.ContainsKey("SchemaVersion")) SchemaVersion = propertyCollection["SchemaVersion"].ToInt(); else SchemaVersion = 0;
             if (propertyCollection.ContainsKey("ModelName")) ModelName = propertyCollection["ModelName"].ToString(); else ModelName = string.Empty;
             if (propertyCollection.ContainsKey("TableName")) TableName = propertyCollection["TableName"].ToString(); else TableName = string.Empty;
             if (propertyCollection.ContainsKey("Base")) Base = propertyCollection["Base"].ToBool(); else Base = false;
@@ -8540,6 +8561,7 @@ namespace Implem.DefinitionAccessor
                 switch(key)
                 {
                     case "Id": return Id;
+                    case "SchemaVersion": return SchemaVersion;
                     case "ModelName": return ModelName;
                     case "TableName": return TableName;
                     case "Base": return Base;
@@ -8680,6 +8702,7 @@ namespace Implem.DefinitionAccessor
         public void RestoreBySavedMemory()
         {
             Id = SavedId;
+            SchemaVersion = SavedSchemaVersion;
             ModelName = SavedModelName;
             TableName = SavedTableName;
             Base = SavedBase;
@@ -9020,6 +9043,7 @@ namespace Implem.DefinitionAccessor
         public string Statuses_StatusId;
         public string Statuses_TenantId;
         public string Statuses_Value;
+        public string SysLogs_Api;
         public string SysLogs_Application;
         public string SysLogs_ApplicationAge;
         public string SysLogs_ApplicationRequestInterval;
@@ -9029,6 +9053,7 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_Comments;
         public string SysLogs_CreatedTime;
         public string SysLogs_Creator;
+        public string SysLogs_Description;
         public string SysLogs_Elapsed;
         public string SysLogs_EndTime;
         public string SysLogs_ErrMessage;
@@ -9040,6 +9065,8 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_OnAzure;
         public string SysLogs_ProcessId;
         public string SysLogs_ProcessName;
+        public string SysLogs_ReferenceId;
+        public string SysLogs_ReferenceType;
         public string SysLogs_RequestData;
         public string SysLogs_RequestSize;
         public string SysLogs_ResponseSize;
@@ -9047,7 +9074,9 @@ namespace Implem.DefinitionAccessor
         public string SysLogs_SessionAge;
         public string SysLogs_SessionGuid;
         public string SysLogs_SessionRequestInterval;
+        public string SysLogs_SiteId;
         public string SysLogs_StartTime;
+        public string SysLogs_Status;
         public string SysLogs_SysLogId;
         public string SysLogs_SysLogType;
         public string SysLogs_TenantName;
@@ -9557,6 +9586,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Statuses_StatusId = new ColumnDefinition();
         public ColumnDefinition Statuses_TenantId = new ColumnDefinition();
         public ColumnDefinition Statuses_Value = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Api = new ColumnDefinition();
         public ColumnDefinition SysLogs_Application = new ColumnDefinition();
         public ColumnDefinition SysLogs_ApplicationAge = new ColumnDefinition();
         public ColumnDefinition SysLogs_ApplicationRequestInterval = new ColumnDefinition();
@@ -9566,6 +9596,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_Comments = new ColumnDefinition();
         public ColumnDefinition SysLogs_CreatedTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_Creator = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Description = new ColumnDefinition();
         public ColumnDefinition SysLogs_Elapsed = new ColumnDefinition();
         public ColumnDefinition SysLogs_EndTime = new ColumnDefinition();
         public ColumnDefinition SysLogs_ErrMessage = new ColumnDefinition();
@@ -9577,6 +9608,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_OnAzure = new ColumnDefinition();
         public ColumnDefinition SysLogs_ProcessId = new ColumnDefinition();
         public ColumnDefinition SysLogs_ProcessName = new ColumnDefinition();
+        public ColumnDefinition SysLogs_ReferenceId = new ColumnDefinition();
+        public ColumnDefinition SysLogs_ReferenceType = new ColumnDefinition();
         public ColumnDefinition SysLogs_RequestData = new ColumnDefinition();
         public ColumnDefinition SysLogs_RequestSize = new ColumnDefinition();
         public ColumnDefinition SysLogs_ResponseSize = new ColumnDefinition();
@@ -9584,7 +9617,9 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition SysLogs_SessionAge = new ColumnDefinition();
         public ColumnDefinition SysLogs_SessionGuid = new ColumnDefinition();
         public ColumnDefinition SysLogs_SessionRequestInterval = new ColumnDefinition();
+        public ColumnDefinition SysLogs_SiteId = new ColumnDefinition();
         public ColumnDefinition SysLogs_StartTime = new ColumnDefinition();
+        public ColumnDefinition SysLogs_Status = new ColumnDefinition();
         public ColumnDefinition SysLogs_SysLogId = new ColumnDefinition();
         public ColumnDefinition SysLogs_SysLogType = new ColumnDefinition();
         public ColumnDefinition SysLogs_TenantName = new ColumnDefinition();

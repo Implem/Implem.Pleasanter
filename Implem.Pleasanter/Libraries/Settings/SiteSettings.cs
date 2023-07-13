@@ -1810,6 +1810,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (column != null)
             {
                 column.Id = column.Id ?? columnDefinition.Id;
+                column.LowSchemaVersion = columnDefinition.LowSchemaVersion();
                 column.No = columnDefinition.No;
                 column.Id_Ver =
                     ((columnDefinition.Unique || columnDefinition.Pk > 0)
@@ -1977,6 +1978,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .GroupBy(o => o.ColumnName)
                 .Select(o => o.First())
                 .Where(o => ColumnDefinitionHash?.ContainsKey(o?.Name ?? string.Empty) == true)
+                .Where(o => !o.LowSchemaVersion)
                 .ToDictionary(o => o.ColumnName, o => o);
         }
 

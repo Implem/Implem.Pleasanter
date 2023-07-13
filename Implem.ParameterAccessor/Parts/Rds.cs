@@ -13,6 +13,7 @@ namespace Implem.ParameterAccessor.Parts
         public int DeadlockRetryCount;
         public int DeadlockRetryInterval;
         public bool DisableIndexChangeDetection;
+        public int SysLogsSchemaVersion;
 
         [OnDeserialized]
         private void OnDeserialized(StreamingContext streamingContext)

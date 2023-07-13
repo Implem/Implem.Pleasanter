@@ -24,7 +24,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? GroupUtilities.GetByApi(
@@ -47,7 +48,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? GroupUtilities.CreateByApi(
@@ -69,7 +71,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? GroupUtilities.UpdateByApi(
@@ -92,7 +95,8 @@ namespace Implem.Pleasanter.Controllers.Api
                 sessionStatus: User?.Identity?.IsAuthenticated == true,
                 sessionData: User?.Identity?.IsAuthenticated == true,
                 apiRequestBody: body,
-                contentType: Request.ContentType);
+                contentType: Request.ContentType,
+                api: true);
             var log = new SysLogModel(context: context);
             var result = context.Authenticated
                 ? GroupUtilities.DeleteByApi(

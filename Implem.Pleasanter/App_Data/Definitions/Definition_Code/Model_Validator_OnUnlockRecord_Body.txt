@@ -10,7 +10,12 @@
 
     if (!ss.LockedRecord())
     {
-        return new ErrorData(type: Error.Types.NotLockedRecord);
+        return new ErrorData(
+            context: context,
+            type: Error.Types.NotLockedRecord,
+            api: api,
+            sysLogsStatus: 400,
+            sysLogsDescription: Debugs.GetSysLogsDescription());
     }
     if (!context.CanUpdate(
         ss: ss,
@@ -18,12 +23,32 @@
             || #modelName#Model.ReadOnly)
     {
         return !context.CanRead(ss: ss)
-            ? new ErrorData(type: Error.Types.NotFound)
-            : new ErrorData(type: Error.Types.HasNotPermission);
+            ? new ErrorData(
+                context: context,
+                type: Error.Types.NotFound,
+                api: api,
+                sysLogsStatus: 403,
+                sysLogsDescription: Debugs.GetSysLogsDescription())
+            : new ErrorData(
+                context: context,
+                type: Error.Types.HasNotPermission,
+                api: api,
+                sysLogsStatus: 403,
+                sysLogsDescription: Debugs.GetSysLogsDescription());
     }
     if (!context.HasPrivilege && ss.LockedRecordUser.Id != context.UserId)
     {
-        return new ErrorData(type: Error.Types.HasNotPermission);
+        return new ErrorData(
+            context: context,
+            type: Error.Types.HasNotPermission,
+            api: api,
+            sysLogsStatus: 403,
+            sysLogsDescription: Debugs.GetSysLogsDescription());
     }
-    return new ErrorData(type: Error.Types.None);
+    return new ErrorData(
+        context: context,
+        type: Error.Types.None,
+        api: api,
+        sysLogsStatus: 200,
+        sysLogsDescription: Debugs.GetSysLogsDescription());
 }

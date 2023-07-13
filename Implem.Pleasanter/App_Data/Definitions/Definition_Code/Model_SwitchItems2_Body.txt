@@ -116,7 +116,8 @@ public ContentResultInheritance GetByApi(Context context, bool internalRequest =
 {
     SetSite(
         context: context,
-        initSiteSettings: true);
+        initSiteSettings: true,
+        setSiteIntegration: true);
     if (!Site.WithinApiLimits(context: context))
     {
         return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -141,7 +142,10 @@ public ContentResultInheritance GetByApi(Context context, bool internalRequest =
 
 public BaseItemModel[] GetByServerScript(Context context)
 {
-    SetSite(context: context);
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
     if (!Site.WithinApiLimits(context: context))
     {
         return null;
@@ -466,28 +470,6 @@ public ContentResultInheritance UpdateByApi(Context context, string referenceTyp
     }
 }
 
-public ContentResultInheritance UpsertByApi(Context context, string referenceType = null)
-{
-    SetSite(
-        context: context,
-        initSiteSettings: true);
-    if (!Site.WithinApiLimits(context: context))
-    {
-        return ApiResults.Get(ApiResponses.OverLimitApi(
-            context: context,
-            siteId: Site.SiteId,
-            limitPerSite: context.ContractSettings.ApiLimit()));
-    }
-    switch (referenceType ?? Site.ReferenceType)
-    {
-
-<!--Model_UpsertByApiCases-->
-
-        default:
-            return ApiResults.Get(ApiResponses.NotFound(context: context));
-    }
-}
-
 public bool UpdateByServerScript(Context context, object model)
 {
     SetSite(context: context);
@@ -522,6 +504,45 @@ public bool UpdateByServerScript(Context context, object model)
                 model: model);
 
 <!--Model_UpdateByServerScriptCases-->
+
+        default:
+            return false;
+    }
+}
+
+public ContentResultInheritance UpsertByApi(Context context, string referenceType = null)
+{
+    SetSite(
+        context: context,
+        initSiteSettings: true);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return ApiResults.Get(ApiResponses.OverLimitApi(
+            context: context,
+            siteId: Site.SiteId,
+            limitPerSite: context.ContractSettings.ApiLimit()));
+    }
+    switch (referenceType ?? Site.ReferenceType)
+    {
+
+<!--Model_UpsertByApiCases-->
+
+        default:
+            return ApiResults.Get(ApiResponses.NotFound(context: context));
+    }
+}
+
+public bool UpsertByServerScript(Context context, object model)
+{
+    SetSite(context: context);
+    if (!Site.WithinApiLimits(context: context))
+    {
+        return false;
+    }
+    switch (Site.ReferenceType)
+    {
+
+<!--Model_UpsertByServerScriptCases-->
 
         default:
             return false;
@@ -1125,6 +1146,10 @@ public (Plugins.PdfData pdfData, string error) Pdf(Context context, int reportId
         default:
             return (null, HtmlTemplates.Error(
                 context: context,
-                errorData: new ErrorData(type: Error.Types.NotFound)));
+                errorData: new ErrorData(
+                    context: context,
+                    type: Error.Types.NotFound,
+                    sysLogsStatus: 404,
+                    sysLogsDescription: Debugs.GetSysLogsDescription())));
     }
 }

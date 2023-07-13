@@ -2,11 +2,11 @@
     var #modelName#Ss = Site.#TableName#SiteSettings(
         context: context,
         referenceId: ReferenceId);
-    if(model is string #modelName#RequestString)
+    if (model is string #modelName#RequestString)
     {
         context.ApiRequestBody = #modelName#RequestString;
     }
-    else if(model is ServerScriptModelApiModel #modelName#ApiModel)
+    else if (model is ServerScriptModelApiModel #modelName#ApiModel)
     {
         context.ApiRequestBody = #modelName#ApiModel.ToJsonString(
             context: context,
