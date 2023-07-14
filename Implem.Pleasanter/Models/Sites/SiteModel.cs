@@ -7737,7 +7737,8 @@ namespace Implem.Pleasanter.Models
                     new Message(
                         "InvalidTimeLineSites",
                         Displays.InvalidTimeLineSites(context: context),
-                        "alert-error"));
+                        "alert-error"),
+                    target: "#DashboardPartTimeLineSitesMessage");
             }
             else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
             {

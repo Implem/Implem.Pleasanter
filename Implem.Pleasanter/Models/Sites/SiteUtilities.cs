@@ -14723,7 +14723,9 @@ namespace Implem.Pleasanter.Models
                         controlId: "ClearDashboardView",
                         action: "SetSiteSettings",
                         method: "post")
-                    .P(css: "message-dialog")
+                    .P(
+                        id: "DashboardPartTimeLineSitesMessage",
+                        css: "message-dialog")
                     .Div(css: "command-center", action: () => hb
                         .Button(
                             controlId: "UpdateDashboardPartTimeLineSites",
