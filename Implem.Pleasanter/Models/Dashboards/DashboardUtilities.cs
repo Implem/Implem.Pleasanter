@@ -1857,9 +1857,6 @@ namespace Implem.Pleasanter.Models
                             orderBy
                     }
                 ));
-            var columns = ss.IncludedColumns(
-                value: titleTemplate,
-                labelText: true);
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
             return results
