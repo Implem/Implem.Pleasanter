@@ -1366,7 +1366,8 @@ namespace Implem.Pleasanter.Models
         {
             SetSite(
                 context: context,
-                initSiteSettings: true);
+                initSiteSettings: true,
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -1413,7 +1414,10 @@ namespace Implem.Pleasanter.Models
 
         public BaseItemModel[] GetByServerScript(Context context)
         {
-            SetSite(context: context);
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true);
             if (!Site.WithinApiLimits(context: context))
             {
                 return null;

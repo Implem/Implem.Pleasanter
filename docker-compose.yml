@@ -56,8 +56,6 @@ services:
       - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
     ports:
       - "5432:5432"
-    volumes:
-      - ./docker-build/postgresql/init:/docker-entrypoint-initdb.d
     networks:
       - default
 networks:

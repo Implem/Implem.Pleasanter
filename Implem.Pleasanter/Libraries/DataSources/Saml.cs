@@ -43,7 +43,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 attributes.Add("MailAddress", nameId);
             }
             //2. 指定した属性がない場合はName IDをメールアドレスとする場合
-            else if (attributeMailAddress.EndsWith("|{NameId}"))
+            else if (attributeMailAddress?.EndsWith("|{NameId}") == true)
             {
                 var attributeName = attributeMailAddress.Split_1st('|');
                 var claimMailAddress = claims.FirstOrDefault(claim => claim.Type == attributeName);

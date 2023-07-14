@@ -116,7 +116,8 @@ public ContentResultInheritance GetByApi(Context context, bool internalRequest =
 {
     SetSite(
         context: context,
-        initSiteSettings: true);
+        initSiteSettings: true,
+        setSiteIntegration: true);
     if (!Site.WithinApiLimits(context: context))
     {
         return ApiResults.Get(ApiResponses.OverLimitApi(
@@ -141,7 +142,10 @@ public ContentResultInheritance GetByApi(Context context, bool internalRequest =
 
 public BaseItemModel[] GetByServerScript(Context context)
 {
-    SetSite(context: context);
+    SetSite(
+        context: context,
+        initSiteSettings: true,
+        setSiteIntegration: true);
     if (!Site.WithinApiLimits(context: context))
     {
         return null;
