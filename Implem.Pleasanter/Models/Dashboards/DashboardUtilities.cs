@@ -1859,26 +1859,48 @@ namespace Implem.Pleasanter.Models
                 ));
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
+            //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
+            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+                siteId => siteId,
+                siteId => SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: siteId))
+                ?? new Dictionary<long, SiteSettings>();
             return results
-                .Select(model => new DashboardTimeLineItem
+                .Select(model =>
                 {
-                    Id = model.ResultId,
-                    SiteId = model.SiteId,
-                    SiteTitle = model.SiteTitle,
-                    Title = model.ReplaceLineByResultModel(
-                        context: context,
-                        ss: ss,
-                        line: title,
-                        itemTitle: model.Title.DisplayValue),
-                    Body = model.ReplaceLineByResultModel(
-                        context: context,
-                        ss: ss,
-                        line: body,
-                        itemTitle: model.Title.DisplayValue),
-                    CreatedTime = model.CreatedTime,
-                    UpdatedTime = model.UpdatedTime,
-                    Creator = model.Creator,
-                    Updator = model.Updator
+                    //表示するレコードのサイトIDをキーにサイト設定を取得
+                    var currentSs = ssHash.TryGetValue(model.SiteId, out var _Ss)
+                        ? _Ss
+                        : null;
+                    //カラムの置換処理
+                    // currentSsは必ず取得できる想定だが、取得できなかった場合はカラムの置き換えを行わず設定されたテキストをそのまま出力する
+                    var replacedTitle = currentSs != null
+                        ? model.ReplaceLineByResultModel(
+                            context: context,
+                            ss: currentSs,
+                            line: title,
+                            itemTitle: model.Title.DisplayValue)
+                        : title;
+                    var replacedBody = currentSs != null
+                        ? model.ReplaceLineByResultModel(
+                            context: context,
+                            ss: currentSs,
+                            line: body,
+                            itemTitle: model.Title.DisplayValue)
+                        : body;
+                    return new DashboardTimeLineItem
+                    {
+                        Id = model.ResultId,
+                        SiteId = model.SiteId,
+                        SiteTitle = model.SiteTitle,
+                        Title = replacedTitle,
+                        Body = replacedBody,
+                        CreatedTime = model.CreatedTime,
+                        UpdatedTime = model.UpdatedTime,
+                        Creator = model.Creator,
+                        Updator = model.Updator
+                    };
                 });
         }
 
@@ -1910,26 +1932,50 @@ namespace Implem.Pleasanter.Models
                 ));
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
+            //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
+            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+                siteId => siteId,
+                siteId => SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: siteId))
+                ?? new Dictionary<long, SiteSettings>();
             return issues
-                .Select(model => new DashboardTimeLineItem
+                .Select(model =>
                 {
-                    Id = model.IssueId,
-                    SiteId = model.SiteId,
-                    SiteTitle = model.SiteTitle,
-                    Title = model.ReplaceLineByIssueModel(
-                        context: context,
-                        ss: ss,
-                        line: title,
-                        itemTitle: model.Title.DisplayValue),
-                    Body = model.ReplaceLineByIssueModel(
-                        context: context,
-                        ss: ss,
-                        line: body,
-                        itemTitle: model.Title.DisplayValue),
-                    CreatedTime = model.CreatedTime,
-                    UpdatedTime = model.UpdatedTime,
-                    Creator = model.Creator,
-                    Updator = model.Updator
+                    //表示するレコードのサイトIDをキーにサイト設定を取得
+                    var currentSs = ssHash.TryGetValue(model.SiteId, out var _Ss)
+                        ? _Ss
+                        : null;
+                    //カラムの置換処理
+                    // currentSsは必ず取得できる想定だが、取得できなかった場合はカラムの置き換えを行わず設定されたテキストをそのまま出力する
+                    var replacedTitle = currentSs != null
+                        ? model.ReplaceLineByIssueModel(
+                            context: context,
+                            ss: currentSs,
+                            line: title,
+                            itemTitle: model.Title.DisplayValue,
+                            checkColumnAccessControl: true)
+                        : title;
+                    var replacedBody = currentSs != null
+                        ? model.ReplaceLineByIssueModel(
+                            context: context,
+                            ss: currentSs,
+                            line: body,
+                            itemTitle: model.Title.DisplayValue,
+                            checkColumnAccessControl: true)
+                        : body;
+                    return new DashboardTimeLineItem
+                    {
+                        Id = model.IssueId,
+                        SiteId = model.SiteId,
+                        SiteTitle = model.SiteTitle,
+                        Title = replacedTitle,
+                        Body = replacedBody,
+                        CreatedTime = model.CreatedTime,
+                        UpdatedTime = model.UpdatedTime,
+                        Creator = model.Creator,
+                        Updator = model.Updator
+                    };
                 });
         }
     }

@@ -3,14 +3,24 @@
     Context context,
     SiteSettings ss,
     string line,
-    string itemTitle)
+    string itemTitle,
+    bool checkColumnAccessControl = false)
 {
     ss.IncludedColumns(line).ForEach(column =>
     {
+        var allowed = checkColumnAccessControl == false
+            || ss.ReadColumnAccessControls.Allowed(
+                context: context,
+                ss: ss,
+                column: column,
+                mine: #modelName#Model.Mine(context: context));
         switch (column.ColumnName)
         {
             case "Title":
-                line = line.Replace("[Title]", itemTitle);
+                line = line.Replace("[Title]",
+                    allowed
+                        ? itemTitle
+                        : string.Empty);
                 break;
 
 <!--Reminder_ColumnCases-->
@@ -21,37 +31,47 @@
                     case "Class":
                         line = line.Replace(
                             $"[{column.Name}]",
-                            #modelName#Model.GetClass(column: column).ToExport(
-                                context: context,
-                                column: column));
+                            allowed
+                                ? #modelName#Model.GetClass(column: column).ToExport(
+                                    context: context,
+                                    column: column)
+                                : string.Empty);
                         break;
                     case "Num":
                         line = line.Replace(
                             $"[{column.Name}]",
-                            #modelName#Model.GetNum(column: column).ToExport(
-                                context: context,
-                                column: column));
+                            allowed
+                                ? #modelName#Model.GetNum(column: column).ToExport(
+                                    context: context,
+                                    column: column)
+                                : string.Empty);
                         break;
                     case "Date":
                         line = line.Replace(
                             $"[{column.Name}]",
-                            #modelName#Model.GetDate(column: column).ToExport(
-                                context: context,
-                                column: column));
+                            allowed
+                                ? #modelName#Model.GetDate(column: column).ToExport(
+                                    context: context,
+                                    column: column)
+                                : string.Empty);
                         break;
                     case "Description":
                         line = line.Replace(
                             $"[{column.Name}]",
-                            #modelName#Model.GetDescription(column: column).ToExport(
-                                context: context,
-                                column: column));
+                            allowed
+                                ? #modelName#Model.GetDescription(column: column).ToExport(
+                                    context: context,
+                                    column: column)
+                                : string.Empty);
                         break;
                     case "Check":
                         line = line.Replace(
                             $"[{column.Name}]",
-                            #modelName#Model.GetCheck(column: column).ToExport(
-                                context: context,
-                                column: column));
+                            allowed
+                                ? #modelName#Model.GetCheck(column: column).ToExport(
+                                    context: context,
+                                    column: column)
+                                : string.Empty);
                         break;
                 }
                 break;

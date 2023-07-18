@@ -1,7 +1,9 @@
 ﻿case "#ColumnName#":
     line = line.Replace(
         "[#ColumnName#]",
-        #modelName#Model.#ColumnName#.ToExport(
-            context: context,
-            column: column));
+        allowed
+            ? #modelName#Model.#ColumnName#.ToExport(
+                context: context,
+                column: column)
+            : string.Empty);
     break;
