@@ -6,7 +6,7 @@
     string itemTitle,
     bool checkColumnAccessControl = false)
 {
-    ss.IncludedColumns(line).ForEach(column =>
+    foreach(var column in ss.IncludedColumns(line))
     {
         var allowed = checkColumnAccessControl == false
             || ss.ReadColumnAccessControls.Allowed(
@@ -14,13 +14,15 @@
                 ss: ss,
                 column: column,
                 mine: #modelName#Model.Mine(context: context));
+        if (!allowed)
+        {
+            line = line.Replace($"[{column.Name}]", string.Empty);
+            continue;
+        }
         switch (column.ColumnName)
         {
             case "Title":
-                line = line.Replace("[Title]",
-                    allowed
-                        ? itemTitle
-                        : string.Empty);
+                line = line.Replace("[Title]", itemTitle);
                 break;
 
 <!--Reminder_ColumnCases-->
@@ -30,52 +32,37 @@
                 {
                     case "Class":
                         line = line.Replace(
-                            $"[{column.Name}]",
-                            allowed
-                                ? #modelName#Model.GetClass(column: column).ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            $"[{column.Name}]", #modelName#Model.GetClass(column: column).ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Num":
                         line = line.Replace(
-                            $"[{column.Name}]",
-                            allowed
-                                ? #modelName#Model.GetNum(column: column).ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            $"[{column.Name}]", #modelName#Model.GetNum(column: column).ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Date":
                         line = line.Replace(
-                            $"[{column.Name}]",
-                            allowed
-                                ? #modelName#Model.GetDate(column: column).ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            $"[{column.Name}]", #modelName#Model.GetDate(column: column).ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Description":
                         line = line.Replace(
-                            $"[{column.Name}]",
-                            allowed
-                                ? #modelName#Model.GetDescription(column: column).ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            $"[{column.Name}]", #modelName#Model.GetDescription(column: column).ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Check":
                         line = line.Replace(
-                            $"[{column.Name}]",
-                            allowed
-                                ? #modelName#Model.GetCheck(column: column).ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            $"[{column.Name}]", #modelName#Model.GetCheck(column: column).ToExport(
+                                context: context,
+                                column: column));
                         break;
                 }
                 break;
         }
-    });
+    }
     return line;
 }

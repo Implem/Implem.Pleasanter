@@ -7780,7 +7780,6 @@ namespace Implem.Pleasanter.Models
                        "alert-error"));
                 return;
             }
-
             var dashboardPart = SiteSettings.DashboardParts?
                 .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
             if (dashboardPart != null)

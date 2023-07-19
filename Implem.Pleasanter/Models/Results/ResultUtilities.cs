@@ -8309,7 +8309,7 @@ namespace Implem.Pleasanter.Models
             string itemTitle,
             bool checkColumnAccessControl = false)
         {
-            ss.IncludedColumns(line).ForEach(column =>
+            foreach(var column in ss.IncludedColumns(line))
             {
                 var allowed = checkColumnAccessControl == false
                     || ss.ReadColumnAccessControls.Allowed(
@@ -8317,183 +8317,131 @@ namespace Implem.Pleasanter.Models
                         ss: ss,
                         column: column,
                         mine: resultModel.Mine(context: context));
+                if (!allowed)
+                {
+                    line = line.Replace($"[{column.Name}]", string.Empty);
+                    continue;
+                }
                 switch (column.ColumnName)
                 {
                     case "Title":
-                        line = line.Replace("[Title]",
-                            allowed
-                                ? itemTitle
-                                : string.Empty);
+                        line = line.Replace("[Title]", itemTitle);
                         break;
                     case "SiteId":
                         line = line.Replace(
-                            "[SiteId]",
-                            allowed
-                                ? resultModel.SiteId.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[SiteId]", resultModel.SiteId.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "UpdatedTime":
                         line = line.Replace(
-                            "[UpdatedTime]",
-                            allowed
-                                ? resultModel.UpdatedTime.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[UpdatedTime]", resultModel.UpdatedTime.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "ResultId":
                         line = line.Replace(
-                            "[ResultId]",
-                            allowed
-                                ? resultModel.ResultId.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[ResultId]", resultModel.ResultId.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Ver":
                         line = line.Replace(
-                            "[Ver]",
-                            allowed
-                                ? resultModel.Ver.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Ver]", resultModel.Ver.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Body":
                         line = line.Replace(
-                            "[Body]",
-                            allowed
-                                ? resultModel.Body.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Body]", resultModel.Body.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Status":
                         line = line.Replace(
-                            "[Status]",
-                            allowed
-                                ? resultModel.Status.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Status]", resultModel.Status.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Manager":
                         line = line.Replace(
-                            "[Manager]",
-                            allowed
-                                ? resultModel.Manager.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Manager]", resultModel.Manager.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Owner":
                         line = line.Replace(
-                            "[Owner]",
-                            allowed
-                                ? resultModel.Owner.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Owner]", resultModel.Owner.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Locked":
                         line = line.Replace(
-                            "[Locked]",
-                            allowed
-                                ? resultModel.Locked.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Locked]", resultModel.Locked.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Comments":
                         line = line.Replace(
-                            "[Comments]",
-                            allowed
-                                ? resultModel.Comments.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Comments]", resultModel.Comments.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Creator":
                         line = line.Replace(
-                            "[Creator]",
-                            allowed
-                                ? resultModel.Creator.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Creator]", resultModel.Creator.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "Updator":
                         line = line.Replace(
-                            "[Updator]",
-                            allowed
-                                ? resultModel.Updator.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[Updator]", resultModel.Updator.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     case "CreatedTime":
                         line = line.Replace(
-                            "[CreatedTime]",
-                            allowed
-                                ? resultModel.CreatedTime.ToExport(
-                                    context: context,
-                                    column: column)
-                                : string.Empty);
+                            "[CreatedTime]", resultModel.CreatedTime.ToExport(
+                                context: context,
+                                column: column));
                         break;
                     default:
                         switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                         {
                             case "Class":
                                 line = line.Replace(
-                                    $"[{column.Name}]",
-                                    allowed
-                                        ? resultModel.GetClass(column: column).ToExport(
-                                            context: context,
-                                            column: column)
-                                        : string.Empty);
+                                    $"[{column.Name}]", resultModel.GetClass(column: column).ToExport(
+                                        context: context,
+                                        column: column));
                                 break;
                             case "Num":
                                 line = line.Replace(
-                                    $"[{column.Name}]",
-                                    allowed
-                                        ? resultModel.GetNum(column: column).ToExport(
-                                            context: context,
-                                            column: column)
-                                        : string.Empty);
+                                    $"[{column.Name}]", resultModel.GetNum(column: column).ToExport(
+                                        context: context,
+                                        column: column));
                                 break;
                             case "Date":
                                 line = line.Replace(
-                                    $"[{column.Name}]",
-                                    allowed
-                                        ? resultModel.GetDate(column: column).ToExport(
-                                            context: context,
-                                            column: column)
-                                        : string.Empty);
+                                    $"[{column.Name}]", resultModel.GetDate(column: column).ToExport(
+                                        context: context,
+                                        column: column));
                                 break;
                             case "Description":
                                 line = line.Replace(
-                                    $"[{column.Name}]",
-                                    allowed
-                                        ? resultModel.GetDescription(column: column).ToExport(
-                                            context: context,
-                                            column: column)
-                                        : string.Empty);
+                                    $"[{column.Name}]", resultModel.GetDescription(column: column).ToExport(
+                                        context: context,
+                                        column: column));
                                 break;
                             case "Check":
                                 line = line.Replace(
-                                    $"[{column.Name}]",
-                                    allowed
-                                        ? resultModel.GetCheck(column: column).ToExport(
-                                            context: context,
-                                            column: column)
-                                        : string.Empty);
+                                    $"[{column.Name}]", resultModel.GetCheck(column: column).ToExport(
+                                        context: context,
+                                        column: column));
                                 break;
                         }
                         break;
                 }
-            });
+            }
             return line;
         }
     }

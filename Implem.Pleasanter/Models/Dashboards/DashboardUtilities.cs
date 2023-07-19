@@ -1860,12 +1860,15 @@ namespace Implem.Pleasanter.Models
             var title = ss.LabelTextToColumnName(titleTemplate);
             var body = ss.LabelTextToColumnName(bodyTemplate);
             //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
+            //JoinedSsHashにある場合はそちらを利用し、ない場合は作成する
             var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
                 siteId => siteId,
-                siteId => SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: siteId))
-                ?? new Dictionary<long, SiteSettings>();
+                siteId => ss.JoinedSsHash?.TryGetValue(siteId, out var _Ss) == true
+                    ? _Ss
+                    : SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: siteId))
+                    ?? new Dictionary<long, SiteSettings>();
             return results
                 .Select(model =>
                 {
