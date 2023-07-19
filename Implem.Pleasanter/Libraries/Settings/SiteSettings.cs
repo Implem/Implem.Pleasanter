@@ -5072,7 +5072,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return !IsSiteEditor(context: context)
                 ? Styles?
-                    .Where(style => peredicate(style))
+                    .Where(style =>style.Disabled != true
+                        && peredicate(style))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }
@@ -5127,7 +5128,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return !IsSiteEditor(context: context)
                 ? Scripts?
-                    .Where(script => peredicate(script))
+                    .Where(script => script.Disabled != true
+                        && peredicate(script))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }

@@ -13842,8 +13842,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "ScriptDisabled",
                         controlCss: " always-send",
                         labelText: Displays.Disabled(context: context),
-                        _checked: script.Disabled == true,
-                        _using: ss.ReferenceType == "Dashboards")
+                        _checked: script.Disabled == true)
                     .FieldSet(
                         css: enclosedCss,
                         legendText: Displays.OutputDestination(context: context),
