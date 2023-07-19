@@ -162,20 +162,23 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                     if (includeSitePermission || includeRecordPermission)
                     {
+                        var _includeRecordPermission = includeRecordPermission;
                         switch (packageSiteModel.ReferenceType)
                         {
                             case "Dashboards":
+                                //ダッシュボードはレコードが存在しないため常に含めない
+                                _includeRecordPermission = false;
                                 break;
-                            default:
-                                var packagePermissionModel = new PackagePermissionModel(
-                                    context: context,
-                                    siteModel: siteModel,
-                                    view: view,
-                                    includeSitePermission: includeSitePermission,
-                                    includeRecordPermission: includeRecordPermission);
-                                Permissions.Add(packagePermissionModel);
+                            default:        
                                 break;
                         }
+                        var packagePermissionModel = new PackagePermissionModel(
+                            context: context,
+                            siteModel: siteModel,
+                            view: view,
+                            includeSitePermission: includeSitePermission,
+                            includeRecordPermission: _includeRecordPermission);
+                        Permissions.Add(packagePermissionModel);
                     }
                 }
             }
