@@ -83,6 +83,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 dashboardPart.Users = Users;
             }
+            dashboardPart.TimeLineDisplayType = null;
             switch (Type)
             {
                 case DashboardPartType.QuickAccess:
