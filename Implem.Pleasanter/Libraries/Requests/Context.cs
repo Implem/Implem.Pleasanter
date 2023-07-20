@@ -431,6 +431,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 
         public void SetUserProperties(UserModel userModel)
         {
+            LoginId = userModel.LoginId;
             SetUser(userModel);
             SetPermissions();
         }
