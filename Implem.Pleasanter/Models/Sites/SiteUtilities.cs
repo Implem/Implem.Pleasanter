@@ -4761,7 +4761,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.Copy(context: context),
                             controlCss: "button-icon",
                             onClick: "$p.setAndSend('#EditBulkUpdateColumns', $(this));",
-                            icon: "ui-icon-trash",
+                            icon: "ui-icon-copy",
                             action: "SetSiteSettings",
                             method: "post")
                         .Button(
@@ -7473,7 +7473,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         text: Displays.Copy(context: context),
                         onClick: "$p.setAndSend('#EditSummary', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -7924,7 +7924,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         text: Displays.Copy(context: context),
                         onClick: "$p.setAndSend('#EditFormula', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -8162,7 +8162,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: "button-icon",
                         text: Displays.Copy(context: context),
                         onClick: "$p.setAndSend('#EditProcess', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -9020,7 +9020,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditProcessDataChange', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -9629,7 +9629,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditStatusControl', $(this));",
-                        icon: "ui-icon-gear",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -10075,7 +10075,7 @@ namespace Implem.Pleasanter.Models
                                         text: Displays.Copy(context: context),
                                         controlCss: "button-icon",
                                         onClick: "$p.send($(this));",
-                                        icon: "ui-icon-trash",
+                                        icon: "ui-icon-copy",
                                         action: "SetSiteSettings",
                                         method: "put")
                                     .Button(
@@ -11375,7 +11375,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditNotification', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -11870,7 +11870,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditReminder', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "delete")
                     .Button(
@@ -12335,7 +12335,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditExport', $(this));",
-                        icon: "ui-icon-gear",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "put")
                     .Button(
@@ -13170,7 +13170,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditStyle', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -13504,7 +13504,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditScript', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
@@ -13833,7 +13833,7 @@ namespace Implem.Pleasanter.Models
                         text: Displays.Copy(context: context),
                         controlCss: "button-icon",
                         onClick: "$p.setAndSend('#EditServerScript', $(this));",
-                        icon: "ui-icon-trash",
+                        icon: "ui-icon-copy",
                         action: "SetSiteSettings",
                         method: "post")
                     .Button(
