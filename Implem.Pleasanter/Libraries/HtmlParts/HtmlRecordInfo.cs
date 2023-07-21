@@ -33,39 +33,25 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         public static HtmlBuilder UpdatedInfo(
             this HtmlBuilder hb,
             Context context,
-            Time updatedTime,
-            string updator)
+            Time updatedTime)
         {
             return hb
-                .Text(text: Displays.UpdatedTime(context: context) + ":")
-                .Span(
-                    css: "updatedInfo-updator",
-                    action: () =>
-                        hb.Text(text: updator))
-                .RecordedTime(
+                .Text(text: Displays.Update(context: context))
+                .ElapsedTime(
                     context: context,
-                    controlId: null,
-                    format: Def.ColumnTable._Bases_UpdatedTime.EditorFormat,
-                    time: updatedTime);
+                    value: updatedTime.DisplayValue);
         }
 
         public static HtmlBuilder CreatedInfo(
             this HtmlBuilder hb,
             Context context,
-            Time createdTime,
-            string creator)
+            Time createdTime)
         {
             return hb
-                .Text(text: Displays.CreatedTime(context: context) + ":")
-                .Span(
-                    css: "createdInfo-creator",
-                    action: () =>
-                    hb.Text(text: creator))
-                .RecordedTime(
+                .Text(text: Displays.Create(context: context))
+                .ElapsedTime(
                     context: context,
-                    controlId: null,
-                    format: Def.ColumnTable._Bases_CreatedTime.EditorFormat,
-                    time: createdTime);
+                    value: createdTime.DisplayValue);
         }
 
         private static HtmlBuilder RecordedTime(

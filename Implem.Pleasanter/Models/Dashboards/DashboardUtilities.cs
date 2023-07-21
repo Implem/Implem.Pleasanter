@@ -1750,15 +1750,13 @@ namespace Implem.Pleasanter.Models
                                             {
                                                 hb.UpdatedInfo(
                                                     context: context,
-                                                    item.UpdatedTime,
-                                                    item.Updator.Name);
+                                                    item.UpdatedTime);
                                             }
                                             else
                                             {
                                                 hb.CreatedInfo(
                                                     context: context,
-                                                    item.CreatedTime,
-                                                    item.Creator.Name);
+                                                    item.CreatedTime);
                                             }              
                                         });
                             })

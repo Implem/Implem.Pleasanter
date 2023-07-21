@@ -3227,11 +3227,12 @@ textarea:focus {
 
 .dashboard-timeline-item {
     background-color: #f9f9f9;
-    margin: 8px;
+    margin: 4px;
     padding: 8px;
     transition: background-color 0.3s;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
 }
 
     .dashboard-timeline-item:hover {
@@ -3242,20 +3243,27 @@ textarea:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 4px;
 }
 
     .dashboard-timeline-header a {
         color: #007bff;
         font-weight: bold;
+        min-width: 40px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
 .dashboard-timeline-header-closed {
     overflow: hidden;
-    max-height: 0px;
+    max-height: 0;
+    margin-bottom: 0;
 }
 
 .dashboard-timeline-item:hover .dashboard-timeline-header-closed {
     max-height: 200px;
+    margin-bottom: 4px;
     overflow: auto;
     transition: max-height 0.5s linear 1.0s;
 }
@@ -3263,14 +3271,11 @@ textarea:focus {
 .dashboard-timeline-record-time {
     font-size: 0.8em;
     color: #777;
-    margin-top: 5px;
+    margin-left: 3px;
     font-weight: bold;
     display: flex;
+    white-space: nowrap;
 }
-
-    .dashboard-timeline-record-time .createdInfo-creator, .dashboard-timeline-record-time .updatedInfo-updator {
-        margin-left: 4px;
-    }
 
     .dashboard-timeline-record-time time {
         margin-left: 4px;
@@ -3356,25 +3361,16 @@ textarea:focus {
 
 .dashboard-part-nav-item {
     color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
     padding: 4px;
     display: flex;
-    border-radius: 5px;
+    border-radius: 4px;
+    background-color: white;
 }
 
     .dashboard-part-nav-item:hover {
-        background-color: #ebebeb;
+        background-color: #dddddd;
     }
-
-.dashboard-part-nav-folder {
-    font-weight: bold;
-    background-color: #f9f9f9;
-}
-
-.dashboard-part-nav-dashboard {
-    font-weight: bold;
-    background-color: #f9f9f9;
-}
 
 .dashboard-part-nav-link {
     padding: 4px;
