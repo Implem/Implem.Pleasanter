@@ -28,15 +28,6 @@ namespace Implem.Pleasanter.Libraries.Models
                 context: context, siteModel: siteModel, referenceId: id);
             switch (siteModel.ReferenceType)
             {
-                case "Dashboards":
-                    UpdateDashboards(
-                        context: context,
-                        ss: ss,
-                        siteId: siteModel.SiteId,
-                        id: id,
-                        selected: selected,
-                        hasFormula: hasFormula);
-                    break;
                 case "Issues":
                     UpdateIssues(
                         context: context,
@@ -66,42 +57,6 @@ namespace Implem.Pleasanter.Libraries.Models
                     break;
                 default: break;
             }
-        }
-
-        private static void UpdateDashboards(
-            Context context,
-            SiteSettings ss,
-            long siteId,
-            long id,
-            IEnumerable<int> selected = null,
-            bool hasFormula = false)
-        {
-            Rds.ExecuteTable(
-                context: context,
-                statements: Rds.SelectDashboards(
-                    column: Rds.DashboardsColumn().DashboardId(),
-                    where: Rds.DashboardsWhere()
-                        .SiteId(siteId)
-                        .DashboardId(id, _using: id != 0)))
-                            .AsEnumerable()
-                            .Select(dataRow => dataRow.Long("DashboardId"))
-                            .ForEach(dashboardId =>
-                            {
-                                var dashboardModel = new DashboardModel(
-                                    context: context,
-                                    ss: ss,
-                                    dashboardId: dashboardId,
-                                    column: Rds.DashboardsDefaultColumns());
-                                if (hasFormula) dashboardModel.UpdateFormulaColumns(
-                                    context: context, ss: ss, selected: selected);
-                                dashboardModel.UpdateRelatedRecords(
-                                    context: context,
-                                    ss: ss,
-                                    extendedSqls: true,
-                                    addUpdatedTimeParam: false,
-                                    addUpdatorParam: false,
-                                    updateItems: false);
-                            });
         }
 
         private static void UpdateIssues(
