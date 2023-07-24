@@ -193,6 +193,7 @@
     $(document).on('change', '#KeepSorterState', function () {
         $('#ViewFiltersSorterConditionSettingsEditor').toggle();
     });
+
     $(document).on('change', '#DashboardPartType', function () {
         let $control = $(this);
         let selected = $control.val();        
@@ -207,7 +208,6 @@
         $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
         $('#DashboardPartTimeLineDisplayTypeField').toggle(selected === '1');
         $('#DashboardPartTimeLineItemCountField').toggle(selected === '1');
-        
         //selected==2: Customのみ表示
         $('#DashboardPartContentField').toggle(selected === '2');
         //selected==3: CustomHtmlのみ表示

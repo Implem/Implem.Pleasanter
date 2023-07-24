@@ -7919,6 +7919,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string SaveLayout(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "SaveLayout",
+                data: data);
+        }
+
         public static string SaveViewNone(
             Context context,
             params string[] data)

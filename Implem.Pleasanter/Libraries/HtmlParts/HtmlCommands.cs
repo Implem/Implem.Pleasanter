@@ -270,11 +270,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     hb
                                         .Button(
                                             controlId: "UpdateDashboardPartLayouts",
-                                            text:"レイアウトの保存",
-                                            controlCss:"button-icon",
-                                            accessKey:"s",
+                                            text: Displays.SaveLayout(context: context),
+                                            controlCss: "button-icon",
+                                            accessKey: "s",
                                             icon: "ui-icon-disk",
-                                            onClick: "$p.UpdateDashboardPartLayouts();",
+                                            onClick: "$p.updateDashboardPartLayouts();",
                                             action: "Update",
                                             method: "put",
                                             _using: context.CanUpdate(ss: ss));

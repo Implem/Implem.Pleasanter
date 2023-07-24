@@ -94,47 +94,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="App_Data\Definitions\Definition_Code\Issues_Locked.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefault.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_SetCopyDefaultParameter.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiCreatedMessage_Table.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ApiUpdatedMessage_Table.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_Create_SetCopyDefault.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_EditorMainCommands.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_GetServerScriptModelRow.json" />
-    <Content Remove="App_Data\Definitions\Definition_Code\Model_Utilities_ResponseBreadcrumb_Tenants.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Dashboards_Locked.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Issues_Locked.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Results_Manager - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Results_Owner - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Results_ResultId - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Results_SiteTitle - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Results_Status - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Results_Title - コピー.json" />
-    <Content Remove="App_Data\Definitions\Definition_Column\Tenants_TopDashboards.json" />
-    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard.json" />
-    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard_ja.json" />
-    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard_ja_SiteSettingsTemplate.json" />
-    <Content Remove="App_Data\Definitions\Definition_Template\Dashboard_SiteSettingsTemplate.json" />
-    <Content Remove="App_Data\Parameters\Dashboard.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase0_FileUpload.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase10_ToIssuesCrosstab.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase11_ToIssuesGantt.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase12_ToIssuesBurnDown.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase13_ToIssuesTimeSeries.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase14_ToIssuesKamban.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase15_ToIssuesImageLib.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase4_User.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase8_ToIssuesIndex.json.ignore" />
-    <Content Include="App_Data\Parameters\ExtendedAutoTest\TestCases\GeneralCase9_ToIssuesCalendar.json.ignore" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="App_Data\Parameters\ExtendedAutoTest\TestFiles\TestFile01.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -142,18 +101,6 @@
 
   <ItemGroup>
     <Folder Include="App_Data\UserPlugins\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\styles\plugins\material-symbols-0.8.0\material-symbols\material-symbols-outlined.woff2" />
-    <None Include="wwwroot\styles\plugins\material-symbols-0.8.0\material-symbols\material-symbols-rounded.woff2" />
-    <None Include="wwwroot\styles\plugins\material-symbols-0.8.0\material-symbols\material-symbols-sharp.woff2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="App_Data\Definitions\Definition_Column\Issues_Locked.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

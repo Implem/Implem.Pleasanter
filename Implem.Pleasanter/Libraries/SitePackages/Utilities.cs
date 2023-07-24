@@ -330,7 +330,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     var packagePermissionModel = sitePackage.Permissions
                         .Where(e => e.SiteId == conv.SiteId)
                         .FirstOrDefault();
-                    if(packagePermissionModel == null)
+                    if (packagePermissionModel == null)
                     {
                         continue;
                     }

@@ -12,7 +12,7 @@
 };
 
 //現在のレイアウトを保存する
-$p.UpdateDashboardPartLayouts = function () {
+$p.updateDashboardPartLayouts = function () {
     let layouts = $p.gridstackInstance.save();
     layouts.forEach(item => item.content = "");
     $p.set($('#DashboardPartLayouts'), JSON.stringify(layouts))

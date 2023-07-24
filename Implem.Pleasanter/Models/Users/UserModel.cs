@@ -3788,7 +3788,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Authenticate(Context context, string returnUrl)
+        public string Authenticate(Context context, string returnUrl, bool noHttpContext = false)
         {
             if (Parameters.Security.RevealUserDisabled && DisabledUser(context: context))
             {
@@ -3829,7 +3829,8 @@ namespace Implem.Pleasanter.Models
                                 : Allow(
                                     context: context,
                                     returnUrl: returnUrl,
-                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
+                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                    noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
@@ -3840,7 +3841,8 @@ namespace Implem.Pleasanter.Models
                     return Allow(
                         context: context,
                         returnUrl: returnUrl,
-                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
+                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                        noHttpContext: noHttpContext);
                 }
             }
             else
@@ -4322,9 +4324,12 @@ namespace Implem.Pleasanter.Models
             Context context,
             string returnUrl,
             bool atLogin = false,
-            bool createPersistentCookie = false)
+            bool createPersistentCookie = false,
+            bool noHttpContext = false)
         {
-            context.SetUserProperties(this);
+            context.SetUserProperties(
+                userModel: this,
+                noHttpContext: noHttpContext);
             var loginAfterUrl = GetReturnUrl(
                 context: context,
                 returnUrl: returnUrl);

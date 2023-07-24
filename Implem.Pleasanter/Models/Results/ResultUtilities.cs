@@ -8309,7 +8309,7 @@ namespace Implem.Pleasanter.Models
             string itemTitle,
             bool checkColumnAccessControl = false)
         {
-            foreach(var column in ss.IncludedColumns(line))
+            foreach (var column in ss.IncludedColumns(line))
             {
                 var allowed = checkColumnAccessControl == false
                     || ss.ReadColumnAccessControls.Allowed(

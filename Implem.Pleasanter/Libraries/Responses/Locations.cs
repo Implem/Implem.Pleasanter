@@ -18,7 +18,9 @@ namespace Implem.Pleasanter.Libraries.Responses
                 && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
                     || topUrl.IsNullOrEmpty()
                         ? Get(context: context)
-                        : Get(context: context, topUrl);
+                        : Get(
+                            context: context,
+                            parts: topUrl);
         }
 
         public static string DashboardUrl(Context context)

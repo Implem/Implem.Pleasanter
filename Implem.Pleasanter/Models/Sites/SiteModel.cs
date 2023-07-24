@@ -7734,18 +7734,24 @@ namespace Implem.Pleasanter.Models
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
-                    new Message(
-                        "InvalidTimeLineSites",
-                        Displays.InvalidTimeLineSites(context: context),
-                        "alert-error"),
+                    message: new Message(
+                        id: "InvalidTimeLineSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
                     target: "#DashboardPartTimeLineSitesMessage");
             }
             else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
             {
                 res
-                    .Set("#DashboardPartTimeLineSites", timeLineSites)
-                    .Add("SetValue", "#DashboardPartTimeLineSitesValue", timeLineSites)
-                    .CloseDialog("#DashboardPartTimeLineSitesDialog");
+                    .Set(
+                        target: "#DashboardPartTimeLineSites",
+                        value: timeLineSites)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartTimeLineSitesValue",
+                        value: timeLineSites)
+                    .CloseDialog(
+                        target: "#DashboardPartTimeLineSitesDialog");
                 if (savedSs == null || savedSs?.SiteId == 0)
                 {
                     ClearDashboardView(context: context, res: res);
@@ -7754,8 +7760,9 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
-                    .Invoke("confirmTimeLineSites",
-                        new
+                    .Invoke(
+                        methodName: "confirmTimeLineSites",
+                        args: new
                         {
                             timeLineSites,
                             baseSiteId = currentSs.SiteId

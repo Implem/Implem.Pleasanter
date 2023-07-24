@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing.Text;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.SitePackages
 {
@@ -162,26 +163,39 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                     if (includeSitePermission || includeRecordPermission)
                     {
-                        var _includeRecordPermission = includeRecordPermission;
-                        switch (packageSiteModel.ReferenceType)
-                        {
-                            case "Dashboards":
-                                //ダッシュボードはレコードが存在しないため常に含めない
-                                _includeRecordPermission = false;
-                                break;
-                            default:        
-                                break;
-                        }
-                        var packagePermissionModel = new PackagePermissionModel(
+                        var packagePermissionModel = GetPackagePermissionModel(
                             context: context,
                             siteModel: siteModel,
                             view: view,
                             includeSitePermission: includeSitePermission,
-                            includeRecordPermission: _includeRecordPermission);
+                            includeRecordPermission: includeRecordPermission);
                         Permissions.Add(packagePermissionModel);
                     }
                 }
             }
+        }
+
+        private static PackagePermissionModel GetPackagePermissionModel(
+            Context context,
+            SiteModel siteModel,
+            View view,
+            bool includeSitePermission,
+            bool includeRecordPermission)
+        {
+            switch (siteModel.ReferenceType)
+            {
+                case "Dashboards":
+                    includeRecordPermission = false;
+                    break;
+                default:
+                    break;
+            }
+            return new PackagePermissionModel(
+                context: context,
+                siteModel: siteModel,
+                view: view,
+                includeSitePermission: includeSitePermission,
+                includeRecordPermission: includeRecordPermission);
         }
 
         public class Header

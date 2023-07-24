@@ -1592,7 +1592,7 @@ namespace Implem.Pleasanter.Models
                                         {
                                             if (quickAccess.Model.SiteId == 0)
                                             {
-                                                quickAccess.Model.Title = new Title() { DisplayValue =　Displays.Top(context:context) };
+                                                quickAccess.Model.Title = new Title() { DisplayValue = Displays.Top(context: context) };
                                                 quickAccess.Model.ReferenceType = "Sites";
                                             }
                                             var itemTypeCss = string.Empty;
@@ -1601,7 +1601,7 @@ namespace Implem.Pleasanter.Models
                                             {
                                                 case "Sites":
                                                     itemTypeCss = " dashboard-part-nav-folder " + quickAccess.Css;
-                                                    iconName = Strings.CoalesceEmpty( quickAccess.Icon, "folder");
+                                                    iconName = Strings.CoalesceEmpty(quickAccess.Icon, "folder");
                                                     break;
                                                 case "Dashboards":
                                                     itemTypeCss = " dashboard-part-nav-dashboard " + quickAccess.Css;
@@ -1643,7 +1643,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static IEnumerable<QuickAccessSiteModel> QuickAccessSites(
             Context context,
-            IEnumerable<(long Id,string Icon,string Css)> sites)
+            IEnumerable<(long Id, string Icon, string Css)> sites)
         {
             var siteModels = new SiteCollection(
                 context: context,
@@ -1654,7 +1654,7 @@ namespace Implem.Pleasanter.Models
                     .SiteSettings(),
                 where: Rds.SitesWhere()
                     .TenantId(context.TenantId)
-                    .SiteId_In(sites.Select(o=>o.Id))
+                    .SiteId_In(sites.Select(o => o.Id))
                     .Add(
                         raw: Def.Sql.HasPermission,
                         _using: !context.HasPrivilege));
@@ -1746,7 +1746,7 @@ namespace Implem.Pleasanter.Models
                                     .Div(css: "dashboard-timeline-record-time",
                                         action: () =>
                                         {
-                                            if(item.UpdatedTime.Value > item.CreatedTime.Value)
+                                            if (item.UpdatedTime.Value > item.CreatedTime.Value)
                                             {
                                                 hb.UpdatedInfo(
                                                     context: context,
@@ -1757,7 +1757,7 @@ namespace Implem.Pleasanter.Models
                                                 hb.CreatedInfo(
                                                     context: context,
                                                     item.CreatedTime);
-                                            }              
+                                            }
                                         });
                             })
                         .Div(
@@ -1861,19 +1861,16 @@ namespace Implem.Pleasanter.Models
             //JoinedSsHashにある場合はそちらを利用し、ない場合は作成する
             var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
                 siteId => siteId,
-                siteId => ss.JoinedSsHash?.TryGetValue(siteId, out var _Ss) == true
-                    ? _Ss
-                    : SiteSettingsUtilities.Get(
+                siteId => ss.JoinedSsHash?.Get(siteId)
+                    ?? SiteSettingsUtilities.Get(
                         context: context,
                         siteId: siteId))
-                    ?? new Dictionary<long, SiteSettings>();
+                        ?? new Dictionary<long, SiteSettings>();
             return results
                 .Select(model =>
                 {
                     //表示するレコードのサイトIDをキーにサイト設定を取得
-                    var currentSs = ssHash.TryGetValue(model.SiteId, out var _Ss)
-                        ? _Ss
-                        : null;
+                    var currentSs = ssHash.Get(model.SiteId);
                     //カラムの置換処理
                     // currentSsは必ず取得できる想定だが、取得できなかった場合はカラムの置き換えを行わず設定されたテキストをそのまま出力する
                     var replacedTitle = currentSs != null
