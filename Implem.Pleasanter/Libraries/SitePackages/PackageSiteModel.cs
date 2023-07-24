@@ -263,7 +263,6 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                 }
             });
-
             if (!includeColumnPermission)
             {
                 ss.CreateColumnAccessControls?.Clear();
