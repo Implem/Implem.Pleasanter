@@ -24,5 +24,20 @@ namespace Implem.Pleasanter.Libraries.DataSources
         {
             throw new NotImplementedException();
         }
+
+        public static void SwichTenant(Context context)
+        {
+            //常時呼び出される関数のため、NotImplementedExceptionを記載せず、例外が発生しないようにする。
+        }
+
+        public static void SetSwichTenant(Context context, int targetTenantId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void UnsetSwichTenant(Context context)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
