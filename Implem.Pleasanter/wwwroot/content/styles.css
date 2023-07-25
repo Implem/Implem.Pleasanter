@@ -3377,6 +3377,7 @@ textarea:focus {
     padding: 4px;
     text-decoration: none;
     color: inherit;
+    width: 100%;
 }
 
 .gs-20 > .grid-stack-item {
