@@ -605,6 +605,34 @@ namespace Implem.Pleasanter.Controllers
         /// <summary>
         /// Fixed:
         /// </summary>
+        [HttpGet]
+        public ActionResult SwitchTenant(int id = 0)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            Extension.SetSwichTenant(context, id);
+            var url = Locations.Top(context: context);
+            log.Finish(context: context);
+            return Redirect(url);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpGet]
+        public ActionResult ReturnOriginalTenant()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            Extension.UnsetSwichTenant(context);
+            var url = Locations.Top(context: context);
+            log.Finish(context: context);
+            return Redirect(url);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpPost]
         public string SetStartGuide()
         {

@@ -229,7 +229,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 id: id);
             return Parameters.Service.AbsoluteUri != null
-                ? Parameters.Service.AbsoluteUri + itemPdf
+                ? Parameters.Service.AbsoluteUri + "/items/" + id
                 : context.AbsoluteUri?.Replace(context.AbsolutePath, itemPdf)
                         ?? itemPdf;
         }
