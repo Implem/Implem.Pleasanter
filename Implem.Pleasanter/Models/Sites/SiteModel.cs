@@ -7746,6 +7746,9 @@ namespace Implem.Pleasanter.Models
                     .Set(
                         target: "#DashboardPartTimeLineSites",
                         value: timeLineSites)
+                    .Set(
+                        target: "#DashboardPartBaseSiteId",
+                        value: currentSs.SiteId)
                     .Add(
                         method: "SetValue",
                         target: "#DashboardPartTimeLineSitesValue",
