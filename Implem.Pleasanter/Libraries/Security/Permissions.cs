@@ -251,7 +251,12 @@ namespace Implem.Pleasanter.Libraries.Security
             bool _using = true)
         {
             return _using
-                ? where.Add(raw: context.Sqls.SiteUserWhere.Params(siteId))
+                ? where
+                    .Add(or: new SqlWhereCollection()
+                        .Add(
+                            raw: context.Sqls.SiteUserWhere.Params(siteId))
+                        .Add(
+                            raw: context.Sqls.SitePermissionsWhere.Params(siteId)))
                 : where;
         }
 
