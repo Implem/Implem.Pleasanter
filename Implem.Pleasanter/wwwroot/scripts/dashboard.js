@@ -19,7 +19,7 @@ $p.updateDashboardPartLayouts = function () {
     $p.send($("#UpdateDashboardPartLayouts"));
 };
 
-$(document).on('click', '.dashboard-timeline-titlebody', function() {
+$(document).on('click', '.dashboard-timeline-item', function() {
     $p.transition($(this).attr('data-url'));
 });
 

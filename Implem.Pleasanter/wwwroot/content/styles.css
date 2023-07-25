@@ -3226,7 +3226,7 @@ textarea:focus {
 }
 
 .dashboard-timeline-item {
-    background-color: #f9f9f9;
+    background-color: white;
     margin: 4px;
     padding: 8px;
     transition: background-color 0.3s;
@@ -3366,6 +3366,7 @@ textarea:focus {
     display: flex;
     border-radius: 4px;
     background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
     .dashboard-part-nav-item:hover {

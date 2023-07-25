@@ -1727,6 +1727,13 @@ namespace Implem.Pleasanter.Models
         {
             hb.Div(
                 css: "dashboard-timeline-item",
+                attributes: new HtmlAttributes()
+                    .Add(
+                        "data-url",
+                        Locations.Edit(
+                            context: context,
+                            "items",
+                            item.Id)),
                 action: () =>
                 {
                     hb
@@ -1762,13 +1769,6 @@ namespace Implem.Pleasanter.Models
                             })
                         .Div(
                             css: "dashboard-timeline-titlebody",
-                            attributes: new HtmlAttributes()
-                                .Add(
-                                    "data-url",
-                                    Locations.Edit(
-                                        context: context,
-                                        "items",
-                                        item.Id)),
                             action: () => hb
                                 .Div(
                                     css: "dashboard-timeline-title",
