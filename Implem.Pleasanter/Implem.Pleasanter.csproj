@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-  <WarningsAsErrors />
+    <WarningsAsErrors />
     <NoWarn>NU1605;1701;1702</NoWarn>
   </PropertyGroup>
 
