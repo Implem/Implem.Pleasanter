@@ -407,6 +407,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_CrosstabJsonCases": Code.Model_CrosstabJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CrosstabJsonCases, definitionRow, CodeXls); break;
                     case "Model_CsvData": Code.Model_CsvData = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvData, definitionRow, CodeXls); break;
                     case "Model_CsvDataCases": Code.Model_CsvDataCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_CsvDataCases, definitionRow, CodeXls); break;
+                    case "Model_DashboardsCopyAndInit": Code.Model_DashboardsCopyAndInit = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DashboardsCopyAndInit, definitionRow, CodeXls); break;
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
                     case "Model_Delete_GroupMembers": Code.Model_Delete_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
@@ -771,6 +772,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_EditorJson": Code.Model_Utilities_EditorJson = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorJson_Items": Code.Model_Utilities_EditorJson_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson_Items, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorJson_Sites": Code.Model_Utilities_EditorJson_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorJson_Sites, definitionRow, CodeXls); break;
+                    case "Model_Utilities_EditorMainCommands": Code.Model_Utilities_EditorMainCommands = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorMainCommands, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse": Code.Model_Utilities_EditorResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_EditorResponse_Tables": Code.Model_Utilities_EditorResponse_Tables = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_EditorResponse_Tables, definitionRow, CodeXls); break;
                     case "Model_Utilities_ExecGridNewRows": Code.Model_Utilities_ExecGridNewRows = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ExecGridNewRows, definitionRow, CodeXls); break;
@@ -839,6 +841,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_RedirectAfterDelete_Wikis": Code.Model_Utilities_RedirectAfterDelete_Wikis = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDelete_Wikis, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteItem": Code.Model_Utilities_RedirectAfterDeleteItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteItem, definitionRow, CodeXls); break;
                     case "Model_Utilities_RedirectAfterDeleteNotItem": Code.Model_Utilities_RedirectAfterDeleteNotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_RedirectAfterDeleteNotItem, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ReplaceLine": Code.Model_Utilities_ReplaceLine = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ReplaceLine, definitionRow, CodeXls); break;
+                    case "Model_Utilities_ResponseBreadcrumb_Tenants": Code.Model_Utilities_ResponseBreadcrumb_Tenants = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseBreadcrumb_Tenants, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_FieldResponse": Code.Model_Utilities_ResponseByUpdate_FieldResponse = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_FieldResponse, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseByUpdate_SiteSettings": Code.Model_Utilities_ResponseByUpdate_SiteSettings = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseByUpdate_SiteSettings, definitionRow, CodeXls); break;
                     case "Model_Utilities_ResponseLinks": Code.Model_Utilities_ResponseLinks = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ResponseLinks, definitionRow, CodeXls); break;
@@ -1018,7 +1022,6 @@ namespace Implem.DefinitionAccessor
                     case "Rds_WherePkSemicolon": Code.Rds_WherePkSemicolon = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Rds_WherePkSemicolon, definitionRow, CodeXls); break;
                     case "Reminder": Code.Reminder = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder, definitionRow, CodeXls); break;
                     case "Reminder_ColumnCases": Code.Reminder_ColumnCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_ColumnCases, definitionRow, CodeXls); break;
-                    case "Reminder_TableCases": Code.Reminder_TableCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Reminder_TableCases, definitionRow, CodeXls); break;
                     case "ResponseCollection": Code.ResponseCollection = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection, definitionRow, CodeXls); break;
                     case "ResponseCollection_Models": Code.ResponseCollection_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection_Models, definitionRow, CodeXls); break;
                     case "ResponseCollection_ValueColumns": Code.ResponseCollection_ValueColumns = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.ResponseCollection_ValueColumns, definitionRow, CodeXls); break;
@@ -1626,6 +1629,8 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_TenantId": Column.Binaries_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_TenantId, definitionRow, ColumnXls); break;
                     case "Binaries_Thumbnail": Column.Binaries_Thumbnail = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Thumbnail, definitionRow, ColumnXls); break;
                     case "Binaries_Title": Column.Binaries_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Title, definitionRow, ColumnXls); break;
+                    case "Dashboards_DashboardId": Column.Dashboards_DashboardId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_DashboardId, definitionRow, ColumnXls); break;
+                    case "Dashboards_Locked": Column.Dashboards_Locked = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Locked, definitionRow, ColumnXls); break;
                     case "Demos_DemoId": Column.Demos_DemoId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_DemoId, definitionRow, ColumnXls); break;
                     case "Demos_Initialized": Column.Demos_Initialized = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Initialized, definitionRow, ColumnXls); break;
                     case "Demos_LoginId": Column.Demos_LoginId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_LoginId, definitionRow, ColumnXls); break;
@@ -1857,6 +1862,7 @@ namespace Implem.DefinitionAccessor
                     case "Tenants_TenantId": Column.Tenants_TenantId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantId, definitionRow, ColumnXls); break;
                     case "Tenants_TenantName": Column.Tenants_TenantName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TenantName, definitionRow, ColumnXls); break;
                     case "Tenants_Title": Column.Tenants_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_Title, definitionRow, ColumnXls); break;
+                    case "Tenants_TopDashboards": Column.Tenants_TopDashboards = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopDashboards, definitionRow, ColumnXls); break;
                     case "Tenants_TopScript": Column.Tenants_TopScript = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopScript, definitionRow, ColumnXls); break;
                     case "Tenants_TopStyle": Column.Tenants_TopStyle = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Tenants_TopStyle, definitionRow, ColumnXls); break;
                     case "Users_AfterResetPassword": Column.Users_AfterResetPassword = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_AfterResetPassword, definitionRow, ColumnXls); break;
@@ -1933,6 +1939,18 @@ namespace Implem.DefinitionAccessor
                     case "Binaries_Updator": Column.Binaries_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Updator, definitionRow, ColumnXls); break;
                     case "Binaries_Ver": Column.Binaries_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_Ver, definitionRow, ColumnXls); break;
                     case "Binaries_VerUp": Column.Binaries_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Binaries_VerUp, definitionRow, ColumnXls); break;
+                    case "Dashboards_Body": Column.Dashboards_Body = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Body, definitionRow, ColumnXls); break;
+                    case "Dashboards_SiteId": Column.Dashboards_SiteId = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_SiteId, definitionRow, ColumnXls); break;
+                    case "Dashboards_Title": Column.Dashboards_Title = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Title, definitionRow, ColumnXls); break;
+                    case "Dashboards_TitleBody": Column.Dashboards_TitleBody = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_TitleBody, definitionRow, ColumnXls); break;
+                    case "Dashboards_UpdatedTime": Column.Dashboards_UpdatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_UpdatedTime, definitionRow, ColumnXls); break;
+                    case "Dashboards_Comments": Column.Dashboards_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Comments, definitionRow, ColumnXls); break;
+                    case "Dashboards_CreatedTime": Column.Dashboards_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_CreatedTime, definitionRow, ColumnXls); break;
+                    case "Dashboards_Creator": Column.Dashboards_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Creator, definitionRow, ColumnXls); break;
+                    case "Dashboards_Timestamp": Column.Dashboards_Timestamp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Timestamp, definitionRow, ColumnXls); break;
+                    case "Dashboards_Updator": Column.Dashboards_Updator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Updator, definitionRow, ColumnXls); break;
+                    case "Dashboards_Ver": Column.Dashboards_Ver = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_Ver, definitionRow, ColumnXls); break;
+                    case "Dashboards_VerUp": Column.Dashboards_VerUp = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Dashboards_VerUp, definitionRow, ColumnXls); break;
                     case "Demos_Comments": Column.Demos_Comments = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Comments, definitionRow, ColumnXls); break;
                     case "Demos_CreatedTime": Column.Demos_CreatedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_CreatedTime, definitionRow, ColumnXls); break;
                     case "Demos_Creator": Column.Demos_Creator = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Demos_Creator, definitionRow, ColumnXls); break;
@@ -4779,6 +4797,8 @@ namespace Implem.DefinitionAccessor
             {
                 switch (definitionRow[0].ToString())
                 {
+                    case "Dashboard": Template.Dashboard = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard, definitionRow, TemplateXls); break;
+                    case "Dashboard_ja": Template.Dashboard_ja = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard_ja, definitionRow, TemplateXls); break;
                     case "Template1": Template.Template1 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template1, definitionRow, TemplateXls); break;
                     case "Template10": Template.Template10 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template10, definitionRow, TemplateXls); break;
                     case "Template105": Template.Template105 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template105, definitionRow, TemplateXls); break;
@@ -6833,6 +6853,7 @@ namespace Implem.DefinitionAccessor
         public string Model_CrosstabJsonCases;
         public string Model_CsvData;
         public string Model_CsvDataCases;
+        public string Model_DashboardsCopyAndInit;
         public string Model_Delete;
         public string Model_Delete_GroupMembers;
         public string Model_Delete_Item;
@@ -7197,6 +7218,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_EditorJson;
         public string Model_Utilities_EditorJson_Items;
         public string Model_Utilities_EditorJson_Sites;
+        public string Model_Utilities_EditorMainCommands;
         public string Model_Utilities_EditorResponse;
         public string Model_Utilities_EditorResponse_Tables;
         public string Model_Utilities_ExecGridNewRows;
@@ -7265,6 +7287,8 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_RedirectAfterDelete_Wikis;
         public string Model_Utilities_RedirectAfterDeleteItem;
         public string Model_Utilities_RedirectAfterDeleteNotItem;
+        public string Model_Utilities_ReplaceLine;
+        public string Model_Utilities_ResponseBreadcrumb_Tenants;
         public string Model_Utilities_ResponseByUpdate_FieldResponse;
         public string Model_Utilities_ResponseByUpdate_SiteSettings;
         public string Model_Utilities_ResponseLinks;
@@ -7444,7 +7468,6 @@ namespace Implem.DefinitionAccessor
         public string Rds_WherePkSemicolon;
         public string Reminder;
         public string Reminder_ColumnCases;
-        public string Reminder_TableCases;
         public string ResponseCollection;
         public string ResponseCollection_Models;
         public string ResponseCollection_ValueColumns;
@@ -7627,6 +7650,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_CrosstabJsonCases = new CodeDefinition();
         public CodeDefinition Model_CsvData = new CodeDefinition();
         public CodeDefinition Model_CsvDataCases = new CodeDefinition();
+        public CodeDefinition Model_DashboardsCopyAndInit = new CodeDefinition();
         public CodeDefinition Model_Delete = new CodeDefinition();
         public CodeDefinition Model_Delete_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
@@ -7991,6 +8015,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_EditorJson = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorJson_Items = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorJson_Sites = new CodeDefinition();
+        public CodeDefinition Model_Utilities_EditorMainCommands = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_EditorResponse_Tables = new CodeDefinition();
         public CodeDefinition Model_Utilities_ExecGridNewRows = new CodeDefinition();
@@ -8059,6 +8084,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_RedirectAfterDelete_Wikis = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteItem = new CodeDefinition();
         public CodeDefinition Model_Utilities_RedirectAfterDeleteNotItem = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ReplaceLine = new CodeDefinition();
+        public CodeDefinition Model_Utilities_ResponseBreadcrumb_Tenants = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_FieldResponse = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseByUpdate_SiteSettings = new CodeDefinition();
         public CodeDefinition Model_Utilities_ResponseLinks = new CodeDefinition();
@@ -8238,7 +8265,6 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Rds_WherePkSemicolon = new CodeDefinition();
         public CodeDefinition Reminder = new CodeDefinition();
         public CodeDefinition Reminder_ColumnCases = new CodeDefinition();
-        public CodeDefinition Reminder_TableCases = new CodeDefinition();
         public CodeDefinition ResponseCollection = new CodeDefinition();
         public CodeDefinition ResponseCollection_Models = new CodeDefinition();
         public CodeDefinition ResponseCollection_ValueColumns = new CodeDefinition();
@@ -8873,6 +8899,8 @@ namespace Implem.DefinitionAccessor
         public string Binaries_TenantId;
         public string Binaries_Thumbnail;
         public string Binaries_Title;
+        public string Dashboards_DashboardId;
+        public string Dashboards_Locked;
         public string Demos_DemoId;
         public string Demos_Initialized;
         public string Demos_LoginId;
@@ -9104,6 +9132,7 @@ namespace Implem.DefinitionAccessor
         public string Tenants_TenantId;
         public string Tenants_TenantName;
         public string Tenants_Title;
+        public string Tenants_TopDashboards;
         public string Tenants_TopScript;
         public string Tenants_TopStyle;
         public string Users_AfterResetPassword;
@@ -9180,6 +9209,18 @@ namespace Implem.DefinitionAccessor
         public string Binaries_Updator;
         public string Binaries_Ver;
         public string Binaries_VerUp;
+        public string Dashboards_Body;
+        public string Dashboards_SiteId;
+        public string Dashboards_Title;
+        public string Dashboards_TitleBody;
+        public string Dashboards_UpdatedTime;
+        public string Dashboards_Comments;
+        public string Dashboards_CreatedTime;
+        public string Dashboards_Creator;
+        public string Dashboards_Timestamp;
+        public string Dashboards_Updator;
+        public string Dashboards_Ver;
+        public string Dashboards_VerUp;
         public string Demos_Comments;
         public string Demos_CreatedTime;
         public string Demos_Creator;
@@ -9416,6 +9457,8 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_TenantId = new ColumnDefinition();
         public ColumnDefinition Binaries_Thumbnail = new ColumnDefinition();
         public ColumnDefinition Binaries_Title = new ColumnDefinition();
+        public ColumnDefinition Dashboards_DashboardId = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Locked = new ColumnDefinition();
         public ColumnDefinition Demos_DemoId = new ColumnDefinition();
         public ColumnDefinition Demos_Initialized = new ColumnDefinition();
         public ColumnDefinition Demos_LoginId = new ColumnDefinition();
@@ -9647,6 +9690,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Tenants_TenantId = new ColumnDefinition();
         public ColumnDefinition Tenants_TenantName = new ColumnDefinition();
         public ColumnDefinition Tenants_Title = new ColumnDefinition();
+        public ColumnDefinition Tenants_TopDashboards = new ColumnDefinition();
         public ColumnDefinition Tenants_TopScript = new ColumnDefinition();
         public ColumnDefinition Tenants_TopStyle = new ColumnDefinition();
         public ColumnDefinition Users_AfterResetPassword = new ColumnDefinition();
@@ -9723,6 +9767,18 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Binaries_Updator = new ColumnDefinition();
         public ColumnDefinition Binaries_Ver = new ColumnDefinition();
         public ColumnDefinition Binaries_VerUp = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Body = new ColumnDefinition();
+        public ColumnDefinition Dashboards_SiteId = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Title = new ColumnDefinition();
+        public ColumnDefinition Dashboards_TitleBody = new ColumnDefinition();
+        public ColumnDefinition Dashboards_UpdatedTime = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Comments = new ColumnDefinition();
+        public ColumnDefinition Dashboards_CreatedTime = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Creator = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Timestamp = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Updator = new ColumnDefinition();
+        public ColumnDefinition Dashboards_Ver = new ColumnDefinition();
+        public ColumnDefinition Dashboards_VerUp = new ColumnDefinition();
         public ColumnDefinition Demos_Comments = new ColumnDefinition();
         public ColumnDefinition Demos_CreatedTime = new ColumnDefinition();
         public ColumnDefinition Demos_Creator = new ColumnDefinition();
@@ -12382,6 +12438,8 @@ namespace Implem.DefinitionAccessor
 
     public class TemplateColumn2nd
     {
+        public string Dashboard;
+        public string Dashboard_ja;
         public string Template1;
         public string Template10;
         public string Template105;
@@ -12788,6 +12846,8 @@ namespace Implem.DefinitionAccessor
 
     public class TemplateTable
     {
+        public TemplateDefinition Dashboard = new TemplateDefinition();
+        public TemplateDefinition Dashboard_ja = new TemplateDefinition();
         public TemplateDefinition Template1 = new TemplateDefinition();
         public TemplateDefinition Template10 = new TemplateDefinition();
         public TemplateDefinition Template105 = new TemplateDefinition();

@@ -1,0 +1,33 @@
+{
+    "Id": "TimeLineDetailed",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Detail"
+        },
+        {
+            "Language": "zh",
+            "Body": "详细"
+        },
+        {
+            "Language": "ja",
+            "Body": "詳細"
+        },
+        {
+            "Language": "de",
+            "Body": "Detail"
+        },
+        {
+            "Language": "ko",
+            "Body": "상세"
+        },
+        {
+            "Language": "es",
+            "Body": "Detalle"
+        },
+        {
+            "Language": "vn",
+            "Body": "Chi tiết"
+        }
+    ]
+}

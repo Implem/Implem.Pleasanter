@@ -44,6 +44,7 @@
             "wwwroot/scripts/confirmevents.js",
             "wwwroot/scripts/controloptionevents.js",
             "wwwroot/scripts/crosstab.js",
+            "wwwroot/scripts/dashboard.js",
             "wwwroot/scripts/dialog.js",
             "wwwroot/scripts/dialogevents.js",
             "wwwroot/scripts/display.js",

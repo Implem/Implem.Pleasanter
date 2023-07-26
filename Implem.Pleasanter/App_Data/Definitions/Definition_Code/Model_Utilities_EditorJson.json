@@ -2,5 +2,5 @@
     "Id": "Model_Utilities_EditorJson",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Sites,Issues,Results"
+    "Exclude": "Sites,Issues,Results,Dashboards"
 }

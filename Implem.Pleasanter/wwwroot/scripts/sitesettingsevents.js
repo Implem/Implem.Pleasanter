@@ -129,9 +129,11 @@
     $(document).on('change', '#FormulaCondition', function () {
         $('#FormulaOutOfConditionField').toggle($(this).val() !== '');
     });
-    $(document).on('click', '#AddViewSorter', function () {
-        var $dataViewSorter = $('#ViewSorterSelector option:selected');
-        var orderType = $('#ViewSorterOrderTypes option:selected').val();
+    $(document).on('click', '.add-view-sorter', function () {
+        var $control = $(this);
+        var prefix = $control.data('prefix');
+        var $dataViewSorter = $('#' + prefix + 'ViewSorterSelector option:selected');
+        var orderType = $('#' + prefix + 'ViewSorterOrderTypes option:selected').val();
         var orderText = '';
         switch (orderType) {
             case 'asc':
@@ -142,7 +144,7 @@
                 break;
         }
         $p.addBasket(
-            $('#ViewSorters'),
+            $('#' + prefix + 'ViewSorters'),
             $dataViewSorter.text() + orderText,
             $dataViewSorter.val() + '&' + orderType);
     });
@@ -190,5 +192,25 @@
     });
     $(document).on('change', '#KeepSorterState', function () {
         $('#ViewFiltersSorterConditionSettingsEditor').toggle();
+    });
+
+    $(document).on('change', '#DashboardPartType', function () {
+        let $control = $(this);
+        let selected = $control.val();        
+        //selected==0: QuickAccess のみ表示
+        $('#DashboardPartQuickAccessSitesField').toggle(selected === '0');
+        $('#DashboardPartQuickAccessLayoutField').toggle(selected === '0');
+        //selected==1: TimeLine のみ表示
+        $('#DashboardPartViewFiltersTabControl').toggle(selected === '1');
+        $('#DashboardPartViewSortersTabControl').toggle(selected === '1');
+        $('#DashboardPartTimeLineSitesField').toggle(selected === '1');
+        $('#DashboardPartTimeLineTitleField').toggle(selected === '1');
+        $('#DashboardPartTimeLineBodyField').toggle(selected === '1');
+        $('#DashboardPartTimeLineDisplayTypeField').toggle(selected === '1');
+        $('#DashboardPartTimeLineItemCountField').toggle(selected === '1');
+        //selected==2: Customのみ表示
+        $('#DashboardPartContentField').toggle(selected === '2');
+        //selected==3: CustomHtmlのみ表示
+        $('#DashboardPartHtmlContentField').toggle(selected === '3');
     });
 });

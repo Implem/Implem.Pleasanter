@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_SiteSettingsUtilities",
     "Indent": "4",
-    "Exclude": "Sites,Permissions,OutgoingMails,Links"
+    "Exclude": "Sites,Permissions,OutgoingMails,Links,Dashboards"
 }

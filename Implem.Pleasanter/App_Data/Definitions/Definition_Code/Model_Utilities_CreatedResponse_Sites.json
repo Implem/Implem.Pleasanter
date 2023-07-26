@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_CreatedResponse_Sites",
     "Indent": "5",
-    "Include": "Sites"
+    "Include": "Sites,Dashboards"
 }

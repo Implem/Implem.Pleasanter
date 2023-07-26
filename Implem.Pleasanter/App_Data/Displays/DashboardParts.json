@@ -1,0 +1,33 @@
+{
+    "Id": "DashboardParts",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Dashboard parts"
+        },
+        {
+            "Language": "zh",
+            "Body": "仪表盘零件"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダッシュボードパーツ"
+        },
+        {
+            "Language": "de",
+            "Body": "Armaturenbrettteile"
+        },
+        {
+            "Language": "ko",
+            "Body": "대시보드 부품"
+        },
+        {
+            "Language": "es",
+            "Body": "Piezas del tablero de instrumentos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Các bộ phận bảng điều khiển"
+        }
+    ]
+}

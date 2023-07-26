@@ -1,0 +1,33 @@
+﻿{
+    "Id": "ManageDashboard",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Manage Dashboard"
+        },
+        {
+            "Language": "zh",
+            "Body": "仪表盘管理"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダッシュボードの管理"
+        },
+        {
+            "Language": "de",
+            "Body": "Armaturenbrett verwalten"
+        },
+        {
+            "Language": "ko",
+            "Body": "대시보드 관리"
+        },
+        {
+            "Language": "es",
+            "Body": "Gestionar Tablero de instrumentos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Quản lý bảng điều khiển"
+        }
+    ]
+}

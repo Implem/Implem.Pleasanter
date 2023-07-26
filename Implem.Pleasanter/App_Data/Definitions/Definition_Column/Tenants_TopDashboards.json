@@ -1,0 +1,20 @@
+﻿{
+    "Id": "Tenants_TopDashboards",
+    "ModelName": "Tenant",
+    "TableName": "Tenants",
+    "Label": "テナント",
+    "ColumnName": "TopDashboards",
+    "LabelText": "トップのダッシュボード",
+    "No": "120",
+    "History": "120",
+    "TypeName": "nvarchar",
+    "Nullable": "1",
+    "MaxLength": "-1",
+    "ByForm": "$\"[{value.ToLong()}]\"",
+    "LabelText_en": "Top Dashboards",
+    "LabelText_zh": "顶部仪表板",
+    "LabelText_de": "Obere Seite Dashboard",
+    "LabelText_ko": "홈페이지의 대시보드",
+    "LabelText_es": "Salpicadero de la pantalla superior",
+    "LabelText_vn": "Bảng điều khiển hàng đầu"
+}

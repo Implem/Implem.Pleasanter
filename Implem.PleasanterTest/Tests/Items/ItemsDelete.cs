@@ -16,12 +16,14 @@ namespace Implem.PleasanterTest.Tests.Items
         public void Test(
             string title,
             UserModel userModel,
+            Forms forms,
             List<BaseTest> baseTests)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsDelete(id: id));
+                routeData: RouteData.ItemsDelete(id: id),
+                forms: forms);
             var results = Results(context: context);
             Assert.True(Tester.Test(
                 context: context,
@@ -59,13 +61,31 @@ namespace Implem.PleasanterTest.Tests.Items
                     baseTests: baseTests),
                 new TestPart(
                     title: "RecordToDeleteSite8",
-                    baseTests: baseTests)
+                    baseTests: baseTests),
+                new TestPart(
+                    title: "ダッシュボード削除用",
+                    userType: UserData.UserTypes.TenantManager1,
+                    baseTests: new List<BaseTest>()
+                    {
+                        JsonData.ExistsOne(
+                            method: "SetMemory",
+                            target: "formChanged"),
+                        JsonData.ExistsOne(
+                            method: "Href")
+                    })
             };
             foreach (var testPart in testParts)
             {
+                var forms = testPart.Title == "ダッシュボード削除用"
+                    ? FormsUtilities.Get(
+                        new KeyValue("DeleteSiteTitle", testPart.Title),
+                        new KeyValue("Users_LoginId", testPart.UserModel.LoginId),
+                        new KeyValue("Users_Password", "ABCDEF"))
+                    : null;
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
+                    forms: forms,
                     baseTests: testPart.BaseTests);
             }
         }
@@ -73,12 +93,14 @@ namespace Implem.PleasanterTest.Tests.Items
         private static object[] TestData(
             string title,
             UserModel userModel,
+            Forms forms,
             List<BaseTest> baseTests)
         {
             return new object[]
             {
                 title,
                 userModel,
+                forms,
                 baseTests
             };
         }

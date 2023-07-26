@@ -51,6 +51,7 @@ namespace Implem.Pleasanter.Models
             switch (tableName)
             {
                 case "Sites":
+                case "Dashboards":
                 case "Issues":
                 case "Results":
                 case "Wikis":

@@ -1,0 +1,74 @@
+﻿{
+    "Version": 1.017,
+    "ReferenceType": "Dashboards",
+    "DashboardParts": [
+        {
+            "Id": 1,
+            "Title": "クイックアクセス",
+            "ShowTitle": true,
+            "Type": 0,
+            "X": 0,
+            "Y": 0,
+            "Width": 2,
+            "Height": 29,
+            "QuickAccessSites": "",
+            "TimeLineItemCount": 0,
+            "TimeLineDisplayType": 1,
+            "SiteId": 0,
+            "ExtendedCss": ""
+        },
+        {
+            "Id": 2,
+            "Title": "タイムライン",
+            "ShowTitle": true,
+            "Type": 1,
+            "X": 2,
+            "Y": 21,
+            "Width": 7,
+            "Height": 8,
+            "TimeLineSites": "",
+            "View": {
+                "Id": 0,
+                "ApiColumnKeyDisplayType": 0,
+                "ApiColumnValueDisplayType": 0,
+                "ApiDataType": 0
+            },
+            "TimeLineTitle": "[タイトル]",
+            "TimeLineBody": "[内容]",
+            "TimeLineItemCount": 20,
+            "SiteId": 0,
+            "ExtendedCss": ""
+        },
+        {
+            "Id": 3,
+            "Title": "カスタム",
+            "ShowTitle": true,
+            "Type": 2,
+            "X": 2,
+            "Y": 0,
+            "Width": 7,
+            "Height": 10,
+            "TimeLineItemCount": 0,
+            "Content": "[md]\n# カスタム\n- aaaa\n- bbbb",
+            "TimeLineDisplayType": 1,
+            "SiteId": 0,
+            "ExtendedCss": ""
+        },
+        {
+            "Id": 4,
+            "Title": "カスタムHTML",
+            "ShowTitle": true,
+            "Type": 3,
+            "X": 2,
+            "Y": 10,
+            "Width": 7,
+            "Height": 11,
+            "TimeLineItemCount": 0,
+            "HtmlContent": "<p><a href=\"/items/0/index\">トップ</a></p>",
+            "TimeLineDisplayType": 1,
+            "SiteId": 0,
+            "ExtendedCss": ""
+        }
+    ],
+    "NoDisplayIfReadOnly": false
+}
