@@ -2,5 +2,5 @@
     "Id": "Model_Utilities_EditorResponse",
     "Indent": "2",
     "GenericUi": "1",
-    "Exclude": "Issues,Results"
+    "Exclude": "Issues,Results,Dashboards"
 }

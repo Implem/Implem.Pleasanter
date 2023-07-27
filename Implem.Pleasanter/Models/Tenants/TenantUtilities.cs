@@ -603,6 +603,16 @@ namespace Implem.Pleasanter.Models
                         [TenantModel.LogoTypes.ImageAndTitle.ToInt().ToString()] = Displays.ImageAndText(context)
                     }
                     , selectedValue: tenantModel.LogoType.ToInt().ToString())
+                .FieldDropDown(
+                    context: context,
+                    controlId: "Tenants_TopDashboards",
+                    controlCss: " always-send",
+                    labelText: Displays.Dashboards(context: context),
+                    optionCollection: GetDashboardSelectOptions(context: context),
+                    selectedValue: tenantModel.TopDashboards
+                        ?.Deserialize<long?[]>()
+                        ?.FirstOrDefault()
+                        ?.ToString())
                 .FieldSet(
                     id: "PermissionsField",
                     css: " enclosed",
@@ -1062,6 +1072,12 @@ namespace Implem.Pleasanter.Models
                                     value: tenantModel.TopScript.ToResponse(context: context, ss: ss, column: column),
                                     options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
                                 break;
+                            case "TopDashboards":
+                                res.Val(
+                                    target: "#Tenants_TopDashboards" + idSuffix,
+                                    value: tenantModel.TopDashboards.ToResponse(context: context, ss: ss, column: column),
+                                    options: column.ResponseValOptions(serverScriptModelColumn: serverScriptModelColumn));
+                                break;
                             default:
                                 switch (Def.ExtendedColumnTypes.Get(column?.Name ?? string.Empty))
                                 {
@@ -1318,6 +1334,9 @@ namespace Implem.Pleasanter.Models
                     .Val("#VerUp", verUp)
                     .Val("#Ver", tenantModel.Ver)
                     .Disabled("#VerUp", verUp)
+                .ReplaceAll("#Breadcrumb", new HtmlBuilder().TenantsBreadcrumb(
+                    context: context,
+                    ss:ss))
                     .Html("#HeaderTitle", HttpUtility.HtmlEncode(tenantModel.Title.Value))
                     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
                         context: context,
@@ -1511,6 +1530,32 @@ namespace Implem.Pleasanter.Models
                                 : string.Empty)
                     }))
                 .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Dictionary<string,string> GetDashboardSelectOptions(Context context)
+        {
+            var dashboards = new SiteCollection(
+                context: context,
+                column: Rds.SitesColumn()
+                    .SiteId()
+                    .Title(),
+            where: Rds.SitesWhere()
+                    .TenantId(context.TenantId)
+                    .ReferenceType("Dashboards")
+                    .Add(
+            raw: Def.Sql.HasPermission,
+                _using: !context.HasPrivilege));
+            var options = new Dictionary<string, string>()
+            {
+                {"",""}
+            };
+            options.AddRange(dashboards.ToDictionary(
+                o => o.SiteId.ToString(),
+                o => $"[{o.SiteId}] {o.Title.DisplayValue}"));
+            return options;
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace Implem.Pleasanter.Models
         public string HtmlTitleRecord { get; set; }
         public string TopStyle { get; set; }
         public string TopScript { get; set; }
+        public string TopDashboards { get; set; }
         public string Comments { get; set; }
         public int? Creator { get; set; }
         public int? Updator { get; set; }
@@ -52,6 +53,7 @@ namespace Implem.Pleasanter.Models
                 case "HtmlTitleRecord": return HtmlTitleRecord;
                 case "TopStyle": return TopStyle;
                 case "TopScript": return TopScript;
+                case "TopDashboards": return TopDashboards;
                 case "Comments": return Comments;
                 case "Creator": return Creator;
                 case "Updator": return Updator;

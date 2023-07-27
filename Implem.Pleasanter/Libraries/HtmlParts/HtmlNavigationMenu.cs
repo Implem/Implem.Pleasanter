@@ -363,7 +363,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ? canCreateGroups
                             : context.CanCreate(ss: ss, site: true)
                                 && ss.ReferenceType != "Wikis"
-                                && context.Action != "trashbox";
+                                && context.Action != "trashbox"
+                                && ss.ReferenceType != "Dashboards";
                 case "ViewModeMenu":
                     return Def.ViewModeDefinitionCollection
                         .Any(o => o.ReferenceType == referenceType);
@@ -568,6 +569,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return Displays.ManageTable(context: context);
                 case "Wikis":
                     return Displays.ManageWiki(context: context);
+                case "Dashboards":
+                    return Displays.ManageDashboard(context: context);
                 default:
                     return null;
             }

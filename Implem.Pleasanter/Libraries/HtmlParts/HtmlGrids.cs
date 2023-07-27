@@ -265,6 +265,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var sites = new Dictionary<string, SiteModel>();
             var sysLogs = new Dictionary<string, SysLogModel>();
             var users = new Dictionary<string, UserModel>();
+            var dashboards = new Dictionary<string, DashboardModel>();
             var issues = new Dictionary<string, IssueModel>();
             var results = new Dictionary<string, ResultModel>();
             switch (ss.ReferenceType)
@@ -468,6 +469,28 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     ss: column.SiteSettings,
                                     column: column,
                                     userModel: userModel);
+                                break;
+                            case "Dashboards":
+                                var dashboardModel = dashboards.Get(key);
+                                if (dashboardModel == null)
+                                {
+                                    dashboardModel = new DashboardModel(
+                                        context: context,
+                                        ss: column.SiteSettings,
+                                        dataRow: dataRow,
+                                        formData: editRow
+                                            ? formDataSet?.FirstOrDefault(o =>
+                                                o.Id == dataRow.Long("DashboardId"))?.Data
+                                            : null,
+                                        tableAlias: column.TableAlias);
+                                    dashboards.Add(key, dashboardModel);
+                                    ss.ClearColumnAccessControlCaches(baseModel: dashboardModel);
+                                }
+                                hb.TdValue(
+                                    context: context,
+                                    ss: column.SiteSettings,
+                                    column: column,
+                                    dashboardModel: dashboardModel);
                                 break;
                             case "Issues":
                                 var issueModel = issues.Get(key);

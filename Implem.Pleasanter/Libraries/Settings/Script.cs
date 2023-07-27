@@ -16,6 +16,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? TimeSeries;
         public bool? Kamban;
         public bool? ImageLib;
+        public bool? Disabled;
         public string Body;
 
         public Script()
@@ -36,6 +37,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool timeSeries,
             bool kamban,
             bool imageLib,
+            bool disabled,
             string body)
         {
             Id = id;
@@ -51,6 +53,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeSeries = timeSeries;
             Kamban = kamban;
             ImageLib = imageLib;
+            Disabled = disabled;
             Body = body;
         }
 
@@ -67,6 +70,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool timeSeries,
             bool kamban,
             bool imageLib,
+            bool disabled,
             string body)
         {
             Title = title;
@@ -81,6 +85,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeSeries = timeSeries;
             Kamban = kamban;
             ImageLib = imageLib;
+            Disabled = disabled;
             Body = body;
         }
 
@@ -106,6 +111,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 if (Kamban == true) script.Kamban = true;
                 if (ImageLib == true) script.ImageLib = true;
             }
+            if (Disabled == true) script.Disabled = true;
             script.Body = Body;
             return script;
         }

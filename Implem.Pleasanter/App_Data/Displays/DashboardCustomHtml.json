@@ -1,0 +1,33 @@
+﻿{
+    "Id": "DashboardCustomHtml",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Custom HTML"
+        },
+        {
+            "Language": "zh",
+            "Body": "自定义HTML"
+        },
+        {
+            "Language": "ja",
+            "Body": "カスタムHTML"
+        },
+        {
+            "Language": "de",
+            "Body": "Eigenes HTML"
+        },
+        {
+            "Language": "ko",
+            "Body": "사용자 지정 HTML"
+        },
+        {
+            "Language": "es",
+            "Body": "HTML personalizado"
+        },
+        {
+            "Language": "vn",
+            "Body": "HTML tùy chỉnh"
+        }
+    ]
+}

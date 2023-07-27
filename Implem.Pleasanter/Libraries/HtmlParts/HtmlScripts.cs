@@ -77,6 +77,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(src: Responses.Locations.Get(
                         context: context,
                         parts: "Scripts/Plugins/moment.min.js"))
+                    .Script(src: Responses.Locations.Get(
+                        context: context,
+                        parts: "Scripts/Plugins/gridstack.js/gridstack-all.min.js"))
                     .Generals(context: context)
                     .Script(
                         src: Responses.Locations.Get(
@@ -89,13 +92,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         _using: !extendedScripts.IsNullOrEmpty())
                     .Script(script: script, _using: !script.IsNullOrEmpty())
                     .Script(
-                        script: ss.GetScriptBody(context: context, peredicate: o => o.All == true),
+                        script: ss.GetScriptBody(
+                            context: context,
+                            peredicate: o =>
+                                o.All == true
+                                && o.Disabled != true),
                         _using: context.ContractSettings.Script != false
                             && ss.Scripts?.Any() == true)
                     .Script(
                         script: userScript,
                         _using: context.ContractSettings.Script != false
                             && !userScript.IsNullOrEmpty())
+                    .Script(script: "$p.initDashboard();",
+                        _using: ss.ReferenceType == "Dashboards"
+                            && context.Action == "index")
                     .OnEditorLoad(context: context);
             }
             else

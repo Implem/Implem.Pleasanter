@@ -5,5 +5,5 @@
     "Separator": "\\r\\n",
     "Order": "ItemId",
     "ItemOnly": "1",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashboards"
 }

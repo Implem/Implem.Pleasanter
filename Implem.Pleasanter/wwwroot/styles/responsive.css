@@ -529,6 +529,9 @@ overflow: hidden;
 .h350 { height: auto;}
     
     #EditInDialogBody { padding-bottom: 15%; }
+
+.links {
+    overflow: auto;
 }
 
 @media screen and (max-width: 980px) and (min-width: 0px) {

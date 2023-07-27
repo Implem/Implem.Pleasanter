@@ -30,6 +30,30 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     time: baseModel.UpdatedTime);
         }
 
+        public static HtmlBuilder UpdatedInfo(
+            this HtmlBuilder hb,
+            Context context,
+            Time updatedTime)
+        {
+            return hb
+                .Text(text: Displays.Update(context: context))
+                .ElapsedTime(
+                    context: context,
+                    value: updatedTime.DisplayValue);
+        }
+
+        public static HtmlBuilder CreatedInfo(
+            this HtmlBuilder hb,
+            Context context,
+            Time createdTime)
+        {
+            return hb
+                .Text(text: Displays.Create(context: context))
+                .ElapsedTime(
+                    context: context,
+                    value: createdTime.DisplayValue);
+        }
+
         private static HtmlBuilder RecordedTime(
             this HtmlBuilder hb,
             Context context,

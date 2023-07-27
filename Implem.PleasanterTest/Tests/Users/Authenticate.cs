@@ -23,7 +23,8 @@ namespace Implem.PleasanterTest.Tests.Users
         {
             var results = Authentications.SignIn(
                 context: context,
-                returnUrl: returnUrl);
+                returnUrl: returnUrl,
+                noHttpContext: true);
             Assert.True(Tester.Test(
                 context: context,
                 results: results,

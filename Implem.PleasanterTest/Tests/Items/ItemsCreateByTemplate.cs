@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsPreviewTemplate
+    public class ItemsCreateByTemplate
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsPreviewTemplate(id: id),
+                routeData: RouteData.ItemsCreateByTemplate(id: id),
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
@@ -34,36 +34,44 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
-            var forms = FormsUtilities.Get(
-                new KeyValue("ControlId", "SalesTemplates"),
-                new KeyValue("SalesTemplates", "[\"Template18\"]"));
+            var formsForSite = FormsUtilities.Get(
+                new KeyValue("ControlId", "CreateByTemplate"),
+                new KeyValue("SiteTitle", "テンプレートから作成したテーブル"),
+                new KeyValue("TemplateId", "Template30"));
+            var formsForDashboard = FormsUtilities.Get(
+                new KeyValue("ControlId", "CreateByTemplate"),
+                new KeyValue("SiteTitle", "テンプレートから作成したダッシュボード"),
+                new KeyValue("TemplateId", "Dashboard_ja"));
             var baseTests = BaseData.Tests(
+                JsonData.ExistsOne(method: "CloseDialog"),
                 JsonData.ExistsOne(
-                    method: "Html",
-                    target: "#SalesTemplatesViewer .description"),
+                    method: "ReplaceAll",
+                    target: "#SiteMenu"),
                 JsonData.ExistsOne(
-                    method: "Html",
-                    target: "#SalesTemplatesViewer .viewer"),
+                    method: "ReplaceAll",
+                    target: "#MainCommandsContainer"),
                 JsonData.ExistsOne(
                     method: "Invoke",
-                    target: "setTemplateViewer"),
-                JsonData.ExistsOne(
-                    method: "Toggle",
-                    target: "#SalesTemplatesViewer .viewer"));
+                    target: "setSiteMenu"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
                     title: string.Empty,
-                    forms: forms,
+                    forms: formsForSite,
                     baseTests: baseTests),
                 new TestPart(
                     title: "プロジェクト管理の例",
-                    forms: forms,
+                    forms: formsForSite,
                     baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1),
                 new TestPart(
                     title: "商談管理の例",
-                    forms: forms,
+                    forms: formsForSite,
+                    baseTests: baseTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(
+                    title: "ダッシュボードの例",
+                    forms: formsForDashboard,
                     baseTests: baseTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
@@ -94,7 +102,8 @@ namespace Implem.PleasanterTest.Tests.Items
 
         private static string Results(Context context)
         {
-            return SiteUtilities.PreviewTemplate(context: context);
+            var itemModel = Initializer.ItemIds.Get(context.Id) ?? new ItemModel();
+            return itemModel.CreateByTemplate(context: context);
         }
     }
 }

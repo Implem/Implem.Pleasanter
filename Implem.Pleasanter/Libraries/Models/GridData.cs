@@ -158,6 +158,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var sysLogs = new Dictionary<string, SysLogModel>();
                 var tenants = new Dictionary<string, TenantModel>();
                 var users = new Dictionary<string, UserModel>();
+                var dashboards = new Dictionary<string, DashboardModel>();
                 var issues = new Dictionary<string, IssueModel>();
                 var results = new Dictionary<string, ResultModel>();
                 var wikis = new Dictionary<string, WikiModel>();
@@ -451,6 +452,7 @@ namespace Implem.Pleasanter.Libraries.Models
                 var sysLogs = new Dictionary<string, SysLogModel>();
                 var tenants = new Dictionary<string, TenantModel>();
                 var users = new Dictionary<string, UserModel>();
+                var dashboards = new Dictionary<string, DashboardModel>();
                 var issues = new Dictionary<string, IssueModel>();
                 var results = new Dictionary<string, ResultModel>();
                 var wikis = new Dictionary<string, WikiModel>();
