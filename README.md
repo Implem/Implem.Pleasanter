@@ -1,4 +1,4 @@
-[![GitHub stars](https://img.shields.io/github/stars/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/stargazers)
+﻿[![GitHub stars](https://img.shields.io/github/stars/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/network)
 [![GitHub issues](https://img.shields.io/github/issues/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/issues)
 [![GitHub license](https://img.shields.io/github/license/implem/implem.pleasanter)](https://github.com/implem/implem.pleasanter/blob/master/LICENSE)
@@ -39,18 +39,6 @@ Pleasanter is a development platform that utilizes both no-code and low-code app
 First, please make sure that Docker is available :)
 If necessary, run the Docker command with sudo when executing it.
 
-1. Create database initialize query
-
-   Create PostgreSQL initialize query file `setup.sql` in `initdb` directory.
-
-   ```sql
-   create user "Implem.Pleasanter_Owner" with password '<Any Owner password>';
-   create schema authorization "Implem.Pleasanter_Owner";
-   create database "Implem.Pleasanter" with owner "Implem.Pleasanter_Owner";
-   \c "Implem.Pleasanter";
-   CREATE EXTENSION IF NOT EXISTS pg_trgm;
-   ```
-
 1. Create docker network
 
    ```shell
@@ -60,7 +48,7 @@ If necessary, run the Docker command with sudo when executing it.
 1. Run PostgreSQL
 
    ```shell
-   docker run --rm -d -v $PWD/initdb:/docker-entrypoint-initdb.d \
+   docker run --rm -d \
        --network pleasanter-net \
        --name db \
        --env POSTGRES_USER=postgres \
