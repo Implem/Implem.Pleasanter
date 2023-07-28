@@ -435,7 +435,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 labelText: labelText,
                                 placeholder: placeholder,
                                 labelRaw: labelRaw,
-                                controlOnly: controlOnly,
                                 text: value,
                                 readOnly: true,
                                 allowImage: column.AllowImage == true,
