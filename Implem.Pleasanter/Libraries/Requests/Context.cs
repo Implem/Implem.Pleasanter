@@ -43,6 +43,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public bool InvalidJsonData { get; set; }
         public bool Authenticated { get; set; }
         public bool SwitchUser { get; set; }
+        public bool SwitchTenant { get; set; }
         public string SessionGuid { get; set; } = Strings.NewGuid();
         public Dictionary<string, string> SessionData { get; set; } = new Dictionary<string, string>();
         public Dictionary<string, string> UserSessionData { get; set; } = new Dictionary<string, string>();
@@ -70,6 +71,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         public string Page { get; set; }
         public string Server { get; set; }
         public int TenantId { get; set; }
+        public int TargetTenantId { get; set; }
         public long SiteId { get; set; }
         public long Id { get; set; }
         public Dictionary<long, Permissions.Types> PermissionHash { get; set; }
@@ -213,6 +215,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             if (sessionStatus) SetSessionGuid();
             if (item) SetItemProperties();
             if (user) SetUserProperties(sessionStatus, setData);
+            if (item) SetSwitchTenant(sessionStatus, setData);
             SetTenantProperties();
             if (request) SetPublish();
             if (request && setPermissions) SetPermissions();
@@ -343,6 +346,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                                         {
                                             RecordTitle = dataRow.String("Title");
                                         }
+                                        TargetTenantId = dataRow.Int("TenantId");
                                     });
                         Page = Controller + "/"
                             + SiteId
@@ -364,6 +368,12 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
+        private void SetSwitchTenant(bool sessionStatus, bool setData)
+        {
+            Extension.SwichTenant(context: this);
+            if (this.SwitchTenant) SetUserProperties(sessionStatus: false, setData: false);
+        }
+
         private void SetUserProperties(bool sessionStatus, bool setData)
         {
             if (HasRoute)
@@ -382,6 +392,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                     var loginId = Strings.CoalesceEmpty(
                         Permissions.PrivilegedUsers(
                             loginId: AspNetCoreHttpContext.Current?.User?.Identity.Name)
+                                ? SessionData.Get("SwitchLoginId")
+                                : null,
+                            SessionData.Get("SwitchTenantId") != null
                                 ? SessionData.Get("SwitchLoginId")
                                 : null,
                         LoginId);
@@ -426,10 +439,19 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .Lockout(false));
         }
 
-        private void SetUser(UserModel userModel)
+        public void SetUserProperties(UserModel userModel, bool noHttpContext = false)
+        {
+            SetUser(
+                userModel: userModel,
+                noHttpContext: noHttpContext);
+            SetPermissions();
+        }
+
+        private void SetUser(UserModel userModel, bool noHttpContext = false)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
+                LoginId = userModel.LoginId;
                 SwitchUser = SessionData.Get("SwitchLoginId") != null;
                 Authenticated = true;
                 TenantId = userModel.TenantId;
@@ -439,7 +461,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
                 Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
-                UserHostAddress = GetUserHostAddress();
+                UserHostAddress = noHttpContext
+                    ? string.Empty
+                    : GetUserHostAddress();
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;

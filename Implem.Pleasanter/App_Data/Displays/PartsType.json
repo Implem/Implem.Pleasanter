@@ -1,0 +1,33 @@
+{
+    "Id": "PartsType",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Parts type"
+        },
+        {
+            "Language": "zh",
+            "Body": "零件类型"
+        },
+        {
+            "Language": "ja",
+            "Body": "パーツタイプ"
+        },
+        {
+            "Language": "de",
+            "Body": "Teiletyp"
+        },
+        {
+            "Language": "ko",
+            "Body": "부품 유형"
+        },
+        {
+            "Language": "es",
+            "Body": "Tipo de pieza"
+        },
+        {
+            "Language": "vn",
+            "Body": "Loại bộ phận"
+        }
+    ]
+}

@@ -11,7 +11,6 @@ using Implem.Pleasanter.Libraries.ServerScripts;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -598,7 +597,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                             case "ViewSorters":
                                 SetSorters(
                                     context: context,
-                                    ss: ss);
+                                    ss: ss,
+                                    prefix: prefix);
                                 break;
                             case "ViewFilters_UpdateCommand":
                                 UpdateCommand = (CommandDisplayTypes)Int(
@@ -1071,10 +1071,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
-        private void SetSorters(Context context, SiteSettings ss)
+        private void SetSorters(Context context, SiteSettings ss, string prefix = "")
         {
             ColumnSorterHash = new Dictionary<string, SqlOrderBy.Types>();
-            context.Forms.List("ViewSorters").ForEach(data =>
+            context.Forms.List($"{prefix}ViewSorters").ForEach(data =>
             {
                 var columnName = data.Split_1st('&');
                 var type = OrderByType(data.Split_2nd('&'));

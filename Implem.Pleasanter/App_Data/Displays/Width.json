@@ -1,0 +1,33 @@
+{
+    "Id": "Width",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Width"
+        },
+        {
+            "Language": "zh",
+            "Body": "宽度"
+        },
+        {
+            "Language": "ja",
+            "Body": "幅"
+        },
+        {
+            "Language": "de",
+            "Body": "Breite"
+        },
+        {
+            "Language": "ko",
+            "Body": "너비"
+        },
+        {
+            "Language": "es",
+            "Body": "Ancho"
+        },
+        {
+            "Language": "vn",
+            "Body": "Rộng"
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+    "Id": "Vertical",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Vertical"
+        },
+        {
+            "Language": "zh",
+            "Body": "垂直"
+        },
+        {
+            "Language": "ja",
+            "Body": "縦方向"
+        },
+        {
+            "Language": "de",
+            "Body": "Vertikal"
+        },
+        {
+            "Language": "ko",
+            "Body": "세로"
+        },
+        {
+            "Language": "es",
+            "Body": "Vertical"
+        },
+        {
+            "Language": "vn",
+            "Body": "Dọc"
+        }
+    ]
+}

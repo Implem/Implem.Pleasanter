@@ -1,0 +1,33 @@
+{
+    "Id": "DashboardGuide",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Dashboard guide"
+        },
+        {
+            "Language": "zh",
+            "Body": "仪表盘指南"
+        },
+        {
+            "Language": "ja",
+            "Body": "ダッシュボードのガイド"
+        },
+        {
+            "Language": "de",
+            "Body": "Dashboard-Leitfaden"
+        },
+        {
+            "Language": "ko",
+            "Body": "대시보드 가이드"
+        },
+        {
+            "Language": "es",
+            "Body": "Guía del tablero de instrumentos"
+        },
+        {
+            "Language": "vn",
+            "Body": "Hướng dẫn bảng điều khiển"
+        }
+    ]
+}

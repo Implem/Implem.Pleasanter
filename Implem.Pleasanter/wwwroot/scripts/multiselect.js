@@ -22,7 +22,10 @@ $p.selectMultiSelect = function ($control, json) {
     $control.find('option').each(function (index, element) {
         var $element = $(element);
         $element.prop('selected', false);
-        if (JSON.parse(json).indexOf($element.val()) > -1) {
+        var selected = json
+            ? json
+            : '[]';
+        if (JSON.parse(selected).indexOf($element.val()) > -1) {
             $element.prop('selected', true);
         }
     });

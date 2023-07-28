@@ -1007,6 +1007,7 @@ public string OpenImportSitePackageDialog(Context context)
         case "Issues":
         case "Results":
         case "Wikis":
+        case "Dashboards":
             return Libraries.SitePackages.Utilities.OpenImportSitePackageDialog(
                 context: context,
                 ss: Site.SiteSettings);
@@ -1030,6 +1031,7 @@ public string ImportSitePackage(Context context)
         case "Issues":
         case "Results":
         case "Wikis":
+        case "Dashboards":
         default:
             throw new NotImplementedException();
     }
@@ -1051,6 +1053,7 @@ public string OpenExportSitePackageDialog(Context context)
         case "Issues":
         case "Results":
         case "Wikis":
+        case "Dashboards":
             return Libraries.SitePackages.Utilities.OpenExportSitePackageDialog(
                 context: context,
                 ss: Site.SiteSettings,
@@ -1075,6 +1078,7 @@ public ResponseFile ExportSitePackage(Context context)
         case "Issues":
         case "Results":
         case "Wikis":
+        case "Dashboards":
             return Libraries.SitePackages.Utilities.ExportSitePackage(
                 context: context,
                 ss: Site.SiteSettings);
@@ -1101,6 +1105,7 @@ public ContentResultInheritance CopySitePackageByApi(Context context)
         case "Issues":
         case "Results":
         case "Wikis":
+        case "Dashboards":
             var response = Libraries.SitePackages.Utilities.ImportSitePackage(
                 context: context,
                 ss: Site.SiteSettings,

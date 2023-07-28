@@ -1,0 +1,33 @@
+{
+    "Id": "RecordBody",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Record content"
+        },
+        {
+            "Language": "zh",
+            "Body": "记录内容"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードの内容"
+        },
+        {
+            "Language": "de",
+            "Body": "Datensatzinhalt"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 내용"
+        },
+        {
+            "Language": "es",
+            "Body": "Contenido del registro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Nội dung bản ghi"
+        }
+    ]
+}

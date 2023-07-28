@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             {
                 attributes.Add("MailAddress", nameId);
             }
-            else if (attributeMailAddress.EndsWith("|{NameId}"))
+            else if (attributeMailAddress?.EndsWith("|{NameId}") == true)
             {
                 var attributeName = attributeMailAddress.Split_1st('|');
                 var claimMailAddress = claims.FirstOrDefault(claim => claim.Type == attributeName);
@@ -667,7 +667,9 @@ namespace Implem.Pleasanter.Libraries.DataSources
                     return (Responses.Locations.UserLockout(context: context), null);
                 }
                 var redirectResultUrl = Strings.CoalesceEmpty(
-                    user.GetReturnUrl(returnUrl: returnUrl),
+                    user.GetReturnUrl(
+                        context: context,
+                        returnUrl: returnUrl),
                     Responses.Locations.Top(context: context));
                 user.Allow(
                     context: context,

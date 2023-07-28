@@ -103,6 +103,152 @@ namespace Implem.Pleasanter.Libraries.Initializers
             });
             Repository.ExecuteNonQuery(
                 context: context,
+                statements: Rds.PhysicalDeleteDashboards(
+                    where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
+                        "\"Dashboards_deleted\"",
+                        "\"Dashboards_deleted\".\"DashboardId\"",
+                        "\"Dashboards\".\"DashboardId\""))));
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.DeleteDashboards(
+                    factory: context,
+                    where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
+                        "\"Items_deleted\"",
+                        "\"Items_deleted\".\"ReferenceId\"",
+                        "\"Dashboards\".\"DashboardId\""))));
+            Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectDashboards(
+                    tableType: Sqls.TableTypes.Normal,
+                    column: Rds.DashboardsColumn()
+                        .SiteId()
+                        .DashboardId()
+                        .Ver()
+                        .Sites_TenantId(),
+                    join: Rds.DashboardsJoinDefault()
+                        .Add(
+                            tableName: "\"Items\"",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "\"Items\".\"ReferenceId\"=\"Dashboards\".\"DashboardId\"")
+                        .Add(
+                            tableName: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Dashboards\".\"SiteId\""),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId(
+                            tableName: "Items",
+                            _operator: " is null")))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                {
+                                    var siteId = dataRow.Long("SiteId");
+                                    var ss = new SiteModel().Get(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        where: Rds.SitesWhere().SiteId(siteId))?
+                                            .DashboardsSiteSettings(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                referenceId: dataRow.Long("DashboardId"));
+                                    var dashboardModel = new DashboardModel(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss)
+                                            .Get(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                ss: ss,
+                                                tableType: Sqls.TableTypes.Normal,
+                                                where: Rds.DashboardsWhere()
+                                                    .SiteId(dataRow.Long("SiteId"))
+                                                    .DashboardId(dataRow.Long("DashboardId"))
+                                                    .Ver(dataRow.Int("Ver")));
+                                    if (ss != null &&
+                                        dashboardModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                    {
+                                        var fullText = dashboardModel.FullText(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            ss: ss);
+                                        Repository.ExecuteNonQuery(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            connectionString: Parameters.Rds.OwnerConnectionString,
+                                            statements: new SqlStatement[]
+                                            {
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: true),
+                                                Rds.InsertItems(
+                                                    param: Rds.ItemsParam()
+                                                        .ReferenceId(dashboardModel.DashboardId)
+                                                        .ReferenceType("Dashboards")
+                                                        .SiteId(dashboardModel.SiteId)
+                                                        .Title(dashboardModel.Title.MessageDisplay(context: context))
+                                                        .FullText(fullText, _using: fullText != null)
+                                                        .SearchIndexCreatedTime(DateTime.Now)),
+                                                Rds.IdentityInsertItems(
+                                                    factory: context,
+                                                    on: false)
+                                            });
+                                    }
+                                });
+            Repository.ExecuteTable(
+                context: context,
+                statements: Rds.SelectDashboards(
+                    tableType: Sqls.TableTypes.Deleted,
+                    column: Rds.DashboardsColumn()
+                        .SiteId()
+                        .DashboardId()
+                        .Ver(),
+                    join: Rds.DashboardsJoinDefault()
+                        .Add(
+                            tableName: "\"Items_deleted\"",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "\"Items_deleted\".\"ReferenceId\"=\"Dashboards\".\"DashboardId\"")
+                        .Add(
+                            tableName: "\"Sites\"",
+                            joinType: SqlJoin.JoinTypes.LeftOuter,
+                            joinExpression: "\"Sites\".\"SiteId\"=\"Dashboards\".\"SiteId\""),
+                    where: Rds.ItemsWhere()
+                        .ReferenceId(
+                            tableName: "Items_deleted",
+                            _operator: " is null")))
+                                .AsEnumerable()
+                                .ForEach(dataRow =>
+                                {
+                                    var siteId = dataRow.Long("SiteId");
+                                    var ss = new SiteModel().Get(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        where: Rds.SitesWhere().SiteId(siteId))?
+                                            .DashboardsSiteSettings(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                referenceId: dataRow.Long("DashboardId"));
+                                    var dashboardModel = new DashboardModel(
+                                        context: new Context(tenantId: dataRow.Int("TenantId")),
+                                        ss: ss)
+                                            .Get(
+                                                context: new Context(tenantId: dataRow.Int("TenantId")),
+                                                ss: ss,
+                                                tableType: Sqls.TableTypes.Deleted,
+                                                where: Rds.DashboardsWhere()
+                                                    .SiteId(dataRow.Long("SiteId"))
+                                                    .DashboardId(dataRow.Long("DashboardId"))
+                                                    .Ver(dataRow.Int("Ver")));
+                                    if (ss != null &&
+                                        dashboardModel.AccessStatus == Databases.AccessStatuses.Selected)
+                                    {
+                                        Repository.ExecuteNonQuery(
+                                            context: new Context(tenantId: dataRow.Int("TenantId")),
+                                            statements: new SqlStatement[]
+                                            {
+                                                Rds.InsertItems(
+                                                    tableType: Sqls.TableTypes.Deleted,
+                                                    param: Rds.ItemsParam()
+                                                        .ReferenceId(dashboardModel.DashboardId)
+                                                        .Ver(dashboardModel.Ver)
+                                                        .ReferenceType("Dashboards")
+                                                        .SiteId(dashboardModel.SiteId)
+                                                        .Title(dashboardModel.Title.MessageDisplay(context: context)))
+                                            });
+                                    }
+                                });
+            Repository.ExecuteNonQuery(
+                context: context,
                 statements: Rds.PhysicalDeleteIssues(
                     where: Rds.ItemsWhere().Add(raw: sqlExists.Params(
                         "\"Issues_deleted\"",

@@ -1,0 +1,33 @@
+{
+    "Id": "Height",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Height"
+        },
+        {
+            "Language": "zh",
+            "Body": "高度"
+        },
+        {
+            "Language": "ja",
+            "Body": "高さ"
+        },
+        {
+            "Language": "de",
+            "Body": "Höhe"
+        },
+        {
+            "Language": "ko",
+            "Body": "높이"
+        },
+        {
+            "Language": "es",
+            "Body": "Altura"
+        },
+        {
+            "Language": "vn",
+            "Body": "Cao"
+        }
+    ]
+}

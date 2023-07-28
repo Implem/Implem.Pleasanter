@@ -6,9 +6,16 @@
         {
             switch (ss.ReferenceType)
             {
-
-<!--Reminder_TableCases-->
-
+                case "Issues":
+                    var issueModel = new IssueModel(
+                        context: context, ss: ss, dataRow: dataRow);
+                    line = issueModel.ReplaceLineByIssueModel(context, ss, line, dataRow.String("ItemTitle"));
+                    break;
+                case "Results":
+                    var resultModel = new ResultModel(
+                        context: context, ss: ss, dataRow: dataRow);
+                    line = resultModel.ReplaceLineByResultModel(context, ss, line, dataRow.String("ItemTitle"));
+                    break;
             }
             return line;
         }

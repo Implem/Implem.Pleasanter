@@ -312,51 +312,57 @@ namespace Implem.PostgreSql
 
         public string SiteUserWhere { get; } = @"
             (
-                exists
+                ""Users"".""UserId"" in
                 (
-                    select ""Permissions"".""ReferenceId""
+                    select ""Users"".""UserId""
                     from ""Permissions""
                         inner join ""Depts"" as ""PermissionDepts"" on ""Permissions"".""DeptId""=""PermissionDepts"".""DeptId""
                         inner join ""Users"" as ""PermissionUsers"" on ""PermissionDepts"".""DeptId""=""PermissionUsers"".""DeptId""
+                        inner join ""Users"" on ""PermissionUsers"".""UserId"" = ""Users"".""UserId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""PermissionUsers"".""UserId""=""Users"".""UserId""
                         and ""PermissionDepts"".""Disabled""='false'
                         and ""PermissionUsers"".""Disabled""='false'
                     union all
-                    select ""Permissions"".""ReferenceId""
+                    select ""Users"".""UserId""
                     from ""Permissions""
                         inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
                         inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                         inner join ""Depts"" as ""GroupMemberDepts"" on ""GroupMembers"".""DeptId""=""GroupMemberDepts"".""DeptId""
                         inner join ""Users"" as ""GroupMemberUsers"" on ""GroupMemberDepts"".""DeptId""=""GroupMemberUsers"".""DeptId""
+                        inner join ""Users"" on ""GroupMemberUsers"".""UserId"" = ""Users"".""UserId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""GroupMemberUsers"".""UserId""=""Users"".""UserId""
                         and ""Groups"".""Disabled""='false'
                         and ""GroupMemberDepts"".""Disabled""='false'
                         and ""GroupMemberUsers"".""Disabled""='false'
                     union all
-                    select ""Permissions"".""ReferenceId""
+                    select ""Users"".""UserId""
                     from ""Permissions""
                         inner join ""Groups"" on ""Permissions"".""GroupId""=""Groups"".""GroupId""
                         inner join ""GroupMembers"" on ""Groups"".""GroupId""=""GroupMembers"".""GroupId""
                         inner join ""Users"" as ""GroupMemberUsers"" on ""GroupMembers"".""UserId""=""GroupMemberUsers"".""UserId""
+                        inner join ""Users"" on ""GroupMemberUsers"".""UserId"" = ""Users"".""UserId""
                     where
                         ""Permissions"".""ReferenceId""={0}
-                        and ""GroupMemberUsers"".""UserId""=""Users"".""UserId""
                         and ""Groups"".""Disabled""='false'
                         and ""GroupMemberUsers"".""Disabled""='false'
                     union all
-                    select ""Permissions"".""ReferenceId""
+                    select ""Users"".""UserId""
                     from ""Permissions""
                         inner join ""Users"" as ""PermissionUsers"" on ""Permissions"".""UserId""=""PermissionUsers"".""UserId""
+                        inner join ""Users"" on ""Users"".""Disabled""='false'
                     where
                         ""Permissions"".""ReferenceId""={0}
                         and ""PermissionUsers"".""UserId""=""Users"".""UserId""
-                        and ""Users"".""Disabled""='false'
                         and ""PermissionUsers"".""Disabled""='false'
-                    union all
+                )
+            )";
+
+        public string SitePermissionsWhere { get; } = @"
+            (
+                exists
+                (
                     select ""Permissions"".""ReferenceId""
                     from ""Permissions""
                     where

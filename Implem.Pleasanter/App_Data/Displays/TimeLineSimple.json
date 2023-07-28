@@ -1,0 +1,33 @@
+{
+    "Id": "TimeLineSimple",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Simple"
+        },
+        {
+            "Language": "zh",
+            "Body": "简易"
+        },
+        {
+            "Language": "ja",
+            "Body": "簡易"
+        },
+        {
+            "Language": "de",
+            "Body": " Einfach"
+        },
+        {
+            "Language": "ko",
+            "Body": "간단"
+        },
+        {
+            "Language": "es",
+            "Body": "Simple"
+        },
+        {
+            "Language": "vn",
+            "Body": "Đơn giản"
+        }
+    ]
+}

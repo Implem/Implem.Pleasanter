@@ -1,0 +1,33 @@
+﻿{
+    "Id": "QuickAccessLayout",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Layout"
+        },
+        {
+            "Language": "zh",
+            "Body": "布局"
+        },
+        {
+            "Language": "ja",
+            "Body": "レイアウト"
+        },
+        {
+            "Language": "de",
+            "Body": "Layout"
+        },
+        {
+            "Language": "ko",
+            "Body": "레이아웃"
+        },
+        {
+            "Language": "es",
+            "Body": "Diseño"
+        },
+        {
+            "Language": "vn",
+            "Body": "Bố cục"
+        }
+    ]
+}

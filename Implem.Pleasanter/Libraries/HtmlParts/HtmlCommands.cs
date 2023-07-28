@@ -264,6 +264,22 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 }
                                 break;
                             case "items":
+                                if (ss.ReferenceType == "Dashboards"
+                                    && context.Action == "index")
+                                {
+                                    hb
+                                        .Button(
+                                            controlId: "UpdateDashboardPartLayouts",
+                                            text: Displays.SaveLayout(context: context),
+                                            controlCss: "button-icon",
+                                            accessKey: "s",
+                                            icon: "ui-icon-disk",
+                                            onClick: "$p.updateDashboardPartLayouts();",
+                                            action: "Update",
+                                            method: "put",
+                                            _using: context.CanUpdate(ss: ss));
+                                    break;
+                                }
                                 hb.Common(
                                     context: context,
                                     ss: ss,

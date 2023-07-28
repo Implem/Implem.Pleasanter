@@ -3533,7 +3533,7 @@ namespace Implem.Pleasanter.Models
                 ? error.MessageJson(context: context)
                 : userModel.Allow(
                     context: context,
-                    returnUrl: userModel.GetReturnUrl(returnUrl: context.Forms.Data("ReturnUrl")),
+                    returnUrl: context.Forms.Data("ReturnUrl"),
                     atLogin: true);
         }
 

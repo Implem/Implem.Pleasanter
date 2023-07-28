@@ -2,6 +2,9 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
+using Implem.Pleasanter.Libraries.Server;
+using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models;
 using System.Linq;
 namespace Implem.Pleasanter.Libraries.Responses
 {
@@ -9,11 +12,36 @@ namespace Implem.Pleasanter.Libraries.Responses
     {
         public static string Top(Context context)
         {
+            var topUrl = DashboardUrl(context: context)
+                ?? Parameters.Locations.TopUrl;
             return (Permissions.PrivilegedUsers(context.LoginId)
                 && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
-                    || Parameters.Locations.TopUrl.IsNullOrEmpty()
+                    || topUrl.IsNullOrEmpty()
                         ? Get(context: context)
-                        : Get(context: context, Parameters.Locations.TopUrl);
+                        : Get(
+                            context: context,
+                            parts: topUrl);
+        }
+
+        public static string DashboardUrl(Context context)
+        {
+            var tenantModel = new TenantModel(
+                context: context,
+                ss: SiteSettingsUtilities.TenantsSiteSettings(context: context),
+                tenantId: context.TenantId);
+            var dashboards = tenantModel.TopDashboards
+                ?.Deserialize<long[]>()
+                    ?? System.Array.Empty<long>();
+            var dashboardId = dashboards
+                .FirstOrDefault(id => Permissions
+                    .CanRead(
+                        context: context,
+                        siteId: id));
+            return dashboardId != 0
+                ? ItemIndex(
+                    context: context,
+                    id: dashboardId)
+                : null;
         }
 
         public static string BaseUrl(Context context)
@@ -198,7 +226,7 @@ namespace Implem.Pleasanter.Libraries.Responses
                 context: context,
                 id: id);
             return Parameters.Service.AbsoluteUri != null
-                ? Parameters.Service.AbsoluteUri + itemPdf
+                ? Parameters.Service.AbsoluteUri + "/items/" + id
                 : context.AbsoluteUri?.Replace(context.AbsolutePath, itemPdf)
                         ?? itemPdf;
         }
