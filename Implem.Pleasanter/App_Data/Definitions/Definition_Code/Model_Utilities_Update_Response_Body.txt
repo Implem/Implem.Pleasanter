@@ -11,6 +11,9 @@ return res
     .Val("#VerUp", verUp)
     .Val("#Ver", #modelName#Model.Ver)
     .Disabled("#VerUp", verUp)
+
+<!--Model_Utilities_ResponseBreadcrumb_Tenants-->
+    
     .Html("#HeaderTitle", HttpUtility.HtmlEncode(#modelName#Model.Title.<!--Model_Utilities_TitleDisplay-->Value))
     .Html("#RecordInfo", new HtmlBuilder().RecordInfo(
         context: context,

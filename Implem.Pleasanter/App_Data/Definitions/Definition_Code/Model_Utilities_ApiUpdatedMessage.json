@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_ApiUpdatedMessage",
     "Indent": "4",
-    "Include": "Sites,Wikis"
+    "Include": "Sites,Wikis,Dashboards"
 }

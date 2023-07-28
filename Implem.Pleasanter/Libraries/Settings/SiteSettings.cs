@@ -191,6 +191,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<ServerScript> ServerScripts;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
+        public SettingList<DashboardPart> DashboardParts;
         public string ExtendedHeader;
         public Versions.AutoVerUpTypes? AutoVerUpType;
         public bool? AllowEditingComments;
@@ -350,6 +351,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (BulkUpdateColumns == null) BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
+            if (DashboardParts == null) DashboardParts = new SettingList<DashboardPart>();
             AutoVerUpType = AutoVerUpType ?? Versions.AutoVerUpTypes.Default;
             AllowEditingComments = AllowEditingComments ?? false;
             AllowCopy = AllowCopy ?? Parameters.General.AllowCopy;
@@ -639,6 +641,21 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return true;
                 default:
                     return false;
+            }
+        }
+
+        public bool IsDashboardEditor(Context context)
+        {
+            if (ReferenceType != "Dashboards")
+            {
+                return false;
+            }
+            switch (context.Action)
+            {
+                case "index":
+                    return false;
+                default:
+                    return true;
             }
         }
 
@@ -1086,6 +1103,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.RelatingColumns = new SettingList<RelatingColumn>();
                 }
                 ss.RelatingColumns.Add(relatingColumn.GetRecordingData());
+            });
+            DashboardParts?.ForEach(dashboards =>
+            {
+                if(ss.DashboardParts == null)
+                {
+                    ss.DashboardParts = new SettingList<DashboardPart>();
+                }
+                ss.DashboardParts.Add(dashboards.GetRecordingData(context: context));
             });
             if (!ExtendedHeader.IsNullOrEmpty())
             {
@@ -1634,7 +1659,10 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void UpdateColumnDefinitionHash()
         {
-            ColumnDefinitionHash = GetColumnDefinitionHash(ReferenceType);
+            ColumnDefinitionHash = GetColumnDefinitionHash(
+                ReferenceType == "Dashboards"
+                    ? "Issues"
+                    : ReferenceType);
         }
 
         private static Dictionary<string, ColumnDefinition> GetColumnDefinitionHash(
@@ -2732,10 +2760,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             return hash;
         }
 
-        public Dictionary<string, string> ViewSorterOptions(Context context)
+        public Dictionary<string, string> ViewSorterOptions(
+            Context context,
+            bool currentTableOnly = false)
         {
             var hash = new Dictionary<string, string>();
-            JoinOptions().ForEach(join =>
+            JoinOptions(currentTableOnly: currentTableOnly).ForEach(join =>
             {
                 var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
                 var ss = JoinedSsHash.Get(siteId);
@@ -5042,7 +5072,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return !IsSiteEditor(context: context)
                 ? Styles?
-                    .Where(style => peredicate(style))
+                    .Where(style =>style.Disabled != true
+                        && peredicate(style))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }
@@ -5097,7 +5128,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return !IsSiteEditor(context: context)
                 ? Scripts?
-                    .Where(script => peredicate(script))
+                    .Where(script => script.Disabled != true
+                        && peredicate(script))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }

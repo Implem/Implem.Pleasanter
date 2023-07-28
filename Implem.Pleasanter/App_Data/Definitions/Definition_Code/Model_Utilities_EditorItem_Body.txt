@@ -251,12 +251,7 @@ private static HtmlBuilder Editor(
                                 .DataMethod("post"),
                             _using: context.CanManagePermission(ss: ss)
                                 && !ss.Locked()
-                                && #modelName#Model.MethodType != BaseModel.MethodTypes.New)
-                        .EditorMainCommands(
-                            context: context,
-                            ss: ss,
-                            #modelName#Model: #modelName#Model,
-                            serverScriptModelRow: serverScriptModelRow))
+                                && #modelName#Model.MethodType != BaseModel.MethodTypes.New)<!--Model_Utilities_EditorMainCommands-->)
                 .Hidden(
                     controlId: "BaseUrl",
                     value: Locations.BaseUrl(context: context))

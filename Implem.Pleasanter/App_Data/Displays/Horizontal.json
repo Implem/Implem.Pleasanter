@@ -1,0 +1,33 @@
+{
+    "Id": "Horizontal",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Horizontal"
+        },
+        {
+            "Language": "zh",
+            "Body": "水平"
+        },
+        {
+            "Language": "ja",
+            "Body": "横方向"
+        },
+        {
+            "Language": "de",
+            "Body": "Horizontal"
+        },
+        {
+            "Language": "ko",
+            "Body": "가로"
+        },
+        {
+            "Language": "es",
+            "Body": "Horizontal"
+        },
+        {
+            "Language": "vn",
+            "Body": "Ngang"
+        }
+    ]
+}

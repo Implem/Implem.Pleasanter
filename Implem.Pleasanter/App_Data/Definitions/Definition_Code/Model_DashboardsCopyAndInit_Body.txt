@@ -1,0 +1,9 @@
+﻿public #ModelName#Model CopyAndInit(
+    Context context,
+    SiteSettings ss)
+{
+    return new #ModelName#Model(
+        context: context,
+        ss: ss,
+        methodType: MethodTypes.New);
+}

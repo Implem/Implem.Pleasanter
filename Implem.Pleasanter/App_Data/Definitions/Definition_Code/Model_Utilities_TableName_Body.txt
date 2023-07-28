@@ -20,7 +20,12 @@
                                 context: context,
                                 referenceType: "Sites"))
                         },
-
+                        {
+                            "Dashboards",
+                            new ControlData(ReferenceTypeDisplayName(
+                                context: context,
+                                referenceType: "Dashboards"))
+                        },
 <!--Model_Utilities_TableNameCases-->
 
                     },
@@ -36,7 +41,7 @@ private static string ReferenceTypeDisplayName(Context context, string reference
     switch (referenceType)
     {
         case "Sites": return Displays.Folder(context: context);
-
+        case "Dashboards": return Displays.Get(context: context, id: "Dashboards");
 <!--Model_Utilities_TableDisplayNameCases-->
 
         default: return null;

@@ -1,0 +1,33 @@
+{
+    "Id": "RecordTitle",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Record title"
+        },
+        {
+            "Language": "zh",
+            "Body": "记录标题"
+        },
+        {
+            "Language": "ja",
+            "Body": "レコードのタイトル"
+        },
+        {
+            "Language": "de",
+            "Body": "Datensatztitel"
+        },
+        {
+            "Language": "ko",
+            "Body": "레코드 제목"
+        },
+        {
+            "Language": "es",
+            "Body": "Título del registro"
+        },
+        {
+            "Language": "vn",
+            "Body": "Tiêu đề bản ghi"
+        }
+    ]
+}

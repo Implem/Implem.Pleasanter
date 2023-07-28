@@ -2,5 +2,5 @@
     "Id": "Model_Utilities_PhysicalBulkDelete_Items",
     "Indent": "2",
     "ItemOnly": "1",
-    "Exclude": "Sites,Wikis"
+    "Exclude": "Sites,Wikis,Dashboards"
 }

@@ -41,6 +41,7 @@ namespace Implem.Pleasanter.Models
         public string HtmlTitleRecord = "[ProductName]";
         public string TopStyle = string.Empty;
         public string TopScript = string.Empty;
+        public string TopDashboards = string.Empty;
         public int SavedTenantId = 0;
         public string SavedTenantName = string.Empty;
         public string SavedTitle = string.Empty;
@@ -56,6 +57,7 @@ namespace Implem.Pleasanter.Models
         public string SavedHtmlTitleRecord = "[ProductName]";
         public string SavedTopStyle = string.Empty;
         public string SavedTopScript = string.Empty;
+        public string SavedTopDashboards = string.Empty;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -223,6 +225,18 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != TopScript);
+        }
+
+        public bool TopDashboards_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != TopDashboards;
+            }
+            return TopDashboards != SavedTopDashboards && TopDashboards != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != TopDashboards);
         }
 
         public bool ContractDeadline_Updated(Context context, bool copy = false, Column column = null)
@@ -411,6 +425,7 @@ namespace Implem.Pleasanter.Models
                     case "HtmlTitleRecord": data.HtmlTitleRecord = HtmlTitleRecord; break;
                     case "TopStyle": data.TopStyle = TopStyle; break;
                     case "TopScript": data.TopScript = TopScript; break;
+                    case "TopDashboards": data.TopDashboards = TopDashboards; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -499,6 +514,11 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "TopScript":
                     return TopScript.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "TopDashboards":
+                    return TopDashboards.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -841,6 +861,7 @@ namespace Implem.Pleasanter.Models
                     case "Tenants_HtmlTitleRecord": HtmlTitleRecord = value.ToString(); break;
                     case "Tenants_TopStyle": TopStyle = value.ToString(); break;
                     case "Tenants_TopScript": TopScript = value.ToString(); break;
+                    case "Tenants_TopDashboards": TopDashboards = $"[{value.ToLong()}]"; break;
                     case "Tenants_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -931,6 +952,7 @@ namespace Implem.Pleasanter.Models
             HtmlTitleRecord = tenantModel.HtmlTitleRecord;
             TopStyle = tenantModel.TopStyle;
             TopScript = tenantModel.TopScript;
+            TopDashboards = tenantModel.TopDashboards;
             Comments = tenantModel.Comments;
             Creator = tenantModel.Creator;
             Updator = tenantModel.Updator;
@@ -961,6 +983,7 @@ namespace Implem.Pleasanter.Models
             if (data.HtmlTitleRecord != null) HtmlTitleRecord = data.HtmlTitleRecord.ToString().ToString();
             if (data.TopStyle != null) TopStyle = data.TopStyle.ToString().ToString();
             if (data.TopScript != null) TopScript = data.TopScript.ToString().ToString();
+            if (data.TopDashboards != null) TopDashboards = data.TopDashboards.ToString().ToString();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -1169,6 +1192,10 @@ namespace Implem.Pleasanter.Models
                             TopScript = dataRow[column.ColumnName].ToString();
                             SavedTopScript = TopScript;
                             break;
+                        case "TopDashboards":
+                            TopDashboards = dataRow[column.ColumnName].ToString();
+                            SavedTopDashboards = TopDashboards;
+                            break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
                             SavedComments = Comments.ToJson();
@@ -1273,6 +1300,7 @@ namespace Implem.Pleasanter.Models
                 || HtmlTitleRecord_Updated(context: context)
                 || TopStyle_Updated(context: context)
                 || TopScript_Updated(context: context)
+                || TopDashboards_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);

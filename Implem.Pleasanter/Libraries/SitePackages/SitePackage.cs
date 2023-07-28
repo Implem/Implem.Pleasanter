@@ -162,7 +162,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                     if (includeSitePermission || includeRecordPermission)
                     {
-                        var packagePermissionModel = new PackagePermissionModel(
+                        var packagePermissionModel = GetPackagePermissionModel(
                             context: context,
                             siteModel: siteModel,
                             view: view,
@@ -172,6 +172,29 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     }
                 }
             }
+        }
+
+        private static PackagePermissionModel GetPackagePermissionModel(
+            Context context,
+            SiteModel siteModel,
+            View view,
+            bool includeSitePermission,
+            bool includeRecordPermission)
+        {
+            switch (siteModel.ReferenceType)
+            {
+                case "Dashboards":
+                    includeRecordPermission = false;
+                    break;
+                default:
+                    break;
+            }
+            return new PackagePermissionModel(
+                context: context,
+                siteModel: siteModel,
+                view: view,
+                includeSitePermission: includeSitePermission,
+                includeRecordPermission: includeRecordPermission);
         }
 
         public class Header

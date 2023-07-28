@@ -1,7 +1,7 @@
 ﻿{
     "HtmlHeadKeywords": "Implem,Pleasanter,OSS",
     "HtmlHeadDescription": "Business application platform",
-    "HtmlHeadViewport": "",
+    "HtmlHeadViewport": "width=device-width",
     "HtmlLogoText": ".Pleasanter",
     "HtmlPortalUrl": "https://pleasanter.net",
     "HtmlApplicationBuildingGuideUrl": "https://pleasanter.org/downloads/hands-on1.pdf",

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Items
 {
-    public class ItemsCreateByTemplate
+    public class ItemsPreviewTemplate
     {
         [Theory]
         [MemberData(nameof(GetData))]
@@ -22,7 +22,7 @@ namespace Implem.PleasanterTest.Tests.Items
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
-                routeData: RouteData.ItemsCreateByTemplate(id: id),
+                routeData: RouteData.ItemsPreviewTemplate(id: id),
                 httpMethod: "POST",
                 forms: forms);
             var results = Results(context: context);
@@ -35,20 +35,21 @@ namespace Implem.PleasanterTest.Tests.Items
         public static IEnumerable<object[]> GetData()
         {
             var forms = FormsUtilities.Get(
-                new KeyValue("ControlId", "CreateByTemplate"),
-                new KeyValue("SiteTitle", "テンプレートから作成したテーブル"),
-                new KeyValue("TemplateId", "Template30"));
+                new KeyValue("ControlId", "SalesTemplates"),
+                new KeyValue("SalesTemplates", "[\"Template18\"]"));
             var baseTests = BaseData.Tests(
-                JsonData.ExistsOne(method: "CloseDialog"),
                 JsonData.ExistsOne(
-                    method: "ReplaceAll",
-                    target: "#SiteMenu"),
+                    method: "Html",
+                    target: "#SalesTemplatesViewer .description"),
                 JsonData.ExistsOne(
-                    method: "ReplaceAll",
-                    target: "#MainCommandsContainer"),
+                    method: "Html",
+                    target: "#SalesTemplatesViewer .viewer"),
                 JsonData.ExistsOne(
                     method: "Invoke",
-                    target: "setSiteMenu"));
+                    target: "setTemplateViewer"),
+                JsonData.ExistsOne(
+                    method: "Toggle",
+                    target: "#SalesTemplatesViewer .viewer"));
             var testParts = new List<TestPart>()
             {
                 new TestPart(
@@ -93,8 +94,7 @@ namespace Implem.PleasanterTest.Tests.Items
 
         private static string Results(Context context)
         {
-            var itemModel = Initializer.ItemIds.Get(context.Id) ?? new ItemModel();
-            return itemModel.CreateByTemplate(context: context);
+            return SiteUtilities.PreviewTemplate(context: context);
         }
     }
 }
