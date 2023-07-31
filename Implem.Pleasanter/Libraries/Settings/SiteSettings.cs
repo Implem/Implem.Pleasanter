@@ -207,6 +207,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SwitchCommandButtonsAutoPostBack;
         public bool? DeleteImageWhenDeleting;
         public bool? EnableCalendar;
+        public bool? EnableCalendarV2;
         public bool? EnableCrosstab;
         public bool? NoDisplayCrosstabGraph;
         public bool? EnableGantt;
@@ -366,6 +367,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
             DeleteImageWhenDeleting = DeleteImageWhenDeleting ?? true;
             EnableCalendar = EnableCalendar ?? true;
+            EnableCalendarV2 = EnableCalendarV2 ?? false;
             EnableCrosstab = EnableCrosstab ?? true;
             NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
             EnableGantt = EnableGantt ?? true;
@@ -825,6 +827,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableCalendar == false)
             {
                 ss.EnableCalendar = EnableCalendar;
+            }
+            if (EnableCalendarV2 == true)
+            {
+                ss.EnableCalendarV2 = EnableCalendarV2;
             }
             if (EnableCrosstab == false)
             {
@@ -3628,6 +3634,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultImportKey": DefaultImportKey = value; break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
+                case "EnableCalendarV2": EnableCalendarV2 = value.ToBool(); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;

@@ -12925,7 +12925,12 @@ namespace Implem.Pleasanter.Models
                             controlId: "EnableCalendar",
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Enabled(context: context),
-                            _checked: ss.EnableCalendar == true))
+                            _checked: ss.EnableCalendar == true)
+                        .FieldCheckBox(
+                            controlId: "EnableCalendarV2",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.CalendarV2(context: context),
+                            _checked: ss.EnableCalendarV2 == true))
                     : hb;
         }
 

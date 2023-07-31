@@ -1,0 +1,33 @@
+﻿{
+    "Id": "CalendarV2",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Calendar v2"
+        },
+        {
+            "Language": "zh",
+            "Body": "Calendar v2"
+        },
+        {
+            "Language": "ja",
+            "Body": "Version 2を使用"
+        },
+        {
+            "Language": "de",
+            "Body": "Calendar v2"
+        },
+        {
+            "Language": "ko",
+            "Body": "Calendar v2"
+        },
+        {
+            "Language": "es",
+            "Body": "Calendar v2"
+        },
+        {
+            "Language": "vn",
+            "Body": "Calendar v2"
+        }
+    ]
+}

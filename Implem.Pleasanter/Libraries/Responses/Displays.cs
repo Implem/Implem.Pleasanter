@@ -1469,6 +1469,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CalendarV2(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CalendarV2",
+                data: data);
+        }
+
         public static string Camera(
             Context context,
             params string[] data)
