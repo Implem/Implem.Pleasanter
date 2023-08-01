@@ -1469,13 +1469,13 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
-        public static string CalendarV2(
+        public static string FullCalendar(
             Context context,
             params string[] data)
         {
             return Get(
                 context: context,
-                id: "CalendarV2",
+                id: "FullCalendar",
                 data: data);
         }
 
@@ -3916,6 +3916,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "From",
+                data: data);
+        }
+
+        public static string CalendarType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CalendarType",
                 data: data);
         }
 

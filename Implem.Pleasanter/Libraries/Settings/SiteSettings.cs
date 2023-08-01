@@ -63,6 +63,12 @@ namespace Implem.Pleasanter.Libraries.Settings
             Right = 20
         }
 
+        public enum CalendarTypes : int
+        {
+            Standard = 1,
+            FullCalendar = 2
+        }
+
         public decimal Version;
         [NonSerialized]
         public bool Migrated;
@@ -207,7 +213,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? SwitchCommandButtonsAutoPostBack;
         public bool? DeleteImageWhenDeleting;
         public bool? EnableCalendar;
-        public bool? EnableCalendarV2;
+        public CalendarTypes? CalendarType;
         public bool? EnableCrosstab;
         public bool? NoDisplayCrosstabGraph;
         public bool? EnableGantt;
@@ -367,7 +373,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             SwitchCommandButtonsAutoPostBack = SwitchCommandButtonsAutoPostBack ?? false;
             DeleteImageWhenDeleting = DeleteImageWhenDeleting ?? true;
             EnableCalendar = EnableCalendar ?? true;
-            EnableCalendarV2 = EnableCalendarV2 ?? false;
+            CalendarType = CalendarType ?? (CalendarTypes)Parameters.General.DefaultCalendarType;
             EnableCrosstab = EnableCrosstab ?? true;
             NoDisplayCrosstabGraph = NoDisplayCrosstabGraph ?? false;
             EnableGantt = EnableGantt ?? true;
@@ -828,9 +834,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 ss.EnableCalendar = EnableCalendar;
             }
-            if (EnableCalendarV2 == true)
+            if (CalendarType != (CalendarTypes)Parameters.General.DefaultCalendarType)
             {
-                ss.EnableCalendarV2 = EnableCalendarV2;
+                ss.CalendarType = CalendarType;
             }
             if (EnableCrosstab == false)
             {
@@ -3634,7 +3640,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "DefaultImportKey": DefaultImportKey = value; break;
                 case "AllowStandardExport": AllowStandardExport = value.ToBool(); break;
                 case "EnableCalendar": EnableCalendar = value.ToBool(); break;
-                case "EnableCalendarV2": EnableCalendarV2 = value.ToBool(); break;
+                case "CalendarType": CalendarType = value.ToEnum(defaultValue: (CalendarTypes)Parameters.General.DefaultCalendarType); break;
                 case "EnableCrosstab": EnableCrosstab = value.ToBool(); break;
                 case "NoDisplayCrosstabGraph": NoDisplayCrosstabGraph = value.ToBool(); break;
                 case "EnableGantt": EnableGantt = value.ToBool(); break;

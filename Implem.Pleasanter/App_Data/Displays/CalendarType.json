@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "CalendarV2",
+    "Id": "FullCalendar",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Calendar v2"
+            "Body": "FullCalendar"
         },
         {
             "Language": "zh",
-            "Body": "Calendar v2"
+            "Body": "FullCalendar"
         },
         {
             "Language": "ja",
-            "Body": "Version 2を使用"
+            "Body": "FullCalendar"
         },
         {
             "Language": "de",
-            "Body": "Calendar v2"
+            "Body": "FullCalendar"
         },
         {
             "Language": "ko",
-            "Body": "Calendar v2"
+            "Body": "FullCalendar"
         },
         {
             "Language": "es",
-            "Body": "Calendar v2"
+            "Body": "FullCalendar"
         },
         {
             "Language": "vn",
-            "Body": "Calendar v2"
+            "Body": "FullCalendar"
         }
     ]
 }

@@ -57,6 +57,7 @@
     "CalendarEnd": 120,
     "CalendarLimit": 300,
     "CalendarYLimit": 100,
+    "DefaultCalendarType": 2,
     "CrosstabBegin": -120,
     "CrosstabEnd": 120,
     "CrosstabXLimit": 50,

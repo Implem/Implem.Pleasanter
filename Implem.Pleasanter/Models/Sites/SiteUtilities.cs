@@ -12926,11 +12926,23 @@ namespace Implem.Pleasanter.Models
                             fieldCss: "field-auto-thin",
                             labelText: Displays.Enabled(context: context),
                             _checked: ss.EnableCalendar == true)
-                        .FieldCheckBox(
-                            controlId: "EnableCalendarV2",
-                            fieldCss: "field-auto-thin",
-                            labelText: Displays.CalendarV2(context: context),
-                            _checked: ss.EnableCalendarV2 == true))
+                        .FieldDropDown(
+                            context: context,
+                            controlId: "CalendarType",
+                            controlCss: " always-send",
+                            labelText: Displays.CalendarType(context: context),
+                            optionCollection: new Dictionary<string, string>
+                            {
+                                {
+                                    SiteSettings.CalendarTypes.Standard.ToInt().ToString(),
+                                    Displays.Standard(context: context)
+                                },
+                                {
+                                    SiteSettings.CalendarTypes.FullCalendar.ToInt().ToString(),
+                                    Displays.FullCalendar(context: context)
+                                },
+                            },
+                            selectedValue: ss.CalendarType.ToInt().ToString()))
                     : hb;
         }
 

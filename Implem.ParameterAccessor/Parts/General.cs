@@ -62,6 +62,7 @@ namespace Implem.ParameterAccessor.Parts
         public int CalendarEnd;
         public int CalendarLimit;
         public int CalendarYLimit;
+        public int DefaultCalendarType;
         public int CrosstabBegin;
         public int CrosstabEnd;
         public int CrosstabXLimit;
