@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "FullCalendar",
+    "Id": "CalendarType",
     "Type": 110,
     "Languages": [
         {
-            "Body": "FullCalendar"
+            "Body": "Calendar type"
         },
         {
             "Language": "zh",
-            "Body": "FullCalendar"
+            "Body": "日历类型"
         },
         {
             "Language": "ja",
-            "Body": "FullCalendar"
+            "Body": "カレンダータイプ"
         },
         {
             "Language": "de",
-            "Body": "FullCalendar"
+            "Body": "Kalendertyp"
         },
         {
             "Language": "ko",
-            "Body": "FullCalendar"
+            "Body": "캘린더 타입"
         },
         {
             "Language": "es",
-            "Body": "FullCalendar"
+            "Body": "Tipo de calendario"
         },
         {
             "Language": "vn",
-            "Body": "FullCalendar"
+            "Body": "loại lịch"
         }
     ]
 }
