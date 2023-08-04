@@ -21,10 +21,10 @@ RUN dotnet build "Implem.CodeDefiner/Implem.CodeDefiner.csproj" -c Release -o /a
 RUN dotnet build "Implem.Pleasanter/Implem.Pleasanter.csproj" -c Release -o /app/build/Implem.Pleasanter
 
 FROM build AS publish
+RUN apt-get update && apt-get install -y jq
 RUN dotnet publish "Implem.CodeDefiner/Implem.CodeDefiner.csproj" -c Release -o /app/publish/Implem.CodeDefiner
 RUN dotnet publish "Implem.Pleasanter/Implem.Pleasanter.csproj" -c Release -o /app/publish/Implem.Pleasanter
-RUN curl -o /usr/bin/jq -L https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x /usr/bin/jq && \
-    cat Implem.Pleasanter/App_Data/Parameters/Rds.json \
+RUN cat Implem.Pleasanter/App_Data/Parameters/Rds.json \
     | jq '.Dbms|="PostgreSQL" | .SaConnectionString|=null | .OwnerConnectionString|=null | .UserConnectionString|=null' \
     > /app/publish/Implem.Pleasanter/App_Data/Parameters/Rds.json
 
