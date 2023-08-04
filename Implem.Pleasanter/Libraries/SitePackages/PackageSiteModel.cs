@@ -359,7 +359,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                 })
                 .Where(s => !string.IsNullOrEmpty(s))
                 .Join("\n");
-            return string.IsNullOrEmpty(sites) ? source : sites;
+            return string.IsNullOrEmpty(sites)
+                ? source
+                : sites;
         }
 
         internal static string ReplaceJoinColumn(SitePackage.Header header, string source = "")
