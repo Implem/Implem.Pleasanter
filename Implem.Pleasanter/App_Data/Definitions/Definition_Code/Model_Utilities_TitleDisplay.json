@@ -1,5 +1,5 @@
 ﻿{
     "Id": "Model_Utilities_TitleDisplay",
     "ItemOnly": "1",
-    "Exclude": "Sites"
+    "Exclude": "Sites,Dashboards"
 }

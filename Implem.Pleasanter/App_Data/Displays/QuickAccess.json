@@ -1,0 +1,33 @@
+{
+    "Id": "QuickAccess",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Quick access"
+        },
+        {
+            "Language": "zh",
+            "Body": "快速访问"
+        },
+        {
+            "Language": "ja",
+            "Body": "クイックアクセス"
+        },
+        {
+            "Language": "de",
+            "Body": "Schneller Zugriff"
+        },
+        {
+            "Language": "ko",
+            "Body": "빠른 액세스"
+        },
+        {
+            "Language": "es",
+            "Body": "Acceso rápido"
+        },
+        {
+            "Language": "vn",
+            "Body": "Truy cập nhanh"
+        }
+    ]
+}

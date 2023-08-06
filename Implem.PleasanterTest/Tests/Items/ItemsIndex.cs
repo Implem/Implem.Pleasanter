@@ -31,21 +31,29 @@ namespace Implem.PleasanterTest.Tests.Items
 
         public static IEnumerable<object[]> GetData()
         {
+            var existsGridTest = BaseData.Tests(HtmlData.ExistsOne(selector: "#Grid"));
             var testParts = new List<TestPart>()
             {
-                new TestPart(title: "WBS"),
-                new TestPart(title: "課題管理"),
-                new TestPart(title: "レビュー記録"),
-                new TestPart(title: "顧客マスタ"),
-                new TestPart(title: "商談"),
-                new TestPart(title: "仕入")
+                new TestPart(title: "WBS", baseTests: existsGridTest),
+                new TestPart(title: "課題管理", baseTests: existsGridTest),
+                new TestPart(title: "レビュー記録", baseTests: existsGridTest),
+                new TestPart(title: "顧客マスタ", baseTests: existsGridTest),
+                new TestPart(title: "商談", baseTests: existsGridTest),
+                new TestPart(title: "仕入", baseTests: existsGridTest),
+                new TestPart(
+                    title: "ダッシュボード1",
+                    baseTests: BaseData.Tests(
+                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_1"),
+                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_2"),
+                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_3"),
+                        HtmlData.TextContains(selector: "#DashboardPartLayouts", value: "DashboardPart_4")))
             };
             foreach (var testPart in testParts)
             {
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#Grid")));
+                    baseTests: testPart.BaseTests);
             }
         }
 

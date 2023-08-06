@@ -35,6 +35,7 @@ namespace Implem.IRds
         string SiteDeptWhere { get; }
         string SiteGroupWhere { get; }
         string SiteUserWhere { get; }
+        string SitePermissionsWhere { get; }
         public string IntegratedSitesPermissionsWhere(string tableName, List<long> sites);
     }
 }

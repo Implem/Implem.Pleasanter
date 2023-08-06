@@ -441,10 +441,19 @@ namespace Implem.Pleasanter.Libraries.Requests
                     .Lockout(false));
         }
 
-        private void SetUser(UserModel userModel)
+        public void SetUserProperties(UserModel userModel, bool noHttpContext = false)
+        {
+            SetUser(
+                userModel: userModel,
+                noHttpContext: noHttpContext);
+            SetPermissions();
+        }
+
+        private void SetUser(UserModel userModel, bool noHttpContext = false)
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
+                LoginId = userModel.LoginId;
                 SwitchUser = SessionData.Get("SwitchLoginId") != null;
                 Authenticated = true;
                 TenantId = userModel.TenantId;
@@ -454,7 +463,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                 User = SiteInfo.User(context: this, userId: UserId);
                 Language = userModel.Language;
                 Theme = Strings.CoalesceEmpty(userModel.Theme, Parameters.User.Theme, "sunny");
-                UserHostAddress = GetUserHostAddress();
+                UserHostAddress = noHttpContext
+                    ? string.Empty
+                    : GetUserHostAddress();
                 Developer = userModel.Developer;
                 TimeZoneInfo = userModel.TimeZoneInfo;
                 UserSettings = userModel.UserSettings;

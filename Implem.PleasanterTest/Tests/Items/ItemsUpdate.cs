@@ -156,6 +156,9 @@ namespace Implem.PleasanterTest.Tests.Items
                 new TestPart(
                     title: "Wiki1",
                     baseTests: wikiJsonTests,
+                    userType: UserData.UserTypes.TenantManager1),
+                new TestPart(title: "ダッシュボード1",
+                    baseTests: siteJsonTests,
                     userType: UserData.UserTypes.TenantManager1)
             };
             foreach (var testPart in testParts)

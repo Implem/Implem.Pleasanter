@@ -251,7 +251,12 @@ namespace Implem.Pleasanter.Libraries.Security
             bool _using = true)
         {
             return _using
-                ? where.Add(raw: context.Sqls.SiteUserWhere.Params(siteId))
+                ? where
+                    .Add(or: new SqlWhereCollection()
+                        .Add(
+                            raw: context.Sqls.SiteUserWhere.Params(siteId))
+                        .Add(
+                            raw: context.Sqls.SitePermissionsWhere.Params(siteId)))
                 : where;
         }
 
@@ -473,7 +478,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "publishes":
                     return context.Publish;
                 default:
-                    if (ss.IsSiteEditor(context: context))
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -506,7 +511,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "versions":
                     return false;
                 default:
-                    if (ss.IsSiteEditor(context: context))
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -542,7 +547,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return CanManageRegistrations(context: context, any: true);
                 default:
-                    if (ss.IsSiteEditor(context: context))
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -582,7 +587,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 case "registrations":
                     return PrivilegedUsers(loginId: context.LoginId);
                 default:
-                    if (ss.IsSiteEditor(context: context))
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }
@@ -613,7 +618,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     return CanManageTenant(context: context)
                         || context.UserId == context.Id;
                 default:
-                    if (ss.IsSiteEditor(context: context))
+                    if (ss.IsSiteEditor(context: context) || ss.IsDashboardEditor(context: context))
                     {
                         return context.CanManageSite(ss: ss);
                     }

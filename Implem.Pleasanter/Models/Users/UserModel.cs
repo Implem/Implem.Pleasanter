@@ -3788,7 +3788,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string Authenticate(Context context, string returnUrl)
+        public string Authenticate(Context context, string returnUrl, bool noHttpContext = false)
         {
             if (Parameters.Security.RevealUserDisabled && DisabledUser(context: context))
             {
@@ -3828,8 +3828,9 @@ namespace Implem.Pleasanter.Models
                                 ? OpenChangePasswordAtLoginDialog(context: context)
                                 : Allow(
                                     context: context,
-                                    returnUrl: GetReturnUrl(returnUrl: returnUrl),
-                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
+                                    returnUrl: returnUrl,
+                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                    noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
@@ -3839,8 +3840,9 @@ namespace Implem.Pleasanter.Models
                 {
                     return Allow(
                         context: context,
-                        returnUrl: GetReturnUrl(returnUrl: returnUrl),
-                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"));
+                        returnUrl: returnUrl,
+                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                        noHttpContext: noHttpContext);
                 }
             }
             else
@@ -4322,12 +4324,14 @@ namespace Implem.Pleasanter.Models
             Context context,
             string returnUrl,
             bool atLogin = false,
-            bool createPersistentCookie = false)
+            bool createPersistentCookie = false,
+            bool noHttpContext = false)
         {
-            IncrementsNumberOfLogins(context: context);
-            SetFormsAuthentication(
+            string loginAfterUrl = AllowAfterUrl(
                 context: context,
-                createPersistentCookie: createPersistentCookie);
+                returnUrl: returnUrl,
+                createPersistentCookie: createPersistentCookie,
+                noHttpContext: noHttpContext);
             return new UsersResponseCollection(
                 context: context,
                 userModel: this)
@@ -4335,9 +4339,28 @@ namespace Implem.Pleasanter.Models
                     .Message(
                         message: Messages.LoginIn(context: context),
                         target: "#LoginMessage")
-                    .Href(returnUrl.IsNullOrEmpty()
-                        ? Locations.Top(context: context)
-                        : returnUrl).ToJson();
+                    .Href(loginAfterUrl).ToJson();
+        }
+
+        public string AllowAfterUrl(
+            Context context,
+            string returnUrl,
+            bool createPersistentCookie = false,
+            bool noHttpContext = false)
+        {
+            context.SetUserProperties(
+                userModel: this,
+                noHttpContext: noHttpContext);
+            var loginAfterUrl = GetReturnUrl(
+                context: context,
+                returnUrl: returnUrl);
+            IncrementsNumberOfLogins(context: context);
+            SetFormsAuthentication(
+                context: context,
+                createPersistentCookie: createPersistentCookie);
+            return loginAfterUrl.IsNullOrEmpty()
+                ? Locations.Top(context: context)
+                : loginAfterUrl;
         }
 
         /// <summary>
@@ -4878,13 +4901,20 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public string GetReturnUrl(string returnUrl)
+        public string GetReturnUrl(Context context, string returnUrl)
         {
-            return Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers
-                ? returnUrl
-                : returnUrl.IsNullOrEmpty() || returnUrl == "/"
+            if (Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
+            {
+                return returnUrl;
+            }
+            if (returnUrl.IsNullOrEmpty() || returnUrl == "/")
+            {
+                var dashboardUrl = Locations.DashboardUrl(context: context);
+                return dashboardUrl.IsNullOrEmpty()
                     ? Parameters.Locations.LoginAfterUrl
-                    : returnUrl;
+                    : dashboardUrl;
+            }
+            return returnUrl;
         }
 
         /// <summary>

@@ -1,0 +1,33 @@
+﻿{
+    "Id": "SaveLayout",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Save layout"
+        },
+        {
+            "Language": "zh",
+            "Body": "保存佈局"
+        },
+        {
+            "Language": "ja",
+            "Body": "レイアウトの保存"
+        },
+        {
+            "Language": "de",
+            "Body": "Layout speichern"
+        },
+        {
+            "Language": "ko",
+            "Body": "레이아웃 저장"
+        },
+        {
+            "Language": "es",
+            "Body": "Salva disposizione"
+        },
+        {
+            "Language": "vn",
+            "Body": "Lưu bố cục"
+        }
+    ]
+}

@@ -433,7 +433,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 controlContainerCss: controlContainerCss,
                                 controlCss: controlCss,
                                 labelText: labelText,
-                                placeholder: placeholder,
                                 labelRaw: labelRaw,
                                 controlOnly: controlOnly,
                                 text: value,

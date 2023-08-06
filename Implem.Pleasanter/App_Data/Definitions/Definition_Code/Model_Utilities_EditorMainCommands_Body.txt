@@ -1,0 +1,6 @@
+﻿
+.EditorMainCommands(
+    context: context,
+    ss: ss,
+    #modelName#Model: #modelName#Model,
+    serverScriptModelRow: serverScriptModelRow)
