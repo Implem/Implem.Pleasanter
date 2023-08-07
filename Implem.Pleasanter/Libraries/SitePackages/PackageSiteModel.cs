@@ -357,9 +357,9 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     data[0] = header.GetConvertedId(srcId).ToString();
                     return $"[[{data.Join()}]]";
                 })
-                .Where(s => !string.IsNullOrEmpty(s))
+                .Where(s => !s.IsNullOrEmpty())
                 .Join("\n");
-            return string.IsNullOrEmpty(sites)
+            return sites.IsNullOrEmpty()
                 ? source
                 : sites;
         }
