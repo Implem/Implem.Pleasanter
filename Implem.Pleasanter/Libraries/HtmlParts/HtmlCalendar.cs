@@ -34,7 +34,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             bool inRange,
             long changedItemId)
         {
-            return hb.Div(id: "Calendar", css: "both", action: () => hb
+            if (ss.CalendarType.ToString() == "Standard")
+            {
+                return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarGroupBy",
@@ -121,6 +123,95 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             showStatus: showStatus,
                             inRange: inRange,
                             changedItemId: changedItemId)));
+            } else {
+                return hb.Div(id: "Calendar", css: "both", action: () => hb
+                .FieldDropDown(
+                    context: context,
+                    controlId: "CalendarGroupBy",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.GroupBy(context: context),
+                    optionCollection: ss.CalendarGroupByOptions(context: context),
+                    selectedValue: groupBy?.ColumnName,
+                    insertBlank: true,
+                    method: "post")
+                .FieldDropDown(
+                    context: context,
+                    controlId: "CalendarTimePeriod",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.Period(context: context),
+                    optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                    selectedValue: timePeriod,
+                    method: "post")
+                .FieldDropDown(
+                    context: context,
+                    controlId: "CalendarFromTo",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.Column(context: context),
+                    optionCollection: ss.CalendarColumnOptions(context: context),
+                    selectedValue: toColumn == null
+                        ? fromColumn?.ColumnName
+                        : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
+                    action: "Calendar",
+                    method: "post")
+                .FieldTextBox(
+                    textType: HtmlTypes.TextTypes.DateTime,
+                    fieldCss: "field-auto-thin",
+                    controlId: "CalendarDate",
+                    controlCss: " w100 auto-postback always-send",
+                    labelText: "",
+                    text: date
+                        .ToLocal(context: context)
+                        .ToString(Displays.YmdFormat(context: context)),
+                    format: Displays.YmdDatePickerFormat(context: context),
+                    method: "post")
+                .Button(
+                    text: Displays.Previous(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "b",
+                    onClick: "$p.moveCalendar('Previous');",
+                    icon: "ui-icon-seek-prev")
+                .Button(
+                    text: Displays.Next(context: context),
+                    controlCss: "button-icon",
+                    accessKey: "n",
+                    onClick: "$p.moveCalendar('Next');",
+                    icon: "ui-icon-seek-next")
+                .Button(
+                    text: Displays.Today(context: context),
+                    controlCss: "button-icon",
+                    onClick: "$p.moveCalendar('Today');",
+                    icon: "ui-icon-calendar")
+                .FieldCheckBox(
+                    controlId: "CalendarShowStatus",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.ShowStatus(context: context),
+                    _checked: showStatus,
+                    method: "post")
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("FullCalendarBody")
+                        .DataAction("UpdateByCalendar")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .CalendarBody(
+                            context: context,
+                            ss: ss,
+                            timePeriod: timePeriod,
+                            groupBy: groupBy,
+                            fromColumn: fromColumn,
+                            toColumn: toColumn,
+                            date: date,
+                            begin: begin,
+                            choices: choices,
+                            dataRows: dataRows,
+                            showStatus: showStatus,
+                            inRange: inRange,
+                            changedItemId: changedItemId)));
+            }
         }
 
         public static HtmlBuilder CalendarBody(
