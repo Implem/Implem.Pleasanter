@@ -1,65 +1,122 @@
-﻿if ($('#CalendarType').val() == "2") {
+﻿if ($('#CalendarType').val() == "FullCalendar") {
+    $p.moveCalendar = function (type) {
+        var $control = $('#CalendarDate');
+        $control.val($('#Calendar' + type).val());
+        $p.setData($control);
+        $p.send($control);
+    }
+    const siteId = 138553;
+
+    const getCurrentEvents = function (info, successCallback, failureCallback) {
+        $p.apiGet({
+            id: siteId,
+            View: {
+                ColumnFilterHash: {
+                    StartTime: '[\"' + info.start.valueOf() + ',' + info.end.valueOf() + '\"]'
+                }
+            },
+            done: function (data) {
+                successCallback(data.Response.Data
+                    .map(item => {
+                        return {
+                            id: item.IssueId,
+                            title: item.Title,
+                            start: item.StartTime,
+                            end: item.CompletionTime,
+                            url: '/items/' + item.IssueId + '/edit'
+                        };
+                    }));
+            },
+            fail: function (err) {
+                failureCallback(err);
+            }
+        })
+    };
+    const updateRecord = function (info) {
+        $p.apiUpdate({
+            id: info.event.id,
+            data: {
+                StartTime: info.event.start.toLocaleString(),
+                CompletionTime: info.event.end.toLocaleString()
+            },
+            fail: function () {
+                $p.setMessage('#Message', JSON.stringify({ Css: 'alert-error', Text: '更新に失敗しました。' }));
+                info.revert();
+            },
+            done: function () {
+                $p.setMessage('#Message', JSON.stringify({ Css: 'alert-success', Text: info.event.title + 'を更新しました。' }));
+            }
+        });
+    };
+
+    const newRecord = function (info) {
+        var form = document.createElement("form");
+        form.setAttribute("action", "/items/" + siteId + "/new");
+        form.setAttribute("method", "post");
+        form.style.display = "none";
+        document.body.appendChild(form);
+        var start = document.createElement("input");
+        start.setAttribute("type", "hidden");
+        start.setAttribute("name", "Issues_StartTime");
+        start.setAttribute("value", info.start.toLocaleString());
+        form.appendChild(start);
+        var end = document.createElement("input");
+        end.setAttribute("type", "hidden");
+        end.setAttribute("name", "Issues_CompletionTime");
+        end.setAttribute("value", info.end.toLocaleString());
+        form.appendChild(end);
+        form.submit();
+    };
+
     $p.setCalendar = function () {
-        var calendarEl = document.getElementById('myCalendar');
+        var clicked = false;
+        let sample = JSON.parse($('#CalendarJson').val());
+/*        alert(JSON.stringify(sample[0]['items']));*/
+        $('#FullCalendar').css('clear', 'both');
+        var calendarEl = document.getElementById('FullCalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
+
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
+            initialView: 'dayGridMonth',
             selectable: true,
             navLinks: true,
             businessHours: true,
             editable: true,
             height: "auto",
             locale: 'ja',
-            events: [
-                {
-                    title: "Business Lunch",
-                    start: "2023-08-03T13:00:00",
-                    constraint: "businessHours",
-                },
-                {
-                    title: "Test Test",
-                    start: "2023-08-05T16:00:00",
-                    end: "2023-08-05T17:00:00",
-                },
-                {
-                    title: "Meeting",
-                    start: "2023-08-13T11:00:00",
-                    constraint: "availableForMeeting", // defined below
-                    color: "#257e4a",
-                },
-                {
-                    title: "Conference",
-                    start: "2023-08-18",
-                    end: "2023-08-20",
-                },
-                {
-                    title: "Party",
-                    start: "2023-08-29T20:00:00",
-                },
-
-                // areas where "Meeting" must be dropped
-                {
-                    groupId: "availableForMeeting",
-                    start: "2023-08-11T10:00:00",
-                    end: "2023-08-11T16:00:00",
-                    display: "background",
-                },
-                {
-                    groupId: "availableForMeeting",
-                    start: "2023-0813T10:00:00",
-                    end: "2023-08-13T16:00:00",
-                    display: "background",
-                },
-
-            ],
+            selectMirror: true,
+            eventDidMount: function (event) {
+                event.el.addEventListener("dblclick", () => {
+                    var date = document.getElementById("clickedDate");
+                    alert('ダブルクリックされた');
+                    window.open('/items/' + item.IssueId + '/edit');
+                });
+            },
+            dateClick: function (info) {
+                if (clicked) {
+                    alert('日付ダブルクリックされた')
+                    clicked = false;
+                    return;
+                }
+                clicked = true;
+                setTimeout(function () {
+                    if (clicked) {
+                        alert("single click");
+                    }
+                    clicked = false;
+                }, 300);
+                calendar.unselect();
+            },
+            events: sample[0]['items']
+            //events: getCurrentEvents
         });
         calendar.render();
     }
-    document.getElementById("Grid").innerHTML = '';
+    //$('#FullCalendar').css('border-collapse', 'separate');
 } else {
 
 
