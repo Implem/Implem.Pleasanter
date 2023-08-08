@@ -1,33 +1,9 @@
 ﻿{
-    "Id": "CalendarType",
+    "Id": "FullCalendar",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Calendar Type"
-        },
-        {
-            "Language": "zh",
-            "Body": "Calendar Type"
-        },
-        {
-            "Language": "ja",
-            "Body": "カレンダータイプ"
-        },
-        {
-            "Language": "de",
-            "Body": "Calendar Type"
-        },
-        {
-            "Language": "ko",
-            "Body": "Calendar Type"
-        },
-        {
-            "Language": "es",
-            "Body": "Calendar Type"
-        },
-        {
-            "Language": "vn",
-            "Body": "Calendar Type"
+            "Body": "FullCalendar"
         }
     ]
 }
