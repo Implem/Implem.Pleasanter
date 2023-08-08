@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -126,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+
             string timePeriod,
             Column groupBy,
             Column fromColumn,
@@ -170,37 +172,73 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: fromColumn?.DefaultInput)
                 .Hidden(
                     controlId: "CalendarToDefaultInput",
-                    value: toColumn?.DefaultInput);
-            return inRange
-                ? hb
-                    .Hidden(
-                        controlId: "CalendarJson",
-                        value: choices == null
-                            ? Json(
-                                context: context,
-                                ss: ss,
-                                from: fromColumn,
-                                to: toColumn,
-                                dataRows: dataRows,
-                                changedItemId: changedItemId,
-                                showStatus: showStatus)
-                            : GroupingJson(
-                                context: context,
-                                ss: ss,
-                                from: fromColumn,
-                                to: toColumn,
-                                groupBy: groupBy,
-                                dataRows: dataRows,
-                                changedItemId: changedItemId,
-                                showStatus: showStatus))
-                    .CalendarBodyTable(
-                        context: context,
-                        timePeriod: timePeriod,
-                        date: date,
-                        begin: begin,
-                        groupBy: groupBy,
-                        choices: choices)
-                : hb;
+                    value: toColumn?.DefaultInput)
+                .Hidden(
+                    controlId: "CalendarType",
+                    value: ss.CalendarType.ToString());
+
+            if (ss.CalendarType.ToString() == "Standard") { 
+                return inRange
+                    ? hb
+                        .Hidden(
+                            controlId: "CalendarJson",
+                            value: choices == null
+                                ? Json(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus)
+                                : GroupingJson(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    groupBy: groupBy,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus))
+                        .CalendarBodyTable(
+                            context: context,
+                            timePeriod: timePeriod,
+                            date: date,
+                            begin: begin,
+                            groupBy: groupBy,
+                            choices: choices)
+                    : hb;
+            } else 
+            {
+                return inRange
+                    ? hb
+                        .Hidden(
+                            controlId: "CalendarJson",
+                            value: choices == null
+                                ? Json(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus)
+                                : GroupingJson(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    groupBy: groupBy,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus))
+                        .Div(
+                            attributes: new HtmlAttributes()
+                                .Id("FullCalendar")
+                        )
+                    : hb;
+            }
+          
         }
 
         private static HtmlBuilder CalendarBodyTable(
