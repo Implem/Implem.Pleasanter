@@ -137,15 +137,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post")
                 .FieldDropDown(
                     context: context,
-                    controlId: "CalendarTimePeriod",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.Period(context: context),
-                    optionCollection: ss.CalendarTimePeriodOptions(context: context),
-                    selectedValue: timePeriod,
-                    method: "post")
-                .FieldDropDown(
-                    context: context,
                     controlId: "CalendarFromTo",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
@@ -167,23 +158,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ToString(Displays.YmdFormat(context: context)),
                     format: Displays.YmdDatePickerFormat(context: context),
                     method: "post")
-                .Button(
-                    text: Displays.Previous(context: context),
-                    controlCss: "button-icon",
-                    accessKey: "b",
-                    onClick: "$p.moveCalendar('Previous');",
-                    icon: "ui-icon-seek-prev")
-                .Button(
-                    text: Displays.Next(context: context),
-                    controlCss: "button-icon",
-                    accessKey: "n",
-                    onClick: "$p.moveCalendar('Next');",
-                    icon: "ui-icon-seek-next")
-                .Button(
-                    text: Displays.Today(context: context),
-                    controlCss: "button-icon",
-                    onClick: "$p.moveCalendar('Today');",
-                    icon: "ui-icon-calendar")
                 .FieldCheckBox(
                     controlId: "CalendarShowStatus",
                     fieldCss: "field-auto-thin",
