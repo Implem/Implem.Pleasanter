@@ -508,7 +508,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .GroupBy(
                         dataRow => dataRow.String(groupBy?.ColumnName),
                         dataRow =>
-                            CreateCalendarElement(
+                            CreateFullCalendarElement(
                                 context: context,
                                 ss: ss,
                                 from: from,
@@ -520,8 +520,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     {
                         group = group.Key,
                         items = group
-                            .OrderBy(o => o.From)
-                            .ThenBy(o => o.To)
+                            .OrderBy(o => o.start)
+                            .ThenBy(o => o.end)
                             .ThenBy(o => o.UpdatedTime)
                     })
                     .ToJson();
