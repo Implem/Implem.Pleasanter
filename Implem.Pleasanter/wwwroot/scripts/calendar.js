@@ -1,10 +1,81 @@
 ﻿if ($('#CalendarType').val() == "FullCalendar") {
+    $p.moveCalendar = function (type) {
+        var $control = $('#CalendarDate');
+        $control.val($('#Calendar' + type).val());
+        $p.setData($control);
+        $p.send($control);
+    }
+    const siteId = 138553;
+
+    const getCurrentEvents = function (info, successCallback, failureCallback) {
+        $p.apiGet({
+            id: siteId,
+            View: {
+                ColumnFilterHash: {
+                    StartTime: '[\"' + info.start.valueOf() + ',' + info.end.valueOf() + '\"]'
+                }
+            },
+            done: function (data) {
+                successCallback(data.Response.Data
+                    .map(item => {
+                        return {
+                            id: item.IssueId,
+                            title: item.Title,
+                            start: item.StartTime,
+                            end: item.CompletionTime,
+                            url: '/items/' + item.IssueId + '/edit'
+                        };
+                    }));
+            },
+            fail: function (err) {
+                failureCallback(err);
+            }
+        })
+    };
+    const updateRecord = function (info) {
+        $p.apiUpdate({
+            id: info.event.id,
+            data: {
+                StartTime: info.event.start.toLocaleString(),
+                CompletionTime: info.event.end.toLocaleString()
+            },
+            fail: function () {
+                $p.setMessage('#Message', JSON.stringify({ Css: 'alert-error', Text: '更新に失敗しました。' }));
+                info.revert();
+            },
+            done: function () {
+                $p.setMessage('#Message', JSON.stringify({ Css: 'alert-success', Text: info.event.title + 'を更新しました。' }));
+            }
+        });
+    };
+
+    const newRecord = function (info) {
+        var form = document.createElement("form");
+        form.setAttribute("action", "/items/" + siteId + "/new");
+        form.setAttribute("method", "post");
+        form.style.display = "none";
+        document.body.appendChild(form);
+        var start = document.createElement("input");
+        start.setAttribute("type", "hidden");
+        start.setAttribute("name", "Issues_StartTime");
+        start.setAttribute("value", info.start.toLocaleString());
+        form.appendChild(start);
+        var end = document.createElement("input");
+        end.setAttribute("type", "hidden");
+        end.setAttribute("name", "Issues_CompletionTime");
+        end.setAttribute("value", info.end.toLocaleString());
+        form.appendChild(end);
+        form.submit();
+    };
+
     $p.setCalendar = function () {
         var clicked = false;
         let sample = JSON.parse($('#CalendarJson').val());
+/*        alert(JSON.stringify(sample[0]['items']));*/
         $('#FullCalendar').css('clear', 'both');
         var calendarEl = document.getElementById('FullCalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
+
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -22,7 +93,7 @@
                 event.el.addEventListener("dblclick", () => {
                     var date = document.getElementById("clickedDate");
                     alert('ダブルクリックされた');
-                    $p.transition($('#BaseUrl').val() + $(this).attr('data-id'));
+                    window.open('/items/' + item.IssueId + '/edit');
                 });
             },
             dateClick: function (info) {
@@ -43,10 +114,12 @@
             events: sample[0]['items']
             //events: getCurrentEvents
         });
-        var count = 0;
         calendar.render();
     }
+    //$('#FullCalendar').css('border-collapse', 'separate');
 } else {
+
+
     $p.moveCalendar = function (type) {
         var $control = $('#CalendarDate');
         $control.val($('#Calendar' + type).val());
