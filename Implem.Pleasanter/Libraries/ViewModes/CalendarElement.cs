@@ -39,31 +39,31 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     [Serializable]
     public class FullCalendarElement
     {
-        public long Id;
-        public string Title;
-        public DateTime From;
-        public DateTime? To;
-        public string Url;
+        public long id;
+        public string title;
+        public string time;
+        public DateTime start;
+        public DateTime? end;
         public bool? Changed;
         public string StatusHtml;
         [NonSerialized]
         public DateTime UpdatedTime;
 
         public FullCalendarElement(
-            long id,
-            string title,
-            string url,
+            long Id,
+            string Title,
+            string Time,
             DateTime from,
             DateTime to,
             long changedItemId,
             DateTime updatedTime,
             string statusHtml)
         {
-            Id = id;
-            Title = title;
-            Url = url;
-            From = from;
-            if (to.InRange()) To = to;
+            id = Id;
+            title = Title;
+            time = Time;
+            start = from;
+            if (to.InRange()) end = to;
             if (id == changedItemId) Changed = true;
             UpdatedTime = updatedTime;
             StatusHtml = statusHtml;
