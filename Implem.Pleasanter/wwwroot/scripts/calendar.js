@@ -41,7 +41,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
-            initialDate: eventData[0]['items'][0]['start'],
+            initialDate: $('#CalendarDate').val().replace(/\//g, '-'),
             initialView: 'dayGridMonth',
             selectable: true,
             navLinks: true,
@@ -54,7 +54,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                 event.el.addEventListener("dblclick", () => {
                     var date = document.getElementById("clickedDate");
                     alert('ダブルクリックされた');
-                    window.open('/items/' + item.IssueId + '/edit');
+                    //window.open('/items/' + item.IssueId + '/edit');
                 });
             },
             dateClick: function (info) {
