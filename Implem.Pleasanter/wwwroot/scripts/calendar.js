@@ -1,86 +1,47 @@
-﻿if ($('#CalendarType').val() == "FullCalendar") {
-    $p.moveCalendar = function (type) {
-        var $control = $('#CalendarDate');
-        $control.val($('#Calendar' + type).val());
-        $p.setData($control);
-        $p.send($control);
-    }
-    const siteId = 138553;
+﻿$p.moveCalendar = function (type) {
+    var $control = $('#CalendarDate');
+    $control.val($('#Calendar' + type).val());
+    $p.setData($control);
+    $p.send($control);
+}
 
-    const getCurrentEvents = function (info, successCallback, failureCallback) {
-        $p.apiGet({
-            id: siteId,
-            View: {
-                ColumnFilterHash: {
-                    StartTime: '[\"' + info.start.valueOf() + ',' + info.end.valueOf() + '\"]'
-                }
-            },
-            done: function (data) {
-                successCallback(data.Response.Data
-                    .map(item => {
-                        return {
-                            id: item.IssueId,
-                            title: item.Title,
-                            start: item.StartTime,
-                            end: item.CompletionTime,
-                            url: '/items/' + item.IssueId + '/edit'
-                        };
-                    }));
-            },
-            fail: function (err) {
-                failureCallback(err);
-            }
-        })
-    };
-    const updateRecord = function (info) {
-        $p.apiUpdate({
-            id: info.event.id,
-            data: {
-                StartTime: info.event.start.toLocaleString(),
-                CompletionTime: info.event.end.toLocaleString()
-            },
-            fail: function () {
-                $p.setMessage('#Message', JSON.stringify({ Css: 'alert-error', Text: '更新に失敗しました。' }));
-                info.revert();
-            },
-            done: function () {
-                $p.setMessage('#Message', JSON.stringify({ Css: 'alert-success', Text: info.event.title + 'を更新しました。' }));
-            }
-        });
-    };
-
-    const newRecord = function (info) {
-        var form = document.createElement("form");
-        form.setAttribute("action", "/items/" + siteId + "/new");
-        form.setAttribute("method", "post");
-        form.style.display = "none";
-        document.body.appendChild(form);
-        var start = document.createElement("input");
-        start.setAttribute("type", "hidden");
-        start.setAttribute("name", "Issues_StartTime");
-        start.setAttribute("value", info.start.toLocaleString());
-        form.appendChild(start);
-        var end = document.createElement("input");
-        end.setAttribute("type", "hidden");
-        end.setAttribute("name", "Issues_CompletionTime");
-        end.setAttribute("value", info.end.toLocaleString());
-        form.appendChild(end);
-        form.submit();
-    };
+if ($('#CalendarType').val() == "FullCalendar") {
 
     $p.setCalendar = function () {
         var clicked = false;
-        let sample = JSON.parse($('#CalendarJson').val());
-/*        alert(JSON.stringify(sample[0]['items']));*/
+        let eventData = JSON.parse($('#CalendarJson').val());
         $('#FullCalendar').css('clear', 'both');
         var calendarEl = document.getElementById('FullCalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-
+            customButtons: {
+                prevCalendar: {
+                    icon: 'chevron-left',
+                    hint: 'prev',
+                    click: function (click, aaa) {
+                        $p.moveCalendar('Previous');
+                    },
+                },
+                nextCalendar: {
+                    icon: 'chevron-right',
+                    hint: 'next',
+                    click: function (click, aaa) {
+                        $p.moveCalendar('Next');
+                    },
+                },
+                todayEvent: {
+                    text: 'today',
+                    hint: 'today',
+                    click: function (click, aaa) {
+                        $p.moveCalendar('Today');
+                    },
+                },
+            },
             headerToolbar: {
-                left: 'prev,next today',
+                left: 'prevCalendar,nextCalendar todayEvent',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
+            initialDate: eventData[0]['items'][0]['start'],
             initialView: 'dayGridMonth',
             selectable: true,
             navLinks: true,
@@ -111,21 +72,12 @@
                 }, 300);
                 calendar.unselect();
             },
-            events: sample[0]['items']
+            events: eventData[0]['items']
             //events: getCurrentEvents
         });
         calendar.render();
     }
-    //$('#FullCalendar').css('border-collapse', 'separate');
 } else {
-
-
-    $p.moveCalendar = function (type) {
-        var $control = $('#CalendarDate');
-        $control.val($('#Calendar' + type).val());
-        $p.setData($control);
-        $p.send($control);
-    }
 
     $p.setCalendar = function () {
         $('#Calendar .container > div > div:not(.day)').remove();
