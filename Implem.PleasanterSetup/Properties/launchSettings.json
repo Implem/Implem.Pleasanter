@@ -1,0 +1,8 @@
+{
+    "profiles": {
+        "Implem.PleasanterSetup": {
+            "commandName": "Project",
+            "commandLineArgs": "rds"
+        }
+    }
+}
