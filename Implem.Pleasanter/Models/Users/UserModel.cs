@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using AspNetCoreCurrentRequestContext;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -4404,17 +4405,32 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private void LoginSuccessLog(Context context)
-        {
+        {            
             if (Parameters.SysLog.LoginSuccess)
             {
-                new SysLogModel(
-                    context: context,
-                    method: nameof(Authenticate),
-                    message: new
+                string message;
+                if (Parameters.SysLog.ClientId)
+                {
+                    AspNetCoreHttpContext.Current?.Response.Cookies.Append("clientid", context.SessionGuid);
+                    message = new
+                    {
+                        LoginId = LoginId,
+                        Success = true,
+                        ClientId = context.SessionGuid
+                    }.ToJson();
+                }
+                else
+                {
+                    message = new
                     {
                         LoginId = LoginId,
                         Success = true
-                    }.ToJson());
+                    }.ToJson();
+                }
+                new SysLogModel(
+                    context: context,
+                    method: nameof(Authenticate),
+                    message: message);
             }
         }
 

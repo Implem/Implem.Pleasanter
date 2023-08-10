@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using AspNetCoreCurrentRequestContext;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
@@ -45,16 +46,29 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         private static void SignOutLog(Context context)
-        {
+        {            
             if (Parameters.SysLog.SignOut)
             {
+                string message;
+                if (Parameters.SysLog.ClientId)
+                {
+                    message = new 
+                    {
+                        LoginId = context.LoginId,
+                        ClientId = AspNetCoreHttpContext.Current?.Request.Cookies["clientid"]
+                    }.ToJson();
+                }
+                else
+                {
+                    message = new
+                    {
+                        LoginId = context.LoginId
+                    }.ToJson();
+                }
                 new SysLogModel(
                     context: context,
                     method: nameof(SignOut),
-                    message: new
-                    {
-                        LoginId = context.LoginId
-                    }.ToJson());
+                    message:message);
             }
         }
 
