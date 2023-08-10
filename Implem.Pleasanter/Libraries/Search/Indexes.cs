@@ -388,8 +388,8 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (dataRow != null)
                     {
                         var href = string.Empty;
-                        var highlightSplitedTitle = dataRow.String("Title").Split(text);
-                        var highlightSplitedBody = dataRow.String("Body").Split(text);
+                        var highlightSplitedTitles = dataRow.String("Title").Split(text);
+                        var highlightSplitedBodys = dataRow.String("Body").Split(text);
                         switch (referenceType)
                         {
                             case "Sites":
@@ -420,28 +420,22 @@ namespace Implem.Pleasanter.Libraries.Search
                                          href: href,
                                          action: () =>
                                          {
-                                             hb.Text(highlightSplitedTitle[0]);
-                                             for (int i = 1; i < highlightSplitedTitle.Length; i++)
-                                             {
-                                                 hb.Span(
-                                                     css: "highlight",
-                                                     action: () => hb
-                                                         .Text(text)
-                                                  )
-                                                 .Text(highlightSplitedTitle[i]);
-                                             }
+                                             hb.Text(highlightSplitedTitles[0]);
+                                             highlightSplitedTitles.ForEach(highlightSplitedTitle =>
+                                                hb.Span(
+                                                    css: "highlight",
+                                                    action: () => hb
+                                                    .Text(text))
+                                                .Text(highlightSplitedTitle));
                                          }))
                                 .P(action: () => {
-                                    hb.Text(highlightSplitedBody[0]);
-                                    for (int i = 1; i < highlightSplitedBody.Length; i++)
-                                    {
+                                    hb.Text(highlightSplitedBodys[0]);
+                                    highlightSplitedBodys.ForEach(highlightSplitedBody =>
                                         hb.Span(
                                             css: "highlight",
                                             action: () => hb
-                                                .Text(text)
-                                         )
-                                        .Text(highlightSplitedBody[i]);
-                                    }
+                                            .Text(text))
+                                        .Text(highlightSplitedBody));
                                 }));
                     }
                 });
