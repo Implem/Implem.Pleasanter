@@ -2835,10 +2835,6 @@ h3.title-header {
     z-index: 10;
 }
 
-#Users_Password::-ms-reveal {
-    display: none;
-}
-
 .axis {
     fill: none;
     stroke: gray;
