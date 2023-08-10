@@ -127,13 +127,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
-                    controlId: "CalendarGroupBy",
+                    controlId: "CalendarTimePeriod",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
-                    labelText: Displays.GroupBy(context: context),
-                    optionCollection: ss.CalendarGroupByOptions(context: context),
-                    selectedValue: groupBy?.ColumnName,
-                    insertBlank: true,
+                    labelText: Displays.Period(context: context),
+                    optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                    selectedValue: timePeriod,
                     method: "post")
                 .FieldDropDown(
                     context: context,
