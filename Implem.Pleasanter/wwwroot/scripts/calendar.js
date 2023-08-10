@@ -6,7 +6,7 @@
 }
 
 if ($('#CalendarType').val() == "FullCalendar") {
-
+    
     $p.setCalendar = function () {
         var clicked = false;
         let eventData = JSON.parse($('#CalendarJson').val());
@@ -50,27 +50,8 @@ if ($('#CalendarType').val() == "FullCalendar") {
             height: "auto",
             locale: 'ja',
             selectMirror: true,
-            eventDidMount: function (event) {
-                event.el.addEventListener("dblclick", () => {
-                    var date = document.getElementById("clickedDate");
-                    alert('ダブルクリックされた');
-                    //window.open('/items/' + item.IssueId + '/edit');
-                });
-            },
-            dateClick: function (info) {
-                if (clicked) {
-                    alert('日付ダブルクリックされた')
-                    clicked = false;
-                    return;
-                }
-                clicked = true;
-                setTimeout(function () {
-                    if (clicked) {
-                        alert("single click");
-                    }
-                    clicked = false;
-                }, 300);
-                calendar.unselect();
+            eventClick: (e) => {
+                window.location.href = '/items/' + e.event.id + '/edit';
             },
             events: eventData[0]['items']
             //events: getCurrentEvents
