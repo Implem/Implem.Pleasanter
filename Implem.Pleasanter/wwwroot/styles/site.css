@@ -2827,6 +2827,18 @@ h3.title-header {
         fill: darkseagreen;
     }
 
+.show-password {
+    position: absolute;
+    top: 4px;
+    right: -27px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#Users_Password::-ms-reveal {
+    display: none;
+}
+
 .axis {
     fill: none;
     stroke: gray;
