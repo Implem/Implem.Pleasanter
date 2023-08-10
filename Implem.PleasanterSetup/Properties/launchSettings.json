@@ -1,8 +1,8 @@
-{
+﻿{
     "profiles": {
         "Implem.PleasanterSetup": {
             "commandName": "Project",
-            "commandLineArgs": "rds"
+            "commandLineArgs": "C:\\tmp\\Pleasanter_1.3.44.0.zip"
         }
     }
 }
