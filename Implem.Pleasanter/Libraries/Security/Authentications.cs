@@ -46,7 +46,7 @@ namespace Implem.Pleasanter.Libraries.Security
         }
 
         private static void SignOutLog(Context context)
-        {            
+        {
             if (Parameters.SysLog.SignOut)
             {
                 string message;

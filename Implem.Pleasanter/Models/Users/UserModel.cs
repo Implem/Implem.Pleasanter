@@ -4405,7 +4405,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private void LoginSuccessLog(Context context)
-        {            
+        {
             if (Parameters.SysLog.LoginSuccess)
             {
                 string message;
