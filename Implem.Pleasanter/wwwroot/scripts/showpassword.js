@@ -1,5 +1,5 @@
 ﻿$p.showPassword = function (element) {
-    var passwordElement = $(element).parent().children('input');
+    var passwordElement = $(element).prevAll('input');
     if (passwordElement.attr('type') === 'password') {
         passwordElement.attr('type', 'text');
         $(element).text('visibility_off');
