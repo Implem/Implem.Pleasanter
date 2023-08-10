@@ -416,7 +416,7 @@ namespace Implem.Pleasanter.Libraries.Search
                                         SiteId = dataRow.Long("SiteId")
                                     })
                                 .H(number: 3, action: () => hb
-                                     .A(
+                                    .A(
                                          href: href,
                                          action: () =>
                                          {
@@ -425,7 +425,7 @@ namespace Implem.Pleasanter.Libraries.Search
                                                 hb.Span(
                                                     css: "highlight",
                                                     action: () => hb
-                                                    .Text(text))
+                                                        .Text(text))
                                                 .Text(highlightSplitedTitle));
                                          }))
                                 .P(action: () => {
@@ -434,7 +434,7 @@ namespace Implem.Pleasanter.Libraries.Search
                                         hb.Span(
                                             css: "highlight",
                                             action: () => hb
-                                            .Text(text))
+                                                .Text(text))
                                         .Text(highlightSplitedBody));
                                 }));
                     }
