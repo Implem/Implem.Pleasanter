@@ -388,8 +388,8 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (dataRow != null)
                     {
                         var href = string.Empty;
-                        var highlightSplitedBody = dataRow.String("Body").Split(text);
                         var highlightSplitedTitle = dataRow.String("Title").Split(text);
+                        var highlightSplitedBody = dataRow.String("Body").Split(text);
                         switch (referenceType)
                         {
                             case "Sites":
