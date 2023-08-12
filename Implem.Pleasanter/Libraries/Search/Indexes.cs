@@ -422,20 +422,22 @@ namespace Implem.Pleasanter.Libraries.Search
                                          {
                                              hb.Text(highlightSplitedTitles[0]);
                                              highlightSplitedTitles.ForEach(highlightSplitedTitle =>
-                                                hb.Span(
-                                                    css: "highlight",
-                                                    action: () => hb
-                                                        .Text(text))
-                                                .Text(highlightSplitedTitle));
+                                                hb
+                                                    .Span(
+                                                        css: "highlight",
+                                                        action: () => hb
+                                                            .Text(text))
+                                                    .Text(highlightSplitedTitle));
                                          }))
                                 .P(action: () => {
                                     hb.Text(highlightSplitedBodys[0]);
                                     highlightSplitedBodys.ForEach(highlightSplitedBody =>
-                                        hb.Span(
-                                            css: "highlight",
-                                            action: () => hb
-                                                .Text(text))
-                                        .Text(highlightSplitedBody));
+                                        hb
+                                            .Span(
+                                                css: "highlight",
+                                                action: () => hb
+                                                    .Text(text))
+                                            .Text(highlightSplitedBody));
                                 }));
                     }
                 });
