@@ -420,30 +420,33 @@ namespace Implem.Pleasanter.Libraries.Search
                                          href: href,
                                          action: () =>
                                          {
-                                             hb.Text(highlightSplitedTitles[0]);
-                                             if(highlightSplitedTitles.Length > 1)
+                                             highlightSplitedTitles.ForEach(highlightSplitedTitle =>
                                              {
-                                                 highlightSplitedTitles.ForEach(highlightSplitedTitle => hb
-                                                .Span(
-                                                    css: "highlight",
-                                                    action: () => hb
-                                                        .Text(text))
-                                                .Text(highlightSplitedTitle));
-                                             }
+                                                 if(highlightSplitedTitle != highlightSplitedTitles[0])
+                                                 {
+                                                     hb.Span(
+                                                         css: "highlight",
+                                                         action: () => hb
+                                                             .Text(text));
+                                                 }
+                                                 hb.Text(highlightSplitedTitle);
+                                                 
+                                             });
                                              
                                          }))
                                 .P(action: () =>
                                 {
-                                    hb.Text(highlightSplitedBodys[0]);
-                                    if( highlightSplitedBodys.Length > 1)
+                                    highlightSplitedBodys.ForEach(highlightSplitedBody =>
                                     {
-                                        highlightSplitedBodys.ForEach(highlightSplitedBody => hb
-                                        .Span(
-                                            css: "highlight",
-                                            action: () => hb
-                                                .Text(text))
-                                        .Text(highlightSplitedBody));
-                                    }
+                                        if (highlightSplitedBody != highlightSplitedBodys[0])
+                                        {
+                                            hb.Span(
+                                                css: "highlight",
+                                                action: () => hb
+                                                    .Text(text));
+                                        }
+                                        hb.Text(highlightSplitedBody);
+                                    });
                                 }));
                     }
                 });
