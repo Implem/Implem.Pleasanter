@@ -421,23 +421,22 @@ namespace Implem.Pleasanter.Libraries.Search
                                          action: () =>
                                          {
                                              hb.Text(highlightSplitedTitles[0]);
-                                             highlightSplitedTitles.ForEach(highlightSplitedTitle =>
-                                                hb
-                                                    .Span(
-                                                        css: "highlight",
-                                                        action: () => hb
-                                                            .Text(text))
-                                                    .Text(highlightSplitedTitle));
+                                             highlightSplitedTitles.ForEach(highlightSplitedTitle => hb
+                                                .Span(
+                                                    css: "highlight",
+                                                    action: () => hb
+                                                        .Text(text))
+                                                .Text(highlightSplitedTitle));
                                          }))
-                                .P(action: () => {
+                                .P(action: () =>
+                                {
                                     hb.Text(highlightSplitedBodys[0]);
-                                    highlightSplitedBodys.ForEach(highlightSplitedBody =>
-                                        hb
-                                            .Span(
-                                                css: "highlight",
-                                                action: () => hb
-                                                    .Text(text))
-                                            .Text(highlightSplitedBody));
+                                    highlightSplitedBodys.ForEach(highlightSplitedBody => hb
+                                        .Span(
+                                            css: "highlight",
+                                            action: () => hb
+                                                .Text(text))
+                                        .Text(highlightSplitedBody));
                                 }));
                     }
                 });
