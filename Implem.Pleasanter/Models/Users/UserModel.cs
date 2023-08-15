@@ -16,6 +16,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -4411,12 +4412,18 @@ namespace Implem.Pleasanter.Models
                 string message;
                 if (Parameters.SysLog.ClientId)
                 {
-                    AspNetCoreHttpContext.Current?.Response.Cookies.Append("clientid", context.SessionGuid);
+                    var clientId = Strings.NewGuid();
+                    //AspNet
+                    CookieOptions cookieOptions = new CookieOptions();
+                    cookieOptions.Secure = true;
+                    cookieOptions.Expires = DateTime.UtcNow.AddDays(7);
+                    AspNetCoreHttpContext.Current?.Response.Cookies.Append("clientid", clientId, cookieOptions);
+                    
                     message = new
                     {
                         LoginId = LoginId,
                         Success = true,
-                        ClientId = context.SessionGuid
+                        ClientId = clientId
                     }.ToJson();
                 }
                 else
