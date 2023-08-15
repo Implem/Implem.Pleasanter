@@ -419,7 +419,6 @@ namespace Implem.Pleasanter.Libraries.Search
                                     .A(
                                          href: href,
                                          action: () =>
-                                         {
                                              highlightSplitedTitles.ForEach(highlightSplitedTitle =>
                                              {
                                                  if(highlightSplitedTitle != highlightSplitedTitles[0])
@@ -431,11 +430,8 @@ namespace Implem.Pleasanter.Libraries.Search
                                                  }
                                                  hb.Text(highlightSplitedTitle);
                                                  
-                                             });
-                                             
-                                         }))
-                                .P(action: () =>
-                                {
+                                             })))
+                                .P(action: () => 
                                     highlightSplitedBodys.ForEach(highlightSplitedBody =>
                                     {
                                         if (highlightSplitedBody != highlightSplitedBodys[0])
@@ -446,8 +442,7 @@ namespace Implem.Pleasanter.Libraries.Search
                                                     .Text(text));
                                         }
                                         hb.Text(highlightSplitedBody);
-                                    });
-                                }));
+                                    })));
                     }
                 });
             }
