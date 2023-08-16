@@ -15,7 +15,6 @@ function margeTime(date, dateTime) {
 }
 
 if ($('#CalendarType').val() == "FullCalendar") {
-
     const newRecord = function (info) {
         var form = document.createElement("form");
         form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
@@ -35,32 +34,15 @@ if ($('#CalendarType').val() == "FullCalendar") {
         form.submit();
     }
     const dropRecord = function (info) {
-        //イベントの開始日時←ここの取得方法が分からない
-        var from = new Date(info.event.start);
-        //イベントのドロップ先
-        var target = new Date(info.event.start);
-        //データの取得(カレンダー部分全部)
         var data = $p.getData($('.main-form'));
-        //項目の取得(開始-完了的な)>StartTime CompletionTime
         var fromTo = $('#CalendarFromTo').val().split('-');
-        //Issues_
         var prefix = $('#TableName').val() + '_';
         data.Id = info.event.id;
-        //data[Issues_StartTime] = 2023/08/16 11:44:00
-        data[prefix + fromTo[0]] = margeTime(target, from);
-        if (from !== undefined) {
-            var diff = $p.dateDiff('d', target, $p.shortDate(from));
-            var to = $p.dateAdd('d', diff, new Date(info.event.end));
-            data[prefix + fromTo[1]] = margeTime(to);
-            alert('diff=' + diff + ' to=' + to + 'data[]=' + data[prefix + fromTo[1]]);
-        }
-        alert('from' + from + '+target' + target + '+Data' + data + '+fromTo' + fromTo + '+prefix' + prefix);
+        data[prefix + fromTo[0]] = info.event.start.toLocaleString();
+        data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         $p.saveScroll();
         $p.send($('#FullCalendarBody'));
     }
-
-
-
     $p.setCalendar = function () {
         var clicked = false;
         let eventData = JSON.parse($('#CalendarJson').val());
@@ -96,20 +78,18 @@ if ($('#CalendarType').val() == "FullCalendar") {
                     text: 'month',
                     hint: 'month',
                     click: function (click, aaa) {
-                        //$("#CalendarTimePeriod option").attr("selected", false);
                         $("#CalendarTimePeriod").val('Monthly');
-                        //$("#CalendarTimePeriod option[value='Monthly']").prop('selected', true);
                         calendar.changeView('dayGridMonth');
+                        $p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
                     },
                 },
                 timeGridWeek: {
                     text: 'week',
                     hint: 'week',
                     click: function (click, aaa) {
-                        //$("#CalendarTimePeriod option").attr("selected", false);
                         $("#CalendarTimePeriod").val('Weekly');
-                        //$("#CalendarTimePeriod option[value='Weekly']").prop('selected', true);
                         calendar.changeView('timeGridWeek');
+                        $p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
                     },
 
                 },
@@ -123,9 +103,9 @@ if ($('#CalendarType').val() == "FullCalendar") {
 
                 },
             },
-            datesSet: function (info) {
-                currentView = info.view.type; // 表示が切り替わるたびに表示モードを更新
-            },
+            //datesSet: function (info) {
+            //    currentView = info.view.type; // 表示が切り替わるたびに表示モードを更新
+            //},
             headerToolbar: {
                 left: 'prevCalendar,nextCalendar todayEvent',
                 center: 'title',
@@ -145,7 +125,6 @@ if ($('#CalendarType').val() == "FullCalendar") {
             },
             select: newRecord,
             events: eventData[0]['items'],
-            //events: getCurrentEvents
             eventDrop: dropRecord,
             eventResize: dropRecord,
             eventDidMount: function (info) {
@@ -153,7 +132,6 @@ if ($('#CalendarType').val() == "FullCalendar") {
                     var eventElement = $(info.el).find('.fc-event-time');
                     eventElement.before($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
                 }
-                //return { html: info.event.extendedProps.StatusHtml }
             },
         });
         calendar.render();
@@ -295,6 +273,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                             var to = $p.dateAdd('d', diff, new Date($control.attr('data-to')));
                             data[prefix + fromTo[1]] = margeTime(to);
                         }
+                        alert("data[prefix + fromTo[1]]" + data[prefix + fromTo[1]]);
                         $p.saveScroll();
                         $p.send($('#CalendarBody'));
                     }
