@@ -40,7 +40,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     value,
                     timeZoneInfo);
             }
-            catch (System.ArgumentException)
+            catch (ArgumentException)
             {
                 // 夏時間開始時の存在しない時間帯を引数とした場合の例外の対応
                 return TimeZoneInfo.ConvertTime(
@@ -74,7 +74,7 @@ namespace Implem.Pleasanter.Libraries.Server
                     timeZoneInfo,
                     TimeZoneInfo.Local);
             }
-            catch (System.ArgumentException)
+            catch (ArgumentException)
             {
                 // 夏時間開始時の存在しない時間帯を引数とした場合の例外の対応
                 return TimeZoneInfo.ConvertTime(

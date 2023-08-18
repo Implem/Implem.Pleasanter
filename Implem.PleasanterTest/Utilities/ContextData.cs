@@ -100,7 +100,9 @@ namespace Implem.PleasanterTest.Utilities
             context.UserAgent = userAgent;
             context.QueryStrings = queryStrings ?? new QueryStrings();
             context.Forms = forms ?? new Forms();
-            context.TimeZoneInfo = (userTimeZone.IsNullOrEmpty()) ? null : TimeZoneInfo.FindSystemTimeZoneById(userTimeZone);
+            context.TimeZoneInfo = userTimeZone.IsNullOrEmpty()
+                ? null
+                : TimeZoneInfo.FindSystemTimeZoneById(userTimeZone);
             if (apiVersion != null)
             {
                 context.ApiVersion = apiVersion.ToDecimal();

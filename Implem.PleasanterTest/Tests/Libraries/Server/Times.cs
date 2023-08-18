@@ -1,6 +1,4 @@
-﻿using Implem.Libraries.Utilities;
-using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Models;
+﻿using Implem.Pleasanter.Models;
 using Implem.PleasanterTest.Utilities;
 using System;
 using System.Collections.Generic;
@@ -10,50 +8,11 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Libraries.Server
 {
-    public class Times
+    public partial class Times
     {
+        // メソッドの呼び出し途中でOSのタイムゾーンが変わらないように排他制御を行う。
         private static object LockObj = new object();
 
-        [Theory]
-        [MemberData(nameof(GetData))]
-        public void TestToLocal(
-            string srcTimeZone,
-            string dstTimeZone,
-            string srcDate,
-            string dstDate,
-            UserModel userModel)
-        {
-            lock(LockObj)
-            {
-                using (new LocalTimeZoneInfoMocker(TimeZoneInfo.FindSystemTimeZoneById(srcTimeZone)))
-                {
-                    var context = ContextData.Get(
-                        userId: userModel.UserId,
-                        userTimeZone: dstTimeZone);
-                    var date = DateTime.Parse(srcDate).ToLocal(context);
-                    Assert.True(dstDate == date.ToStr(), $"param:{dstDate} == calc:{date.ToStr()}");
-                }
-            }
-        }
-
-        [Theory]
-        [MemberData(nameof(GetData))]
-        public void TestToUniversal(
-            string srcTimeZone,
-            string dstTimeZone,
-            string srcDate,
-            string dstDate,
-            UserModel userModel)
-        {
-            using (new LocalTimeZoneInfoMocker(TimeZoneInfo.FindSystemTimeZoneById(dstTimeZone)))
-            {
-                var context = ContextData.Get(
-                    userId: userModel.UserId,
-                    userTimeZone: srcTimeZone);
-                var date = DateTime.Parse(srcDate).ToUniversal(context);
-                Assert.True(dstDate == date.ToStr(), $"param:{dstDate} == calc:{date.ToStr()}");
-            }
-        }
 
         public static IEnumerable<object[]> GetData()
         {
@@ -61,7 +20,7 @@ namespace Implem.PleasanterTest.Tests.Libraries.Server
             var list = new List<object[]>();
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                // windowsは"Asia/Tokyo"の夏時間非対応
+                // Windowsは"Asia/Tokyo"の夏時間非対応
                 list.Add(TestData("Asia/Tokyo", "Etc/UTC", "1951/05/05 23:00:00", "1951/05/05 14:00:00", user));
                 list.Add(TestData("Asia/Tokyo", "Etc/UTC", "1951/05/06 00:00:00", "1951/05/05 15:00:00", user));
                 list.Add(TestData("Asia/Tokyo", "Etc/UTC", "1951/05/06 01:00:00", "1951/05/05 16:00:00", user));
@@ -86,7 +45,7 @@ namespace Implem.PleasanterTest.Tests.Libraries.Server
             }
             else
             {
-                // linuxは"Asia/Tokyo"の夏時間非対応
+                // Linuxは"Asia/Tokyo"の夏時間対応
                 list.Add(TestData("Asia/Tokyo", "Etc/UTC", "1951/05/05 23:00:00", "1951/05/05 14:00:00", user));
                 list.Add(TestData("Asia/Tokyo", "Etc/UTC", "1951/05/06 00:00:00", "1951/05/05 15:00:00", user));
                 list.Add(TestData("Asia/Tokyo", "Etc/UTC", "1951/05/06 01:00:00", "1951/05/05 15:00:00", user));
