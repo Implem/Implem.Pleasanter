@@ -14139,10 +14139,10 @@ namespace Implem.Pleasanter.Models
                             positionType = Displays.HtmlHeadBottom(context: context);
                             break;
                         case Html.PositionTypes.BodyScriptTop:
-                            positionType = Displays.HtmlHeadTop(context: context);
+                            positionType = Displays.HtmlBodyScriptTop(context: context);
                             break;
                         case Html.PositionTypes.BodyScriptBottom:
-                            positionType = Displays.HtmlHeadBottom(context: context);
+                            positionType = Displays.HtmlBodyScriptBottom(context: context);
                             break;
                     }
                     hb
