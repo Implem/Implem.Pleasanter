@@ -45,7 +45,7 @@ namespace Implem.Pleasanter.Libraries.Server
                 // 夏時間開始時の存在しない時間帯を引数とした場合の例外の対応
                 return TimeZoneInfo.ConvertTime(
                     DateTime.SpecifyKind(
-                        value.Add(-timeZoneInfo.BaseUtcOffset),
+                        value.Add(-TimeZoneInfo.Local.BaseUtcOffset),
                         DateTimeKind.Utc),
                     timeZoneInfo);
             }
