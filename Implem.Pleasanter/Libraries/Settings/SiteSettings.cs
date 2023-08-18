@@ -5197,7 +5197,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             return !IsSiteEditor(context: context)
                 ? Htmls
-                ?.Where(html => html.Disabled != true
+                    ?.Where(html => html.Disabled != true
                         && html.PositionType == positionType
                         && peredicate(html))
                     .Select(o => o.Body).Join("\n")
