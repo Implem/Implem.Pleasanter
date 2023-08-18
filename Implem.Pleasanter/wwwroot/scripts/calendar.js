@@ -15,6 +15,45 @@ function margeTime(date, dateTime) {
 }
 
 if ($('#CalendarType').val() == "FullCalendar") {
+    const getEventsData = function (info, successCallback, failureCallback) {
+        //console.log(info);
+        var data = {
+            'id': $p.siteId,
+            'View': {
+                'ColumnFilterHash': {
+                    'StartTime':
+                        '["' + info.start.valueOf() + "," + info.end.valueOf() + '"]',
+                },
+            },
+        };
+        $.ajax({
+            url: 'calendar',
+            type: 'post',
+            async: false,
+            cache: false,
+            data: data,
+            dataType: 'json'
+        }).done(function (data) {
+            var eventData = JSON.parse($(data[1]['Value']).find('#CalendarJson')[0].defaultValue)[0].items;
+            //console.log(eventData);
+            successCallback(
+                eventData.map((item) => {
+                    console.log(item);
+                    return {
+                        //if(item.StatusHtml){
+                        //    StatusHtml: item.StatusHtml,
+                        //},
+                        id: item.id,
+                        title: item.title,
+                        start: item.start,
+                        end: item.end,
+                    };
+                })
+            );
+              }).fail(function (err) {
+                    failureCallback(err);
+         });
+    }
     const newRecord = function (info) {
         var form = document.createElement("form");
         form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
@@ -44,65 +83,77 @@ if ($('#CalendarType').val() == "FullCalendar") {
         $p.send($('#FullCalendarBody'));
     }
     $p.setCalendar = function () {
+
         var clicked = false;
-        let eventData = JSON.parse($('#CalendarJson').val());
+        //let eventData = JSON.parse($('#CalendarJson').val());
+        //console.log(eventData[0]['items']);
         $('#FullCalendar').css('clear', 'both');
         var calendarEl = document.getElementById('FullCalendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            customButtons: {
+            //customButtons: {
 
-                prevCalendar: {
-                    icon: 'chevron-left',
-                    hint: 'prev',
-                    click: function (click, aaa) {
-                        $p.moveCalendar('Previous');
-                        //calendar.changeView(currentView);
-                    },
-                },
-                nextCalendar: {
-                    icon: 'chevron-right',
-                    hint: 'next',
-                    click: function (click, aaa) {
-                        $p.moveCalendar('Next');
-                        //calendar.changeView(currentView);
-                    },
-                },
-                todayEvent: {
-                    text: 'today',
-                    hint: 'today',
-                    click: function (click, aaa) {
-                        $p.moveCalendar('Today');
-                    },
-                },
-                dayGridMonth: {
-                    text: 'month',
-                    hint: 'month',
-                    click: function (click, aaa) {
-                        $("#CalendarTimePeriod").val('Monthly');
-                        calendar.changeView('dayGridMonth');
-                        //$p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
-                    },
-                },
-                timeGridWeek: {
-                    text: 'week',
-                    hint: 'week',
-                    click: function (click, aaa) {
-                        $("#CalendarTimePeriod").val('Weekly');
-                        calendar.changeView('timeGridWeek');
-                        //$p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
-                    },
+            //    prevCalendar: {
+            //        icon: 'chevron-left',
+            //        hint: 'prev',
+            //        click: function (click, aaa) {
+            //            $p.moveCalendar('Previous');
+            //            //calendar.changeView(currentView);
+            //        },
+            //    },
+            //    nextCalendar: {
+            //        icon: 'chevron-right',
+            //        hint: 'next',
+            //        click: function (click, aaa) {
+            //            $p.moveCalendar('Next');
+            //            //calendar.changeView(currentView);
+            //        },
+            //    },
+            //    todayEvent: {
+            //        text: 'today',
+            //        hint: 'today',
+            //        click: function (click, aaa) {
+            //            $p.moveCalendar('Today');
+            //        },
+            //    },
+            //    dayGridMonth: {
+            //        text: 'month',
+            //        hint: 'month',
+            //        click: function (click, aaa) {
+            //            $("#CalendarTimePeriod").val('Monthly');
+            //            calendar.changeView('dayGridMonth');
+            //            var data = {
+            //                'CalendarTimePeriod': 'Monthly',
+            //                'ControlId': 'CalendarTimePeriod'
+            //            };
+            //            $p.ajax("Calendar", 'post', data);
+            //            calendar.changeView(currentView);
+            //        },
+            //    },
+            //    timeGridWeek: {
+            //        text: 'week',
+            //        hint: 'week',
+            //        click: function (click, aaa) {
+            //            $("#CalendarTimePeriod").val('Weekly');
+            //            calendar.changeView('timeGridWeek');
+            //            var data = {
+            //                'CalendarTimePeriod': 'Weekly',
+            //                'ControlId': 'CalendarTimePeriod'
+            //            };
+            //            $p.ajax("Calendar", 'post', data);
+            //            calendar.changeView(currentView);
+            //        },
 
-                },
-                timeGridDay: {
-                    text: 'day',
-                    hint: 'day',
-                    click: function (click, aaa) {
-                        $("#CalendarTimePeriod option").attr("selected", false);
-                        calendar.changeView('timeGridDay');
-                    },
+            //    },
+            //    timeGridDay: {
+            //        text: 'day',
+            //        hint: 'day',
+            //        click: function (click, aaa) {
+            //            $("#CalendarTimePeriod option").attr("selected", false);
+            //            calendar.changeView('timeGridDay');
+            //        },
 
-                },
-            },
+            //    },
+            //},
             //datesSet: function (info) {
             //    currentView = info.view.type; // 表示が切り替わるたびに表示モードを更新
             //},
@@ -124,14 +175,17 @@ if ($('#CalendarType').val() == "FullCalendar") {
                 window.location.href = '/items/' + e.event.id + '/edit';
             },
             select: newRecord,
-            events: eventData[0]['items'],
-            //events: getEventsData,
+            //events: eventData[0]['items'],
+            events: getEventsData,
             eventDrop: updateRecord,
             eventResize: updateRecord,
             eventDidMount: function (info) {
+                console.log(info);
                 if (info.event.extendedProps.StatusHtml) {
+                    alert("bbb");
                     var eventElement = $(info.el).find('.fc-event-time');
                     eventElement.before($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    console.log(eventElement)
                     $('.status-new').css('color', 'black');
                     $('.status-new').css('border', 'solid 1px #000');
                 }
