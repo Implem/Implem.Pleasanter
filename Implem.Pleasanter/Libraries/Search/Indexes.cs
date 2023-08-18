@@ -429,7 +429,6 @@ namespace Implem.Pleasanter.Libraries.Search
                                                              .Text(text));
                                                  }
                                                  hb.Text(highlightSplitedTitle);
-                                                 
                                              })))
                                 .P(action: () => 
                                     highlightSplitedBodys.ForEach(highlightSplitedBody =>
