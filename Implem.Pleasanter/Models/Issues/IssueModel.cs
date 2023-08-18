@@ -3401,7 +3401,9 @@ namespace Implem.Pleasanter.Models
                         ?.Select(lookup => ss.GetColumn(
                             context: context,
                             columnName: lookup.To))
-                        .Where(column => column?.BlankValue(value: SavedPropertyValue(
+                        .Where(column => column?.BlankValue(value: AccessStatus == Databases.AccessStatuses.Selected
+     ?  PropertyValue(
+
                             context: context,
                             column: column)) == true)
                         .Select(column => column.ColumnName)
