@@ -33,7 +33,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
         form.appendChild(end);
         form.submit();
     }
-    const dropRecord = function (info) {
+    const updateRecord = function (info) {
         var data = $p.getData($('.main-form'));
         var fromTo = $('#CalendarFromTo').val().split('-');
         var prefix = $('#TableName').val() + '_';
@@ -56,7 +56,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                     hint: 'prev',
                     click: function (click, aaa) {
                         $p.moveCalendar('Previous');
-                        calendar.changeView(currentView);
+                        //calendar.changeView(currentView);
                     },
                 },
                 nextCalendar: {
@@ -64,7 +64,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                     hint: 'next',
                     click: function (click, aaa) {
                         $p.moveCalendar('Next');
-                        calendar.changeView(currentView);
+                        //calendar.changeView(currentView);
                     },
                 },
                 todayEvent: {
@@ -80,7 +80,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                     click: function (click, aaa) {
                         $("#CalendarTimePeriod").val('Monthly');
                         calendar.changeView('dayGridMonth');
-                        $p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
+                        //$p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
                     },
                 },
                 timeGridWeek: {
@@ -89,7 +89,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                     click: function (click, aaa) {
                         $("#CalendarTimePeriod").val('Weekly');
                         calendar.changeView('timeGridWeek');
-                        $p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
+                        //$p.ajax("Calendar", 'post', $("#CalendarTimePeriod").val());
                     },
 
                 },
@@ -107,7 +107,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
             //    currentView = info.view.type; // 表示が切り替わるたびに表示モードを更新
             //},
             headerToolbar: {
-                left: 'prevCalendar,nextCalendar todayEvent',
+                left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
@@ -125,21 +125,20 @@ if ($('#CalendarType').val() == "FullCalendar") {
             },
             select: newRecord,
             events: eventData[0]['items'],
-            eventDrop: dropRecord,
-            eventResize: dropRecord,
+            //events: getEventsData,
+            eventDrop: updateRecord,
+            eventResize: updateRecord,
             eventDidMount: function (info) {
                 if (info.event.extendedProps.StatusHtml) {
                     var eventElement = $(info.el).find('.fc-event-time');
                     eventElement.before($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    $('.status-new').css('color', 'black');
+                    $('.status-new').css('border', 'solid 1px #000');
                 }
             },
         });
         calendar.render();
-        $('#CalendarTimePeriod').change(function () {
-            var result = $('option:selected').val();
 
-            alert(result);
-        });
     }
 } else {
 
