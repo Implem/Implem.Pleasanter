@@ -579,6 +579,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: wikiModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: wikiModel.MethodType),
+                    methodType: wikiModel.MethodType,
                     serverScriptModelRow: serverScriptModelRow,
                     action: () => hb
                         .Editor(
