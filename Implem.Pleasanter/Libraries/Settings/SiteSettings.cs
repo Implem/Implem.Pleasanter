@@ -5196,9 +5196,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string GetHtmlBody(Context context, Func<Html, bool> peredicate, Html.PositionTypes positionType)
         {
             return !IsSiteEditor(context: context)
-                ? Htmls?
-                    .Where(html => html.Disabled != true
-                        && html.PositionType == positionType 
+                ? Htmls
+                ?.Where(html => html.Disabled != true
+                        && html.PositionType == positionType
                         && peredicate(html))
                     .Select(o => o.Body).Join("\n")
                 : null;
