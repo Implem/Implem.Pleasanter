@@ -4343,6 +4343,9 @@ namespace Implem.Pleasanter.Models
                     .Href(loginAfterUrl).ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string AllowAfterUrl(
             Context context,
             string returnUrl,

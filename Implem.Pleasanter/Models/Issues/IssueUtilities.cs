@@ -1432,6 +1432,7 @@ namespace Implem.Pleasanter.Models
                         context: context, methodType: issueModel.MethodType),
                     userStyle: ss.EditorStyles(
                         context: context, methodType: issueModel.MethodType),
+                    methodType: issueModel.MethodType,
                     serverScriptModelRow: serverScriptModelRow,
                     action: () => hb
                         .Editor(
