@@ -4407,37 +4407,26 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void LoginSuccessLog(Context context)
         {
-            if (Parameters.SysLog.LoginSuccess)
+            if (Parameters.SysLog.LoginSuccess || Parameters.SysLog.ClientId)
             {
-                string message;
-                if (Parameters.SysLog.ClientId)
-                {
-                    var clientId = Strings.NewGuid();
-                    //AspNet
-                    CookieOptions cookieOptions = new CookieOptions();
-                    cookieOptions.Secure = true;
-                    cookieOptions.Expires = DateTime.UtcNow.AddDays(7);
-                    AspNetCoreHttpContext.Current?.Response.Cookies.Append("clientid", clientId, cookieOptions);
-                    
-                    message = new
-                    {
-                        LoginId = LoginId,
-                        Success = true,
-                        ClientId = clientId
-                    }.ToJson();
-                }
-                else
-                {
-                    message = new
-                    {
-                        LoginId = LoginId,
-                        Success = true
-                    }.ToJson();
-                }
+                var loginId = Parameters.SysLog.LoginSuccess
+                    ? LoginId
+                    : null;
+                bool? success = Parameters.SysLog.LoginSuccess
+                    ? true
+                    : null;
+                var clientId = Parameters.SysLog.ClientId
+                    ? AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"]
+                    : null;
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
-                    message: message);
+                    message: new
+                    {
+                        LoginId = loginId,
+                        Success = success,
+                        ClientId = clientId
+                    }.ToJson());
             }
         }
 
@@ -4446,8 +4435,17 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void LoginFailureLog(Context context, string description)
         {
-            if (Parameters.SysLog.LoginFailure)
+            if (Parameters.SysLog.LoginFailure || Parameters.SysLog.ClientId)
             {
+                var loginId = Parameters.SysLog.LoginFailure
+                    ? LoginId
+                    : null;
+                bool? success = Parameters.SysLog.LoginFailure
+                    ? false
+                    : null;
+                var clientId = Parameters.SysLog.ClientId
+                    ? AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"]
+                    : null;
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
@@ -4455,8 +4453,9 @@ namespace Implem.Pleasanter.Models
                     sysLogsDescription: $"{Debugs.GetSysLogsDescription()}:{Messages.Authentication(context: context).Text}",
                     message: new
                     {
-                        LoginId = LoginId,
-                        Success = false
+                        LoginId = loginId,
+                        Success = success,
+                        ClientId = clientId
                     }.ToJson(),
                     sysLogType: SysLogModel.SysLogTypes.UserError);
             }

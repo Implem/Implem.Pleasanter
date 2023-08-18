@@ -1,4 +1,5 @@
-﻿using Azure.Identity;
+﻿using AspNetCoreCurrentRequestContext;
+using Azure.Identity;
 using Azure.Storage.Blobs;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
@@ -418,10 +419,11 @@ namespace Implem.Pleasanter.NetCore
 
         public async Task Invoke(HttpContext httpContext)
         {
-            const string enabled = "Enabled";
+            const string enabled = "Enabled";            
             if (!httpContext.Session.Keys.Any(key => key == enabled))
             {
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
+                SetClientId();
                 httpContext.Session.Set(enabled, new byte[] { 1 });
                 var context = SessionStartContext();
                 SessionUtilities.SetStartTime(context: context);
@@ -456,6 +458,19 @@ namespace Implem.Pleasanter.NetCore
                 Action = "Session_Start",
                 Id = 0
             };
+        }
+
+        private static void SetClientId()
+        {
+            if (AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"] == null)
+            {
+                CookieOptions cookieOptions = new CookieOptions();
+                cookieOptions.Expires = DateTime.UtcNow.AddDays(400);
+                AspNetCoreHttpContext.Current?.Response.Cookies.Append(
+                    "ClientId",
+                    Strings.NewGuid(),
+                    cookieOptions);
+            }
         }
 
         private static bool WindowsAuthenticated(Context context)
