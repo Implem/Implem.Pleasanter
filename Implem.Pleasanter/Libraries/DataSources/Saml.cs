@@ -585,7 +585,7 @@ namespace Implem.Pleasanter.Libraries.DataSources
             }
         }
 
-        public static (string redirectResultUrl, string html) SamlLogin(Context context, string returnUrl="")
+        public static (string redirectResultUrl, string html) SamlLogin(Context context, string returnUrl = "")
         {
             if (!Authentications.SAML()
                 || context.AuthenticationType != "Federation"
@@ -667,23 +667,24 @@ namespace Implem.Pleasanter.Libraries.DataSources
                 }
                 throw;
             }
-            var user = new UserModel().Get(
+            var userModel = new UserModel().Get(
                 context: context,
                 ss: null,
                 where: Rds.UsersWhere()
                     .TenantId(tenant.TenantId)
                     .LoginId(loginId.Value));
-            if (user.AccessStatus == Databases.AccessStatuses.Selected)
+            if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                if (user.Disabled)
+                if (userModel.Disabled)
                 {
                     return (Responses.Locations.UserDisabled(context: context), null);
                 }
-                if (user.Lockout)
+                if (userModel.Lockout)
                 {
                     return (Responses.Locations.UserLockout(context: context), null);
                 }
-                var redirectResultUrl = user.AllowAfterUrl(
+                context.LoginId = userModel.LoginId;
+                var redirectResultUrl = userModel.AllowAfterUrl(    
                     context: context,
                     returnUrl: returnUrl,
                     createPersistentCookie: true);
