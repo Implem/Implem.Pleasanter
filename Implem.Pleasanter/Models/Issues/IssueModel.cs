@@ -3355,7 +3355,8 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    formData: formData);
             });
         }
 
@@ -3401,11 +3402,14 @@ namespace Implem.Pleasanter.Models
                         ?.Select(lookup => ss.GetColumn(
                             context: context,
                             columnName: lookup.To))
+                        // 値ブランクチェック：更新時は保存済みデータ、新規時は入力データで判定
                         .Where(column => column?.BlankValue(value: AccessStatus == Databases.AccessStatuses.Selected
-     ?  PropertyValue(
-
-                            context: context,
-                            column: column)) == true)
+                            ? SavedPropertyValue(
+                                context: context,
+                                column: column)
+                            : PropertyValue(
+                                context: context,
+                                column: column)) == true)
                         .Select(column => column.ColumnName)
                         .ToList(),
                     copyByDefaultOnly: copyByDefaultOnly))
