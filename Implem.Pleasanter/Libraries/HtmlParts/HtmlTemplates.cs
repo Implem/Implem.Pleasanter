@@ -36,6 +36,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string script = null,
             string userScript = null,
             string userStyle = null,
+            BaseModel.MethodTypes methodType = BaseModel.MethodTypes.NotSet,
             ServerScriptModelRow serverScriptModelRow = null,
             Action action = null)
         {
@@ -43,6 +44,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 body: body,
+                methodType: methodType,
                 action: () => hb
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
@@ -77,11 +79,21 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         context: context,
                         ss: ss,
                         userStyle: userStyle)
+                    .Htmls(
+                        context: context,
+                        ss: ss,
+                        positionType: Settings.Html.PositionTypes.BodyScriptTop,
+                        methodType: methodType)
                     .Scripts(
                         context: context,
                         ss: ss,
                         script: script,
                         userScript: userScript)
+                    .Htmls(
+                        context: context,
+                        ss: ss,
+                        positionType: Settings.Html.PositionTypes.BodyScriptBottom,
+                        methodType: methodType)
                     .Raw(HtmlHtmls.ExtendedHtmls(
                         context: context,
                         id: "HtmlBodyBottom")));
@@ -92,6 +104,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Context context,
             SiteSettings ss,
             string body,
+            BaseModel.MethodTypes methodType,
             Action action)
         {
             if (!context.Ajax)
@@ -102,6 +115,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderTop"))
+                        .Htmls(
+                            context: context,
+                            ss: ss,
+                            positionType: Settings.Html.PositionTypes.HeadTop,
+                            methodType: methodType)
                         .Meta(httpEquiv: "X-UA-Compatible", content: "IE=edge")
                         .Meta(charset: "utf-8")
                         .Meta(name: "keywords", content: Parameters.General.HtmlHeadKeywords)
@@ -119,6 +137,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                 context: context,
                                 ss: ss)))
                         .ExtendedHeader(ss: ss)
+                        .Htmls(
+                            context: context,
+                            ss: ss,
+                            positionType: Settings.Html.PositionTypes.HeadBottom,
+                            methodType: methodType)
                         .Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
                             id: "HtmlHeaderBottom")))
@@ -129,6 +152,42 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 action?.Invoke();
                 return hb;
             }
+        }
+
+        private static HtmlBuilder Htmls(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            Settings.Html.PositionTypes positionType,
+            BaseModel.MethodTypes methodType)
+        {
+            if (context.ContractSettings.Html == false) return hb;
+            hb.Raw(ss.GetHtmlBody(
+                context: context,
+                peredicate: o => o.All == true,
+                positionType: positionType));
+            var htmlBody = string.Empty;
+            switch (methodType)
+            {
+                case BaseModel.MethodTypes.New:
+                    htmlBody = ss.GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.New == true,
+                        positionType: positionType);
+                    break;
+                case BaseModel.MethodTypes.Edit:
+                    htmlBody = ss.GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Edit == true,
+                        positionType: positionType);
+                    break;
+                default:
+                    htmlBody = ss.ViewModeHtmls(
+                        context: context,
+                        positionType: positionType);
+                    break;
+            }
+            return hb.Raw(htmlBody);
         }
 
         private static string Description(SiteSettings ss, string body)
@@ -627,6 +686,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 context: context,
                 ss: ss,
                 body: null,
+                methodType: BaseModel.MethodTypes.NotSet,
                 action: () => hb
                     .MainContainer(
                         context: context,

@@ -4797,7 +4797,7 @@ namespace Implem.DefinitionAccessor
             {
                 switch (definitionRow[0].ToString())
                 {
-                    case "Dashboard": Template.Dashboard = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard, definitionRow, TemplateXls); break;
+                    case "Dashboard_en": Template.Dashboard_en = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard_en, definitionRow, TemplateXls); break;
                     case "Dashboard_ja": Template.Dashboard_ja = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Dashboard_ja, definitionRow, TemplateXls); break;
                     case "Template1": Template.Template1 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template1, definitionRow, TemplateXls); break;
                     case "Template10": Template.Template10 = definitionRow[1].ToString(); SetTemplateTable(TemplateTable.Template10, definitionRow, TemplateXls); break;
@@ -12438,7 +12438,7 @@ namespace Implem.DefinitionAccessor
 
     public class TemplateColumn2nd
     {
-        public string Dashboard;
+        public string Dashboard_en;
         public string Dashboard_ja;
         public string Template1;
         public string Template10;
@@ -12846,7 +12846,7 @@ namespace Implem.DefinitionAccessor
 
     public class TemplateTable
     {
-        public TemplateDefinition Dashboard = new TemplateDefinition();
+        public TemplateDefinition Dashboard_en = new TemplateDefinition();
         public TemplateDefinition Dashboard_ja = new TemplateDefinition();
         public TemplateDefinition Template1 = new TemplateDefinition();
         public TemplateDefinition Template10 = new TemplateDefinition();

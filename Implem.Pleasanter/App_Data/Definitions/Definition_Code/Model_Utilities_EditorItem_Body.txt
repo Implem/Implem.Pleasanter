@@ -109,6 +109,7 @@ public static string Editor(
                 context: context, methodType: #modelName#Model.MethodType),
             userStyle: ss.EditorStyles(
                 context: context, methodType: #modelName#Model.MethodType),
+            methodType: #modelName#Model.MethodType,
             serverScriptModelRow: serverScriptModelRow,
             action: () => hb
                 .Editor(

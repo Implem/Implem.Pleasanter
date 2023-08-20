@@ -1258,6 +1258,10 @@ th.calendar-header {
                 font-weight: bold;
             }
 
+                #SearchResults .result > h3 > a > span {
+                    font-weight: bold;
+                }
+
         #SearchResults .result > p {
             display: block;
             float: left;
@@ -1268,6 +1272,10 @@ th.calendar-header {
             border: solid 1px orange;
             cursor: pointer;
         }
+
+.highlight {
+    background: #ff0;
+}
 
 #MainCommandsContainer {
     width: 100%;
@@ -2826,6 +2834,18 @@ h3.title-header {
         height: 20px;
         fill: darkseagreen;
     }
+
+.show-password {
+    position: absolute;
+    top: 4px;
+    right: -27px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+input[type="password"]::-ms-reveal{
+    display: none;
+}
 
 .axis {
     fill: none;

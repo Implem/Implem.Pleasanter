@@ -188,6 +188,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public SettingList<Style> Styles;
         public bool? Responsive;
         public SettingList<Script> Scripts;
+        public SettingList<Html> Htmls;
         public SettingList<ServerScript> ServerScripts;
         public SettingList<BulkUpdateColumn> BulkUpdateColumns;
         public SettingList<RelatingColumn> RelatingColumns;
@@ -348,6 +349,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (Styles == null) Styles = new SettingList<Style>();
             if (Responsive == null) Responsive = Parameters.Mobile.SiteSettingsResponsive;
             if (Scripts == null) Scripts = new SettingList<Script>();
+            if (Htmls == null) Htmls = new SettingList<Html>();
             if (ServerScripts == null) ServerScripts = new SettingList<ServerScript>();
             if (BulkUpdateColumns == null) BulkUpdateColumns = new SettingList<BulkUpdateColumn>();
             if (RelatingColumns == null) RelatingColumns = new SettingList<RelatingColumn>();
@@ -1079,6 +1081,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.Scripts = new SettingList<Script>();
                 }
                 ss.Scripts.Add(script.GetRecordingData());
+            });
+            Htmls?.ForEach(html =>
+            {
+                if(ss.Htmls == null)
+                {
+                    ss.Htmls = new SettingList<Html>();
+                }
+                ss.Htmls.Add(html.GetRecordingData());
             });
             ServerScripts?.ForEach(script =>
             {
@@ -5130,6 +5140,66 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ? Scripts?
                     .Where(script => script.Disabled != true
                         && peredicate(script))
+                    .Select(o => o.Body).Join("\n")
+                : null;
+        }
+
+        public string ViewModeHtmls(Context context, Html.PositionTypes positionType)
+        {
+            switch (context.Action)
+            {
+                case "index":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Index == true,
+                        positionType: positionType);
+                case "calendar":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Calendar == true,
+                        positionType: positionType);
+                case "crosstab":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Crosstab == true,
+                        positionType: positionType);
+                case "gantt":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Gantt == true,
+                        positionType: positionType);
+                case "burndown":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.BurnDown == true,
+                        positionType: positionType);
+                case "timeseries":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.TimeSeries == true,
+                        positionType: positionType);
+                case "kamban":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Kamban == true,
+                        positionType: positionType);
+                case "imagelib":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.ImageLib == true,
+                        positionType: positionType);
+                default:
+                    return null;
+            }
+        }
+
+        public string GetHtmlBody(Context context, Func<Html, bool> peredicate, Html.PositionTypes positionType)
+        {
+            return !IsSiteEditor(context: context)
+                ? Htmls
+                    ?.Where(html => html.Disabled != true
+                        && html.PositionType == positionType
+                        && peredicate(html))
                     .Select(o => o.Body).Join("\n")
                 : null;
         }

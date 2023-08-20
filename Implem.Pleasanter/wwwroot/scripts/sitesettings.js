@@ -185,6 +185,16 @@ $p.setScript = function ($control) {
     $p.send($control);
 }
 
+$p.openHtmlDialog = function ($control) {
+    $p.data.HtmlForm = {};
+    $p.openSiteSettingsDialog($control, '#HtmlDialog');
+}
+
+$p.setHtml = function ($control) {
+    $p.setData($('#EditHtml'), $p.getData($control));
+    $p.send($control);
+}
+
 $p.openServerScriptDialog = function ($control) {
     $p.data.ServerScriptForm = {};
     $p.openSiteSettingsDialog($control, '#ServerScriptDialog');
