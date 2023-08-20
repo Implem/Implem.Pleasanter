@@ -4324,6 +4324,31 @@ namespace Implem.Pleasanter.Models
             bool createPersistentCookie = false,
             bool noHttpContext = false)
         {
+            context.LoginId = this.LoginId;
+            string loginAfterUrl = AllowAfterUrl(
+                context: context,
+                returnUrl: returnUrl,
+                createPersistentCookie: createPersistentCookie,
+                noHttpContext: noHttpContext);
+            return new UsersResponseCollection(
+                context: context,
+                userModel: this)
+                    .CloseDialog(_using: atLogin)
+                    .Message(
+                        message: Messages.LoginIn(context: context),
+                        target: "#LoginMessage")
+                    .Href(loginAfterUrl).ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public string AllowAfterUrl(
+            Context context,
+            string returnUrl,
+            bool createPersistentCookie = false,
+            bool noHttpContext = false)
+        {
             context.SetUserProperties(
                 userModel: this,
                 noHttpContext: noHttpContext);
@@ -4334,16 +4359,9 @@ namespace Implem.Pleasanter.Models
             SetFormsAuthentication(
                 context: context,
                 createPersistentCookie: createPersistentCookie);
-            return new UsersResponseCollection(
-                context: context,
-                userModel: this)
-                    .CloseDialog(_using: atLogin)
-                    .Message(
-                        message: Messages.LoginIn(context: context),
-                        target: "#LoginMessage")
-                    .Href(loginAfterUrl.IsNullOrEmpty()
-                        ? Locations.Top(context: context)
-                        : loginAfterUrl).ToJson();
+            return loginAfterUrl.IsNullOrEmpty()
+                ? Locations.Top(context: context)
+                : loginAfterUrl;
         }
 
         /// <summary>

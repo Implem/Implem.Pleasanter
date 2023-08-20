@@ -33,9 +33,21 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             if (value.ToOADate() == 0) return value;
             var timeZoneInfo = context.TimeZoneInfo;
-            return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
-                ? TimeZoneInfo.ConvertTime(value, timeZoneInfo)
-                : value;
+            if (timeZoneInfo == null || timeZoneInfo.Id == TimeZoneInfo.Local.Id) return value;
+            try
+            {
+                return TimeZoneInfo.ConvertTime(
+                    value,
+                    timeZoneInfo);
+            }
+            catch (ArgumentException)
+            {
+                return TimeZoneInfo.ConvertTime(
+                    DateTime.SpecifyKind(
+                        value.Add(-TimeZoneInfo.Local.BaseUtcOffset),
+                        DateTimeKind.Utc),
+                    timeZoneInfo);
+            }
         }
 
         public static string ToLocal(this DateTime value, Context context, string format)
@@ -47,9 +59,23 @@ namespace Implem.Pleasanter.Libraries.Server
         {
             if (value.ToOADate() == 0) return value;
             var timeZoneInfo = context.TimeZoneInfo;
-            return timeZoneInfo != null && timeZoneInfo.Id != TimeZoneInfo.Local.Id
-                ? TimeZoneInfo.ConvertTime(value, timeZoneInfo, TimeZoneInfo.Local)
-                : value;
+            if (timeZoneInfo == null || timeZoneInfo.Id == TimeZoneInfo.Local.Id) return value;
+            try
+            {
+                return TimeZoneInfo.ConvertTime(
+                    value,
+                    timeZoneInfo,
+                    TimeZoneInfo.Local);
+            }
+            catch (ArgumentException)
+            {
+                return TimeZoneInfo.ConvertTime(
+                    DateTime.SpecifyKind(
+                        value.Add(-timeZoneInfo.BaseUtcOffset),
+                        DateTimeKind.Utc),
+                    TimeZoneInfo.Utc,
+                    TimeZoneInfo.Local);
+            }
         }
 
         public static double DateDiff(Types interval, DateTime from, DateTime to)

@@ -405,7 +405,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
                             action: action,
-                            labelIcon: labelIcon);
+                            labelIcon: labelIcon,
+                            useFilterButton: ss.UseFilterButton);
                     }
                     else
                     {
@@ -433,7 +434,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
                             action: action,
-                            labelIcon: labelIcon);
+                            labelIcon: labelIcon,
+                            useFilterButton: ss.UseFilterButton);
                     }
                     else
                     {
@@ -495,7 +497,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             idPrefix: idPrefix,
                             controlOnly: controlOnly,
                             action: action,
-                            labelIcon: labelIcon);
+                            labelIcon: labelIcon,
+                            useFilterButton: ss.UseFilterButton);
                     }
                     else
                     {
@@ -621,7 +624,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string idPrefix = "ViewFilters__",
             string action = null,
             string labelIcon = null,
-            bool controlOnly = false)
+            bool controlOnly = false,
+            bool? useFilterButton = false)
         {
             var selectedValue = view.ColumnFilter(column.ColumnName);
             if (column.UseSearch == true
@@ -660,7 +664,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 fieldId: idPrefix + column.ColumnName + "Field",
                 controlId: idPrefix + column.ColumnName,
                 fieldCss: "field-auto-thin",
-                controlCss: (ss.UseFilterButton != true
+                controlCss: (useFilterButton != true
                     ? " auto-postback"
                     : string.Empty)
                         + (column.UseSearch == true

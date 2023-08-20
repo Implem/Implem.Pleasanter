@@ -388,6 +388,8 @@ namespace Implem.Pleasanter.Libraries.Search
                     if (dataRow != null)
                     {
                         var href = string.Empty;
+                        var highlightSplitedTitles = dataRow.String("Title").Split(text);
+                        var highlightSplitedBodys = dataRow.String("Body").Split(text);
                         switch (referenceType)
                         {
                             case "Sites":
@@ -414,11 +416,32 @@ namespace Implem.Pleasanter.Libraries.Search
                                         SiteId = dataRow.Long("SiteId")
                                     })
                                 .H(number: 3, action: () => hb
-                                     .A(
+                                    .A(
                                          href: href,
-                                         text: dataRow.String("Title")))
-                                .P(action: () => hb
-                                    .Text(text: dataRow.String("Body"))));
+                                         action: () =>
+                                             highlightSplitedTitles.ForEach(highlightSplitedTitle =>
+                                             {
+                                                 if(highlightSplitedTitle != highlightSplitedTitles[0])
+                                                 {
+                                                     hb.Span(
+                                                         css: "highlight",
+                                                         action: () => hb
+                                                             .Text(text));
+                                                 }
+                                                 hb.Text(highlightSplitedTitle);
+                                             })))
+                                .P(action: () => 
+                                    highlightSplitedBodys.ForEach(highlightSplitedBody =>
+                                    {
+                                        if (highlightSplitedBody != highlightSplitedBodys[0])
+                                        {
+                                            hb.Span(
+                                                css: "highlight",
+                                                action: () => hb
+                                                    .Text(text));
+                                        }
+                                        hb.Text(highlightSplitedBody);
+                                    })));
                     }
                 });
             }

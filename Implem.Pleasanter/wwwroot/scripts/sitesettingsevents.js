@@ -172,6 +172,18 @@
                 .find('input');
         }
     });
+    $(document).on('change', '#HtmlAll', function () {
+        if ($('#HtmlAll').prop('checked')) {
+            $('.output-destination-html')
+                .addClass('hidden')
+                .find('input')
+                .prop('checked', false);
+        } else {
+            $('.output-destination-html')
+                .removeClass('hidden')
+                .find('input');
+        }
+    });
     $(document).on('change', '#DateFilterSetMode', function () {
         if ($('#DateFilterSetMode').val() === '1') {
             $('#FilterColumnSettingField').removeClass('hidden');

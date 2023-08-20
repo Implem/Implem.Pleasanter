@@ -3037,7 +3037,8 @@ namespace Implem.Pleasanter.Models
                     formData: formData);
                 SetByLookups(
                     context: context,
-                    ss: ss);
+                    ss: ss,
+                    formData: formData);
             });
         }
 
@@ -3082,9 +3083,13 @@ namespace Implem.Pleasanter.Models
                         ?.Select(lookup => ss.GetColumn(
                             context: context,
                             columnName: lookup.To))
-                        .Where(column => column?.BlankValue(value: SavedPropertyValue(
-                            context: context,
-                            column: column)) == true)
+                        .Where(column => column?.BlankValue(value: AccessStatus == Databases.AccessStatuses.Selected
+                            ? SavedPropertyValue(
+                                context: context,
+                                column: column)
+                            : PropertyValue(
+                                context: context,
+                                column: column)) == true)
                         .Select(column => column.ColumnName)
                         .ToList(),
                     copyByDefaultOnly: copyByDefaultOnly))

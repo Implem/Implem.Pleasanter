@@ -2922,6 +2922,42 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "MoveUpHtmls":
+                case "MoveDownHtmls":
+                    SetHtmlsOrder(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "NewHtml":
+                case "EditHtml":
+                    OpenHtmlDialog(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "AddHtml":
+                    AddHtml(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "UpdateHtml":
+                    UpdateHtml(
+                        context: context,
+                        res: res,
+                        controlId: controlId);
+                    break;
+                case "CopyHtmls":
+                    CopyHtmls(
+                        context: context,
+                        res: res);
+                    break;
+                case "DeleteHtmls":
+                    DeleteHtmls(
+                        context: context,
+                        res: res);
+                    break;
                 case "MoveUpServerScripts":
                 case "MoveDownServerScripts":
                     SetServerScriptsOrder(
@@ -6847,6 +6883,174 @@ namespace Implem.Pleasanter.Models
                 SiteSettings.Scripts.Delete(selected);
                 res.ReplaceAll("#EditScript", new HtmlBuilder()
                     .EditScript(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void SetHtmlsOrder(Context context, ResponseCollection res, string controlId)
+        {
+            var selected = context.Forms.IntList("EditHtml");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Htmls.MoveUpOrDown(
+                    ColumnUtilities.ChangeCommand(controlId), selected);
+                res.Html("#EditHtml", new HtmlBuilder()
+                    .EditHtml(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenHtmlDialog(Context context, ResponseCollection res, string controlId)
+        {
+            if (controlId == "NewHtml")
+            {
+                var html = new Html() { All = true };
+                OpenHtmlDialog(
+                    context: context,
+                    res: res,
+                    html: html);
+            }
+            else
+            {
+                var html = SiteSettings.Htmls?.Get(context.Forms.Int("HtmlId"));
+                if (html == null)
+                {
+                    OpenDialogError(
+                        res: res,
+                        message: Messages.SelectOne(context: context));
+                }
+                else
+                {
+                    SiteSettingsUtilities.Get(
+                        context: context, siteModel: this, referenceId: SiteId);
+                    OpenHtmlDialog(
+                        context: context,
+                        res: res,
+                        html: html);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void OpenHtmlDialog(Context context, ResponseCollection res, Html html)
+        {
+            res.Html("#HtmlDialog", SiteUtilities.HtmlDialog(
+                context: context,
+                ss: SiteSettings,
+                controlId: context.Forms.ControlId(),
+                html: html));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void AddHtml(Context context, ResponseCollection res, string controlId)
+        {
+            SiteSettings.Htmls.Add(new Html(
+                id: SiteSettings.Htmls.MaxOrDefault(o => o.Id) + 1,
+                title: context.Forms.Data("HtmlTitle"),
+                positionType: context.Forms.Data("HtmlPositionType").ToEnum<Html.PositionTypes>(),
+                all: context.Forms.Bool("HtmlAll"),
+                _new: context.Forms.Bool("HtmlNew"),
+                edit: context.Forms.Bool("HtmlEdit"),
+                index: context.Forms.Bool("HtmlIndex"),
+                calendar: context.Forms.Bool("HtmlCalendar"),
+                crosstab: context.Forms.Bool("HtmlCrosstab"),
+                gantt: context.Forms.Bool("HtmlGantt"),
+                burnDown: context.Forms.Bool("HtmlBurnDown"),
+                timeSeries: context.Forms.Bool("HtmlTimeSeries"),
+                kamban: context.Forms.Bool("HtmlKamban"),
+                imageLib: context.Forms.Bool("HtmlImageLib"),
+                disabled: context.Forms.Bool("HtmlDisabled"),
+                body: context.Forms.Data("HtmlBody")));
+            res
+                .ReplaceAll("#EditHtml", new HtmlBuilder()
+                    .EditHtml(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void UpdateHtml(Context context, ResponseCollection res, string controlId)
+        {
+            SiteSettings.Htmls?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("HtmlId"))?
+                .Update(
+                    title: context.Forms.Data("HtmlTitle"),
+                    positionType: context.Forms.Data("HtmlPositionType").ToEnum<Html.PositionTypes>(),
+                    all: context.Forms.Bool("HtmlAll"),
+                    _new: context.Forms.Bool("HtmlNew"),
+                    edit: context.Forms.Bool("HtmlEdit"),
+                    index: context.Forms.Bool("HtmlIndex"),
+                    calendar: context.Forms.Bool("HtmlCalendar"),
+                    crosstab: context.Forms.Bool("HtmlCrosstab"),
+                    gantt: context.Forms.Bool("HtmlGantt"),
+                    burnDown: context.Forms.Bool("HtmlBurnDown"),
+                    timeSeries: context.Forms.Bool("HtmlTimeSeries"),
+                    kamban: context.Forms.Bool("HtmlKamban"),
+                    imageLib: context.Forms.Bool("HtmlImageLib"),
+                    disabled: context.Forms.Bool("HtmlDisabled"),
+                    body: context.Forms.Data("HtmlBody"));
+            res
+                .Html("#EditHtml", new HtmlBuilder()
+                    .EditHtml(
+                        context: context,
+                        ss: SiteSettings))
+                .CloseDialog();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void CopyHtmls(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditHtml");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Htmls.Copy(selected);
+                res.ReplaceAll("#EditHtml", new HtmlBuilder()
+                    .EditHtml(
+                        context: context,
+                        ss: SiteSettings));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void DeleteHtmls(Context context, ResponseCollection res)
+        {
+            var selected = context.Forms.IntList("EditHtml");
+            if (selected?.Any() != true)
+            {
+                res.Message(Messages.SelectTargets(context: context)).ToJson();
+            }
+            else
+            {
+                SiteSettings.Htmls.Delete(selected);
+                res.ReplaceAll("#EditHtml", new HtmlBuilder()
+                    .EditHtml(
                         context: context,
                         ss: SiteSettings));
             }
