@@ -464,12 +464,14 @@ namespace Implem.Pleasanter.NetCore
         {
             if (AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"] == null)
             {
-                CookieOptions cookieOptions = new CookieOptions();
-                cookieOptions.Expires = DateTime.UtcNow.AddDays(400);
+                // Google ChromeにおけるCookie有効期限の上限400日を設定する
                 AspNetCoreHttpContext.Current?.Response.Cookies.Append(
                     "ClientId",
                     Strings.NewGuid(),
-                    cookieOptions);
+                    new CookieOptions()
+                    {
+                        Expires = DateTime.UtcNow.AddDays(400)
+                    });
             }
         }
 
