@@ -17,11 +17,11 @@ function margeTime(date, dateTime) {
 if ($('#CalendarType').val() == "FullCalendar") {
     const getEventsDatas = function (info, successCallback, failureCallback) {
         //alert("とおった！！！！！！！！！！！！！！");
-        //alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
+        alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
         //hidden項目: CalendarStart,CalendarEndにレコードの取得範囲を設定
         $p.set($('#CalendarStart'), info.start.toLocaleDateString());
         $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
-
+        $('#FullCalendarBody').attr('data-action', 'calendar');
         //items/{siteId}/calendarにPost
         let $control = $('#FullCalendarBody');
 
@@ -54,6 +54,8 @@ if ($('#CalendarType').val() == "FullCalendar") {
     }
     const getEventsData = function (info, successCallback, failureCallback) {
         console.log(info.start.valueOf() + "あああ" + info.end.valueOf());
+        $('#CalendarStart').val(info.start.toLocaleDateString());
+        $('#CalendarEnd').val(info.end.toLocaleDateString());
         //alert("CalendarStart= " + margeTime(info.start) + " CalendarEnd= " + margeTime(info.end));
         var data = {
             'id': $p.siteId,
@@ -132,6 +134,10 @@ if ($('#CalendarType').val() == "FullCalendar") {
 
         form.submit();
     }
+    const Data = function () {
+        let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
+        return eventData;
+    }
     const updateRecord = function (info) {
         var data = $p.getData($('.main-form'));
         var fromTo = $('#CalendarFromTo').val().split('-');
@@ -140,7 +146,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
         data[prefix + fromTo[0]] = info.event.start.toLocaleString();
         data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         $p.saveScroll();
-        $p.send($('#FullCalendarUpdate'));
+        $p.send($('#FullCalendarBody'));
     }
     $p.setCalendar = function () {
         $('#FullCalendar').css('clear', 'both');
