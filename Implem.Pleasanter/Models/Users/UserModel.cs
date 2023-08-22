@@ -4329,6 +4329,7 @@ namespace Implem.Pleasanter.Models
             bool createPersistentCookie = false,
             bool noHttpContext = false)
         {
+            context.LoginId = this.LoginId;
             string loginAfterUrl = AllowAfterUrl(
                 context: context,
                 returnUrl: returnUrl,
@@ -4344,6 +4345,9 @@ namespace Implem.Pleasanter.Models
                     .Href(loginAfterUrl).ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string AllowAfterUrl(
             Context context,
             string returnUrl,

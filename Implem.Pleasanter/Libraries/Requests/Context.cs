@@ -453,7 +453,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                LoginId = userModel.LoginId;
                 SwitchUser = SessionData.Get("SwitchLoginId") != null;
                 Authenticated = true;
                 TenantId = userModel.TenantId;

@@ -1,33 +1,33 @@
 ﻿{
-    "Id": "Script",
+    "Id": "HtmlPositionType",
     "Type": 110,
     "Languages": [
         {
-            "Body": "Script"
+            "Body": "Insertion potision"
         },
         {
             "Language": "zh",
-            "Body": "脚本"
+            "Body": "插入位置"
         },
         {
             "Language": "ja",
-            "Body": "スクリプト"
+            "Body": "挿入位置"
         },
         {
             "Language": "de",
-            "Body": "Skript"
+            "Body": "Einfügeposition"
         },
         {
             "Language": "ko",
-            "Body": "스크립트"
+            "Body": "삽입 위치"
         },
         {
             "Language": "es",
-            "Body": "Guion"
+            "Body": "Posición de inserción"
         },
         {
             "Language": "vn",
-            "Body": "Bản thảo"
+            "Body": "vị trí chèn"
         }
     ]
 }
