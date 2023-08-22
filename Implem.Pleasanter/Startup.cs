@@ -418,7 +418,7 @@ namespace Implem.Pleasanter.NetCore
 
         public async Task Invoke(HttpContext httpContext)
         {
-            const string enabled = "Enabled";            
+            const string enabled = "Enabled";
             if (!httpContext.Session.Keys.Any(key => key == enabled))
             {
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
