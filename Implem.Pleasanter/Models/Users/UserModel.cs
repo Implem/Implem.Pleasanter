@@ -1,5 +1,4 @@
-﻿using AspNetCoreCurrentRequestContext;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -16,7 +15,6 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
-using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -4413,24 +4411,13 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.SysLog.LoginSuccess || Parameters.SysLog.ClientId)
             {
-                var loginId = Parameters.SysLog.LoginSuccess
-                    ? LoginId
-                    : null;
-                bool? success = Parameters.SysLog.LoginSuccess
-                    ? true
-                    : null;
-                var clientId = Parameters.SysLog.ClientId
-                    ? AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"]
-                    : null;
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
-                    message: new
-                    {
-                        LoginId = loginId,
-                        Success = success,
-                        ClientId = clientId
-                    }.ToJson());
+                    message: LoginMessage(
+                        success: Parameters.SysLog.LoginSuccess
+                            ? true
+                            : null));
             }
         }
 
@@ -4441,28 +4428,29 @@ namespace Implem.Pleasanter.Models
         {
             if (Parameters.SysLog.LoginFailure || Parameters.SysLog.ClientId)
             {
-                var loginId = Parameters.SysLog.LoginFailure
-                    ? LoginId
-                    : null;
-                bool? success = Parameters.SysLog.LoginFailure
-                    ? false
-                    : null;
-                var clientId = Parameters.SysLog.ClientId
-                    ? AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"]
-                    : null;
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
-                    sysLogsStatus: 401,
-                    sysLogsDescription: $"{Debugs.GetSysLogsDescription()}:{Messages.Authentication(context: context).Text}",
-                    message: new
-                    {
-                        LoginId = loginId,
-                        Success = success,
-                        ClientId = clientId
-                    }.ToJson(),
-                    sysLogType: SysLogModel.SysLogTypes.UserError);
+                    message: LoginMessage(
+                        success: Parameters.SysLog.LoginFailure
+                            ? false
+                            : null));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string LoginMessage(bool? success)
+        {
+            return new
+            {
+                LoginId = success != null ? LoginId : null,
+                Success = success,
+                ClientId = Parameters.SysLog.ClientId
+                    ? AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"]
+                    : null
+            }.ToJson();
         }
 
         /// <summary>

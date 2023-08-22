@@ -1,5 +1,4 @@
-﻿using AspNetCoreCurrentRequestContext;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
@@ -53,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.Security
                     ? context.LoginId
                     : null;
                 var clientId = Parameters.SysLog.ClientId
-                    ? AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"]
+                    ? AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"]
                     : null;
                 new SysLogModel(
                     context: context,

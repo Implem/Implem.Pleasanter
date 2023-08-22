@@ -1,5 +1,4 @@
-﻿using AspNetCoreCurrentRequestContext;
-using Azure.Identity;
+﻿using Azure.Identity;
 using Azure.Storage.Blobs;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
@@ -462,15 +461,17 @@ namespace Implem.Pleasanter.NetCore
 
         private static void SetClientId()
         {
-            if (AspNetCoreHttpContext.Current?.Request.Cookies["ClientId"] == null)
+            if (Parameters.SysLog.ClientId &&
+                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"] == null)
             {
                 // Google ChromeにおけるCookie有効期限の上限400日を設定する
-                AspNetCoreHttpContext.Current?.Response.Cookies.Append(
-                    "ClientId",
+                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Response.Cookies.Append(
+                    "Pleasanter_ClientId",
                     Strings.NewGuid(),
                     new CookieOptions()
                     {
-                        Expires = DateTime.UtcNow.AddDays(400)
+                        Expires = DateTime.UtcNow.AddDays(400),
+                        Secure= true
                     });
             }
         }
