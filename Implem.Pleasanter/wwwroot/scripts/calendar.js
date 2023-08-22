@@ -17,11 +17,9 @@ function margeTime(date, dateTime) {
 if ($('#CalendarType').val() == "FullCalendar") {
     const getEventsDatas = function (info) {
         //hidden項目: CalendarStart,CalendarEndにレコードの取得範囲を設定
-        $p.set($('#CalendarStart'), margeTime(info.start));
-        $p.set($('#CalendarEnd'), margeTime(info.end));
-        //alert("CalendarStart= " + margeTime(info.start) + " CalendarEnd= " + margeTime(info.end));
-        //$p.set($('#CalendarStart'), info.start.valueOf());
-        //$p.set($('#CalendarEnd'), info.end.valueOf());
+        $p.set($('#CalendarStart'), info.start.toLocaleDateString());
+        $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
+        //alert("CalendarStart= " + info.start.toLocaleDateString() + " CalendarEnd= " + info.end.toLocaleDateString());
 
         //items/{siteId}/calendarにPost
         let $control = $('#CalendarDate');
