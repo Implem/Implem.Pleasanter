@@ -15,24 +15,51 @@ function margeTime(date, dateTime) {
 }
 
 if ($('#CalendarType').val() == "FullCalendar") {
-    const getEventsDatas = function (info) {
+    const getEventsDatas = function (info, successCallback, failureCallback) {
+        alert("とおった！！！！！！！！！！！！！！");
+        alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
         //hidden項目: CalendarStart,CalendarEndにレコードの取得範囲を設定
         $p.set($('#CalendarStart'), info.start.toLocaleDateString());
         $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
         //alert("CalendarStart= " + info.start.toLocaleDateString() + " CalendarEnd= " + info.end.toLocaleDateString());
 
         //items/{siteId}/calendarにPost
-        let $control = $('#CalendarDate');
+        let $control = $('#FullCalendarBody');
         //alert($control);
 
         $p.send($control, undefined, false);　//...※1
+        let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
+        successCallback(
+            eventData.map((item) => {
+                console.log(item);
+                if (item.StatusHtml) {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        start: item.start,
+                        end: item.end,
+                        StatusHtml: item.StatusHtml
+                    }
+                }
+                else {
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        start: item.start,
+                        end: item.end,
+                    }
+                }
+
+            }))
+        //$controlの動きを追う(url指定はたぶんできてる) CalendarStartとEndの指定を忘れてC#で取り出そうとしてたからもう一度試してみる
+
         //CalendarJsonからレコード情報を取得してreturn
-        let eventData = JSON.parse($('#CalendarJson').val());
-        return eventData[0]['items'];
+        //let eventData = JSON.parse($('#CalendarJson').val());
+        //return eventData[0]['items'];
     }
     const getEventsData = function (info, successCallback, failureCallback) {
         console.log(info.start.valueOf() + "あああ" + info.end.valueOf());
-        alert("CalendarStart= " + margeTime(info.start) + " CalendarEnd= " + margeTime(info.end));
+        //alert("CalendarStart= " + margeTime(info.start) + " CalendarEnd= " + margeTime(info.end));
         var data = {
             'id': $p.siteId,
             'View': {
@@ -52,6 +79,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
         }).done(function (data) {
             var eventData = JSON.parse($(data[1]['Value']).find('#CalendarJson')[0].defaultValue)[0].items;
             //console.log(eventData);
+
             successCallback(
                 eventData.map((item) => {
                     console.log(item);
