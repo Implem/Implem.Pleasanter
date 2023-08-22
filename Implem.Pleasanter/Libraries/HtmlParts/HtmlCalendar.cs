@@ -125,15 +125,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             changedItemId: changedItemId)));
             } else {
                 return hb.Div(id: "Calendar", css: "both", action: () => hb
-                //.FieldDropDown(
-                //    context: context,
-                //    controlId: "CalendarTimePeriod",
-                //    fieldCss: "field-auto-thin",
-                //    controlCss: " auto-postback",
-                //    labelText: Displays.Period(context: context),
-                //    optionCollection: ss.CalendarTimePeriodOptions(context: context),
-                //    selectedValue: timePeriod,
-                //    method: "post")
+
+                .Hidden(
+                    controlId: "CalendarTimePeriod",
+                    value: timePeriod)
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarFromTo",
@@ -276,8 +271,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return inRange
                     ? hb
                         .Hidden(
-                            controlId: "CalendarTimePeriod",
-                            value: timePeriod)
+                            controlId: "CalendarStart",
+                            value: begin.ToString()
+                        )
+                        .Hidden(
+                            controlId: "CalendarEnd",
+                            value: begin.ToString()
+                        )
                         .Hidden(
                             controlId: "CalendarJson",
                             value: choices == null
