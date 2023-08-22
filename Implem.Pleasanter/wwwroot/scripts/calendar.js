@@ -16,22 +16,21 @@ function margeTime(date, dateTime) {
 
 if ($('#CalendarType').val() == "FullCalendar") {
     const getEventsDatas = function (info, successCallback, failureCallback) {
-        alert("とおった！！！！！！！！！！！！！！");
-        alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
+        //alert("とおった！！！！！！！！！！！！！！");
+        //alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
         //hidden項目: CalendarStart,CalendarEndにレコードの取得範囲を設定
         $p.set($('#CalendarStart'), info.start.toLocaleDateString());
         $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
-        //alert("CalendarStart= " + info.start.toLocaleDateString() + " CalendarEnd= " + info.end.toLocaleDateString());
 
         //items/{siteId}/calendarにPost
         let $control = $('#FullCalendarBody');
-        //alert($control);
 
         $p.send($control, undefined, false);　//...※1
         let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
+        //alert("send後");
         successCallback(
             eventData.map((item) => {
-                console.log(item);
+                //console.log(item);
                 if (item.StatusHtml) {
                     return {
                         id: item.id,
@@ -51,11 +50,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                 }
 
             }))
-        //$controlの動きを追う(url指定はたぶんできてる) CalendarStartとEndの指定を忘れてC#で取り出そうとしてたからもう一度試してみる
 
-        //CalendarJsonからレコード情報を取得してreturn
-        //let eventData = JSON.parse($('#CalendarJson').val());
-        //return eventData[0]['items'];
     }
     const getEventsData = function (info, successCallback, failureCallback) {
         console.log(info.start.valueOf() + "あああ" + info.end.valueOf());
@@ -82,7 +77,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
 
             successCallback(
                 eventData.map((item) => {
-                    console.log(item);
+                    //console.log(item);
                     if (item.StatusHtml) {
                         return {
                             id: item.id,
@@ -124,10 +119,10 @@ if ($('#CalendarType').val() == "FullCalendar") {
         end.setAttribute("value", info.end.toLocaleString());
         form.appendChild(end);
         var fromTo = $('#CalendarFromTo').val().split('-');
-        alert(fromTo);
+        //alert(fromTo);
         //console.log(typeof fromTo);
         if (!fromTo[1]) {
-            alert("開始-完了以外");
+            //alert("開始-完了以外");
             var from = document.createElement("input");
             from.setAttribute("type", "hidden");
             from.setAttribute("name", "Issues_" + fromTo);
@@ -145,7 +140,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
         data[prefix + fromTo[0]] = info.event.start.toLocaleString();
         data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         $p.saveScroll();
-        $p.send($('#FullCalendarBody'));
+        $p.send($('#FullCalendarUpdate'));
     }
     $p.setCalendar = function () {
         $('#FullCalendar').css('clear', 'both');
@@ -186,7 +181,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
             //},
             eventContent: function (info) {
                 //alert('eventContent');
-                console.log(info);
+                //console.log(info);
                 //var innerText
 
                 //if (arg.event.extendedProps.isUrgent) {
