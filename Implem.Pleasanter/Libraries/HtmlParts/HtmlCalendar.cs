@@ -158,26 +158,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id("FullCalendarBody")
-                        .DataAction("calendar")
-                        .DataMethod("post"),
-                    action: () => hb
-                        .CalendarBody(
-                            context: context,
-                            ss: ss,
-                            timePeriod: timePeriod,
-                            groupBy: groupBy,
-                            fromColumn: fromColumn,
-                            toColumn: toColumn,
-                            date: date,
-                            begin: begin,
-                            choices: choices,
-                            dataRows: dataRows,
-                            showStatus: showStatus,
-                            inRange: inRange,
-                            changedItemId: changedItemId))
-                .Div(
-                    attributes: new HtmlAttributes()
-                        .Id("FullCalendarUpdate")
                         .DataAction("UpdateByCalendar")
                         .DataMethod("post"),
                     action: () => hb
