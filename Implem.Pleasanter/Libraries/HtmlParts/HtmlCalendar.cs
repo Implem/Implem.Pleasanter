@@ -157,6 +157,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     method: "post")
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("FullCalendar")
+                    )
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("FullCalendarBody")
                         .DataAction("UpdateByCalendar")
                         .DataMethod("post"),
@@ -268,11 +272,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? hb
                         .Hidden(
                             controlId: "CalendarStart",
-                            value: ""
+                            value: context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToString() : ""
                         )
                         .Hidden(
                             controlId: "CalendarEnd",
-                            value: ""
+                            value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : ""
+
+                        )
+                        .Hidden(
+                            controlId:"IsInit",
+                            value: "True"
                         )
                         .Hidden(
                             controlId: "CalendarJson",
@@ -294,10 +303,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     dataRows: dataRows,
                                     changedItemId: changedItemId,
                                     showStatus: showStatus))
-                        .Div(
-                            attributes: new HtmlAttributes()
-                                .Id("FullCalendar")
-                        )
+                        
                     : hb;
             }
           

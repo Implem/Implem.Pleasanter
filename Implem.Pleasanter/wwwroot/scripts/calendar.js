@@ -16,40 +16,45 @@ function margeTime(date, dateTime) {
 
 if ($('#CalendarType').val() == "FullCalendar") {
     const getEventsDatas = function (info, successCallback, failureCallback) {
-        //alert("とおった！！！！！！！！！！！！！！");
-        alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
-        //hidden項目: CalendarStart,CalendarEndにレコードの取得範囲を設定
-        $p.set($('#CalendarStart'), info.start.toLocaleDateString());
-        $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
-        $('#FullCalendarBody').attr('data-action', 'calendar');
-        //items/{siteId}/calendarにPost
-        let $control = $('#FullCalendarBody');
-
-        $p.send($control, undefined, false);　//...※1
-        let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
-        //alert("send後");
-        successCallback(
-            eventData.map((item) => {
-                //console.log(item);
-                if (item.StatusHtml) {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        start: item.start,
-                        end: item.end,
-                        StatusHtml: item.StatusHtml
+        if ($('#IsInit').val() !== 'True') {
+            //alert("とおった！！！！！！！！！！！！！！");
+            alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
+            //hidden項目: CalendarStart,CalendarEndにレコードの取得範囲を設定
+            $p.set($('#CalendarStart'), info.start.toLocaleDateString());
+            $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
+            //$p.set($('#CalendarDate'), new Date((info.start.getTime() + info.end.getTime()) / 2).toLocaleDateString());
+            $('#FullCalendarBody').attr('data-action', 'calendar');
+            //items/{siteId}/calendarにPost
+            let $control = $('#FullCalendarBody');
+            $p.send($control, undefined, false);　//...※1
+        } else {
+            $('#IsInit').val('False');
+            let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
+            //alert("send後");
+            successCallback(
+                eventData.map((item) => {
+                    //console.log(item);
+                    if (item.StatusHtml) {
+                        return {
+                            id: item.id,
+                            title: item.title,
+                            start: item.start,
+                            end: item.end,
+                            StatusHtml: item.StatusHtml
+                        }
                     }
-                }
-                else {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        start: item.start,
-                        end: item.end,
+                    else {
+                        return {
+                            id: item.id,
+                            title: item.title,
+                            start: item.start,
+                            end: item.end,
+                        }
                     }
-                }
 
-            }))
+                }))
+
+        }
 
     }
     const getEventsData = function (info, successCallback, failureCallback) {
@@ -148,16 +153,26 @@ if ($('#CalendarType').val() == "FullCalendar") {
         $p.saveScroll();
         $p.send($('#FullCalendarBody'));
     }
+
     $p.setCalendar = function () {
+        //alert($('#IsAjax').val());
+        //if ($('#IsAjax').val() == 'True') {            
+        //    return;
+        //}
+
         $('#FullCalendar').css('clear', 'both');
         var calendarEl = document.getElementById('FullCalendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        let calendarMiddle = new Date();
+        if ($("#CalendarStart").val() !== '') {
+            calendarMiddle = new Date((new Date($("#CalendarStart").val()).getTime() + new Date($("#CalendarEnd").val()).getTime()) / 2);
+        }
+        $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
-            initialDate: $('#CalendarDate').val().replace(/\//g, '-'),
+            initialDate: calendarMiddle,
             initialView: 'dayGridMonth',
             selectable: true,
             navLinks: true,
@@ -227,7 +242,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
                 }
             },
         });
-        calendar.render();
+        $p.fullCalendar.render();
 
     }
 } else {
