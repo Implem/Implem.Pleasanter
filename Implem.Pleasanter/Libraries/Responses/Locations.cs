@@ -13,14 +13,14 @@ namespace Implem.Pleasanter.Libraries.Responses
         public static string Top(Context context)
         {
             var topUrl = DashboardUrl(context: context)
-                ?? Parameters.Locations.TopUrl;
+                ?? Get(
+                    context: context,
+                    parts: Parameters.Locations.TopUrl);
             return (Permissions.PrivilegedUsers(context.LoginId)
                 && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
                     || topUrl.IsNullOrEmpty()
                         ? Get(context: context)
-                        : Get(
-                            context: context,
-                            parts: topUrl);
+                        : topUrl;
         }
 
         public static string DashboardUrl(Context context)
