@@ -235,7 +235,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Hidden(
                     controlId: "CalendarType",
                     value: ss.CalendarType.ToString());
-
             if (ss.CalendarType.ToString() == "Standard") { 
                 return inRange
                     ? hb
@@ -277,7 +276,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Hidden(
                             controlId: "CalendarEnd",
                             value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : ""
-
+                        )
+                        .Hidden(
+                            controlId: "CalendarViewType",
+                            value: context.Forms.ContainsKey("CalendarViewType") ? context.Forms["CalendarViewType"].ToString() : ""
                         )
                         .Hidden(
                             controlId:"IsInit",
@@ -303,10 +305,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     dataRows: dataRows,
                                     changedItemId: changedItemId,
                                     showStatus: showStatus))
-                        
                     : hb;
             }
-          
         }
 
         private static HtmlBuilder CalendarBodyTable(

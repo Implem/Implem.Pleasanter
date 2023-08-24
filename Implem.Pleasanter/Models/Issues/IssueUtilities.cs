@@ -7031,7 +7031,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 date: date,
                 timePeriod: timePeriod);
-            //var form = context.Forms;
             var dataRows = inRangeY
                 ? CalendarDataRows(
                     context: context,
