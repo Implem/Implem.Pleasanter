@@ -1,0 +1,2 @@
+﻿GRANT USAGE ON SCHEMA "#SchemaName#" TO "#Uid_User#";
+CREATE EXTENSION IF NOT EXISTS pg_trgm;

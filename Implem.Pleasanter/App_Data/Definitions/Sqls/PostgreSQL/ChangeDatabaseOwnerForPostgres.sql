@@ -1,0 +1,1 @@
+﻿ALTER DATABASE "#InitialCatalog#" OWNER TO "#Uid_Owner#";
