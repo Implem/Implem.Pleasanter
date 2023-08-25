@@ -1,2 +1,2 @@
-﻿GRANT USAGE ON SCHEMA "#SchemaName#" TO "#Uid_User#";
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
+﻿grant usage on schema "#SchemaName#" to "#Uid_User#";
+create extension if not exists pg_trgm;

@@ -1,1 +1,1 @@
-﻿ALTER DATABASE "#InitialCatalog#" OWNER TO "#Uid_Owner#";
+﻿alter database "#InitialCatalog#" owner to "#Uid_Owner#";
