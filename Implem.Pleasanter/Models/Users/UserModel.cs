@@ -4925,7 +4925,9 @@ namespace Implem.Pleasanter.Models
             {
                 var dashboardUrl = Locations.DashboardUrl(context: context);
                 return dashboardUrl.IsNullOrEmpty()
-                    ? Parameters.Locations.LoginAfterUrl
+                    ? Locations.Get(
+                        context: context,
+                        parts: Parameters.Locations.LoginAfterUrl)
                     : dashboardUrl;
             }
             return returnUrl;
