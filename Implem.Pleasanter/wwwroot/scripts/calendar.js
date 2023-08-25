@@ -1,65 +1,46 @@
-﻿$p.moveCalendar = function (type) {
-    var $control = $('#CalendarDate');
-    $control.val($('#Calendar' + type).val());
-    $p.setData($control);
-    $p.send($control);
-}
-function margeTime(date, dateTime) {
-    if (dateTime === undefined) dateTime = date;
-    return date.getFullYear() + '/' +
-        (date.getMonth() + 1) + '/' +
-        date.getDate() + ' ' +
-        dateTime.getHours() + ':' +
-        dateTime.getMinutes() + ':' +
-        dateTime.getSeconds();
-}
+﻿$p.setCalendar = function () {
+    if ($('#CalendarType').val() == "FullCalendar") {
+        let calendarView = 'dayGridMonth';
+        const newRecord = function (info) {
+            var form = document.createElement("form");
+            form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
+            form.setAttribute("method", "post");
+            form.style.display = "none";
+            document.body.appendChild(form);
+            var start = document.createElement("input");
+            start.setAttribute("type", "hidden");
+            start.setAttribute("name", "Issues_StartTime");
+            start.setAttribute("value", info.start.toLocaleString());
+            form.appendChild(start);
+            var end = document.createElement("input");
+            end.setAttribute("type", "hidden");
+            end.setAttribute("name", "Issues_CompletionTime");
+            end.setAttribute("value", info.end.toLocaleString());
+            form.appendChild(end);
+            var fromTo = $('#CalendarFromTo').val().split('-');
+            //alert(fromTo);
+            //console.log(typeof fromTo);
+            if (!fromTo[1]) {
+                //alert("開始-完了以外");
+                var from = document.createElement("input");
+                from.setAttribute("type", "hidden");
+                from.setAttribute("name", "Issues_" + fromTo);
+                from.setAttribute("value", info.end.toLocaleString());
+                form.appendChild(from);
+            }
 
-if ($('#CalendarType').val() == "FullCalendar") {
-
-    let calendarView = 'dayGridMonth';
-    const newRecord = function (info) {
-        var form = document.createElement("form");
-        form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
-        form.setAttribute("method", "post");
-        form.style.display = "none";
-        document.body.appendChild(form);
-        var start = document.createElement("input");
-        start.setAttribute("type", "hidden");
-        start.setAttribute("name", "Issues_StartTime");
-        start.setAttribute("value", info.start.toLocaleString());
-        form.appendChild(start);
-        var end = document.createElement("input");
-        end.setAttribute("type", "hidden");
-        end.setAttribute("name", "Issues_CompletionTime");
-        end.setAttribute("value", info.end.toLocaleString());
-        form.appendChild(end);
-        var fromTo = $('#CalendarFromTo').val().split('-');
-        //alert(fromTo);
-        //console.log(typeof fromTo);
-        if (!fromTo[1]) {
-            //alert("開始-完了以外");
-            var from = document.createElement("input");
-            from.setAttribute("type", "hidden");
-            from.setAttribute("name", "Issues_" + fromTo);
-            from.setAttribute("value", info.end.toLocaleString());
-            form.appendChild(from);
+            form.submit();
         }
-
-        form.submit();
-    }
-    const updateRecord = function (info) {
-        var data = $p.getData($('.main-form'));
-        var fromTo = $('#CalendarFromTo').val().split('-');
-        var prefix = $('#TableName').val() + '_';
-        data.Id = info.event.id;
-        data[prefix + fromTo[0]] = info.event.start.toLocaleString();
-        data[prefix + fromTo[1]] = info.event.end.toLocaleString();
-        $p.saveScroll();
-        $p.send($('#FullCalendarBody'));
-    }
-
-    $p.setCalendar = function () {
-
+        const updateRecord = function (info) {
+            var data = $p.getData($('.main-form'));
+            var fromTo = $('#CalendarFromTo').val().split('-');
+            var prefix = $('#TableName').val() + '_';
+            data.Id = info.event.id;
+            data[prefix + fromTo[0]] = info.event.start.toLocaleString();
+            data[prefix + fromTo[1]] = info.event.end.toLocaleString();
+            $p.saveScroll();
+            $p.send($('#FullCalendarBody'));
+        }
         const getEventsDatas = function (info, successCallback, failureCallback) {
             //alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
             if ($('#IsInit').val() !== 'True') {
@@ -128,7 +109,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
             businessHours: true,
             editable: true,
             height: "auto",
-            locale: 'ja',
+            locale: $('#Language').val(),
             selectMirror: true,
             eventClick: (e) => {
                 window.location.href = '/items/' + e.event.id + '/edit';
@@ -160,13 +141,13 @@ if ($('#CalendarType').val() == "FullCalendar") {
                         '</span>';
                     $('.status-new').css('color', 'black');
                     $('.status-new').css('border', 'solid 1px #000');
-                    $("[class^='status-']").css('padding','1px 2px');
+                    $("[class^='status-']").css('padding', '1px 2px');
                     return { html: eventHtml };
 
                 } else {
                     var eventHtml = '<span class="fc-time">' + // 時間表示
                         //'&ensp;' + 
-                     info.timeText + ' ' + info.event.title +
+                        info.timeText + ' ' + info.event.title +
                         '</span>';
                     return { html: eventHtml };
                 }
@@ -174,11 +155,7 @@ if ($('#CalendarType').val() == "FullCalendar") {
             initialView: $('#CalendarViewType').val(),
         });
         $p.fullCalendar.render();
-
-    }
-} else {
-
-    $p.setCalendar = function () {
+    } else {
         $('#Calendar .container > div > div:not(.day)').remove();
         var data = JSON.parse($('#CalendarJson').val());
         data.forEach(function (element) {
@@ -416,5 +393,21 @@ if ($('#CalendarType').val() == "FullCalendar") {
                 .replace(/>/g, "&gt;")
                 .replace(/"/g, "&quot;");
         }
+        $p.moveCalendar = function (type) {
+            var $control = $('#CalendarDate');
+            $control.val($('#Calendar' + type).val());
+            $p.setData($control);
+            $p.send($control);
+        }
+        function margeTime(date, dateTime) {
+            if (dateTime === undefined) dateTime = date;
+            return date.getFullYear() + '/' +
+                (date.getMonth() + 1) + '/' +
+                date.getDate() + ' ' +
+                dateTime.getHours() + ':' +
+                dateTime.getMinutes() + ':' +
+                dateTime.getSeconds();
+        }
     }
+       
 }
