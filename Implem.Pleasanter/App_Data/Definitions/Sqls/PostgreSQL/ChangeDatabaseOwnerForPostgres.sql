@@ -1,0 +1,1 @@
+﻿alter database "#InitialCatalog#" owner to "#Uid_Owner#";

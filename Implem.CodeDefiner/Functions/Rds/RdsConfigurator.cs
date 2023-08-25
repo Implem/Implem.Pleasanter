@@ -12,6 +12,10 @@ namespace Implem.CodeDefiner.Functions.Rds
             {
                 CreateDatabase(factory: factory, databaseName: Environments.ServiceName);
             }
+            else
+            {
+                UpdateDatabase(factory: factory, databaseName: Environments.ServiceName);
+            }
         }
 
         private static void CreateDatabase(ISqlObjectFactory factory, string databaseName)
@@ -41,6 +45,35 @@ namespace Implem.CodeDefiner.Functions.Rds
                 dbTransaction: null,
                 dbConnection: null,
                 commandText: Def.Sql.CreateDatabaseForPostgres
+                    .Replace("#InitialCatalog#", databaseName)
+                    .Replace("#Uid_Owner#", ocn["uid"]));
+        }
+
+        /// <summary>
+        /// DBが既に存在する場合、ユーザーがない場合にはユーザの作成を行う。またDBのオーナ変更を行う。SQLServerではダミーのSQLが実行される。
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="databaseName"></param>
+        private static void UpdateDatabase(ISqlObjectFactory factory, string databaseName)
+        {
+            Consoles.Write(Environments.ServiceName, Consoles.Types.Info);
+            var ocn = new TextData(Parameters.Rds.OwnerConnectionString, ';', '=');
+            var ucn = new TextData(Parameters.Rds.UserConnectionString, ';', '=');
+            Def.SqlIoBySa(factory).ExecuteNonQuery(
+                factory: factory,
+                dbTransaction: null,
+                dbConnection: null,
+                commandText: Def.Sql.CreateUserForPostgres
+                    .Replace("#Uid_Owner#", ocn["uid"])
+                    .Replace("#Pwd_Owner#", ocn["pwd"])
+                    .Replace("#Uid_User#", ucn["uid"])
+                    .Replace("#Pwd_User#", ucn["pwd"])
+                    .Replace("#SchemaName#", factory.SqlDefinitionSetting.SchemaName));
+            Def.SqlIoBySa(factory).ExecuteNonQuery(
+                factory: factory,
+                dbTransaction: null,
+                dbConnection: null,
+                commandText: Def.Sql.ChangeDatabaseOwnerForPostgres
                     .Replace("#InitialCatalog#", databaseName)
                     .Replace("#Uid_Owner#", ocn["uid"]));
         }

@@ -13434,6 +13434,8 @@ namespace Implem.DefinitionAccessor
         public string CreateSchema;
         public string CreateDatabaseForPostgres;
         public string CreateUserForPostgres;
+        public string ChangeDatabaseOwnerForPostgres;
+        public string GrantDatabaseForPostgres;
     }
 
     /// <summary>
@@ -13486,5 +13488,7 @@ namespace Implem.DefinitionAccessor
         public SqlDefinition CreateSchema = new SqlDefinition();
         public SqlDefinition CreateDatabaseForPostgres = new SqlDefinition();
         public SqlDefinition CreateUserForPostgres = new SqlDefinition();
+        public SqlDefinition ChangeDatabaseOwnerForPostgres = new SqlDefinition();
+        public SqlDefinition GrantDatabaseForPostgres = new SqlDefinition();
     }
 }
