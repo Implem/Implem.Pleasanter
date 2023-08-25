@@ -1,6 +1,6 @@
 ﻿$p.setCalendar = function () {
     if ($('#CalendarType').val() == "FullCalendar") {
-        let calendarView = 'dayGridMonth';
+        let calendarMiddle = new Date();
         const newRecord = function (info) {
             var form = document.createElement("form");
             form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
@@ -18,17 +18,18 @@
             end.setAttribute("value", info.end.toLocaleString());
             form.appendChild(end);
             var fromTo = $('#CalendarFromTo').val().split('-');
-            //alert(fromTo);
-            //console.log(typeof fromTo);
-            if (!fromTo[1]) {
-                //alert("開始-完了以外");
+
+            const match = /^Date/;
+            if (fromTo[1]) {
+            } else if (match.test(fromTo)) {
                 var from = document.createElement("input");
                 from.setAttribute("type", "hidden");
                 from.setAttribute("name", "Issues_" + fromTo);
                 from.setAttribute("value", info.end.toLocaleString());
                 form.appendChild(from);
+            } else {
+                return;
             }
-
             form.submit();
         }
         const updateRecord = function (info) {
@@ -66,7 +67,6 @@
 
                 successCallback(
                     eventData.map((item) => {
-                        //console.log(item);
                         if (item.StatusHtml) {
                             return {
                                 id: item.id,
@@ -93,7 +93,7 @@
 
         $('#FullCalendar').css('clear', 'both');
         var calendarEl = document.getElementById('FullCalendar');
-        let calendarMiddle = new Date();
+
         if ($("#CalendarStart").val() !== '') {
             calendarMiddle = new Date((new Date($("#CalendarStart").val()).getTime() + new Date($("#CalendarEnd").val()).getTime()) / 2);
         }
@@ -118,40 +118,40 @@
             events: getEventsDatas,
             eventDrop: updateRecord,
             eventResize: updateRecord,
-            //eventDidMount: function (info) {
-            //    //alert('eventDidMount');
-            //    //console.log(info);
-            //    if (info.event.extendedProps.StatusHtml) {
-            //        //alert("bbb");
-            //        var eventElement = $(info.el).find('.fc-event-time');
-            //        eventElement.before($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
-            //        console.log(eventElement)
-            //        $('.status-new').css('color', 'black');
-            //        $('.status-new').css('border', 'solid 1px #000');
-            //        $("[class^='status']").css('padding','1px 2px');
-            //    }
-            //},
-            eventContent: function (info) {
+            eventDidMount: function (info) {
                 if (info.event.extendedProps.StatusHtml) {
-
-                    var eventHtml = info.event.extendedProps.StatusHtml + // カスタムアイコン
-                        '<span class="fc-time">' + // 時間表示
-                        //'&ensp;' + 
-                        info.timeText + ' ' + info.event.title +
-                        '</span>';
+                    var eventElement = $(info.el).find('.fc-event-time');
+                    eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    console.log(eventElement)
                     $('.status-new').css('color', 'black');
                     $('.status-new').css('border', 'solid 1px #000');
-                    $("[class^='status-']").css('padding', '1px 2px');
-                    return { html: eventHtml };
+                    $("[class^='status']").css('padding', '1px 2px');
+                    $("[class^='status']").css('margin', '0px 2px');
+                    $("[class^='status']").css('width', '16px');
 
-                } else {
-                    var eventHtml = '<span class="fc-time">' + // 時間表示
-                        //'&ensp;' + 
-                        info.timeText + ' ' + info.event.title +
-                        '</span>';
-                    return { html: eventHtml };
                 }
             },
+            //eventContent: function (info) {
+            //    if (info.event.extendedProps.StatusHtml) {
+
+            //        var eventHtml = info.event.extendedProps.StatusHtml + // カスタムアイコン
+            //            '<span class="fc-time">' + // 時間表示
+            //            //'&ensp;' + 
+            //            info.timeText + ' ' + info.event.title +
+            //            '</span>';
+            //        $('.status-new').css('color', 'black');
+            //        $('.status-new').css('border', 'solid 1px #000');
+            //        $("[class^='status-']").css('padding', '1px 2px');
+            //        return { html: eventHtml };
+
+            //    } else {
+            //        var eventHtml = '<span class="fc-time">' + // 時間表示
+            //            //'&ensp;' + 
+            //            info.timeText + ' ' + info.event.title +
+            //            '</span>';
+            //        return { html: eventHtml };
+            //    }
+            //},
             initialView: $('#CalendarViewType').val(),
         });
         $p.fullCalendar.render();
