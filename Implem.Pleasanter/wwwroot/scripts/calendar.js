@@ -1,6 +1,5 @@
 ﻿$p.setCalendar = function () {
     if ($('#CalendarType').val() == "FullCalendar") {
-        let calendarView = 'dayGridMonth';
         const newRecord = function (info) {
             var form = document.createElement("form");
             form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
@@ -25,7 +24,7 @@
                 var from = document.createElement("input");
                 from.setAttribute("type", "hidden");
                 from.setAttribute("name", "Issues_" + fromTo);
-                from.setAttribute("value", info.end.toLocaleString());
+                from.setAttribute("value", info.start.toLocaleString());
                 form.appendChild(from);
             } else {
                 return;
@@ -43,14 +42,15 @@
             $p.send($('#FullCalendarBody'));
         }
         const getEventsDatas = function (info, successCallback, failureCallback) {
-            //alert(info.start.toLocaleDateString() + "," + info.end.toLocaleDateString());
             if ($('#IsInit').val() !== 'True') {
                 $p.set($('#CalendarStart'), info.start.toLocaleDateString());
                 $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
                 $('#FullCalendarBody').attr('data-action', 'calendar');
 
                 let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
-                if (calendarDiff === 7) {
+                if (calendarDiff === 1) {
+                    $p.set($('#CalendarViewType'), 'timeGridDay');
+                }else if (calendarDiff === 7) {
                     $p.set($('#CalendarViewType'), 'timeGridWeek');
                 } else if (calendarDiff < 32) {
                     $p.set($('#CalendarViewType'), 'listMonth');
@@ -59,12 +59,16 @@
                 }
 
                 let $control = $('#FullCalendarBody');
-                $p.send($control, undefined, false);
+                $p.send($control, undefined, true, false, function () { },
+                    function () {
+                    $p.setMessage(
+                        "#Message",
+                        JSON.stringify({ Css: "alert-error", Text: "更新に失敗しました。" })
+                    ); }
+);
             } else {
-
                 $('#IsInit').val('False');
                 let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
-
                 successCallback(
                     eventData.map((item) => {
                         if (item.StatusHtml) {
@@ -84,13 +88,10 @@
                                 end: item.end,
                             }
                         }
-
                     }))
-
             }
 
         }
-
         $('#FullCalendar').css('clear', 'both');
         var calendarEl = document.getElementById('FullCalendar');
         let calendarMiddle = new Date();
@@ -119,8 +120,6 @@
             eventDrop: updateRecord,
             eventResize: updateRecord,
             eventDidMount: function (info) {
-                //alert('eventDidMount');
-                //console.log(info);
                 if (info.event.extendedProps.StatusHtml) {
                     var eventElement = $(info.el).find('.fc-event-time');
                     eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
@@ -133,6 +132,7 @@
             },
 
             initialView: $('#CalendarViewType').val(),
+            lazyFetching: false
         });
         $p.fullCalendar.render();
     } else {
