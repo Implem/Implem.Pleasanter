@@ -137,17 +137,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
                     action: "Calendar",
                     method: "post")
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.DateTime,
-                    fieldCss: "field-auto-thin",
-                    controlId: "CalendarDate",
-                    controlCss: " w100 auto-postback always-send",
-                    labelText: "",
-                    text: date
-                        .ToLocal(context: context)
-                        .ToString(Displays.YmdFormat(context: context)),
-                    format: Displays.YmdDatePickerFormat(context: context),
-                    method: "post")
                 .FieldCheckBox(
                     controlId: "CalendarShowStatus",
                     fieldCss: "field-auto-thin",
@@ -278,8 +267,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : ""
                         )
                         .Hidden(
+                            controlId: "CalendarDate",
+                            value: context.Forms.ContainsKey("CalendarDate") ? context.Forms["CalendarDate"].ToString() : ""
+                        )
+                        .Hidden(
                             controlId: "CalendarViewType",
                             value: context.Forms.ContainsKey("CalendarViewType") ? context.Forms["CalendarViewType"].ToString() : ""
+                        )
+                        .Hidden(
+                            controlId: "CalendarTimePeriod",
+                            value: context.Forms.ContainsKey("CalendarTimePeriod") ? context.Forms["CalendarTimePeriod"].ToString() : ""
                         )
                         .Hidden(
                             controlId:"IsInit",

@@ -7135,6 +7135,7 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
             var timePeriod = view.GetCalendarTimePeriod(ss: ss);
+            //timePeriod = context.Forms.ContainsKey("TimePeriod") ? context.Forms["Timeperiod"] : "month";
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
@@ -7163,8 +7164,8 @@ namespace Implem.Pleasanter.Models
                 timePeriod: timePeriod);
             if (ss.CalendarType.ToString() == "FullCalendar")
             {
-                begin = context.Forms["CalendarStart"].ToDateTime();
-                end = context.Forms["CalendarEnd"].ToDateTime();
+                begin = context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToDateTime() : begin;
+                end = context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToDateTime() : end;
             }
             var dataRows = inRangeY 
                 ? CalendarDataRows(

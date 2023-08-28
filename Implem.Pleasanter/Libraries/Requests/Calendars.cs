@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             date = date.ToLocal(context: context).Date;
             var first = new DateTime(date.Year, date.Month, 1);
+
             switch (timePeriod)
             {
                 case "Yearly":
