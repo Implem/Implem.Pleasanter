@@ -63,7 +63,7 @@
                     function () {
                     $p.setMessage(
                         "#Message",
-                        JSON.stringify({ Css: "alert-error", Text: "更新に失敗しました。" })
+                        JSON.stringify({ Css: "alert-error", Text: "データの取得に失敗しました。" })
                     ); }
 );
             } else {
@@ -98,6 +98,11 @@
         if ($("#CalendarStart").val() !== '') {
             calendarMiddle = new Date((new Date($("#CalendarStart").val()).getTime() + new Date($("#CalendarEnd").val()).getTime()) / 2);
         }
+        var language = $('#Language').val();
+        var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
+        if (language === 'vn') {
+            language = 'vi';
+        }
         $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
                 left: 'prev,next today',
@@ -110,7 +115,7 @@
             businessHours: true,
             editable: true,
             height: "auto",
-            locale: $('#Language').val(),
+            locale: supportedLanguages.includes(language) ? language : 'en',
             selectMirror: true,
             eventClick: (e) => {
                 window.location.href = '/items/' + e.event.id + '/edit';
@@ -130,7 +135,6 @@
                     $("[class^='status']").css('width', '15px');
                 }
             },
-
             initialView: $('#CalendarViewType').val(),
             lazyFetching: false
         });
