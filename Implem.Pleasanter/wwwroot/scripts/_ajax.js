@@ -1,4 +1,4 @@
-﻿$p.ajax = function (url, methodType, data, $control, _async, clearMessage) {
+﻿$p.ajax = function (url, methodType, data, $control, _async, clearMessage, done, fail) {
     if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
@@ -31,40 +31,46 @@
         data: data,
         dataType: 'json'
     })
-    .done(function (json, textStatus, jqXHR) {
-        $p.execEvents('ajax_before_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
-        $p.setByJson(url, methodType, data, $control, _async, json);
-        ret = json.filter(function (i) {
-            return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
-        }).length !== 0
-            ? -1
-            : 0;
-        $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
-    })
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        ret = -1;
-        if (!jqXHR.getAllResponseHeaders()) {
-            return;
-        }
-        if (jqXHR.status === 400) {
-            alert($p.display('BadRequest'));
-        } else if (jqXHR.status === 403) {
-            alert($p.display('UnauthorizedRequest'));
-        } else {
-            $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-            if (!$p.setServerErrorMessage(jqXHR.responseJSON)) {
-                alert((jqXHR.status + '\n' + textStatus + '\n' +
-                    JSON.parse(jqXHR.responseJSON[0].Value).Text).trim().replace('\n', ''));
+        .done(function (json, textStatus, jqXHR) {
+            $p.execEvents('ajax_before_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
+            $p.setByJson(url, methodType, data, $control, _async, json);
+            ret = json.filter(function (i) {
+                return i.Method === 'Message' && JSON.parse(i.Value).Css === 'alert-error';
+            }).length !== 0
+                ? -1
+                : 0;
+            $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
+            if (typeof done == 'function') {
+                done(json, textStatus, jqXHR);
             }
-            $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-        }
-    })
-    .always(function (jqXHR, textStatus) {
-        $p.execEvents('ajax_before_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-        $p.clearData('ControlId', data);
-        $p.loaded();
-        $p.execEvents('ajax_after_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-    });
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            ret = -1;
+            if (!jqXHR.getAllResponseHeaders()) {
+                return;
+            }
+            if (jqXHR.status === 400) {
+                alert($p.display('BadRequest'));
+            } else if (jqXHR.status === 403) {
+                alert($p.display('UnauthorizedRequest'));
+            } else {
+                $p.execEvents('ajax_before_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+                if (!$p.setServerErrorMessage(jqXHR.responseJSON)) {
+                    alert((jqXHR.status + '\n' + textStatus + '\n' +
+                        JSON.parse(jqXHR.responseJSON[0].Value).Text).trim().replace('\n', ''));
+                }
+                $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+            }
+            if (typeof fail == 'function') {
+                fail(jqXHR, textStatus, errorThrown);
+            }
+        })
+        .always(function (jqXHR, textStatus) {
+            $p.execEvents('ajax_before_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+            $p.clearData('ControlId', data);
+            $p.loaded();
+            $p.execEvents('ajax_after_always', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
+        });
     $p.execEvents('ajax_after_send', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
     $p.after_send($p.eventArgs(url, methodType, data, $control, _async, ret));
     return ret;
