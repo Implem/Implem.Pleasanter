@@ -278,6 +278,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         )
                         .Hidden(
                             controlId: "CalendarTimePeriod",
+                            css: "always-send",
                             value: context.Forms.ContainsKey("CalendarTimePeriod") ? context.Forms["CalendarTimePeriod"].ToString() : ""
                         )
                         .Hidden(
