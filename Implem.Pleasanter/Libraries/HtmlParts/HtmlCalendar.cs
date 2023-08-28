@@ -261,12 +261,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .Hidden(
                             controlId: "CalendarStart",
                             css: "always-send",
-                            value: context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToString() : ""
+                            value: context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToString() : begin.AddDays(-1).ToString()
                         )
                         .Hidden(
                             controlId: "CalendarEnd",
                             css: "always-send",
-                            value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : ""
+                            value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : begin.AddDays(41).ToString()
                         )
                         .Hidden(
                             controlId: "CalendarDate",
