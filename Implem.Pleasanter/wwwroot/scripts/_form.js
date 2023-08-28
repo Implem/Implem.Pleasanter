@@ -47,7 +47,7 @@ $p.syncSend = function ($control, formId) {
     return $p.send($control, formId, false);
 }
 
-$p.send = function ($control, formId, _async, clearMessage) {
+$p.send = function ($control, formId, _async, clearMessage, done, fail) {
     if ($p.outsideDialog($control)) return false;
     if ($control.hasClass('no-send')) return false;
     $form = formId !== undefined
@@ -103,7 +103,9 @@ $p.send = function ($control, formId, _async, clearMessage) {
             methodType !== 'get' ? data : null,
             $control,
             _async,
-            clearMessage);
+            clearMessage,
+            done,
+            fail);
     }
 }
 
