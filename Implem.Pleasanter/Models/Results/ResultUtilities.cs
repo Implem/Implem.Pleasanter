@@ -6684,10 +6684,12 @@ namespace Implem.Pleasanter.Models
                     choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var dataRows = inRangeY
@@ -6814,10 +6816,12 @@ namespace Implem.Pleasanter.Models
                     choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var dataRows = inRangeY 

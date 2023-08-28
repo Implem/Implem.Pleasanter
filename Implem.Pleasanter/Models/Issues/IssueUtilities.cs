@@ -7025,10 +7025,12 @@ namespace Implem.Pleasanter.Models
                     choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var dataRows = inRangeY
@@ -7156,17 +7158,14 @@ namespace Implem.Pleasanter.Models
                     choices?.Count ?? 0);
             var begin = Calendars.BeginDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
             var end = Calendars.EndDate(
                 context: context,
+                ss: ss,
                 date: date,
                 timePeriod: timePeriod);
-            if (ss.CalendarType.ToString() == "FullCalendar")
-            {
-                begin = context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToDateTime() : begin;
-                end = context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToDateTime() : end;
-            }
             var dataRows = inRangeY 
                 ? CalendarDataRows(
                     context: context,

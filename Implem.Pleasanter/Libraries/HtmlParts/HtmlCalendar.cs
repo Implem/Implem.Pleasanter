@@ -269,10 +269,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : begin.AddDays(41).ToString()
                         )
                         .Hidden(
-                            controlId: "CalendarDate",
-                            value: context.Forms.ContainsKey("CalendarDate") ? context.Forms["CalendarDate"].ToString() : ""
-                        )
-                        .Hidden(
                             controlId: "CalendarViewType",
                             css: "always-send",
                             value: context.Forms.ContainsKey("CalendarViewType") ? context.Forms["CalendarViewType"].ToString() : "dayGridMonth"
