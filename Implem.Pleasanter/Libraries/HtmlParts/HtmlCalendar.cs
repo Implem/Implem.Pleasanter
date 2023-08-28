@@ -274,12 +274,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         )
                         .Hidden(
                             controlId: "CalendarViewType",
-                            value: context.Forms.ContainsKey("CalendarViewType") ? context.Forms["CalendarViewType"].ToString() : ""
-                        )
-                        .Hidden(
-                            controlId: "CalendarTimePeriod",
                             css: "always-send",
-                            value: context.Forms.ContainsKey("CalendarTimePeriod") ? context.Forms["CalendarTimePeriod"].ToString() : ""
+                            value: context.Forms.ContainsKey("CalendarViewType") ? context.Forms["CalendarViewType"].ToString() : "dayGridMonth"
                         )
                         .Hidden(
                             controlId:"IsInit",
