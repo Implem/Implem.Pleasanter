@@ -130,12 +130,18 @@
             eventResize: updateRecord,
             eventDidMount: function (info) {
                 if (info.event.extendedProps.StatusHtml) {
-                    var eventElement = $(info.el).find('.fc-event-time');
-                    eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    if (info.view.type === 'listMonth') {
+                        var eventElement = $(info.el).find('.fc-list-event-graphic');
+                        eventElement.append($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                        $(".fc-list-event-dot").css('margin-right', '20px');
+                    } else {
+                        var eventElement = $(info.el).find('.fc-event-time');
+                        eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    }
                     $('.status-new').css('color', 'black');
                     $('.status-new').css('border', 'solid 1px #000');
-                    $("[class^='status']").css('padding', '1px 2px');
-                    $("[class^='status']").css('margin', '0px 1px');
+                    $("[class^='status']").css('padding', '1px 3px');
+                    $("[class^='status']").css('margin', '0px 3px');
                     $("[class^='status']").css('width', '15px');
                 }
             },
