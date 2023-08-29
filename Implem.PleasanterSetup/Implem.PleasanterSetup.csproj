@@ -10,7 +10,15 @@
   <ItemGroup>
     <PackageReference Include="ConsoleAppFramework" Version="4.2.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="NLog" Version="5.2.3" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.3" />
     <PackageReference Include="ProcessX" Version="1.5.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,15 +1,25 @@
-﻿using System.IO.Compression;
+﻿using Microsoft.Extensions.Logging;
+using System.IO.Compression;
 using Zx;
 
 namespace Implem.PleasanterSetup
 {
     public class PleasanterSetup : ConsoleAppBase
     {
-        public string DefaultRecourceDir = Path.Combine(Environment.GetEnvironmentVariable("SystemDrive"), "web", "pleasanter");
-        public bool VersionUp = false;
-
-        public PleasanterSetup()
+        private enum DBMS
         {
+            SQLServer = 1,
+            PostgreSQL = 2
+        };
+        private string defaultInstallDir = Path.Combine(Environment.GetEnvironmentVariable("SystemDrive"), "web", "pleasanter");
+        private string defaultHostName = "localhost";
+        private string defaultServiceName = "Implem.Pleasanter";
+        private bool versionUp = false;
+        private ILogger logger;
+
+        public PleasanterSetup(ILogger<PleasanterSetup> logger)
+        {
+            this.logger = logger;
         }
 
         [RootCommand]
@@ -21,27 +31,95 @@ namespace Implem.PleasanterSetup
             string license = "",
             string extendedcolumns = "")
         {
-            var resourceDir = string.IsNullOrEmpty(directory)
-                ? DefaultRecourceDir
-                : Path.Combine(directory);
-            var parametersDir = "";
-            var backupParametersDir = "";
-            if (Directory.Exists(resourceDir))
+            logger.LogInformation("This is Setup Command.");
+            var installDir = defaultInstallDir;
+            if (string.IsNullOrEmpty(directory))
             {
-                parametersDir = Path.Combine(resourceDir, "Implem.Pleasanter", "App_Data", "Parameters");
+                logger.LogInformation("Install Directory [Default: /web/pleasanter] : ");
+                var userInputResourceDir = Console.ReadLine();
+                if (!string.IsNullOrEmpty(userInputResourceDir))
+                {
+                    installDir = userInputResourceDir;
+                }
+            }
+            logger.LogInformation("DBMS [1: SQL Server, 2: PostgreSQL] : ");
+            var dbms = "";
+            while (dbms != "1" && dbms != "2")
+            {
+                dbms = Console.ReadLine();
+            }
+            logger.LogInformation("Server [Default: localhost] : ");
+            var userInputServer = Console.ReadLine();
+            var server = string.IsNullOrEmpty(userInputServer)
+                ? defaultHostName
+                : userInputServer;
+            logger.LogInformation("[Default: Implem.Pleasanter] : ");
+            var userInputServiceName = Console.ReadLine();
+            var serviceName = string.IsNullOrEmpty(userInputServiceName)
+                ? defaultServiceName
+                : userInputServiceName;
+            logger.LogInformation("[Default: sa(SQL Server), postgres(PostgreSQL)] : ");
+            var userId = Console.ReadLine();
+            if (string.IsNullOrEmpty(userId))
+            {
+                switch ((DBMS)int.Parse(dbms))
+                {
+                    case DBMS.SQLServer:
+                        userId = "sa";
+                        break;
+                    case DBMS.PostgreSQL:
+                        userId = "postgres";
+                        break;
+                }
+            }
+            logger.LogInformation("Password : ");
+            var password = "";
+            while (string.IsNullOrEmpty(password))
+            {
+                password = Console.ReadLine();
+            }
+            logger.LogInformation("----- Summary -----");
+            logger.LogInformation($"Install Directory : {installDir}");
+            logger.LogInformation($"DBMS              : {Enum.GetName(typeof(DBMS), int.Parse(dbms))}");
+            logger.LogInformation($"Server            : {server}");
+            logger.LogInformation($"Service Name      : {serviceName}");
+            logger.LogInformation($"User ID           : {userId}");
+            logger.LogInformation($"Password          : {password}");
+            logger.LogInformation("---------------------");
+            logger.LogInformation("Shall I install Pleasanter with this content? Please enter ‘y(yes)' or 'n(no)’. : ");
+            var doNext = Console.ReadLine();
+            while (string.IsNullOrEmpty(doNext))
+            {
+                doNext = Console.ReadLine();
+            }
+            if (doNext.StartsWith("y"))
+            {
+                if (!Directory.Exists(installDir))
+                {
+                    Directory.CreateDirectory(installDir);
+                }
+                var parametersDir = Path.Combine(
+                    installDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters");
+                var backupDir = Path.Combine(
+                    Path.GetDirectoryName(installDir),
+                    $"{Path.GetFileName(installDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
+                logger.LogInformation($"backupDir: {backupDir}");
+                var backupParametersDir = Path.Combine(
+                    backupDir,
+                    "Implem.Pleasanter",
+                    "App_Data",
+                    "Parameters");
                 if (Directory.Exists(parametersDir) && Directory.GetFiles(parametersDir).Length > 0)
                 {
-                    VersionUp = true;
+                    versionUp = true;
                     // 既存資源のバックアップ
-                    var backupDir = Path.Combine(
-                        Path.GetDirectoryName(resourceDir),
-                        $"{Path.GetFileName(resourceDir)}{DateTime.Now:_yyyyMMdd_HHmmss}");
-                    Console.WriteLine($"backupDir: {backupDir}");
-                    backupParametersDir = Path.Combine(backupDir, "Implem.Pleasanter", "App_Data", "Parameters");
                     Directory.CreateDirectory(backupDir);
-                    foreach(var dir in Directory.GetDirectories(resourceDir))
+                    foreach (var dir in Directory.GetDirectories(installDir))
                     {
-                        Directory.Move(dir, dir.Replace(resourceDir, backupDir));
+                        Directory.Move(dir, dir.Replace(installDir, backupDir));
                     }
                 }
                 // 新しい資源の配置
@@ -50,22 +128,22 @@ namespace Implem.PleasanterSetup
                     var releaseZipDir = Path.GetDirectoryName(releasezip);
                     ZipFile.ExtractToDirectory(releasezip, releaseZipDir, true);
                     var unzipDir = Path.Combine(releaseZipDir, "pleasanter");
-                    foreach(var dir in Directory.GetDirectories(unzipDir))
+                    foreach (var dir in Directory.GetDirectories(unzipDir))
                     {
-                        Directory.Move(dir, dir.Replace(unzipDir, resourceDir));
+                        Directory.Move(dir, dir.Replace(unzipDir, installDir));
                     }
                     Directory.Delete(unzipDir);
                 }
                 else
                 {
-                    Console.WriteLine("プリザンターのリリースファイルが存在しません。");
+                    logger.LogError("プリザンターのリリースファイルが存在しません。");
                     return;
                 }
                 // パラメータファイルのマージ
                 Merge(source: backupParametersDir, destination: parametersDir);
                 // データベースの作成(スキーマ更新)
                 await Rds(
-                    directory: resourceDir,
+                    directory: installDir,
                     force: force,
                     noinput: noinput,
                     license: license,
@@ -73,7 +151,7 @@ namespace Implem.PleasanterSetup
             }
             else
             {
-                Console.WriteLine("プリザンターの資源を配置するディレクトリが存在しません。");
+                logger.LogInformation("セットアップコマンドの処理を終了します。");
                 return;
             }
         }
@@ -84,15 +162,15 @@ namespace Implem.PleasanterSetup
             [Option("d")] string destination,
             string[]? excludes = null)
         {
-            Console.WriteLine("This is Merge Command.");
+            logger.LogInformation("This is Merge Command.");
             if (!Directory.Exists(source))
             {
-                Console.WriteLine($"\"{source}\" does not exist.");
+                logger.LogError($"\"{source}\" does not exist.");
                 return;
             }
             if (!Directory.Exists(destination))
             {
-                Console.WriteLine($"\"{destination}\" does not exist.");
+                logger.LogError($"\"{destination}\" does not exist.");
                 return;
             }
             Merger.MergeParametersJson(
@@ -109,9 +187,9 @@ namespace Implem.PleasanterSetup
             string license = "",
             string extendedcolumns = "")
         {
-            Console.WriteLine("This is Rds Command.");
+            logger.LogInformation("This is Rds Command.");
             var resourceDir = string.IsNullOrEmpty(directory)
-                ? DefaultRecourceDir
+                ? defaultInstallDir
                 : Path.Combine(directory);
             if (File.Exists(license))
             {
@@ -177,11 +255,11 @@ namespace Implem.PleasanterSetup
 
         private async Task ExecuteCodeDefiner(string codeDefinerDir, bool force, bool noinput)
         {
-            var forceOption = force ? "-f": "";
+            var forceOption = force ? "-f" : "";
             var noInputOption = noinput ? "-n" : "";
             await $"cd {codeDefinerDir}";
             await $"dotnet Implem.CodeDefiner.dll _rds {forceOption} {noInputOption}";
-          
-        } 
+            await $"cd -";
+        }
     }
 }
