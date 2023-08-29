@@ -46,7 +46,8 @@
             $p.send($('#FullCalendarBody'));
         }
         const getEventsDatas = function (info, successCallback, failureCallback) {
-            if ($('#IsInit').val() !== 'True') {
+            
+            if (($('#IsInit').val() !== 'True') && !((info.start.getTime() == Date.parse($('#CalendarStart').val()) && (info.end.getTime() == Date.parse($('#CalendarEnd').val()))))) {
                 $p.set($('#CalendarStart'), info.start.toLocaleDateString());
                 $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
                 $('#FullCalendarBody').attr('data-action', 'calendar');
@@ -108,6 +109,10 @@
             language = 'vi';
         }
         $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
+            windowResize: function (arg) {
+                let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
+                return eventData;
+            },
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
