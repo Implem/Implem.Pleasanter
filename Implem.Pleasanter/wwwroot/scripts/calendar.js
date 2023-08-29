@@ -37,7 +37,11 @@
             var prefix = $('#TableName').val() + '_';
             data.Id = info.event.id;
             data[prefix + fromTo[0]] = info.event.start.toLocaleString();
-            data[prefix + fromTo[1]] = info.event.end.toLocaleString();
+            if (info.event.end === null) {
+                data[prefix + fromTo[1]] = info.event.start.toLocaleString();
+            } else {
+                data[prefix + fromTo[1]] = info.event.end.toLocaleString();
+            }
             $p.saveScroll();
             $p.send($('#FullCalendarBody'));
         }
