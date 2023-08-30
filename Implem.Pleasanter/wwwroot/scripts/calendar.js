@@ -109,10 +109,6 @@
             language = 'vi';
         }
         $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
-            windowResize: function (arg) {
-                let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
-                return eventData;
-            },
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
