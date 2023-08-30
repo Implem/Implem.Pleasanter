@@ -32,10 +32,12 @@
             choices?.Count ?? 0);
     var begin = Calendars.BeginDate(
         context: context,
+        ss: ss,
         date: date,
         timePeriod: timePeriod);
     var end = Calendars.EndDate(
         context: context,
+        ss: ss,
         date: date,
         timePeriod: timePeriod);
     var dataRows = inRangeY
@@ -162,10 +164,12 @@ public static string CalendarJson(
             choices?.Count ?? 0);
     var begin = Calendars.BeginDate(
         context: context,
+        ss: ss,
         date: date,
         timePeriod: timePeriod);
     var end = Calendars.EndDate(
         context: context,
+        ss: ss,
         date: date,
         timePeriod: timePeriod);
     var dataRows = inRangeY 

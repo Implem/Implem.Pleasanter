@@ -18,7 +18,6 @@ using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Libraries.Web;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7137,7 +7136,6 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
             var timePeriod = view.GetCalendarTimePeriod(ss: ss);
-            //timePeriod = context.Forms.ContainsKey("TimePeriod") ? context.Forms["Timeperiod"] : "month";
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));

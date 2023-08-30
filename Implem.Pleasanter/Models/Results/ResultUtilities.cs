@@ -6855,6 +6855,12 @@ namespace Implem.Pleasanter.Models
                 showStatus: view.CalendarShowStatus == true,
                 inRange: inRange,
                 changedItemId: changedItemId);
+            var CalendarBodyName = "";
+            if (ss.CalendarType.ToString() == "Standard"){
+                CalendarBodyName = "#CalendarBody";
+            } else {
+                CalendarBodyName = "#FullCalendarBody";
+            }
             if (inRange)
             {
                 return new ResponseCollection(context: context)
@@ -6866,7 +6872,7 @@ namespace Implem.Pleasanter.Models
                         message: message,
                         loadScroll: update,
                         bodyOnly: bodyOnly,
-                        bodySelector: "#CalendarBody",
+                        bodySelector: CalendarBodyName,
                         body: body)
                     .Events("on_calendar_load")
                     .ToJson();
@@ -6886,7 +6892,7 @@ namespace Implem.Pleasanter.Models
                                 context: context,
                                 data: Parameters.General.CalendarYLimit.ToString()),
                         bodyOnly: bodyOnly,
-                        bodySelector: "#CalendarBody",
+                        bodySelector: CalendarBodyName,
                         body: body)
                     .Events("on_calendar_load")
                     .ToJson();
