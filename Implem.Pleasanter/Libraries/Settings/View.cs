@@ -683,7 +683,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                     useDateFormat: false);
                                 break;
                             case "CalendarViewType":
-                                CalendarFromTo = String(
+                                CalendarViewType = String(
                                     context: context,
                                     controlId: controlId);
                                 break;

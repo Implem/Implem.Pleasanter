@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
                     if (ss.CalendarType.ToString() == "FullCalendar") {
-                        begin = view.CalendarStart.ToBool() ? (DateTime)view.CalendarStart : begin;
+                        begin = !string.IsNullOrEmpty(view.CalendarStart.ToString()) ? (DateTime)view.CalendarStart : begin;
                     }
                     return begin.ToUniversal(context: context);
 
