@@ -51,12 +51,14 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (ss.CalendarType.ToString() == "FullCalendar")
             {
-                return BeginDate(
-                    context: context,
-                    ss: ss,
-                    date: date,
-                    timePeriod: timePeriod,
-                    view: view).AddDays(42);
+                DateTime end;
+                end = !string.IsNullOrEmpty(view.CalendarEnd.ToString()) ? (DateTime)view.CalendarEnd : BeginDate(
+                            context: context,
+                            ss: ss,
+                            date: date,
+                            timePeriod: timePeriod,
+                            view: view).AddDays(43).AddMilliseconds(-3);
+                return end.ToUniversal(context: context);
             }
             else
             {
