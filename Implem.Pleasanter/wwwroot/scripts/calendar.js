@@ -118,6 +118,7 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
+            firstDay: 1,
             initialDate: calendarMiddle,
             selectable: true,
             navLinks: true,
