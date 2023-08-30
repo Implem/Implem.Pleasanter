@@ -28,6 +28,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column toColumn,
             DateTime date,
             DateTime begin,
+            DateTime end,
+            string CalendarViewType,
             Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
             bool showStatus,
@@ -118,6 +120,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             toColumn: toColumn,
                             date: date,
                             begin: begin,
+                            end: end,
+                            CalendarViewType: CalendarViewType,
                             choices: choices,
                             dataRows: dataRows,
                             showStatus: showStatus,
@@ -163,6 +167,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             toColumn: toColumn,
                             date: date,
                             begin: begin,
+                            end: end,
+                            CalendarViewType: CalendarViewType,
                             choices: choices,
                             dataRows: dataRows,
                             showStatus: showStatus,
@@ -182,6 +188,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column toColumn,
             DateTime date,
             DateTime begin,
+            DateTime end,
+            string CalendarViewType,
             Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
             bool showStatus,
@@ -260,18 +268,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     ? hb
                         .Hidden(
                             controlId: "CalendarStart",
-                            //css: "always-send",
-                            value: context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToString() : begin.AddDays(-1).ToString()
+                            value: begin.ToString()
                         )
                         .Hidden(
                             controlId: "CalendarEnd",
-                            //css: "always-send",
-                            value: context.Forms.ContainsKey("CalendarEnd") ? context.Forms["CalendarEnd"].ToString() : begin.AddDays(41).ToString()
+                            value: end.ToString()
                         )
                         .Hidden(
                             controlId: "CalendarViewType",
-                            css: "always-send",
-                            value: context.Forms.ContainsKey("CalendarViewType") ? context.Forms["CalendarViewType"].ToString() : "dayGridMonth"
+                            value: CalendarViewType.ToString()
                         )
                         .Hidden(
                             controlId:"IsInit",

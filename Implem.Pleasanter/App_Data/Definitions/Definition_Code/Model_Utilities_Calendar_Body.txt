@@ -40,6 +40,7 @@
         ss: ss,
         date: date,
         timePeriod: timePeriod);
+    var CalendarViewType = view.CalendarViewType.ToBool() ? view.CalendarViewType : "dayGridMonth";
     var dataRows = inRangeY
         ? CalendarDataRows(
             context: context,
@@ -75,6 +76,7 @@
                 toColumn: toColumn,
                 date: date,
                 begin: begin,
+                end: end,
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: false,
@@ -172,6 +174,7 @@ public static string CalendarJson(
         ss: ss,
         date: date,
         timePeriod: timePeriod);
+    var CalendarViewType = view.CalendarViewType.ToBool() ? view.CalendarViewType : "dayGridMonth";
     var dataRows = inRangeY 
         ? CalendarDataRows(
             context: context,
@@ -197,6 +200,7 @@ public static string CalendarJson(
         toColumn: toColumn,
         date: date,
         begin: begin,
+        end: end,
         choices: choices,
         dataRows: dataRows,
         bodyOnly: bodyOnly,
@@ -327,6 +331,7 @@ private static HtmlBuilder Calendar(
     Column toColumn,
     DateTime date,
     DateTime begin,
+    DateTIme end,
     Dictionary<string, ControlData> choices,
     EnumerableRowCollection<DataRow> dataRows,
     bool bodyOnly,
@@ -344,6 +349,7 @@ private static HtmlBuilder Calendar(
             toColumn: toColumn,
             date: date,
             begin: begin,
+            end: end,
             choices: choices,
             dataRows: dataRows,
             showStatus: showStatus,
@@ -358,6 +364,7 @@ private static HtmlBuilder Calendar(
             toColumn: toColumn,
             date: date,
             begin: begin,
+            end: end,
             choices: choices,
             dataRows: dataRows,
             showStatus: showStatus,

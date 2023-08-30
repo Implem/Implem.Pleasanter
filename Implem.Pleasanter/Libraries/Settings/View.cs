@@ -86,6 +86,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? CalendarDate;
         public DateTime? CalendarStart;
         public DateTime? CalendarEnd;
+        public string CalendarViewType;
         public string CalendarGroupBy;
         public bool? CalendarShowStatus;
         public string CrosstabGroupByX;
@@ -200,6 +201,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime? GetCalendarEnd()
         {
             return CalendarEnd;
+        }
+
+        public string GetCalendarViewType()
+        {
+            return CalendarViewType;
         }
 
         public string GetCalendarGroupBy()
@@ -672,6 +678,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "CalendarEnd":
                                 CalendarEnd = Time(
+                                    context: context,
+                                    controlId: controlId,
+                                    useDateFormat: false);
+                                break;
+                            case "CalendarViewType":
+                                CalendarFromTo = String(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -1450,6 +1462,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CalendarEnd?.InRange() == true)
             {
                 view.CalendarEnd = CalendarEnd;
+            }
+            if (!CalendarViewType.IsNullOrEmpty())
+            {
+                view.CalendarViewType = CalendarViewType; ;
             }
             if (!CalendarGroupBy.IsNullOrEmpty())
             {

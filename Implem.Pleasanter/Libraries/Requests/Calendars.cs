@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Calendars
     {
-        public static DateTime BeginDate(Context context, SiteSettings ss, DateTime date, string timePeriod)
+        public static DateTime BeginDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view)
         {
             date = date.ToLocal(context: context).Date;
             var first = new DateTime(date.Year, date.Month, 1);
@@ -38,7 +38,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
                     if (ss.CalendarType.ToString() == "FullCalendar") {
-                        begin = context.Forms.ContainsKey("CalendarStart") ? context.Forms["CalendarStart"].ToDateTime() : begin;
+                        begin = view.CalendarStart.ToBool() ? (DateTime)view.CalendarStart : begin;
                     }
                     return begin.ToUniversal(context: context);
 
@@ -47,7 +47,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public static DateTime EndDate(Context context, SiteSettings ss, DateTime date, string timePeriod)
+        public static DateTime EndDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view)
         {
             if (ss.CalendarType.ToString() == "FullCalendar")
             {
@@ -55,7 +55,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                     context: context,
                     ss: ss,
                     date: date,
-                    timePeriod: timePeriod).AddDays(41);
+                    timePeriod: timePeriod,
+                    view: view).AddDays(42);
             }
             else
             {
@@ -66,19 +67,22 @@ namespace Implem.Pleasanter.Libraries.Requests
                             context: context,
                             ss: ss,
                             date: date,
-                            timePeriod: timePeriod).AddYears(1).AddMilliseconds(-3);
+                            timePeriod: timePeriod,
+                            view: view).AddYears(1).AddMilliseconds(-3);
                     case "Monthly":
                         return BeginDate(
                             context: context,
                             ss: ss,
                             date: date,
-                            timePeriod: timePeriod).AddDays(43).AddMilliseconds(-3);
+                            timePeriod: timePeriod,
+                            view: view).AddDays(43).AddMilliseconds(-3);
                     case "Weekly":
                         return BeginDate(
                             context: context,
                             ss: ss,
                             date: date,
-                            timePeriod: timePeriod).AddDays(8).AddMilliseconds(-3);
+                            timePeriod: timePeriod,
+                            view: view).AddDays(8).AddMilliseconds(-3);
                     default:
                         return DateTime.MinValue;
                 }
