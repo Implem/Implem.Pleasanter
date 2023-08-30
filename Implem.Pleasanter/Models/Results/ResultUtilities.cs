@@ -6686,12 +6686,15 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
+            var CalendarViewType = view.CalendarViewType.ToBool() ? view.CalendarViewType : "dayGridMonth";
             var dataRows = inRangeY
                 ? CalendarDataRows(
                     context: context,
@@ -6727,6 +6730,8 @@ namespace Implem.Pleasanter.Models
                         toColumn: toColumn,
                         date: date,
                         begin: begin,
+                        end: end,
+                        CalendarViewType: CalendarViewType,
                         choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
@@ -6818,12 +6823,15 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
-                timePeriod: timePeriod);
+                timePeriod: timePeriod,
+                view: view);
+            var CalendarViewType = view.CalendarViewType.ToBool() ? view.CalendarViewType : "dayGridMonth";
             var dataRows = inRangeY 
                 ? CalendarDataRows(
                     context: context,
@@ -6849,6 +6857,8 @@ namespace Implem.Pleasanter.Models
                 toColumn: toColumn,
                 date: date,
                 begin: begin,
+                end: end,
+                CalendarViewType: CalendarViewType,
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: bodyOnly,
@@ -6979,6 +6989,8 @@ namespace Implem.Pleasanter.Models
             Column toColumn,
             DateTime date,
             DateTime begin,
+            DateTime end,
+            string CalendarViewType,
             Dictionary<string, ControlData> choices,
             EnumerableRowCollection<DataRow> dataRows,
             bool bodyOnly,
@@ -6996,6 +7008,8 @@ namespace Implem.Pleasanter.Models
                     toColumn: toColumn,
                     date: date,
                     begin: begin,
+                    end: end,
+                    CalendarViewType: CalendarViewType,
                     choices: choices,
                     dataRows: dataRows,
                     showStatus: showStatus,
@@ -7010,6 +7024,8 @@ namespace Implem.Pleasanter.Models
                     toColumn: toColumn,
                     date: date,
                     begin: begin,
+                    end: end,
+                    CalendarViewType: CalendarViewType,
                     choices: choices,
                     dataRows: dataRows,
                     showStatus: showStatus,

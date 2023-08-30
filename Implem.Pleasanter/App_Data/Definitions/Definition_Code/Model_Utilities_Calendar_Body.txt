@@ -34,12 +34,14 @@
         context: context,
         ss: ss,
         date: date,
-        timePeriod: timePeriod);
+        timePeriod: timePeriod,
+        view: view);
     var end = Calendars.EndDate(
         context: context,
         ss: ss,
         date: date,
-        timePeriod: timePeriod);
+        timePeriod: timePeriod,
+        view: view);
     var CalendarViewType = view.CalendarViewType.ToBool() ? view.CalendarViewType : "dayGridMonth";
     var dataRows = inRangeY
         ? CalendarDataRows(
@@ -77,6 +79,7 @@
                 date: date,
                 begin: begin,
                 end: end,
+                CalendarViewType: CalendarViewType,
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: false,
@@ -168,12 +171,14 @@ public static string CalendarJson(
         context: context,
         ss: ss,
         date: date,
-        timePeriod: timePeriod);
+        timePeriod: timePeriod,
+        view: view);
     var end = Calendars.EndDate(
         context: context,
         ss: ss,
         date: date,
-        timePeriod: timePeriod);
+        timePeriod: timePeriod,
+        view: view);
     var CalendarViewType = view.CalendarViewType.ToBool() ? view.CalendarViewType : "dayGridMonth";
     var dataRows = inRangeY 
         ? CalendarDataRows(
@@ -201,6 +206,7 @@ public static string CalendarJson(
         date: date,
         begin: begin,
         end: end,
+        CalendarViewType: CalendarViewType,
         choices: choices,
         dataRows: dataRows,
         bodyOnly: bodyOnly,
@@ -331,7 +337,8 @@ private static HtmlBuilder Calendar(
     Column toColumn,
     DateTime date,
     DateTime begin,
-    DateTIme end,
+    DateTime end,
+    string CalendarViewType,
     Dictionary<string, ControlData> choices,
     EnumerableRowCollection<DataRow> dataRows,
     bool bodyOnly,
@@ -350,6 +357,7 @@ private static HtmlBuilder Calendar(
             date: date,
             begin: begin,
             end: end,
+            CalendarViewType: CalendarViewType,
             choices: choices,
             dataRows: dataRows,
             showStatus: showStatus,
@@ -365,6 +373,7 @@ private static HtmlBuilder Calendar(
             date: date,
             begin: begin,
             end: end,
+            CalendarViewType: CalendarViewType,
             choices: choices,
             dataRows: dataRows,
             showStatus: showStatus,
