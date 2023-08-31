@@ -148,7 +148,8 @@
                     $("[class^='status']").css('width', '15px');
                 }
             },
-            initialView: $('#CalendarViewType').val()
+            initialView: $('#CalendarViewType').val(),
+            lazyFetching: false
         });
         $p.fullCalendar.render();
     } else {
