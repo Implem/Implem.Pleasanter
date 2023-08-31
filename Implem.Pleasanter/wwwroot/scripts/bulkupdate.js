@@ -1,4 +1,5 @@
 ﻿$p.openBulkUpdateSelectorDialog = function ($control) {
+    $p.data.BulkUpdateSelectorForm = {};
     var error = $p.syncSend($control);
     if (error === 0) {
         $('#BulkUpdateSelectorDialog').dialog({
@@ -18,5 +19,4 @@ $p.bulkUpdate = function () {
     }
     $p.setData($('#' + key));
     $p.send($('#BulkUpdate'));
-    $p.data.BulkUpdateSelectorForm = {};
 }

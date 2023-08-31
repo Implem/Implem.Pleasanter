@@ -3196,7 +3196,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
-                                    _using: context.ContractSettings.Script != false);
+                                    _using: context.ContractSettings.Script != false)
+                                .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#HtmlsSettingsEditor",
+                                            text: Displays.Html(context: context)),
+                                    _using: context.ContractSettings.Html != false);
                             break;
                         case "Dashboards":
                             hb
@@ -3216,7 +3222,13 @@ namespace Implem.Pleasanter.Models
                                         .A(
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
-                                    _using: context.ContractSettings.Script != false));
+                                    _using: context.ContractSettings.Script != false))
+                                 .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#HtmlsSettingsEditor",
+                                            text: Displays.Html(context: context)),
+                                    _using: context.ContractSettings.Html != false); ;
                             break;
                         case "Wikis":
                             hb
@@ -3242,6 +3254,12 @@ namespace Implem.Pleasanter.Models
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false)
+                                 .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#HtmlsSettingsEditor",
+                                            text: Displays.Html(context: context)),
+                                    _using: context.ContractSettings.Html != false)
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -3407,6 +3425,12 @@ namespace Implem.Pleasanter.Models
                                             href: "#ScriptsSettingsEditor",
                                             text: Displays.Scripts(context: context)),
                                     _using: context.ContractSettings.Script != false)
+                                 .Li(
+                                    action: () => hb
+                                        .A(
+                                            href: "#HtmlsSettingsEditor",
+                                            text: Displays.Html(context: context)),
+                                    _using: context.ContractSettings.Html != false)
                                 .Li(
                                     action: () => hb
                                         .A(
@@ -4410,6 +4434,12 @@ namespace Implem.Pleasanter.Models
                     _using: context.ContractSettings.Script != false)
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("HtmlDialog")
+                        .Class("dialog")
+                        .Title(Displays.Html(context: context)),
+                    _using: context.ContractSettings.Html != false)
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("DashboardPartDialog")
                         .Class("dialog")
                         .Title(Displays.Dashboards(context: context)))
@@ -4564,13 +4594,15 @@ namespace Implem.Pleasanter.Models
                     case "Sites":
                         hb
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings);
                         break;
                     case "Dashboards":
                         hb
                             .DashboardPartSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
-                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings);
+                            .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings);
                         break;
                     case "Wikis":
                         hb
@@ -4578,6 +4610,7 @@ namespace Implem.Pleasanter.Models
                             .MailSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .PublishSettingsEditor(
                                 context: context,
                                 ss: siteModel.SiteSettings,
@@ -4613,6 +4646,7 @@ namespace Implem.Pleasanter.Models
                             .SiteIntegrationEditor(context: context, ss: siteModel.SiteSettings)
                             .StylesSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .HtmlsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ServerScriptsSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .PublishSettingsEditor(
                                 context: context,
@@ -13966,6 +14000,429 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder HtmlsSettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Html == false) return hb;
+            return hb.FieldSet(id: "HtmlsSettingsEditor", action: () => hb
+                .Div(css: "command-left", action: () => hb
+                    .Button(
+                        controlId: "MoveUpHtmls",
+                        controlCss: "button-icon",
+                        text: Displays.MoveUp(context: context),
+                        onClick: "$p.setAndSend('#EditHtml', $(this));",
+                        icon: "ui-icon-circle-triangle-n",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "MoveDownHtmls",
+                        controlCss: "button-icon",
+                        text: Displays.MoveDown(context: context),
+                        onClick: "$p.setAndSend('#EditHtml', $(this));",
+                        icon: "ui-icon-circle-triangle-s",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "NewHtml",
+                        text: Displays.New(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.openHtmlDialog($(this));",
+                        icon: "ui-icon-gear",
+                        action: "SetSiteSettings",
+                        method: "put")
+                    .Button(
+                        controlId: "CopyHtmls",
+                        text: Displays.Copy(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditHtml', $(this));",
+                        icon: "ui-icon-copy",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .Button(
+                        controlId: "DeleteHtmls",
+                        text: Displays.Delete(context: context),
+                        controlCss: "button-icon",
+                        onClick: "$p.setAndSend('#EditHtml', $(this));",
+                        icon: "ui-icon-trash",
+                        action: "SetSiteSettings",
+                        method: "delete",
+                        confirm: Displays.ConfirmDelete(context: context)))
+                .EditHtml(
+                    context: context,
+                    ss: ss));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditHtml(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            var selected = context.Forms.Data("EditHtml").Deserialize<IEnumerable<int>>();
+            return hb.Table(
+                id: "EditHtml",
+                css: "grid",
+                attributes: new HtmlAttributes()
+                    .DataName("HtmlId")
+                    .DataFunc("openHtmlDialog")
+                    .DataAction("SetSiteSettings")
+                    .DataMethod("post"),
+                action: () => hb
+                    .EditHtmlHeader(
+                        context: context,
+                        ss: ss,
+                        selected: selected)
+                    .EditHtmlBody(
+                        context: context,
+                        ss: ss,
+                        selected: selected));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditHtmlHeader(
+            this HtmlBuilder hb, Context context, SiteSettings ss, IEnumerable<int> selected)
+        {
+            return hb.THead(action: () => hb
+                .Tr(css: "ui-widget-header", action: () => hb
+                    .Th(action: () => hb
+                        .CheckBox(
+                            controlCss: "select-all",
+                            _checked: ss.Htmls?.All(o =>
+                                selected?.Contains(o.Id) == true) == true))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Id(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Title(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.HtmlPositionType(context: context)))
+                    .Th(action: () => hb
+                        .Text(text: Displays.Disabled(context: context)))
+                    .EditDestinationHtmlHeader(
+                        context:context,
+                        _using: ss.ReferenceType != "Dashboards")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDestinationHtmlHeader(this HtmlBuilder hb, Context context, bool _using)
+        {
+            if (!_using) return hb;
+            return hb
+                .Th(action: () => hb
+                    .Text(text: Displays.All(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.New(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Edit(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Index(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Calendar(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Crosstab(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Gantt(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.BurnDown(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.TimeSeries(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.Kamban(context: context)))
+                .Th(action: () => hb
+                    .Text(text: Displays.ImageLib(context: context)));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder EditHtmlBody(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            IEnumerable<int> selected)
+        {
+            return hb.TBody(action: () => ss
+                .Htmls?.ForEach(html => {
+                    var positionType = string.Empty;
+                    switch (html.PositionType)
+                    {
+                        case Html.PositionTypes.HeadTop:
+                            positionType = Displays.HtmlHeadTop(context: context);
+                            break;
+                        case Html.PositionTypes.HeadBottom:
+                            positionType = Displays.HtmlHeadBottom(context: context);
+                            break;
+                        case Html.PositionTypes.BodyScriptTop:
+                            positionType = Displays.HtmlBodyScriptTop(context: context);
+                            break;
+                        case Html.PositionTypes.BodyScriptBottom:
+                            positionType = Displays.HtmlBodyScriptBottom(context: context);
+                            break;
+                    }
+                    hb
+                        .Tr(
+                            css: "grid-row",
+                            attributes: new HtmlAttributes()
+                                .DataId(html.Id.ToString()),
+                            action: () => hb
+                                .Td(action: () => hb
+                                    .CheckBox(
+                                        controlCss: "select",
+                                        _checked: selected?
+                                            .Contains(html.Id) == true))
+                                .Td(action: () => hb
+                                    .Text(text: html.Id.ToString()))
+                                .Td(action: () => hb
+                                    .Text(text: html.Title))
+                                .Td(action: () => hb
+                                    .Text(text: positionType))
+                                .Td(action: () => hb
+                                    .Span(
+                                        css: "ui-icon ui-icon-circle-check",
+                                        _using: html.Disabled == true))
+                                .EditDestinationHtmlBody(
+                                    html: html,
+                                    _using: ss.ReferenceType != "Dashboards"));
+                }));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder EditDestinationHtmlBody(this HtmlBuilder hb, Html html, bool _using)
+        {
+            if (!_using) return hb;
+            return hb
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.All == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.New == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Edit == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Index == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Calendar == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Crosstab == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Gantt == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.BurnDown == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Kamban == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.ImageLib == true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static HtmlBuilder HtmlDialog(
+            Context context, SiteSettings ss, string controlId, Html html)
+        {
+            var hb = new HtmlBuilder();
+            var conditions = ss.ViewSelectableOptions();
+            var outputDestinationCss = " output-destination-html" +
+                (html.All == true
+                    ? " hidden"
+                    : string.Empty);
+            var enclosedCss = " enclosed" +
+                (ss.ReferenceType == "Sites"
+                    ? " hidden"
+                    : string.Empty);
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("HtmlForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldText(
+                        controlId: "HtmlId",
+                        controlCss: " always-send",
+                        labelText: Displays.Id(context: context),
+                        text: html.Id.ToString(),
+                        _using: controlId == "EditHtml")
+                    .FieldTextBox(
+                        controlId: "HtmlTitle",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Title(context: context),
+                        text: html.Title,
+                        validateRequired: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "HtmlPositionType",
+                        controlCss: " always-send",
+                        labelText: Displays.HtmlPositionType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                Html.PositionTypes.HeadTop.ToInt().ToString(),
+                                Displays.HtmlHeadTop(context: context)
+                            },
+                            {
+                                Html.PositionTypes.HeadBottom.ToInt().ToString(),
+                                Displays.HtmlHeadBottom(context: context)
+                            },
+                            {
+                                Html.PositionTypes.BodyScriptTop.ToInt().ToString(),
+                                Displays.HtmlBodyScriptTop(context: context)
+                            },
+                            {
+                                Html.PositionTypes.BodyScriptBottom.ToInt().ToString(),
+                                Displays.HtmlBodyScriptBottom(context: context)
+                            }
+                        },
+                        selectedValue: html.PositionType.ToInt().ToString(),
+                        insertBlank: false)
+                    .FieldTextBox(
+                        textType: HtmlTypes.TextTypes.MultiLine,
+                        controlId: "HtmlBody",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.Html(context: context),
+                        text: html.Body)
+                    .FieldCheckBox(
+                        fieldId: "HtmlDisabled",
+                        controlId: "HtmlDisabled",
+                        controlCss: " always-send",
+                        labelText: Displays.Disabled(context: context),
+                        _checked: html.Disabled == true)
+                    .FieldSet(
+                        css: enclosedCss,
+                        legendText: Displays.OutputDestination(context: context),
+                        action: () => hb
+                            .FieldCheckBox(
+                                fieldId: "HtmlAllField",
+                                controlId: "HtmlAll",
+                                controlCss: " always-send",
+                                labelText: Displays.All(context: context),
+                                _checked: html.All == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlNew",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.New(context: context),
+                                _checked: html.New == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlEdit",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Edit(context: context),
+                                _checked: html.Edit == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlIndex",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Index(context: context),
+                                _checked: html.Index == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlCalendar",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Calendar(context: context),
+                                _checked: html.Calendar == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlCrosstab",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Crosstab(context: context),
+                                _checked: html.Crosstab == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlGantt",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Gantt(context: context),
+                                _checked: html.Gantt == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlBurnDown",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.BurnDown(context: context),
+                                _checked: html.BurnDown == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlTimeSeries",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.TimeSeries(context: context),
+                                _checked: html.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlKamban",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Kamban(context: context),
+                                _checked: html.Kamban == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlImageLib",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.ImageLib(context: context),
+                                _checked: html.ImageLib == true),
+                        _using: ss.ReferenceType != "Dashboards")
+                    .Hidden(
+                        controlId: "HtmlAll",
+                        css: " always-send",
+                        value: "1",
+                        _using: ss.ReferenceType == "Dashboards")
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "AddHtml",
+                            text: Displays.Add(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-disk",
+                            onClick: "$p.setHtml($(this));",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "NewHtml")
+                        .Button(
+                            controlId: "UpdateHtml",
+                            text: Displays.Change(context: context),
+                            controlCss: "button-icon validate",
+                            onClick: "$p.setHtml($(this));",
+                            icon: "ui-icon-disk",
+                            action: "SetSiteSettings",
+                            method: "post",
+                            _using: controlId == "EditHtml")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder ServerScriptsSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
@@ -14565,7 +15022,6 @@ namespace Implem.Pleasanter.Models
         private static HtmlBuilder DashboardPartSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
-            if (context.ContractSettings.Script == false) return hb;
             return hb.FieldSet(id: "DashboardPartSettingsEditor", action: () => hb
                 .Div(css: "command-left", action: () => hb
                     .Button(

@@ -348,21 +348,20 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                     defaultValueHandling: DefaultValueHandling.Ignore,
                     formatting: Formatting.Indented);
             }
-            var match = System.Text.RegularExpressions.Regex.Match(source, @"(?<=\[\[).+(?=\]\])");
-            var data = match?.Success == true
-                ? match.Value.Split(',')
-                : null;
-            var srcId = data?.FirstOrDefault().ToLong() ?? 0;
-            if (srcId > 0)
-            {
-                data[0] = header.GetConvertedId(srcId).ToString();
-                var rep = $"[[{data.Join()}]]";
-                return rep;
-            }
-            else
-            {
-                return source;
-            }
+            var sites = System.Text.RegularExpressions.Regex.Matches(source, @"(?<=\[\[).+(?=\]\])")
+                .Select(m =>
+                {
+                    var data = m.Value.Split(",");
+                    var srcId = data.FirstOrDefault()?.ToLong() ?? 0;
+                    if (srcId <= 0) return string.Empty;
+                    data[0] = header.GetConvertedId(srcId).ToString();
+                    return $"[[{data.Join()}]]";
+                })
+                .Where(s => !s.IsNullOrEmpty())
+                .Join("\n");
+            return sites.IsNullOrEmpty()
+                ? source
+                : sites;
         }
 
         internal static string ReplaceJoinColumn(SitePackage.Header header, string source = "")
