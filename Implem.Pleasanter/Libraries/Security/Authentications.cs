@@ -46,14 +46,21 @@ namespace Implem.Pleasanter.Libraries.Security
 
         private static void SignOutLog(Context context)
         {
-            if (Parameters.SysLog.SignOut)
+            if (Parameters.SysLog.SignOut || Parameters.SysLog.ClientId)
             {
+                var loginId = Parameters.SysLog.SignOut
+                    ? context.LoginId
+                    : null;
+                var clientId = Parameters.SysLog.ClientId
+                    ? AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"]
+                    : null;
                 new SysLogModel(
                     context: context,
                     method: nameof(SignOut),
                     message: new
                     {
-                        LoginId = context.LoginId
+                        LoginId = loginId,
+                        ClientId = clientId
                     }.ToJson());
             }
         }

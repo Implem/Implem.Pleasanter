@@ -4369,6 +4369,66 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Html(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Html",
+                data: data);
+        }
+
+        public static string HtmlBodyScriptBottom(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HtmlBodyScriptBottom",
+                data: data);
+        }
+
+        public static string HtmlBodyScriptTop(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HtmlBodyScriptTop",
+                data: data);
+        }
+
+        public static string HtmlHeadBottom(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HtmlHeadBottom",
+                data: data);
+        }
+
+        public static string HtmlHeadTop(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HtmlHeadTop",
+                data: data);
+        }
+
+        public static string HtmlPositionType(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "HtmlPositionType",
+                data: data);
+        }
+
         public static string HtmlTitle(
             Context context,
             params string[] data)
