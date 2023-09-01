@@ -84,6 +84,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
+        public DateTime? CalendarStart;
+        public DateTime? CalendarEnd;
+        public string CalendarViewType;
         public string CalendarGroupBy;
         public bool? CalendarShowStatus;
         public string CrosstabGroupByX;
@@ -188,6 +191,21 @@ namespace Implem.Pleasanter.Libraries.Settings
         public DateTime GetCalendarDate()
         {
             return CalendarDate ?? DateTime.Now;
+        }
+
+        public DateTime? GetCalendarStart()
+        {
+            return CalendarStart;
+        }
+
+        public DateTime? GetCalendarEnd()
+        {
+            return CalendarEnd;
+        }
+
+        public string GetCalendarViewType()
+        {
+            return CalendarViewType;
         }
 
         public string GetCalendarGroupBy()
@@ -649,6 +667,23 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                             case "CalendarDate":
                                 CalendarDate = Time(
+                                    context: context,
+                                    controlId: controlId);
+                                break;
+                            case "CalendarStart":
+                                CalendarStart = Time(
+                                    context: context,
+                                    controlId: controlId,
+                                    useDateFormat: false);
+                                break;
+                            case "CalendarEnd":
+                                CalendarEnd = Time(
+                                    context: context,
+                                    controlId: controlId,
+                                    useDateFormat: false);
+                                break;
+                            case "CalendarViewType":
+                                CalendarViewType = String(
                                     context: context,
                                     controlId: controlId);
                                 break;
@@ -1419,6 +1454,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (CalendarDate?.InRange() == true)
             {
                 view.CalendarDate = CalendarDate;
+            }
+            if (CalendarStart?.InRange() == true)
+            {
+                view.CalendarStart = CalendarStart;
+            }
+            if (CalendarEnd?.InRange() == true)
+            {
+                view.CalendarEnd = CalendarEnd;
+            }
+            if (!CalendarViewType.IsNullOrEmpty())
+            {
+                view.CalendarViewType = CalendarViewType;
             }
             if (!CalendarGroupBy.IsNullOrEmpty())
             {

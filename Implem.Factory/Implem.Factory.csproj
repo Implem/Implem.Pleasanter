@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Implem.Libraries\Implem.Libraries.csproj" />
     <ProjectReference Include="..\Rds\Implem.IRds\Implem.IRds.csproj" />
     <ProjectReference Include="..\Rds\Implem.PostgreSql\Implem.PostgreSql.csproj" />
     <ProjectReference Include="..\Rds\Implem.SqlServer\Implem.SqlServer.csproj" />
