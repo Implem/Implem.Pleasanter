@@ -23,7 +23,6 @@ namespace Implem.PleasanterTest.Tests.Items
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.ItemsCalendar(id: siteId));
-            context.TimeZoneInfo = TimeZoneInfo.Utc;
             var results = Results(context: context);
             Assert.True(Tester.Test(
                 context: context,
