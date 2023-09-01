@@ -1,4 +1,4 @@
-﻿$p.ajax = function (url, methodType, data, $control, _async, clearMessage, done, fail) {
+﻿$p.ajax = function (url, methodType, data, $control, _async, clearMessage) {
     if ($p.before_send($p.eventArgs(url, methodType, data, $control, _async)) === false) {
         return false;
     }
@@ -40,9 +40,6 @@
                 ? -1
                 : 0;
             $p.execEvents('ajax_after_done', $p.eventArgs(url, methodType, data, $control, _async, ret, json));
-            if (typeof done == 'function') {
-                done(json, textStatus, jqXHR);
-            }
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
             ret = -1;
@@ -60,9 +57,6 @@
                         JSON.parse(jqXHR.responseJSON[0].Value).Text).trim().replace('\n', ''));
                 }
                 $p.execEvents('ajax_after_fail', $p.eventArgs(url, methodType, data, $control, _async, ret, null));
-            }
-            if (typeof fail == 'function') {
-                fail(jqXHR, textStatus, errorThrown);
             }
         })
         .always(function (jqXHR, textStatus) {

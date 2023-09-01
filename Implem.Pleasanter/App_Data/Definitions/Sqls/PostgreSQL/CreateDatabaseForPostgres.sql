@@ -1,1 +1,1 @@
-﻿CREATE DATABASE "#InitialCatalog#" OWNER "#Uid_Owner#";
+﻿create database "#InitialCatalog#" owner "#Uid_Owner#";

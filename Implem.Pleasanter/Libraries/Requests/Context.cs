@@ -453,7 +453,6 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
             {
-                LoginId = userModel.LoginId;
                 SwitchUser = SessionData.Get("SwitchLoginId") != null;
                 Authenticated = true;
                 TenantId = userModel.TenantId;
@@ -1089,7 +1088,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 .Select(o => o.Split_1st(';').Split_1st('=').Trim());
             var responceCookies = AspNetCoreHttpContext.Current.Response.Cookies;
             foreach (var requestCookie in AspNetCoreHttpContext.Current.Request.Cookies
-                .Where(o => !setCookieNames.Contains(o.Key)))
+                .Where(o => !setCookieNames.Contains(o.Key) && !o.Key.StartsWith("Pleasanter_")))
             {
                 responceCookies.Delete(requestCookie.Key);
             }
