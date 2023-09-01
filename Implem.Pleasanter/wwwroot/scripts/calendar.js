@@ -62,14 +62,7 @@ const getEventsDatas = function (info, successCallback, failureCallback) {
         }
 
         let $control = $('#FullCalendarBody');
-        $p.send($control, undefined, true, false, function () { },
-            function () {
-                $p.setMessage(
-                    "#Message",
-                    JSON.stringify({ Css: "alert-error", Text: "データの取得に失敗しました。" })
-                );
-            }
-        );
+        $p.send($control);
     } else {
         $('#IsInit').val('False');
         let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
