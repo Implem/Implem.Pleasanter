@@ -38,7 +38,9 @@ namespace Implem.Pleasanter.Libraries.Requests
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
                     if (ss.CalendarType.ToString() == "FullCalendar") {
-                        begin = !string.IsNullOrEmpty(view.CalendarStart.ToString()) ? (DateTime)view.CalendarStart : begin;
+                        begin = !string.IsNullOrEmpty(view.CalendarStart.ToString())
+                            ? (DateTime)view.CalendarStart
+                            : begin;
                     }
                     return begin.ToUniversal(context: context);
 
@@ -51,7 +53,9 @@ namespace Implem.Pleasanter.Libraries.Requests
         {
             if (ss.CalendarType.ToString() == "FullCalendar")
             {
-                return !string.IsNullOrEmpty(view.CalendarEnd.ToString()) ? (DateTime)view.CalendarEnd : BeginDate(
+                return !string.IsNullOrEmpty(view.CalendarEnd.ToString())
+                    ? (DateTime)view.CalendarEnd
+                    : BeginDate(
                             context: context,
                             ss: ss,
                             date: date,

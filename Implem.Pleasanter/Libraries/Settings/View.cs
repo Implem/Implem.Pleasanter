@@ -1465,7 +1465,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
             if (!CalendarViewType.IsNullOrEmpty())
             {
-                view.CalendarViewType = CalendarViewType; ;
+                view.CalendarViewType = CalendarViewType;
             }
             if (!CalendarGroupBy.IsNullOrEmpty())
             {

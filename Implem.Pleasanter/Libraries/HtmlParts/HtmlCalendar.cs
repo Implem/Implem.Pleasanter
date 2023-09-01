@@ -279,10 +279,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             value: CalendarViewType.ToString()
                         )
                         .Hidden(
-                            controlId: "TimeZone",
-                            value: context.TimeZoneInfo.ToString()
-                        )
-                        .Hidden(
                             controlId:"IsInit",
                             value: "True"
                         )
