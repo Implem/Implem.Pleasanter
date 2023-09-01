@@ -43,8 +43,8 @@
         timePeriod: timePeriod,
         view: view);
     var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-    ? view.CalendarViewType
-    : "dayGridMonth";
+        ? view.CalendarViewType
+        : "dayGridMonth";
     var dataRows = inRangeY
         ? CalendarDataRows(
             context: context,
@@ -182,8 +182,8 @@ public static string CalendarJson(
         timePeriod: timePeriod,
         view: view);
     var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-    ? view.CalendarViewType
-    : "dayGridMonth";
+        ? view.CalendarViewType
+        : "dayGridMonth";
     var dataRows = inRangeY 
         ? CalendarDataRows(
             context: context,

@@ -6696,8 +6696,8 @@ namespace Implem.Pleasanter.Models
                 timePeriod: timePeriod,
                 view: view);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-            ? view.CalendarViewType
-            : "dayGridMonth";
+                ? view.CalendarViewType
+                : "dayGridMonth";
             var dataRows = inRangeY
                 ? CalendarDataRows(
                     context: context,
@@ -6835,8 +6835,8 @@ namespace Implem.Pleasanter.Models
                 timePeriod: timePeriod,
                 view: view);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-            ? view.CalendarViewType
-            : "dayGridMonth";
+                ? view.CalendarViewType
+                : "dayGridMonth";
             var dataRows = inRangeY 
                 ? CalendarDataRows(
                     context: context,
