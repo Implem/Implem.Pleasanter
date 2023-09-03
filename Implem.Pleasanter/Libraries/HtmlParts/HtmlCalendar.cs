@@ -2,6 +2,7 @@
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
+using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
@@ -27,13 +28,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column toColumn,
             DateTime date,
             DateTime begin,
+            DateTime end,
+            string CalendarViewType,
             Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
             bool showStatus,
             bool inRange,
             long changedItemId)
         {
-            return hb.Div(id: "Calendar", css: "both", action: () => hb
+            if (ss.CalendarType.ToString() == "Standard")
+            {
+                return hb.Div(id: "Calendar", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarGroupBy",
@@ -115,23 +120,76 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             toColumn: toColumn,
                             date: date,
                             begin: begin,
+                            end: end,
+                            CalendarViewType: CalendarViewType,
                             choices: choices,
                             dataRows: dataRows,
                             showStatus: showStatus,
                             inRange: inRange,
                             changedItemId: changedItemId)));
+            } else {
+                return hb.Div(id: "Calendar", css: "both", action: () => hb
+                .FieldDropDown(
+                    context: context,
+                    controlId: "CalendarFromTo",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.Column(context: context),
+                    optionCollection: ss.CalendarColumnOptions(context: context),
+                    selectedValue: toColumn == null
+                        ? fromColumn?.ColumnName
+                        : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
+                    action: "Calendar",
+                    method: "post")
+                .FieldCheckBox(
+                    controlId: "CalendarShowStatus",
+                    fieldCss: "field-auto-thin",
+                    controlCss: " auto-postback",
+                    labelText: Displays.ShowStatus(context: context),
+                    _checked: showStatus,
+                    method: "post")
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("FullCalendar")
+                    )
+                .Div(
+                    attributes: new HtmlAttributes()
+                        .Id("FullCalendarBody")
+                        .DataAction("UpdateByCalendar")
+                        .DataMethod("post"),
+                    action: () => hb
+                        .CalendarBody(
+                            context: context,
+                            ss: ss,
+                            timePeriod: timePeriod,
+                            groupBy: groupBy,
+                            fromColumn: fromColumn,
+                            toColumn: toColumn,
+                            date: date,
+                            begin: begin,
+                            end: end,
+                            CalendarViewType: CalendarViewType,
+                            choices: choices,
+                            dataRows: dataRows,
+                            showStatus: showStatus,
+                            inRange: inRange,
+                            changedItemId: changedItemId)));
+            }
         }
 
         public static HtmlBuilder CalendarBody(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
+
             string timePeriod,
             Column groupBy,
             Column fromColumn,
             Column toColumn,
             DateTime date,
             DateTime begin,
+            DateTime end,
+            string CalendarViewType,
             Dictionary<string, ControlData> choices,
             IEnumerable<DataRow> dataRows,
             bool showStatus,
@@ -170,37 +228,82 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: fromColumn?.DefaultInput)
                 .Hidden(
                     controlId: "CalendarToDefaultInput",
-                    value: toColumn?.DefaultInput);
-            return inRange
-                ? hb
-                    .Hidden(
-                        controlId: "CalendarJson",
-                        value: choices == null
-                            ? Json(
-                                context: context,
-                                ss: ss,
-                                from: fromColumn,
-                                to: toColumn,
-                                dataRows: dataRows,
-                                changedItemId: changedItemId,
-                                showStatus: showStatus)
-                            : GroupingJson(
-                                context: context,
-                                ss: ss,
-                                from: fromColumn,
-                                to: toColumn,
-                                groupBy: groupBy,
-                                dataRows: dataRows,
-                                changedItemId: changedItemId,
-                                showStatus: showStatus))
-                    .CalendarBodyTable(
-                        context: context,
-                        timePeriod: timePeriod,
-                        date: date,
-                        begin: begin,
-                        groupBy: groupBy,
-                        choices: choices)
-                : hb;
+                    value: toColumn?.DefaultInput)
+                .Hidden(
+                    controlId: "CalendarType",
+                    value: ss.CalendarType.ToString());
+            if (ss.CalendarType.ToString() == "Standard") { 
+                return inRange
+                    ? hb
+                        .Hidden(
+                            controlId: "CalendarJson",
+                            value: choices == null
+                                ? Json(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus)
+                                : GroupingJson(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    groupBy: groupBy,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus))
+                        .CalendarBodyTable(
+                            context: context,
+                            timePeriod: timePeriod,
+                            date: date,
+                            begin: begin,
+                            groupBy: groupBy,
+                            choices: choices)
+                    : hb;
+            } else {
+                return inRange
+                    ? hb
+                        .Hidden(
+                            controlId: "CalendarStart",
+                            value: begin.ToString()
+                        )
+                        .Hidden(
+                            controlId: "CalendarEnd",
+                            value: end.ToString()
+                        )
+                        .Hidden(
+                            controlId: "CalendarViewType",
+                            value: CalendarViewType.ToString()
+                        )
+                        .Hidden(
+                            controlId:"IsInit",
+                            value: "True"
+                        )
+                        .Hidden(
+                            controlId: "CalendarJson",
+                            value: choices == null
+                                ? Json(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus)
+                                : GroupingJson(
+                                    context: context,
+                                    ss: ss,
+                                    from: fromColumn,
+                                    to: toColumn,
+                                    groupBy: groupBy,
+                                    dataRows: dataRows,
+                                    changedItemId: changedItemId,
+                                    showStatus: showStatus))
+                    : hb;
+            }
         }
 
         private static HtmlBuilder CalendarBodyTable(
@@ -443,27 +546,52 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId,
             bool showStatus)
         {
-            return dataRows
-                .GroupBy(
-                    dataRow => dataRow.String(groupBy?.ColumnName),
-                    dataRow =>
-                        CreateCalendarElement(
-                            context: context,
-                            ss: ss,
-                            from: from,
-                            to: to,
-                            changedItemId: changedItemId,
-                            dataRow: dataRow,
-                            showStatus: showStatus))
-                .Select(group => new
-                {
-                    group = group.Key,
-                    items = group
-                        .OrderBy(o => o.From)
-                        .ThenBy(o => o.To)
-                        .ThenBy(o => o.UpdatedTime)
-                })
-                .ToJson();
+            if (ss.CalendarType.ToString() == "Standard")
+            {
+                return dataRows
+                    .GroupBy(
+                        dataRow => dataRow.String(groupBy?.ColumnName),
+                        dataRow =>
+                            CreateCalendarElement(
+                                context: context,
+                                ss: ss,
+                                from: from,
+                                to: to,
+                                changedItemId: changedItemId,
+                                dataRow: dataRow,
+                                showStatus: showStatus))
+                    .Select(group => new
+                    {
+                        group = group.Key,
+                        items = group
+                            .OrderBy(o => o.From)
+                            .ThenBy(o => o.To)
+                            .ThenBy(o => o.UpdatedTime)
+                    })
+                    .ToJson();
+            } else {
+                return dataRows
+                    .GroupBy(
+                        dataRow => dataRow.String(groupBy?.ColumnName),
+                        dataRow =>
+                            CreateFullCalendarElement(
+                                context: context,
+                                ss: ss,
+                                from: from,
+                                to: to,
+                                changedItemId: changedItemId,
+                                dataRow: dataRow,
+                                showStatus: showStatus))
+                    .Select(group => new
+                    {
+                        group = group.Key,
+                        items = group
+                            .OrderBy(o => o.start)
+                            .ThenBy(o => o.end)
+                            .ThenBy(o => o.UpdatedTime)
+                    })
+                    .ToJson();
+            }
         }
 
         private static string Json(
@@ -475,23 +603,43 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId,
             bool showStatus)
         {
-            return new [] { new
-            {
-                group = (string)null,
-                items = dataRows.Select(dataRow =>
-                    CreateCalendarElement(
-                        context: context,
-                        ss: ss,
-                        from: from,
-                        to: to,
-                        dataRow: dataRow,
-                        changedItemId: changedItemId,
-                        showStatus: showStatus))
-                            .OrderBy(o => o.From)
-                            .ThenBy(o => o.To)
-                            .ThenBy(o => o.UpdatedTime)
-            }}
-            .ToJson();
+            if (ss.CalendarType.ToString() == "Standard") {
+                return new[] { new
+                {
+                    group = (string)null,
+                    items = dataRows.Select(dataRow =>
+                        CreateCalendarElement(
+                            context: context,
+                            ss: ss,
+                            from: from,
+                            to: to,
+                            dataRow: dataRow,
+                            changedItemId: changedItemId,
+                            showStatus: showStatus))
+                                .OrderBy(o => o.From)
+                                .ThenBy(o => o.To)
+                                .ThenBy(o => o.UpdatedTime)
+                }}
+                .ToJson();
+            } else {
+                return new[] { new
+                {
+                    group = (string)null,
+                    items = dataRows.Select(dataRow =>
+                        CreateFullCalendarElement(
+                            context: context,
+                            ss: ss,
+                            from: from,
+                            to: to,
+                            dataRow: dataRow,
+                            changedItemId: changedItemId,
+                            showStatus: showStatus))
+                                .OrderBy(o => o.start)
+                                .ThenBy(o => o.end)
+                                .ThenBy(o => o.UpdatedTime)
+                }}
+                .ToJson();
+            }
         }
 
         private static CalendarElement CreateCalendarElement(
@@ -507,6 +655,38 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 id: dataRow.Long("Id"),
                 title: dataRow.String("ItemTitle"),
                 time: (from?.EditorFormat == "Ymdhm"
+                    ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
+                    : null),
+                from: ConvertIfCompletionTime(
+                context: context,
+                column: from,
+                dateTime: dataRow.DateTime("from")),
+                to: ConvertIfCompletionTime(
+                    context: context,
+                    column: to,
+                    dateTime: dataRow.DateTime("to")),
+                changedItemId: changedItemId,
+                updatedTime: dataRow.DateTime("UpdatedTime"),
+                statusHtml: ElementStatus(
+                    context: context,
+                    ss: ss,
+                    status: new Status(dataRow.Int("Status")),
+                    showStatus: showStatus));
+        }
+
+        private static FullCalendarElement CreateFullCalendarElement(
+            Context context,
+            SiteSettings ss,
+            Column from,
+            Column to,
+            DataRow dataRow,
+            long changedItemId,
+            bool showStatus)
+        {
+            return new FullCalendarElement(
+                Id: dataRow.Long("Id"),
+                Title: dataRow.String("ItemTitle"),
+                Time: (from?.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
                     : null),
                 from: ConvertIfCompletionTime(
