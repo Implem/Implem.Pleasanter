@@ -4406,16 +4406,15 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void LoginSuccessLog(Context context)
         {
-            if (Parameters.SysLog.LoginSuccess)
+            if (Parameters.SysLog.LoginSuccess || Parameters.SysLog.ClientId)
             {
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
-                    message: new
-                    {
-                        LoginId = LoginId,
-                        Success = true
-                    }.ToJson());
+                    message: LoginMessage(
+                        success: Parameters.SysLog.LoginSuccess
+                            ? true
+                            : null));
             }
         }
 
@@ -4424,20 +4423,31 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void LoginFailureLog(Context context, string description)
         {
-            if (Parameters.SysLog.LoginFailure)
+            if (Parameters.SysLog.LoginFailure || Parameters.SysLog.ClientId)
             {
                 new SysLogModel(
                     context: context,
                     method: nameof(Authenticate),
-                    sysLogsStatus: 401,
-                    sysLogsDescription: $"{Debugs.GetSysLogsDescription()}:{Messages.Authentication(context: context).Text}",
-                    message: new
-                    {
-                        LoginId = LoginId,
-                        Success = false
-                    }.ToJson(),
-                    sysLogType: SysLogModel.SysLogTypes.UserError);
+                    message: LoginMessage(
+                        success: Parameters.SysLog.LoginFailure
+                            ? false
+                            : null));
             }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string LoginMessage(bool? success)
+        {
+            return new
+            {
+                LoginId = success != null ? LoginId : null,
+                Success = success,
+                ClientId = Parameters.SysLog.ClientId
+                    ? AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"]
+                    : null
+            }.ToJson();
         }
 
         /// <summary>
@@ -4912,7 +4922,9 @@ namespace Implem.Pleasanter.Models
             {
                 var dashboardUrl = Locations.DashboardUrl(context: context);
                 return dashboardUrl.IsNullOrEmpty()
-                    ? Parameters.Locations.LoginAfterUrl
+                    ? Locations.Get(
+                        context: context,
+                        parts: Parameters.Locations.LoginAfterUrl)
                     : dashboardUrl;
             }
             return returnUrl;

@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0",
   "defaultProvider": "cdnjs",
   "libraries": [
@@ -8,6 +8,13 @@
       "files": [
         "gridstack-all.min.js",
         "gridstack.min.css"
+      ]
+    },
+    {
+      "library": "fullcalendar@6.1.8",
+      "destination": "wwwroot/scripts/plugins/fullcalendar/",
+      "files": [
+        "index.global.min.js"
       ]
     }
   ]

@@ -420,6 +420,7 @@ namespace Implem.Pleasanter.NetCore
             if (!httpContext.Session.Keys.Any(key => key == enabled))
             {
                 AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current.Session.Set("SessionGuid", System.Text.Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(Strings.NewGuid())));
+                SetClientId();
                 httpContext.Session.Set(enabled, new byte[] { 1 });
                 var context = SessionStartContext();
                 SessionUtilities.SetStartTime(context: context);
@@ -454,6 +455,22 @@ namespace Implem.Pleasanter.NetCore
                 Action = "Session_Start",
                 Id = 0
             };
+        }
+
+        private static void SetClientId()
+        {
+            if (Parameters.SysLog.ClientId &&
+                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Request.Cookies["Pleasanter_ClientId"] == null)
+            {
+                AspNetCoreCurrentRequestContext.AspNetCoreHttpContext.Current?.Response.Cookies.Append(
+                    "Pleasanter_ClientId",
+                    Strings.NewGuid(),
+                    new CookieOptions()
+                    {
+                        Expires = DateTime.UtcNow.AddDays(400),
+                        Secure= true
+                    });
+            }
         }
 
         private static bool WindowsAuthenticated(Context context)
