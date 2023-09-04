@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustainsys.Saml2.AspNetCore2;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
@@ -399,7 +400,7 @@ namespace Implem.Pleasanter.Controllers
         /// </summary>
         [AllowAnonymous]
         [HttpPost]
-        public string Authenticate(string returnUrl)
+        public string Authenticate(string returnUrl, int isAuthenticationByMail = 0)
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
@@ -407,7 +408,8 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 returnUrl: Url.IsLocalUrl(returnUrl)
                     ? returnUrl
-                    : string.Empty);
+                    : string.Empty,
+                isAuthenticationByMail: Convert.ToBoolean(isAuthenticationByMail));
             log.Finish(
                 context: context,
                 responseSize: json.Length);

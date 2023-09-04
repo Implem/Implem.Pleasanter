@@ -609,6 +609,12 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "EnableSecretKey":
+                        return userModel.EnableSecretKey.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "MailAddresses":
                         return userModel.GetMailAddresses(context: context).Join();
                     default:
