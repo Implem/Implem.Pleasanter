@@ -364,7 +364,7 @@ function setFullCalendar() {
         locale: supportedLanguages.includes(language) ? language : 'en',
         selectMirror: true,
         eventClick: (e) => {
-            window.location.href = '/items/' + e.event.id + '/edit';
+            window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
         },
         select: newRecord,
         events: getEventsDatas,
