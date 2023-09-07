@@ -1,5 +1,14 @@
 ﻿$p.templates = function ($control) {
     $p.send($control, 'MainForm');
+    /*
+        日付: 2023-08-09
+        タスクID: 10109990
+        開発者: CodLUCK QuanNA
+    */
+    if ($p.responsive() && screen.width < 768) {
+        $p.openResponsiveMenu();
+    }
+    /* End タスクID: 10109990 */
 }
 
 $p.setTemplate = function () {

@@ -3,6 +3,15 @@
         .replace('_action_', $control.attr('data-action').toLowerCase());
     $p.ajax(url, 'post', $p.getData($control), $control);
     history.pushState(null, null, url);
+    /*
+        日付: 2023-08-15
+        タスクID: 10109990
+        開発者: CodLUCK QuanNA
+    */
+    if ($p.responsive() && screen.width < 768) {
+        $p.openResponsiveMenu();
+    }
+    /* End タスクID: 10109990 */
 }
 
 $p.changeViewSelector = function ($control) {
