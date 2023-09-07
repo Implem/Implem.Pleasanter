@@ -6,6 +6,15 @@
             width: '520px'
         });
     }
+    /*
+        日付: 2023-08-16
+        タスクID: 10109990
+        開発者: CodLUCK QuanNA
+    */
+    if ($p.responsive()) {
+        $p.openResponsiveMenu();
+    }
+    /* End タスクID: 10109990 */
 }
 
 $p.importSitePackage = function ($control) {
@@ -44,6 +53,15 @@ $p.openExportSitePackageDialog = function ($control) {
             }
         });
     }
+    /*
+        日付: 2023-08-16
+        タスクID: 10109990
+        開発者: CodLUCK QuanNA
+    */
+    if ($p.responsive()) {
+        $p.openResponsiveMenu();
+    }
+    /* End タスクID: 10109990 */
 }
 
 $p.exportSitePackage = function () {
