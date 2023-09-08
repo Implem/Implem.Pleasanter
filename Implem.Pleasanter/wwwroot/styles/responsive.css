@@ -63,15 +63,9 @@
         float: left;
     }
     @media screen and (max-width: 600px) and (min-width: 0px) {
-    /*
-        日付: 2023-08-24
-        タスクID: 10109354
-        開発者: CodLUCK DatNT1
-    */
         #LoginFieldSet .field-wide {
             /* Remove min-height: 10vw !important; */
         }
-    /* End タスクID: 10109354 */
     }
     #StartGuide {
         display: none;
@@ -79,16 +73,10 @@
     .container-normal > #ApiKey {
         word-break: break-all;
     }
-    /*
-        日付: 2023-08-24
-        タスクID: No65
-        開発者: CodLUCK DatNT1
-    */
     div[role="dialog"] {
         width: 100% !important;
         z-index: 999;
     }
-    /* End タスクID: No65 */
     #EnterPriseBanner, #SupportBanner, #CasesBanner {
         display: none;
     }
@@ -125,17 +113,11 @@
     #ViewFilters>.field-auto-thin>.field-control { width: 100%;}
     #ViewFilters>.field-auto-thin>.field-label { width: 30%; text-align: left;}
     #ViewFilters>.field-auto-thin>.field-label+.field-control { width: 70%; }
-    /*
-        日付: 2023-08-10
-        タスクID: 9943778
-        開発者: CodLUCK QuanNA
-    */
     .ui-multiselect {
         /* Change width: 98% !important; */
         width: 100% !important;
         height: 6vw;
     }
-    /* End タスクID: 9943778 */
     
     .field-auto-thin input[type="checkbox"], 
     .field-auto-thin input[type="radio"] { height: 2.6vw;  width: 2.6vw; margin-right: 1vw; }
@@ -178,16 +160,10 @@
 .field-normal .control-text{ width: 100%; height: auto; padding: 1%; line-height: 1; }
 .control-textbox { height: auto; }
     
-    /*
-        日付: 2023-08-10
-        タスクID: 10109392
-        開発者: CodLUCK QuanNA
-    */
-    .ui-widget.ui-widget-content {
-        /* Remove background: #fff; */
-        font-size: 2.6vw;
-    }
-    /* End タスクID: 10109392 */
+.ui-widget.ui-widget-content {
+    /* Remove background: #fff; */
+    font-size: 2.6vw;
+}
 #Guide { font-size: 2.6vw; }
 
 .alert-success,
@@ -198,24 +174,18 @@
 #Footer { z-index: 102; }
 
 .ui-tabs .ui-tabs-nav { padding:1%; font-size: 2.6vw; }
-    /*
-        日付: 2023-08-11
-        タスクID: 10109392
-        開発者: CodLUCK QuanNA
-    */
-    .ui-tabs .ui-tabs-nav li {
-        margin-bottom: 1%;
-        padding-bottom: 0;
-        /* Remove border: 1px solid #111; */
-        border-radius: 4px;
-    }
-    .ui-tabs .ui-tabs-nav li.ui-tabs-active {
-        margin-bottom: 1%;
-        padding-bottom: 0;
-        /* Remove border: 1px solid #111; */
-        border-radius: 4px;
-    }
-    /* End タスクID: 10109392 */
+.ui-tabs .ui-tabs-nav li {
+    margin-bottom: 1%;
+    padding-bottom: 0;
+    /* Remove border: 1px solid #111; */
+    border-radius: 4px;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    margin-bottom: 1%;
+    padding-bottom: 0;
+    /* Remove border: 1px solid #111; */
+    border-radius: 4px;
+}
 .message { bottom: 140px; }
 }
 
@@ -224,17 +194,11 @@
 
 body { min-width: 320px!important; }
 #Header { height: auto; position: relative; }
-    /*
-        日付: 2023-08-22
-        タスクID: 9972000
-        開発者: CodLUCK QuanNA
-    */
-    /* Remove
-        #Header #Logo {
-            padding-bottom: 2%;
-        }
-    */
-    /* End タスクID: 9972000 */
+/* Remove
+    #Header #Logo {
+        padding-bottom: 2%;
+    }
+*/
     #CorpLogo { float: none; width: 30%;}
 #MainContainer { min-height: 100vh; }
 
@@ -285,11 +249,6 @@ transition: .5s;
     background: none;
 }
 
-/*
-    日付: 2023-08-11
-    タスクID: 10109392
-    開発者: CodLUCK QuanNA
-*/
 /* Remove
     #Header .ui-widget-header {
         background: #f3f3f3;
@@ -301,7 +260,6 @@ transition: .5s;
         color: #fff;
     }
 */
-/* End タスクID: 10109392 */
 #NavigationMenu {
     float: none;
     margin-right: 0;
@@ -313,11 +271,7 @@ transition: .5s;
     margin: 0;
     color: #000;
 }
-    /*
-        日付: 2023-08-11
-        タスクID: 10109392
-        開発者: CodLUCK QuanNA
-    */
+
     #NavigationMenu > li {
         width: 100%;
         height: auto;
@@ -343,7 +297,7 @@ transition: .5s;
         text-decoration: none;
         font-weight: bold;
     }
-    /* End タスクID: 10109392 */
+
     #NavigationMenu .menu {
         width: 100%;
         border-top: none !important;
@@ -361,19 +315,14 @@ transition: .5s;
 font-weight: normal;
 text-decoration: none;
 }
-    /*
-        日付: 2023-08-11
-        タスクID: 10109392
-        開発者: CodLUCK QuanNA
-    */
-    /* Remove
-        .ui-widget.ui-widget-content {
-        }
-        .ui-widget-content {
-            color: #333;
-        }
-    */
-    /* End タスクID: 10109392 */
+
+/* Remove
+    .ui-widget.ui-widget-content {
+    }
+    .ui-widget-content {
+        color: #333;
+    }
+*/
 
 .ui-menu .ui-menu-item { 
 border-top: 1px solid #d19405;
@@ -389,11 +338,7 @@ border: 1px solid #d19405;
 }
 
 @media screen and (max-width: 767px) and (min-width: 0px) {
-    /*
-        日付: 2023-08-11
-        タスクID: 10109392
-        開発者: CodLUCK QuanNA
-    */
+
 #SiteMenu .nav-site {
 width: 20vw;
 height: 20vw;
@@ -433,7 +378,7 @@ background-color: #f8da4c;
 border: solid 2px #ffa500;
 */
 }
-/* End タスクID: 10109392 */
+
 #SiteMenu .nav-site.sites.to-parent{
 height: auto!important;
 box-shadow: none;
@@ -687,11 +632,6 @@ overflow: hidden;
     #KambanBody .grid>tbody td { min-width: 10vw; white-space: nowrap; }
 }
 
-/*
-    日付: 2023-09-05
-    タスクID: 9965959, 9965955
-    開発者: CodLUCK QuanNA
-*/
 /*  Remove
 
 .grid>thead>tr:first-child>th:first-child {width: 20px;}
@@ -708,13 +648,7 @@ overflow: hidden;
 
 }
 */
-/* End タスクID: 9965959, 9965955 */
 
-/*
-    日付: 2023-08-01
-    タスクID: 9964209
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Header {
     padding: 0 calc(5vw);
@@ -754,24 +688,12 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9964209 */
-/*
-    日付: 2023-08-02
-    タスクID: 9966196
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #HeaderTitle {
     font-size: 16px;
   }
 }
 
-/* End タスクID: 9966196 */
-/*
-    日付: 2023-08-02
-    タスクID: 9965801
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   .command-center {
     padding: 0;
@@ -785,24 +707,12 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9965801 */
-/*
-    日付: 2023-08-03
-    タスクID: 9943767
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewSelector {
     font-size: 2.6vw;
   }
 }
 
-/* End タスクID: 9943767 */
-/*
-    日付: 2023-08-04
-    タスクID: 9972000
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Logo a {
     align-items: center;
@@ -820,12 +730,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9972000 */
-/*
-    日付: 2023-08-04
-    タスクID: 9964339
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Editor .field-control .container-normal {
     width: calc(100% - 20px);
@@ -850,12 +754,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9964339 */
-/*
-    日付: 2023-08-04
-    タスクID: 9966174
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #FieldSetAddressBook #OutgoingMailDestinationForm .container-left {
     width: 38vw;
@@ -875,24 +773,12 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9966174 */
-/*
-    日付: 2023-08-08
-    タスクID: 10109540
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Issues_WorkValue {
     width: 100px;
   }
 }
 
-/* End タスクID: 10109540 */
-/*
-    日付: 2023-08-08
-    タスクID: 9964351
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   body::before {
     content: '';
@@ -916,12 +802,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9964351 */
-/*
-    日付: 2023-08-08
-    タスクID: 10109354
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Users_LoginId,
   #Users_Password {
@@ -958,12 +838,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109354 */
-/*
-    日付: 2023-08-04
-    タスクID: 10109837
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Editor .field-markdown > .field-label > label {
     font-weight: bold;
@@ -977,12 +851,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109837 */
-/*
-    日付: 2023-08-28
-    タスクID: No41
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #GridCheckAll {
     margin-top: 0;
@@ -1002,12 +870,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No41 */
-/*
-    日付: 2023-08-28
-    タスクID: No51
-    開発者: CodLUCK QuanNA
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #SiteImageSettingsEditor .field-auto-thin, #GridSettingsEditor .field-auto-thin, #FiltersSettingsEditor .field-auto-thin, #EditorSettingsEditor .field-auto-thin,
   #LinksSettingsEditor .field-auto-thin, #HistoriesSettingsEditor .field-auto-thin, #FormulasSettingsEditor .field-auto-thin, #ViewsSettingsEditor .field-auto-thin,
@@ -1070,12 +932,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No51 */
-/*
-    日付: 2023-08-02
-    タスクID: 9943813
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Aggregations {
     display: flex;
@@ -1114,12 +970,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9943813 */
-/*
-    日付: 2023-08-02
-    タスクID: 9943825
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer .grid {
     vertical-align: middle;
@@ -1136,12 +986,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9943825 */
-/*
-    日付: 2023-08-02
-    タスクID: 9943675
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #SearchField #Search {
     font-size: 3vw;
@@ -1152,12 +996,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9943675 */
-/*
-    日付: 2023-08-03
-    タスクID: 9943778
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewFilters #ViewFilters_Reset {
     margin-left: auto;
@@ -1220,12 +1058,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9943778 */
-/*
-    日付: 2023-08-03
-    タスクID: 9965588
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #EditorTabsContainer .legend.applied {
     display: flex;
@@ -1269,12 +1101,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9965588 */
-/*
-    日付: 2023-08-04
-    タスクID: 9964351
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   thead > tr.ui-widget-header th div > span {
     font-size: 2.8vw;
@@ -1282,12 +1108,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9964351 */
-/*
-    日付: 2023-08-04
-    タスクID: 9964335
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #EditorTabsContainer .field-control .container-normal .ui-icon.ui-icon-pencil.button-edit-markdown {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTJweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTJweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zIDE3LjI1VjIxaDMuNzVMMTcuODEgOS45NGwtMy43NS0zLjc1TDMgMTcuMjV6TTIwLjcxIDcuMDRjLjM5LS4zOS4zOS0xLjAyIDAtMS40MWwtMi4zNC0yLjM0Yy0uMzktLjM5LTEuMDItLjM5LTEuNDEgMGwtMS44MyAxLjgzIDMuNzUgMy43NSAxLjgzLTEuODN6Ii8+PC9zdmc+");
@@ -1309,12 +1129,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9964335 */
-/*
-    日付: 2023-08-04
-    タスクID: 9964355
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #EditorTabsContainer {
     overflow: auto;
@@ -1331,12 +1145,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9964355 */
-/*
-    日付: 2023-08-07
-    タスクID: 9943652
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   .is-showMenu {
     overflow: hidden;
@@ -1411,12 +1219,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9943652 */
-/*
-    日付: 2023-08-07
-    タスクID: 9966156
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #OutgoingMailsForm {
     width: 100%;
@@ -1483,25 +1285,12 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 9966156 */
-/*
-    日付: 2023-08-07
-    タスクID: 9943575
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #SiteMenu li.ui-sortable-handle {
     touch-action: unset;
   }
 }
 
-/* End タスクID: 9943575 */
-
-/*
-    日付: 2023-08-08
-    タスクID: 10109431
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   .message .close {
     top: unset;
@@ -1510,12 +1299,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109431 */
-/*
-    日付: 2023-08-08
-    タスクID: 10109374
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #EditorComments #CommentField .ui-icon.ui-icon-image.button-upload-image {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTJweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTJweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMSAxOVY1YzAtMS4xLS45LTItMi0ySDVjLTEuMSAwLTIgLjktMiAydjE0YzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJ6TTguNSAxMy41bDIuNSAzLjAxTDE0LjUgMTJsNC41IDZINWwzLjUtNC41eiIvPjwvc3ZnPg==");
@@ -1528,12 +1311,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109374 */
-/*
-    日付: 2023-08-09
-    タスクID: 10109986
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Navigations.open {
     overflow-y: scroll;
@@ -1551,12 +1328,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109986 */
-/*
-    日付: 2023-08-09
-    タスクID: 10109863
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Editor .field-normal .field-control .container-normal input[type='checkbox'].control-checkbox {
     position: relative;
@@ -1565,12 +1336,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109863 */
-/*
-    日付: 2023-08-09
-    タスクID: 10109814
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Editor #EditorTabsContainer .field-normal, #Editor #EditorTabsContainer .field-wide, #Editor #EditorTabsContainer .field-markdown {
     display: inline-block;
@@ -1579,12 +1344,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10109814 */
-/*
-    日付: 2023-08-11
-    タスクID: 10110178
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer #Calendar.both select {
     font-size: 2.6vw;
@@ -1655,12 +1414,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10110178 */
-/*
-    日付: 2023-08-10
-    タスクID: 10110714
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer .both {
     column-gap: 16px;
@@ -1732,12 +1485,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10110714 */
-/*
-    日付: 2023-08-10
-    タスクID: 10110376
-    開発者: CodLUCK HoaNK
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer #Kamban.both .field-auto-thin select {
     font-size: 2.6vw;
@@ -1803,12 +1550,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: 10110376 */
-/*
-  日付: 2023-08-29
-  タスクID: No45
-  開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #RecordSwitchers {
     display: flex;
@@ -1821,12 +1562,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No45 */
-/*
-  日付: 2023-09-05
-  タスクID: No48
-  開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0) {
   #Editor #RecordHeader .user {
     display: flex;
@@ -1837,12 +1572,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No48 */
-/*
-    日付: 2023-08-25
-    タスクID: No49 & No50
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #OutgoingMailDialog .field-wide {
     padding-bottom: 5px;
@@ -1862,12 +1591,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No49 & No50 */
-/*
-    日付: 2023-08-24
-    タスクID: No55
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   .show-password {
     top: calc(50% - 10px);
@@ -1886,24 +1609,12 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No55 */
-/*
-    日付: 2023-08-24
-    タスクID: No53
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #Navigations.open {
     padding-top: 18vw;
   }
 }
 
-/* End タスクID: No53 */
-/*
-    日付: 2023-08-29
-    タスクID: No63 & No64
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer .field-auto-thin > .field-label {
     padding: 7px 2vw 7px 0;
@@ -1937,12 +1648,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No63 & No64 */
-/*
-    日付: 2023-09-05
-    タスクID: No65 & No66
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ImportSettingsDialog .control-checkbox + label {
     margin: 1.8vw 0 0 1vw;
@@ -1959,24 +1664,12 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No65 & No66 */
-/*
-    日付: 2023-09-05
-    タスクID: No67 & No68
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ExportSelectorDialog .command-center {
     padding: 2vw 0;
   }
 }
 
-/* End タスクID: No67 & No68 */
-/*
-    日付: 2023-08-31
-    タスクID: No69 & No70
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer #Grid .datepicker {
     width: 35vw;
@@ -1984,12 +1677,6 @@ overflow: hidden;
   }
 }
 
-/* End タスクID: No69 & No70 */
-/*
-    日付: 2023-08-30
-    タスクID: No71 & No72
-    開発者: CodLUCK DatNT1
-*/
 @media screen and (max-width: 767px) and (min-width: 0px) {
   #ViewModeContainer .both #TimeSeriesValueField,
   #ViewModeContainer .both #TimeSeriesChartTypeField,
@@ -2016,5 +1703,3 @@ overflow: hidden;
     min-width: 68%;
   }
 }
-
-/* End タスクID: No71 & No72 */

@@ -1,9 +1,4 @@
-﻿/*
-    日付: 2023-08-08
-    タスクID: 9943652
-    開発者: CodLUCK HoaNK
-*/
-$p.openResponsiveMenu = function () {
+﻿$p.openResponsiveMenu = function () {
     var t = document.getElementById('Navigations');
     var t2 = document.getElementById('navtgl');
     const body = $('body');
@@ -81,7 +76,6 @@ $(document).ready(function () {
         });
     }
 });
-/* End タスクID: 9943652 */
 
 $p.switchResponsive = function ($control) {
     var redirect = 1;
@@ -111,16 +105,11 @@ $.each($toggleBtns, function (i, el) {
     });
 });
 
-if ($p.responsive() && screen.width < 768) {
+if (screen.width < 768) {
     $p.send($('#ReduceViewFilters'));
     $p.send($('#ReduceAggregations'));
 }
 
-/*
-    日付: 2023-08-08
-    タスクID: 10109431
-    開発者: CodLUCK HoaNK
-*/
 $(document).ready(function () {
     function handleSMobileViewport() {
         let heightMainCommand;
@@ -159,13 +148,7 @@ $(document).ready(function () {
         }
     });
 });
-/* End タスクID: 10109431 */
 
-/*
-    日付: 2023-08-08
-    タスクID: 9964351
-    開発者: CodLUCK QuanNA
-*/
 if ($p.responsive() && screen.width < 768) {
     $('#ViewModeContainer').on('scroll', function () {
         let scrollLeft = $(this).scrollLeft();
@@ -176,4 +159,3 @@ if ($p.responsive() && screen.width < 768) {
         }
     });
 }
-/* End タスクID: 9964351 */
