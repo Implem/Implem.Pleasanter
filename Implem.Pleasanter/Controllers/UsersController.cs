@@ -13,9 +13,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Sustainsys.Saml2.AspNetCore2;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Security.Claims;
 namespace Implem.Pleasanter.Controllers
 {
     [Authorize]
@@ -652,6 +649,49 @@ namespace Implem.Pleasanter.Controllers
             var context = new Context();
             var log = new SysLogModel(context: context);
             var json = UserUtilities.CloseAnnouncement(context: context);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
+        public ActionResult TrashBox()
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+
+            if (!context.Ajax)
+            {
+                var html = UserUtilities.TrashBox(context: context, ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+                ViewBag.HtmlBody = html;
+                log.Finish(context: context, responseSize: html.Length);
+                return context.RedirectData.Url.IsNullOrEmpty()
+                    ? View()
+                    : Redirect(context.RedirectData.Url);
+            }
+            else
+            {
+                var json = UserUtilities.TrashBoxJson(context: context, ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+                log.Finish(context: context, responseSize: json.Length);
+                return Content(json);
+            }
+        }
+
+        [HttpPost]
+        public string Restore(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.Restore(context: context, ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        [HttpDelete]
+        public string PhysicalDelete(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = UserUtilities.PhysicalBulkDelete(context: context, ss: SiteSettingsUtilities.UsersSiteSettings(context: context));
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
