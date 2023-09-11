@@ -1,8 +1,13 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -251,61 +256,6 @@ namespace Implem.Pleasanter.Controllers
                 log.Finish(context: context, responseSize: 0);
                 return null;
             }
-        }
-
-        [HttpDelete]
-        public string BulkDelete(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = GroupUtilities.BulkDelete(
-                context: context,
-                ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
-        }
-
-        [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
-        public ActionResult TrashBox()
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-
-            if (!context.Ajax)
-            {
-                var html = GroupUtilities.TrashBox(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
-                ViewBag.HtmlBody = html;
-                log.Finish(context: context, responseSize: html.Length);
-                return context.RedirectData.Url.IsNullOrEmpty()
-                    ? View()
-                    : Redirect(context.RedirectData.Url);
-            }
-            else
-            {
-                var json = GroupUtilities.TrashBoxJson(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
-                log.Finish(context: context, responseSize: json.Length);
-                return Content(json);
-            }
-        }
-
-        [HttpPost]
-        public string Restore(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = GroupUtilities.Restore(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
-        }
-
-        [HttpDelete]
-        public string PhysicalDelete(long id)
-        {
-            var context = new Context();
-            var log = new SysLogModel(context: context);
-            var json = GroupUtilities.PhysicalBulkDelete(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
-            log.Finish(context: context, responseSize: json.Length);
-            return json;
         }
     }
 }
