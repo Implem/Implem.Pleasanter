@@ -8,14 +8,24 @@ namespace Implem.Pleasanter.Libraries.Web
             return MimeKit.MimeTypes.GetMimeType(fileDownloadName);
         }
 
-        public static bool ValidateOnApi(string contentType)
+        public static bool ValidateOnApi(string contentType, bool isMultipart = false)
         {
             if (Parameters.Security.MimeTypeCheckOnApi)
             {
                 switch (contentType?.ToLower())
                 {
                     case "application/json":
+                        if (isMultipart)
+                        {
+                            return false;
+                        }
                         return true;
+                    case "multipart/form-data":
+                        if (isMultipart)
+                        {
+                            return true;
+                        }
+                        return false;
                     default:
                         return false;
                 }
