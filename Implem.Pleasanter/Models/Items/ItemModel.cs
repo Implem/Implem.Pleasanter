@@ -190,7 +190,7 @@ namespace Implem.Pleasanter.Models
                 case "Issues":
                     if (SiteId == ReferenceId)
                     {
-                        return IssueUtilities.ExportByApi(
+                        return IssueUtilities.ImportByApi(
                             context: context,
                             ss: Site.SiteSettings,
                             siteModel: Site);
