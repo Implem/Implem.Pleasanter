@@ -1,6 +1,6 @@
 ﻿{
     "AllowIpAddresses": null,
-    "MimeTypeCheckOnApi": false,
+    "MimeTypeCheckOnApi": true,
     "PrivilegedUsers": null,
     "RevealUserDisabled": false,
     "LockoutCount": 0,
