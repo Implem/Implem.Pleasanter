@@ -29,7 +29,7 @@
 }
 
 $(document).ready(function () {
-    if ($p.responsive() && screen.width < 768) {
+    if ($p.responsive() && screen.width < 981) {
         const heightHeader = $('#Header').length > 0 ? $('#Header').height() : 100;
         $('#Application').css({
             'padding-top': `${heightHeader}px`
@@ -97,7 +97,7 @@ $.each($toggleBtns, function (i, el) {
     });
 });
 
-if (screen.width < 768) {
+if (screen.width < 981) {
     $p.send($('#ReduceViewFilters'));
     $p.send($('#ReduceAggregations'));
 }
@@ -124,18 +124,18 @@ $(document).ready(function () {
         }
     }
     // Initial check and event listener
-    if ($p.responsive() && screen.width < 768) {
+    if ($p.responsive() && screen.width < 981) {
         handleSMobileViewport();
     }
     // Attach a listener for changes in viewport width
     window.addEventListener('resize', function () {
-        if ($p.responsive()  && screen.width < 768) {
+        if ($p.responsive()  && screen.width < 981) {
             handleSMobileViewport();
         }
     });
 });
 
-if ($p.responsive() && screen.width < 768) {
+if ($p.responsive() && screen.width < 981) {
     $('#ViewModeContainer').on('scroll', function () {
         let scrollLeft = $(this).scrollLeft();
         if ($(this).scrollLeft() > 0) {
