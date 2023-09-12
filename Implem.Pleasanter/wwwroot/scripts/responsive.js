@@ -106,19 +106,19 @@ $(document).ready(function () {
     function handleSMobileViewport() {
         if ($('#MainCommandsContainer').length > 0) {
             if ($('#Message').length > 0) {
-                let $heightMainCommand = $('#MainCommandsContainer').height();
-                let $heightFooter = $('#MainCommandsContainer').height();
+                let $heightMainCommand = $('#MainCommandsContainer').outerHeight();
+                let $heightFooter = $('#Footer').outerHeight();
                 $(document).ajaxComplete(function () {
                     setTimeout(function () {
-                        $heightMainCommand = $('#MainCommandsContainer').height();
-                        $heightFooter = $('#MainCommandsContainer').height();
+                        $heightMainCommand = $('#MainCommandsContainer').outerHeight();
+                        $heightFooter = $('#Footer').outerHeight();
                         $('#Message').css(
-                            'bottom', parseInt($heightMainCommand + $heightFooter + 4)
+                            'bottom', parseInt($heightMainCommand + $heightFooter)
                         );
                     }, 1);
                 });
                 $('#Message').css(
-                    'bottom', parseInt($heightMainCommand + $heightFooter + 4)
+                    'bottom', parseInt($heightMainCommand + $heightFooter)
                 );
             }
         }
