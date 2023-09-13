@@ -6393,7 +6393,8 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = ResultValidators.OnImporting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
@@ -6426,19 +6427,19 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
                     statusCode: 500,
-                    message: Error.Types.ImportMax.MessageJson(
+                    message: Error.Types.ImportMax.Message(
                         context: context,
-                        data: Parameters.General.ImportMax.ToString()))); 
+                        data: Parameters.General.ImportMax.ToString()).ToString())); 
             }
             if (context.ContractSettings.ItemsLimit(
-                context: context,
-                siteId: ss.SiteId,
-                number: count))
+                    context: context,
+                    siteId: ss.SiteId,
+                    number: count))
             {
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
                     statusCode: 500,
-                    message: Error.Types.ItemsLimit.MessageJson(context: context)));
+                    message: Error.Types.ItemsLimit.Message(context: context).ToString()));
             }
             if (csv != null && count > 0)
             {
