@@ -318,9 +318,9 @@ public static ContentResultInheritance ImportByApi(
         return ApiResults.Get(new ApiResponse(
             id: context.Id,
             statusCode: 500,
-            message: Error.Types.ImportMax.MessageJson(
+            message: Error.Types.ImportMax.Message(
                 context: context,
-                data: Parameters.General.ImportMax.ToString()))); 
+                data: Parameters.General.ImportMax.ToString()).Text)); 
     }
     if (context.ContractSettings.ItemsLimit(
         context: context,
@@ -330,7 +330,7 @@ public static ContentResultInheritance ImportByApi(
         return ApiResults.Get(new ApiResponse(
             id: context.Id,
             statusCode: 500,
-            message: Error.Types.ItemsLimit.MessageJson(context: context)));
+            message: Error.Types.ItemsLimit.Message(context: context).Text));
     }
     if (csv != null && count > 0)
     {
@@ -425,7 +425,10 @@ public static ContentResultInheritance ImportByApi(
                 row: data.Value);
             #modelName#Hash.Add(data.Key, #modelName#Model);
         }
-        <!--Model_Utilities_ImportValidatorCases-->
+        var inputErrorData = #ModelName#Validators.OnInputValidating(
+            context: context,
+            ss: ss,
+            #modelName#Hash: #modelName#Hash).FirstOrDefault();
         switch (inputErrorData.Type)
         {
             case Error.Types.None: break;
@@ -495,7 +498,7 @@ public static ContentResultInheritance ImportByApi(
                                     break;
                                 case Databases.AccessStatuses.NotFound:
                                     // 削除による競合のため再作成
-                                    #modelName#Model.ResultId = 0;
+                                    #modelName#Model.#ModelName#Id = 0;
                                     #modelName#Model.Ver = 1;
                                     errorData = #modelName#Model.Create(
                                         context: context,
@@ -519,7 +522,7 @@ public static ContentResultInheritance ImportByApi(
             }
             else
             {
-                #modelName#Model.ResultId = 0;
+                #modelName#Model.#ModelName#Id = 0;
                 #modelName#Model.Ver = 1;
                 var errorData = #modelName#Model.Create(
                     context: context,
@@ -563,7 +566,7 @@ public static ContentResultInheritance ImportByApi(
                 context: context,
                 ss.SiteId) + "\n");
             body.Append(
-                $"{Displays.Results_Updator(context: context)}: ",
+                $"{Displays.#TableName#_Updator(context: context)}: ",
                 $"{context.User.Name}\n");
             if (notification.AfterImport != false)
             {

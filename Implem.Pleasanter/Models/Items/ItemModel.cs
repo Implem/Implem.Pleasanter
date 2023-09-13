@@ -171,46 +171,6 @@ namespace Implem.Pleasanter.Models
             return this;
         }
 
-        public ContentResultInheritance ImportByApi(Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true,
-                setAllChoices: true);
-            if (!Site.WithinApiLimits(context: context))
-            {
-                return ApiResults.Get(ApiResponses.OverLimitApi(
-                    context: context,
-                    siteId: Site.SiteId,
-                    limitPerSite: context.ContractSettings.ApiLimit()));
-            }
-            switch (Site.ReferenceType)
-            {
-                case "Issues":
-                    if (SiteId == ReferenceId)
-                    {
-                        return IssueUtilities.ImportByApi(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            siteModel: Site);
-                    }
-                    break;
-                case "Results":
-                    if (SiteId == ReferenceId)
-                    {
-                        return ResultUtilities.ImportByApi(
-                            context: context,
-                            ss: Site.SiteSettings,
-                            siteModel: Site);
-                    }
-                    break;
-                default:
-                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
-            }
-            return ApiResults.Get(ApiResponses.BadRequest(context: context));
-        }
-
         public ContentResultInheritance ExportByApi(Context context)
         {
             SetSite(
@@ -240,6 +200,46 @@ namespace Implem.Pleasanter.Models
                     if (SiteId == ReferenceId)
                     {
                         return ResultUtilities.ExportByApi(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            siteModel: Site);
+                    }
+                    break;
+                default:
+                    return ApiResults.Get(ApiResponses.BadRequest(context: context));
+            }
+            return ApiResults.Get(ApiResponses.BadRequest(context: context));
+        }
+
+        public ContentResultInheritance ImportByApi(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            if (!Site.WithinApiLimits(context: context))
+            {
+                return ApiResults.Get(ApiResponses.OverLimitApi(
+                    context: context,
+                    siteId: Site.SiteId,
+                    limitPerSite: context.ContractSettings.ApiLimit()));
+            }
+            switch (Site.ReferenceType)
+            {
+                case "Issues":
+                    if (SiteId == ReferenceId)
+                    {
+                        return IssueUtilities.ImportByApi(
+                            context: context,
+                            ss: Site.SiteSettings,
+                            siteModel: Site);
+                    }
+                    break;
+                case "Results":
+                    if (SiteId == ReferenceId)
+                    {
+                        return ResultUtilities.ImportByApi(
                             context: context,
                             ss: Site.SiteSettings,
                             siteModel: Site);

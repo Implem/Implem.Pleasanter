@@ -6393,13 +6393,11 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = ResultValidators.OnImporting(
                 context: context,
-                ss: ss,
-                api: true);
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
+                default:return ApiResults.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -6429,17 +6427,17 @@ namespace Implem.Pleasanter.Models
                     statusCode: 500,
                     message: Error.Types.ImportMax.Message(
                         context: context,
-                        data: Parameters.General.ImportMax.ToString()).ToString())); 
+                        data: Parameters.General.ImportMax.ToString()).Text)); 
             }
             if (context.ContractSettings.ItemsLimit(
-                    context: context,
-                    siteId: ss.SiteId,
-                    number: count))
+                context: context,
+                siteId: ss.SiteId,
+                number: count))
             {
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
                     statusCode: 500,
-                    message: Error.Types.ItemsLimit.Message(context: context).ToString()));
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
             }
             if (csv != null && count > 0)
             {

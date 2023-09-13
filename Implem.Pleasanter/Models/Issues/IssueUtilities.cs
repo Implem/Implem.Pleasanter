@@ -6731,14 +6731,13 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            var invalid = ResultValidators.OnImporting(
+            var invalid = IssueValidators.OnImporting(
                 context: context,
                 ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
-                default:
-                    return ApiResults.Error(
+                default:return ApiResults.Error(
                     context: context,
                     errorData: invalid);
             }
@@ -6766,9 +6765,9 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
                     statusCode: 500,
-                    message: Error.Types.ImportMax.MessageJson(
+                    message: Error.Types.ImportMax.Message(
                         context: context,
-                        data: Parameters.General.ImportMax.ToString())));
+                        data: Parameters.General.ImportMax.ToString()).Text)); 
             }
             if (context.ContractSettings.ItemsLimit(
                 context: context,
@@ -6778,13 +6777,13 @@ namespace Implem.Pleasanter.Models
                 return ApiResults.Get(new ApiResponse(
                     id: context.Id,
                     statusCode: 500,
-                    message: Error.Types.ItemsLimit.MessageJson(context: context)));
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
             }
             if (csv != null && count > 0)
             {
                 var columnHash = ImportUtilities.GetColumnHash(ss, csv);
                 var idColumn = columnHash
-                    .Where(o => o.Value.Column.ColumnName == "ResultId")
+                    .Where(o => o.Value.Column.ColumnName == "IssueId")
                     .Select(o => new { Id = o.Key })
                     .FirstOrDefault()?.Id ?? -1;
                 if (updatableImport && idColumn > -1)
@@ -6796,13 +6795,12 @@ namespace Implem.Pleasanter.Models
                     switch (exists.Type)
                     {
                         case Error.Types.None: break;
-                        default:
-                            return ApiResults.Error(
+                        default: return ApiResults.Error(
                             context: context,
                             errorData: exists);
                     }
                 }
-                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName));
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
                 if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
                     id: context.Id,
                     statusCode: 500,
@@ -6815,7 +6813,7 @@ namespace Implem.Pleasanter.Models
                             context: context,
                             siteId: ss.SiteId)
                                 .ToArray());
-                var resultHash = new Dictionary<int, ResultModel>();
+                var issueHash = new Dictionary<int, IssueModel>();
                 var importKeyColumnName = key;
                 var importKeyColumn = columnHash
                     .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
@@ -6831,7 +6829,7 @@ namespace Implem.Pleasanter.Models
                     .ToDictionary(o => o.Index, o => o.Row);
                 foreach (var data in csvRows)
                 {
-                    var resultModel = new ResultModel(
+                    var issueModel = new IssueModel(
                         context: context,
                         ss: ss);
                     if (updatableImport
@@ -6846,14 +6844,14 @@ namespace Implem.Pleasanter.Models
                         view.AddColumnFilterSearchTypes(
                             columnName: importKeyColumnName,
                             searchType: Column.SearchTypes.ExactMatch);
-                        var model = new ResultModel(
+                        var model = new IssueModel(
                             context: context,
                             ss: ss,
-                            resultId: 0,
+                            issueId: 0,
                             view: view);
                         if (model.AccessStatus == Databases.AccessStatuses.Selected)
                         {
-                            resultModel = model;
+                            issueModel = model;
                         }
                         else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
                         {
@@ -6867,31 +6865,30 @@ namespace Implem.Pleasanter.Models
                                         data.Value[importKeyColumn.Key]}));
                         }
                     }
-                    resultModel.SetByCsvRow(
+                    issueModel.SetByCsvRow(
                         context: context,
                         ss: ss,
                         columnHash: columnHash,
                         row: data.Value);
-                    resultHash.Add(data.Key, resultModel);
+                    issueHash.Add(data.Key, issueModel);
                 }
-                var inputErrorData = ResultValidators.OnInputValidating(
+                var inputErrorData = IssueValidators.OnInputValidating(
                     context: context,
                     ss: ss,
-                    resultHash: resultHash).FirstOrDefault();
+                    issueHash: issueHash).FirstOrDefault();
                 switch (inputErrorData.Type)
                 {
                     case Error.Types.None: break;
-                    default:
-                        return ApiResults.Error(
+                    default: return ApiResults.Error(
                         context: context,
                         errorData: inputErrorData);
                 }
                 var insertCount = 0;
                 var updateCount = 0;
-                foreach (var data in resultHash)
+                foreach (var data in issueHash)
                 {
-                    var resultModel = data.Value;
-                    if (resultModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    var issueModel = data.Value;
+                    if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
                     {
                         ErrorData errorData = null;
                         while (errorData?.Type != Error.Types.None)
@@ -6908,32 +6905,32 @@ namespace Implem.Pleasanter.Models
                                             ? Displays.Duplicated(
                                                 context: context,
                                                 data: duplicatedColumn?.LabelText)
-                                            : duplicatedColumn?.MessageWhenDuplicated);
+                                            : duplicatedColumn?.MessageWhenDuplicated); 
                                 case null:
                                 case Error.Types.UpdateConflicts:
                                     // 初回(null)
                                     // または更新の競合が発生した場合
-                                    resultModel = new ResultModel(
+                                    issueModel = new IssueModel(
                                         context: context,
                                         ss: ss,
-                                        resultId: resultModel.ResultId);
-                                    var previousTitle = resultModel.Title.DisplayValue;
-                                    resultModel.SetByCsvRow(
+                                        issueId: issueModel.IssueId);
+                                    var previousTitle = issueModel.Title.DisplayValue;
+                                    issueModel.SetByCsvRow(
                                         context: context,
                                         ss: ss,
                                         columnHash: columnHash,
                                         row: csvRows.Get(data.Key));
-                                    switch (resultModel.AccessStatus)
+                                    switch (issueModel.AccessStatus)
                                     {
                                         case Databases.AccessStatuses.Selected:
                                             // 更新による競合のため再更新
-                                            if (resultModel.Updated(context: context))
+                                            if (issueModel.Updated(context: context))
                                             {
-                                                resultModel.VerUp = Versions.MustVerUp(
+                                                issueModel.VerUp = Versions.MustVerUp(
                                                     context: context,
                                                     ss: ss,
-                                                    baseModel: resultModel);
-                                                errorData = resultModel.Update(
+                                                    baseModel: issueModel);
+                                                errorData = issueModel.Update(
                                                     context: context,
                                                     ss: ss,
                                                     extendedSqls: false,
@@ -6948,9 +6945,9 @@ namespace Implem.Pleasanter.Models
                                             break;
                                         case Databases.AccessStatuses.NotFound:
                                             // 削除による競合のため再作成
-                                            resultModel.ResultId = 0;
-                                            resultModel.Ver = 1;
-                                            errorData = resultModel.Create(
+                                            issueModel.IssueId = 0;
+                                            issueModel.Ver = 1;
+                                            errorData = issueModel.Create(
                                                 context: context,
                                                 ss: ss,
                                                 extendedSqls: false);
@@ -6972,9 +6969,9 @@ namespace Implem.Pleasanter.Models
                     }
                     else
                     {
-                        resultModel.ResultId = 0;
-                        resultModel.Ver = 1;
-                        var errorData = resultModel.Create(
+                        issueModel.IssueId = 0;
+                        issueModel.Ver = 1;
+                        var errorData = issueModel.Create(
                             context: context,
                             ss: ss,
                             extendedSqls: false);
@@ -6992,7 +6989,7 @@ namespace Implem.Pleasanter.Models
                                         ? Displays.Duplicated(
                                             context: context,
                                             data: duplicatedColumn?.LabelText)
-                                        : duplicatedColumn?.MessageWhenDuplicated);
+                                        : duplicatedColumn?.MessageWhenDuplicated);                                
                             default:
                                 return ApiResults.Error(
                                     context: context,
@@ -7016,7 +7013,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss.SiteId) + "\n");
                     body.Append(
-                        $"{Displays.Results_Updator(context: context)}: ",
+                        $"{Displays.Issues_Updator(context: context)}: ",
                         $"{context.User.Name}\n");
                     if (notification.AfterImport != false)
                     {
