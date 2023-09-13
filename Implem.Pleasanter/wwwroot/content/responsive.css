@@ -62,11 +62,6 @@
         margin: 10px 0px;
         float: left;
     }
-    @media screen and (max-width: 600px) and (min-width: 0px) {
-        #LoginFieldSet .field-wide {
-            /* Remove min-height: 10vw !important; */
-        }
-    }
     #StartGuide {
         display: none;
     }
@@ -74,7 +69,7 @@
         word-break: break-all;
     }
     div[role="dialog"] {
-        width: 100% !important;
+        width: 98% !important;
         z-index: 999;
     }
     #EnterPriseBanner, #SupportBanner, #CasesBanner {
@@ -114,7 +109,6 @@
     #ViewFilters>.field-auto-thin>.field-label { width: 30%; text-align: left;}
     #ViewFilters>.field-auto-thin>.field-label+.field-control { width: 70%; }
     .ui-multiselect {
-        /* Change width: 98% !important; */
         width: 100% !important;
         height: 6vw;
     }
@@ -161,7 +155,6 @@
 .control-textbox { height: auto; }
     
 .ui-widget.ui-widget-content {
-    /* Remove background: #fff; */
     font-size: 2.6vw;
 }
 #Guide { font-size: 2.6vw; }
@@ -177,13 +170,11 @@
 .ui-tabs .ui-tabs-nav li {
     margin-bottom: 1%;
     padding-bottom: 0;
-    /* Remove border: 1px solid #111; */
     border-radius: 4px;
 }
 .ui-tabs .ui-tabs-nav li.ui-tabs-active {
     margin-bottom: 1%;
     padding-bottom: 0;
-    /* Remove border: 1px solid #111; */
     border-radius: 4px;
 }
 .message { bottom: 140px; }
@@ -194,11 +185,6 @@
 
 body { min-width: 320px!important; }
 #Header { height: auto; position: relative; }
-/* Remove
-    #Header #Logo {
-        padding-bottom: 2%;
-    }
-*/
     #CorpLogo { float: none; width: 30%;}
 #MainContainer { min-height: 100vh; }
 
@@ -249,17 +235,6 @@ transition: .5s;
     background: none;
 }
 
-/* Remove
-    #Header .ui-widget-header {
-        background: #f3f3f3;
-        color: #111;
-    }
-
-    .ui-widget-header {
-        background: #817865;
-        color: #fff;
-    }
-*/
 #NavigationMenu {
     float: none;
     margin-right: 0;
@@ -278,13 +253,11 @@ transition: .5s;
         display: block;
         float: none;
         position: relative;
-        /* Remove color: #333; */
     }
     #NavigationMenu > li > div {
         height: auto;
         text-align: left;
         line-height: 7vw;
-        /* Remove color: #333; */
         font-weight: bold;
     }
     #NavigationMenu > li > div:hover {
@@ -293,7 +266,6 @@ transition: .5s;
     #NavigationMenu > li > div > a {
         height: auto;
         display: block;
-        /* Remove color: #333; */
         text-decoration: none;
         font-weight: bold;
     }
@@ -316,14 +288,6 @@ font-weight: normal;
 text-decoration: none;
 }
 
-/* Remove
-    .ui-widget.ui-widget-content {
-    }
-    .ui-widget-content {
-        color: #333;
-    }
-*/
-
 .ui-menu .ui-menu-item { 
 border-top: 1px solid #d19405;
 }
@@ -343,10 +307,6 @@ border: 1px solid #d19405;
 width: 20vw;
 height: 20vw;
 text-align: center;
-/* Remove
-background-color: white;
-border: solid 2px silver;
-*/
 border-radius: 0.5vw;
 float: none;
 margin: 6%;
@@ -363,9 +323,6 @@ margin: 6%;
 width: 20vw!important;
 height: 20vw!important;
 background: #fff;
-/* Remove
-border: solid 2px #ffa500;
-*/
 border-radius: 5px;}
 
 
@@ -373,10 +330,6 @@ border-radius: 5px;}
 width: 8vw;
 height: 3vw;
 top: -3vw;
-/* Remove
-background-color: #f8da4c;
-border: solid 2px #ffa500;
-*/
 }
 
 #SiteMenu .nav-site.sites.to-parent{
@@ -631,24 +584,6 @@ overflow: hidden;
     #KambanBody .grid>thead th { min-width: 10vw; white-space: nowrap; }
     #KambanBody .grid>tbody td { min-width: 10vw; white-space: nowrap; }
 }
-
-/*  Remove
-@media screen and (min-width: 981px) {
-
-.grid>thead>tr:first-child>th:first-child {width: 20px;}
-#CrosstabBody .grid>thead>tr:first-child>th:first-child,
-#KambanBody .grid>thead>tr:first-child>th:first-child {width: auto;}
-
-.grid>thead>tr:first-child>th:not(:first-child) { white-space: nowrap; }
-#CrosstabBody .grid>thead>tr:first-child>th:not(:first-child),
-#KambanBody .grid>thead>tr:first-child>th:not(:first-child) { white-space: inherit; }
-
-.grid>tbody>tr td:not(:first-child) {white-space: nowrap; min-width: 40px;}
-#CrosstabBody .grid>tbody>tr td:not(:first-child),
-#KambanBody .grid>tbody>tr td:not(:first-child) { white-space: inherit; min-width:auto; }
-
-}
-*/
 
 @media screen and (max-width: 980px) and (min-width: 0px) {
   #Header {
@@ -1536,7 +1471,6 @@ overflow: hidden;
     touch-action: auto;
     display: -webkit-box;
     -webkit-line-clamp: 1;
-    /* number of lines to show */
     -webkit-box-orient: vertical;
   }
   #ViewModeContainer #Kamban.both #KambanBody #Grid tbody .kamban-row .kamban-container .kamban-item .ui-icon.ui-icon-pencil {
