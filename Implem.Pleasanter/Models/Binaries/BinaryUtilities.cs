@@ -731,7 +731,9 @@ namespace Implem.Pleasanter.Models
             System.Net.Http.Headers.ContentRangeHeaderValue contentRange )
         {
             var itemModel = new ItemModel(context, id);
-            itemModel.SetSite(context, initSiteSettings: true);
+            itemModel.SetSite(
+                context: context,
+                initSiteSettings: true);
             var ss = itemModel.Site.SiteSettings;
             var column = ss.GetColumn(context, TrimIdSuffix(context.Forms.Get("ColumnName")));
             var attachments = context.Forms.Get("AttachmentsData").Deserialize<Attachments>();
