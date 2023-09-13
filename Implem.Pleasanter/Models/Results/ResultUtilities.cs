@@ -6393,7 +6393,8 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = ResultValidators.OnImporting(
                 context: context,
-                ss: ss);
+                ss: ss,
+                api: true);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
