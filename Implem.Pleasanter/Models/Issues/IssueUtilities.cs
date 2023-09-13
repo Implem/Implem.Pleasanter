@@ -6456,14 +6456,7 @@ namespace Implem.Pleasanter.Models
                 }
                 var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
                 if (invalidColumn != null) return invalidColumn;
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportingExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
                 var issueHash = new Dictionary<int, IssueModel>();
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
@@ -6668,14 +6661,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportedExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
                     var body = new System.Text.StringBuilder();
@@ -6806,14 +6792,7 @@ namespace Implem.Pleasanter.Models
                     id: context.Id,
                     statusCode: 500,
                     message: invalidColumn));
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportingExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
                 var issueHash = new Dictionary<int, IssueModel>();
                 var importKeyColumnName = key;
                 var importKeyColumn = columnHash
@@ -6999,14 +6978,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportedExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
                     var body = new System.Text.StringBuilder();
