@@ -1,5 +1,5 @@
 ﻿
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
 
     #LoginFieldSet {
         width: 100%;
@@ -190,7 +190,7 @@
 }
 
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
 
 body { min-width: 320px!important; }
 #Header { height: auto; position: relative; }
@@ -337,7 +337,7 @@ border: 1px solid #d19405;
 
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
 
 #SiteMenu .nav-site {
 width: 20vw;
@@ -524,7 +524,7 @@ overflow: hidden;
 #SiteMenu .nav-site.to-parent.has-image a { padding: 0 0 0 15px;}
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px){
+@media screen and (max-width: 980px) and (min-width: 0px){
 
 #EditorTabs {}
 #Application {}
@@ -551,7 +551,7 @@ overflow: hidden;
     overflow: auto;
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
 #FieldSetHistories { overflow: auto; width: 100%; }
 #ViewModeContainer { overflow: auto; width: 100%; padding-top: 1%; }
     #CrosstabBody { overflow: auto; width: 100%; }
@@ -633,6 +633,7 @@ overflow: hidden;
 }
 
 /*  Remove
+@media screen and (min-width: 981px) {
 
 .grid>thead>tr:first-child>th:first-child {width: 20px;}
 #CrosstabBody .grid>thead>tr:first-child>th:first-child,
@@ -649,7 +650,7 @@ overflow: hidden;
 }
 */
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Header {
     padding: 0 calc(5vw);
   }
@@ -688,13 +689,13 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #HeaderTitle {
     font-size: 16px;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   .command-center {
     padding: 0;
   }
@@ -707,13 +708,13 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewSelector {
     font-size: 2.6vw;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Logo a {
     align-items: center;
     display: flex;
@@ -730,7 +731,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Editor .field-control .container-normal {
     width: calc(100% - 20px);
   }
@@ -754,7 +755,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #FieldSetAddressBook #OutgoingMailDestinationForm .container-left {
     width: 38vw;
   }
@@ -773,13 +774,13 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Issues_WorkValue {
     width: 100px;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   body::before {
     content: '';
     position: fixed;
@@ -802,7 +803,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Users_LoginId,
   #Users_Password {
     height: 40px;
@@ -838,7 +839,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Editor .field-markdown > .field-label > label {
     font-weight: bold;
   }
@@ -851,7 +852,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #GridCheckAll {
     margin-top: 0;
   }
@@ -870,7 +871,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #SiteImageSettingsEditor .field-auto-thin, #GridSettingsEditor .field-auto-thin, #FiltersSettingsEditor .field-auto-thin, #EditorSettingsEditor .field-auto-thin,
   #LinksSettingsEditor .field-auto-thin, #HistoriesSettingsEditor .field-auto-thin, #FormulasSettingsEditor .field-auto-thin, #ViewsSettingsEditor .field-auto-thin,
   #ImportsSettingsEditor .field-auto-thin, #ExportsSettingsEditor .field-auto-thin, #CalendarSettingsEditor .field-auto-thin, #CrosstabSettingsEditor .field-auto-thin,
@@ -932,7 +933,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Aggregations {
     display: flex;
     flex-wrap: wrap;
@@ -970,7 +971,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer .grid {
     vertical-align: middle;
   }
@@ -986,7 +987,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #SearchField #Search {
     font-size: 3vw;
     width: 100%;
@@ -996,7 +997,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewFilters #ViewFilters_Reset {
     margin-left: auto;
     margin-right: 0;
@@ -1058,7 +1059,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #EditorTabsContainer .legend.applied {
     display: flex;
     align-items: center;
@@ -1101,14 +1102,14 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   thead > tr.ui-widget-header th div > span {
     font-size: 2.8vw;
     white-space: nowrap;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #EditorTabsContainer .field-control .container-normal .ui-icon.ui-icon-pencil.button-edit-markdown {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTJweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTJweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0zIDE3LjI1VjIxaDMuNzVMMTcuODEgOS45NGwtMy43NS0zLjc1TDMgMTcuMjV6TTIwLjcxIDcuMDRjLjM5LS4zOS4zOS0xLjAyIDAtMS40MWwtMi4zNC0yLjM0Yy0uMzktLjM5LTEuMDItLjM5LTEuNDEgMGwtMS44MyAxLjgzIDMuNzUgMy43NSAxLjgzLTEuODN6Ii8+PC9zdmc+");
     background-position: center;
@@ -1129,7 +1130,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #EditorTabsContainer {
     overflow: auto;
   }
@@ -1145,7 +1146,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   .is-showMenu {
     overflow: hidden;
   }
@@ -1219,7 +1220,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #OutgoingMailsForm {
     width: 100%;
     font-size: 2.6vw;
@@ -1285,13 +1286,13 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #SiteMenu li.ui-sortable-handle {
     touch-action: unset;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   .message .close {
     top: unset;
     bottom: calc(50% - 8px);
@@ -1299,7 +1300,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #EditorComments #CommentField .ui-icon.ui-icon-image.button-upload-image {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTJweCIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iMTJweCIgZmlsbD0iIzAwMDAwMCI+PHBhdGggZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0yMSAxOVY1YzAtMS4xLS45LTItMi0ySDVjLTEuMSAwLTIgLjktMiAydjE0YzAgMS4xLjkgMiAyIDJoMTRjMS4xIDAgMi0uOSAyLTJ6TTguNSAxMy41bDIuNSAzLjAxTDE0LjUgMTJsNC41IDZINWwzLjUtNC41eiIvPjwvc3ZnPg==");
     background-position: center;
@@ -1311,7 +1312,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Navigations.open {
     overflow-y: scroll;
   }
@@ -1328,7 +1329,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Editor .field-normal .field-control .container-normal input[type='checkbox'].control-checkbox {
     position: relative;
     margin-right: 6px;
@@ -1336,7 +1337,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Editor #EditorTabsContainer .field-normal, #Editor #EditorTabsContainer .field-wide, #Editor #EditorTabsContainer .field-markdown {
     display: inline-block;
     margin-top: 8px;
@@ -1344,7 +1345,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer #Calendar.both select {
     font-size: 2.6vw;
   }
@@ -1414,7 +1415,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer .both {
     column-gap: 16px;
   }
@@ -1485,7 +1486,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer #Kamban.both .field-auto-thin select {
     font-size: 2.6vw;
   }
@@ -1550,7 +1551,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #RecordSwitchers {
     display: flex;
     align-items: center;
@@ -1562,7 +1563,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0) {
+@media screen and (max-width: 980px) and (min-width: 0) {
   #Editor #RecordHeader .user {
     display: flex;
     align-items: center;
@@ -1572,7 +1573,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #OutgoingMailDialog .field-wide {
     padding-bottom: 5px;
   }
@@ -1591,7 +1592,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   .show-password {
     top: calc(50% - 10px);
     right: 10px;
@@ -1609,13 +1610,13 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #Navigations.open {
     padding-top: 18vw;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer .field-auto-thin > .field-label {
     padding: 7px 2vw 7px 0;
   }
@@ -1648,7 +1649,7 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ImportSettingsDialog .control-checkbox + label {
     margin: 1.8vw 0 0 1vw;
   }
@@ -1664,20 +1665,20 @@ overflow: hidden;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ExportSelectorDialog .command-center {
     padding: 2vw 0;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer #Grid .datepicker {
     width: 35vw;
     font-size: 4vw;
   }
 }
 
-@media screen and (max-width: 767px) and (min-width: 0px) {
+@media screen and (max-width: 980px) and (min-width: 0px) {
   #ViewModeContainer .both #TimeSeriesValueField,
   #ViewModeContainer .both #TimeSeriesChartTypeField,
   #ViewModeContainer .both #TimeSeriesHorizontalAxisField {
