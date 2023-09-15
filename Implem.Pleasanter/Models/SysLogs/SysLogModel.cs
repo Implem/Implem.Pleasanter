@@ -15,6 +15,7 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,6 +27,7 @@ namespace Implem.Pleasanter.Models
     [Serializable]
     public class SysLogModel : BaseModel
     {
+        private static readonly Logger logger = LogManager.GetLogger("syslogs");
         public long SysLogId = 0;
         public DateTime StartTime = 0.ToDateTime();
         public DateTime EndTime = 0.ToDateTime();
@@ -3225,6 +3227,10 @@ namespace Implem.Pleasanter.Models
         {
             if (NotLoggingIp(UserHostAddress) != true)
             {
+                // Textize
+                logger.ForInfoEvent()
+                    .Property("syslog", this)
+                    .Log();
                 Repository.ExecuteNonQuery(
                     context: context,
                     transactional: true,
