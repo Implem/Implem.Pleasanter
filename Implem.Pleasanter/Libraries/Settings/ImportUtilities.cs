@@ -96,25 +96,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static int SetOnImportingExtendedSqls(Context context, SiteSettings ss)
         {
             return Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportingExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                context: context,
+                transactional: true,
+                statements: new List<SqlStatement>()
+                    .OnImportingExtendedSqls(
+                        context: context,
+                        siteId: ss.SiteId)
+                            .ToArray());
         }
 
         public static int SetOnImportedExtendedSqls(Context context, SiteSettings ss)
         {
             return Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportedExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                context: context,
+                transactional: true,
+                statements: new List<SqlStatement>()
+                    .OnImportedExtendedSqls(
+                        context: context,
+                        siteId: ss.SiteId)
+                            .ToArray());
         }
 
         

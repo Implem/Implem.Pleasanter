@@ -6367,9 +6367,11 @@ namespace Implem.Pleasanter.Models
         }
 
         public static ContentResultInheritance ImportByApi(
-            Context context, SiteSettings ss, SiteModel siteModel)
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
         {
-            if (!Mime.ValidateOnApi(contentType: context.ContentType, isMultipart: true))
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
             {
                 return ApiResults.BadRequest(context: context);
             }
