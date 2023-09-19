@@ -136,7 +136,7 @@ namespace Implem.Pleasanter.Controllers.Api
         [HttpPost("{id}/Import")]
         public ContentResult Import(long id)
         {
-            var body = Request.Form["postdata"];
+            var body = Request.Form["parameters"];
             var contentType = Request.ContentType.Split(';')[0].Trim();
             var context = new Context(
                 apiRequestBody: body,
