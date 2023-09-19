@@ -192,9 +192,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             SetTenantCaches();
         }
 
-        public Context(ICollection<IFormFile> files, string apiRequestBody = null, bool api = false)
+        public Context(ICollection<IFormFile> files, string apiRequestBody = null, string contentType = null, bool api = false)
         {
-            Set(apiRequestBody: apiRequestBody);
+            Set(apiRequestBody: apiRequestBody, contentType: contentType);
             SetPostedFiles(files: files);
             Api = api;
         }
