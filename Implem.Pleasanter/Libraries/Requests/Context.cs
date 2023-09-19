@@ -318,36 +318,40 @@ namespace Implem.Pleasanter.Libraries.Requests
             {
                 switch (Controller)
                 {
+                    case "binaries":
                     case "items":
                     case "publishes":
-                        Repository.ExecuteTable(
-                            context: this,
-                            statements: Rds.SelectItems(
-                                column: Rds.ItemsColumn()
-                                    .SiteId()
-                                    .ReferenceId()
-                                    .Title(),
-                                where: Rds.ItemsWhere()
-                                    .Add(or: Rds.ItemsWhere()
-                                        .ReferenceId(Id)
-                                        .ReferenceId(sub: Rds.SelectItems(
-                                            column: Rds.ItemsColumn().SiteId(),
-                                            where: Rds.ItemsWhere().ReferenceId(Id)))),
-                                distinct: true))
-                                    .AsEnumerable()
-                                    .ForEach(dataRow =>
-                                    {
-                                        if (dataRow.Long("SiteId") == dataRow.Long("ReferenceId"))
+                        if (Id > 0)
+                        {
+                            Repository.ExecuteTable(
+                                context: this,
+                                statements: Rds.SelectItems(
+                                    column: Rds.ItemsColumn()
+                                        .SiteId()
+                                        .ReferenceId()
+                                        .Title(),
+                                    where: Rds.ItemsWhere()
+                                        .Add(or: Rds.ItemsWhere()
+                                            .ReferenceId(Id)
+                                            .ReferenceId(sub: Rds.SelectItems(
+                                                column: Rds.ItemsColumn().SiteId(),
+                                                where: Rds.ItemsWhere().ReferenceId(Id)))),
+                                    distinct: true))
+                                        .AsEnumerable()
+                                        .ForEach(dataRow =>
                                         {
-                                            SiteId = dataRow.Long("ReferenceId");
-                                            SiteTitle = dataRow.String("Title");
-                                        }
-                                        else
-                                        {
-                                            RecordTitle = dataRow.String("Title");
-                                        }
-                                        TargetTenantId = dataRow.Int("TenantId");
-                                    });
+                                            if (dataRow.Long("SiteId") == dataRow.Long("ReferenceId"))
+                                            {
+                                                SiteId = dataRow.Long("ReferenceId");
+                                                SiteTitle = dataRow.String("Title");
+                                            }
+                                            else
+                                            {
+                                                RecordTitle = dataRow.String("Title");
+                                            }
+                                            TargetTenantId = dataRow.Int("TenantId");
+                                        });
+                        }
                         Page = Controller + "/"
                             + SiteId
                             + (TrashboxActions()
