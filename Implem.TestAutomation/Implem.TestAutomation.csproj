@@ -31,6 +31,7 @@
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="4.11.0" />
     <PackageReference Include="Selenium.WebDriver.MSEdgeDriver" Version="115.0.1901.200" />
     <PackageReference Include="Selenium.WebDriverBackedSelenium" Version="4.1.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
