@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -63,7 +63,7 @@
     <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Sendgrid" Version="9.28.1" />
     <PackageReference Include="SendGrid.SmtpApi" Version="1.4.6" />
-    <PackageReference Include="Sustainsys.Saml2" Version="2.9.1" />
+    <PackageReference Include="Sustainsys.Saml2" Version="2.9.2" />
     <PackageReference Include="Sustainsys.Saml2.AspNetCore2" Version="2.9.1" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="7.0.0" />
     <PackageReference Include="System.DirectoryServices" Version="7.0.1" />
