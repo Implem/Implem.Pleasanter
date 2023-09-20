@@ -4,8 +4,12 @@ using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+
 namespace Implem.Pleasanter.Controllers.Api
 {
     [CheckApiContextAttributes]
@@ -100,6 +104,26 @@ namespace Implem.Pleasanter.Controllers.Api
                 : ApiResults.Unauthorized(context: context);
             log.Finish(context: context, responseSize: result.Content.Length);
             return result.ToHttpResponse(Request);
+        }
+
+        [HttpPost("Import")]
+        public ContentResult Import(int id)
+        {
+            var body = Request.Form["parameters"];
+            var contentType = Request.ContentType.Split(';')[0].Trim();
+            var context = new Context(
+                apiRequestBody: body,
+                files: Request.Form.Files.ToList(),
+                contentType: contentType,
+                api: true);
+            var log = new SysLogModel(context: context);
+            var result = context.Authenticated
+                ? UserUtilities.ImportByApi(
+                    context: context,
+                    ss: SiteSettingsUtilities.ApiUsersSiteSettings(context))
+                : ApiResults.Unauthorized(context: context);
+            log.Finish(context: context, responseSize: result.Content.Length);
+            return result.ToHttpResponse(request: Request);
         }
     }
 }

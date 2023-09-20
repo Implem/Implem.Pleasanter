@@ -2045,8 +2045,222 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance ImportByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.Restricted(context: context).Text));
+            }
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var encoding = api.Encoding;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text));
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o =>
+                        o.Value.Column.ColumnName == "DeptCode")
+                    .Select(o =>
+                        new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                var invalidColumn = Imports.ApiColumnValidate(
+                    context,
+                    ss,
+                    columnHash.Values.Select(o => o.Column.ColumnName),
+                    columnNames: new string[]
+                    {
+                        "DeptCode",
+                        "DeptName"
+                    });
+                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: invalidColumn));
+                var deptHash = new Dictionary<int, DeptModel>();
+                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                {
+                    var deptModel = new DeptModel();
+                    if (idColumn > -1)
+                    {
+                        var model = new DeptModel(
+                            context: context,
+                            ss: ss,
+                            deptCode: data.Row[idColumn]);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            deptModel = model;
+                        }
+                    }
+                    columnHash.ForEach(column =>
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value.Column,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.Column.ColumnName)
+                        {
+                            case "DeptId":
+                                deptModel.DeptId = recordingData.ToInt();
+                                break;
+                            case "DeptCode":
+                                deptModel.DeptCode = recordingData;
+                                break;
+                            case "DeptName":
+                                deptModel.DeptName = recordingData;
+                                break;
+                            case "Body":
+                                deptModel.Body = recordingData;
+                                break;
+                            case "Comments":
+                                if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    deptModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                            case "Disabled":
+                                deptModel.Disabled = recordingData.ToBool();
+                                break;
+                            default:
+                                deptModel.SetValue(
+                                    context: context,
+                                    column: column.Value.Column,
+                                    value: recordingData);
+                                break;
+                        }
+                    });
+                    deptHash.Add(data.Index, deptModel);
+                });
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var deptModel in deptHash.Values)
+                {
+                    if (deptModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        if (deptModel.Updated(context: context))
+                        {
+                            deptModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: deptModel);
+                            var errorData = deptModel.Update(
+                                context: context,
+                                ss: ss,
+                                refleshSiteInfo: false,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                            updateCount++;
+                        }
+                    }
+                    else
+                    {
+                        var errorData = deptModel.Create(
+                            context: context,
+                            ss: ss,
+                            get: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                        }
+                        insertCount++;
+                    }
+                }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string ImportRecordingData(
-            Context context, Column column, string value, long inheritPermission)
+        Context context, Column column, string value, long inheritPermission)
         {
             var recordingData = column.RecordingData(
                 context: context,

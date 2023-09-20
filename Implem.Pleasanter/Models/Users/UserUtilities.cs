@@ -3266,6 +3266,356 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance ImportByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.Restricted(context: context).Text));
+            }
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var encoding = api.Encoding;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text));
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var idColumn = -1;
+                var columnHash = new Dictionary<int, Column>();
+                var mailAddressHash = new Dictionary<string, string>();
+                csv.Headers.Select((o, i) => new { Header = o, Index = i }).ForEach(data =>
+                {
+                    var column = ss.Columns
+                        .Where(o => o.LabelText == data.Header)
+                        .Where(o => o.ColumnName != "DemoMailAddress")
+                        .Where(o => o.TypeCs != "Attachments")
+                        .FirstOrDefault();
+                    if (column?.ColumnName == "LoginId")
+                    {
+                        idColumn = data.Index;
+                    }
+                    if (column != null) columnHash.Add(data.Index, column);
+                });
+                var invalidColumn = Imports.ApiColumnValidate(
+                    context: context,
+                    ss: ss,
+                    headers: columnHash.Values.Select(o => o.ColumnName),
+                    columnNames: new string[]
+                    {
+                        "LoginId",
+                        "Name"
+                    });
+                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: invalidColumn));
+                var userHash = new Dictionary<int, UserModel>();
+                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                {
+                    var userModel = new UserModel();
+                    if (idColumn > -1)
+                    {
+                        var model = new UserModel(
+                            context: context,
+                            ss: ss,
+                            loginId: data.Row[idColumn]);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            userModel = model;
+                        }
+                    }
+                    columnHash.ForEach(column =>
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.ColumnName)
+                        {
+                            case "TenantId":
+                                userModel.TenantId = recordingData.ToInt();
+                                break;
+                            case "UserId":
+                                userModel.UserId = recordingData.ToInt();
+                                break;
+                            case "LoginId":
+                                userModel.LoginId = recordingData;
+                                break;
+                            case "GlobalId":
+                                userModel.GlobalId = recordingData.ToString();
+                                break;
+                            case "Name":
+                                userModel.Name = recordingData.ToString();
+                                break;
+                            case "UserCode":
+                                userModel.UserCode = recordingData.ToString();
+                                break;
+                            case "Password":
+                                userModel.Password = recordingData.IsNullOrEmpty()
+                                    ? userModel.Password
+                                    : recordingData.Sha512Cng();
+                                userModel.PasswordValidate = recordingData.ToString();
+                                break;
+                            case "LastName":
+                                userModel.LastName = recordingData.ToString();
+                                break;
+                            case "FirstName":
+                                userModel.FirstName = recordingData.ToString();
+                                break;
+                            case "Birthday":
+                                userModel.Birthday.Value = recordingData.ToDateTime();
+                                break;
+                            case "Gender":
+                                userModel.Gender = recordingData.ToString();
+                                break;
+                            case "Language":
+                                userModel.Language = recordingData.ToString();
+                                break;
+                            case "TimeZone":
+                                userModel.TimeZone = recordingData.ToString();
+                                break;
+                            case "DeptId":
+                                userModel.DeptId = recordingData.ToInt();
+                                break;
+                            case "DeptCode":
+                                userModel.DeptId = SiteInfo.Dept(
+                                    tenantId: context.TenantId,
+                                    deptCode: recordingData).Id;
+                                break;
+                            case "Theme":
+                                userModel.Theme = recordingData.ToString();
+                                break;
+                            case "Body":
+                                userModel.Body = recordingData.ToString();
+                                break;
+                            case "PasswordExpirationTime":
+                                userModel.PasswordExpirationTime.Value = recordingData.ToDateTime();
+                                break;
+                            case "TenantManager":
+                                userModel.TenantManager = recordingData.ToBool();
+                                break;
+                            case "ServiceManager":
+                                userModel.ServiceManager = recordingData.ToBool();
+                                break;
+                            case "AllowCreationAtTopSite":
+                                userModel.AllowCreationAtTopSite = recordingData.ToBool();
+                                break;
+                            case "AllowGroupAdministration":
+                                userModel.AllowGroupAdministration = recordingData.ToBool();
+                                break;
+                            case "AllowGroupCreation":
+                                userModel.AllowGroupCreation = recordingData.ToBool();
+                                break;
+                            case "AllowApi":
+                                userModel.AllowApi = recordingData.ToBool();
+                                break;
+                            case "Disabled":
+                                userModel.Disabled = recordingData.ToBool();
+                                break;
+                            case "Lockout":
+                                userModel.Lockout = recordingData.ToBool();
+                                break;
+                            case "ApiKey":
+                                userModel.ApiKey = recordingData.ToString();
+                                break;
+                            case "MailAddresses":
+                                userModel.MailAddresses = recordingData.Split(',').ToList();
+                                break;
+                            case "LdapSearchRoot":
+                                userModel.LdapSearchRoot = recordingData.ToString();
+                                break;
+                            case "SynchronizedTime":
+                                userModel.SynchronizedTime = recordingData.ToDateTime();
+                                break;
+                            case "Comments":
+                                if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    userModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                            default:
+                                userModel.SetValue(
+                                    context: context,
+                                    column: column.Value,
+                                    value: recordingData);
+                                break;
+                        }
+                    });
+                    userHash.Add(data.Index, userModel);
+                });
+                var errorRowNo = 1;
+                foreach (var userModel in userHash.Values)
+                {
+                    var badMailAddress = Libraries.Mails.Addresses.BadAddress(
+                        addresses: userModel.MailAddresses.Join());
+                    if (!badMailAddress.IsNullOrEmpty())
+                    {
+                        return ApiResults.Get(new ApiResponse(
+                            id: context.Id,
+                            statusCode: 500,
+                            message: Messages.BadMailAddress(
+                                context: context,
+                                data: badMailAddress).Text));
+                    }
+                    if (!userModel.PasswordValidate.IsNullOrEmpty())
+                    {
+                        foreach (var policy in Parameters.Security.PasswordPolicies.Where(o => o.Enabled))
+                        {
+                            if (!userModel.PasswordValidate.RegexExists(policy.Regex))
+                            {
+                                var badPassword = policy.Languages?.Any() == true
+                                    ? policy.Display(context: context)
+                                    : Displays.PasswordPolicyViolation(
+                                        context: context,
+                                        data: null);
+                                var badPasswordParam = new string[]
+                                {
+                                    errorRowNo.ToString(),
+                                    badPassword
+                                };
+                                return ApiResults.Get(new ApiResponse(
+                                    id: context.Id,
+                                    statusCode: 500,
+                                    message: Messages.BadPasswordWhenImporting(
+                                        context: context,
+                                        data: badPasswordParam).Text));
+                            }
+                        }
+                    }
+                    errorRowNo++;
+                }
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var userModel in userHash.Values)
+                {
+                    if (userModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        var mailAddressUpdated = UpdateMailAddresses(context, userModel);
+                        if (userModel.Updated(context: context))
+                        {
+                            userModel.VerUp = Versions.MustVerUp(
+                                context: context,
+                                ss: ss,
+                                baseModel: userModel);
+                            var errorData = userModel.Update(
+                                context: context,
+                                ss: ss,
+                                updateMailAddresses: false,
+                                refleshSiteInfo: false,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                            updateCount++;
+                        }
+                        else if (mailAddressUpdated)
+                        {
+                            updateCount++;
+                        }
+                    }
+                    else
+                    {
+                        var errorData = userModel.Create(
+                            context: context,
+                            ss: ss,
+                            get: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return ApiResults.Error(
+                                    context: context,
+                                    errorData: errorData);
+                        }
+                        UpdateMailAddresses(context, userModel);
+                        insertCount++;
+                    }
+                }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static bool UpdateMailAddresses(Context context, UserModel userModel)
         {
             if (userModel.UserId > 0 && userModel.MailAddresses.Any())
