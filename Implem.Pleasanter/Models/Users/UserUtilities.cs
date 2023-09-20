@@ -3340,7 +3340,7 @@ namespace Implem.Pleasanter.Models
                     }
                     if (column != null) columnHash.Add(data.Index, column);
                 });
-                var invalidColumn = Imports.ColumnValidate(
+                var invalidColumn = Imports.ApiColumnValidate(
                     context: context,
                     ss: ss,
                     headers: columnHash.Values.Select(o => o.ColumnName),
