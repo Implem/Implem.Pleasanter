@@ -2163,7 +2163,7 @@ namespace Implem.Pleasanter.Models
                     .Select(o =>
                         new { Id = o.Key })
                     .FirstOrDefault()?.Id ?? -1;
-                var invalidColumn = Imports.ApiColumnValidate(
+                var invalidColumn = Imports.ColumnValidate(
                     context,
                     ss,
                     columnHash.Values.Select(o => o.Column.ColumnName),
