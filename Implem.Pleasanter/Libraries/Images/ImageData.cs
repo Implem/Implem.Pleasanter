@@ -170,14 +170,12 @@ namespace Implem.Pleasanter.Libraries.Images
 
         private Image GetImage(int width, int height, int x, int y)
         {
-            var resizedImage = Data;
-
-            resizedImage.Mutate(x =>
+            Data.Mutate(x =>
             {
                 x.Resize(width, height);
             });
 
-            return resizedImage;
+            return Data;
         }
 
         private static byte[] GetByte(MemoryStream memory)
