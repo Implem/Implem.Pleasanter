@@ -3281,8 +3281,7 @@ namespace Implem.Pleasanter.Models
             }
             var invalid = UserValidators.OnImporting(
                 context: context,
-                ss: ss,
-                api: true);
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;

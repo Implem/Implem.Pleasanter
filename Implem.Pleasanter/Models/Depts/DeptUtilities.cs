@@ -2058,10 +2058,9 @@ namespace Implem.Pleasanter.Models
                     statusCode: 500,
                     message: Messages.Restricted(context: context).Text));
             }
-            var invalid = UserValidators.OnImporting(
+            var invalid = DeptValidators.OnImporting(
                 context: context,
-                ss: ss,
-                api: true);
+                ss: ss);
             switch (invalid.Type)
             {
                 case Error.Types.None: break;
