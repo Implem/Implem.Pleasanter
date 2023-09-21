@@ -10,7 +10,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
-using SixLabors.ImageSharp;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
