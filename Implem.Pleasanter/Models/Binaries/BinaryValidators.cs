@@ -254,6 +254,13 @@ namespace Implem.Pleasanter.Models
                 {
                     return Error.Types.OverLimitQuantity;
                 }
+                var errorType = OverLimitSize(
+                    attachments: attachments,
+                    column: column);
+                if (errorType != Error.Types.None)
+                {
+                    return errorType;
+                }
                 switch (BinaryUtilities.BinaryStorageProvider(column))
                 {
                     case "LocalFolder":

@@ -6454,14 +6454,7 @@ namespace Implem.Pleasanter.Models
                 }
                 var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
                 if (invalidColumn != null) return invalidColumn;
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportingExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
                 var issueHash = new Dictionary<int, IssueModel>();
                 var importKeyColumnName = context.Forms.Data("Key");
                 var importKeyColumn = columnHash
@@ -6662,14 +6655,7 @@ namespace Implem.Pleasanter.Models
                         insertCount++;
                     }
                 }
-                Repository.ExecuteNonQuery(
-                    context: context,
-                    transactional: true,
-                    statements: new List<SqlStatement>()
-                        .OnImportedExtendedSqls(
-                            context: context,
-                            siteId: ss.SiteId)
-                                .ToArray());
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
                 ss.Notifications.ForEach(notification =>
                 {
                     var body = new System.Text.StringBuilder();
@@ -6711,6 +6697,324 @@ namespace Implem.Pleasanter.Models
             else
             {
                 return Messages.ResponseFileNotFound(context: context).ToJson();
+            }
+        }
+
+        public static ContentResultInheritance ImportByApi(
+            Context context,
+            SiteSettings ss,
+            SiteModel siteModel)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return null;
+            }
+            var invalid = IssueValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:return ApiResults.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var updatableImport = api.UpdatableImport;
+            var encoding = api.Encoding;
+            var key = api.Key;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text)); 
+            }
+            if (context.ContractSettings.ItemsLimit(
+                context: context,
+                siteId: ss.SiteId,
+                number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o => o.Value.Column.ColumnName == "IssueId")
+                    .Select(o => new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                if (updatableImport && idColumn > -1)
+                {
+                    var exists = ExistsLockedRecord(
+                        context: context,
+                        ss: ss,
+                        targets: csv.Rows.Select(o => o[idColumn].ToLong()).ToList());
+                    switch (exists.Type)
+                    {
+                        case Error.Types.None: break;
+                        default: return ApiResults.Error(
+                            context: context,
+                            errorData: exists);
+                    }
+                }
+                var invalidColumn = Imports.ColumnValidate(context, ss, columnHash.Values.Select(o => o.Column.ColumnName), "CompletionTime");
+                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: invalidColumn));
+                ImportUtilities.SetOnImportingExtendedSqls(context, ss);
+                var issueHash = new Dictionary<int, IssueModel>();
+                var importKeyColumnName = key;
+                var importKeyColumn = columnHash
+                    .FirstOrDefault(column => column.Value.Column.ColumnName == importKeyColumnName);
+                if (updatableImport && importKeyColumn.Value == null)
+                {
+                    return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.NotContainKeyColumn(context: context).Text));
+                }
+                var csvRows = csv.Rows
+                    .Select((o, i) => new { Index = i, Row = o })
+                    .ToDictionary(o => o.Index, o => o.Row);
+                foreach (var data in csvRows)
+                {
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: ss);
+                    if (updatableImport
+                        && !data.Value[importKeyColumn.Key].IsNullOrEmpty())
+                    {
+                        var view = new View();
+                        view.AddColumnFilterHash(
+                            context: context,
+                            ss: ss,
+                            column: importKeyColumn.Value.Column,
+                            objectValue: data.Value[importKeyColumn.Key]);
+                        view.AddColumnFilterSearchTypes(
+                            columnName: importKeyColumnName,
+                            searchType: Column.SearchTypes.ExactMatch);
+                        var model = new IssueModel(
+                            context: context,
+                            ss: ss,
+                            issueId: 0,
+                            view: view);
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            issueModel = model;
+                        }
+                        else if (model.AccessStatus == Databases.AccessStatuses.Overlap)
+                        {
+                            return ApiResults.Error(
+                                context: context,
+                                errorData: new ErrorData(
+                                    type: Error.Types.OverlapCsvImport,
+                                    data: new string[] {
+                                        (data.Key + 1).ToString(),
+                                        importKeyColumn.Value.Column.GridLabelText,
+                                        data.Value[importKeyColumn.Key]}));
+                        }
+                    }
+                    issueModel.SetByCsvRow(
+                        context: context,
+                        ss: ss,
+                        columnHash: columnHash,
+                        row: data.Value);
+                    issueHash.Add(data.Key, issueModel);
+                }
+                var inputErrorData = IssueValidators.OnInputValidating(
+                    context: context,
+                    ss: ss,
+                    issueHash: issueHash).FirstOrDefault();
+                switch (inputErrorData.Type)
+                {
+                    case Error.Types.None: break;
+                    default: return ApiResults.Error(
+                        context: context,
+                        errorData: inputErrorData);
+                }
+                var insertCount = 0;
+                var updateCount = 0;
+                foreach (var data in issueHash)
+                {
+                    var issueModel = data.Value;
+                    if (issueModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        ErrorData errorData = null;
+                        while (errorData?.Type != Error.Types.None)
+                        {
+                            switch (errorData?.Type)
+                            {
+                                case Error.Types.Duplicated:
+                                    var duplicatedColumn = ss.GetColumn(
+                                        context: context,
+                                        columnName: errorData.ColumnName);
+                                    return ApiResults.Duplicated(
+                                        context: context,
+                                        message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                                            ? Displays.Duplicated(
+                                                context: context,
+                                                data: duplicatedColumn?.LabelText)
+                                            : duplicatedColumn?.MessageWhenDuplicated); 
+                                case null:
+                                case Error.Types.UpdateConflicts:
+                                    issueModel = new IssueModel(
+                                        context: context,
+                                        ss: ss,
+                                        issueId: issueModel.IssueId);
+                                    var previousTitle = issueModel.Title.DisplayValue;
+                                    issueModel.SetByCsvRow(
+                                        context: context,
+                                        ss: ss,
+                                        columnHash: columnHash,
+                                        row: csvRows.Get(data.Key));
+                                    switch (issueModel.AccessStatus)
+                                    {
+                                        case Databases.AccessStatuses.Selected:
+                                            if (issueModel.Updated(context: context))
+                                            {
+                                                issueModel.VerUp = Versions.MustVerUp(
+                                                    context: context,
+                                                    ss: ss,
+                                                    baseModel: issueModel);
+                                                errorData = issueModel.Update(
+                                                    context: context,
+                                                    ss: ss,
+                                                    extendedSqls: false,
+                                                    previousTitle: previousTitle,
+                                                    get: false);
+                                                updateCount++;
+                                            }
+                                            else
+                                            {
+                                                errorData = new ErrorData(type: Error.Types.None);
+                                            }
+                                            break;
+                                        case Databases.AccessStatuses.NotFound:
+                                            issueModel.IssueId = 0;
+                                            issueModel.Ver = 1;
+                                            errorData = issueModel.Create(
+                                                context: context,
+                                                ss: ss,
+                                                extendedSqls: false);
+                                            insertCount++;
+                                            break;
+                                        default:
+                                            return ApiResults.Get(new ApiResponse(
+                                                id: context.Id,
+                                                statusCode: 500,
+                                                message: Messages.UpdateConflicts(context: context).Text));
+                                    }
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        issueModel.IssueId = 0;
+                        issueModel.Ver = 1;
+                        var errorData = issueModel.Create(
+                            context: context,
+                            ss: ss,
+                            extendedSqls: false);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            case Error.Types.Duplicated:
+                                var duplicatedColumn = ss.GetColumn(
+                                    context: context,
+                                    columnName: errorData.ColumnName);
+                                return ApiResults.Duplicated(
+                                    context: context,
+                                    message: duplicatedColumn?.MessageWhenDuplicated.IsNullOrEmpty() != false
+                                        ? Displays.Duplicated(
+                                            context: context,
+                                            data: duplicatedColumn?.LabelText)
+                                        : duplicatedColumn?.MessageWhenDuplicated);                                
+                            default:
+                                return ApiResults.Error(
+                                    context: context,
+                                    errorData: errorData);
+                        }
+                        insertCount++;
+                    }
+                }
+                ImportUtilities.SetOnImportedExtendedSqls(context, ss);
+                ss.Notifications.ForEach(notification =>
+                {
+                    var body = new System.Text.StringBuilder();
+                    body.Append(Locations.ItemIndexAbsoluteUri(
+                        context: context,
+                        ss.SiteId) + "\n");
+                    body.Append(
+                        $"{Displays.Issues_Updator(context: context)}: ",
+                        $"{context.User.Name}\n");
+                    if (notification.AfterImport != false)
+                    {
+                        notification.Send(
+                            context: context,
+                            ss: ss,
+                            title: Displays.Imported(
+                                context: context,
+                                data: new string[]
+                                {
+                                    ss.Title,
+                                    insertCount.ToString(),
+                                    updateCount.ToString()
+                                }),
+                            body: body.ToString());
+                    }
+                });
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertCount.ToString(),
+                            updateCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
             }
         }
 
