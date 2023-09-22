@@ -478,6 +478,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_ImageLibCases": Code.Model_ImageLibCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibCases, definitionRow, CodeXls); break;
                     case "Model_ImageLibJsonCases": Code.Model_ImageLibJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibJsonCases, definitionRow, CodeXls); break;
                     case "Model_ImageLibNextCases": Code.Model_ImageLibNextCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImageLibNextCases, definitionRow, CodeXls); break;
+                    case "Model_ImportByApi": Code.Model_ImportByApi = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportByApi, definitionRow, CodeXls); break;
                     case "Model_ImportCases": Code.Model_ImportCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ImportCases, definitionRow, CodeXls); break;
                     case "Model_IndexCases": Code.Model_IndexCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexCases, definitionRow, CodeXls); break;
                     case "Model_IndexJsonCases": Code.Model_IndexJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_IndexJsonCases, definitionRow, CodeXls); break;
@@ -6926,6 +6927,7 @@ namespace Implem.DefinitionAccessor
         public string Model_ImageLibCases;
         public string Model_ImageLibJsonCases;
         public string Model_ImageLibNextCases;
+        public string Model_ImportByApi;
         public string Model_ImportCases;
         public string Model_IndexCases;
         public string Model_IndexJsonCases;
@@ -7723,6 +7725,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_ImageLibCases = new CodeDefinition();
         public CodeDefinition Model_ImageLibJsonCases = new CodeDefinition();
         public CodeDefinition Model_ImageLibNextCases = new CodeDefinition();
+        public CodeDefinition Model_ImportByApi = new CodeDefinition();
         public CodeDefinition Model_ImportCases = new CodeDefinition();
         public CodeDefinition Model_IndexCases = new CodeDefinition();
         public CodeDefinition Model_IndexJsonCases = new CodeDefinition();
