@@ -90,6 +90,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return Displays.BurnDown(context: context);
                 case "timeseries":
                     return Displays.TimeSeries(context: context);
+                case "analy":
+                    return Displays.Analy(context: context);
                 case "kamban":
                     return Displays.Kamban(context: context);
                 case "imagelib":

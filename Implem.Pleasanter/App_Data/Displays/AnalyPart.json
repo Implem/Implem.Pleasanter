@@ -1,0 +1,33 @@
+﻿{
+    "Id": "AnalyPart",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Analysis part"
+        },
+        {
+            "Language": "zh",
+            "Body": "分析部分"
+        },
+        {
+            "Language": "ja",
+            "Body": "分析パーツ"
+        },
+        {
+            "Language": "de",
+            "Body": "Analyseteil"
+        },
+        {
+            "Language": "ko",
+            "Body": "분석부분"
+        },
+        {
+            "Language": "es",
+            "Body": "parte de análisis"
+        },
+        {
+            "Language": "vn",
+            "Body": "Phần phân tích"
+        }
+    ]
+}

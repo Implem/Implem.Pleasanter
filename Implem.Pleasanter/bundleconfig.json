@@ -109,6 +109,7 @@
             "wwwroot/scripts/submitevents.js",
             "wwwroot/scripts/template.js",
             "wwwroot/scripts/timeseries.js",
+            "wwwroot/scripts/analy.js",
             "wwwroot/scripts/users.js",
             "wwwroot/scripts/validator.js",
             "wwwroot/scripts/video.js",

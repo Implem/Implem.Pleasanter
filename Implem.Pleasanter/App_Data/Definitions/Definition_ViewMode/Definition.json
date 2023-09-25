@@ -52,6 +52,16 @@
         "Option5": "Histories"
     },
     {
+        "Id": "Issues_Analy",
+        "ReferenceType": "Issues",
+        "Name": "Analy",
+        "Option1": "Owner",
+        "Option2": "Count",
+        "Option3": "RemainingWorkValue",
+        "Option4": "AreaChart",
+        "Option5": "Histories"
+    },
+    {
         "Id": "Issues_Kamban",
         "ReferenceType": "Issues",
         "Name": "Kamban",
@@ -91,6 +101,16 @@
         "Id": "Results_TimeSeries",
         "ReferenceType": "Results",
         "Name": "TimeSeries",
+        "Option1": "Owner",
+        "Option2": "Count",
+        "Option3": "NumA",
+        "Option4": "AreaChart",
+        "Option5": "Histories"
+    },
+    {
+        "Id": "Results_Analy",
+        "ReferenceType": "Results",
+        "Name": "Analy",
         "Option1": "Owner",
         "Option2": "Count",
         "Option3": "NumA",

@@ -101,6 +101,7 @@ namespace Implem.Pleasanter.App_Start
                 "~/scripts/submitevents.js",
                 "~/scripts/template.js",
                 "~/scripts/timeseries.js",
+                "~/scripts/analy.js",
                 "~/scripts/users.js",
                 "~/scripts/validator.js",
                 "~/scripts/video.js",

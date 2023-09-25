@@ -55,6 +55,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             ss: ss,
                             text: ss.TimeSeriesGuide);
                         break;
+                    case "analy":
+                        hb.Guide(
+                            ss: ss,
+                            text: ss.AnalyGuide);
+                        break;
                     case "kamban":
                         hb.Guide(
                             ss: ss,
@@ -103,6 +108,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return ss.BurnDownGuide;
                 case "[[TimeSeriesGuide]]":
                     return ss.TimeSeriesGuide;
+                case "[[AnalyGuide]]":
+                    return ss.AnalyGuide;
                 case "[[KambanGuide]]":
                     return ss.KambanGuide;
                 case "[[ImageLibGuide]]":

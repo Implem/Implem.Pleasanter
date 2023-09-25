@@ -1,0 +1,33 @@
+﻿{
+    "Id": "Analy",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Analysis chart"
+        },
+        {
+            "Language": "zh",
+            "Body": "分析图"
+        },
+        {
+            "Language": "ja",
+            "Body": "分析チャート"
+        },
+        {
+            "Language": "de",
+            "Body": "Analysediagramm"
+        },
+        {
+            "Language": "ko",
+            "Body": "분석 차트"
+        },
+        {
+            "Language": "es",
+            "Body": "Cuadro de análisis"
+        },
+        {
+            "Language": "vn",
+            "Body": "Biểu đồ phân tích"
+        }
+    ]
+}

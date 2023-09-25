@@ -6438,6 +6438,50 @@ namespace Implem.Pleasanter.Libraries.Responses
             return res.ValAndFormData("#Sites_TimeSeriesGuide", value);
         }
 
+        public static SitesResponseCollection AnalyGuide(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.Val(
+                "#Sites_AnalyGuide",
+                res.SiteModel.AnalyGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AnalyGuide")));
+        }
+
+        public static SitesResponseCollection AnalyGuide(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.Val("#Sites_AnalyGuide", value);
+        }
+
+        public static SitesResponseCollection AnalyGuide_FormData(
+            this SitesResponseCollection res,
+            Context context,
+            SiteSettings ss,
+            Column column = null)
+        {
+            return res.ValAndFormData(
+                "#Sites_AnalyGuide",
+                res.SiteModel.AnalyGuide.ToResponse(
+                    context: context,
+                    ss: ss,
+                    column: column ?? ss.GetColumn(
+                        context: context,
+                        columnName: "AnalyGuide")));
+        }
+
+        public static SitesResponseCollection AnalyGuide_FormData(
+            this SitesResponseCollection res, Context context, string value)
+        {
+            return res.ValAndFormData("#Sites_AnalyGuide", value);
+        }
+
         public static SitesResponseCollection KambanGuide(
             this SitesResponseCollection res,
             Context context,

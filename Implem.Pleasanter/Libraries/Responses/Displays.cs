@@ -569,6 +569,36 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Analy(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Analy",
+                data: data);
+        }
+
+        public static string AnalyPart(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnalyPart",
+                data: data);
+        }
+
+        public static string AnalySettings(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "AnalySettings",
+                data: data);
+        }
+
         public static string Anchor(
             Context context,
             params string[] data)
@@ -11886,6 +11916,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Sessions_Value",
+                data: data);
+        }
+
+        public static string Sites_AnalyGuide(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Sites_AnalyGuide",
                 data: data);
         }
 

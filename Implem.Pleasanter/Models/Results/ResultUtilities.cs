@@ -173,7 +173,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -7933,6 +7937,279 @@ namespace Implem.Pleasanter.Models
         }
 
         private static EnumerableRowCollection<DataRow> TimeSeriesDataRows(
+            Context context,
+            SiteSettings ss,
+            View view,
+            Column groupBy,
+            Column value,
+            string horizontalAxis)
+        {
+            if (groupBy != null && value != null)
+            {
+                var historyHorizontalAxis = horizontalAxis == "Histories";
+                var column = Rds.ResultsColumn();
+                if (historyHorizontalAxis)
+                {
+                    column.UpdatedTime(_as: "HorizontalAxis");
+                }
+                else
+                {
+                    column.ResultsColumn(
+                        columnName: horizontalAxis,
+                        _as: "HorizontalAxis");
+                }
+                column.ResultId(_as: "Id")
+                    .Ver()
+                    .Add(
+                        context: context,
+                        column: groupBy)
+                    .Add(
+                        context: context,
+                        column: value);
+                var where = view.Where(
+                    context: context,
+                    ss: ss);
+                var param = view.Param(
+                    context: context,
+                    ss: ss);
+                var join = ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                        column,
+                        where
+                    });
+                var dataRows = Repository.ExecuteTable(
+                    context: context,
+                    statements: Rds.SelectResults(
+                        tableType: (historyHorizontalAxis
+                            ? Sqls.TableTypes.NormalAndHistory
+                            : Sqls.TableTypes.Normal),
+                        column: column,
+                        join: join,
+                        where: historyHorizontalAxis
+                            ? new Rds.ResultsWhereCollection().ResultId_In(sub: Rds.SelectResults(
+                                column: Rds.ResultsColumn().ResultId(),
+                                join: join,
+                                where: where))
+                            : where.Add(raw: $"\"Results\".\"{horizontalAxis}\" is not null"),
+                        param: param))
+                            .AsEnumerable();
+                ss.SetChoiceHash(
+                    context: context,
+                    dataRows: dataRows);
+                return dataRows;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string OpenAnalyPartDialog(Context context, SiteSettings ss)
+        {
+            if (context.ContractSettings.Export == false)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.InvalidRequest));
+            }
+            var invalid = ResultValidators.OnExporting(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default: return invalid.MessageJson(context: context);
+            }
+            return new ResponseCollection(context: context)
+                .Html(
+                    "#AnalyPartDialog",
+                    new HtmlBuilder().ExportSelectorDialog(
+                        context: context,
+                        ss: ss))
+                .ToJson();
+        }
+
+        public static string Analy(Context context, SiteSettings ss)
+        {
+            if (!ss.EnableViewMode(context: context, name: "TimeSeries"))
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.HasNotPermission));
+            }
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(context: context, ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
+            if (horizontalAxis == null)
+            {
+                return HtmlTemplates.Error(
+                    context: context,
+                    errorData: new ErrorData(type: Error.Types.BadRequest));
+            }
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var inRange = InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.TimeSeriesLimit);
+            if (!inRange)
+            {
+                SessionUtilities.Set(
+                    context: context,
+                    message: Messages.TooManyCases(
+                        context: context,
+                        data: Parameters.General.TimeSeriesLimit.ToString()));
+            }
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view);
+            return hb.ViewModeTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb
+                    .Analy(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        horizontalAxis: horizontalAxis,
+                        bodyOnly: false,
+                        inRange: inRange));
+        }
+
+        public static string AnalyJson(Context context, SiteSettings ss)
+        {
+            if (!ss.EnableViewMode(context: context, name: "TimeSeries"))
+            {
+                return Messages.ResponseHasNotPermission(context: context).ToJson();
+            }
+            var view = Views.GetBySession(context: context, ss: ss);
+            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+                context: context,
+                ss: ss);
+            if (horizontalAxis == null)
+            {
+                return Messages.ResponseBadRequest(context: context).ToJson();
+            }
+            var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
+            if (InRange(
+                context: context,
+                ss: ss,
+                view: view,
+                limit: Parameters.General.TimeSeriesLimit))
+            {
+                var body = new HtmlBuilder().Analy(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    horizontalAxis: horizontalAxis,
+                    bodyOnly: bodyOnly,
+                    inRange: true);
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        invoke: "drawTimeSeries",
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#TimeSeriesBody",
+                        body: body)
+                    .Events("on_timeseries_load")
+                    .ToJson();
+            }
+            else
+            {
+                var body = new HtmlBuilder().TimeSeries(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    horizontalAxis: horizontalAxis,
+                    bodyOnly: bodyOnly,
+                    inRange: false);
+                return new ResponseCollection(context: context)
+                    .ViewMode(
+                        context: context,
+                        ss: ss,
+                        view: view,
+                        message: Messages.TooManyCases(
+                            context: context,
+                            data: Parameters.General.TimeSeriesLimit.ToString()),
+                        bodyOnly: bodyOnly,
+                        bodySelector: "#TimeSeriesBody",
+                        body: body)
+                    .Events("on_timeseries_load")
+                    .ToJson();
+            }
+        }
+
+        private static HtmlBuilder Analy(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            string horizontalAxis,
+            bool bodyOnly,
+            bool inRange)
+        {
+            var groupBy = ss.GetColumn(
+                context: context,
+                columnName: view.GetTimeSeriesGroupBy(
+                    context: context,
+                    ss: ss));
+            var aggregationType = view.GetTimeSeriesAggregationType(
+                context: context,
+                ss: ss);
+            var value = ss.GetColumn(
+                context: context,
+                columnName: view.GetTimeSeriesValue(
+                    context: context,
+                    ss: ss));
+            var chartType = view.GetTimeSeriesChartType(
+                context: context,
+                ss: ss);
+            var dataRows = AnalyDataRows(
+                context: context,
+                ss: ss,
+                view: view,
+                groupBy: groupBy,
+                value: value,
+                horizontalAxis: horizontalAxis);
+            if (groupBy == null)
+            {
+                return hb;
+            }
+            var historyHorizontalAxis = horizontalAxis == "Histories";
+            return !bodyOnly
+                ? hb.Analy(
+                    context: context,
+                    ss: ss,
+                    groupBy: groupBy,
+                    aggregationType: aggregationType,
+                    value: value,
+                    chartType: chartType,
+                    historyHorizontalAxis: historyHorizontalAxis,
+                    dataRows: dataRows,
+                    inRange: inRange)
+                : hb.AnalyBody(
+                    context: context,
+                    ss: ss,
+                    groupBy: groupBy,
+                    aggregationType: aggregationType,
+                    value: value,
+                    historyHorizontalAxis: historyHorizontalAxis,
+                    dataRows: dataRows,
+                    inRange: inRange);
+        }
+
+        private static EnumerableRowCollection<DataRow> AnalyDataRows(
             Context context,
             SiteSettings ss,
             View view,

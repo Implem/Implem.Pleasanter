@@ -187,6 +187,7 @@ namespace Implem.Pleasanter.Libraries.SitePackages
                             .GanttGuide(packageSiteModel.GanttGuide)
                             .BurnDownGuide(packageSiteModel.BurnDownGuide)
                             .TimeSeriesGuide(packageSiteModel.TimeSeriesGuide)
+                            .AnalyGuide(packageSiteModel.AnalyGuide)
                             .KambanGuide(packageSiteModel.KambanGuide)
                             .ImageLibGuide(packageSiteModel.ImageLibGuide)
                             .ReferenceType(packageSiteModel.ReferenceType.MaxLength(32))

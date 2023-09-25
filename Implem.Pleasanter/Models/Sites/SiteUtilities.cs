@@ -161,7 +161,11 @@ namespace Implem.Pleasanter.Models
                     .Div(attributes: new HtmlAttributes()
                         .Id("BulkUpdateSelectorDialog")
                         .Class("dialog")
-                        .Title(Displays.BulkUpdate(context: context))))
+                        .Title(Displays.BulkUpdate(context: context)))
+                    .Div(attributes: new HtmlAttributes()
+                        .Id("AnalyPartDialog")
+                        .Class("dialog")
+                        .Title(Displays.AnalyPart(context: context))))
                     .ToString();
         }
 
@@ -3384,6 +3388,14 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#AnalySettingsEditor",
+                                            text: Displays.Analy(context: context)),
+                                    _using: Def.ViewModeDefinitionCollection
+                                        .Where(o => o.Name == "Analy")
+                                        .Any(o => o.ReferenceType == siteModel.ReferenceType))
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#KambanSettingsEditor",
                                             text: Displays.Kamban(context: context)),
                                     _using: Def.ViewModeDefinitionCollection
@@ -4639,6 +4651,7 @@ namespace Implem.Pleasanter.Models
                             .GanttSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .BurnDownSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .TimeSeriesSettingsEditor(context: context, ss: siteModel.SiteSettings)
+                            .AnalySettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .KambanSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .ImageLibSettingsEditor(context: context, ss: siteModel.SiteSettings)
                             .SearchSettingsEditor(context: context, siteModel: siteModel)
@@ -4742,6 +4755,17 @@ namespace Implem.Pleasanter.Models
                         fieldCss: "field-wide",
                         labelText: Displays.Sites_TimeSeriesGuide(context: context),
                         text: siteModel.TimeSeriesGuide,
+                        mobile: context.Mobile,
+                        _using: ss.ReferenceType != "Sites"
+                            && ss.ReferenceType != "Wikis"
+                            && ss.ReferenceType != "Dashboards")
+                    .FieldMarkDown(
+                        context: context,
+                        ss: ss,
+                        controlId: "Sites_AnalyGuide",
+                        fieldCss: "field-wide",
+                        labelText: Displays.Sites_AnalyGuide(context: context),
+                        text: siteModel.AnalyGuide,
                         mobile: context.Mobile,
                         _using: ss.ReferenceType != "Sites"
                             && ss.ReferenceType != "Wikis"
@@ -10215,6 +10239,8 @@ namespace Implem.Pleasanter.Models
                 .Any(o => o.Name == "Gantt" && o.ReferenceType == ss.ReferenceType);
             var hasTimeSeries = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "TimeSeries" && o.ReferenceType == ss.ReferenceType);
+            var hasAnaly = Def.ViewModeDefinitionCollection
+                .Any(o => o.Name == "Analy" && o.ReferenceType == ss.ReferenceType);
             var hasKamban = Def.ViewModeDefinitionCollection
                 .Any(o => o.Name == "Kamban" && o.ReferenceType == ss.ReferenceType);
             var displayTypeOptionCollection = GetDisplayTypeOptionCollection(context);
@@ -10296,6 +10322,12 @@ namespace Implem.Pleasanter.Models
                                 .Li(
                                     action: () => hb
                                         .A(
+                                            href: "#ViewAnalyTab",
+                                            text: Displays.Analy(context: context)),
+                                    _using: hasAnaly)
+                                .Li(
+                                    action: () => hb
+                                        .A(
                                             href: "#ViewKambanTab",
                                             text: Displays.Kamban(context: context)),
                                     _using: hasKamban)
@@ -10343,6 +10375,11 @@ namespace Implem.Pleasanter.Models
                             ss: ss,
                             view: view,
                             _using: hasTimeSeries)
+                        .ViewAnalyTab(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            _using: hasAnaly)
                         .ViewKambanTab(
                             context: context,
                             ss: ss,
@@ -11206,6 +11243,20 @@ namespace Implem.Pleasanter.Models
                                 labelText: Displays.AggregationTarget(context: context),
                                 optionCollection: ss.TimeSeriesValueOptions(context: context),
                                 selectedValue: view.TimeSeriesValue)))
+                : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static HtmlBuilder ViewAnalyTab(
+            this HtmlBuilder hb, Context context, SiteSettings ss, View view, bool _using)
+        {
+            return _using
+                ? hb.FieldSet(id: "ViewAnalyTab", action: () => hb
+                    .FieldSet(
+                        css: " enclosed-thin",
+                        legendText: Displays.AnalySettings(context: context)))
                 : hb;
         }
 
@@ -13065,6 +13116,24 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static HtmlBuilder AnalySettingsEditor(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return Def.ViewModeDefinitionCollection
+                .Where(o => o.Name == "Analy")
+                .Any(o => o.ReferenceType == ss.ReferenceType)
+                    ? hb.FieldSet(id: "AnalySettingsEditor", action: () => hb
+                        .FieldCheckBox(
+                            controlId: "EnableAnaly",
+                            fieldCss: "field-auto-thin",
+                            labelText: Displays.Enabled(context: context),
+                            _checked: ss.EnableAnaly == true))
+                    : hb;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static HtmlBuilder KambanSettingsEditor(
             this HtmlBuilder hb, Context context, SiteSettings ss)
         {
@@ -13385,6 +13454,8 @@ namespace Implem.Pleasanter.Models
                 .Th(action: () => hb
                     .Text(text: Displays.TimeSeries(context: context)))
                 .Th(action: () => hb
+                    .Text(text: Displays.Analy(context: context)))
+                .Th(action: () => hb
                     .Text(text: Displays.Kamban(context: context)))
                 .Th(action: () => hb
                     .Text(text: Displays.ImageLib(context: context)));
@@ -13464,6 +13535,10 @@ namespace Implem.Pleasanter.Models
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
                         _using: style.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: style.Analy == true))
                 .Td(action: () => hb
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
@@ -13581,6 +13656,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.TimeSeries(context: context),
                                 _checked: style.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "StyleAnaly",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Analy(context: context),
+                                _checked: style.Analy == true)
                             .FieldCheckBox(
                                 controlId: "StyleKamban",
                                 fieldCss: outputDestinationCss,
@@ -13756,6 +13837,8 @@ namespace Implem.Pleasanter.Models
                 .Th(action: () => hb
                     .Text(text: Displays.TimeSeries(context: context)))
                 .Th(action: () => hb
+                    .Text(text: Displays.Analy(context: context)))
+                .Th(action: () => hb
                     .Text(text: Displays.Kamban(context: context)))
                 .Th(action: () => hb
                     .Text(text: Displays.ImageLib(context: context)));
@@ -13835,6 +13918,10 @@ namespace Implem.Pleasanter.Models
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
                         _using: script.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: script.Analy == true))
                 .Td(action: () => hb
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
@@ -13952,6 +14039,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.TimeSeries(context: context),
                                 _checked: script.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "ScriptAnaly",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Analy(context: context),
+                                _checked: script.Analy == true)
                             .FieldCheckBox(
                                 controlId: "ScriptKamban",
                                 fieldCss: outputDestinationCss,
@@ -14130,6 +14223,8 @@ namespace Implem.Pleasanter.Models
                 .Th(action: () => hb
                     .Text(text: Displays.TimeSeries(context: context)))
                 .Th(action: () => hb
+                    .Text(text: Displays.Analy(context: context)))
+                .Th(action: () => hb
                     .Text(text: Displays.Kamban(context: context)))
                 .Th(action: () => hb
                     .Text(text: Displays.ImageLib(context: context)));
@@ -14232,6 +14327,10 @@ namespace Implem.Pleasanter.Models
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
                         _using: html.TimeSeries == true))
+                .Td(action: () => hb
+                    .Span(
+                        css: "ui-icon ui-icon-circle-check",
+                        _using: html.Analy == true))
                 .Td(action: () => hb
                     .Span(
                         css: "ui-icon ui-icon-circle-check",
@@ -14375,6 +14474,12 @@ namespace Implem.Pleasanter.Models
                                 controlCss: " always-send",
                                 labelText: Displays.TimeSeries(context: context),
                                 _checked: html.TimeSeries == true)
+                            .FieldCheckBox(
+                                controlId: "HtmlAnaly",
+                                fieldCss: outputDestinationCss,
+                                controlCss: " always-send",
+                                labelText: Displays.Analy(context: context),
+                                _checked: html.Analy == true)
                             .FieldCheckBox(
                                 controlId: "HtmlKamban",
                                 fieldCss: outputDestinationCss,

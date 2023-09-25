@@ -363,6 +363,8 @@ namespace Implem.DefinitionAccessor
                     case "Model_AddSqlParamIdentity": Code.Model_AddSqlParamIdentity = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamIdentity, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPk": Code.Model_AddSqlParamPk = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPk, definitionRow, CodeXls); break;
                     case "Model_AddSqlParamPkHistory": Code.Model_AddSqlParamPkHistory = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AddSqlParamPkHistory, definitionRow, CodeXls); break;
+                    case "Model_AnalyCases": Code.Model_AnalyCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AnalyCases, definitionRow, CodeXls); break;
+                    case "Model_AnalyJsonCases": Code.Model_AnalyJsonCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_AnalyJsonCases, definitionRow, CodeXls); break;
                     case "Model_Api": Code.Model_Api = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Api, definitionRow, CodeXls); break;
                     case "Model_ApiGroupMembers": Code.Model_ApiGroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiGroupMembers, definitionRow, CodeXls); break;
                     case "Model_ApiItemTitle": Code.Model_ApiItemTitle = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ApiItemTitle, definitionRow, CodeXls); break;
@@ -551,6 +553,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_OnUpdatedNotice": Code.Model_OnUpdatedNotice = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatedNotice, definitionRow, CodeXls); break;
                     case "Model_OnUpdating_ServerScript": Code.Model_OnUpdating_ServerScript = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdating_ServerScript, definitionRow, CodeXls); break;
                     case "Model_OnUpdatingExtendedSqls": Code.Model_OnUpdatingExtendedSqls = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OnUpdatingExtendedSqls, definitionRow, CodeXls); break;
+                    case "Model_OpenAnalyPartDialogCases": Code.Model_OpenAnalyPartDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenAnalyPartDialogCases, definitionRow, CodeXls); break;
                     case "Model_OpenBulkUpdateSelectorDialogCases": Code.Model_OpenBulkUpdateSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenBulkUpdateSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_OpenExportSelectorDialogCases": Code.Model_OpenExportSelectorDialogCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_OpenExportSelectorDialogCases, definitionRow, CodeXls); break;
                     case "Model_ParentIdParameter": Code.Model_ParentIdParameter = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_ParentIdParameter, definitionRow, CodeXls); break;
@@ -723,6 +726,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_UpsertByApiCases": Code.Model_UpsertByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByApiCases, definitionRow, CodeXls); break;
                     case "Model_UpsertByServerScriptCases": Code.Model_UpsertByServerScriptCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_UpsertByServerScriptCases, definitionRow, CodeXls); break;
                     case "Model_Utilities": Code.Model_Utilities = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Analy": Code.Model_Utilities_Analy = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Analy, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiCreatedMessage": Code.Model_Utilities_ApiCreatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiCreatedMessage, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiCreatedMessage_Table": Code.Model_Utilities_ApiCreatedMessage_Table = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiCreatedMessage_Table, definitionRow, CodeXls); break;
                     case "Model_Utilities_ApiDuplicatedMessage": Code.Model_Utilities_ApiDuplicatedMessage = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_ApiDuplicatedMessage, definitionRow, CodeXls); break;
@@ -1769,6 +1773,7 @@ namespace Implem.DefinitionAccessor
                     case "Sessions_SessionGuid": Column.Sessions_SessionGuid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_SessionGuid, definitionRow, ColumnXls); break;
                     case "Sessions_UserArea": Column.Sessions_UserArea = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_UserArea, definitionRow, ColumnXls); break;
                     case "Sessions_Value": Column.Sessions_Value = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sessions_Value, definitionRow, ColumnXls); break;
+                    case "Sites_AnalyGuide": Column.Sites_AnalyGuide = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_AnalyGuide, definitionRow, ColumnXls); break;
                     case "Sites_Ancestors": Column.Sites_Ancestors = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_Ancestors, definitionRow, ColumnXls); break;
                     case "Sites_ApiCount": Column.Sites_ApiCount = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ApiCount, definitionRow, ColumnXls); break;
                     case "Sites_ApiCountDate": Column.Sites_ApiCountDate = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Sites_ApiCountDate, definitionRow, ColumnXls); break;
@@ -5405,12 +5410,14 @@ namespace Implem.DefinitionAccessor
                     case "Issues_Gantt": ViewMode.Issues_Gantt = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Gantt, definitionRow, ViewModeXls); break;
                     case "Issues_BurnDown": ViewMode.Issues_BurnDown = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_BurnDown, definitionRow, ViewModeXls); break;
                     case "Issues_TimeSeries": ViewMode.Issues_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_TimeSeries, definitionRow, ViewModeXls); break;
+                    case "Issues_Analy": ViewMode.Issues_Analy = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Analy, definitionRow, ViewModeXls); break;
                     case "Issues_Kamban": ViewMode.Issues_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_Kamban, definitionRow, ViewModeXls); break;
                     case "Issues_ImageLib": ViewMode.Issues_ImageLib = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Issues_ImageLib, definitionRow, ViewModeXls); break;
                     case "Results_Index": ViewMode.Results_Index = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Index, definitionRow, ViewModeXls); break;
                     case "Results_Calendar": ViewMode.Results_Calendar = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Calendar, definitionRow, ViewModeXls); break;
                     case "Results_Crosstab": ViewMode.Results_Crosstab = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Crosstab, definitionRow, ViewModeXls); break;
                     case "Results_TimeSeries": ViewMode.Results_TimeSeries = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_TimeSeries, definitionRow, ViewModeXls); break;
+                    case "Results_Analy": ViewMode.Results_Analy = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Analy, definitionRow, ViewModeXls); break;
                     case "Results_Kamban": ViewMode.Results_Kamban = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_Kamban, definitionRow, ViewModeXls); break;
                     case "Results_ImageLib": ViewMode.Results_ImageLib = definitionRow[1].ToString(); SetViewModeTable(ViewModeTable.Results_ImageLib, definitionRow, ViewModeXls); break;
                     default: break;
@@ -6810,6 +6817,8 @@ namespace Implem.DefinitionAccessor
         public string Model_AddSqlParamIdentity;
         public string Model_AddSqlParamPk;
         public string Model_AddSqlParamPkHistory;
+        public string Model_AnalyCases;
+        public string Model_AnalyJsonCases;
         public string Model_Api;
         public string Model_ApiGroupMembers;
         public string Model_ApiItemTitle;
@@ -6998,6 +7007,7 @@ namespace Implem.DefinitionAccessor
         public string Model_OnUpdatedNotice;
         public string Model_OnUpdating_ServerScript;
         public string Model_OnUpdatingExtendedSqls;
+        public string Model_OpenAnalyPartDialogCases;
         public string Model_OpenBulkUpdateSelectorDialogCases;
         public string Model_OpenExportSelectorDialogCases;
         public string Model_ParentIdParameter;
@@ -7170,6 +7180,7 @@ namespace Implem.DefinitionAccessor
         public string Model_UpsertByApiCases;
         public string Model_UpsertByServerScriptCases;
         public string Model_Utilities;
+        public string Model_Utilities_Analy;
         public string Model_Utilities_ApiCreatedMessage;
         public string Model_Utilities_ApiCreatedMessage_Table;
         public string Model_Utilities_ApiDuplicatedMessage;
@@ -7608,6 +7619,8 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_AddSqlParamIdentity = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPk = new CodeDefinition();
         public CodeDefinition Model_AddSqlParamPkHistory = new CodeDefinition();
+        public CodeDefinition Model_AnalyCases = new CodeDefinition();
+        public CodeDefinition Model_AnalyJsonCases = new CodeDefinition();
         public CodeDefinition Model_Api = new CodeDefinition();
         public CodeDefinition Model_ApiGroupMembers = new CodeDefinition();
         public CodeDefinition Model_ApiItemTitle = new CodeDefinition();
@@ -7796,6 +7809,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_OnUpdatedNotice = new CodeDefinition();
         public CodeDefinition Model_OnUpdating_ServerScript = new CodeDefinition();
         public CodeDefinition Model_OnUpdatingExtendedSqls = new CodeDefinition();
+        public CodeDefinition Model_OpenAnalyPartDialogCases = new CodeDefinition();
         public CodeDefinition Model_OpenBulkUpdateSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_OpenExportSelectorDialogCases = new CodeDefinition();
         public CodeDefinition Model_ParentIdParameter = new CodeDefinition();
@@ -7968,6 +7982,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_UpsertByApiCases = new CodeDefinition();
         public CodeDefinition Model_UpsertByServerScriptCases = new CodeDefinition();
         public CodeDefinition Model_Utilities = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Analy = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiCreatedMessage = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiCreatedMessage_Table = new CodeDefinition();
         public CodeDefinition Model_Utilities_ApiDuplicatedMessage = new CodeDefinition();
@@ -9041,6 +9056,7 @@ namespace Implem.DefinitionAccessor
         public string Sessions_SessionGuid;
         public string Sessions_UserArea;
         public string Sessions_Value;
+        public string Sites_AnalyGuide;
         public string Sites_Ancestors;
         public string Sites_ApiCount;
         public string Sites_ApiCountDate;
@@ -9599,6 +9615,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Sessions_SessionGuid = new ColumnDefinition();
         public ColumnDefinition Sessions_UserArea = new ColumnDefinition();
         public ColumnDefinition Sessions_Value = new ColumnDefinition();
+        public ColumnDefinition Sites_AnalyGuide = new ColumnDefinition();
         public ColumnDefinition Sites_Ancestors = new ColumnDefinition();
         public ColumnDefinition Sites_ApiCount = new ColumnDefinition();
         public ColumnDefinition Sites_ApiCountDate = new ColumnDefinition();
@@ -13321,12 +13338,14 @@ namespace Implem.DefinitionAccessor
         public string Issues_Gantt;
         public string Issues_BurnDown;
         public string Issues_TimeSeries;
+        public string Issues_Analy;
         public string Issues_Kamban;
         public string Issues_ImageLib;
         public string Results_Index;
         public string Results_Calendar;
         public string Results_Crosstab;
         public string Results_TimeSeries;
+        public string Results_Analy;
         public string Results_Kamban;
         public string Results_ImageLib;
     }
@@ -13339,12 +13358,14 @@ namespace Implem.DefinitionAccessor
         public ViewModeDefinition Issues_Gantt = new ViewModeDefinition();
         public ViewModeDefinition Issues_BurnDown = new ViewModeDefinition();
         public ViewModeDefinition Issues_TimeSeries = new ViewModeDefinition();
+        public ViewModeDefinition Issues_Analy = new ViewModeDefinition();
         public ViewModeDefinition Issues_Kamban = new ViewModeDefinition();
         public ViewModeDefinition Issues_ImageLib = new ViewModeDefinition();
         public ViewModeDefinition Results_Index = new ViewModeDefinition();
         public ViewModeDefinition Results_Calendar = new ViewModeDefinition();
         public ViewModeDefinition Results_Crosstab = new ViewModeDefinition();
         public ViewModeDefinition Results_TimeSeries = new ViewModeDefinition();
+        public ViewModeDefinition Results_Analy = new ViewModeDefinition();
         public ViewModeDefinition Results_Kamban = new ViewModeDefinition();
         public ViewModeDefinition Results_ImageLib = new ViewModeDefinition();
     }

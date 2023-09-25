@@ -1,0 +1,23 @@
+﻿{
+    "Id": "Sites_AnalyGuide",
+    "ModelName": "Site",
+    "TableName": "Sites",
+    "Label": "サイト",
+    "ColumnName": "AnalyGuide",
+    "LabelText": "分析チャートのガイド",
+    "No": "110",
+    "History": "110",
+    "EditorColumn": "110",
+    "LinkColumn": "110",
+    "HistoryColumn": "110",
+    "TypeName": "nvarchar",
+    "MaxLength": "-1",
+    "Nullable": "1",
+    "ControlType": "MarkDown",
+    "LabelText_en": "Analysis chart guide",
+    "LabelText_zh": "分析图表指南",
+    "LabelText_de": "Leitfaden für Analysediagramme",
+    "LabelText_ko": "분석 차트 가이드",
+    "LabelText_es": "Guía de gráficos de análisis",
+    "LabelText_vn": "Hướng dẫn biểu đồ phân tích"
+}

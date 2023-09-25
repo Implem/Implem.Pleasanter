@@ -127,6 +127,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         case nameof(siteModel.TimeSeriesGuide):
                             result = siteModel.TimeSeriesGuide;
                             return true;
+                        case nameof(siteModel.AnalyGuide):
+                            result = siteModel.AnalyGuide;
+                            return true;
                         case nameof(siteModel.KambanGuide):
                             result = siteModel.KambanGuide;
                             return true;
@@ -292,6 +295,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         return true;
                     case nameof(SiteModel.TimeSeriesGuide):
                         siteModel.TimeSeriesGuide = value.ToStr();
+                        return true;
+                    case nameof(SiteModel.AnalyGuide):
+                        siteModel.AnalyGuide = value.ToStr();
                         return true;
                     case nameof(SiteModel.KambanGuide):
                         siteModel.KambanGuide = value.ToStr();

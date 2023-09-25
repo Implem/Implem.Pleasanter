@@ -111,6 +111,8 @@ namespace Implem.Pleasanter.Libraries.Settings
         [NonSerialized]
         public string TimeSeriesGuide;
         [NonSerialized]
+        public string AnalyGuide;
+        [NonSerialized]
         public string KambanGuide;
         [NonSerialized]
         public string ImageLibGuide;
@@ -221,6 +223,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public bool? ShowGanttProgressRate;
         public bool? EnableBurnDown;
         public bool? EnableTimeSeries;
+        public bool? EnableAnaly;
         public bool? EnableKamban;
         public bool? EnableImageLib;
         public int? ImageLibPageSize;
@@ -382,6 +385,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ShowGanttProgressRate = ShowGanttProgressRate ?? true;
             EnableBurnDown = EnableBurnDown ?? true;
             EnableTimeSeries = EnableTimeSeries ?? true;
+            EnableAnaly = EnableAnaly ?? true;
             EnableKamban = EnableKamban ?? true;
             EnableImageLib = EnableImageLib ?? true;
             ImageLibPageSize = ImageLibPageSize ?? Parameters.General.ImageLibPageSize;
@@ -483,6 +487,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     ss.GanttGuide = dataRow.String("GanttGuide");
                     ss.BurnDownGuide = dataRow.String("BurnDownGuide");
                     ss.TimeSeriesGuide = dataRow.String("TimeSeriesGuide");
+                    ss.AnalyGuide = dataRow.String("AnalyGuide");
                     ss.KambanGuide = dataRow.String("KambanGuide");
                     ss.ImageLibGuide = dataRow.String("ImageLibGuide");
                     ss.ReferenceType = dataRow.String("ReferenceType");
@@ -863,6 +868,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (EnableTimeSeries == false)
             {
                 ss.EnableTimeSeries = EnableTimeSeries;
+            }
+            if (EnableAnaly == false)
+            {
+                ss.EnableAnaly = EnableAnaly;
             }
             if (EnableKamban == false)
             {
@@ -3657,6 +3666,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "ShowGanttProgressRate": ShowGanttProgressRate = value.ToBool(); break;
                 case "EnableBurnDown": EnableBurnDown = value.ToBool(); break;
                 case "EnableTimeSeries": EnableTimeSeries = value.ToBool(); break;
+                case "EnableAnaly": EnableAnaly = value.ToBool(); break;
                 case "EnableKamban": EnableKamban = value.ToBool(); break;
                 case "EnableImageLib": EnableImageLib = value.ToBool(); break;
                 case "UseFilterButton": UseFilterButton = value.ToBool(); break;
@@ -4762,6 +4772,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "Gantt": return canRead && EnableGantt == true;
                 case "BurnDown": return canRead && EnableBurnDown == true;
                 case "TimeSeries": return canRead && EnableTimeSeries == true;
+                case "Analy": return canRead && EnableAnaly == true;
                 case "Kamban": return canRead && EnableKamban == true;
                 case "ImageLib": return context.ContractSettings.Images()
                     && canRead && EnableImageLib == true;
@@ -5080,6 +5091,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "timeseries":
                     return GetStyleBody(
                         context: context, peredicate: o => o.TimeSeries == true);
+                case "analy":
+                    return GetStyleBody(
+                        context: context, peredicate: o => o.Analy == true);
                 case "kamban":
                     return GetStyleBody(
                         context: context, peredicate: o => o.Kamban == true);
@@ -5136,6 +5150,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case "timeseries":
                     return GetScriptBody(
                         context: context, peredicate: o => o.TimeSeries == true);
+                case "analy":
+                    return GetScriptBody(
+                        context: context, peredicate: o => o.Analy == true);
                 case "kamban":
                     return GetScriptBody(
                         context: context, peredicate: o => o.Kamban == true);
@@ -5190,6 +5207,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                     return GetHtmlBody(
                         context: context,
                         peredicate: o => o.TimeSeries == true,
+                        positionType: positionType);
+                case "analy":
+                    return GetHtmlBody(
+                        context: context,
+                        peredicate: o => o.Analy == true,
                         positionType: positionType);
                 case "kamban":
                     return GetHtmlBody(

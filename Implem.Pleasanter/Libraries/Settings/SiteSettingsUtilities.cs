@@ -428,6 +428,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Sites";
@@ -477,6 +478,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Dashboards";
@@ -528,6 +530,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Issues";
@@ -579,6 +582,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Results";
@@ -630,6 +634,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.GanttGuide = siteModel.GanttGuide;
             ss.BurnDownGuide = siteModel.BurnDownGuide;
             ss.TimeSeriesGuide = siteModel.TimeSeriesGuide;
+            ss.AnalyGuide = siteModel.AnalyGuide;
             ss.KambanGuide = siteModel.KambanGuide;
             ss.ImageLibGuide = siteModel.ImageLibGuide;
             ss.ReferenceType = "Wikis";
