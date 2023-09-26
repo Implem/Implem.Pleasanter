@@ -2379,10 +2379,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static ErrorData UpdateGroup(
-        Context context,
-        SiteSettings ss,
-        GroupModel groupModel,
-        ref int updateGroupCount)
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel,
+            ref int updateGroupCount)
         {
             if (!groupModel.Updated(context: context))
             {
@@ -2422,15 +2422,6 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 data: errorCsvRow.ToString());
         }
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string ApiInvalidMemberTypeError(Context context, int errorCsvRow)
-        {
-            return Error.Types.InvalidMemberType.Message(
-                context: context,
-                data: errorCsvRow.ToString()).Text;
-        }
 
         /// <summary>
         /// Fixed:
@@ -2440,15 +2431,6 @@ namespace Implem.Pleasanter.Models
             return Error.Types.InvalidMemberKey.MessageJson(
                 context: context,
                 data: errorCsvRow.ToString());
-        }
-        /// <summary>
-        /// Fixed:
-        /// </summary>
-        private static string ApiInvalidMemberKeyError(Context context, int errorCsvRow)
-        {
-            return Error.Types.InvalidMemberKey.Message(
-                context: context,
-                data: errorCsvRow.ToString()).Text;
         }
 
         /// <summary>

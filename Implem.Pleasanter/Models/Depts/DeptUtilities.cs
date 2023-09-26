@@ -2260,7 +2260,7 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static string ImportRecordingData(
-        Context context, Column column, string value, long inheritPermission)
+            Context context, Column column, string value, long inheritPermission)
         {
             var recordingData = column.RecordingData(
                 context: context,
