@@ -2379,10 +2379,10 @@ namespace Implem.Pleasanter.Models
         /// Fixed:
         /// </summary>
         private static ErrorData UpdateGroup(
-        Context context,
-        SiteSettings ss,
-        GroupModel groupModel,
-        ref int updateGroupCount)
+            Context context,
+            SiteSettings ss,
+            GroupModel groupModel,
+            ref int updateGroupCount)
         {
             if (!groupModel.Updated(context: context))
             {
