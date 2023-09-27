@@ -56,6 +56,7 @@ namespace Implem.PleasanterSetup
             // ユーザにセットアップに必要な情報を入力してもらう
             SetSummary(
                 directory: directory,
+                licenseZip: license,
                 extendedColumnsDir: extendedcolumns);
             // 新規インストールまたはバージョンアップを行うかをユーザに確認する
             var doNext = AskForInstallOrVersionUp();
@@ -142,6 +143,7 @@ namespace Implem.PleasanterSetup
                 // ユーザにセットアップに必要な情報を入力してもらう
                 SetSummary(
                     directory: directory,
+                    licenseZip: license,
                     extendedColumnsDir: extendedcolumns);
             }
             var resourceDir = string.IsNullOrEmpty(directory)
@@ -171,22 +173,16 @@ namespace Implem.PleasanterSetup
             return doNext.ToLower().StartsWith("y");
         }
 
-        private string AskForInstallDir(string directory)
+        private void AskForInstallDir(string directory)
         {
-            var installDir = GetDefaultInstallDir(directory);
-            if (string.IsNullOrEmpty(installDir))
-            {
-                logger.Info("Install Directory [Default: /web/pleasanter] : ");
-                var userInputResourceDir = Console.ReadLine();
-                if (!string.IsNullOrEmpty(userInputResourceDir))
-                {
-                    installDir = userInputResourceDir;
-                }
-            }
-            return installDir;
+            logger.Info("Install Directory [Default: /web/pleasanter] : ");
+            var userInputResourceDir = Console.ReadLine();
+            installDir = !string.IsNullOrEmpty(userInputResourceDir)
+                ? userInputResourceDir
+                : GetDefaultInstallDir(directory);
         }
 
-        private string AskForDbms(bool versionUp)
+        private void AskForDbms(bool versionUp)
         {
             if (versionUp)
             {
@@ -201,6 +197,11 @@ namespace Implem.PleasanterSetup
                     var json = File.ReadAllText(file);
                     var data = json.Deserialize<Rds>();
                     dbms = data.Dbms;
+                }
+                else
+                {
+                    logger.Error($"The file {file} was not found.");
+                    Environment.Exit(0);
                 }
             }
             else
@@ -212,12 +213,10 @@ namespace Implem.PleasanterSetup
                 }
 
             }
-            return dbms;
         }
 
-        private string AskForServer(bool versionUp)
+        private void AskForServer(bool versionUp)
         {
-            var server = string.Empty;
             if (versionUp)
             {
                 var file = Path.Combine(
@@ -230,7 +229,17 @@ namespace Implem.PleasanterSetup
                 {
                     var json = File.ReadAllText(file);
                     var data = json.Deserialize<Rds>();
-                    dbms = data.Dbms;
+                    server = data.SaConnectionString
+                        .Split(";")
+                        .Where(o => o.StartsWith("Server="))
+                        .FirstOrDefault()?
+                        .Split("=")
+                        .Last();
+                }
+                else
+                {
+                    logger.Error($"The file {file} was not found.");
+                    Environment.Exit(0);
                 }
             }
             else
@@ -242,10 +251,9 @@ namespace Implem.PleasanterSetup
                     : userInputServer;
 
             }
-            return server;
         }
 
-        private string AskForServiceName(bool versionUp)
+        private void AskForServiceName(bool versionUp)
         {
             if (versionUp)
             {
@@ -261,6 +269,11 @@ namespace Implem.PleasanterSetup
                     var data = json.Deserialize<Service>();
                     serviceName = data.Name;
                 }
+                else
+                {
+                    logger.Error($"The file {file} was not found.");
+                    Environment.Exit(0);
+                }
             }
             else
             {
@@ -271,10 +284,9 @@ namespace Implem.PleasanterSetup
                     : userInputServiceName;
 
             }
-            return serviceName;
         }
 
-        private string AskForUserId(bool versionUp)
+        private void AskForUserId(bool versionUp)
         {
             if (versionUp)
             {
@@ -283,7 +295,7 @@ namespace Implem.PleasanterSetup
                     "Implem.Pleasanter",
                     "App_Data",
                     "Parameters",
-                    "Service.json");
+                    "Rds.json");
                 if (File.Exists(file))
                 {
                     var json = File.ReadAllText(file);
@@ -295,12 +307,17 @@ namespace Implem.PleasanterSetup
                         .Split("=")
                         .Last();
                 }
+                else
+                {
+                    logger.Error($"The file {file} was not found.");
+                    Environment.Exit(0);
+                }
             }
             else
             {
                 logger.Info("[Default: sa(SQL Server), postgres(PostgreSQL)] : ");
-                var userId = Console.ReadLine();
-                if (string.IsNullOrEmpty(userId))
+                var userInputUserId = Console.ReadLine();
+                if (string.IsNullOrEmpty(userInputUserId))
                 {
                     switch ((DBMS)int.Parse(dbms))
                     {
@@ -313,12 +330,10 @@ namespace Implem.PleasanterSetup
                     }
                 }
             }
-            return userId;
         }
 
-        private string AskForPassword(bool versionUp)
+        private void AskForPassword(bool versionUp)
         {
-            var password = "";
             if (versionUp)
             {
                 var file = Path.Combine(
@@ -338,6 +353,11 @@ namespace Implem.PleasanterSetup
                         .Split("=")
                         .LastOrDefault();
                 }
+                else
+                {
+                    logger.Error($"The file {file} was not found.");
+                    Environment.Exit(0);
+                }
             }
             else
             {
@@ -347,10 +367,9 @@ namespace Implem.PleasanterSetup
                     password = Console.ReadLine();
                 }
             }
-            return password;
         }
 
-        private ExtendedColumns AskForExtendedColums(
+        private void AskForExtendedColums(
             string extendedColumnsDir,
             string referenceType)
         {
@@ -372,7 +391,16 @@ namespace Implem.PleasanterSetup
                 extendedColumns.Check = AskForItemCount("Check");
                 extendedColumns.Attachments = AskForItemCount("Attachments");
             }
-            return extendedColumns;
+            switch(referenceType) {
+                case "Issues":
+                    extendedIssuesColumns = extendedColumns;
+                    extendedIssuesColumns.ReferenceType = referenceType;
+                    break;
+                case "Results":
+                    extendedResultsColumns = extendedColumns;
+                    extendedResultsColumns.ReferenceType = referenceType;
+                    break;
+            }
         }
 
         private int AskForItemCount(string itemName)
@@ -496,8 +524,8 @@ namespace Implem.PleasanterSetup
             logger.Info($"Service Name      : {serviceName}");
             logger.Info($"User ID           : {userId}");
             logger.Info($"Password          : {password}");
-            if (extendedIssuesColumns.GetHashCode() != new ExtendedColumns().GetHashCode()
-                && extendedResultsColumns.GetHashCode() != new ExtendedColumns().GetHashCode())
+            if (!extendedIssuesColumns.Equals(new ExtendedColumns())
+                || !extendedResultsColumns.Equals(new ExtendedColumns()))
             {
                 logger.Info("[Issues]");
                 logger.Info($"    Class       : {CalculateRangeOfColumns("Class", extendedIssuesColumns.Class)}");
@@ -531,17 +559,9 @@ namespace Implem.PleasanterSetup
 
         private string GetDefaultInstallDir(string directory)
         {
-            var installDir = directory;
-            switch (RuntimeInformation.OSDescription)
-            {
-                case "Windows":
-                    installDir = configuration["DefaultParameters:InstallDirForWindows"] ?? string.Empty;
-                    break;
-                default:
-                    installDir = configuration["InstallDirForLinux"] ?? string.Empty;
-                    break;
-            }
-            return installDir;
+            return Environment.OSVersion.Platform == PlatformID.Win32NT
+                ? installDir = configuration["DefaultParameters:InstallDirForWindows"]
+                : installDir = configuration["InstallDirForLinux"];
         }
 
         private string GetCallingMethodName()
@@ -558,9 +578,9 @@ namespace Implem.PleasanterSetup
             return callingMethodName;
         }
 
-        private bool MeetsVersionUpRequirements(string parametersDir)
+        private void MeetsVersionUpRequirements(string parametersDir)
         {
-            return Directory.Exists(parametersDir) && Directory.GetFiles(parametersDir).Length > 0;
+            versionUp = Directory.Exists(parametersDir) && Directory.GetFiles(parametersDir).Length > 0;
         }
 
         private void SetParameters()
@@ -682,7 +702,7 @@ namespace Implem.PleasanterSetup
         private void SetDisabledColumns(ExtendedColumns extendedColumns)
         {
             var disabledColumns = new List<string>();
-            foreach(var p in extendedColumns.GetType().GetProperties())
+            foreach (var p in extendedColumns.GetType().GetProperties())
             {
                 switch (p.Name)
                 {
@@ -729,26 +749,30 @@ namespace Implem.PleasanterSetup
 
         private void SetSummary(
             string directory,
+            string licenseZip,
             string extendedColumnsDir)
         {
-            installDir = AskForInstallDir(directory);
-            versionUp = MeetsVersionUpRequirements(
+            AskForInstallDir(directory);
+            MeetsVersionUpRequirements(
                 Path.Combine(
                     installDir,
                     "Implem.Pleasanter",
                     "App_Data",
                     "Parameters"));
-            dbms = AskForDbms(versionUp);
-            server = AskForServer(versionUp);
-            serviceName = AskForServiceName(versionUp);
-            userId = AskForUserId(versionUp);
-            password = AskForPassword(versionUp);
-            extendedIssuesColumns = AskForExtendedColums(
-                extendedColumnsDir,
-                "Issues");
-            extendedResultsColumns = AskForExtendedColums(
-                extendedColumnsDir,
-                "Results");
+            AskForDbms(versionUp);
+            AskForServer(versionUp);
+            AskForServiceName(versionUp);
+            AskForUserId(versionUp);
+            AskForPassword(versionUp);
+            if (File.Exists(licenseZip))
+            {
+                AskForExtendedColums(
+                    extendedColumnsDir,
+                    "Issues");
+                AskForExtendedColums(
+                    extendedColumnsDir,
+                    "Results");
+            }
         }
 
         private void SetNewResource(

@@ -1,29 +1,27 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Implem.PleasanterSetup;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NLog.Extensions.Logging;
+using NLog;
+using NLog.Config;
 
-namespace Implem.PleasanterSetup
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            var app = ConsoleApp.CreateBuilder(args)
-                .ConfigureServices((context, services) =>
-                {
-                    IConfiguration configuration = new ConfigurationBuilder()
-                        .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                        .AddJsonFile("appsettngs.json")
-                        .Build();
-                    services.AddSingleton(configuration);
-                    services.AddLogging(logBuilder =>
-                    {
-                        logBuilder.AddNLog(new NLog.Config.XmlLoggingConfiguration("NLog.config"));
-                    });
-                })
-                .Build();
-            app.AddCommands<PleasanterSetup>();
-            app.Run();
-        }
+        var app = ConsoleApp.CreateBuilder(args)
+            .ConfigureServices((context, services) =>
+            {
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                services.AddSingleton(configuration);
+                LogManager.Configuration = new XmlLoggingConfiguration("NLog.config");
+                services.AddSingleton<ILogger>(LogManager.GetCurrentClassLogger());
+            })
+            .Build();
+
+        app.AddCommands<PleasanterSetup>();
+        app.Run();
     }
 }
