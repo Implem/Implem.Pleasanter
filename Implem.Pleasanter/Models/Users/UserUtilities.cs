@@ -3517,6 +3517,12 @@ namespace Implem.Pleasanter.Models
                         case "AllowApi":
                             userModel.AllowApi = recordingData.ToBool();
                             break;
+                        case "EnableSecondaryAuthentication":
+                            userModel.EnableSecondaryAuthentication = recordingData.ToBool();
+                            break;
+                        case "DisableSecondaryAuthentication":
+                            userModel.DisableSecondaryAuthentication = recordingData.ToBool();
+                            break;
                         case "Disabled":
                             userModel.Disabled = recordingData.ToBool();
                             break;
