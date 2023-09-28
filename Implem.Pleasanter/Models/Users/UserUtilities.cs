@@ -3406,6 +3406,9 @@ namespace Implem.Pleasanter.Models
             return recordingData;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static Dictionary<int, UserModel> CreateUserHash(
             Context context,
             SiteSettings ss,
