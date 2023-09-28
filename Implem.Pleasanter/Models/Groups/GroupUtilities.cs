@@ -2115,11 +2115,12 @@ namespace Implem.Pleasanter.Models
                 api: true);
             switch (invalid.Type)
             {
-                case Error.Types.None: break;
+                case Error.Types.None:
+                    break;
                 default:
                     return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<ImportApi>();
             var encoding = api.Encoding;
@@ -2169,10 +2170,13 @@ namespace Implem.Pleasanter.Models
                     ss,
                     columnHash.Values.Select(o => o.Column.ColumnName),
                     columnNames: "GroupName");
-                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
-                    id: context.Id,
-                    statusCode: 500,
-                    message: invalidColumn));
+                if (invalidColumn != null)
+                {
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 500,
+                        message: invalidColumn));
+                }
                 var groups = new List<GroupModel>();
                 foreach (var data in csv.Rows.Select((o, i) =>
                     new { Row = o, Index = i }))

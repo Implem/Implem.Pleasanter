@@ -3017,145 +3017,12 @@ namespace Implem.Pleasanter.Models
                         "Name"
                     });
                 if (invalidColumn != null) return invalidColumn;
-                var userHash = new Dictionary<int, UserModel>();
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
-                {
-                    var userModel = new UserModel();
-                    if (idColumn > -1)
-                    {
-                        var model = new UserModel(
-                            context: context,
-                            ss: ss,
-                            loginId: data.Row[idColumn]);
-                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
-                        {
-                            userModel = model;
-                        }
-                    }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.ColumnName)
-                        {
-                            case "TenantId":
-                                userModel.TenantId = recordingData.ToInt();
-                                break;
-                            case "UserId":
-                                userModel.UserId = recordingData.ToInt();
-                                break;
-                            case "LoginId":
-                                userModel.LoginId = recordingData;
-                                break;
-                            case "GlobalId":
-                                userModel.GlobalId = recordingData.ToString();
-                                break;
-                            case "Name":
-                                userModel.Name = recordingData.ToString();
-                                break;
-                            case "UserCode":
-                                userModel.UserCode = recordingData.ToString();
-                                break;
-                            case "Password":
-                                userModel.Password = recordingData.IsNullOrEmpty()
-                                    ? userModel.Password
-                                    : recordingData.Sha512Cng();
-                                userModel.PasswordValidate = recordingData.ToString();
-                                break;
-                            case "LastName":
-                                userModel.LastName = recordingData.ToString();
-                                break;
-                            case "FirstName":
-                                userModel.FirstName = recordingData.ToString();
-                                break;
-                            case "Birthday":
-                                userModel.Birthday.Value = recordingData.ToDateTime();
-                                break;
-                            case "Gender":
-                                userModel.Gender = recordingData.ToString();
-                                break;
-                            case "Language":
-                                userModel.Language = recordingData.ToString();
-                                break;
-                            case "TimeZone":
-                                userModel.TimeZone = recordingData.ToString();
-                                break;
-                            case "DeptId":
-                                userModel.DeptId = recordingData.ToInt();
-                                break;
-                            case "DeptCode":
-                                userModel.DeptId = SiteInfo.Dept(
-                                    tenantId: context.TenantId,
-                                    deptCode: recordingData).Id;
-                                break;
-                            case "Theme":
-                                userModel.Theme = recordingData.ToString();
-                                break;
-                            case "Body":
-                                userModel.Body = recordingData.ToString();
-                                break;
-                            case "PasswordExpirationTime":
-                                userModel.PasswordExpirationTime.Value = recordingData.ToDateTime();
-                                break;
-                            case "TenantManager":
-                                userModel.TenantManager = recordingData.ToBool();
-                                break;
-                            case "ServiceManager":
-                                userModel.ServiceManager = recordingData.ToBool();
-                                break;
-                            case "AllowCreationAtTopSite":
-                                userModel.AllowCreationAtTopSite = recordingData.ToBool();
-                                break;
-                            case "AllowGroupAdministration":
-                                userModel.AllowGroupAdministration = recordingData.ToBool();
-                                break;
-                            case "AllowGroupCreation":
-                                userModel.AllowGroupCreation = recordingData.ToBool();
-                                break;
-                            case "AllowApi":
-                                userModel.AllowApi = recordingData.ToBool();
-                                break;
-                            case "Disabled":
-                                userModel.Disabled = recordingData.ToBool();
-                                break;
-                            case "Lockout":
-                                userModel.Lockout = recordingData.ToBool();
-                                break;
-                            case "ApiKey":
-                                userModel.ApiKey = recordingData.ToString();
-                                break;
-                            case "MailAddresses":
-                                userModel.MailAddresses = recordingData.Split(',').ToList();
-                                break;
-                            case "LdapSearchRoot":
-                                userModel.LdapSearchRoot = recordingData.ToString();
-                                break;
-                            case "SynchronizedTime":
-                                userModel.SynchronizedTime = recordingData.ToDateTime();
-                                break;
-                            case "Comments":
-                                if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    userModel.Comments.Prepend(
-                                        context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            default:
-                                userModel.SetValue(
-                                    context: context,
-                                    column: column.Value,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
-                    userHash.Add(data.Index, userModel);
-                });
+                var userHash = CreateUserHash(
+                    context: context,
+                    ss: ss,
+                    csv: csv,
+                    columnHash: columnHash,
+                    idColumn: idColumn);
                 var errorRowNo = 1;
                 foreach (var userModel in userHash.Values)
                 {
@@ -3285,11 +3152,12 @@ namespace Implem.Pleasanter.Models
                 api: true);
             switch (invalid.Type)
             {
-                case Error.Types.None: break;
+                case Error.Types.None:
+                    break;
                 default:
                     return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<ImportApi>();
             var encoding = api.Encoding;
@@ -3351,149 +3219,19 @@ namespace Implem.Pleasanter.Models
                         "LoginId",
                         "Name"
                     });
-                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
-                    id: context.Id,
-                    statusCode: 500,
-                    message: invalidColumn));
-                var userHash = new Dictionary<int, UserModel>();
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                if (invalidColumn != null)
                 {
-                    var userModel = new UserModel();
-                    if (idColumn > -1)
-                    {
-                        var model = new UserModel(
-                            context: context,
-                            ss: ss,
-                            loginId: data.Row[idColumn]);
-                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
-                        {
-                            userModel = model;
-                        }
-                    }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.ColumnName)
-                        {
-                            case "TenantId":
-                                userModel.TenantId = recordingData.ToInt();
-                                break;
-                            case "UserId":
-                                userModel.UserId = recordingData.ToInt();
-                                break;
-                            case "LoginId":
-                                userModel.LoginId = recordingData;
-                                break;
-                            case "GlobalId":
-                                userModel.GlobalId = recordingData.ToString();
-                                break;
-                            case "Name":
-                                userModel.Name = recordingData.ToString();
-                                break;
-                            case "UserCode":
-                                userModel.UserCode = recordingData.ToString();
-                                break;
-                            case "Password":
-                                userModel.Password = recordingData.IsNullOrEmpty()
-                                    ? userModel.Password
-                                    : recordingData.Sha512Cng();
-                                userModel.PasswordValidate = recordingData.ToString();
-                                break;
-                            case "LastName":
-                                userModel.LastName = recordingData.ToString();
-                                break;
-                            case "FirstName":
-                                userModel.FirstName = recordingData.ToString();
-                                break;
-                            case "Birthday":
-                                userModel.Birthday.Value = recordingData.ToDateTime();
-                                break;
-                            case "Gender":
-                                userModel.Gender = recordingData.ToString();
-                                break;
-                            case "Language":
-                                userModel.Language = recordingData.ToString();
-                                break;
-                            case "TimeZone":
-                                userModel.TimeZone = recordingData.ToString();
-                                break;
-                            case "DeptId":
-                                userModel.DeptId = recordingData.ToInt();
-                                break;
-                            case "DeptCode":
-                                userModel.DeptId = SiteInfo.Dept(
-                                    tenantId: context.TenantId,
-                                    deptCode: recordingData).Id;
-                                break;
-                            case "Theme":
-                                userModel.Theme = recordingData.ToString();
-                                break;
-                            case "Body":
-                                userModel.Body = recordingData.ToString();
-                                break;
-                            case "PasswordExpirationTime":
-                                userModel.PasswordExpirationTime.Value = recordingData.ToDateTime();
-                                break;
-                            case "TenantManager":
-                                userModel.TenantManager = recordingData.ToBool();
-                                break;
-                            case "ServiceManager":
-                                userModel.ServiceManager = recordingData.ToBool();
-                                break;
-                            case "AllowCreationAtTopSite":
-                                userModel.AllowCreationAtTopSite = recordingData.ToBool();
-                                break;
-                            case "AllowGroupAdministration":
-                                userModel.AllowGroupAdministration = recordingData.ToBool();
-                                break;
-                            case "AllowGroupCreation":
-                                userModel.AllowGroupCreation = recordingData.ToBool();
-                                break;
-                            case "AllowApi":
-                                userModel.AllowApi = recordingData.ToBool();
-                                break;
-                            case "Disabled":
-                                userModel.Disabled = recordingData.ToBool();
-                                break;
-                            case "Lockout":
-                                userModel.Lockout = recordingData.ToBool();
-                                break;
-                            case "ApiKey":
-                                userModel.ApiKey = recordingData.ToString();
-                                break;
-                            case "MailAddresses":
-                                userModel.MailAddresses = recordingData.Split(',').ToList();
-                                break;
-                            case "LdapSearchRoot":
-                                userModel.LdapSearchRoot = recordingData.ToString();
-                                break;
-                            case "SynchronizedTime":
-                                userModel.SynchronizedTime = recordingData.ToDateTime();
-                                break;
-                            case "Comments":
-                                if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    userModel.Comments.Prepend(
-                                        context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            default:
-                                userModel.SetValue(
-                                    context: context,
-                                    column: column.Value,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
-                    userHash.Add(data.Index, userModel);
-                });
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 500,
+                        message: invalidColumn));
+                }
+                var userHash = CreateUserHash(
+                    context: context,
+                    ss: ss,
+                    csv: csv,
+                    columnHash: columnHash,
+                    idColumn: idColumn);
                 var errorRowNo = 1;
                 foreach (var userModel in userHash.Values)
                 {
@@ -3666,6 +3404,155 @@ namespace Implem.Pleasanter.Models
                 value: value,
                 siteId: inheritPermission);
             return recordingData;
+        }
+
+        public static Dictionary<int, UserModel> CreateUserHash(
+            Context context,
+            SiteSettings ss,
+            Csv csv,
+            Dictionary<int, Column> columnHash,
+            int idColumn)
+        {
+            var userHash = new Dictionary<int, UserModel>();
+            csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+            {
+                var userModel = new UserModel();
+                if (idColumn > -1)
+                {
+                    var model = new UserModel(
+                        context: context,
+                        ss: ss,
+                        loginId: data.Row[idColumn]);
+                    if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        userModel = model;
+                    }
+                }
+                columnHash.ForEach(column =>
+                {
+                    var recordingData = ImportRecordingData(
+                        context: context,
+                        column: column.Value,
+                        value: data.Row[column.Key],
+                        inheritPermission: ss.InheritPermission);
+                    switch (column.Value.ColumnName)
+                    {
+                        case "TenantId":
+                            userModel.TenantId = recordingData.ToInt();
+                            break;
+                        case "UserId":
+                            userModel.UserId = recordingData.ToInt();
+                            break;
+                        case "LoginId":
+                            userModel.LoginId = recordingData;
+                            break;
+                        case "GlobalId":
+                            userModel.GlobalId = recordingData.ToString();
+                            break;
+                        case "Name":
+                            userModel.Name = recordingData.ToString();
+                            break;
+                        case "UserCode":
+                            userModel.UserCode = recordingData.ToString();
+                            break;
+                        case "Password":
+                            userModel.Password = recordingData.IsNullOrEmpty()
+                                ? userModel.Password
+                                : recordingData.Sha512Cng();
+                            userModel.PasswordValidate = recordingData.ToString();
+                            break;
+                        case "LastName":
+                            userModel.LastName = recordingData.ToString();
+                            break;
+                        case "FirstName":
+                            userModel.FirstName = recordingData.ToString();
+                            break;
+                        case "Birthday":
+                            userModel.Birthday.Value = recordingData.ToDateTime();
+                            break;
+                        case "Gender":
+                            userModel.Gender = recordingData.ToString();
+                            break;
+                        case "Language":
+                            userModel.Language = recordingData.ToString();
+                            break;
+                        case "TimeZone":
+                            userModel.TimeZone = recordingData.ToString();
+                            break;
+                        case "DeptId":
+                            userModel.DeptId = recordingData.ToInt();
+                            break;
+                        case "DeptCode":
+                            userModel.DeptId = SiteInfo.Dept(
+                                tenantId: context.TenantId,
+                                deptCode: recordingData).Id;
+                            break;
+                        case "Theme":
+                            userModel.Theme = recordingData.ToString();
+                            break;
+                        case "Body":
+                            userModel.Body = recordingData.ToString();
+                            break;
+                        case "PasswordExpirationTime":
+                            userModel.PasswordExpirationTime.Value = recordingData.ToDateTime();
+                            break;
+                        case "TenantManager":
+                            userModel.TenantManager = recordingData.ToBool();
+                            break;
+                        case "ServiceManager":
+                            userModel.ServiceManager = recordingData.ToBool();
+                            break;
+                        case "AllowCreationAtTopSite":
+                            userModel.AllowCreationAtTopSite = recordingData.ToBool();
+                            break;
+                        case "AllowGroupAdministration":
+                            userModel.AllowGroupAdministration = recordingData.ToBool();
+                            break;
+                        case "AllowGroupCreation":
+                            userModel.AllowGroupCreation = recordingData.ToBool();
+                            break;
+                        case "AllowApi":
+                            userModel.AllowApi = recordingData.ToBool();
+                            break;
+                        case "Disabled":
+                            userModel.Disabled = recordingData.ToBool();
+                            break;
+                        case "Lockout":
+                            userModel.Lockout = recordingData.ToBool();
+                            break;
+                        case "ApiKey":
+                            userModel.ApiKey = recordingData.ToString();
+                            break;
+                        case "MailAddresses":
+                            userModel.MailAddresses = recordingData.Split(',').ToList();
+                            break;
+                        case "LdapSearchRoot":
+                            userModel.LdapSearchRoot = recordingData.ToString();
+                            break;
+                        case "SynchronizedTime":
+                            userModel.SynchronizedTime = recordingData.ToDateTime();
+                            break;
+                        case "Comments":
+                            if (userModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                !data.Row[column.Key].IsNullOrEmpty())
+                            {
+                                userModel.Comments.Prepend(
+                                    context: context,
+                                    ss: ss,
+                                    body: data.Row[column.Key]);
+                            }
+                            break;
+                        default:
+                            userModel.SetValue(
+                                context: context,
+                                column: column.Value,
+                                value: recordingData);
+                            break;
+                    }
+                });
+                userHash.Add(data.Index, userModel);
+            });
+            return userHash;
         }
 
         /// <summary>

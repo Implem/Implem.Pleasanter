@@ -1918,65 +1918,12 @@ namespace Implem.Pleasanter.Models
                         "DeptName"
                     });
                 if (invalidColumn != null) return invalidColumn;
-                var deptHash = new Dictionary<int, DeptModel>();
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
-                {
-                    var deptModel = new DeptModel();
-                    if (idColumn > -1)
-                    {
-                        var model = new DeptModel(
-                            context: context,
-                            ss: ss,
-                            deptCode: data.Row[idColumn]);
-                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
-                        {
-                            deptModel = model;
-                        }
-                    }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value.Column,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.Column.ColumnName)
-                        {
-                            case "DeptId":
-                                deptModel.DeptId = recordingData.ToInt();
-                                break;
-                            case "DeptCode":
-                                deptModel.DeptCode = recordingData;
-                                break;
-                            case "DeptName":
-                                deptModel.DeptName = recordingData;
-                                break;
-                            case "Body":
-                                deptModel.Body = recordingData;
-                                break;
-                            case "Comments":
-                                if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    deptModel.Comments.Prepend(
-                                        context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            case "Disabled":
-                                deptModel.Disabled = recordingData.ToBool();
-                                break;
-                            default:
-                                deptModel.SetValue(
-                                    context: context,
-                                    column: column.Value.Column,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
-                    deptHash.Add(data.Index, deptModel);
-                });
+                var deptHash = CreateDeptHash(
+                    context,
+                    ss,
+                    csv,
+                    columnHash,
+                    idColumn);
                 var insertCount = 0;
                 var updateCount = 0;
                 foreach (var deptModel in deptHash.Values)
@@ -2064,11 +2011,12 @@ namespace Implem.Pleasanter.Models
                 api: true);
             switch (invalid.Type)
             {
-                case Error.Types.None: break;
+                case Error.Types.None:
+                    break;
                 default:
                     return ApiResults.Error(
-                    context: context,
-                    errorData: invalid);
+                        context: context,
+                        errorData: invalid);
             }
             var api = context.RequestDataString.Deserialize<ImportApi>();
             var encoding = api.Encoding;
@@ -2121,69 +2069,19 @@ namespace Implem.Pleasanter.Models
                         "DeptCode",
                         "DeptName"
                     });
-                if (invalidColumn != null) return ApiResults.Get(new ApiResponse(
-                    id: context.Id,
-                    statusCode: 500,
-                    message: invalidColumn));
-                var deptHash = new Dictionary<int, DeptModel>();
-                csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+                if (invalidColumn != null)
                 {
-                    var deptModel = new DeptModel();
-                    if (idColumn > -1)
-                    {
-                        var model = new DeptModel(
-                            context: context,
-                            ss: ss,
-                            deptCode: data.Row[idColumn]);
-                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
-                        {
-                            deptModel = model;
-                        }
-                    }
-                    columnHash.ForEach(column =>
-                    {
-                        var recordingData = ImportRecordingData(
-                            context: context,
-                            column: column.Value.Column,
-                            value: data.Row[column.Key],
-                            inheritPermission: ss.InheritPermission);
-                        switch (column.Value.Column.ColumnName)
-                        {
-                            case "DeptId":
-                                deptModel.DeptId = recordingData.ToInt();
-                                break;
-                            case "DeptCode":
-                                deptModel.DeptCode = recordingData;
-                                break;
-                            case "DeptName":
-                                deptModel.DeptName = recordingData;
-                                break;
-                            case "Body":
-                                deptModel.Body = recordingData;
-                                break;
-                            case "Comments":
-                                if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
-                                    !data.Row[column.Key].IsNullOrEmpty())
-                                {
-                                    deptModel.Comments.Prepend(
-                                        context: context,
-                                        ss: ss,
-                                        body: data.Row[column.Key]);
-                                }
-                                break;
-                            case "Disabled":
-                                deptModel.Disabled = recordingData.ToBool();
-                                break;
-                            default:
-                                deptModel.SetValue(
-                                    context: context,
-                                    column: column.Value.Column,
-                                    value: recordingData);
-                                break;
-                        }
-                    });
-                    deptHash.Add(data.Index, deptModel);
-                });
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 500,
+                        message: invalidColumn));
+                }
+                var deptHash = CreateDeptHash(
+                    context,
+                    ss,
+                    csv,
+                    columnHash,
+                    idColumn);
                 var insertCount = 0;
                 var updateCount = 0;
                 foreach (var deptModel in deptHash.Values)
@@ -2267,6 +2165,78 @@ namespace Implem.Pleasanter.Models
                 value: value,
                 siteId: inheritPermission);
             return recordingData;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        public static Dictionary<int, DeptModel> CreateDeptHash(
+            Context context,
+            SiteSettings ss,
+            Csv csv,
+            Dictionary<int, ImportColumn> columnHash,
+            int idColumn)
+        {
+            var deptHash = new Dictionary<int, DeptModel>();
+            csv.Rows.Select((o, i) => new { Row = o, Index = i }).ForEach(data =>
+            {
+                var deptModel = new DeptModel();
+                if (idColumn > -1)
+                {
+                    var model = new DeptModel(
+                        context: context,
+                        ss: ss,
+                        deptCode: data.Row[idColumn]);
+                    if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        deptModel = model;
+                    }
+                }
+                columnHash.ForEach(column =>
+                {
+                    var recordingData = ImportRecordingData(
+                        context: context,
+                        column: column.Value.Column,
+                        value: data.Row[column.Key],
+                        inheritPermission: ss.InheritPermission);
+                    switch (column.Value.Column.ColumnName)
+                    {
+                        case "DeptId":
+                            deptModel.DeptId = recordingData.ToInt();
+                            break;
+                        case "DeptCode":
+                            deptModel.DeptCode = recordingData;
+                            break;
+                        case "DeptName":
+                            deptModel.DeptName = recordingData;
+                            break;
+                        case "Body":
+                            deptModel.Body = recordingData;
+                            break;
+                        case "Comments":
+                            if (deptModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                !data.Row[column.Key].IsNullOrEmpty())
+                            {
+                                deptModel.Comments.Prepend(
+                                    context: context,
+                                    ss: ss,
+                                    body: data.Row[column.Key]);
+                            }
+                            break;
+                        case "Disabled":
+                            deptModel.Disabled = recordingData.ToBool();
+                            break;
+                        default:
+                            deptModel.SetValue(
+                                context: context,
+                                column: column.Value.Column,
+                                value: recordingData);
+                            break;
+                    }
+                });
+                deptHash.Add(data.Index, deptModel);
+            });
+            return deptHash;
         }
 
         /// <summary>
