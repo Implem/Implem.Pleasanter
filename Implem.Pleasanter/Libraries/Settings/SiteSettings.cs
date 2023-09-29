@@ -3212,6 +3212,19 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public Dictionary<string, string> PeriodOptions(Context context)
+        {
+            return new Dictionary<string, string>()
+            {
+                { "Days", Displays.Days(context: context) },
+                { "Months", Displays.Months(context: context) },
+                { "Years", Displays.Years(context: context) },
+                { "Hours", Displays.Hours(context: context) },
+                { "Minutes", Displays.Minutes(context: context) },
+                { "Seconds", Displays.Seconds(context: context) }
+            };
+        }
+
         public Dictionary<string, ControlData> AggregationDestination(Context context)
         {
             return Aggregations?
@@ -3486,6 +3499,59 @@ namespace Implem.Pleasanter.Libraries.Settings
                     mine: null))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => o.GridLabelText));
+            return hash;
+        }
+
+        public Dictionary<string, string> AnalyGroupByOptions(Context context)
+        {
+            return Columns
+                .Where(o => o.HasChoices())
+                .Where(o => o.MultipleSelections != true)
+                .Where(o => !o.Joined)
+                .Where(o => o.CanRead(
+                    context: context,
+                    ss: this,
+                    mine: null))
+                .OrderBy(o => o.No)
+                .ToDictionary(o => o.ColumnName, o => o.LabelText);
+        }
+
+        public Dictionary<string, string> AnalyAggregationTypeOptions(Context context)
+        {
+            return new Dictionary<string, string>
+            {
+                { "Count", Displays.Count(context: context) },
+                { "Total", Displays.Total(context: context) },
+                { "Average", Displays.Average(context: context) },
+                { "Max", Displays.Max(context: context) },
+                { "Min", Displays.Min(context: context) }
+            };
+        }
+
+        public Dictionary<string, string> AnalyAggregationTargetOptions(Context context)
+        {
+            var hash = new Dictionary<string, string>();
+            JoinOptions().ForEach(join =>
+            {
+                var siteId = ColumnUtilities.GetSiteIdByTableAlias(join.Key, SiteId);
+                var ss = JoinedSsHash.Get(siteId);
+                if (ss != null)
+                {
+                    hash.AddRange(ss.Columns
+                        .Where(o => o.Computable)
+                        .Where(o => o.TypeName != "datetime")
+                        .Where(o => !o.Joined)
+                        .Where(o => ss.GetEditorColumnNames().Contains(o.Name))
+                        .Where(o => o.CanRead(
+                            context: context,
+                            ss: ss,
+                            mine: null))
+                        .OrderBy(o => o.LabelText)
+                        .ToDictionary(
+                            o => ColumnUtilities.ColumnName(join.Key, o.Name),
+                            o => join.Value + " " + o.LabelText));
+                }
+            });
             return hash;
         }
 

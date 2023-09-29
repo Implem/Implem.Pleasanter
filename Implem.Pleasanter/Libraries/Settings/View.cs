@@ -106,6 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesValue;
         public string TimeSeriesChartType;
         public string TimeSeriesHorizontalAxis;
+        public List<AnalyPartSetting> AnalyParts;
         public string KambanGroupByX;
         public string KambanGroupByY;
         public string KambanAggregateType;
@@ -366,6 +367,32 @@ namespace Implem.Pleasanter.Libraries.Settings
             }
         }
 
+        public string GetAnalyGroupBy(Context context, SiteSettings ss, string value)
+        {
+            var options = ss.AnalyGroupByOptions(context: context);
+            var ret = value;
+            if (value.IsNullOrEmpty())
+            {
+                ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+            }
+            return ret;
+        }
+
+        public string GetAnalyAggregationTarget(Context context, SiteSettings ss, string value)
+        {
+            var options = ss.AnalyAggregationTargetOptions(context: context);
+            var ret = value;
+            if (value.IsNullOrEmpty())
+            {
+                ret = options.ContainsKey(Definition(ss, "TimeSeries")?.Option1)
+                    ? Definition(ss, "TimeSeries")?.Option1
+                    : options.FirstOrDefault().Key;
+            }
+            return ret;
+        }
+
         public string GetKambanGroupByX(Context context, SiteSettings ss)
         {
             var options = ss.KambanGroupByOptions(context: context);
@@ -453,6 +480,9 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case "ViewSorters_Reset":
                     ResetViewSorters(ss: ss);
+                    break;
+                case "AddAnalyPart":
+                    AddAnalyPart(context: context);
                     break;
                 default:
                     foreach (var controlId in context.Forms.Keys)
@@ -1536,6 +1566,10 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (!TimeSeriesHorizontalAxis.IsNullOrEmpty())
             {
                 view.TimeSeriesHorizontalAxis = TimeSeriesHorizontalAxis;
+            }
+            if (AnalyParts?.Any() == true)
+            {
+                view.AnalyParts = AnalyParts;
             }
             if (!KambanGroupByX.IsNullOrEmpty())
             {
@@ -3427,6 +3461,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o => o.Key,
                 o => o.Value)
                     ?? new Dictionary<string, Column.SearchTypes>();
+        }
+
+        public void AddAnalyPart(Context context)
+        {
+            var analyPartSetting = new AnalyPartSetting()
+            {
+                GroupBy = context.Forms.Data("AnalyPartGroupBy"),
+                Value = context.Forms.Decimal(
+                    context: context,
+                    key: "AnalyPartValue"),
+                Period = context.Forms.Data("AnalyPartPeriod"),
+                PastOrFuture = context.Forms.Int("AnalyPartPastOrFuture"),
+                AggregationTarget = context.Forms.Data("AnalyPartAggregationTarget")
+            };
+            if (AnalyParts == null)
+            {
+                AnalyParts = new List<AnalyPartSetting>();
+            }
+            AnalyParts.Add(analyPartSetting);
         }
     }
 }

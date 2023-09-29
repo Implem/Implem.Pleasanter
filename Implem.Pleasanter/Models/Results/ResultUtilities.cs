@@ -8025,9 +8025,10 @@ namespace Implem.Pleasanter.Models
             return new ResponseCollection(context: context)
                 .Html(
                     "#AnalyPartDialog",
-                    new HtmlBuilder().ExportSelectorDialog(
+                    new HtmlBuilder().AnalyPartDialog(
                         context: context,
                         ss: ss))
+                .CloseDialog()
                 .ToJson();
         }
 
@@ -8123,11 +8124,12 @@ namespace Implem.Pleasanter.Models
                         bodySelector: "#TimeSeriesBody",
                         body: body)
                     .Events("on_timeseries_load")
+                    .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
                     .ToJson();
             }
             else
             {
-                var body = new HtmlBuilder().TimeSeries(
+                var body = new HtmlBuilder().Analy(
                     context: context,
                     ss: ss,
                     view: view,
@@ -8146,6 +8148,7 @@ namespace Implem.Pleasanter.Models
                         bodySelector: "#TimeSeriesBody",
                         body: body)
                     .Events("on_timeseries_load")
+                    .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
                     .ToJson();
             }
         }
@@ -8159,53 +8162,39 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly,
             bool inRange)
         {
-            var groupBy = ss.GetColumn(
-                context: context,
-                columnName: view.GetTimeSeriesGroupBy(
-                    context: context,
-                    ss: ss));
-            var aggregationType = view.GetTimeSeriesAggregationType(
-                context: context,
-                ss: ss);
-            var value = ss.GetColumn(
-                context: context,
-                columnName: view.GetTimeSeriesValue(
-                    context: context,
-                    ss: ss));
-            var chartType = view.GetTimeSeriesChartType(
-                context: context,
-                ss: ss);
-            var dataRows = AnalyDataRows(
-                context: context,
-                ss: ss,
-                view: view,
-                groupBy: groupBy,
-                value: value,
-                horizontalAxis: horizontalAxis);
-            if (groupBy == null)
+            var dataRowsSet = new List<EnumerableRowCollection<DataRow>>();
+            view.AnalyParts?.ForEach(analyPart =>
             {
-                return hb;
-            }
-            var historyHorizontalAxis = horizontalAxis == "Histories";
+                var groupBy = ss.GetColumn(
+                    context: context,
+                    columnName: view.GetAnalyGroupBy(
+                        context: context,
+                        ss: ss,
+                        value: analyPart.GroupBy));
+                var aggregationTarget = ss.GetColumn(
+                    context: context,
+                    columnName: analyPart.AggregationTarget);
+                var dataRows = AnalyDataRows(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    groupBy: groupBy,
+                    value: analyPart.Value,
+                    period: analyPart.Period,
+                    pastOrFuture: analyPart.PastOrFuture,
+                    aggregationTarget: aggregationTarget);
+                dataRowsSet.Add(dataRows);
+            });
             return !bodyOnly
                 ? hb.Analy(
                     context: context,
                     ss: ss,
-                    groupBy: groupBy,
-                    aggregationType: aggregationType,
-                    value: value,
-                    chartType: chartType,
-                    historyHorizontalAxis: historyHorizontalAxis,
-                    dataRows: dataRows,
+                    dataRowsSet: dataRowsSet,
                     inRange: inRange)
                 : hb.AnalyBody(
                     context: context,
                     ss: ss,
-                    groupBy: groupBy,
-                    aggregationType: aggregationType,
-                    value: value,
-                    historyHorizontalAxis: historyHorizontalAxis,
-                    dataRows: dataRows,
+                    dataRowsSet: dataRowsSet,
                     inRange: inRange);
         }
 
@@ -8214,31 +8203,27 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             View view,
             Column groupBy,
-            Column value,
-            string horizontalAxis)
+            decimal value,
+            string period,
+            int pastOrFuture,
+            Column aggregationTarget)
         {
-            if (groupBy != null && value != null)
+            if (groupBy != null)
             {
-                var historyHorizontalAxis = horizontalAxis == "Histories";
                 var column = Rds.ResultsColumn();
-                if (historyHorizontalAxis)
+                column.ResultsColumn(
+                    columnName: groupBy.ColumnName,
+                    _as: "GroupBy");
+                if (aggregationTarget != null)
                 {
-                    column.UpdatedTime(_as: "HorizontalAxis");
+                    column.ResultsColumn(
+                        columnName: aggregationTarget.ColumnName,
+                        _as: "Value");
                 }
                 else
                 {
-                    column.ResultsColumn(
-                        columnName: horizontalAxis,
-                        _as: "HorizontalAxis");
+                    column.ResultsCount(_as: "Value");
                 }
-                column.ResultId(_as: "Id")
-                    .Ver()
-                    .Add(
-                        context: context,
-                        column: groupBy)
-                    .Add(
-                        context: context,
-                        column: value);
                 var where = view.Where(
                     context: context,
                     ss: ss);
@@ -8255,17 +8240,24 @@ namespace Implem.Pleasanter.Models
                 var dataRows = Repository.ExecuteTable(
                     context: context,
                     statements: Rds.SelectResults(
-                        tableType: (historyHorizontalAxis
+                        tableType: (value != 0
                             ? Sqls.TableTypes.NormalAndHistory
                             : Sqls.TableTypes.Normal),
                         column: column,
                         join: join,
-                        where: historyHorizontalAxis
-                            ? new Rds.ResultsWhereCollection().ResultId_In(sub: Rds.SelectResults(
+                        where: new Rds.ResultsWhereCollection()
+                            .ResultId_In(sub: Rds.SelectResults(
                                 column: Rds.ResultsColumn().ResultId(),
                                 join: join,
                                 where: where))
-                            : where.Add(raw: $"\"Results\".\"{horizontalAxis}\" is not null"),
+                            .Ver(
+                                sub: Rds.SelectResults(
+                                    column: Rds.ResultsColumn().Ver(function: Sqls.Functions.Max),
+                                    join: join,
+                                    where: where,
+                                    groupBy: Rds.ResultsGroupBy().ResultId()),
+                                _using: value != 0),
+                        groupBy: Rds.ResultsGroupBy().Add(groupBy),
                         param: param))
                             .AsEnumerable();
                 ss.SetChoiceHash(

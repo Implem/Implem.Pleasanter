@@ -1,0 +1,33 @@
+﻿{
+    "Id": "PastOrFuture",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Past or future"
+        },
+        {
+            "Language": "zh",
+            "Body": "过去或未来"
+        },
+        {
+            "Language": "ja",
+            "Body": "過去/未来"
+        },
+        {
+            "Language": "de",
+            "Body": "Vergangenheit oder Zukunft"
+        },
+        {
+            "Language": "ko",
+            "Body": "과거 또는 미래"
+        },
+        {
+            "Language": "es",
+            "Body": "Pasado o futuro"
+        },
+        {
+            "Language": "vn",
+            "Body": "quá khứ hoặc tương lai"
+        }
+    ]
+}

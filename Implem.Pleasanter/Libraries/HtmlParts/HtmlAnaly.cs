@@ -1,4 +1,6 @@
-﻿using Implem.Pleasanter.Libraries.Html;
+﻿using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Settings;
@@ -10,16 +12,78 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
 {
     public static class HtmlAnaly
     {
+        public static HtmlBuilder AnalyPartDialog(
+            this HtmlBuilder hb, Context context, SiteSettings ss)
+        {
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("AnalyPartDialogForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AnalyPartGroupBy",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Column(context: context),
+                        optionCollection: ss.AnalyGroupByOptions(context: context))
+                    .FieldSpinner(
+                        controlId: "AnalyPartPeriodValue",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Value(context: context),
+                        value: 1,
+                        min: Parameters.General.AnalyPartPeriodValueMin,
+                        max: Parameters.General.AnalyPartPeriodValueMax,
+                        step: 1,
+                        width: 70)
+                    .FieldDropDown(
+                        context: context,
+                        fieldId: "AnalyPartPeriodField",
+                        controlId: "AnalyPartPeriod",
+                        fieldCss: "field-normal",
+                        controlCss: " always-send",
+                        labelText: Displays.Period(context: context),
+                        optionCollection: ss.PeriodOptions(context: context),
+                        selectedValue: "")
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AnalyPartAggregationType",
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationType(context: context),
+                        optionCollection: ss.AnalyAggregationTypeOptions(context: context))
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "AnalyPartAggregationTarget",
+                        controlCss: " always-send",
+                        labelText: Displays.AggregationTarget(context: context),
+                        optionCollection: ss.AnalyAggregationTargetOptions(context: context),
+                        insertBlank: true)
+                    .P(css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            text: Displays.Add(context: context),
+                            controlId: "AddAnalyPart",
+                            controlCss: "button-icon" + (ss.SaveViewType == SiteSettings.SaveViewTypes.None
+                                 ? " save-view-types-none"
+                                 : string.Empty),
+                            onClick: "$p.send($(this));",
+                            method: "post",
+                            icon: "ui-icon-disk")
+                        .Button(
+                            text: Displays.Cancel(context: context),
+                            controlCss: "button-icon",
+                            onClick: "$p.closeDialog($(this));",
+                            icon: "ui-icon-cancel")));
+        }
+
         public static HtmlBuilder Analy(
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            Column groupBy,
-            string aggregationType,
-            Column value,
-            string chartType,
-            bool historyHorizontalAxis,
-            IEnumerable<DataRow> dataRows,
+            List<EnumerableRowCollection<DataRow>> dataRowsSet,
             bool inRange)
         {
             return hb.Div(css: "both", action: () => hb
@@ -31,68 +95,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     icon: "ui-icon-plus",
                     action: "OpenAnalyPartDialog",
                     method: "post")
-                .FieldDropDown(
-                    context: context,
-                    controlId: "TimeSeriesGroupBy",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.GroupBy(context: context),
-                    optionCollection: ss.TimeSeriesGroupByOptions(context: context),
-                    selectedValue: groupBy?.ColumnName,
-                    addSelectedValue: false,
-                    method: "post")
-                .FieldDropDown(
-                    context: context,
-                    controlId: "TimeSeriesAggregateType",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.AggregationType(context: context),
-                    optionCollection: ss.TimeSeriesAggregationTypeOptions(context: context),
-                    selectedValue: aggregationType,
-                    addSelectedValue: false,
-                    method: "post")
-                .FieldDropDown(
-                    context: context,
-                    fieldId: "TimeSeriesValueField",
-                    controlId: "TimeSeriesValue",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.AggregationTarget(context: context),
-                    optionCollection: ss.TimeSeriesValueOptions(context: context),
-                    selectedValue: value?.ColumnName,
-                    addSelectedValue: false,
-                    method: "post")
-                .FieldDropDown(
-                    context: context,
-                    fieldId: "TimeSeriesChartTypeField",
-                    controlId: "TimeSeriesChartType",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.ChartTypes(context: context),
-                    optionCollection: ss.TimeSeriesChartTypeOptions(context: context),
-                    selectedValue: chartType,
-                    addSelectedValue: false,
-                    method: "post")
-                .FieldDropDown(
-                    context: context,
-                    fieldId: "TimeSeriesHorizontalAxisField",
-                    controlId: "TimeSeriesHorizontalAxis",
-                    fieldCss: "field-auto-thin",
-                    controlCss: " auto-postback",
-                    labelText: Displays.HorizontalAxis(context: context),
-                    optionCollection: ss.TimeSeriesHorizontalAxisOptions(context: context),
-                    selectedValue: chartType,
-                    addSelectedValue: false,
-                    method: "post")
                 .Div(id: "TimeSeriesBody", action: () => hb
                     .AnalyBody(
                         context: context,
                         ss: ss,
-                        groupBy: groupBy,
-                        aggregationType: aggregationType,
-                        value: value,
-                        historyHorizontalAxis: historyHorizontalAxis, 
-                        dataRows: dataRows,
+                        dataRowsSet: dataRowsSet,
                         inRange: inRange)));
         }
 
@@ -100,32 +107,20 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-            Column groupBy,
-            string aggregationType,
-            Column value,
-            bool historyHorizontalAxis,
-            IEnumerable<DataRow> dataRows,
+            List<EnumerableRowCollection<DataRow>> dataRowsSet,
             bool inRange)
         {
-            if (inRange && dataRows != null && dataRows.Any())
+            if (inRange && dataRowsSet?.Any() == true)
             {
-                var timeSeries = new TimeSeries(
+                var analy = new Analy(
                     context: context,
                     ss: ss,
-                    groupBy: groupBy,
-                    aggregationType: aggregationType,
-                    value: value,
-                    historyHorizontalAxis: historyHorizontalAxis,
-                    dataRows: dataRows);
+                    dataRowsSet: dataRowsSet);
                 return hb
-                    .Svg(id: "TimeSeries")
+                    .Svg(id: "Analy")
                     .Hidden(
-                        controlId: "TimeSeriesJson",
-                        value: timeSeries.Json(
-                            context: context,
-                            groupBy: groupBy,
-                            value: value,
-                            historyHorizontalAxis: historyHorizontalAxis));
+                        controlId: "AnalyJson",
+                        value: analy.ToJson());
             }
             else
             {

@@ -86,18 +86,5 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .ToDictionary(o => o.ColumnName, o => o.LabelText))
                 .ToDictionary(o => o.Key, o => o.Value);
         }
-
-        public static Dictionary<string, string> PeriodOptions(Context context)
-        {
-            return new Dictionary<string, string>()
-            {
-                { "Days", Displays.Days(context: context) },
-                { "Months", Displays.Months(context: context) },
-                { "Years", Displays.Years(context: context) },
-                { "Hours", Displays.Hours(context: context) },
-                { "Minutes", Displays.Minutes(context: context) },
-                { "Seconds", Displays.Seconds(context: context) }
-            };
-        }
     }
 }

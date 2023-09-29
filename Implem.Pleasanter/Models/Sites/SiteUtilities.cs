@@ -9357,7 +9357,7 @@ namespace Implem.Pleasanter.Models
                             : string.Empty),
                         controlCss: " always-send",
                         labelText: Displays.Period(context: context),
-                        optionCollection: DataChangeUtilities.PeriodOptions(context: context),
+                        optionCollection: ss.PeriodOptions(context: context),
                         selectedValue: dataChange.Visible(type: "DateTime")
                             ? dataChange.DateTimePeriod()
                             : string.Empty)

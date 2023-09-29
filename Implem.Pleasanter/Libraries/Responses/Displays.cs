@@ -4029,6 +4029,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Future(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Future",
+                data: data);
+        }
+
         public static string Fy(
             Context context,
             params string[] data)
@@ -7186,6 +7196,26 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "PasswordResetCompleted",
+                data: data);
+        }
+
+        public static string Past(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Past",
+                data: data);
+        }
+
+        public static string PastOrFuture(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "PastOrFuture",
                 data: data);
         }
 
