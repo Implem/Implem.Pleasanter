@@ -5,42 +5,25 @@ using Microsoft.AspNetCore.DataProtection.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Implem.Pleasanter.Libraries.Security
 {
-    public class KeyManagementXmlRepository : IXmlRepository
+    public class AspNetCoreKeyManagementXmlRepository : IXmlRepository
     {
         private const string SessionGuid = "@AspNetCoreDataProtectionKeys";
 
         public IReadOnlyCollection<XElement> GetAllElements()
         {
             var context = GetContext();
-            var cnt = GetWaitCount();
             new SysLogModel(
                 context: context,
-                method: nameof(KeyManagementXmlRepository) + "_" + nameof(GetAllElements),
-                message: new { cmd = "KeyManagementXmlRepository.GetAllElements()", loop_cnt = cnt }.ToJson(),
+                method: nameof(AspNetCoreKeyManagementXmlRepository) + "_" + nameof(GetAllElements),
+                message: new { cmd = "AspNetCoreKeyManagementXmlRepository.GetAllElements()" }.ToJson(),
                 sysLogType: SysLogModel.SysLogTypes.Info);
-            // 初回起動時で複数Webサーバ同時起動で複数個Keyを作成しないためにWebサーバ毎に乱数でWaitし一個しか作らないようにする。
-            for (var i = 0; i < cnt; i++)
-            {
-                if (i != 0) Task.Delay(500).Wait();
-                var list = GetKeyList(context);
-                if (list.Count != 0)
-                {
-                    return list
-                            .Select(v => XElement.Parse(v.Value))
-                            .ToList();
-                }
-            }
-            return new List<XElement>();
-        }
-
-        private int GetWaitCount()
-        {
-            return Math.Abs(Guid.NewGuid().GetHashCode() % 30);
+            return GetKeyList(context)
+                .Select(v => XElement.Parse(v.Value))
+                .ToList();
         }
 
         private static IDictionary<string, string> GetKeyList(Context context)
@@ -55,8 +38,8 @@ namespace Implem.Pleasanter.Libraries.Security
             var context = GetContext();
             new SysLogModel(
                 context: context,
-                method: nameof(KeyManagementXmlRepository) + "_" + nameof(StoreElement),
-                message: new { cmd = $"KeyManagementXmlRepository.StoreElement(); friendlyName={friendlyName}" }.ToJson(),
+                method: nameof(AspNetCoreKeyManagementXmlRepository) + "_" + nameof(StoreElement),
+                message: new { cmd = $"AspNetCoreKeyManagementXmlRepository.StoreElement(); friendlyName={friendlyName}" }.ToJson(),
                 sysLogType: SysLogModel.SysLogTypes.Info);
             DeleteOldSessions(context);
             SessionUtilities.Set(
@@ -92,7 +75,7 @@ namespace Implem.Pleasanter.Libraries.Security
                 user: false,
                 setPermissions: false)
             {
-                Controller = "KeyManagementXmlRepository.cs"
+                Controller = "AspNetCoreKeyManagementXmlRepository.cs"
             };
         }
     }

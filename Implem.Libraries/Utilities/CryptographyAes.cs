@@ -1,14 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using System;
-using Implem.Libraries.Utilities;
 
-namespace Implem.Pleasanter.Libraries.Security
+namespace Implem.Libraries.Utilities
 {
-    public class AesCryptography
+    public class CryptographyAes
     {
-        public static string AESEncrypt(string encryptString, string encryptKey, string aesIv)
+        public static string AesEncrypt(string encryptString, string encryptKey, string aesIv)
         {
             if (encryptString.Trim().IsNullOrEmpty()) return null;
             if (encryptKey.Trim().IsNullOrEmpty()) return null;
@@ -27,7 +26,7 @@ namespace Implem.Pleasanter.Libraries.Security
             }
         }
 
-        public static string AESDecrypt(string decryptString, string decryptKey, string aesIv)
+        public static string AesDecrypt(string decryptString, string decryptKey, string aesIv)
         {
             if (decryptString.Trim().IsNullOrEmpty()) return null;
             if (decryptKey.Trim().IsNullOrEmpty()) return null;
