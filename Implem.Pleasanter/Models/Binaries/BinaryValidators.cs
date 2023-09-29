@@ -5,6 +5,7 @@ using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -50,7 +51,7 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                System.Drawing.Image.FromStream(new System.IO.MemoryStream(bin));
+                SixLabors.ImageSharp.Image.Load<Rgba32>(new System.IO.MemoryStream(bin));
             }
             catch (System.Exception)
             {
@@ -76,7 +77,7 @@ namespace Implem.Pleasanter.Models
             }
             try
             {
-                System.Drawing.Image.FromStream(new System.IO.MemoryStream(bin));
+                SixLabors.ImageSharp.Image.Load<Rgba32>(new System.IO.MemoryStream(bin));
             }
             catch (System.Exception)
             {
