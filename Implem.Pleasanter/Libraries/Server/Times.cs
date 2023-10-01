@@ -305,5 +305,26 @@ namespace Implem.Pleasanter.Libraries.Server
                 ? self.ToString(format, context.CultureInfo())
                 : string.Empty;
         }
+
+        public static DateTime DateAdd(this DateTime self, string timePeriod, int timePeriodValue)
+        {
+            switch (timePeriod)
+            {
+                case "Days":
+                    return self.AddDays(timePeriodValue);
+                case "Months":
+                    return self.AddMonths(timePeriodValue);
+                case "Years":
+                    return self.AddYears(timePeriodValue);
+                case "Hours":
+                    return self.AddHours(timePeriodValue);
+                case "Minutes":
+                    return self.AddMinutes(timePeriodValue);
+                case "Seconds":
+                    return self.AddSeconds(timePeriodValue);
+                default:
+                    return self;
+            }
+        }
     }
 }

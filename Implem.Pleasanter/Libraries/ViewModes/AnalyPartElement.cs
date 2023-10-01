@@ -2,12 +2,17 @@
 {
     public class AnalyPartElement
     {
-        public string Title;
+        public string GroupValue;
+        public string GroupTitle;
         public decimal Value;
 
-        public AnalyPartElement(string title, decimal value)
+        public AnalyPartElement(
+            string groupValue,
+            string groupTitle,
+            decimal value)
         {
-            Title = title;
+            GroupValue = groupValue;
+            GroupTitle = groupTitle;
             Value = value;
         }
     }

@@ -106,7 +106,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string TimeSeriesValue;
         public string TimeSeriesChartType;
         public string TimeSeriesHorizontalAxis;
-        public List<AnalyPartSetting> AnalyParts;
+        public List<AnalyPartSetting> AnalyPartSettings;
         public string KambanGroupByX;
         public string KambanGroupByY;
         public string KambanAggregateType;
@@ -1567,9 +1567,9 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 view.TimeSeriesHorizontalAxis = TimeSeriesHorizontalAxis;
             }
-            if (AnalyParts?.Any() == true)
+            if (AnalyPartSettings?.Any() == true)
             {
-                view.AnalyParts = AnalyParts;
+                view.AnalyPartSettings = AnalyPartSettings;
             }
             if (!KambanGroupByX.IsNullOrEmpty())
             {
@@ -3467,19 +3467,20 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
             var analyPartSetting = new AnalyPartSetting()
             {
+                Id = AnalyPartSettings?.Max(o => o.Id) + 1 ?? 1,
                 GroupBy = context.Forms.Data("AnalyPartGroupBy"),
-                Value = context.Forms.Decimal(
+                TimePeriodValue = context.Forms.Decimal(
                     context: context,
-                    key: "AnalyPartValue"),
-                Period = context.Forms.Data("AnalyPartPeriod"),
-                PastOrFuture = context.Forms.Int("AnalyPartPastOrFuture"),
+                    key: "AnalyPartTimePeriodValue"),
+                TimePeriod = context.Forms.Data("AnalyPartTimePeriod"),
+                AggregationType = context.Forms.Data("AnalyPartAggregationType"),
                 AggregationTarget = context.Forms.Data("AnalyPartAggregationTarget")
             };
-            if (AnalyParts == null)
+            if (AnalyPartSettings == null)
             {
-                AnalyParts = new List<AnalyPartSetting>();
+                AnalyPartSettings = new List<AnalyPartSetting>();
             }
-            AnalyParts.Add(analyPartSetting);
+            AnalyPartSettings.Add(analyPartSetting);
         }
     }
 }

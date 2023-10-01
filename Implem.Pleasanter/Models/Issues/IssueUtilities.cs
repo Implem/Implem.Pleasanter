@@ -8788,51 +8788,38 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
             return new ResponseCollection(context: context)
                 .Html(
                     "#AnalyPartDialog",
                     new HtmlBuilder().AnalyPartDialog(
                         context: context,
-                        ss: ss))
+                        ss: ss,
+                        view: view,
+                        analyPartId: context.Forms.Int("AnalyPartId")))
                 .CloseDialog()
                 .ToJson();
         }
 
         public static string Analy(Context context, SiteSettings ss)
         {
-            if (!ss.EnableViewMode(context: context, name: "TimeSeries"))
+            if (!ss.EnableViewMode(
+                context: context,
+                name: "Analy"))
             {
                 return HtmlTemplates.Error(
                     context: context,
                     errorData: new ErrorData(type: Error.Types.HasNotPermission));
             }
             var hb = new HtmlBuilder();
-            var view = Views.GetBySession(context: context, ss: ss);
-            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+            var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            if (horizontalAxis == null)
-            {
-                return HtmlTemplates.Error(
-                    context: context,
-                    errorData: new ErrorData(type: Error.Types.BadRequest));
-            }
             var viewMode = ViewModes.GetSessionData(
                 context: context,
                 siteId: ss.SiteId);
-            var inRange = InRange(
-                context: context,
-                ss: ss,
-                view: view,
-                limit: Parameters.General.TimeSeriesLimit);
-            if (!inRange)
-            {
-                SessionUtilities.Set(
-                    context: context,
-                    message: Messages.TooManyCases(
-                        context: context,
-                        data: Parameters.General.TimeSeriesLimit.ToString()));
-            }
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
@@ -8847,76 +8834,38 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         view: view,
-                        horizontalAxis: horizontalAxis,
                         bodyOnly: false,
-                        inRange: inRange));
+                        inRange: true));
         }
 
         public static string AnalyJson(Context context, SiteSettings ss)
         {
-            if (!ss.EnableViewMode(context: context, name: "TimeSeries"))
+            if (!ss.EnableViewMode(context: context, name: "Analy"))
             {
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
-            var view = Views.GetBySession(context: context, ss: ss);
-            var horizontalAxis = view.GetTimeSeriesHorizontalAxis(
+            var view = Views.GetBySession(
                 context: context,
                 ss: ss);
-            if (horizontalAxis == null)
-            {
-                return Messages.ResponseBadRequest(context: context).ToJson();
-            }
-            var bodyOnly = context.Forms.ControlId().StartsWith("TimeSeries");
-            if (InRange(
+            var bodyOnly = context.Forms.ControlId().StartsWith("Analy");
+            var body = new HtmlBuilder().Analy(
                 context: context,
                 ss: ss,
                 view: view,
-                limit: Parameters.General.TimeSeriesLimit))
-            {
-                var body = new HtmlBuilder().Analy(
+                bodyOnly: bodyOnly,
+                inRange: true);
+            return new ResponseCollection(context: context)
+                .ViewMode(
                     context: context,
                     ss: ss,
                     view: view,
-                    horizontalAxis: horizontalAxis,
+                    invoke: "drawAnaly",
                     bodyOnly: bodyOnly,
-                    inRange: true);
-                return new ResponseCollection(context: context)
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        invoke: "drawTimeSeries",
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#TimeSeriesBody",
-                        body: body)
-                    .Events("on_timeseries_load")
-                    .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
-                    .ToJson();
-            }
-            else
-            {
-                var body = new HtmlBuilder().Analy(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    horizontalAxis: horizontalAxis,
-                    bodyOnly: bodyOnly,
-                    inRange: false);
-                return new ResponseCollection(context: context)
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        message: Messages.TooManyCases(
-                            context: context,
-                            data: Parameters.General.TimeSeriesLimit.ToString()),
-                        bodyOnly: bodyOnly,
-                        bodySelector: "#TimeSeriesBody",
-                        body: body)
-                    .Events("on_timeseries_load")
-                    .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
-                    .ToJson();
-            }
+                    bodySelector: "#AnalyBody",
+                    body: body)
+                .Events("on_analy_load")
+                .CloseDialog(_using: context.Forms.ControlId() == "AddAnalyPart")
+                .ToJson();
         }
 
         private static HtmlBuilder Analy(
@@ -8924,12 +8873,11 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             View view,
-            string horizontalAxis,
             bool bodyOnly,
             bool inRange)
         {
-            var dataRowsSet = new List<EnumerableRowCollection<DataRow>>();
-            view.AnalyParts?.ForEach(analyPart =>
+            var analyDataList = new List<Libraries.ViewModes.AnalyData>();
+            view.AnalyPartSettings?.ForEach(analyPart =>
             {
                 var groupBy = ss.GetColumn(
                     context: context,
@@ -8940,59 +8888,67 @@ namespace Implem.Pleasanter.Models
                 var aggregationTarget = ss.GetColumn(
                     context: context,
                     columnName: analyPart.AggregationTarget);
-                var dataRows = AnalyDataRows(
+                var analyData = AnalyDat(
                     context: context,
                     ss: ss,
                     view: view,
+                    analyPartSetting: analyPart,
                     groupBy: groupBy,
-                    value: analyPart.Value,
-                    period: analyPart.Period,
-                    pastOrFuture: analyPart.PastOrFuture,
+                    timePeriodValue: analyPart.TimePeriodValue,
+                    timePeriod: analyPart.TimePeriod,
                     aggregationTarget: aggregationTarget);
-                dataRowsSet.Add(dataRows);
+                analyDataList.Add(analyData);
             });
             return !bodyOnly
                 ? hb.Analy(
                     context: context,
                     ss: ss,
-                    dataRowsSet: dataRowsSet,
+                    analyDataList: analyDataList,
                     inRange: inRange)
                 : hb.AnalyBody(
                     context: context,
                     ss: ss,
-                    dataRowsSet: dataRowsSet,
+                    analyDataList: analyDataList,
                     inRange: inRange);
         }
 
-        private static EnumerableRowCollection<DataRow> AnalyDataRows(
+        private static Libraries.ViewModes.AnalyData AnalyDat(
             Context context,
             SiteSettings ss,
             View view,
+            AnalyPartSetting analyPartSetting,
             Column groupBy,
-            decimal value,
-            string period,
-            int pastOrFuture,
+            decimal timePeriodValue,
+            string timePeriod,
             Column aggregationTarget)
         {
             if (groupBy != null)
             {
-                var column = Rds.IssuesColumn();
-                column.IssuesColumn(
-                    columnName: groupBy.ColumnName,
-                    _as: "GroupBy");
+                var column = Rds.IssuesColumn()
+                    .IssuesColumn(
+                        columnName: Rds.IdColumn(tableName: "Issues"),
+                        _as: "Id")
+                    .IssuesColumn(columnName: "Ver")
+                    .IssuesColumn(
+                        columnName: groupBy.ColumnName,
+                        _as: "GroupBy");
                 if (aggregationTarget != null)
                 {
                     column.IssuesColumn(
                         columnName: aggregationTarget.ColumnName,
                         _as: "Value");
                 }
-                else
-                {
-                    column.IssuesCount(_as: "Value");
-                }
                 var where = view.Where(
                     context: context,
                     ss: ss);
+                if (timePeriodValue > 0)
+                {
+                    where.Issues_UpdatedTime(
+                        value: DateTime.Now.DateAdd(
+                            timePeriod: timePeriod,
+                            timePeriodValue: (timePeriodValue * -1).ToInt()),
+                        _operator: "<=");
+                }
                 var param = view.Param(
                     context: context,
                     ss: ss);
@@ -9003,33 +8959,47 @@ namespace Implem.Pleasanter.Models
                         column,
                         where
                     });
-                var dataRows = Repository.ExecuteTable(
+                var dataSet = Repository.ExecuteDataSet(
                     context: context,
-                    statements: Rds.SelectIssues(
-                        tableType: (value != 0
-                            ? Sqls.TableTypes.NormalAndHistory
-                            : Sqls.TableTypes.Normal),
-                        column: column,
-                        join: join,
-                        where: new Rds.IssuesWhereCollection()
-                            .IssueId_In(sub: Rds.SelectIssues(
-                                column: Rds.IssuesColumn().IssueId(),
-                                join: join,
-                                where: where))
-                            .Ver(
-                                sub: Rds.SelectIssues(
-                                    column: Rds.IssuesColumn().Ver(function: Sqls.Functions.Max),
+                    statements: new SqlStatement[]
+                    {
+                        Rds.SelectIssues(
+                            dataTableName: "Normal",
+                            column: column,
+                            join: join,
+                            where: new Rds.IssuesWhereCollection()
+                                .IssueId_In(sub: Rds.SelectIssues(
+                                    column: Rds.IssuesColumn().IssueId(),
                                     join: join,
-                                    where: where,
-                                    groupBy: Rds.IssuesGroupBy().IssueId()),
-                                _using: value != 0),
-                        groupBy: Rds.IssuesGroupBy().Add(groupBy),
-                        param: param))
-                            .AsEnumerable();
-                ss.SetChoiceHash(
-                    context: context,
-                    dataRows: dataRows);
-                return dataRows;
+                                    where: where)),
+                            param: param),
+                        Rds.SelectIssues(
+                            dataTableName: "History",
+                            tableType: Sqls.TableTypes.History,
+                            column: column,
+                            join: join,
+                            where: new Rds.IssuesWhereCollection()
+                                .IssueId_In(sub: Rds.SelectIssues(
+                                    column: Rds.IssuesColumn().IssueId(),
+                                    join: join,
+                                    where: where))
+                                .Ver(
+                                    sub: Rds.SelectIssues(
+                                        tableType: Sqls.TableTypes.History,
+                                        _as: "b",
+                                        column: Rds.IssuesColumn().Ver(
+                                            tableName: "b",
+                                            function: Sqls.Functions.Max),
+                                        where: Rds.IssuesWhere().IssueId(
+                                            tableName: "b",
+                                            raw: "\"Issues\".\"IssueId\""),
+                                        groupBy: Rds.IssuesGroupBy().IssueId(tableName: "b"))),
+                            param: param,
+                            _using: timePeriodValue > 0)
+                    });
+                return new Libraries.ViewModes.AnalyData(
+                    analyPartSetting: analyPartSetting,
+                    dataSet: dataSet);
             }
             else
             {

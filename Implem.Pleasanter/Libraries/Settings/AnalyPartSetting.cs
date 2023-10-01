@@ -5,9 +5,9 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public int Id { get; set; }
         public string GroupBy { get; set; }
-        public decimal Value { get; set; }
-        public string Period { get; set; }
-        public int PastOrFuture { get; set; }
+        public decimal TimePeriodValue { get; set; }
+        public string TimePeriod { get; set; }
+        public string AggregationType { get; set; }
         public string AggregationTarget { get; set; }
     }
 }
