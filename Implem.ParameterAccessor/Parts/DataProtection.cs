@@ -5,5 +5,6 @@
         public string BlobContainerUri;
         public string KeyIdentifier;
         public string KeyFileName;
+        public string XmlAesKey;
     }
 }
