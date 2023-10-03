@@ -4,7 +4,7 @@ using Implem.ParameterAccessor.Parts;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
-using System.Drawing;
+using SixLabors.ImageSharp;
 
 namespace Implem.Pleasanter.Libraries.Requests
 {
