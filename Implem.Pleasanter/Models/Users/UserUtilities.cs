@@ -1,5 +1,6 @@
 ﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
+using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -2904,11 +2905,31 @@ namespace Implem.Pleasanter.Models
             IEnumerable<long> selected,
             bool negative = false)
         {
-            var where = BulkDeleteWhere(
+            var subWhere = Views.GetBySession(
                 context: context,
-                ss: ss,
-                selected: selected,
-                negative: negative);
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.UsersWhere()
+                .UserId_In(
+                    value: selected.Select(i => (int)i).ToList(),
+                    negative: negative,
+                    _using: selected.Any())
+                .UserId_In(
+                    sub: Rds.SelectUsers(
+                        column: Rds.UsersColumn().UserId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectUsers(
+                column: Rds.UsersColumn().UserId(),
+                where: where);
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2917,25 +2938,26 @@ namespace Implem.Pleasanter.Models
                     Rds.DeleteGroupMembers(
                         factory: context,
                         where: Rds.GroupMembersWhere()
-                            .UserId_In(value: selected.Select(i => (int)i).ToList())),
+                            .UserId_In(sub: sub)),
                     Rds.DeletePermissions(
                         factory: context,
                         where: Rds.PermissionsWhere()
-                            .UserId_In(value: selected.Select(i => (int)i).ToList())),
+                            .UserId_In(sub: sub)),
                     Rds.DeleteBinaries(
                         factory: context,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .ReferenceId_In(value: selected)
+                            .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
                     Rds.DeleteMailAddresses(
                         factory: context,
                         where: Rds.MailAddressesWhere()
-                            .OwnerId_In(sub: Rds.SelectUsers(
-                                column: Rds.UsersColumn().UserId(),
-                                where: where))
+                            .OwnerId_In(sub: sub)
                             .OwnerType("Users")),
-                    Rds.DeleteUsers(factory: context, where: where),
+                    Rds.DeleteUsers(
+                        factory: context,
+                        where: Rds.UsersWhere()
+                            .UserId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -4938,6 +4960,37 @@ namespace Implem.Pleasanter.Models
         public static int Restore(
             Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.UsersWhere()
+                .UserId_In(
+                    value: selected.ConvertAll(i => (int)i),
+                    tableName: "Users_Deleted",
+                    negative: negative,
+                    _using: selected.Any())
+                .UserId_In(
+                    tableName: "Users_Deleted",
+                    sub: Rds.SelectUsers(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.UsersColumn().UserId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectUsers(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Users_Deleted",
+                column: Rds.UsersColumn()
+                    .UserId(tableName: "Users_Deleted"),
+                where: where);
             var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -4947,30 +5000,30 @@ namespace Implem.Pleasanter.Models
                     Rds.RestoreGroupMembers(
                         factory: context,
                         where: Rds.GroupMembersWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.RestorePermissions(
                         factory: context,
                         where: Rds.PermissionsWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.RestoreBinaries(
                         factory: context,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .ReferenceId_In(value: selected)
+                            .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
                     Rds.RestoreMailAddresses(
                         factory: context,
                         where: Rds.MailAddressesWhere()
-                            .OwnerId_In(value: selected)
+                            .OwnerId_In(sub: sub)
                             .OwnerType("Users")),
                     Rds.UpdateUsers(
                         tableType: Sqls.TableTypes.Deleted,
                         where: Rds.UsersWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.RestoreUsers(
                         factory: context,
                         where: Rds.UsersWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
             return count;
@@ -5032,6 +5085,50 @@ namespace Implem.Pleasanter.Models
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.UsersWhere()
+                .UserId_In(
+                    value: selected.ConvertAll(i => (int)i),
+                    tableName: "Users" + tableName,
+                    negative: negative,
+                    _using: selected.Any())
+                .UserId_In(
+                    tableName: "Users" + tableName,
+                    sub: Rds.SelectUsers(
+                        tableType: tableType,
+                        column: Rds.UsersColumn().UserId(),
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectUsers(
+                tableType: tableType,
+                _as: "Users" + tableName,
+                column: Rds.UsersColumn()
+                    .UserId(tableName: "Users" + tableName),
+                where: where,
+                param: param);
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    tableType: tableType,
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
+                    where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                        .AsEnumerable();
             var count = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -5040,26 +5137,26 @@ namespace Implem.Pleasanter.Models
                     Rds.PhysicalDeleteGroupMembers(
                         tableType: tableType,
                         where: Rds.GroupMembersWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.PhysicalDeletePermissions(
                         tableType: tableType,
                         where: Rds.PermissionsWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.PhysicalDeleteBinaries(
                         tableType: tableType,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .ReferenceId_In(value: selected)
+                            .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
                     Rds.PhysicalDeleteMailAddresses(
                         tableType: tableType,
                         where: Rds.MailAddressesWhere()
-                            .OwnerId_In(value: selected)
+                            .OwnerId_In(sub: sub)
                             .OwnerType("Users")),
                     Rds.PhysicalDeleteUsers(
                         tableType: tableType,
                         where: Rds.UsersWhere()
-                            .UserId_In(value: selected.ConvertAll(i => (int)i))),
+                            .UserId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
             return count;

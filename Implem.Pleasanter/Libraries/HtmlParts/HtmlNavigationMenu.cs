@@ -624,8 +624,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
                 && context.Controller == "users"
                 && Permissions.CanManageUser(context: context)
-                && !ss.Locked()
-                && (context.Id == 0 || context.HasPrivilege);
+                && !ss.Locked();
         }
 
         private static HtmlBuilder ResponsiveMenu(this HtmlBuilder hb, Context context)

@@ -2889,6 +2889,25 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
+                Rds.DeleteGroupMembers(
+                    factory: context,
+                    where: Rds.GroupMembersWhere()
+                        .UserId(UserId)),
+                Rds.DeletePermissions(
+                    factory: context,
+                    where: Rds.PermissionsWhere()
+                        .UserId(UserId)),
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(UserId)
+                        .BinaryType(value: "TenantManagementImages")),
+                Rds.DeleteMailAddresses(
+                    factory: context,
+                    where: Rds.MailAddressesWhere()
+                        .OwnerId(UserId)
+                        .OwnerType("Users")),
                 Rds.DeleteUsers(
                     factory: context,
                     where: where),
