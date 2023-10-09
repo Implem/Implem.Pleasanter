@@ -149,7 +149,7 @@
             },
             {
                 "MenuId": "SettingsMenu_DeptTrashBox",
-                "Name": "DeptTrashBox",
+                "Name": "TrashBox",
                 "Icon": "ui-icon ui-icon-trash",
                 "LinkParams": [ "Depts", "TrashBox" ]
             }

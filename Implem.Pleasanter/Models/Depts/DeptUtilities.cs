@@ -2562,11 +2562,31 @@ namespace Implem.Pleasanter.Models
             IEnumerable<long> selected,
             bool negative = false)
         {
-            var where = BulkDeleteWhere(
+            var subWhere = Views.GetBySession(
                 context: context,
-                ss: ss,
-                selected: selected,
-                negative: negative);
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.DeptsWhere()
+                .DeptId_In(
+                    value: selected.Select(i => (int)i).ToList(),
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    sub: Rds.SelectDepts(
+                        column: Rds.DeptsColumn().DeptId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectDepts(
+                column: Rds.DeptsColumn().DeptId(),
+                where: where);
             return Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2576,9 +2596,20 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .ReferenceId_In(value: selected)
+                            .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
-                    Rds.DeleteDepts(factory: context, where: where),
+                    Rds.DeletePermissions(
+                        factory: context,
+                        where: Rds.PermissionsWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.DeleteGroupMembers(
+                        factory: context,
+                        where: Rds.GroupMembersWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.DeleteDepts(
+                        factory: context,
+                        where: Rds.DeptsWhere()
+                            .DeptId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
         }
@@ -2711,6 +2742,37 @@ namespace Implem.Pleasanter.Models
         public static int Restore(
             Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
+            var subWhere = Views.GetBySession(
+                context: context,
+                ss: ss)
+                    .Where(
+                        context: context,
+                        ss: ss,
+                        itemJoin: false);
+            var where = Rds.DeptsWhere()
+                .DeptId_In(
+                    value: selected.ConvertAll(i => (int)i),
+                    tableName: "Depts_Deleted",
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    tableName: "Depts_Deleted",
+                    sub: Rds.SelectDepts(
+                        tableType: Sqls.TableTypes.Deleted,
+                        column: Rds.DeptsColumn().DeptId(),
+                        join: ss.Join(
+                            context: context,
+                            join: new IJoin[]
+                            {
+                                subWhere
+                            }),
+                        where: subWhere));
+            var sub = Rds.SelectDepts(
+                tableType: Sqls.TableTypes.Deleted,
+                _as: "Depts_Deleted",
+                column: Rds.DeptsColumn()
+                    .DeptId(tableName: "Depts_Deleted"),
+                where: where);
             var count = Repository.ExecuteScalar_response(
                 context: context,
                 connectionString: Parameters.Rds.OwnerConnectionString,
@@ -2721,16 +2783,24 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .ReferenceId_In(value: selected)
+                            .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
+                    Rds.RestoreGroupMembers(
+                        factory: context,
+                        where: Rds.GroupMembersWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.RestorePermissions(
+                        factory: context,
+                        where: Rds.PermissionsWhere()
+                            .DeptId_In(sub: sub)),
                     Rds.UpdateDepts(
                         tableType: Sqls.TableTypes.Deleted,
                         where: Rds.DeptsWhere()
-                            .DeptId_In(value: selected.ConvertAll(i => (int)i))),
+                            .DeptId_In(sub: sub)),
                     Rds.RestoreDepts(
                         factory: context,
                         where: Rds.DeptsWhere()
-                            .DeptId_In(value: selected.ConvertAll(i => (int)i))),
+                            .DeptId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
             return count;
@@ -2792,6 +2862,50 @@ namespace Implem.Pleasanter.Models
             bool negative = false,
             Sqls.TableTypes tableType = Sqls.TableTypes.Deleted)
         {
+            var tableName = string.Empty;
+            switch (tableType)
+            {
+                case Sqls.TableTypes.History:
+                    tableName = "_History";
+                    break;
+                case Sqls.TableTypes.Deleted:
+                    tableName = "_Deleted";
+                    break;
+                default:
+                    break;
+            }
+            where = where ?? Rds.DeptsWhere()
+                .DeptId_In(
+                    value: selected.ConvertAll(i => (int)i),
+                    tableName: "Depts" + tableName,
+                    negative: negative,
+                    _using: selected.Any())
+                .DeptId_In(
+                    tableName: "Depts" + tableName,
+                    sub: Rds.SelectDepts(
+                        tableType: tableType,
+                        column: Rds.DeptsColumn().DeptId(),
+                        where: Views.GetBySession(
+                            context: context,
+                            ss: ss)
+                                .Where(
+                                    context: context,
+                                    ss: ss,
+                                    itemJoin: false)));
+            var sub = Rds.SelectDepts(
+                tableType: tableType,
+                _as: "Depts" + tableName,
+                column: Rds.DeptsColumn()
+                    .DeptId(tableName: "Depts" + tableName),
+                where: where,
+                param: param);
+            var dataRows = Rds.ExecuteTable(
+                context: context,
+                statements: Rds.SelectBinaries(
+                    tableType: tableType,
+                    column: Rds.BinariesColumn().Guid().BinaryType(),
+                    where: Rds.BinariesWhere().ReferenceId_In(sub: sub)))
+                        .AsEnumerable();
             var count = Repository.ExecuteScalar_response(
                 context: context,
                 transactional: true,
@@ -2801,12 +2915,20 @@ namespace Implem.Pleasanter.Models
                         tableType: tableType,
                         where: Rds.BinariesWhere()
                             .TenantId(context.TenantId)
-                            .ReferenceId_In(value: selected)
+                            .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
+                    Rds.PhysicalDeleteGroupMembers(
+                        tableType: tableType,
+                        where: Rds.GroupMembersWhere()
+                            .DeptId_In(sub: sub)),
+                    Rds.PhysicalDeletePermissions(
+                        tableType: tableType,
+                        where: Rds.PermissionsWhere()
+                            .DeptId_In(sub: sub)),
                     Rds.PhysicalDeleteDepts(
                         tableType: tableType,
                         where: Rds.DeptsWhere()
-                            .DeptId_In(value: selected.ConvertAll(i => (int)i))),
+                            .DeptId_In(sub: sub)),
                     Rds.RowCount()
                 }).Count.ToInt();
             return count;
