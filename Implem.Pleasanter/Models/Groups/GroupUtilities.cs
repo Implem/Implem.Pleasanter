@@ -3626,7 +3626,10 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.GroupsWhere()
                             .GroupId_In(sub: sub)),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.GroupsUpdated)
                 }).Count.ToInt();
             return count;
         }
