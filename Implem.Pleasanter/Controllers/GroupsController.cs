@@ -1,4 +1,5 @@
-﻿using Implem.Libraries.Utilities;
+﻿using Implem.Libraries.DataSources.SqlServer;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
@@ -270,10 +271,13 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-
             if (!context.Ajax)
             {
-                var html = GroupUtilities.TrashBox(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+                var html = GroupUtilities.TrashBox(
+                    context: context,
+                    ss: SiteSettingsUtilities.GroupsSiteSettings(
+                        context: context,
+                        tableTypes: Sqls.TableTypes.Deleted));
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
                 return context.RedirectData.Url.IsNullOrEmpty()
@@ -282,7 +286,11 @@ namespace Implem.Pleasanter.Controllers
             }
             else
             {
-                var json = GroupUtilities.TrashBoxJson(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+                var json = GroupUtilities.TrashBoxJson(
+                    context: context,
+                    ss: SiteSettingsUtilities.GroupsSiteSettings(
+                        context: context,
+                        tableTypes: Sqls.TableTypes.Deleted));
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
@@ -293,7 +301,11 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = GroupUtilities.Restore(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            var json = GroupUtilities.Restore(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(
+                    context: context,
+                    tableTypes: Sqls.TableTypes.Deleted));
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
@@ -303,7 +315,11 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = GroupUtilities.PhysicalBulkDelete(context: context, ss: SiteSettingsUtilities.GroupsSiteSettings(context: context));
+            var json = GroupUtilities.PhysicalBulkDelete(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(
+                    context: context,
+                    tableTypes: Sqls.TableTypes.Deleted));
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }

@@ -228,7 +228,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings GroupsSiteSettings(Context context)
+        public static SiteSettings GroupsSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -238,6 +238,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             return ss;
         }
 
