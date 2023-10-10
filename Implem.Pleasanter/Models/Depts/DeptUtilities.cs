@@ -2571,7 +2571,7 @@ namespace Implem.Pleasanter.Models
                         itemJoin: false);
             var where = Rds.DeptsWhere()
                 .DeptId_In(
-                    value: selected.Select(i => (int)i).ToList(),
+                    value: selected.Select(o => (int)o).ToList(),
                     negative: negative,
                     _using: selected.Any())
                 .DeptId_In(
@@ -2638,7 +2638,6 @@ namespace Implem.Pleasanter.Models
 
         public static string TrashBox(Context context, SiteSettings ss)
         {
-            ss.TableType = Sqls.TableTypes.Deleted;
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
             var gridData = GetGridData(context: context, ss: ss, view: view);
@@ -2656,7 +2655,7 @@ namespace Implem.Pleasanter.Models
                 viewMode: viewMode,
                 serverScriptModelRow: serverScriptModelRow,
                 viewModeBody: () => hb
-                    .DeptTrashBoxCommands(context: context, ss: ss)
+                    .TrashBoxCommands(context: context, ss: ss)
                     .Grid(
                         context: context,
                         ss: ss,
@@ -2668,7 +2667,6 @@ namespace Implem.Pleasanter.Models
 
         public static string TrashBoxJson(Context context, SiteSettings ss)
         {
-            ss.TableType = Sqls.TableTypes.Deleted;
             var view = Views.GetBySession(
                 context: context,
                 ss: ss);
@@ -2677,7 +2675,7 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 view: view);
             var body = new HtmlBuilder()
-                .DeptTrashBoxCommands(context: context, ss: ss)
+                .TrashBoxCommands(context: context, ss: ss)
                 .Grid(
                     context: context,
                     ss: ss,
@@ -2727,7 +2725,6 @@ namespace Implem.Pleasanter.Models
                     }
                 }
                 Summaries.Synchronize(context: context, ss: ss);
-                ss.TableType = Sqls.TableTypes.Deleted;
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -2754,7 +2751,7 @@ namespace Implem.Pleasanter.Models
                         itemJoin: false);
             var where = Rds.DeptsWhere()
                 .DeptId_In(
-                    value: selected.ConvertAll(i => (int)i),
+                    value: selected.ConvertAll(o => (int)o),
                     tableName: "Depts_Deleted",
                     negative: negative,
                     _using: selected.Any())
@@ -2844,7 +2841,6 @@ namespace Implem.Pleasanter.Models
                         return Messages.ResponseSelectTargets(context: context).ToJson();
                     }
                 }
-                ss.TableType = Sqls.TableTypes.Deleted;
                 return GridRows(
                     context: context,
                     ss: ss,
@@ -2882,7 +2878,7 @@ namespace Implem.Pleasanter.Models
             }
             where = where ?? Rds.DeptsWhere()
                 .DeptId_In(
-                    value: selected.ConvertAll(i => (int)i),
+                    value: selected.ConvertAll(o => (int)o),
                     tableName: "Depts" + tableName,
                     negative: negative,
                     _using: selected.Any())

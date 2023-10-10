@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -13,12 +12,10 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
@@ -1159,14 +1156,6 @@ namespace Implem.Pleasanter.Models
                         .TenantId(context.TenantId)
                         .ReferenceId(DeptId)
                         .BinaryType(value: "TenantManagementImages")),
-                Rds.DeletePermissions(
-                    factory: context,
-                    where: Rds.PermissionsWhere()
-                        .DeptId(DeptId)),
-                Rds.DeleteGroupMembers(
-                    factory: context,
-                    where: Rds.GroupMembersWhere()
-                        .DeptId(DeptId)),
                 Rds.DeleteDepts(
                     factory: context,
                     where: where),
