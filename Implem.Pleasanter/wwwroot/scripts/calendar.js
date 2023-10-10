@@ -29,84 +29,90 @@
     }
     form.submit();
 }
-const updateRecord = function (info) {
-    var data = $p.getData($('.main-form'));
-    var fromTo = $('#CalendarFromTo').val().split('-');
-    var prefix = $('#TableName').val() + '_';
-    data.Id = info.event.id;
-    data[prefix + fromTo[0]] = info.event.start.toLocaleString();
-    if (info.event.end === null) {
-        data[prefix + fromTo[1]] = info.event.start.toLocaleString();
-    } else {
-        data[prefix + fromTo[1]] = info.event.end.toLocaleString();
-    }
-    $p.saveScroll();
-    $p.send($('#FullCalendarBody'));
-}
-const getEventsDatas = function (info, successCallback, failureCallback) {
-
-    if (($('#IsInit').val() !== 'True') && !((info.start.getTime() == Date.parse($('#CalendarStart').val()) && (info.end.getTime() == Date.parse($('#CalendarEnd').val()))))) {
-        $p.set($('#CalendarStart'), info.start.toLocaleDateString());
-        $p.set($('#CalendarEnd'), info.end.toLocaleDateString());
-        $('#FullCalendarBody').attr('data-action', 'calendar');
-
-        let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
-        if (calendarDiff === 1) {
-            $p.set($('#CalendarViewType'), 'timeGridDay');
-        } else if (calendarDiff === 7) {
-            $p.set($('#CalendarViewType'), 'timeGridWeek');
-        } else if (calendarDiff < 32) {
-            $p.set($('#CalendarViewType'), 'listMonth');
+const updateRecord = function (calendarPrefix) {
+    return function (info, successCallback, failureCallback) {
+        console.log("updateRecordのprefix = " + calendarPrefix);
+        alert("ccc=" + calendarPrefix);
+        var data = $p.getData($('.main-form'));
+        var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
+        var prefix = $('#' + calendarPrefix + 'TableName').val() + '_';
+        data.Id = info.event.id;
+        data[prefix + fromTo[0]] = info.event.start.toLocaleString();
+        if (info.event.end === null) {
+            data[prefix + fromTo[1]] = info.event.start.toLocaleString();
         } else {
-            $p.set($('#CalendarViewType'), 'dayGridMonth');
+            data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         }
-
-        let $control = $('#FullCalendarBody');
-        $p.send($control);
-    } else {
-        $('#IsInit').val('False');
-        let eventData = JSON.parse($('#CalendarJson').val())[0]['items'];
-        successCallback(
-            eventData.map((item) => {
-                if (item.StatusHtml) {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        start: item.start,
-                        end: item.end,
-                        StatusHtml: item.StatusHtml
-                    }
-                }
-                else {
-                    return {
-                        id: item.id,
-                        title: item.title,
-                        start: item.start,
-                        end: item.end,
-                    }
-                }
-            }))
+        $p.saveScroll();
+        $p.send($('#FullCalendarBody'));
     }
 
 }
-function setCalendarGroup(group, data) {
+const getEventsDatas = function (calendarPrefix) {
+    return function (info, successCallback, failureCallback) {
+        if (($('#IsInit').val() !== 'True') && !((info.start.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarStart').val()) && (info.end.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarEnd').val()))))) {
+            $p.set($('#' + calendarPrefix + 'CalendarStart'), info.start.toLocaleDateString());
+            $p.set($('#' + calendarPrefix + 'CalendarEnd'), info.end.toLocaleDateString());
+            $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'calendar');
+
+            let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
+            if (calendarDiff === 1) {
+                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'timeGridDay');
+            } else if (calendarDiff === 7) {
+                $p.set($('#CalendarViewType'), 'timeGridWeek');
+            } else if (calendarDiff < 32) {
+                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'listMonth');
+            } else {
+                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'dayGridMonth');
+            }
+
+            let $control = $('#' + calendarPrefix + 'FullCalendarBody');
+            $p.send($control);
+        } else {
+            $('#IsInit').val('False');
+            let eventData = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val())[0]['items'];
+            successCallback(
+                eventData.map((item) => {
+                    if (item.StatusHtml) {
+                        return {
+                            id: item.id,
+                            title: item.title,
+                            start: item.start,
+                            end: item.end,
+                            StatusHtml: item.StatusHtml
+                        }
+                    }
+                    else {
+                        return {
+                            id: item.id,
+                            title: item.title,
+                            start: item.start,
+                            end: item.end,
+                        }
+                    }
+                }))
+        }
+    }
+
+}
+function setCalendarGroup(group, data, calendarPrefix) {
     var hash = {};
     var beginSelector = (group === undefined)
-        ? '#Calendar .container:first'
-        : '#Calendar .container[data-value="' + group + '"]:first';
+        ? '#' + calendarPrefix + 'Calendar .container:first'
+        : '#' + calendarPrefix + 'Calendar .container[data-value="' + group + '"]:first';
     var endSelector = (group === undefined)
-        ? '#Calendar .container:last'
-        : '#Calendar .container[data-value="' + group + '"]:last';
+        ? '#' + calendarPrefix + 'Calendar .container:last'
+        : '#' + calendarPrefix + 'Calendar .container[data-value="' + group + '"]:last';
     var begin = new Date($(beginSelector).attr('data-id'));
     var end = new Date($(endSelector).attr('data-id'));
 
-    switch ($('#CalendarTimePeriod').val()) {
+    switch ($('#' + calendarPrefix + 'CalendarTimePeriod').val()) {
         case 'Yearly':
             setYearly(group, data, hash, begin, end);
             break;
         case 'Monthly':
         case 'Weekly':
-            setMonthly(group, data, hash, begin, end);
+            setMonthly(group, data, hash, begin, end, calendarPrefix);
             break;
     }
 }
@@ -146,7 +152,7 @@ function setYearly(group, data, hash, begin, end) {
     });
 }
 
-function setMonthly(group, data, hash, begin, end) {
+function setMonthly(group, data, hash, begin, end, calendarPrefix) {
     data.forEach(function (element) {
         var current = new Date(element.From);
         if (current < begin) {
@@ -179,8 +185,8 @@ function setMonthly(group, data, hash, begin, end) {
             }
         }
     });
-    if ($('#CalendarCanUpdate').val() === '1') {
-        $('#Calendar .item').draggable({
+    if ($('#' + calendarPrefix + 'CalendarCanUpdate').val() === '1') {
+        $('#' + calendarPrefix + 'Calendar .item').draggable({
             revert: 'invalid',
             start: function () {
                 $(this).parent().droppable({
@@ -194,7 +200,7 @@ function setMonthly(group, data, hash, begin, end) {
                         .append($(this).text()));
             }
         });
-        $('#Calendar .container').droppable({
+        $('#' + calendarPrefix + 'Calendar .container').droppable({
             hoverClass: 'hover',
             tolerance: 'intersect',
             drop: function (e, ui) {
@@ -202,8 +208,8 @@ function setMonthly(group, data, hash, begin, end) {
                 var from = new Date($control.attr('data-from'));
                 var target = new Date($(this).attr('data-id'));
                 var data = $p.getData($('.main-form'));
-                var fromTo = $('#CalendarFromTo').val().split('-');
-                var prefix = $('#TableName').val() + '_';
+                var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
+                var prefix = $('#' + calendarPrefix + 'TableName').val() + '_';
                 data.Id = $control.attr('data-id');
                 data[prefix + fromTo[0]] = margeTime(target, from);
                 if ($control.attr('data-to') !== undefined) {
@@ -212,7 +218,7 @@ function setMonthly(group, data, hash, begin, end) {
                     data[prefix + fromTo[1]] = margeTime(to);
                 }
                 $p.saveScroll();
-                $p.send($('#CalendarBody'));
+                $p.send($('#' + calendarPrefix + 'CalendarBody'));
             }
         });
     }
@@ -320,9 +326,9 @@ function htmlEncode(str) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
 }
-$p.moveCalendar = function (type) {
-    var $control = $('#CalendarDate');
-    $control.val($('#Calendar' + type).val());
+$p.moveCalendar = function (type, calendarPrefix) {
+    var $control = $('#' + calendarPrefix + 'CalendarDate');
+    $control.val($('#' + calendarPrefix + 'Calendar' + type).val());
     $p.setData($control);
     $p.send($control);
 }
@@ -337,70 +343,75 @@ function margeTime(date, dateTime) {
 }
 
 function setFullCalendar() {
-    $('#FullCalendar').css('clear', 'both');
-    var calendarEl = document.getElementById('FullCalendar');
-    let calendarMiddle = new Date();
-    if ($("#CalendarStart").val() !== '') {
-        calendarMiddle = new Date((new Date($("#CalendarStart").val()).getTime() + new Date($("#CalendarEnd").val()).getTime()) / 2);
-    }
+    var calendarEl = $($('#MainForm').find('div[id="FullCalendar"],div[id$="FullCalendar"]')).get();
+
     var language = $('#Language').val();
     var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
     if (language === 'vn') {
         language = 'vi';
     }
-    $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
-        headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-        },
-        firstDay: 1,
-        initialDate: calendarMiddle,
-        selectable: true,
-        navLinks: true,
-        businessHours: true,
-        editable: true,
-        height: "auto",
-        locale: supportedLanguages.includes(language) ? language : 'en',
-        selectMirror: true,
-        eventClick: (e) => {
-            window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
-        },
-        select: newRecord,
-        events: getEventsDatas,
-        eventDrop: updateRecord,
-        eventResize: updateRecord,
-        eventDidMount: function (info) {
-            if (info.event.extendedProps.StatusHtml) {
-                if (info.view.type === 'listMonth') {
-                    var eventElement = $(info.el).find('.fc-list-event-graphic');
-                    eventElement.append($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
-                    $(".fc-list-event-dot").css('margin-right', '20px');
-                } else {
-                    var eventElement = $(info.el).find('.fc-event-time');
-                    eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+    $.each(calendarEl, (index, value) => {
+        let calendarPrefix = value.id.replace(/[^0-9]/g, '');
+        $('#' + calendarPrefix + 'FullCalendar').css('clear', 'both');
+        let calendarMiddle = new Date();
+        if ($('#' + calendarPrefix + 'CalendarStart').val() !== '') {
+            calendarMiddle = new Date((new Date($('#' + calendarPrefix + 'CalendarStart').val()).getTime() + new Date($('#' + calendarPrefix + 'CalendarEnd').val()).getTime()) / 2);
+        }
+        $p.fullCalendar = new FullCalendar.Calendar(value, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            firstDay: 1,
+            initialDate: calendarMiddle,
+            selectable: true,
+            navLinks: true,
+            businessHours: true,
+            editable: true,
+            height: "auto",
+            locale: supportedLanguages.includes(language) ? language : 'en',
+            selectMirror: true,
+            eventClick: (e) => {
+                window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
+            },
+            select: newRecord,
+            events: getEventsDatas(calendarPrefix),
+            eventDrop: updateRecord(calendarPrefix),
+            eventResize: updateRecord(calendarPrefix),
+            eventDidMount: function (info) {
+                if (info.event.extendedProps.StatusHtml) {
+                    if (info.view.type === 'listMonth') {
+                        var eventElement = $(info.el).find('.fc-list-event-graphic');
+                        eventElement.append($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                        $(".fc-list-event-dot").css('margin-right', '20px');
+                    } else {
+                        var eventElement = $(info.el).find('.fc-event-time');
+                        eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    }
+                    $('.status-new').css('color', 'black');
+                    $('.status-review').css('color', 'black');
+                    $('.status-new').css('border', 'solid 1px #000');
+                    $("[class^='status']").css('padding', '1px 3px');
+                    $("[class^='status']").css('margin', '0px 3px');
+                    $("[class^='status']").css('width', '15px');
                 }
-                $('.status-new').css('color', 'black');
-                $('.status-review').css('color', 'black');
-                $('.status-new').css('border', 'solid 1px #000');
-                $("[class^='status']").css('padding', '1px 3px');
-                $("[class^='status']").css('margin', '0px 3px');
-                $("[class^='status']").css('width', '15px');
-            }
-        },
-        initialView: $('#CalendarViewType').val(),
-        lazyFetching: false
+            },
+            initialView: $('#CalendarViewType').val(),
+            lazyFetching: false
+        });
+        $p.fullCalendar.render();
     });
 }
 $p.setCalendar = function () {
     if ($('#CalendarType').val() == "FullCalendar") {
         setFullCalendar();
-        $p.fullCalendar.render();
     } else {
+        var calendarPrefix = $($('#MainForm').find('div[id$="Calendar"]div:not([id$="FullCalendar"])')).attr('id').replace(/[^0-9]/g, '');
         $('#Calendar .container > div > div:not(.day)').remove();
-        var data = JSON.parse($('#CalendarJson').val());
+        var data = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val());
         data.forEach(function (element) {
-            setCalendarGroup(element.group, element.items);
+            setCalendarGroup(element.group, element.items, calendarPrefix);
         });
 
     }
