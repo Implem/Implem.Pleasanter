@@ -1,5 +1,4 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
@@ -13,7 +12,6 @@ using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Responses;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
-using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
@@ -2889,25 +2887,12 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
-                Rds.DeleteGroupMembers(
-                    factory: context,
-                    where: Rds.GroupMembersWhere()
-                        .UserId(UserId)),
-                Rds.DeletePermissions(
-                    factory: context,
-                    where: Rds.PermissionsWhere()
-                        .UserId(UserId)),
                 Rds.DeleteBinaries(
                     factory: context,
                     where: Rds.BinariesWhere()
                         .TenantId(context.TenantId)
                         .ReferenceId(UserId)
                         .BinaryType(value: "TenantManagementImages")),
-                Rds.DeleteMailAddresses(
-                    factory: context,
-                    where: Rds.MailAddressesWhere()
-                        .OwnerId(UserId)
-                        .OwnerType("Users")),
                 Rds.DeleteUsers(
                     factory: context,
                     where: where),
