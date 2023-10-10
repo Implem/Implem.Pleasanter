@@ -5173,7 +5173,10 @@ namespace Implem.Pleasanter.Models
             new ResultCollection(
                 context: context,
                 ss: ss,
-                column: HistoryColumn(columns),
+                column: HistoryColumn(
+                    context: context,
+                    ss: ss,
+                    columns: columns),
                 join: ss.Join(context: context),
                 where: Rds.ResultsWhere().ResultId(resultModel.ResultId),
                 orderBy: Rds.ResultsOrderBy().Ver(SqlOrderBy.Types.desc),
@@ -5210,14 +5213,19 @@ namespace Implem.Pleasanter.Models
                             }));
         }
 
-        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        private static SqlColumnCollection HistoryColumn(
+            Context context,
+            SiteSettings ss,
+            List<Column> columns)
         {
-            var sqlColumn = new Rds.ResultsColumnCollection()
-                .ResultId()
-                .Ver();
+            var sqlColumn = Rds.ResultsTitleColumn(
+                context: context,
+                ss: ss)
+                    .ResultId()
+                    .Ver();
             columns.ForEach(column =>
                 sqlColumn.ResultsColumn(columnName: column.ColumnName));
-            return sqlColumn.ItemTitle(tableName: "Results");
+            return sqlColumn;
         }
 
         public static string History(Context context, SiteSettings ss, long resultId)

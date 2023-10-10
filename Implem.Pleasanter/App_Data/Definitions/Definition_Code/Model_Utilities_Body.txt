@@ -66,6 +66,7 @@ namespace Implem.Pleasanter.Models
 <!--Model_Utilities_Restore_Sites-->
 <!--Model_Utilities_Restore_Items-->
 <!--Model_Utilities_Histories-->
+<!--Model_Utilities_Histories_Tables-->
 <!--Model_Utilities_Separate-->
 <!--Model_Utilities_BulkMove-->
 <!--Model_Utilities_BulkDelete-->
