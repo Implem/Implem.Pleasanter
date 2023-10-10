@@ -2914,7 +2914,7 @@ namespace Implem.Pleasanter.Models
                         itemJoin: false);
             var where = Rds.UsersWhere()
                 .UserId_In(
-                    value: selected.Select(o => (int)o).ToList(),
+                    value: selected.Select(o => o.ToInt()).ToList(),
                     negative: negative,
                     _using: selected.Any())
                 .UserId_In(
@@ -4969,7 +4969,7 @@ namespace Implem.Pleasanter.Models
                         itemJoin: false);
             var where = Rds.UsersWhere()
                 .UserId_In(
-                    value: selected.ConvertAll(o => (int)o),
+                    value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Users_Deleted",
                     negative: negative,
                     _using: selected.Any())
@@ -5101,7 +5101,7 @@ namespace Implem.Pleasanter.Models
             }
             where = where ?? Rds.UsersWhere()
                 .UserId_In(
-                    value: selected.ConvertAll(o => (int)o),
+                    value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Users" + tableName,
                     negative: negative,
                     _using: selected.Any())
