@@ -2571,7 +2571,7 @@ namespace Implem.Pleasanter.Models
                         itemJoin: false);
             var where = Rds.DeptsWhere()
                 .DeptId_In(
-                    value: selected.Select(o => (int)o).ToList(),
+                    value: selected.Select(o => o.ToInt()).ToList(),
                     negative: negative,
                     _using: selected.Any())
                 .DeptId_In(
@@ -2751,7 +2751,7 @@ namespace Implem.Pleasanter.Models
                         itemJoin: false);
             var where = Rds.DeptsWhere()
                 .DeptId_In(
-                    value: selected.ConvertAll(o => (int)o),
+                    value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Depts_Deleted",
                     negative: negative,
                     _using: selected.Any())
@@ -2878,7 +2878,7 @@ namespace Implem.Pleasanter.Models
             }
             where = where ?? Rds.DeptsWhere()
                 .DeptId_In(
-                    value: selected.ConvertAll(o => (int)o),
+                    value: selected.Select(o => o.ToInt()).ToList(),
                     tableName: "Depts" + tableName,
                     negative: negative,
                     _using: selected.Any())
