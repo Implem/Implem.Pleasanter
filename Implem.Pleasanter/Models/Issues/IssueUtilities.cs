@@ -5361,7 +5361,10 @@ namespace Implem.Pleasanter.Models
             new IssueCollection(
                 context: context,
                 ss: ss,
-                column: HistoryColumn(columns),
+                column: HistoryColumn(
+                    context: context,
+                    ss: ss,
+                    columns: columns),
                 join: ss.Join(context: context),
                 where: Rds.IssuesWhere().IssueId(issueModel.IssueId),
                 orderBy: Rds.IssuesOrderBy().Ver(SqlOrderBy.Types.desc),
@@ -5398,14 +5401,19 @@ namespace Implem.Pleasanter.Models
                             }));
         }
 
-        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        private static SqlColumnCollection HistoryColumn(
+            Context context,
+            SiteSettings ss,
+            List<Column> columns)
         {
-            var sqlColumn = new Rds.IssuesColumnCollection()
-                .IssueId()
-                .Ver();
+            var sqlColumn = Rds.IssuesTitleColumn(
+                context: context,
+                ss: ss)
+                    .IssueId()
+                    .Ver();
             columns.ForEach(column =>
                 sqlColumn.IssuesColumn(columnName: column.ColumnName));
-            return sqlColumn.ItemTitle(tableName: "Issues");
+            return sqlColumn;
         }
 
         public static string History(Context context, SiteSettings ss, long issueId)
