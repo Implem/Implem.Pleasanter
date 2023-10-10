@@ -2610,7 +2610,10 @@ namespace Implem.Pleasanter.Models
                         factory: context,
                         where: Rds.DeptsWhere()
                             .DeptId_In(sub: sub)),
-                    Rds.RowCount()
+                    Rds.RowCount(),
+                    StatusUtilities.UpdateStatus(
+                        tenantId: context.TenantId,
+                        type: StatusUtilities.Types.DeptsUpdated),
                 }).Count.ToInt();
         }
 
