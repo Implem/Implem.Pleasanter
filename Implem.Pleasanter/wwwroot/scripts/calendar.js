@@ -31,8 +31,6 @@
 }
 const updateRecord = function (calendarPrefix) {
     return function (info, successCallback, failureCallback) {
-        console.log("updateRecordのprefix = " + calendarPrefix);
-        alert("ccc=" + calendarPrefix);
         var data = $p.getData($('.main-form'));
         var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
         var prefix = $('#' + calendarPrefix + 'TableName').val() + '_';
@@ -44,7 +42,7 @@ const updateRecord = function (calendarPrefix) {
             data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         }
         $p.saveScroll();
-        $p.send($('#FullCalendarBody'));
+        $p.send($('#' + calendarPrefix + 'FullCalendarBody'));
     }
 
 }
@@ -59,7 +57,7 @@ const getEventsDatas = function (calendarPrefix) {
             if (calendarDiff === 1) {
                 $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'timeGridDay');
             } else if (calendarDiff === 7) {
-                $p.set($('#CalendarViewType'), 'timeGridWeek');
+                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'timeGridWeek');
             } else if (calendarDiff < 32) {
                 $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'listMonth');
             } else {

@@ -1,14 +1,14 @@
 ﻿$(function () {
-    $(document).on('dblclick', '#Calendar .item', function () {
+    $(document).on('dblclick', 'div[id$="Calendar"]div:not([id$="FullCalendar"]) .item', function () {
         $p.transition($('#BaseUrl').val() + $(this).attr('data-id'));
     });
-    $(document).on('click', '#Calendar .item .ui-icon-pencil', function () {
+    $(document).on('click', 'div[id$="Calendar"]div:not([id$="FullCalendar"]) .item .ui-icon-pencil', function () {
         $p.transition($('#BaseUrl').val() + $(this).parent().parent().attr('data-id'));
     });
-    $(document).on('mouseenter', '#Calendar .item', function () {
+    $(document).on('mouseenter', 'div[id$="Calendar"]div:not([id$="FullCalendar"]) .item', function () {
         $('[data-id="' + $(this).attr('data-id') + '"]').addClass('hover');
     });
-    $(document).on('mouseleave', '#Calendar .item', function () {
+    $(document).on('mouseleave', 'div[id$="Calendar"]div:not([id$="FullCalendar"]) .item', function () {
         $('[data-id="' + $(this).attr('data-id') + '"]').removeClass('hover');
     });
     $(window).on('resize', function () {
@@ -20,7 +20,8 @@
             }, 10);
         }
     });
-    $(document).on('dblclick', '#Calendar .ui-droppable', function (event) {
+    $(document).on('dblclick', 'div[id$="Calendar"]div:not([id$="FullCalendar"]) .ui-droppable', function (event) {
+        var calendarPrefix = $(this).parents().find('div[id$="Calendar"]div:not([id$="FullCalendar"])').attr("id").replace(/[^0-9]/g, '');
         var addDate = function (baseDate, add) {
             if (add === '') return '';
             var date = new Date(baseDate.getTime());
@@ -31,7 +32,7 @@
             if (!name) return;
             var input = document.createElement('input');
             input.setAttribute('type', 'hidden');
-            input.setAttribute('name', $('#ReferenceType').val() + '_' + name);
+            input.setAttribute('name', $('#' + calendarPrefix + 'ReferenceType').val() + '_' + name);
             input.setAttribute('value', value);
             form.appendChild(input);
         }
@@ -43,8 +44,8 @@
         form.setAttribute("method", "post");
         form.style.display = "none";
         document.body.appendChild(form);
-        addInput(form, names[0], addDate(baseDate, $('#CalendarFromDefaultInput').val()));
-        addInput(form, names[1], addDate(baseDate, $('#CalendarToDefaultInput').val()));
+        addInput(form, names[0], addDate(baseDate, $('#' + calendarPrefix + 'CalendarFromDefaultInput').val()));
+        addInput(form, names[1], addDate(baseDate, $('#' + calendarPrefix + 'CalendarToDefaultInput').val()));
         form.submit();
     });
     $(document).on('click', '.calendar-to-monthly', function () {
