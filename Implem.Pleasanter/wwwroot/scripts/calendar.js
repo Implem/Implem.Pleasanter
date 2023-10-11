@@ -340,20 +340,18 @@ function margeTime(date, dateTime) {
         dateTime.getSeconds();
 }
 
-function setFullCalendar() {
-    var calendarEl = $($('#MainForm').find('div[id="FullCalendar"],div[id$="FullCalendar"]')).get();
+function setFullCalendar(calendarPrefix,calendarEl) {
     var language = $('#Language').val();
     var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
     if (language === 'vn') {
         language = 'vi';
     }
-    let calendarPrefix = $(calendarEl).attr('id').replace(/[^0-9]/g, '');
     $('#' + calendarPrefix + 'FullCalendar').css('clear', 'both');
     let calendarMiddle = new Date();
     if ($('#' + calendarPrefix + 'CalendarStart').val() !== '') {
         calendarMiddle = new Date((new Date($('#' + calendarPrefix + 'CalendarStart').val()).getTime() + new Date($('#' + calendarPrefix + 'CalendarEnd').val()).getTime()) / 2);
     }
-    $p.fullCalendar = new FullCalendar.Calendar(calendarEl[0], {
+    $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
@@ -399,16 +397,17 @@ function setFullCalendar() {
     $p.fullCalendar.render();
 }
 $p.setCalendar = function () {
-    if ($('input[id$="CalendarType"]').val() == "FullCalendar") {
-        setFullCalendar();
-    } else {
-        var calendarPrefix = $($('#MainForm').find('div[id$="Calendar"]div:not([id$="FullCalendar"])')).attr('id').replace(/[^0-9]/g, '');
-        $('#Calendar .container > div > div:not(.day)').remove();
-        var data = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val());
-        data.forEach(function (element) {
-            setCalendarGroup(element.group, element.items, calendarPrefix);
-        });
-
-    }
-
+    var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id$="Calendar"]')).get();
+    $(calendarElArr).each(function (index,value) {
+        var calendarPrefix = value.id.replace(/[^0-9]/g, '');
+        if ($('#' + calendarPrefix + 'CalendarType').val() == "FullCalendar") {
+            setFullCalendar(calendarPrefix,value);
+        } else {
+            $('#Calendar .container > div > div:not(.day)').remove();
+            var data = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val());
+            data.forEach(function (element) {
+                setCalendarGroup(element.group, element.items, calendarPrefix);
+            });
+        }
+    });
 }
