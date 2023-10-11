@@ -342,67 +342,64 @@ function margeTime(date, dateTime) {
 
 function setFullCalendar() {
     var calendarEl = $($('#MainForm').find('div[id="FullCalendar"],div[id$="FullCalendar"]')).get();
-
     var language = $('#Language').val();
     var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
     if (language === 'vn') {
         language = 'vi';
     }
-    $.each(calendarEl, (index, value) => {
-        let calendarPrefix = value.id.replace(/[^0-9]/g, '');
-        $('#' + calendarPrefix + 'FullCalendar').css('clear', 'both');
-        let calendarMiddle = new Date();
-        if ($('#' + calendarPrefix + 'CalendarStart').val() !== '') {
-            calendarMiddle = new Date((new Date($('#' + calendarPrefix + 'CalendarStart').val()).getTime() + new Date($('#' + calendarPrefix + 'CalendarEnd').val()).getTime()) / 2);
-        }
-        $p.fullCalendar = new FullCalendar.Calendar(value, {
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-            },
-            firstDay: 1,
-            initialDate: calendarMiddle,
-            selectable: true,
-            navLinks: true,
-            businessHours: true,
-            editable: true,
-            height: "auto",
-            locale: supportedLanguages.includes(language) ? language : 'en',
-            selectMirror: true,
-            eventClick: (e) => {
-                window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
-            },
-            select: newRecord,
-            events: getEventsDatas(calendarPrefix),
-            eventDrop: updateRecord(calendarPrefix),
-            eventResize: updateRecord(calendarPrefix),
-            eventDidMount: function (info) {
-                if (info.event.extendedProps.StatusHtml) {
-                    if (info.view.type === 'listMonth') {
-                        var eventElement = $(info.el).find('.fc-list-event-graphic');
-                        eventElement.append($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
-                        $(".fc-list-event-dot").css('margin-right', '20px');
-                    } else {
-                        var eventElement = $(info.el).find('.fc-event-time');
-                        eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
-                    }
-                    $('.status-new').css('color', 'black');
-                    $('.status-review').css('color', 'black');
-                    $('.status-new').css('border', 'solid 1px #000');
-                    $("[class^='status']").css('padding', '1px 3px');
-                    $("[class^='status']").css('margin', '0px 3px');
-                    $("[class^='status']").css('width', '15px');
+    let calendarPrefix = $(calendarEl).attr('id').replace(/[^0-9]/g, '');
+    $('#' + calendarPrefix + 'FullCalendar').css('clear', 'both');
+    let calendarMiddle = new Date();
+    if ($('#' + calendarPrefix + 'CalendarStart').val() !== '') {
+        calendarMiddle = new Date((new Date($('#' + calendarPrefix + 'CalendarStart').val()).getTime() + new Date($('#' + calendarPrefix + 'CalendarEnd').val()).getTime()) / 2);
+    }
+    $p.fullCalendar = new FullCalendar.Calendar(calendarEl[0], {
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+        },
+        firstDay: 1,
+        initialDate: calendarMiddle,
+        selectable: true,
+        navLinks: true,
+        businessHours: true,
+        editable: true,
+        height: "auto",
+        locale: supportedLanguages.includes(language) ? language : 'en',
+        selectMirror: true,
+        eventClick: (e) => {
+            window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
+        },
+        select: newRecord,
+        events: getEventsDatas(calendarPrefix),
+        eventDrop: updateRecord(calendarPrefix),
+        eventResize: updateRecord(calendarPrefix),
+        eventDidMount: function (info) {
+            if (info.event.extendedProps.StatusHtml) {
+                if (info.view.type === 'listMonth') {
+                    var eventElement = $(info.el).find('.fc-list-event-graphic');
+                    eventElement.append($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
+                    $(".fc-list-event-dot").css('margin-right', '20px');
+                } else {
+                    var eventElement = $(info.el).find('.fc-event-time');
+                    eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
                 }
-            },
-            initialView: $('#CalendarViewType').val(),
-            lazyFetching: false
-        });
-        $p.fullCalendar.render();
+                $('.status-new').css('color', 'black');
+                $('.status-review').css('color', 'black');
+                $('.status-new').css('border', 'solid 1px #000');
+                $("[class^='status']").css('padding', '1px 3px');
+                $("[class^='status']").css('margin', '0px 3px');
+                $("[class^='status']").css('width', '15px');
+            }
+        },
+        initialView: $('#' + calendarPrefix + 'CalendarViewType').val(),
+        lazyFetching: false
     });
+    $p.fullCalendar.render();
 }
 $p.setCalendar = function () {
-    if ($('#CalendarType').val() == "FullCalendar") {
+    if ($('input[id$="CalendarType"]').val() == "FullCalendar") {
         setFullCalendar();
     } else {
         var calendarPrefix = $($('#MainForm').find('div[id$="Calendar"]div:not([id$="FullCalendar"])')).attr('id').replace(/[^0-9]/g, '');
