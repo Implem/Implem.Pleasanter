@@ -4917,6 +4917,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetReturnUrl(Context context, string returnUrl)
         {
+            if (!returnUrl.StartsWith("/") && !returnUrl.StartsWith("^")) returnUrl = string.Empty;
             if (Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
             {
                 return returnUrl;
