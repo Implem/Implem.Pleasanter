@@ -4921,6 +4921,8 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetReturnUrl(Context context, string returnUrl)
         {
+            // returnUrlがローカルURL以外の場合に、string.Emptyに詰め替える。
+            if (!returnUrl.StartsWith("/") && !returnUrl.StartsWith("~/")) returnUrl = string.Empty;
             if (Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
             {
                 return returnUrl;
