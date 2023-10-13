@@ -4450,6 +4450,11 @@ namespace Implem.Pleasanter.Models
                         .Title(Displays.SiteId(context: context)))
                 .Div(
                     attributes: new HtmlAttributes()
+                        .Id("DashboardPartCalendarSitesDialog")
+                        .Class("dialog")
+                        .Title(Displays.SiteId(context: context)))
+                .Div(
+                    attributes: new HtmlAttributes()
                         .Id("ServerScriptDialog")
                         .Class("dialog")
                         .Title(Displays.ServerScript(context: context)),
@@ -15212,13 +15217,67 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static HtmlBuilder DashboardPartCalendarSitesDialog(
+            Context context,
+            SiteSettings ss,
+            int dashboardPartId,
+            string dashboardCalendarSites)
+        {
+            var hb = new HtmlBuilder();
+            return hb.Form(
+                attributes: new HtmlAttributes()
+                    .Id("DashboardPartCalendarSitesEditForm")
+                    .Action(Locations.ItemAction(
+                        context: context,
+                        id: ss.SiteId)),
+                action: () => hb
+                    .FieldTextBox(
+                        controlId: "DashboardPartCalendarSitesEdit",
+                        fieldCss: "field-wide",
+                        controlCss: " always-send",
+                        labelText: Displays.SiteId(context: context),
+                        text: dashboardCalendarSites,
+                        validateRequired: true)
+                    .Hidden(
+                        controlId: "DashboardPartId",
+                        alwaysSend: true,
+                        value: dashboardPartId.ToString())
+                    .Hidden(
+                        controlId: "SavedDashboardPartCalendarSites",
+                        alwaysSend: true,
+                        value: dashboardCalendarSites)
+                    .Hidden(
+                        controlId: "ClearDashboardCalendarView",
+                        action: "SetSiteSettings",
+                        method: "post")
+                    .P(
+                        id: "DashboardPartCalendarSitesMessage",
+                        css: "message-dialog")
+                    .Div(css: "command-center", action: () => hb
+                        .Button(
+                            controlId: "UpdateDashboardPartCalendarSites",
+                            text: Displays.OK(context: context),
+                            controlCss: "button-icon validate",
+                            icon: "ui-icon-pencil",
+                            onClick: "$p.updateDashboardPartCalendarSites($(this));",
+                            action: "SetSiteSettings",
+                            method: "post")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder DashboardPartDialog(
             Context context,
             SiteSettings ss,
             string controlId,
             DashboardPart dashboardPart)
         {
-            var filterVisible = dashboardPart.Type == DashboardPartType.TimeLine;
+            var filterVisible = false;
+            if((dashboardPart.Type == DashboardPartType.TimeLine) || (dashboardPart.Type == DashboardPartType.Calendar))
+            {
+                filterVisible = true;
+            }
             var hb = new HtmlBuilder();
             return hb.Form(
                 attributes: new HtmlAttributes()
@@ -15355,6 +15414,10 @@ namespace Implem.Pleasanter.Models
                                 DashboardPartType.CustomHtml.ToInt().ToString(),
                                 Displays.DashboardCustomHtml(context: context)
                             },
+                            {
+                                DashboardPartType.Calendar.ToInt().ToString(),
+                                Displays.Calendar(context: context)
+                            }
                         },
                         selectedValue: dashboardPart.Type.ToInt().ToString(),
                         insertBlank: false)
@@ -15500,6 +15563,97 @@ namespace Implem.Pleasanter.Models
                                 name: "DashboardPartHtmlContent",
                                 id: "DashboardPartHtmlContent",
                                 text: dashboardPart.HtmlContent))
+                    .Div(
+                        id: "DashboardPartCalendarSitesField",
+                        css: "both" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        action: () =>
+                        {
+                            var calendarSites = dashboardPart.CalendarSites;
+                            var baseSiteId = DashboardPart.GetCalendarBaseSiteSettings(
+                                context: context,
+                                calendarSitesString: calendarSites)
+                                    ?.SiteId;
+                            hb
+                                .FieldText(
+                                    controlId: "DashboardPartCalendarSitesValue",
+                                    labelText: Displays.SiteId(context: context),
+                                    text: calendarSites)
+                                .Hidden(
+                                    controlId: "DashboardPartCalendarSites",
+                                    alwaysSend: true,
+                                    value: calendarSites)
+                                .Hidden(
+                                    controlId: "DashboardPartCalendarBaseSiteId",
+                                    alwaysSend: true,
+                                    value: baseSiteId == null
+                                        ? null
+                                        : baseSiteId.ToString())
+                                .Button(
+                                        controlId: "EditCalendarSites",
+                                        text: Displays.Edit(context: context),
+                                        controlCss: "button-icon",
+                                        onClick: "$p.openDashboardPartCalendarSitesDialog($(this));",
+                                        icon: "ui-icon-pencil",
+                                        action: "SetSiteSettings",
+                                        method: "post");
+                        })
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarType",
+                        fieldId: "DashboardPartCalendarTypeField",
+                        controlCss: " always-send",
+                        fieldCss: "both field-normal" + hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.CalendarType(context: context),
+                        optionCollection: new Dictionary<string, string>
+                        {
+                            {
+                                CalendarType.Standard.ToInt().ToString(),
+                                Displays.Standard(context: context)
+                            },
+                            {
+                                CalendarType.FullCalendar.ToInt().ToString(),
+                                Displays.FullCalendar(context: context)
+                            }
+                        },
+                        selectedValue: dashboardPart.CalendarType.ToInt().ToString(),
+                        insertBlank: false)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarGroupBy",
+                        fieldId: "DashboardPartCalendarGroupByField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.GroupBy(context: context),
+                        optionCollection: ss.CalendarGroupByOptions(context: context),
+                        selectedValue: dashboardPart.CalendarGroupBy.ToInt().ToString(),
+                        insertBlank: true)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarTimePeriod",
+                        fieldId: "DashboardPartCalendarTimePeriodField",
+                        controlCss: " auto-postback",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.Period(context: context),
+                        optionCollection: ss.CalendarTimePeriodOptions(context: context),
+                        selectedValue: dashboardPart.CalendarTimePeriod.ToInt().ToString(),
+                        insertBlank: false)
+                    .FieldDropDown(
+                        context: context,
+                        controlId: "DashboardPartCalendarFromTo",
+                        fieldId: "DashboardPartCalendarFromToField",
+                        controlCss: " auto-postback",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.Column(context: context),
+                        optionCollection: ss.CalendarColumnOptions(context: context),
+                        selectedValue: dashboardPart.CalendarFromTo.ToInt().ToString(),
+                        insertBlank: false)
+                    .FieldCheckBox(
+                        controlId: "CalendarShowStatus",
+                        fieldId: "DashboardPartCalendarShowStatusField",
+                        controlCss: " always-send",
+                        fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
+                        labelText: Displays.ShowStatus(context: context),
+                        _checked: dashboardPart.CalendarShowStatus ?? false)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",

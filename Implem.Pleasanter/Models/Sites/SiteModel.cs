@@ -3129,8 +3129,23 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         res: res);
                     break;
+                case "EditCalendarSites":
+                    OpenDashboardPartCalendarSitesDialog(
+                        context: context,
+                        res: res);
+                    break;
+                case "UpdateDashboardPartCalendarSites":
+                    UpdateDashboardPartCalendarSites(
+                        context: context,
+                        res: res);
+                    break;
                 case "ClearDashboardView":
                     ClearDashboardView(
+                        context: context,
+                        res: res);
+                    break;
+                case "ClearDashboardCalendarView":
+                    ClearDashboardCalendarView(
                         context: context,
                         res: res);
                     break;
@@ -7704,6 +7719,18 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void OpenDashboardPartCalendarSitesDialog(Context context, ResponseCollection res)
+        {
+            res.Html("#DashboardPartCalendarSitesDialog", SiteUtilities.DashboardPartCalendarSitesDialog(
+                context: context,
+                ss: SiteSettings,
+                dashboardPartId: context.Forms.Int("DashboardPartId"),
+                dashboardCalendarSites: context.Forms.Data("DashboardPartCalendarSites")));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void OpenDashboardPartDialog(Context context, ResponseCollection res, string controlId)
         {
             if (controlId == "NewDashboardPart")
@@ -7755,6 +7782,12 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                calendarSites: context.Forms.Data("DashboardPartCalendarSites"),
+                calendarGroupBy: context.Forms.Data("DashboardPartCalendarGroupBy"),
+                calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
+                calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
+                calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));
             SiteSettings.DashboardParts.Add(dashboardPart);
@@ -7812,6 +7845,12 @@ namespace Implem.Pleasanter.Models
                 content: context.Forms.Data("DashboardPartContent"),
                 htmlContent: context.Forms.Data("DashboardPartHtmlContent"),
                 timeLineDisplayType: context.Forms.Data("DashboardPartTimeLineDisplayType").ToEnum<TimeLineDisplayType>(),
+                calendarSites: context.Forms.Data("DashboardPartCalendarSites"),
+                calendarGroupBy: context.Forms.Data("DashboardPartCalendarGroupBy"),
+                calendarTimePeriod: context.Forms.Data("DashboardPartCalendarTimePeriod"),
+                calendarFromTo: context.Forms.Data("DashboardPartCalendarFromTo"),
+                calendarShowStatus: context.Forms.Bool("CalendarShowStatus"),
+                calendarType: context.Forms.Data("DashboardPartCalendarType").ToEnum<CalendarType>(),
                 extendedCss: context.Forms.Data("DashboardPartExtendedCss"),
                 permissions: DashboardPartPermissions(context: context));
             res
@@ -7980,6 +8019,61 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void UpdateDashboardPartCalendarSites(Context context, ResponseCollection res)
+        {
+            var savedCalendarSites = context.Forms.Data("SavedDashboardPartCalendarSites");
+            var calendarSites = context.Forms.Data("DashboardPartCalendarSitesEdit");
+            var savedSs = DashboardPart.GetCalendarBaseSiteSettings(
+                context: context,
+                calendarSitesString: savedCalendarSites);
+            var currentSs = DashboardPart.GetCalendarBaseSiteSettings(
+                    context: context,
+                    calendarSitesString: calendarSites);
+            if (currentSs == null || currentSs.SiteId == 0)
+            {
+                res.Message(
+                    message: new Message(
+                        id: "InvalidCalendarSites",
+                        text: Displays.InvalidTimeLineSites(context: context),
+                        css: "alert-error"),
+                    target: "#DashboardPartCalendarSitesMessage");
+            }
+            else if (savedSs == null || savedSs?.SiteId == 0 || savedSs?.SiteId == currentSs?.SiteId)
+            {
+                res
+                    .Set(
+                        target: "#DashboardPartCalendarSites",
+                        value: calendarSites)
+                    .Set(
+                        target: "#DashboardPartBaseCalendarSiteId",
+                        value: currentSs.SiteId)
+                    .Add(
+                        method: "SetValue",
+                        target: "#DashboardPartCalendarSitesValue",
+                        value: calendarSites)
+                    .CloseDialog(
+                        target: "#DashboardPartCalendarSitesDialog");
+                if (savedSs == null || savedSs?.SiteId == 0)
+                {
+                    ClearDashboardCalendarView(context: context, res: res);
+                }
+            }
+            else
+            {
+                res
+                    .Invoke(
+                        methodName: "confirmCalendarSites",
+                        args: new
+                        {
+                            calendarSites,
+                            baseSiteId = currentSs.SiteId
+                        }.ToJson());
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private void ClearDashboardView(Context context, ResponseCollection res)
         {
             var currentSs = DashboardPart.GetBaseSiteSettings(
@@ -7990,6 +8084,51 @@ namespace Implem.Pleasanter.Models
                 res.Message(
                    new Message(
                        "InvalidTimeLineSites",
+                       Displays.InvalidTimeLineSites(context: context),
+                       "alert-error"));
+                return;
+            }
+            var dashboardPart = SiteSettings.DashboardParts?
+                .FirstOrDefault(o => o.Id == context.Forms.Int("DashboardPartId"));
+            if (dashboardPart != null)
+            {
+                dashboardPart.View = new View();
+            }
+            res
+                .Html(
+                    "#DashboardPartViewFiltersTabContainer",
+                    new HtmlBuilder()
+                        .ViewFiltersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            currentTableOnly: true))
+                .Html(
+                    "#DashboardPartViewSortersTabContainer",
+                    new HtmlBuilder()
+                        .ViewSortersTab(
+                            context: context,
+                            ss: currentSs,
+                            view: new View(),
+                            prefix: "DashboardPart",
+                            usekeepSorterState: false,
+                            currentTableOnly: true));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private void ClearDashboardCalendarView(Context context, ResponseCollection res)
+        {
+            var currentSs = DashboardPart.GetBaseSiteSettings(
+                context: context,
+                context.Forms.Data("DashboardPartCalendarSitesEdit"));
+            if (currentSs == null)
+            {
+                res.Message(
+                   new Message(
+                       "InvalidCalendarSites",
                        Displays.InvalidTimeLineSites(context: context),
                        "alert-error"));
                 return;

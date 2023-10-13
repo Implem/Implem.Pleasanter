@@ -7309,7 +7309,9 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly,
             bool showStatus,
             bool inRange,
-            long changedItemId = 0)
+            long changedItemId = 0,
+            string calendarType = "Standard",
+            string prefix = null)
         {
             return !bodyOnly
                 ? hb.Calendar(
@@ -7327,7 +7329,9 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows,
                     showStatus: showStatus,
                     inRange: inRange,
-                    changedItemId: changedItemId)
+                    changedItemId: changedItemId,
+                    calendarType: calendarType,
+                    prefix: prefix)
                 : hb.CalendarBody(
                     context: context,
                     ss: ss,
@@ -7343,7 +7347,9 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows,
                     showStatus: showStatus,
                     inRange: inRange,
-                    changedItemId: changedItemId);
+                    changedItemId: changedItemId,
+                    calendarType: calendarType,
+                    prefix: prefix);
         }
 
         public static string Crosstab(Context context, SiteSettings ss)

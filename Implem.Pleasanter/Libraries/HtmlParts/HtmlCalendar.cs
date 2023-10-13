@@ -34,11 +34,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<DataRow> dataRows,
             bool showStatus,
             bool inRange,
-            long changedItemId)
+            long changedItemId,
+            string calendarType,
+            string prefix,
+            Column calendarFromTo)
         {
-            if (ss.CalendarType.ToString() == "Standard")
+            if (calendarType == "Standard")
             {
-                return hb.Div(id: "Calendar", css: "both", action: () => hb
+                return hb.Div(id: $"{prefix}Calendar", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarGroupBy",
@@ -48,7 +51,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     optionCollection: ss.CalendarGroupByOptions(context: context),
                     selectedValue: groupBy?.ColumnName,
                     insertBlank: true,
-                    method: "post")
+                    method: "post",
+                    _using: !prefix.IsNullOrEmpty())
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarTimePeriod",
@@ -57,7 +61,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.Period(context: context),
                     optionCollection: ss.CalendarTimePeriodOptions(context: context),
                     selectedValue: timePeriod,
-                    method: "post")
+                    method: "post",
+                    _using: !prefix.IsNullOrEmpty())
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarFromTo",
@@ -69,11 +74,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? fromColumn?.ColumnName
                         : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
                     action: "Calendar",
-                    method: "post")
+                    method: "post",
+                    _using: !prefix.IsNullOrEmpty())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.DateTime,
                     fieldCss: "field-auto-thin",
-                    controlId: "CalendarDate",
+                    controlId: $"{prefix}CalendarDate",
                     controlCss: " w100 auto-postback always-send",
                     labelText: "",
                     text: date
@@ -104,10 +110,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlCss: " auto-postback",
                     labelText: Displays.ShowStatus(context: context),
                     _checked: showStatus,
-                    method: "post")
+                    method: "post",
+                    _using: !prefix.IsNullOrEmpty())
                 .Div(
                     attributes: new HtmlAttributes()
-                        .Id("CalendarBody")
+                        .Id($"{prefix}CalendarBody")
                         .DataAction("UpdateByCalendar")
                         .DataMethod("post"),
                     action: () => hb
@@ -126,9 +133,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             dataRows: dataRows,
                             showStatus: showStatus,
                             inRange: inRange,
-                            changedItemId: changedItemId)));
+                            changedItemId: changedItemId,
+                            calendarType: calendarType,
+                            prefix: prefix,
+                            calendarFromTo: calendarFromTo)));
             } else {
-                return hb.Div(id: "Calendar", css: "both", action: () => hb
+                return hb.Div(id: $"{prefix}Full", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarFromTo",
@@ -140,21 +150,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? fromColumn?.ColumnName
                         : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
                     action: "Calendar",
-                    method: "post")
+                    method: "post",
+                    _using: !prefix.IsNullOrEmpty())
                 .FieldCheckBox(
                     controlId: "CalendarShowStatus",
                     fieldCss: "field-auto-thin",
                     controlCss: " auto-postback",
                     labelText: Displays.ShowStatus(context: context),
                     _checked: showStatus,
-                    method: "post")
+                    method: "post",
+                    _using: !prefix.IsNullOrEmpty())
                 .Div(
                     attributes: new HtmlAttributes()
-                        .Id("FullCalendar")
+                        .Id($"{prefix}FullCalendar")
                     )
                 .Div(
                     attributes: new HtmlAttributes()
-                        .Id("FullCalendarBody")
+                        .Id($"{prefix}FullCalendarBody")
                         .DataAction("UpdateByCalendar")
                         .DataMethod("post"),
                     action: () => hb
@@ -173,7 +185,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             dataRows: dataRows,
                             showStatus: showStatus,
                             inRange: inRange,
-                            changedItemId: changedItemId)));
+                            changedItemId: changedItemId,
+                            calendarType: calendarType,
+                            prefix: prefix,
+                            calendarFromTo: calendarFromTo)));
             }
         }
 
@@ -194,11 +209,17 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             IEnumerable<DataRow> dataRows,
             bool showStatus,
             bool inRange,
-            long changedItemId)
+            long changedItemId,
+            string calendarType,
+            string prefix,
+            Column calendarFromTo)
         {
             hb
                 .Hidden(
-                    controlId: "CalendarCanUpdate",
+                    controlId: $"{prefix}CalendarFromTo",
+                    value: calendarFromTo.ToString())
+                .Hidden(
+                    controlId: $"{prefix}CalendarCanUpdate",
                     value: (fromColumn?.RecordedTime != true
                         && fromColumn?.GetEditorReadOnly() != true
                         && fromColumn?.CanUpdate(
@@ -208,35 +229,35 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         && timePeriod != "Yearly"
                         && groupBy == null).ToOneOrZeroString())
                 .Hidden(
-                    controlId: "CalendarPrevious",
+                    controlId: $"{prefix}CalendarPrevious",
                     value: Times.PreviousCalendar(
                         context: context,
                         month: date,
                         timePeriod: timePeriod))
                 .Hidden(
-                    controlId: "CalendarNext",
+                    controlId: $"{prefix}CalendarNext",
                     value: Times.NextCalendar(
                         context: context,
                         month: date,
                         timePeriod: timePeriod))
                 .Hidden(
-                    controlId: "CalendarToday",
+                    controlId: $"{prefix}CalendarToday",
                     value: Times.Today(
                         context: context))
                 .Hidden(
-                    controlId: "CalendarFromDefaultInput",
+                    controlId: $"{prefix}CalendarFromDefaultInput",
                     value: fromColumn?.DefaultInput)
                 .Hidden(
-                    controlId: "CalendarToDefaultInput",
+                    controlId: $"{prefix}CalendarToDefaultInput",
                     value: toColumn?.DefaultInput)
                 .Hidden(
-                    controlId: "CalendarType",
-                    value: ss.CalendarType.ToString());
-            if (ss.CalendarType.ToString() == "Standard") { 
+                    controlId: $"{prefix}CalendarType",
+                    value: calendarType);
+            if (calendarType == "Standard") { 
                 return inRange
                     ? hb
                         .Hidden(
-                            controlId: "CalendarJson",
+                            controlId: $"{prefix}CalendarJson",
                             value: choices == null
                                 ? Json(
                                     context: context,
@@ -267,23 +288,23 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return inRange
                     ? hb
                         .Hidden(
-                            controlId: "CalendarStart",
+                            controlId: $"{prefix}CalendarStart",
                             value: begin.ToString()
                         )
                         .Hidden(
-                            controlId: "CalendarEnd",
+                            controlId: $"{prefix}CalendarEnd",
                             value: end.ToString()
                         )
                         .Hidden(
-                            controlId: "CalendarViewType",
+                            controlId: $"{prefix}CalendarViewType",
                             value: CalendarViewType.ToString()
                         )
                         .Hidden(
-                            controlId:"IsInit",
+                            controlId:$"{prefix}IsInit",
                             value: "True"
                         )
                         .Hidden(
-                            controlId: "CalendarJson",
+                            controlId: $"{prefix}CalendarJson",
                             value: choices == null
                                 ? Json(
                                     context: context,

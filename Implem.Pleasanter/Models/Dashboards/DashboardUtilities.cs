@@ -106,6 +106,11 @@ namespace Implem.Pleasanter.Models
                         return CustomHtmlLayouyt(
                             context: context,
                             dashboardPart: dashboardPart);
+                    case DashboardPartType.Calendar:
+                        return CalendarLayout(
+                            context: context,
+                            ss: ss,
+                            dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
                 };
@@ -1975,6 +1980,162 @@ namespace Implem.Pleasanter.Models
                         Updator = model.Updator
                     };
                 });
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static DashboardPartLayout CalendarLayout(
+            Context context,
+            SiteSettings ss,
+            DashboardPart dashboardPart)
+        {
+            var timeLineItems = GetTimeLineRecords(
+                context: context,
+                dashboardPart: dashboardPart);
+            var hb = new HtmlBuilder();
+            var timeLine = hb
+                .Div(
+                    id: $"DashboardPart_{dashboardPart.Id}",
+                    attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
+                    css: "dashboard-timeline-container " + dashboardPart.ExtendedCss,
+                    action: () =>
+                    {
+                        if (dashboardPart.ShowTitle == true)
+                        {
+                            hb.Div(
+                                css: "dashboard-part-title",
+                                action: () => hb.Text(dashboardPart.Title));
+                        }
+                        hb.Hidden(
+                            controlId: $"CalendarFromTo",
+                            value:dashboardPart.CalendarFromTo
+                            );
+                        
+                    }).ToString();
+
+            return new DashboardPartLayout()
+            {
+                Id = dashboardPart.Id,
+                X = dashboardPart.X,
+                Y = dashboardPart.Y,
+                W = dashboardPart.Width,
+                H = dashboardPart.Height,
+                Content = timeLine
+            };
+        }
+
+        private static string GetCalendarRecords(Context context, DashboardPart dashboardPart)
+        {
+            //基準となるサイトからSiteSettingsを取得
+            var ss = SiteSettingsUtilities.Get(
+                context: context,
+                siteId: dashboardPart.SiteId);
+            //Viewからフィルタ条件とソート条件を取得
+            var where = dashboardPart.View.Where(
+                context: context,
+                ss: ss);
+            var orderBy = dashboardPart.View.OrderBy(
+                context: context,
+                ss: ss);
+            if (ss.ReferenceType == "Issues")
+            {
+                return GetCalendarIssues(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: orderBy,
+                    titleTemplate: dashboardPart.TimeLineTitle,
+                    bodyTemplate: dashboardPart.TimeLineBody,
+                    top: dashboardPart.TimeLineItemCount);
+            }
+            else if (ss.ReferenceType == "Results")
+            {
+                return GetCalendarResults(
+                    context: context,
+                    ss: ss,
+                    where: where,
+                    orderBy: orderBy,
+                    titleTemplate: dashboardPart.TimeLineTitle,
+                    bodyTemplate: dashboardPart.TimeLineBody,
+                    top: dashboardPart.TimeLineItemCount);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private static string GetCalendarIssues(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            string titleTemplate,
+            string bodyTemplate,
+            int top)
+        {
+            var issues = new IssueCollection(
+                context: context,
+                ss: ss,
+                top: top,
+                where: where,
+                orderBy: orderBy,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                            where,
+                            orderBy
+                    }
+                ));
+            var title = ss.LabelTextToColumnName(titleTemplate);
+            var body = ss.LabelTextToColumnName(bodyTemplate);
+            //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
+            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+                siteId => siteId,
+                siteId => SiteSettingsUtilities.Get(
+                    context: context,
+                    siteId: siteId))
+                ?? new Dictionary<long, SiteSettings>();
+            return null;
+        }
+
+        private static string GetCalendarResults(
+            Context context,
+            SiteSettings ss,
+            SqlWhereCollection where,
+            SqlOrderByCollection orderBy,
+            string titleTemplate,
+            string bodyTemplate,
+            int top)
+        {
+            var results = new ResultCollection(
+                context: context,
+                ss: ss,
+                top: top,
+                where: where,
+                orderBy: orderBy,
+                join: ss.Join(
+                    context: context,
+                    join: new IJoin[]
+                    {
+                            where,
+                            orderBy
+                    }
+                ));
+            var title = ss.LabelTextToColumnName(titleTemplate);
+            var body = ss.LabelTextToColumnName(bodyTemplate);
+            //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
+            //JoinedSsHashにある場合はそちらを利用し、ない場合は作成する
+            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
+                siteId => siteId,
+                siteId => ss.JoinedSsHash?.Get(siteId)
+                    ?? SiteSettingsUtilities.Get(
+                        context: context,
+                        siteId: siteId))
+                        ?? new Dictionary<long, SiteSettings>();
+            return null;
         }
     }
 }

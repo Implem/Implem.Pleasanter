@@ -7299,7 +7299,15 @@ namespace Implem.Pleasanter.Models
                     name: Displays.Crosstab(context: context)));
         }
 
-        public static string Calendar(Context context, SiteSettings ss)
+        public static string Calendar(
+            Context context,
+            SiteSettings ss,
+            string prefix = null,
+            long siteId = 0,
+            Column calendargroupBy = null,
+            string calendarTimePeriod = null,
+            Column calendarFromTo = null,
+            bool calendarShowStatus = false)
         {
             if (!ss.EnableViewMode(context: context, name: "Calendar"))
             {
@@ -7311,8 +7319,12 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(context: context, ss: ss);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
-                siteId: ss.SiteId);
-            var timePeriod = view.GetCalendarTimePeriod(ss: ss);
+                siteId: prefix.IsNullOrEmpty()
+                    ? ss.SiteId
+                    : siteId);
+            var timePeriod = prefix.IsNullOrEmpty()
+                ? view.GetCalendarTimePeriod(ss: ss)
+                : calendarTimePeriod;
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
@@ -7320,9 +7332,11 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
             var date = view.GetCalendarDate();
-            var groupBy = ss.GetColumn(
-                context: context,
-                columnName: view.GetCalendarGroupBy());
+            var groupBy = prefix.IsNullOrEmpty()
+                ? ss.GetColumn(
+                    context: context,
+                    columnName: view.GetCalendarGroupBy())
+                : calendargroupBy;
             var choices = groupBy?.EditChoices(
                 context: context,
                 insertBlank: true,
@@ -7365,6 +7379,7 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
+            var calendarType = ss.CalendarType.ToString();
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -7386,8 +7401,13 @@ namespace Implem.Pleasanter.Models
                         choices: choices,
                         dataRows: dataRows,
                         bodyOnly: false,
-                        showStatus: view.CalendarShowStatus == true,
-                        inRange: inRange));
+                        showStatus: prefix.IsNullOrEmpty()
+                            ? view.CalendarShowStatus == true
+                            : calendarShowStatus,
+                        inRange: inRange,
+                        calendarType: calendarType,
+                        prefix: prefix,
+                        calendarFromTo: calendarFromTo));
         }
 
         public static string UpdateByCalendar(Context context, SiteSettings ss)
@@ -7501,6 +7521,8 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
+            var calendarType = ss.CalendarType.ToString();
+            var prefix = "";
             var body = new HtmlBuilder().Calendar(
                 context: context,
                 ss: ss,
@@ -7517,7 +7539,9 @@ namespace Implem.Pleasanter.Models
                 bodyOnly: bodyOnly,
                 showStatus: view.CalendarShowStatus == true,
                 inRange: inRange,
-                changedItemId: changedItemId);
+                changedItemId: changedItemId,
+                calendarType: calendarType,
+                prefix: prefix);
             var CalendarBodyName = "";
             if (ss.CalendarType.ToString() == "Standard"){
                 CalendarBodyName = "#CalendarBody";
@@ -7649,7 +7673,10 @@ namespace Implem.Pleasanter.Models
             bool bodyOnly,
             bool showStatus,
             bool inRange,
-            long changedItemId = 0)
+            long changedItemId = 0,
+            string calendarType = "Standard",
+            string prefix = null,
+            Column calendarFromTo = null)
         {
             return !bodyOnly
                 ? hb.Calendar(
@@ -7667,7 +7694,10 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows,
                     showStatus: showStatus,
                     inRange: inRange,
-                    changedItemId: changedItemId)
+                    changedItemId: changedItemId,
+                    calendarType: calendarType,
+                    prefix: prefix,
+                    calendarFromTo: calendarFromTo)
                 : hb.CalendarBody(
                     context: context,
                     ss: ss,
@@ -7683,7 +7713,10 @@ namespace Implem.Pleasanter.Models
                     dataRows: dataRows,
                     showStatus: showStatus,
                     inRange: inRange,
-                    changedItemId: changedItemId);
+                    changedItemId: changedItemId,
+                    calendarType: calendarType,
+                    prefix: prefix,
+                    calendarFromTo: calendarFromTo);
         }
 
         public static string Crosstab(Context context, SiteSettings ss)
