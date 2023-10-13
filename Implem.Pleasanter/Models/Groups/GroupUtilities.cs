@@ -2096,6 +2096,292 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static ContentResultInheritance ImportByApi(Context context, SiteSettings ss)
+        {
+            if (!Mime.ValidateOnApi(contentType: context.ContentType, multipart: true))
+            {
+                return ApiResults.BadRequest(context: context);
+            }
+            if (context.ContractSettings.Import == false)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.Restricted(context: context).Text));
+            }
+            var invalid = UserValidators.OnImporting(
+                context: context,
+                ss: ss,
+                api: true);
+            switch (invalid.Type)
+            {
+                case Error.Types.None:
+                    break;
+                default:
+                    return ApiResults.Error(
+                        context: context,
+                        errorData: invalid);
+            }
+            var api = context.RequestDataString.Deserialize<ImportApi>();
+            var encoding = api.Encoding;
+            var replaceAllGroupMembers = api.ReplaceAllGroupMembers;
+            Csv csv;
+            try
+            {
+                csv = new Csv(
+                    csv: context.PostedFiles.FirstOrDefault().Byte(),
+                    encoding: encoding);
+            }
+            catch
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FailedReadFile(context: context).Text));
+            }
+            var count = csv.Rows.Count();
+            if (Parameters.General.ImportMax > 0 && Parameters.General.ImportMax < count)
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ImportMax.Message(
+                        context: context,
+                        data: Parameters.General.ImportMax.ToString()).Text));
+            }
+            if (context.ContractSettings.ItemsLimit(context: context, siteId: ss.SiteId, number: count))
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Error.Types.ItemsLimit.Message(context: context).Text));
+            }
+            if (csv != null && count > 0)
+            {
+                var columnHash = ImportUtilities.GetColumnHash(ss, csv);
+                var idColumn = columnHash
+                    .Where(o =>
+                        o.Value.Column.ColumnName == "GroupId")
+                    .Select(o =>
+                        new { Id = o.Key })
+                    .FirstOrDefault()?.Id ?? -1;
+                var invalidColumn = Imports.ApiColumnValidate(
+                    context,
+                    ss,
+                    columnHash.Values.Select(o => o.Column.ColumnName),
+                    columnNames: "GroupName");
+                if (invalidColumn != null)
+                {
+                    return ApiResults.Get(new ApiResponse(
+                        id: context.Id,
+                        statusCode: 500,
+                        message: invalidColumn));
+                }
+                var groups = new List<GroupModel>();
+                foreach (var data in csv.Rows.Select((o, i) =>
+                    new { Row = o, Index = i }))
+                {
+                    var groupModel = new GroupModel(
+                        context: context,
+                        ss: ss);
+                    if (idColumn > -1)
+                    {
+                        var model = new GroupModel(
+                            context: context,
+                            ss: ss,
+                            groupId: data.Row[idColumn].ToInt());
+                        if (model.AccessStatus == Databases.AccessStatuses.Selected)
+                        {
+                            groupModel = model;
+                        }
+                    }
+                    foreach (var column in columnHash)
+                    {
+                        var recordingData = ImportRecordingData(
+                            context: context,
+                            column: column.Value.Column,
+                            value: data.Row[column.Key],
+                            inheritPermission: ss.InheritPermission);
+                        switch (column.Value.Column.ColumnName)
+                        {
+                            case "GroupId":
+                                groupModel.GroupId = recordingData.ToInt();
+                                break;
+                            case "GroupName":
+                                groupModel.GroupName = recordingData;
+                                break;
+                            case "Body":
+                                groupModel.Body = recordingData;
+                                break;
+                            case "Comments":
+                                if (groupModel.AccessStatus != Databases.AccessStatuses.Selected &&
+                                    !data.Row[column.Key].IsNullOrEmpty())
+                                {
+                                    groupModel.Comments.Prepend(
+                                        context: context,
+                                        ss: ss,
+                                        body: data.Row[column.Key]);
+                                }
+                                break;
+                            case "Disabled":
+                                groupModel.Disabled = recordingData.ToBool();
+                                break;
+                            case "MemberType":
+                                groupModel.MemberType = recordingData.ToString();
+                                break;
+                            case "MemberKey":
+                                groupModel.MemberKey = recordingData.ToString();
+                                break;
+                            case "MemberName":
+                                groupModel.MemberName = recordingData.ToString();
+                                break;
+                            case "MemberIsAdmin":
+                                groupModel.MemberIsAdmin = recordingData.ToBool();
+                                break;
+                            default:
+                                groupModel.SetValue(
+                                    context: context,
+                                    column: column.Value.Column,
+                                    value: recordingData);
+                                break;
+                        }
+                    }
+                    var csvRowForError = data.Index + 2;
+                    if (!ValidateMemberType(memberType: groupModel.MemberType))
+                    {
+                        return ApiResults.Get(new ApiResponse(
+                            id: context.Id,
+                            statusCode: 500,
+                            message: ApiInvalidMemberTypeError(
+                                context: context,
+                                errorCsvRow: csvRowForError)));
+                    }
+                    if (!ValidateMemberKey(
+                        context: context,
+                        memberType: groupModel.MemberType,
+                        memberKey: groupModel.MemberKey))
+                    {
+                        return ApiResults.Get(new ApiResponse(
+                            id: context.Id,
+                            statusCode: 500,
+                            message: ApiInvalidMemberKeyError(
+                                context: context,
+                                errorCsvRow: csvRowForError)));
+                    }
+                    groups.Add(groupModel);
+                };
+                if (replaceAllGroupMembers == true)
+                {
+                    groups
+                        .Select(o => o.GroupId)
+                        .Distinct()
+                        .ForEach(groupId =>
+                            PhysicalDeleteGroupMembers(
+                                context: context,
+                                groupId: groupId));
+                }
+                var insertGroupCount = 0;
+                var updateGroupCount = 0;
+                var insertGroupMemberCount = 0;
+                var updateGroupMemberCount = 0;
+                var newGroups = new Dictionary<string, GroupModel>();
+                foreach (var groupModel in groups)
+                {
+                    if (groupModel.AccessStatus == Databases.AccessStatuses.Selected)
+                    {
+                        var errorData = UpdateGroup(
+                            context: context,
+                            ss: ss,
+                            groupModel: groupModel,
+                            updateGroupCount: ref updateGroupCount);
+                        switch (errorData.Type)
+                        {
+                            case Error.Types.None:
+                                break;
+                            default:
+                                return ApiResults.Error(
+                                    context: context,
+                                    errorData: errorData);
+                        }
+                    }
+                    else
+                    {
+                        if (!newGroups.ContainsKey(groupModel.GroupName))
+                        {
+                            var errorData = groupModel.Create(
+                                context: context,
+                                ss: ss,
+                                get: false);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                            insertGroupCount++;
+                            newGroups.Add(groupModel.GroupName, groupModel);
+                        }
+                        else
+                        {
+                            groupModel.GroupId = newGroups[groupModel.GroupName].GroupId;
+                            var errorData = UpdateGroup(
+                                context: context,
+                                ss: ss,
+                                groupModel: groupModel,
+                                updateGroupCount: ref updateGroupCount);
+                            switch (errorData.Type)
+                            {
+                                case Error.Types.None:
+                                    break;
+                                default:
+                                    return ApiResults.Error(
+                                        context: context,
+                                        errorData: errorData);
+                            }
+                        }
+                    }
+                    if (!groupModel.MemberType.IsNullOrEmpty())
+                    {
+                        UpdateOrInsertGroupMember(
+                            context: context,
+                            groupModel: groupModel,
+                            insertGroupMemberCount: ref insertGroupMemberCount,
+                            updateGroupMemberCount: ref updateGroupMemberCount);
+                    }
+                }
+                SiteInfo.Reflesh(
+                    context: context,
+                    force: true);
+                return ApiResults.Success(
+                    id: context.Id,
+                    limitPerDate: context.ContractSettings.ApiLimit(),
+                    limitRemaining: context.ContractSettings.ApiLimit() - ss.ApiCount,
+                    message: Messages.Imported(
+                        context: context,
+                        data: new string[]
+                        {
+                            ss.Title,
+                            insertGroupCount.ToString(),
+                            updateGroupCount.ToString(),
+                            insertGroupMemberCount.ToString(),
+                            updateGroupMemberCount.ToString()
+                        }).Text);
+            }
+            else
+            {
+                return ApiResults.Get(new ApiResponse(
+                    id: context.Id,
+                    statusCode: 500,
+                    message: Messages.FileNotFound(context: context).Text));
+            }
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static ErrorData UpdateGroup(
             Context context,
             SiteSettings ss,
@@ -2144,11 +2430,31 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private static string ApiInvalidMemberTypeError(Context context, int errorCsvRow)
+        {
+            return Error.Types.InvalidMemberType.Message(
+                context: context,
+                data: errorCsvRow.ToString()).Text;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string InvalidMemberKeyError(Context context, int errorCsvRow)
         {
             return Error.Types.InvalidMemberKey.MessageJson(
                 context: context,
                 data: errorCsvRow.ToString());
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string ApiInvalidMemberKeyError(Context context, int errorCsvRow)
+        {
+            return Error.Types.InvalidMemberKey.Message(
+                context: context,
+                data: errorCsvRow.ToString()).Text;
         }
 
         /// <summary>

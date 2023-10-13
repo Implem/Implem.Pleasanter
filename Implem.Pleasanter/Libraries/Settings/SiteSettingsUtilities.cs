@@ -371,7 +371,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             return ss;
         }
 
-        public static SiteSettings UsersSiteSettings(Context context)
+        public static SiteSettings UsersSiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
         {
             var ss = new SiteSettings()
             {
@@ -381,6 +381,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             ss.SetLinks(context: context);
             ss.SetChoiceHash(context: context, withLink: false);
             ss.PermissionType = Permissions.Admins(context: context);
+            ss.TableType = tableTypes;
             // ContractSettingsでAPIが無効化されている場合は無条件で使用できなくする
             // APIを許可の項目は、APIの無効化が設定されていない場合には使用できなくする
             // APIの無効化はUser.jsonまたはテナントの管理の何れかで設定する

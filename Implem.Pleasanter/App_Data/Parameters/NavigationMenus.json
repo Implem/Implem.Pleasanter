@@ -152,6 +152,12 @@
                 "Name": "TrashBox",
                 "Icon": "ui-icon ui-icon-trash",
                 "LinkParams": [ "Groups", "TrashBox" ]
+            },
+            {
+                "MenuId": "SettingsMenu_UserTrashBox",
+                "Name": "TrashBox",
+                "Icon": "ui-icon ui-icon-trash",
+                "LinkParams": [ "Users", "TrashBox" ]
             }
         ]
     },
