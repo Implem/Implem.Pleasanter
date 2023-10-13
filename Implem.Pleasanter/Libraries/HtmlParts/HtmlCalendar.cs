@@ -52,7 +52,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     selectedValue: groupBy?.ColumnName,
                     insertBlank: true,
                     method: "post",
-                    _using: !prefix.IsNullOrEmpty())
+                    _using: prefix.IsNullOrEmpty())
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarTimePeriod",
@@ -62,7 +62,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     optionCollection: ss.CalendarTimePeriodOptions(context: context),
                     selectedValue: timePeriod,
                     method: "post",
-                    _using: !prefix.IsNullOrEmpty())
+                    _using: prefix.IsNullOrEmpty())
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarFromTo",
@@ -75,7 +75,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
                     action: "Calendar",
                     method: "post",
-                    _using: !prefix.IsNullOrEmpty())
+                    _using: prefix.IsNullOrEmpty())
                 .FieldTextBox(
                     textType: HtmlTypes.TextTypes.DateTime,
                     fieldCss: "field-auto-thin",
@@ -91,18 +91,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     text: Displays.Previous(context: context),
                     controlCss: "button-icon",
                     accessKey: "b",
-                    onClick: "$p.moveCalendar('Previous');",
+                    onClick: $"$p.moveCalendar('Previous',{prefix});",
                     icon: "ui-icon-seek-prev")
                 .Button(
                     text: Displays.Next(context: context),
                     controlCss: "button-icon",
                     accessKey: "n",
-                    onClick: "$p.moveCalendar('Next');",
+                    onClick: $"$p.moveCalendar('Next',{prefix});",
                     icon: "ui-icon-seek-next")
                 .Button(
                     text: Displays.Today(context: context),
                     controlCss: "button-icon",
-                    onClick: "$p.moveCalendar('Today');",
+                    onClick: $"$p.moveCalendar('Today',{prefix});",
                     icon: "ui-icon-calendar")
                 .FieldCheckBox(
                     controlId: "CalendarShowStatus",
@@ -111,7 +111,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.ShowStatus(context: context),
                     _checked: showStatus,
                     method: "post",
-                    _using: !prefix.IsNullOrEmpty())
+                    _using: prefix.IsNullOrEmpty())
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id($"{prefix}CalendarBody")
@@ -151,7 +151,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         : $"{fromColumn?.ColumnName}-{toColumn?.ColumnName}",
                     action: "Calendar",
                     method: "post",
-                    _using: !prefix.IsNullOrEmpty())
+                    _using: prefix.IsNullOrEmpty())
                 .FieldCheckBox(
                     controlId: "CalendarShowStatus",
                     fieldCss: "field-auto-thin",
@@ -159,7 +159,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     labelText: Displays.ShowStatus(context: context),
                     _checked: showStatus,
                     method: "post",
-                    _using: !prefix.IsNullOrEmpty())
+                    _using: prefix.IsNullOrEmpty())
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id($"{prefix}FullCalendar")
@@ -217,7 +217,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             hb
                 .Hidden(
                     controlId: $"{prefix}CalendarFromTo",
-                    value: calendarFromTo.ToString())
+                    value: calendarFromTo?.ToString(),
+                    _using: prefix.IsNullOrEmpty())
                 .Hidden(
                     controlId: $"{prefix}CalendarCanUpdate",
                     value: (fromColumn?.RecordedTime != true
