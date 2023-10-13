@@ -226,11 +226,18 @@
         //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
-        $('#DashboardPartCalendarGroupByField').toggle(selected === '4');
+        $('#DashboardPartCalendarGroupByField').toggle(selected === '4' && ($("#DashboardPartCalendarType").val() === '0'));
         $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');
         //selected==1||selected==4: TimeLineとCalendarのみ表示
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
+    });
+
+    $(document).on('change', '#DashboardPartCalendarType', function () {
+        
+        $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '0');
+        $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '0');
+
     });
 });
