@@ -631,7 +631,7 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            if(!BinaryUtilities.ValidateDownloadTemp(context: context, guid: guid))
+            if (!BinaryUtilities.ValidateDownloadTemp(context: context, guid: guid))
             {
                 return null;
             }
