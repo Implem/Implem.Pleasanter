@@ -1213,6 +1213,10 @@ namespace Implem.Pleasanter.Models
                         .TenantId(context.TenantId)
                         .ReferenceId(GroupId)
                         .BinaryType(value: "TenantManagementImages")),
+                Rds.DeleteGroupMembers(
+                    factory: context,
+                    where: Rds.GroupMembersWhere()
+                        .GroupId(GroupId)),
                 Rds.DeleteGroups(
                     factory: context,
                     where: where),
