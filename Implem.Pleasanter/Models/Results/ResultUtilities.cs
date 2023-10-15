@@ -2947,6 +2947,10 @@ namespace Implem.Pleasanter.Models
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
             }
+            if (copyFrom > 0)
+            {
+                resultModel.Comments.Clear();
+            }
             var processes = ss.Processes
                 ?.Where(process => process.IsTarget(context: context))
                 .ToList() ?? new List<Process>();
