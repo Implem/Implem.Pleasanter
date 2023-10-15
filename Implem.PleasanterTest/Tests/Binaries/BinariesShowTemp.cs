@@ -16,12 +16,14 @@ namespace Implem.PleasanterTest.Tests.Binaries
         public void Test(
             string title,
             string guid,
-            UserModel userModel)
+            UserModel userModel,
+            string sessionGuid)
         {
             var id = Initializer.Titles.Get(title);
             var context = ContextData.Get(
                 userId: userModel.UserId,
                 routeData: RouteData.BinariesShowTemp(id: id));
+            context.SessionGuid = sessionGuid;
             var results = Results(
                 context: context,
                 guid: guid);
@@ -32,23 +34,24 @@ namespace Implem.PleasanterTest.Tests.Binaries
         {
             var id = Initializer.Titles.Get("運用管理システムの構築");
             var guid = Strings.NewGuid();
+            var context = ContextData.Get(
+                userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
+                routeData: RouteData.BinariesUpload(id: id),
+                httpMethod: "POST",
+                forms: FormsUtilities.Get(
+                    new KeyValue("ControlId", "Issues_AttachmentsA"),
+                    new KeyValue("ColumnName", "AttachmentsA"),
+                    new KeyValue("AttachmentsData", "[]"),
+                    new KeyValue("fileNames", "[\"Attachments.txt\"]"),
+                    new KeyValue("fileSizes", "[15]"),
+                    new KeyValue("fileTypes", "[\"text/plain\"]"),
+                    new KeyValue("FileHash", "242988169a3d92a28807ff02153d5e3a"),
+                    new KeyValue("uuid", guid),
+                    new KeyValue("Uuids", guid)),
+                fileName: "Attachments.txt",
+                contentType: "text/json");
             BinaryUtilities.UploadFile(
-                context: ContextData.Get(
-                    userId: UserData.Get(userType: UserData.UserTypes.General1).UserId,
-                    routeData: RouteData.BinariesUpload(id: id),
-                    httpMethod: "POST",
-                    forms: FormsUtilities.Get(
-                        new KeyValue("ControlId", "Issues_AttachmentsA"),
-                        new KeyValue("ColumnName", "AttachmentsA"),
-                        new KeyValue("AttachmentsData", "[]"),
-                        new KeyValue("fileNames", "[\"Attachments.txt\"]"),
-                        new KeyValue("fileSizes", "[15]"),
-                        new KeyValue("fileTypes", "[\"text/plain\"]"),
-                        new KeyValue("FileHash", "242988169a3d92a28807ff02153d5e3a"),
-                        new KeyValue("uuid", guid),
-                        new KeyValue("Uuids", guid)),
-                    fileName: "Attachments.txt",
-                    contentType: "text/json"),
+                context: context,
                 id: id,
                 contentRange: null);
             var testParts = new List<TestPart>()
@@ -62,20 +65,23 @@ namespace Implem.PleasanterTest.Tests.Binaries
                 yield return TestData(
                     title: testPart.Title,
                     guid: testPart.Guid,
-                    userModel: testPart.UserModel);
+                    userModel: testPart.UserModel,
+                    sessionGuid: context.SessionGuid);
             }
         }
 
         private static object[] TestData(
             string title,
             string guid,
-            UserModel userModel)
+            UserModel userModel,
+            string sessionGuid)
         {
             return new object[]
             {
                 title,
                 guid,
-                userModel
+                userModel,
+                sessionGuid
             };
         }
 
