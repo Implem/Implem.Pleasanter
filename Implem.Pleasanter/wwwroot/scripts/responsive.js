@@ -29,7 +29,7 @@
 }
 
 $(document).ready(function () {
-    if ($p.responsive() && screen.width < 981) {
+    if ($p.responsive() && screen.width < 1025) {
         const heightHeader = $('#Header').length > 0 ? $('#Header').height() : 100;
         $('#Application').css({
             'padding-top': `${heightHeader}px`
@@ -96,7 +96,7 @@ $.each($toggleBtns, function (i, el) {
     });
 });
 
-if (screen.width < 981) {
+if (screen.width < 1025) {
     $p.send($('#ReduceViewFilters'));
     $p.send($('#ReduceAggregations'));
 }
@@ -122,17 +122,17 @@ $(document).ready(function () {
             }
         }
     }
-    if ($p.responsive() && screen.width < 981) {
+    if ($p.responsive() && screen.width < 1025) {
         handleSMobileViewport();
     }
     window.addEventListener('resize', function () {
-        if ($p.responsive()  && screen.width < 981) {
+        if ($p.responsive() && screen.width < 1025) {
             handleSMobileViewport();
         }
     });
 });
 
-if ($p.responsive() && screen.width < 981) {
+if ($p.responsive() && screen.width < 1025) {
     $('#ViewModeContainer').on('scroll', function () {
         let scrollLeft = $(this).scrollLeft();
         if ($(this).scrollLeft() > 0) {
@@ -141,4 +141,10 @@ if ($p.responsive() && screen.width < 981) {
             });
         }
     });
+}
+
+if(navigator.userAgent.indexOf('iPhone') > -1 ) {
+    document
+      .querySelector("[name=viewport]")
+      .setAttribute("content","width=device-width, initial-scale=1, maximum-scale=1");
 }

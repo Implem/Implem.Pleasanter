@@ -29,6 +29,26 @@ namespace Implem.Pleasanter.Libraries.Models
             return null;
         }
 
+        public static string ApiColumnValidate(
+            Context context,
+            SiteSettings ss,
+            IEnumerable<string> headers,
+            params string[] columnNames)
+        {
+            foreach (var name in columnNames)
+            {
+                if (!headers.Contains(name))
+                {
+                    return Messages.NotRequiredColumn(
+                        context: context,
+                        data: ss.GetColumn(
+                            context: context,
+                            columnName: name).LabelText).Text;
+                }
+            }
+            return null;
+        }
+
         public static string Validate(Context context, Dictionary<int, string> hash, Column column)
         {
             foreach (var data in hash.Where(o => HasError(o.Value, column)))

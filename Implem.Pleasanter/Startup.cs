@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -185,6 +186,16 @@ namespace Implem.Pleasanter.NetCore
                     .AddDataProtection()
                     .PersistKeysToAzureBlobStorage(blobClient)
                     .ProtectKeysWithAzureKeyVault(new Uri(keyIdentifier), new DefaultAzureCredential());
+            }
+            else
+            {
+                services
+                    .AddOptions<KeyManagementOptions>()
+                    .Configure<IServiceScopeFactory>((options, factory) =>
+                    {
+                        options.XmlRepository = new AspNetCoreKeyManagementXmlRepository();
+                        options.XmlEncryptor = new AspNetCoreKeyManagementXmlEncryptor();
+                    });
             }
             if (Parameters.Security.HttpStrictTransportSecurity?.Enabled == true)
             {

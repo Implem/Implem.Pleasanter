@@ -630,6 +630,10 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
+            if (!BinaryUtilities.ValidateDownloadTemp(context: context, guid: guid))
+            {
+                return null;
+            }
             return FileContentResults.DownloadTemp(guid.ToUpper());
         }
 
@@ -642,8 +646,49 @@ namespace Implem.Pleasanter.Models
             {
                 return null;
             }
-            Libraries.DataSources.File.DeleteTemp(context.Forms.Data("Guid"));
+            var guid = context.Forms.Data("Guid");
+            RemoveTempFileSession(context: context, guid: guid);
+            Libraries.DataSources.File.DeleteTemp(guid);
             return "[]";
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static string GetTempFileSessionKey(string guid)
+        {
+            return $"TempFile_{guid.ToUpper()}";
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static bool ValidateDownloadTemp(Context context, string guid)
+        {
+            return SessionUtilities.Get(context: context)
+                .Any(kv => kv.Key == GetTempFileSessionKey(guid));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void SaveTempFileSession(Context context, string guid)
+        {
+            SessionUtilities.Set(
+                context: context,
+                key: GetTempFileSessionKey(guid),
+                value: string.Empty);
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private static void RemoveTempFileSession(Context context, string guid)
+        {
+            SessionUtilities.Remove(
+                context: context,
+                key: GetTempFileSessionKey(guid),
+                page: false);
         }
 
         /// <summary>
@@ -794,6 +839,7 @@ namespace Implem.Pleasanter.Models
                     new KeyValuePair<PostedFile, System.IO.FileInfo>(
                         file,
                         saveFile));
+                SaveTempFileSession(context: context, guid: fileUuid[filesIndex]);
             }
             {
                 var invalid = ValidateFileHash(resultFileNames[0].Value, contentRange, fileHash);

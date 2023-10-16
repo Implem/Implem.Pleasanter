@@ -4,7 +4,7 @@
     $p.gridstackInstance = GridStack.init({
         column: 20,
         cellHeight: 16,
-        oneColumnSize: 980,
+        oneColumnSize: 1024,
         draggable: { cancel: ".no-drag" },
         disableDrag: isMobile,
     });

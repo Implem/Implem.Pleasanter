@@ -2889,6 +2889,12 @@ namespace Implem.Pleasanter.Models
             var where = Rds.UsersWhere().UserId(UserId);
             statements.AddRange(new List<SqlStatement>
             {
+                Rds.DeleteBinaries(
+                    factory: context,
+                    where: Rds.BinariesWhere()
+                        .TenantId(context.TenantId)
+                        .ReferenceId(UserId)
+                        .BinaryType(value: "TenantManagementImages")),
                 Rds.DeleteUsers(
                     factory: context,
                     where: where),
@@ -4914,6 +4920,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public string GetReturnUrl(Context context, string returnUrl)
         {
+            if (!returnUrl.StartsWith("/") && !returnUrl.StartsWith("~/")) returnUrl = string.Empty;
             if (Permissions.PrivilegedUsers(LoginId) && Parameters.Locations.LoginAfterUrlExcludePrivilegedUsers)
             {
                 return returnUrl;
