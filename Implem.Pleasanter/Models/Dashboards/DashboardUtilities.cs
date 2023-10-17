@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+﻿using DocumentFormat.OpenXml.Math;
+using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
@@ -109,6 +110,7 @@ namespace Implem.Pleasanter.Models
                     case DashboardPartType.Calendar:
                         return CalendarLayout(
                             context: context,
+                            ss: ss,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -1986,6 +1988,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DashboardPartLayout CalendarLayout(
             Context context,
+            SiteSettings ss,
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
@@ -2005,11 +2008,19 @@ namespace Implem.Pleasanter.Models
                                 css: "dashboard-part-title",
                                 action: () => hb.Text(dashboardPart.Title));
                         }
+                        hb.Hidden(
+                            controlId: $"{dashboardPart.Id}Prefix",
+                            value: dashboardPart.Id.ToString());
                         hb.Raw(text: GetCalendarRecords(
                         context: context,
                         dashboardPart: dashboardPart).ToString());
-
+                        hb.Scripts(
+                        context: context,
+                        ss: ss,
+                        script: JavaScripts.ViewMode("calendar"),
+                        userScript: ss.ViewModeScripts(context: context));
                     }).ToString();
+
 
             return new DashboardPartLayout()
             {
