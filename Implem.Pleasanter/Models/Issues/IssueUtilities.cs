@@ -7644,8 +7644,9 @@ namespace Implem.Pleasanter.Models
             SiteSettings ss,
             string prefix = null,
             long siteId = 0,
+            string calendarType = null,
             string calendarGroupBy = null,
-            string calendarTimePeriod = "Monthly",
+            string calendarTimePeriod = null,
             string calendarFromTo = null,
             bool calendarShowStatus = false)
         {
@@ -7710,7 +7711,6 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            var calendarType = ss.CalendarType.ToString();
             
             return hb.Calendar(
                         context: context,
