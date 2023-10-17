@@ -2178,22 +2178,27 @@ namespace Implem.Pleasanter.Models
             resultModel.MethodType = resultModel.ResultId == 0
                 ? BaseModel.MethodTypes.New
                 : BaseModel.MethodTypes.Edit;
-            var editInDialog = context.Forms.Bool("EditInDialog");
-            return context.QueryStrings.Bool("control-auto-postback")
-                ? EditorFields(
+            if (context.QueryStrings.Bool("control-auto-postback"))
+            {
+                return EditorFields(
                     context: context,
                     ss: ss,
-                    resultModel: resultModel)
-                : editInDialog
+                    resultModel: resultModel);
+            }
+            else
+            {
+                var editInDialog = context.Forms.Bool("EditInDialog");
+                var html = Editor(
+                    context: context,
+                    ss: ss,
+                    resultModel: resultModel,
+                    editInDialog: editInDialog);
+                return editInDialog
                     ? new ResultsResponseCollection(
                         context: context,
                         resultModel: resultModel)
                             .Response("id", resultModel.ResultId.ToString())
-                            .Html("#EditInDialogBody", Editor(
-                                context: context,
-                                ss: ss,
-                                resultModel: resultModel,
-                                editInDialog: editInDialog))
+                            .Html("#EditInDialogBody", html)
                             .Invoke("openEditorDialog")
                             .Messages(context.Messages)
                             .Events("on_editor_load")
@@ -2202,7 +2207,7 @@ namespace Implem.Pleasanter.Models
                         resultModel: resultModel)
                             .Response("id", resultModel.ResultId.ToString())
                             .Invoke("clearDialogs")
-                            .ReplaceAll("#MainContainer", Editor(context, ss, resultModel))
+                            .ReplaceAll("#MainContainer", html)
                             .Val("#Id", resultModel.ResultId.ToString())
                             .Val("#SwitchTargets", switchTargets, _using: switchTargets != null)
                             .SetMemory("formChanged", false)
@@ -2218,6 +2223,7 @@ namespace Implem.Pleasanter.Models
                             .Messages(context.Messages)
                             .ClearFormData()
                             .Events("on_editor_load");
+            }
         }
 
         private static ResponseCollection EditorFields(
@@ -2940,6 +2946,10 @@ namespace Implem.Pleasanter.Models
             {
                 case Error.Types.None: break;
                 default: return invalid.MessageJson(context: context);
+            }
+            if (copyFrom > 0)
+            {
+                resultModel.Comments.Clear();
             }
             var processes = ss.Processes
                 ?.Where(process => process.IsTarget(context: context))
@@ -5167,7 +5177,10 @@ namespace Implem.Pleasanter.Models
             new ResultCollection(
                 context: context,
                 ss: ss,
-                column: HistoryColumn(columns),
+                column: HistoryColumn(
+                    context: context,
+                    ss: ss,
+                    columns: columns),
                 join: ss.Join(context: context),
                 where: Rds.ResultsWhere().ResultId(resultModel.ResultId),
                 orderBy: Rds.ResultsOrderBy().Ver(SqlOrderBy.Types.desc),
@@ -5204,14 +5217,19 @@ namespace Implem.Pleasanter.Models
                             }));
         }
 
-        private static SqlColumnCollection HistoryColumn(List<Column> columns)
+        private static SqlColumnCollection HistoryColumn(
+            Context context,
+            SiteSettings ss,
+            List<Column> columns)
         {
-            var sqlColumn = new Rds.ResultsColumnCollection()
-                .ResultId()
-                .Ver();
+            var sqlColumn = Rds.ResultsTitleColumn(
+                context: context,
+                ss: ss)
+                    .ResultId()
+                    .Ver();
             columns.ForEach(column =>
                 sqlColumn.ResultsColumn(columnName: column.ColumnName));
-            return sqlColumn.ItemTitle(tableName: "Results");
+            return sqlColumn;
         }
 
         public static string History(Context context, SiteSettings ss, long resultId)

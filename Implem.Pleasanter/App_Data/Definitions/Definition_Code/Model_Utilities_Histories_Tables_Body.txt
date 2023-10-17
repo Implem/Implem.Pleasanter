@@ -45,7 +45,10 @@ private static void HistoriesTableBody(
 
         <!--Model_SiteSettingsWithParameterNameLower-->
 
-        column: HistoryColumn(columns),
+        column: HistoryColumn(
+            context: context,
+            ss: ss,
+            columns: columns),
 
         <!--Model_Utilities_Histories_Join-->
 
@@ -84,11 +87,16 @@ private static void HistoriesTableBody(
                     }));
 }
 
-private static SqlColumnCollection HistoryColumn(List<Column> columns)
+private static SqlColumnCollection HistoryColumn(
+    Context context,
+    SiteSettings ss,
+    List<Column> columns)
 {
-    var sqlColumn = new Rds.#TableName#ColumnCollection()
-        .#ModelName#Id()
-        .Ver();
+    var sqlColumn = Rds.#TableName#TitleColumn(
+        context: context,
+        ss: ss)
+            .#ModelName#Id()
+            .Ver();
     columns.ForEach(column =>
         sqlColumn.#TableName#Column(columnName: column.ColumnName));
     return sqlColumn;
