@@ -109,7 +109,6 @@ namespace Implem.Pleasanter.Models
                     case DashboardPartType.Calendar:
                         return CalendarLayout(
                             context: context,
-                            ss: ss,
                             dashboardPart: dashboardPart);
                     default:
                         return new DashboardPartLayout();
@@ -1987,14 +1986,13 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private static DashboardPartLayout CalendarLayout(
             Context context,
-            SiteSettings ss,
             DashboardPart dashboardPart)
         {
-            var timeLineItems = GetTimeLineRecords(
-                context: context,
-                dashboardPart: dashboardPart);
             var hb = new HtmlBuilder();
-            var timeLine = hb
+            var calendarHtml = GetCalendarRecords(
+                            context: context,
+                            dashboardPart: dashboardPart);
+            var calendar = hb
                 .Div(
                     id: $"DashboardPart_{dashboardPart.Id}",
                     attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
@@ -2007,11 +2005,10 @@ namespace Implem.Pleasanter.Models
                                 css: "dashboard-part-title",
                                 action: () => hb.Text(dashboardPart.Title));
                         }
-                        hb.Hidden(
-                            controlId: $"CalendarFromTo",
-                            value:dashboardPart.CalendarFromTo
-                            );
-                        
+                        hb.Raw(text: GetCalendarRecords(
+                        context: context,
+                        dashboardPart: dashboardPart).ToString());
+
                     }).ToString();
 
             return new DashboardPartLayout()
@@ -2021,11 +2018,13 @@ namespace Implem.Pleasanter.Models
                 Y = dashboardPart.Y,
                 W = dashboardPart.Width,
                 H = dashboardPart.Height,
-                Content = timeLine
+                Content = calendar
             };
         }
 
-        private static string GetCalendarRecords(Context context, DashboardPart dashboardPart)
+        private static HtmlBuilder GetCalendarRecords(
+            Context context,
+            DashboardPart dashboardPart)
         {
             //基準となるサイトからSiteSettingsを取得
             var ss = SiteSettingsUtilities.Get(
@@ -2045,9 +2044,12 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: where,
                     orderBy: orderBy,
-                    titleTemplate: dashboardPart.TimeLineTitle,
-                    bodyTemplate: dashboardPart.TimeLineBody,
-                    top: dashboardPart.TimeLineItemCount);
+                    prefix: dashboardPart.Id.ToString(),
+                    siteId: dashboardPart.SiteId,
+                    calendarGroupBy: dashboardPart.View.CalendarGroupBy,
+                    calendarTimePeriod: dashboardPart.View.CalendarTimePeriod,
+                    calendarFromTo: dashboardPart.View.CalendarFromTo,
+                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false);
             }
             else if (ss.ReferenceType == "Results")
             {
@@ -2056,9 +2058,12 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     where: where,
                     orderBy: orderBy,
-                    titleTemplate: dashboardPart.TimeLineTitle,
-                    bodyTemplate: dashboardPart.TimeLineBody,
-                    top: dashboardPart.TimeLineItemCount);
+                    prefix: dashboardPart.Id.ToString(),
+                    siteId: dashboardPart.SiteId,
+                    calendarGroupBy: dashboardPart.View.CalendarGroupBy,
+                    calendarTimePeriod: dashboardPart.View.CalendarTimePeriod,
+                    calendarFromTo: dashboardPart.View.CalendarFromTo,
+                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false);
             }
             else
             {
@@ -2066,75 +2071,51 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static string GetCalendarIssues(
+        private static HtmlBuilder GetCalendarIssues(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
             SqlOrderByCollection orderBy,
-            string titleTemplate,
-            string bodyTemplate,
-            int top)
+            string prefix,
+            long siteId,
+            string calendarGroupBy,
+            string calendarTimePeriod,
+            string calendarFromTo,
+            bool calendarShowStatus)
         {
-            var issues = new IssueCollection(
+            var issues = IssueUtilities.DashboardCalendar(
                 context: context,
                 ss: ss,
-                top: top,
-                where: where,
-                orderBy: orderBy,
-                join: ss.Join(
-                    context: context,
-                    join: new IJoin[]
-                    {
-                            where,
-                            orderBy
-                    }
-                ));
-            var title = ss.LabelTextToColumnName(titleTemplate);
-            var body = ss.LabelTextToColumnName(bodyTemplate);
-            //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
-            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
-                siteId => siteId,
-                siteId => SiteSettingsUtilities.Get(
-                    context: context,
-                    siteId: siteId))
-                ?? new Dictionary<long, SiteSettings>();
-            return null;
+                prefix: prefix,
+                siteId: siteId,
+                calendarGroupBy: calendarGroupBy,
+                calendarTimePeriod: !calendarTimePeriod.IsNullOrEmpty() ? calendarTimePeriod : "Monthly",
+                calendarFromTo: calendarFromTo,
+                calendarShowStatus: calendarShowStatus);
+            return issues;
         }
 
-        private static string GetCalendarResults(
+        private static HtmlBuilder GetCalendarResults(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
             SqlOrderByCollection orderBy,
-            string titleTemplate,
-            string bodyTemplate,
-            int top)
+            string prefix,
+            long siteId,
+            string calendarGroupBy,
+            string calendarTimePeriod,
+            string calendarFromTo,
+            bool calendarShowStatus)
         {
-            var results = new ResultCollection(
+            var results = ResultUtilities.Calendar(
                 context: context,
                 ss: ss,
-                top: top,
-                where: where,
-                orderBy: orderBy,
-                join: ss.Join(
-                    context: context,
-                    join: new IJoin[]
-                    {
-                            where,
-                            orderBy
-                    }
-                ));
-            var title = ss.LabelTextToColumnName(titleTemplate);
-            var body = ss.LabelTextToColumnName(bodyTemplate);
-            //表示対象のサイトID一覧から、サイト設定の辞書を作成（Key: SiteId,Value: SiteSettings）
-            //JoinedSsHashにある場合はそちらを利用し、ない場合は作成する
-            var ssHash = ss.AllowedIntegratedSites?.ToDictionary(
-                siteId => siteId,
-                siteId => ss.JoinedSsHash?.Get(siteId)
-                    ?? SiteSettingsUtilities.Get(
-                        context: context,
-                        siteId: siteId))
-                        ?? new Dictionary<long, SiteSettings>();
+                prefix: prefix,
+                siteId: siteId,
+                calendarGroupBy: calendarGroupBy,
+                calendarTimePeriod: calendarTimePeriod,
+                calendarFromTo: calendarFromTo,
+                calendarShowStatus: calendarShowStatus);
             return null;
         }
     }

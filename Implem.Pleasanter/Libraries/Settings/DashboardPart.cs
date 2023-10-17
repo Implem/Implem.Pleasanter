@@ -128,7 +128,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case DashboardPartType.Calendar:
                     dashboardPart.CalendarSites = CalendarSites;
-                    dashboardPart.CalendarType = (CalendarType != Settings.CalendarType.Standard)
+                    dashboardPart.CalendarType = (CalendarType == Settings.CalendarType.Standard || CalendarType == Settings.CalendarType.FullCalendar)
                         ? CalendarType
                         : null;
                     dashboardPart.CalendarGroupBy = CalendarGroupBy;
@@ -254,6 +254,8 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetSitesData();
             SetPermissions(permissions);
             SetBaseSiteData(context: context);
+            SetCalendarBaseSiteData(context: context);
+
             return this;
         }
 
@@ -278,7 +280,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                 ss: currentSs,
                 view: View);
         }
-                
+
+        private void SetCalendarBaseSiteData(Context context)
+        {
+            var currentSs = GetCalendarBaseSiteSettings(
+                context: context,
+                calendarSites: CalendarSitesData);
+            SiteId = currentSs?.SiteId ?? 0;
+            View = SiteModel.GetDashboardPartView(
+                context: context,
+                ss: currentSs,
+                view: View);
+        }
+
         private void SetQuickAccessSitesData()
         {
             if(QuickAccessSites == null)
@@ -331,6 +345,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         private static SiteSettings GetBaseSiteSettings(Context context, List<string> timeLineSites)
         {
             return GetDashboardPartTables(context: context, sites: timeLineSites)
+                .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
+                .FirstOrDefault(ss => ss != null);
+        }
+
+        private static SiteSettings GetCalendarBaseSiteSettings(Context context, List<string> calendarSites)
+        {
+            return GetDashboardPartTables(context: context, sites: calendarSites)
                 .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
                 .FirstOrDefault(ss => ss != null);
         }

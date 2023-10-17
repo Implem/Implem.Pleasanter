@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId,
             string calendarType,
             string prefix,
-            Column calendarFromTo)
+            string calendarFromTo)
         {
             if (calendarType == "Standard")
             {
@@ -91,18 +91,18 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     text: Displays.Previous(context: context),
                     controlCss: "button-icon",
                     accessKey: "b",
-                    onClick: $"$p.moveCalendar('Previous',{prefix});",
+                    onClick: $"$p.moveCalendar('Previous','{prefix}');",
                     icon: "ui-icon-seek-prev")
                 .Button(
                     text: Displays.Next(context: context),
                     controlCss: "button-icon",
                     accessKey: "n",
-                    onClick: $"$p.moveCalendar('Next',{prefix});",
+                    onClick: $"$p.moveCalendar('Next','{prefix}');",
                     icon: "ui-icon-seek-next")
                 .Button(
                     text: Displays.Today(context: context),
                     controlCss: "button-icon",
-                    onClick: $"$p.moveCalendar('Today',{prefix});",
+                    onClick: $"$p.moveCalendar('Today','{prefix}');",
                     icon: "ui-icon-calendar")
                 .FieldCheckBox(
                     controlId: "CalendarShowStatus",
@@ -212,7 +212,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId,
             string calendarType,
             string prefix,
-            Column calendarFromTo)
+            string calendarFromTo)
         {
             hb
                 .Hidden(
