@@ -18,7 +18,6 @@ using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using Types = Implem.Libraries.Utilities.Types;
 using Newtonsoft.Json;
-using Microsoft.ClearScript;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
