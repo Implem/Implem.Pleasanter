@@ -3907,28 +3907,30 @@ namespace Implem.Pleasanter.Models
                     var secondaryAuthenticationCode = context
                         .Forms
                         .Data("SecondaryAuthenticationCode");
-                    return string.IsNullOrEmpty(secondaryAuthenticationCode)
-                        ? OpenSecondaryAuthentication(
-                                context: context,
-                                returnUrl: returnUrl,
-                                isAuthenticationByMail: isAuthenticationByMail)
-                        : !SecondaryAuthentication(
-                                context: context,
-                                secondaryAuthenticationCode: secondaryAuthenticationCode,
-                                isAuthenticationByMail: isAuthenticationByMail)
-                            ? Messages
-                                .ResponseSecondaryAuthentication(
-                                    context: context,
-                                    target: "#LoginMessage")
-                                .Focus("#SecondaryAuthenticationCode")
-                                .ToJson()
-                            : PasswordExpired()
-                                ? OpenChangePasswordAtLoginDialog(context: context)
-                                : Allow(
+                    return !EnableSecretKey
+                        ? OpenGoogleAuthenticatorRegisterCode(context: context)
+                        : string.IsNullOrEmpty(secondaryAuthenticationCode)
+                            ? OpenSecondaryAuthentication(
                                     context: context,
                                     returnUrl: returnUrl,
-                                    createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                    noHttpContext: noHttpContext);
+                                    isAuthenticationByMail: isAuthenticationByMail)
+                            : !SecondaryAuthentication(
+                                    context: context,
+                                    secondaryAuthenticationCode: secondaryAuthenticationCode,
+                                    isAuthenticationByMail: isAuthenticationByMail)
+                                ? Messages
+                                    .ResponseSecondaryAuthentication(
+                                        context: context,
+                                        target: "#LoginMessage")
+                                    .Focus("#SecondaryAuthenticationCode")
+                                    .ToJson()
+                                : PasswordExpired()
+                                    ? OpenChangePasswordAtLoginDialog(context: context)
+                                    : Allow(
+                                        context: context,
+                                        returnUrl: returnUrl,
+                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                        noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
