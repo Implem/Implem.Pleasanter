@@ -2011,9 +2011,7 @@ namespace Implem.Pleasanter.Models
                         hb.Hidden(
                             controlId: $"{dashboardPart.Id}Prefix",
                             value: dashboardPart.Id.ToString());
-                        hb.Raw(text: GetCalendarRecords(
-                        context: context,
-                        dashboardPart: dashboardPart).ToString());
+                        hb.Raw(text: calendarHtml);
 
                     }).ToString();
 
@@ -2029,7 +2027,7 @@ namespace Implem.Pleasanter.Models
             };
         }
 
-        private static HtmlBuilder GetCalendarRecords(
+        private static string GetCalendarRecords(
             Context context,
             DashboardPart dashboardPart)
         {
@@ -2079,7 +2077,7 @@ namespace Implem.Pleasanter.Models
             }
         }
 
-        private static HtmlBuilder GetCalendarIssues(
+        private static string GetCalendarIssues(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
@@ -2092,7 +2090,7 @@ namespace Implem.Pleasanter.Models
             string calendarFromTo,
             bool calendarShowStatus)
         {
-            var issues = IssueUtilities.DashboardCalendar(
+            var issues = IssueUtilities.Calendar(
                 context: context,
                 ss: ss,
                 prefix: prefix,
@@ -2105,7 +2103,7 @@ namespace Implem.Pleasanter.Models
             return issues;
         }
 
-        private static HtmlBuilder GetCalendarResults(
+        private static string GetCalendarResults(
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,

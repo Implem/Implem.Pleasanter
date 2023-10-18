@@ -109,6 +109,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     .Script(script: "$p.initDashboard();",
                         _using: ss.ReferenceType == "Dashboards"
                             && context.Action == "index")
+                    .Script(script: "$p.setCalendar();",
+                        _using:
+                             context.Action == "index")
                     .OnEditorLoad(context: context);
             }
             else
