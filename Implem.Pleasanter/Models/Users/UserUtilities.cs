@@ -3565,6 +3565,9 @@ namespace Implem.Pleasanter.Models
                         case "Theme":
                             userModel.Theme = recordingData.ToString();
                             break;
+                        case "EnableSecretKey":
+                            userModel.EnableSecretKey = recordingData.ToBool();
+                            break;
                         case "Body":
                             userModel.Body = recordingData.ToString();
                             break;
