@@ -1,6 +1,6 @@
 ﻿const newRecord = function (info) {
     var form = document.createElement("form");
-    form.setAttribute("action", $('#NewMenuContainer div a').attr('href'));
+    form.setAttribute("action", '/items/' + $('#SiteId').val() + '/new');
     form.setAttribute("method", "post");
     form.style.display = "none";
     document.body.appendChild(form);
@@ -48,7 +48,7 @@ const updateRecord = function (calendarPrefix) {
 }
 const getEventsDatas = function (calendarPrefix) {
     return function (info, successCallback, failureCallback) {
-        if (($('#IsInit').val() !== 'True') && !((info.start.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarStart').val()) && (info.end.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarEnd').val()))))) {
+        if (($('#' + calendarPrefix + 'IsInit').val() !== 'True') && !((info.start.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarStart').val()) && (info.end.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarEnd').val()))))) {
             $p.set($('#' + calendarPrefix + 'CalendarStart'), info.start.toLocaleDateString());
             $p.set($('#' + calendarPrefix + 'CalendarEnd'), info.end.toLocaleDateString());
             $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'calendar');
@@ -67,7 +67,7 @@ const getEventsDatas = function (calendarPrefix) {
             let $control = $('#' + calendarPrefix + 'FullCalendarBody');
             $p.send($control);
         } else {
-            $('#IsInit').val('False');
+            $('#' + calendarPrefix + 'IsInit').val('False');
             let eventData = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val())[0]['items'];
             successCallback(
                 eventData.map((item) => {
@@ -340,7 +340,7 @@ function margeTime(date, dateTime) {
         dateTime.getSeconds();
 }
 
-function setFullCalendar(calendarPrefix,calendarEl) {
+function setFullCalendar(calendarPrefix, calendarEl) {
     var language = $('#Language').val();
     var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
     if (language === 'vn') {
