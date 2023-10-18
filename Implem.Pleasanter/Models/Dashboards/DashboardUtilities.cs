@@ -2036,8 +2036,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            //ss.IntegratedSites = dashboardPart.CalendarSitesData;
-            //ss.SetSiteIntegration(context: context);
+            ss.IntegratedSites = dashboardPart.CalendarSitesData;
+            ss.SetSiteIntegration(context: context);
             //Viewからフィルタ条件とソート条件を取得
             var where = dashboardPart.View.Where(
                 context: context,

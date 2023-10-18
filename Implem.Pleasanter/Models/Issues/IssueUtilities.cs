@@ -7399,7 +7399,9 @@ namespace Implem.Pleasanter.Models
                             bodyOnly: false,
                             showStatus: view.CalendarShowStatus == true,
                             inRange: inRange,
-                            calendarType: calendarType));
+                            calendarType: calendarType.IsNullOrEmpty()
+                                ? ss.CalendarType.ToString()
+                                : calendarType));
             }
             else
             {
