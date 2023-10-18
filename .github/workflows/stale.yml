@@ -1,4 +1,4 @@
-# This workflow warns and then closes issues and PRs that have had no activity for a specified amount of time.
+﻿# This workflow warns and then closes issues and PRs that have had no activity for a specified amount of time.
 #
 # You can adjust the behavior by modifying this file.
 # For more information, see:
@@ -25,4 +25,5 @@ jobs:
         stale-issue-message: 'This issue is stale because it has been open 60 days with no activity. Remove stale label or comment or this will be closed in 7 days.'
         stale-pr-message: 'This PR is stale because it has been open 60 days with no activity. Remove stale label or comment or this will be closed in 7 days.'
         close-issue-message: 'This issue was closed because it has been stalled for 7 days with no activity.'
+        exempt-issue-labels: 'no-autoclose'
         operations-per-run : 200
