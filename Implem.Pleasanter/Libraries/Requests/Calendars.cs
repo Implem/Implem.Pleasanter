@@ -10,7 +10,7 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Calendars
     {
-        public static DateTime BeginDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view)
+        public static DateTime BeginDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view, string calendarType)
         {
             date = date.ToLocal(context: context).Date;
             var first = new DateTime(date.Year, date.Month, 1);
@@ -37,7 +37,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     {
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
-                    if (ss.CalendarType.ToString() == "FullCalendar") {
+                    if (calendarType == "FullCalendar") {
                         begin = !string.IsNullOrEmpty(view.CalendarStart.ToString())
                             ? (DateTime)view.CalendarStart
                             : begin;
@@ -49,9 +49,9 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public static DateTime EndDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view)
+        public static DateTime EndDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view, string calendarType)
         {
-            if (ss.CalendarType.ToString() == "FullCalendar")
+            if (calendarType == "FullCalendar")
             {
                 return !string.IsNullOrEmpty(view.CalendarEnd.ToString())
                     ? (DateTime)view.CalendarEnd
@@ -60,7 +60,8 @@ namespace Implem.Pleasanter.Libraries.Requests
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view).AddDays(43).AddMilliseconds(-3);
+                            view: view,
+                            calendarType: calendarType).AddDays(43).AddMilliseconds(-3);
             }
             else
             {
@@ -72,21 +73,24 @@ namespace Implem.Pleasanter.Libraries.Requests
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view).AddYears(1).AddMilliseconds(-3);
+                            view: view,
+                            calendarType: calendarType).AddYears(1).AddMilliseconds(-3);
                     case "Monthly":
                         return BeginDate(
                             context: context,
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view).AddDays(43).AddMilliseconds(-3);
+                            view: view,
+                            calendarType: calendarType).AddDays(43).AddMilliseconds(-3);
                     case "Weekly":
                         return BeginDate(
                             context: context,
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view).AddDays(8).AddMilliseconds(-3);
+                            view: view,
+                            calendarType: calendarType).AddDays(8).AddMilliseconds(-3);
                     default:
                         return DateTime.MinValue;
                 }

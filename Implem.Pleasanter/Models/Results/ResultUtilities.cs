@@ -23,6 +23,8 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using static Implem.Pleasanter.Libraries.Settings.SiteSettings;
+
 namespace Implem.Pleasanter.Models
 {
     public static class ResultUtilities
@@ -6992,6 +6994,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
             var date = view.GetCalendarDate();
+            var calendarType = ss.CalendarType.ToString();
             var groupBy = prefix.IsNullOrEmpty()
                 ? ss.GetColumn(
                     context: context,
@@ -7012,13 +7015,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
                 ? view.CalendarViewType
                 : "dayGridMonth";
@@ -7041,7 +7046,7 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            var calendarType = ss.CalendarType.ToString();
+            
             return hb.ViewModeTemplate(
                 context: context,
                 ss: ss,
@@ -7141,6 +7146,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
             var date = view.GetCalendarDate();
+            var calendarType = ss.CalendarType.ToString();
             var groupBy = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarGroupBy());
@@ -7157,13 +7163,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
                 ? view.CalendarViewType
                 : "dayGridMonth";

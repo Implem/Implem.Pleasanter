@@ -7345,13 +7345,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
                 ? view.CalendarViewType
                 : "dayGridMonth";
@@ -7498,6 +7500,7 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
             var date = view.GetCalendarDate();
+            var calendarType = ss.CalendarType.ToString();
             var groupBy = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarGroupBy());
@@ -7514,13 +7517,15 @@ namespace Implem.Pleasanter.Models
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view);
+                view: view,
+                calendarType: calendarType);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
                 ? view.CalendarViewType
                 : "dayGridMonth";
@@ -7540,7 +7545,7 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
-            var calendarType = ss.CalendarType.ToString();
+            
             var prefix = "";
             var body = new HtmlBuilder().Calendar(
                 context: context,
@@ -7562,7 +7567,7 @@ namespace Implem.Pleasanter.Models
                 calendarType: calendarType,
                 prefix: prefix);
             var CalendarBodyName = "";
-            if (ss.CalendarType.ToString() == "Standard"){
+            if (calendarType == "Standard"){
                 CalendarBodyName = "#CalendarBody";
             } else {
                 CalendarBodyName = "#FullCalendarBody";

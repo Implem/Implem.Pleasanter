@@ -270,7 +270,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     to: toColumn,
                                     dataRows: dataRows,
                                     changedItemId: changedItemId,
-                                    showStatus: showStatus)
+                                    showStatus: showStatus,
+                                    calendarType: calendarType)
                                 : GroupingJson(
                                     context: context,
                                     ss: ss,
@@ -279,7 +280,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     groupBy: groupBy,
                                     dataRows: dataRows,
                                     changedItemId: changedItemId,
-                                    showStatus: showStatus))
+                                    showStatus: showStatus,
+                                    calendarType: calendarType))
                         .CalendarBodyTable(
                             context: context,
                             timePeriod: timePeriod,
@@ -317,7 +319,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     to: toColumn,
                                     dataRows: dataRows,
                                     changedItemId: changedItemId,
-                                    showStatus: showStatus)
+                                    showStatus: showStatus,
+                                    calendarType: calendarType)
                                 : GroupingJson(
                                     context: context,
                                     ss: ss,
@@ -326,7 +329,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     groupBy: groupBy,
                                     dataRows: dataRows,
                                     changedItemId: changedItemId,
-                                    showStatus: showStatus))
+                                    showStatus: showStatus,
+                                    calendarType: calendarType))
                     : hb;
             }
         }
@@ -569,9 +573,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column groupBy,
             IEnumerable<DataRow> dataRows,
             long changedItemId,
-            bool showStatus)
+            bool showStatus,
+            string calendarType)
         {
-            if (ss.CalendarType.ToString() == "Standard")
+            if (calendarType == "Standard")
             {
                 return dataRows
                     .GroupBy(
@@ -626,9 +631,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column to,
             IEnumerable<DataRow> dataRows,
             long changedItemId,
-            bool showStatus)
+            bool showStatus,
+            string calendarType)
         {
-            if (ss.CalendarType.ToString() == "Standard") {
+            if (calendarType == "Standard") {
                 return new[] { new
                 {
                     group = (string)null,
