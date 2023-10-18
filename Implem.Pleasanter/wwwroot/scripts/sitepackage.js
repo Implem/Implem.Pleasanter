@@ -6,7 +6,7 @@
             width: '520px'
         });
     }
-    if ($p.responsive() && screen.width < 981) {
+    if ($p.responsive() && screen.width < 1025) {
         $p.openResponsiveMenu();
     }
 }
@@ -47,7 +47,7 @@ $p.openExportSitePackageDialog = function ($control) {
             }
         });
     }
-    if ($p.responsive() && screen.width < 981) {
+    if ($p.responsive() && screen.width < 1025) {
         $p.openResponsiveMenu();
     }
 }
