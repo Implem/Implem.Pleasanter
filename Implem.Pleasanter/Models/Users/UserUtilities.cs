@@ -1991,7 +1991,8 @@ namespace Implem.Pleasanter.Models
             }
             if (context.HasPrivilege
                && context.User.Id != userModel.UserId
-               && !userModel.Disabled)
+               && !userModel.Disabled
+               && userModel.MethodType != BaseModel.MethodTypes.New)
             {
                 hb.Button(
                     text: Displays.SwitchUser(context: context),
