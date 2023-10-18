@@ -254,7 +254,6 @@ namespace Implem.Pleasanter.Libraries.Settings
             SetSitesData();
             SetPermissions(permissions);
             SetBaseSiteData(context: context);
-            SetCalendarBaseSiteData(context: context);
 
             return this;
         }
@@ -273,19 +272,9 @@ namespace Implem.Pleasanter.Libraries.Settings
         { 
             var currentSs = GetBaseSiteSettings(
                 context: context,
-                timeLineSites: TimeLineSitesData);
-            SiteId = currentSs?.SiteId ?? 0;
-            View = SiteModel.GetDashboardPartView(
-                context: context,
-                ss: currentSs,
-                view: View);
-        }
-
-        private void SetCalendarBaseSiteData(Context context)
-        {
-            var currentSs = GetCalendarBaseSiteSettings(
-                context: context,
-                calendarSites: CalendarSitesData);
+                timeLineSites: Type == DashboardPartType.TimeLine
+                ? TimeLineSitesData
+                : CalendarSitesData);
             SiteId = currentSs?.SiteId ?? 0;
             View = SiteModel.GetDashboardPartView(
                 context: context,

@@ -2014,11 +2014,7 @@ namespace Implem.Pleasanter.Models
                         hb.Raw(text: GetCalendarRecords(
                         context: context,
                         dashboardPart: dashboardPart).ToString());
-                        hb.Scripts(
-                        context: context,
-                        ss: ss,
-                        script: JavaScripts.ViewMode("calendar"),
-                        userScript: ss.ViewModeScripts(context: context));
+
                     }).ToString();
 
 
