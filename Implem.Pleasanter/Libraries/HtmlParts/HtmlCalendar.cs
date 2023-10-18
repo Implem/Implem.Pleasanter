@@ -258,6 +258,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 return inRange
                     ? hb
                         .Hidden(
+                            controlId: $"{prefix}CalendarTimePeriod",
+                            value: timePeriod)
+                        .Hidden(
                             controlId: $"{prefix}CalendarJson",
                             value: choices == null
                                 ? Json(
@@ -298,7 +301,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         )
                         .Hidden(
                             controlId: $"{prefix}CalendarViewType",
-                            value: CalendarViewType.ToString()
+                            value: CalendarViewType
                         )
                         .Hidden(
                             controlId:$"{prefix}IsInit",

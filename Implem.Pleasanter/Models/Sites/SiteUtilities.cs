@@ -15625,7 +15625,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == CalendarType.FullCalendar),
                         labelText: Displays.GroupBy(context: context),
                         optionCollection: ss.CalendarGroupByOptions(context: context),
-                        selectedValue: dashboardPart.CalendarGroupBy.ToInt().ToString(),
+                        selectedValue: dashboardPart.CalendarGroupBy?.ToString(),
                         insertBlank: true)
                     .FieldDropDown(
                         context: context,
@@ -15635,7 +15635,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar || dashboardPart.CalendarType == CalendarType.FullCalendar),
                         labelText: Displays.Period(context: context),
                         optionCollection: ss.CalendarTimePeriodOptions(context: context),
-                        selectedValue: dashboardPart.CalendarTimePeriod.ToInt().ToString(),
+                        selectedValue: dashboardPart.CalendarTimePeriod?.ToString(),
                         insertBlank: false)
                     .FieldDropDown(
                         context: context,
@@ -15645,7 +15645,7 @@ namespace Implem.Pleasanter.Models
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.Column(context: context),
                         optionCollection: ss.CalendarColumnOptions(context: context),
-                        selectedValue: dashboardPart.CalendarFromTo.ToInt().ToString(),
+                        selectedValue: dashboardPart.CalendarFromTo?.ToString(),
                         insertBlank: false)
                     .FieldCheckBox(
                         controlId: "CalendarShowStatus",
