@@ -1999,7 +1999,7 @@ namespace Implem.Pleasanter.Models
                 .Div(
                     id: $"DashboardPart_{dashboardPart.Id}",
                     attributes: new HtmlAttributes().DataId(dashboardPart.Id.ToString()),
-                    css: "dashboard-timeline-container " + dashboardPart.ExtendedCss,
+                    css: "dashboard-calendar-container " + dashboardPart.ExtendedCss,
                     action: () =>
                     {
                         if (dashboardPart.ShowTitle == true)
@@ -2035,11 +2035,11 @@ namespace Implem.Pleasanter.Models
             var ss = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
+            //対象サイトをサイト統合の仕組みで登録
+            //ss.IntegratedSites = dashboardPart.CalendarSitesData;
+            //ss.SetSiteIntegration(context: context);
             //Viewからフィルタ条件とソート条件を取得
             var where = dashboardPart.View.Where(
-                context: context,
-                ss: ss);
-            var orderBy = dashboardPart.View.OrderBy(
                 context: context,
                 ss: ss);
             if (ss.ReferenceType == "Issues")
@@ -2048,7 +2048,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     where: where,
-                    orderBy: orderBy,
                     prefix: dashboardPart.Id.ToString(),
                     siteId: dashboardPart.SiteId,
                     calendarType: dashboardPart.CalendarType.ToString(),
@@ -2063,7 +2062,6 @@ namespace Implem.Pleasanter.Models
                     context: context,
                     ss: ss,
                     where: where,
-                    orderBy: orderBy,
                     prefix: dashboardPart.Id.ToString(),
                     siteId: dashboardPart.SiteId,
                     calendarGroupBy: dashboardPart.View.CalendarGroupBy,
@@ -2081,7 +2079,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
-            SqlOrderByCollection orderBy,
             string prefix,
             long siteId,
             string calendarType,
@@ -2107,7 +2104,6 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             SqlWhereCollection where,
-            SqlOrderByCollection orderBy,
             string prefix,
             long siteId,
             string calendarGroupBy,
