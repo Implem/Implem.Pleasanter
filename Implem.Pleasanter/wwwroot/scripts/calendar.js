@@ -395,15 +395,16 @@ function setFullCalendar(calendarPrefix, calendarEl) {
         lazyFetching: false
     });
     $p.fullCalendar.render();
+    $('.fc-scrollgrid').addClass("no-drag");
 }
 $p.setCalendar = function () {
     var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id$="Calendar"]')).get();
     $(calendarElArr).each(function (index,value) {
         var calendarPrefix = value.id.replace(/[^0-9]/g, '');
         if ($('#' + calendarPrefix + 'CalendarType').val() == "FullCalendar") {
-            setFullCalendar(calendarPrefix,value);
+            setFullCalendar(calendarPrefix, value);
         } else {
-            $('#Calendar .container > div > div:not(.day)').remove();
+            $('#' + calendarPrefix + 'Calendar .container > div > div:not(.day)').remove();
             var data = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val());
             data.forEach(function (element) {
                 setCalendarGroup(element.group, element.items, calendarPrefix);
