@@ -2015,7 +2015,7 @@ namespace Implem.Pleasanter.Models
                         }
                         hb.Hidden(
                             controlId: $"{dashboardPart.Id}CalendarSiteData",
-                            value: dashboardPart.CalendarSitesData[0].ToJson());
+                            value: dashboardPart.CalendarSitesData[0].ToString());
                         hb.Raw(text: calendarHtml);
 
                     }).ToString();
