@@ -220,6 +220,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: calendarFromTo?.ToString(),
                     _using: !prefix.IsNullOrEmpty())
                 .Hidden(
+                        controlId: $"{prefix}Prefix",
+                        value: prefix)
+                .Hidden(
                     controlId: $"{prefix}CalendarCanUpdate",
                     value: (fromColumn?.RecordedTime != true
                         && fromColumn?.GetEditorReadOnly() != true

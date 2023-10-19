@@ -1992,6 +1992,11 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart)
         {
             var hb = new HtmlBuilder();
+            if (context.Forms.Exists("CalendarStart"))
+            {
+
+            }
+
             var calendarHtml = GetCalendarRecords(
                             context: context,
                             dashboardPart: dashboardPart);
@@ -2009,8 +2014,8 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb.Text(dashboardPart.Title));
                         }
                         hb.Hidden(
-                            controlId: $"{dashboardPart.Id}Prefix",
-                            value: dashboardPart.Id.ToString());
+                            controlId: $"{dashboardPart.Id}CalendarSiteData",
+                            value: dashboardPart.CalendarSitesData[0].ToJson());
                         hb.Raw(text: calendarHtml);
 
                     }).ToString();
