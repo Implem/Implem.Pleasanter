@@ -4326,7 +4326,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private void UpdateSecretKey(Context context)
         {
-            SecretKey = Base32Encoding.ToString(KeyGeneration.GenerateRandomKey(20));
+            SecretKey = OtpNet.Base32Encoding.ToString(OtpNet.KeyGeneration.GenerateRandomKey(20));
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -4355,8 +4355,7 @@ namespace Implem.Pleasanter.Models
         private string AddHyphenSecretKey()
         {
             string addHyphenSecretKey = string.Empty;
-
-            foreach (Match keys in Regex.Matches(SecretKey, "(....)"))
+            foreach (System.Text.RegularExpressions.Match keys in System.Text.RegularExpressions.Regex.Matches(SecretKey, "(....)"))
             {
                 addHyphenSecretKey += keys + "-";
             }
@@ -4875,11 +4874,10 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         private bool VerifyGoogleAuthenfication(string secondaryAuthenticationCode)
         {
-            Totp totp = new Totp(Base32Encoding.ToBytes(SecretKey), totpSize: 6);
-
+            OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
             return totp.VerifyTotp(secondaryAuthenticationCode,
                 out _,
-                VerificationWindow.RfcSpecifiedNetworkDelay);
+                OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
         }
 
         /// <summary>
