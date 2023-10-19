@@ -404,7 +404,7 @@ function setFullCalendar(calendarPrefix, calendarEl) {
     $('.fc-scrollgrid').addClass("no-drag");
 }
 $p.setCalendar = function () {
-    var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id$="Calendar"]')).get();
+    var calendarElArr = $($('#MainForm').find('.dashboard-calendar-container div[id="Calendar"],div[id$="Calendar"]')).get();
     $(calendarElArr).each(function (index, value) {
         var calendarPrefix = value.id.replace(/[^0-9]/g, '');
 
