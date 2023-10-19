@@ -399,7 +399,7 @@ function setFullCalendar(calendarPrefix, calendarEl) {
 }
 $p.setCalendar = function () {
     var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id$="Calendar"]')).get();
-    $(calendarElArr).each(function (index,value) {
+    $(calendarElArr).each(function (index, value) {
         var calendarPrefix = value.id.replace(/[^0-9]/g, '');
         if ($('#' + calendarPrefix + 'CalendarType').val() == "FullCalendar") {
             setFullCalendar(calendarPrefix, value);
@@ -409,6 +409,7 @@ $p.setCalendar = function () {
             data.forEach(function (element) {
                 setCalendarGroup(element.group, element.items, calendarPrefix);
             });
+            $('#' + calendarPrefix + 'CalendarBody').addClass("no-drag");
         }
     });
 }
