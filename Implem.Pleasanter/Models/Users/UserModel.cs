@@ -2998,7 +2998,7 @@ namespace Implem.Pleasanter.Models
             return new ErrorData(type: Error.Types.None);
         }
 
-        public ErrorData Restore(Context context, SiteSettings ss,int userId)
+        public ErrorData Restore(Context context, SiteSettings ss, int userId)
         {
             UserId = userId;
             Repository.ExecuteNonQuery(
@@ -3018,7 +3018,7 @@ namespace Implem.Pleasanter.Models
         }
 
         public ErrorData PhysicalDelete(
-            Context context, SiteSettings ss,Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
+            Context context, SiteSettings ss, Sqls.TableTypes tableType = Sqls.TableTypes.Normal)
         {
             Repository.ExecuteNonQuery(
                 context: context,
@@ -3089,7 +3089,8 @@ namespace Implem.Pleasanter.Models
                     case "Users_SecretKey": SecretKey = value.ToString(); break;
                     case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
-                    case "Comments": Comments.Prepend(
+                    case "Comments":
+                        Comments.Prepend(
                         context: context,
                         ss: ss,
                         body: value); break;
@@ -3919,30 +3920,36 @@ namespace Implem.Pleasanter.Models
                     var secondaryAuthenticationCode = context
                         .Forms
                         .Data("SecondaryAuthenticationCode");
-                    return !EnableSecretKey
-                        ? OpenGoogleAuthenticatorRegisterCode(context: context)
-                        : string.IsNullOrEmpty(secondaryAuthenticationCode)
-                            ? OpenSecondaryAuthentication(
+                    return string.IsNullOrEmpty(secondaryAuthenticationCode)
+                        ? !EnableSecretKey
+                            ? OpenGoogleAuthenticatorRegisterCode(context: context)
+                            : OpenSecondaryAuthentication(
                                     context: context,
                                     returnUrl: returnUrl,
                                     isAuthenticationByMail: isAuthenticationByMail)
-                            : !SecondaryAuthentication(
-                                    context: context,
-                                    secondaryAuthenticationCode: secondaryAuthenticationCode,
-                                    isAuthenticationByMail: isAuthenticationByMail)
-                                ? Messages
-                                    .ResponseSecondaryAuthentication(
+                        : !SecondaryAuthentication(
+                                context: context,
+                                secondaryAuthenticationCode: secondaryAuthenticationCode,
+                                isAuthenticationByMail: isAuthenticationByMail)
+                            ? Messages
+                                .ResponseSecondaryAuthentication(
                                         context: context,
                                         target: "#LoginMessage")
-                                    .Focus("#SecondaryAuthenticationCode")
-                                    .ToJson()
-                                : PasswordExpired()
-                                    ? OpenChangePasswordAtLoginDialog(context: context)
+                                .Focus("#SecondaryAuthenticationCode")
+                                .ToJson()
+                            : PasswordExpired()
+                                ? OpenChangePasswordAtLoginDialog(context: context)
+                                : !EnableSecretKey && !isAuthenticationByMail
+                                    ? setEnableSecretKeyandAllow(
+                                            context: context,
+                                            returnUrl: returnUrl,
+                                            createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                            noHttpContext: noHttpContext)
                                     : Allow(
-                                        context: context,
-                                        returnUrl: returnUrl,
-                                        createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
-                                        noHttpContext: noHttpContext);
+                                            context: context,
+                                            returnUrl: returnUrl,
+                                            createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                                            noHttpContext: noHttpContext);
                 }
                 else if (PasswordExpired())
                 {
@@ -4342,7 +4349,6 @@ namespace Implem.Pleasanter.Models
                     param: Rds.UsersParam().SecretKey(SecretKey),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
-            EnableSecretKey = true;
             Repository.ExecuteNonQuery(
                 context: context,
                 statements: Rds.UpdateUsers(
@@ -4365,6 +4371,22 @@ namespace Implem.Pleasanter.Models
                 addHyphenSecretKey += keys + "-";
             }
             return addHyphenSecretKey[..^1];
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        private string setEnableSecretKeyandAllow(Context context, string returnUrl, bool createPersistentCookie, bool noHttpContext)
+        {
+            if (!EnableSecretKey)
+            {
+                EnableSecretKey = true;
+            }
+            return Allow(
+                context: context,
+                returnUrl: returnUrl,
+                createPersistentCookie: context.Forms.Bool("Users_RememberMe"),
+                noHttpContext: noHttpContext);
         }
 
         /// <summary>
@@ -4443,42 +4465,7 @@ namespace Implem.Pleasanter.Models
                             labelText: Displays.AuthenticationCode(context: context),
                             validateRequired: true,
                             validateNumber: true)
-                    : () => hb
-                        .FieldTextBox(
-                            textType: HtmlTypes.TextTypes.Normal,
-                            controlId: "SecondaryAuthenticationCode",
-                            controlCss: "always-send totp-form",
-                            labelText: Displays.AuthenticationCode(context: context),
-                            validateRequired: true,
-                            validateNumber: true)
-                        .Div(
-                            id: "TotpAuthenticationCodeSeparate",
-                            action: () => hb
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
-                                controlId: "FirstTotpAuthenticationCode",
-                                controlCss: "focus totp-authentication-code",
-                                validateNumber: true)
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
-                                controlCss: "totp-authentication-code",
-                                validateNumber: true)
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
-                                controlCss: "totp-authentication-code",
-                                validateNumber: true)
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
-                                controlCss: "totp-authentication-code",
-                                validateNumber: true)
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
-                                controlCss: "totp-authentication-code",
-                                validateNumber: true)
-                            .FieldTextBox(
-                                textType: HtmlTypes.TextTypes.Normal,
-                                controlCss: "totp-authentication-code",
-                                validateNumber: true)));
+                    : () => hb = TotpAuthenticationCodeSeparate(hb, context));
             hb
                 .Div(
                     id: "AuthenticationByMail",
@@ -4526,7 +4513,7 @@ namespace Implem.Pleasanter.Models
                     value: context.UrlReferrer,
                     _using: !context.UrlReferrer.IsNullOrEmpty());
             return isAuthenticationByMail ?
-                rc.Focus("#SecondaryAuthenticationCode").ToJson():
+                rc.Focus("#SecondaryAuthenticationCode").ToJson() :
                 rc.Focus("#FirstTotpAuthenticationCode").ToJson();
         }
 
@@ -4560,10 +4547,20 @@ namespace Implem.Pleasanter.Models
                             action: () => hb.Span(
                                 id: "qrCodeText",
                                 action: () => hb.Text(AddHyphenSecretKey())))
+                        .Div(action: () => hb = TotpAuthenticationCodeSeparate(hb, context))
                         .Div(
                             id: "GoogleAuthenticatorRegisterCommands",
                             css: "both",
                             action: () => hb.Div(css: "command-right", action: () => hb
+                                .Button(
+                                            controlId: "SecondaryAuthenticate",
+                                            controlCss: " button-icon validate",
+                                            text: Displays.Confirm(context: context),
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-unlocked",
+                                            action: "Authenticate",
+                                            method: "post",
+                                            type: "submit")
                                 .Button(
                                         text: Displays.Confirm(context: context),
                                         controlCss: "button-icon ",
@@ -4583,12 +4580,54 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public HtmlBuilder TotpAuthenticationCodeSeparate(HtmlBuilder hb, Context context)
+        {
+            return hb.FieldTextBox(
+                textType: HtmlTypes.TextTypes.Normal,
+                controlId: "SecondaryAuthenticationCode",
+                controlCss: "always-send totp-form",
+                labelText: Displays.AuthenticationCode(context: context),
+                validateRequired: true,
+                validateNumber: true)
+                .Div(
+                    id: "TotpAuthenticationCodeSeparate",
+                    action: () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlId: "FirstTotpAuthenticationCode",
+                            controlCss: "focus totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlCss: "totp-authentication-code",
+                            validateNumber: true)); ;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string Allow(
-            Context context,
-            string returnUrl,
-            bool atLogin = false,
-            bool createPersistentCookie = false,
-            bool noHttpContext = false)
+        Context context,
+        string returnUrl,
+        bool atLogin = false,
+        bool createPersistentCookie = false,
+        bool noHttpContext = false)
         {
             context.LoginId = this.LoginId;
             string loginAfterUrl = AllowAfterUrl(
