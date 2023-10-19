@@ -1,33 +1,37 @@
-﻿const newRecord = function (info) {
-    var form = document.createElement("form");
-    form.setAttribute("action", '/items/' + $('#SiteId').val() + '/new');
-    form.setAttribute("method", "post");
-    form.style.display = "none";
-    document.body.appendChild(form);
-    var start = document.createElement("input");
-    start.setAttribute("type", "hidden");
-    start.setAttribute("name", "Issues_StartTime");
-    start.setAttribute("value", info.start.toLocaleString());
-    form.appendChild(start);
-    var end = document.createElement("input");
-    end.setAttribute("type", "hidden");
-    end.setAttribute("name", "Issues_CompletionTime");
-    end.setAttribute("value", info.end.toLocaleString());
-    form.appendChild(end);
-    var fromTo = $('#CalendarFromTo').val().split('-');
+﻿const newRecord = function (calendarPrefix) {
+    return function (info) {
+        console.log('/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new')
+        var form = document.createElement("form");
+        form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
+        form.setAttribute("method", "post");
+        form.style.display = "none";
+        document.body.appendChild(form);
+        var start = document.createElement("input");
+        start.setAttribute("type", "hidden");
+        start.setAttribute("name", "Issues_StartTime");
+        start.setAttribute("value", info.start.toLocaleString());
+        form.appendChild(start);
+        var end = document.createElement("input");
+        end.setAttribute("type", "hidden");
+        end.setAttribute("name", "Issues_CompletionTime");
+        end.setAttribute("value", info.end.toLocaleString());
+        form.appendChild(end);
+        var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
 
-    const match = /^Date/;
-    if (fromTo[1]) {
-    } else if (match.test(fromTo)) {
-        var from = document.createElement("input");
-        from.setAttribute("type", "hidden");
-        from.setAttribute("name", "Issues_" + fromTo);
-        from.setAttribute("value", info.start.toLocaleString());
-        form.appendChild(from);
-    } else {
-        return;
+        const match = /^Date/;
+        if (fromTo[1]) {
+        } else if (match.test(fromTo)) {
+            var from = document.createElement("input");
+            from.setAttribute("type", "hidden");
+            from.setAttribute("name", "Issues_" + fromTo);
+            from.setAttribute("value", info.start.toLocaleString());
+            form.appendChild(from);
+        } else {
+            return;
+        }
+        form.submit();
     }
-    form.submit();
+
 }
 const updateRecord = function (calendarPrefix) {
     return function (info, successCallback, failureCallback) {
@@ -375,7 +379,7 @@ function setFullCalendar(calendarPrefix, calendarEl) {
         eventClick: (e) => {
             window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
         },
-        select: newRecord,
+        select: newRecord(calendarPrefix),
         events: getEventsDatas(calendarPrefix),
         eventDrop: updateRecord(calendarPrefix),
         eventResize: updateRecord(calendarPrefix),
@@ -404,7 +408,7 @@ function setFullCalendar(calendarPrefix, calendarEl) {
     $('.fc-scrollgrid').addClass("no-drag");
 }
 $p.setCalendar = function () {
-    var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id$="Calendar"]')).get();
+    var calendarElArr = $('div[id$="Calendar"]:not(.dashboard-custom-html-body div[id$="Calendar"]),div[id="Calendar"]:not(.dashboard-custom-html-body div[id="Calendar"])').get();
     $(calendarElArr).each(function (index, value) {
         var calendarPrefix = value.id.replace(/[^0-9]/g, '');
 
