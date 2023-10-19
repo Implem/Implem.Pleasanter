@@ -567,6 +567,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                             ss: ss,
                             column: column,
                             type: Type);
+                    case "SecretKey":
+                        return userModel.SecretKey.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
+                    case "EnableSecretKey":
+                        return userModel.EnableSecretKey.ToLookup(
+                            context: context,
+                            ss: ss,
+                            column: column,
+                            type: Type);
                     case "Comments":
                         return userModel.Comments.ToLookup(
                             context: context,
@@ -605,12 +617,6 @@ namespace Implem.Pleasanter.Libraries.Settings
                             type: Type);
                     case "Timestamp":
                         return userModel.Timestamp.ToLookup(
-                            context: context,
-                            ss: ss,
-                            column: column,
-                            type: Type);
-                    case "EnableSecretKey":
-                        return userModel.EnableSecretKey.ToLookup(
                             context: context,
                             ss: ss,
                             column: column,

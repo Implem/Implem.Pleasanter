@@ -13059,6 +13059,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string Users_EnableSecretKey(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "Users_EnableSecretKey",
+                data: data);
+        }
+
         public static string Users_FirstAndLastNameOrder(
             Context context,
             params string[] data)
@@ -13316,16 +13326,6 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "Users_SecretKey",
-                data: data);
-        }
-
-        public static string Users_EnableSecretKey(
-            Context context,
-            params string[] data)
-        {
-            return Get(
-                context: context,
-                id: "Users_EnableSecretKey",
                 data: data);
         }
 

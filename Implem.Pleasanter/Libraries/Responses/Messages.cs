@@ -1284,6 +1284,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 css: "alert-error");
         }
 
+        public static Message RequireSecondAuthenticationByMail(Context context, params string[] data)
+        {
+            return Get(
+                id: "RequireSecondAuthenticationByMail",
+                text: Displays.RequireSecondAuthenticationByMail(
+                    context: context,
+                    data: data),
+                css: "alert-error");
+        }
+
         public static Message RequireTo(Context context, params string[] data)
         {
             return Get(
@@ -2944,6 +2954,17 @@ namespace Implem.Pleasanter.Libraries.Responses
             return ResponseMessage(
                 context: context,
                 message: RequireManagePermission(
+                    context: context,
+                    data: data),
+                target: target);
+        }
+
+        public static ResponseCollection ResponseRequireSecondAuthenticationByMail(
+            Context context, string target = null, params string[] data)
+        {
+            return ResponseMessage(
+                context: context,
+                message: RequireSecondAuthenticationByMail(
                     context: context,
                     data: data),
                 target: target);

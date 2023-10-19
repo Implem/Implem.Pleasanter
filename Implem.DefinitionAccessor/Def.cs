@@ -1887,6 +1887,7 @@ namespace Implem.DefinitionAccessor
                     case "Users_Disabled": Column.Users_Disabled = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Disabled, definitionRow, ColumnXls); break;
                     case "Users_DisableSecondaryAuthentication": Column.Users_DisableSecondaryAuthentication = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_DisableSecondaryAuthentication, definitionRow, ColumnXls); break;
                     case "Users_EnableSecondaryAuthentication": Column.Users_EnableSecondaryAuthentication = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_EnableSecondaryAuthentication, definitionRow, ColumnXls); break;
+                    case "Users_EnableSecretKey": Column.Users_EnableSecretKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_EnableSecretKey, definitionRow, ColumnXls); break;
                     case "Users_FirstAndLastNameOrder": Column.Users_FirstAndLastNameOrder = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FirstAndLastNameOrder, definitionRow, ColumnXls); break;
                     case "Users_FirstName": Column.Users_FirstName = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_FirstName, definitionRow, ColumnXls); break;
                     case "Users_Gender": Column.Users_Gender = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_Gender, definitionRow, ColumnXls); break;
@@ -1913,7 +1914,6 @@ namespace Implem.DefinitionAccessor
                     case "Users_SecondaryAuthenticationCode": Column.Users_SecondaryAuthenticationCode = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecondaryAuthenticationCode, definitionRow, ColumnXls); break;
                     case "Users_SecondaryAuthenticationCodeExpirationTime": Column.Users_SecondaryAuthenticationCodeExpirationTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecondaryAuthenticationCodeExpirationTime, definitionRow, ColumnXls); break;
                     case "Users_SecretKey": Column.Users_SecretKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SecretKey, definitionRow, ColumnXls); break;
-                    case "Users_EnableSecretKey": Column.Users_EnableSecretKey = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_EnableSecretKey, definitionRow, ColumnXls); break;
                     case "Users_ServiceManager": Column.Users_ServiceManager = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_ServiceManager, definitionRow, ColumnXls); break;
                     case "Users_SessionGuid": Column.Users_SessionGuid = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SessionGuid, definitionRow, ColumnXls); break;
                     case "Users_SynchronizedTime": Column.Users_SynchronizedTime = definitionRow[1].ToString(); SetColumnTable(ColumnTable.Users_SynchronizedTime, definitionRow, ColumnXls); break;
@@ -9165,6 +9165,7 @@ namespace Implem.DefinitionAccessor
         public string Users_Disabled;
         public string Users_DisableSecondaryAuthentication;
         public string Users_EnableSecondaryAuthentication;
+        public string Users_EnableSecretKey;
         public string Users_FirstAndLastNameOrder;
         public string Users_FirstName;
         public string Users_Gender;
@@ -9191,7 +9192,6 @@ namespace Implem.DefinitionAccessor
         public string Users_SecondaryAuthenticationCode;
         public string Users_SecondaryAuthenticationCodeExpirationTime;
         public string Users_SecretKey;
-        public string Users_EnableSecretKey;
         public string Users_ServiceManager;
         public string Users_SessionGuid;
         public string Users_SynchronizedTime;
@@ -9725,6 +9725,7 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_Disabled = new ColumnDefinition();
         public ColumnDefinition Users_DisableSecondaryAuthentication = new ColumnDefinition();
         public ColumnDefinition Users_EnableSecondaryAuthentication = new ColumnDefinition();
+        public ColumnDefinition Users_EnableSecretKey = new ColumnDefinition();
         public ColumnDefinition Users_FirstAndLastNameOrder = new ColumnDefinition();
         public ColumnDefinition Users_FirstName = new ColumnDefinition();
         public ColumnDefinition Users_Gender = new ColumnDefinition();
@@ -9751,7 +9752,6 @@ namespace Implem.DefinitionAccessor
         public ColumnDefinition Users_SecondaryAuthenticationCode = new ColumnDefinition();
         public ColumnDefinition Users_SecondaryAuthenticationCodeExpirationTime = new ColumnDefinition();
         public ColumnDefinition Users_SecretKey = new ColumnDefinition();
-        public ColumnDefinition Users_EnableSecretKey = new ColumnDefinition();
         public ColumnDefinition Users_ServiceManager = new ColumnDefinition();
         public ColumnDefinition Users_SessionGuid = new ColumnDefinition();
         public ColumnDefinition Users_SynchronizedTime = new ColumnDefinition();

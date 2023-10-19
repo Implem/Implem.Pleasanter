@@ -619,20 +619,38 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
-                    case "SecretKey":
-                        if (userModel.SecretKey_Updated(context: context, column: column))
+                    case "LdapSearchRoot":
+                        if (userModel.LdapSearchRoot_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
                         {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "SecretKey":
+                        if (userModel.SecretKey_Updated(
+                            context: context,
+                            column: column,
+                            copy: copy))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
                     case "EnableSecretKey":
-                        if (userModel.EnableSecretKey_Updated(context: context, column: column))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "LdapSearchRoot":
-                        if (userModel.LdapSearchRoot_Updated(
+                        if (userModel.EnableSecretKey_Updated(
                             context: context,
                             column: column,
                             copy: copy))
@@ -1306,18 +1324,6 @@ namespace Implem.Pleasanter.Models
                                 sysLogsDescription: Debugs.GetSysLogsDescription());
                         }
                         break;
-                    case "SecretKey":
-                        if (userModel.SecretKey_Updated(context: context))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
-                    case "EnableSecretKey":
-                        if (userModel.EnableSecretKey_Updated(context: context))
-                        {
-                            return new ErrorData(type: Error.Types.HasNotPermission);
-                        }
-                        break;
                     case "LdapSearchRoot":
                         if (userModel.LdapSearchRoot_Updated(context: context))
                         {
@@ -1332,6 +1338,30 @@ namespace Implem.Pleasanter.Models
                         break;
                     case "SynchronizedTime":
                         if (userModel.SynchronizedTime_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "SecretKey":
+                        if (userModel.SecretKey_Updated(context: context))
+                        {
+                            return new ErrorData(
+                                context: context,
+                                type: Error.Types.HasNotChangeColumnPermission,
+                                data: column.LabelText,
+                                api: api,
+                                sysLogsStatus: 403,
+                                sysLogsDescription: Debugs.GetSysLogsDescription());
+                        }
+                        break;
+                    case "EnableSecretKey":
+                        if (userModel.EnableSecretKey_Updated(context: context))
                         {
                             return new ErrorData(
                                 context: context,

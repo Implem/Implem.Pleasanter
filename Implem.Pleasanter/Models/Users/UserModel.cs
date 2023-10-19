@@ -15,13 +15,11 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
-using OtpNet;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using System.Text.RegularExpressions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 namespace Implem.Pleasanter.Models
 {
@@ -79,10 +77,10 @@ namespace Implem.Pleasanter.Models
         public string SessionGuid = string.Empty;
         public string SecondaryAuthenticationCode = string.Empty;
         public Time SecondaryAuthenticationCodeExpirationTime = new Time();
-        public string SecretKey = string.Empty;
-        public bool EnableSecretKey = false;
         public string LdapSearchRoot = string.Empty;
         public DateTime SynchronizedTime = 0.ToDateTime();
+        public string SecretKey = string.Empty;
+        public bool EnableSecretKey = false;
 
         public TimeZoneInfo TimeZoneInfo
         {
@@ -159,10 +157,10 @@ namespace Implem.Pleasanter.Models
         public string SavedSessionGuid = string.Empty;
         public string SavedSecondaryAuthenticationCode = string.Empty;
         public DateTime SavedSecondaryAuthenticationCodeExpirationTime = 0.ToDateTime();
-        public string SavedSecretKey = string.Empty;
-        public bool SavedEnableSecretKey = false;
         public string SavedLdapSearchRoot = string.Empty;
         public DateTime SavedSynchronizedTime = 0.ToDateTime();
+        public string SavedSecretKey = string.Empty;
+        public bool SavedEnableSecretKey = false;
 
         public bool TenantId_Updated(Context context, bool copy = false, Column column = null)
         {
@@ -572,22 +570,6 @@ namespace Implem.Pleasanter.Models
                     || column.GetDefaultInput(context: context).ToString() != SecondaryAuthenticationCode);
         }
 
-        public bool SecretKey_Updated(Context context, Column column = null)
-        {
-            return SecretKey != SavedSecretKey && SecretKey != null &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToString() != SecretKey);
-        }
-
-        public bool EnableSecretKey_Updated(Context context, Column column = null)
-        {
-            return EnableSecretKey != SavedEnableSecretKey &&
-                (column == null ||
-                column.DefaultInput.IsNullOrEmpty() ||
-                column.GetDefaultInput(context: context).ToBool() != EnableSecretKey);
-        }
-
         public bool LdapSearchRoot_Updated(Context context, bool copy = false, Column column = null)
         {
             if (copy && column?.CopyByDefault == true)
@@ -598,6 +580,30 @@ namespace Implem.Pleasanter.Models
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
                     || column.GetDefaultInput(context: context).ToString() != LdapSearchRoot);
+        }
+
+        public bool SecretKey_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToString() != SecretKey;
+            }
+            return SecretKey != SavedSecretKey && SecretKey != null
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToString() != SecretKey);
+        }
+
+        public bool EnableSecretKey_Updated(Context context, bool copy = false, Column column = null)
+        {
+            if (copy && column?.CopyByDefault == true)
+            {
+                return column.GetDefaultInput(context: context).ToBool() != EnableSecretKey;
+            }
+            return EnableSecretKey != SavedEnableSecretKey
+                &&  (column == null
+                    || column.DefaultInput.IsNullOrEmpty()
+                    || column.GetDefaultInput(context: context).ToBool() != EnableSecretKey);
         }
 
         public bool Birthday_Updated(Context context, bool copy = false, Column column = null)
@@ -1219,30 +1225,6 @@ namespace Implem.Pleasanter.Models
                                 exportColumn: exportColumn)
                             : string.Empty;
                     break;
-                case "SecretKey":
-                    value = ss.ReadColumnAccessControls.Allowed(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        mine: mine)
-                            ? SecretKey.ToExport(
-                                context: context,
-                                column: column,
-                                exportColumn: exportColumn)
-                            : string.Empty;
-                    break;
-                case "EnableSecretKey":
-                    value = ss.ReadColumnAccessControls.Allowed(
-                        context: context,
-                        ss: ss,
-                        column: column,
-                        mine: mine)
-                            ? EnableSecretKey.ToExport(
-                                context: context,
-                                column: column,
-                                exportColumn: exportColumn)
-                            : string.Empty;
-                    break;
                 case "LdapSearchRoot":
                     value = ss.ReadColumnAccessControls.Allowed(
                         context: context,
@@ -1262,6 +1244,30 @@ namespace Implem.Pleasanter.Models
                         column: column,
                         mine: mine)
                             ? SynchronizedTime.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "SecretKey":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? SecretKey.ToExport(
+                                context: context,
+                                column: column,
+                                exportColumn: exportColumn)
+                            : string.Empty;
+                    break;
+                case "EnableSecretKey":
+                    value = ss.ReadColumnAccessControls.Allowed(
+                        context: context,
+                        ss: ss,
+                        column: column,
+                        mine: mine)
+                            ? EnableSecretKey.ToExport(
                                 context: context,
                                 column: column,
                                 exportColumn: exportColumn)
@@ -1620,10 +1626,10 @@ namespace Implem.Pleasanter.Models
                     case "PasswordHistries": data.PasswordHistries = PasswordHistries.ToJson(); break;
                     case "SecondaryAuthenticationCode": data.SecondaryAuthenticationCode = SecondaryAuthenticationCode; break;
                     case "SecondaryAuthenticationCodeExpirationTime": data.SecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value.ToLocal(context: context); break;
-                    case "SecretKey": data.SecretKey = SecretKey; break;
-                    case "EnableSecretKey": data.EnableSecretKey = EnableSecretKey; break;
                     case "LdapSearchRoot": data.LdapSearchRoot = LdapSearchRoot; break;
                     case "SynchronizedTime": data.SynchronizedTime = SynchronizedTime.ToLocal(context: context); break;
+                    case "SecretKey": data.SecretKey = SecretKey; break;
+                    case "EnableSecretKey": data.EnableSecretKey = EnableSecretKey; break;
                     case "Creator": data.Creator = Creator.Id; break;
                     case "Updator": data.Updator = Updator.Id; break;
                     case "CreatedTime": data.CreatedTime = CreatedTime.Value.ToLocal(context: context); break;
@@ -1882,16 +1888,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
-                case "SecretKey":
-                    return SecretKey.ToDisplay(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "EnableSecretKey":
-                    return EnableSecretKey.ToDisplay(
-                        context: context,
-                        ss: ss,
-                        column: column);
                 case "LdapSearchRoot":
                     return LdapSearchRoot.ToDisplay(
                         context: context,
@@ -1899,6 +1895,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecretKey":
+                    return SecretKey.ToDisplay(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSecretKey":
+                    return EnableSecretKey.ToDisplay(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2248,16 +2254,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
-                case "SecretKey":
-                    return SecretKey.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "EnableSecretKey":
-                    return EnableSecretKey.ToApiDisplayValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
                 case "LdapSearchRoot":
                     return LdapSearchRoot.ToApiDisplayValue(
                         context: context,
@@ -2265,6 +2261,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecretKey":
+                    return SecretKey.ToApiDisplayValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSecretKey":
+                    return EnableSecretKey.ToApiDisplayValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -2614,16 +2620,6 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss,
                         column: column);
-                case "SecretKey":
-                    return SecretKey.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
-                case "EnableSecretKey":
-                    return EnableSecretKey.ToApiValue(
-                        context: context,
-                        ss: ss,
-                        column: column);
                 case "LdapSearchRoot":
                     return LdapSearchRoot.ToApiValue(
                         context: context,
@@ -2631,6 +2627,16 @@ namespace Implem.Pleasanter.Models
                         column: column);
                 case "SynchronizedTime":
                     return SynchronizedTime.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "SecretKey":
+                    return SecretKey.ToApiValue(
+                        context: context,
+                        ss: ss,
+                        column: column);
+                case "EnableSecretKey":
+                    return EnableSecretKey.ToApiValue(
                         context: context,
                         ss: ss,
                         column: column);
@@ -3078,10 +3084,10 @@ namespace Implem.Pleasanter.Models
                     case "Users_SessionGuid": SessionGuid = value.ToString(); break;
                     case "Users_SecondaryAuthenticationCode": SecondaryAuthenticationCode = value.ToString().Sha512Cng(); break;
                     case "Users_SecondaryAuthenticationCodeExpirationTime": SecondaryAuthenticationCodeExpirationTime = new Time(context, value.ToDateTime(), byForm: true); break;
-                    case "Users_SecretKey": SecretKey = value.ToString().Sha512Cng(); break;
-                    case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
                     case "Users_LdapSearchRoot": LdapSearchRoot = value.ToString(); break;
                     case "Users_SynchronizedTime": SynchronizedTime = value.ToDateTime().ToUniversal(context: context); break;
+                    case "Users_SecretKey": SecretKey = value.ToString(); break;
+                    case "Users_EnableSecretKey": EnableSecretKey = value.ToBool(); break;
                     case "Users_Timestamp": Timestamp = value.ToString(); break;
                     case "Comments": Comments.Prepend(
                         context: context,
@@ -3208,10 +3214,10 @@ namespace Implem.Pleasanter.Models
             SessionGuid = userModel.SessionGuid;
             SecondaryAuthenticationCode = userModel.SecondaryAuthenticationCode;
             SecondaryAuthenticationCodeExpirationTime = userModel.SecondaryAuthenticationCodeExpirationTime;
-            SecretKey = userModel.SecretKey;
-            EnableSecretKey = userModel.EnableSecretKey;
             LdapSearchRoot = userModel.LdapSearchRoot;
             SynchronizedTime = userModel.SynchronizedTime;
+            SecretKey = userModel.SecretKey;
+            EnableSecretKey = userModel.EnableSecretKey;
             Comments = userModel.Comments;
             Creator = userModel.Creator;
             Updator = userModel.Updator;
@@ -3262,10 +3268,10 @@ namespace Implem.Pleasanter.Models
             if (data.LockoutCounter != null) LockoutCounter = data.LockoutCounter.ToInt().ToInt();
             if (data.SecondaryAuthenticationCode != null) SecondaryAuthenticationCode = data.SecondaryAuthenticationCode.ToString().ToString().Sha512Cng();
             if (data.SecondaryAuthenticationCodeExpirationTime != null) SecondaryAuthenticationCodeExpirationTime = new Time(context, data.SecondaryAuthenticationCodeExpirationTime.ToDateTime(), byForm: true);
-            if (data.SecretKey != null) SecretKey = data.SecretKey.ToString().ToString().Sha512Cng();
-            if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
             if (data.LdapSearchRoot != null) LdapSearchRoot = data.LdapSearchRoot.ToString().ToString();
             if (data.SynchronizedTime != null) SynchronizedTime = data.SynchronizedTime.ToDateTime().ToDateTime().ToUniversal(context: context);
+            if (data.SecretKey != null) SecretKey = data.SecretKey.ToString().ToString();
+            if (data.EnableSecretKey != null) EnableSecretKey = data.EnableSecretKey.ToBool().ToBool();
             if (data.Comments != null) Comments.Prepend(context: context, ss: ss, body: data.Comments);
             if (data.VerUp != null) VerUp = data.VerUp.ToBool();
             data.ClassHash?.ForEach(o => SetClass(
@@ -3579,14 +3585,6 @@ namespace Implem.Pleasanter.Models
                             SecondaryAuthenticationCodeExpirationTime = new Time(context, dataRow, column.ColumnName);
                             SavedSecondaryAuthenticationCodeExpirationTime = SecondaryAuthenticationCodeExpirationTime.Value;
                             break;
-                        case "SecretKey":
-                            SecretKey = dataRow[column.ColumnName].ToString();
-                            SavedSecretKey = SecretKey;
-                            break;
-                        case "EnableSecretKey":
-                            EnableSecretKey = dataRow[column.ColumnName].ToBool();
-                            SavedEnableSecretKey = EnableSecretKey;
-                            break;
                         case "LdapSearchRoot":
                             LdapSearchRoot = dataRow[column.ColumnName].ToString();
                             SavedLdapSearchRoot = LdapSearchRoot;
@@ -3594,6 +3592,14 @@ namespace Implem.Pleasanter.Models
                         case "SynchronizedTime":
                             SynchronizedTime = dataRow[column.ColumnName].ToDateTime();
                             SavedSynchronizedTime = SynchronizedTime;
+                            break;
+                        case "SecretKey":
+                            SecretKey = dataRow[column.ColumnName].ToString();
+                            SavedSecretKey = SecretKey;
+                            break;
+                        case "EnableSecretKey":
+                            EnableSecretKey = dataRow[column.ColumnName].ToBool();
+                            SavedEnableSecretKey = EnableSecretKey;
                             break;
                         case "Comments":
                             Comments = dataRow[column.ColumnName].ToString().Deserialize<Comments>() ?? new Comments();
@@ -3723,10 +3729,10 @@ namespace Implem.Pleasanter.Models
                 || PasswordHistries_Updated(context: context)
                 || SecondaryAuthenticationCode_Updated(context: context)
                 || SecondaryAuthenticationCodeExpirationTime_Updated(context: context)
-                || SecretKey_Updated(context: context)
-                || EnableSecretKey_Updated(context: context)
                 || LdapSearchRoot_Updated(context: context)
                 || SynchronizedTime_Updated(context: context)
+                || SecretKey_Updated(context: context)
+                || EnableSecretKey_Updated(context: context)
                 || Comments_Updated(context: context)
                 || Creator_Updated(context: context)
                 || Updator_Updated(context: context);
@@ -4336,7 +4342,6 @@ namespace Implem.Pleasanter.Models
                     param: Rds.UsersParam().SecretKey(SecretKey),
                     addUpdatorParam: false,
                     addUpdatedTimeParam: false));
-
             EnableSecretKey = true;
             Repository.ExecuteNonQuery(
                 context: context,
@@ -4359,7 +4364,6 @@ namespace Implem.Pleasanter.Models
             {
                 addHyphenSecretKey += keys + "-";
             }
-
             return addHyphenSecretKey[..^1];
         }
 
@@ -4423,102 +4427,92 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             hb
-                    .Div(
-                        id: "SecondaryAuthenticationGuideTop",
-                        action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
-                            context: context,
-                            id: "SecondaryAuthenticationGuideTop")))
-                    .Div(action: isAuthenticationByMail
-                        ? () => hb
-                            .FieldTextBox(
-                                textType: isAuthenticationByMail
-                                    ? HtmlTypes.TextTypes.Password
-                                    : HtmlTypes.TextTypes.Normal,
-                                controlId: "SecondaryAuthenticationCode",
-                                controlCss: " focus always-send",
-                                labelText: Displays.AuthenticationCode(context: context),
-                                validateRequired: true,
-                                validateNumber: true,
-                                validateMaxLength: isAuthenticationByMail
-                                    ? 0
-                                    : 6
-                                )
-                        : () => hb
+                .Div(
+                    id: "SecondaryAuthenticationGuideTop",
+                    action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
+                        context: context,
+                        id: "SecondaryAuthenticationGuideTop")))
+                .Div(action: isAuthenticationByMail
+                    ? () => hb
+                        .FieldTextBox(
+                            textType: isAuthenticationByMail
+                                ? HtmlTypes.TextTypes.Password
+                                : HtmlTypes.TextTypes.Normal,
+                            controlId: "SecondaryAuthenticationCode",
+                            controlCss: " focus always-send",
+                            labelText: Displays.AuthenticationCode(context: context),
+                            validateRequired: true,
+                            validateNumber: true)
+                    : () => hb
+                        .FieldTextBox(
+                            textType: HtmlTypes.TextTypes.Normal,
+                            controlId: "SecondaryAuthenticationCode",
+                            controlCss: "always-send totp-form",
+                            labelText: Displays.AuthenticationCode(context: context),
+                            validateRequired: true,
+                            validateNumber: true)
+                        .Div(
+                            id: "TotpAuthenticationCodeSeparate",
+                            action: () => hb
                             .FieldTextBox(
                                 textType: HtmlTypes.TextTypes.Normal,
-                                controlId: "SecondaryAuthenticationCode",
-                                controlCss: "always-send totp-form",
-                                labelText: Displays.AuthenticationCode(context: context),
-                                validateRequired: true,
-                                validateNumber: true,
-                                validateMaxLength: 6)
-                            .Div(
-                                id: "TotpAuthenticationCodeSeparate",
-                                action: () => hb
-                                .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.Normal,
-                                    controlId: "FirstTotpAuthenticationCode",
-                                    controlCss: "focus totp-authentication-code",
-                                    validateNumber: true
-                                )
-                                .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.Normal,
-                                    controlCss: "totp-authentication-code",
-                                    validateNumber: true
-                                )
-                                .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.Normal,
-                                    controlCss: "totp-authentication-code",
-                                    validateNumber: true
-                                )
-                                .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.Normal,
-                                    controlCss: "totp-authentication-code",
-                                    validateNumber: true
-                                )
-                                .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.Normal,
-                                    controlCss: "totp-authentication-code",
-                                    validateNumber: true
-                                )
-                                .FieldTextBox(
-                                    textType: HtmlTypes.TextTypes.Normal,
-                                    controlCss: "totp-authentication-code",
-                                    validateNumber: true
-                                ))
+                                controlId: "FirstTotpAuthenticationCode",
+                                controlCss: "focus totp-authentication-code",
+                                validateNumber: true)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Normal,
+                                controlCss: "totp-authentication-code",
+                                validateNumber: true)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Normal,
+                                controlCss: "totp-authentication-code",
+                                validateNumber: true)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Normal,
+                                controlCss: "totp-authentication-code",
+                                validateNumber: true)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Normal,
+                                controlCss: "totp-authentication-code",
+                                validateNumber: true)
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Normal,
+                                controlCss: "totp-authentication-code",
+                                validateNumber: true)));
+            hb
                 .Div(
                     id: "AuthenticationByMail",
                     attributes: new HtmlAttributes().Add(
-                        "data-isAuthenticationByMail",
-                        isAuthenticationByMail ? "1" : "0"),
+                    "data-isAuthenticationByMail",
+                    isAuthenticationByMail ? "1" : "0"),
                     action: isAuthenticationByMail
                         ? null
                         : () => hb.A(
-                            href:"javascript:void(0)",
+                            href: "javascript:void(0)",
                             text: Displays.RequireSecondAuthenticationByMail(context: context)))
-                    .Div(
-                        id: "SecondaryAuthenticationCommands",
-                        css: "both",
-                        action: () => hb.Div(css: "command-right", action: () => hb
-                            .Button(
-                                controlId: "SecondaryAuthenticate",
-                                controlCss: " button-icon validate",
-                                text: Displays.Confirm(context: context),
-                                onClick: "$p.send($(this));",
-                                icon: "ui-icon-unlocked",
-                                action: "Authenticate",
-                                method: "post",
-                                type: "submit")
-                            .Button(
-                                    text: Displays.Cancel(context: context),
-                                    controlCss: "button-icon ",
-                                    onClick: "$p.back();",
-                                    icon: "ui-icon-cancel")))
-                    .Div(
-                        id: "SecondaryAuthenticationBottom",
-                        action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
-                            context: context,
-                            id: "SecondaryAuthenticationGuideBottom"))));
+                                .Div(
+                                    id: "SecondaryAuthenticationCommands",
+                                    css: "both",
+                                    action: () => hb.Div(css: "command-right", action: () => hb
+                                        .Button(
+                                            controlId: "SecondaryAuthenticate",
+                                            controlCss: " button-icon validate",
+                                            text: Displays.Confirm(context: context),
+                                            onClick: "$p.send($(this));",
+                                            icon: "ui-icon-unlocked",
+                                            action: "Authenticate",
+                                            method: "post",
+                                            type: "submit")
+                                        .Button(
+                                                text: Displays.Cancel(context: context),
+                                                controlCss: "button-icon ",
+                                                onClick: "$p.back();",
+                                                icon: "ui-icon-cancel")))
+                                .Div(
+                                    id: "SecondaryAuthenticationBottom",
+                                    action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
+                                        context: context,
+                                        id: "SecondaryAuthenticationGuideBottom")));
             var rc = new ResponseCollection(context: context)
                 .Css(
                     target: "#Logins",
