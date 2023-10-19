@@ -593,7 +593,7 @@ namespace Implem.Pleasanter.Models
             if (copy && column?.CopyByDefault == true)
             {
                 return column.GetDefaultInput(context: context).ToString() != LdapSearchRoot;
-        }
+            }
             return LdapSearchRoot != SavedLdapSearchRoot && LdapSearchRoot != null
                 &&  (column == null
                     || column.DefaultInput.IsNullOrEmpty()
@@ -2814,7 +2814,7 @@ namespace Implem.Pleasanter.Models
             bool otherInitValue = false,
             bool setBySession = true,
             bool get = true,
-            bool checkConflict = true) 
+            bool checkConflict = true)
         {
             var userApiModel = context.RequestDataString.Deserialize<UserApiModel>();
             if (updateMailAddresses &&
@@ -4349,6 +4349,9 @@ namespace Implem.Pleasanter.Models
                     addUpdatedTimeParam: false));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private string AddHyphenSecretKey()
         {
             string addHyphenSecretKey = string.Empty;
@@ -4414,7 +4417,6 @@ namespace Implem.Pleasanter.Models
             {
                 isAuthenticationByMail = true;
             }
-
             if (isAuthenticationByMail)
             {
                 UpdateSecondaryAuthenticationCode(context: context);
@@ -4442,7 +4444,49 @@ namespace Implem.Pleasanter.Models
                                     ? 0
                                     : 6
                                 )
-                        : () => MakeTotpForm(hb: hb, context: context))
+                        : () => hb
+                            .FieldTextBox(
+                                textType: HtmlTypes.TextTypes.Normal,
+                                controlId: "SecondaryAuthenticationCode",
+                                controlCss: "always-send totp-form",
+                                labelText: Displays.AuthenticationCode(context: context),
+                                validateRequired: true,
+                                validateNumber: true,
+                                validateMaxLength: 6)
+                            .Div(
+                                id: "TotpAuthenticationCodeSeparate",
+                                action: () => hb
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.Normal,
+                                    controlId: "FirstTotpAuthenticationCode",
+                                    controlCss: "focus totp-authentication-code",
+                                    validateNumber: true
+                                )
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.Normal,
+                                    controlCss: "totp-authentication-code",
+                                    validateNumber: true
+                                )
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.Normal,
+                                    controlCss: "totp-authentication-code",
+                                    validateNumber: true
+                                )
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.Normal,
+                                    controlCss: "totp-authentication-code",
+                                    validateNumber: true
+                                )
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.Normal,
+                                    controlCss: "totp-authentication-code",
+                                    validateNumber: true
+                                )
+                                .FieldTextBox(
+                                    textType: HtmlTypes.TextTypes.Normal,
+                                    controlCss: "totp-authentication-code",
+                                    validateNumber: true
+                                ))
                 .Div(
                     id: "AuthenticationByMail",
                     attributes: new HtmlAttributes().Add(
@@ -4475,8 +4519,7 @@ namespace Implem.Pleasanter.Models
                         id: "SecondaryAuthenticationBottom",
                         action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
                             context: context,
-                            id: "SecondaryAuthenticationGuideBottom")));
-
+                            id: "SecondaryAuthenticationGuideBottom"))));
             var rc = new ResponseCollection(context: context)
                 .Css(
                     target: "#Logins",
@@ -4489,57 +4532,9 @@ namespace Implem.Pleasanter.Models
                     target: "#BackUrl",
                     value: context.UrlReferrer,
                     _using: !context.UrlReferrer.IsNullOrEmpty());
-
             return isAuthenticationByMail ?
                 rc.Focus("#SecondaryAuthenticationCode").ToJson():
                 rc.Focus("#FirstTotpAuthenticationCode").ToJson();
-        }
-
-        private HtmlBuilder MakeTotpForm(HtmlBuilder hb, Context context)
-        {
-            return hb
-                .FieldTextBox(
-                    textType: HtmlTypes.TextTypes.Normal,
-                    controlId: "SecondaryAuthenticationCode",
-                    controlCss: "always-send totp-form",
-                    labelText: Displays.AuthenticationCode(context: context),
-                    validateRequired: true,
-                    validateNumber: true,
-                    validateMaxLength: 6)
-                .Div(
-                    id: "TotpAuthenticationCodeSeparate",
-                    action: () => hb
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.Normal,
-                        controlId: "FirstTotpAuthenticationCode",
-                        controlCss: "focus totp-authentication-code",
-                        validateNumber: true
-                    )
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.Normal,
-                        controlCss: "totp-authentication-code",
-                        validateNumber: true
-                    )
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.Normal,
-                        controlCss: "totp-authentication-code",
-                        validateNumber: true
-                    )
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.Normal,
-                        controlCss: "totp-authentication-code",
-                        validateNumber: true
-                    )
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.Normal,
-                        controlCss: "totp-authentication-code",
-                        validateNumber: true
-                    )
-                    .FieldTextBox(
-                        textType: HtmlTypes.TextTypes.Normal,
-                        controlCss: "totp-authentication-code",
-                        validateNumber: true
-                    ));
         }
 
         /// <summary>
@@ -4548,7 +4543,6 @@ namespace Implem.Pleasanter.Models
         private string OpenGoogleAuthenticatorRegisterCode(Context context)
         {
             UpdateSecretKey(context);
-
             var hb = new HtmlBuilder();
             return new ResponseCollection(context: context)
                 .Css(
@@ -4591,7 +4585,6 @@ namespace Implem.Pleasanter.Models
                     target: "#BackUrl",
                     value: context.UrlReferrer,
                     _using: !context.UrlReferrer.IsNullOrEmpty()).ToJson();
-
         }
 
         /// <summary>
@@ -4877,6 +4870,9 @@ namespace Implem.Pleasanter.Models
                 : VerifyGoogleAuthenfication(secondaryAuthenticationCode);
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private bool VerifyGoogleAuthenfication(string secondaryAuthenticationCode)
         {
             Totp totp = new Totp(Base32Encoding.ToBytes(SecretKey), totpSize: 6);
