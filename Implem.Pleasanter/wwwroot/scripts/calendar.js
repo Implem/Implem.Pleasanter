@@ -52,6 +52,9 @@ const getEventsDatas = function (calendarPrefix) {
             $p.set($('#' + calendarPrefix + 'CalendarStart'), info.start.toLocaleDateString());
             $p.set($('#' + calendarPrefix + 'CalendarEnd'), info.end.toLocaleDateString());
             $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'calendar');
+            if (calendarPrefix != '') {
+                $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
+            }
 
             let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
             if (calendarDiff === 1) {
@@ -327,6 +330,9 @@ function htmlEncode(str) {
 $p.moveCalendar = function (type, calendarPrefix) {
     var $control = $('#' + calendarPrefix + 'CalendarDate');
     $control.val($('#' + calendarPrefix + 'Calendar' + type).val());
+    if (calendarPrefix != '') {
+       $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
+    }
     $p.setData($control);
     $p.send($control);
 }
@@ -401,6 +407,7 @@ $p.setCalendar = function () {
     var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id$="Calendar"]')).get();
     $(calendarElArr).each(function (index, value) {
         var calendarPrefix = value.id.replace(/[^0-9]/g, '');
+
         if ($('#' + calendarPrefix + 'CalendarType').val() == "FullCalendar") {
             setFullCalendar(calendarPrefix, value);
         } else {
