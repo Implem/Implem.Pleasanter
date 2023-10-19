@@ -7346,14 +7346,18 @@ namespace Implem.Pleasanter.Models
                 date: date,
                 timePeriod: timePeriod,
                 view: view,
-                calendarType: calendarType);
+                calendarType: calendarType.IsNullOrEmpty()
+                    ? ss.CalendarType.ToString()
+                    : calendarType);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
                 view: view,
-                calendarType: calendarType);
+                calendarType: calendarType.IsNullOrEmpty()
+                    ? ss.CalendarType.ToString()
+                    : calendarType);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
                 ? view.CalendarViewType
                 : "dayGridMonth";
@@ -7698,7 +7702,7 @@ namespace Implem.Pleasanter.Models
             bool showStatus,
             bool inRange,
             long changedItemId = 0,
-            string calendarType = "Standard",
+            string calendarType = null,
             string prefix = null,
             string calendarFromTo = null)
         {
