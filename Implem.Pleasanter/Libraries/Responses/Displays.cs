@@ -1449,6 +1449,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 data: data);
         }
 
+        public static string CalculationMethod(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "CalculationMethod",
+                data: data);
+        }
+
         public static string Calendar(
             Context context,
             params string[] data)
@@ -6446,6 +6456,16 @@ namespace Implem.Pleasanter.Libraries.Responses
             return Get(
                 context: context,
                 id: "NoTargetRecord",
+                data: data);
+        }
+
+        public static string NotUseDisplayName(
+            Context context,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: "NotUseDisplayName",
                 data: data);
         }
 

@@ -8,9 +8,11 @@ namespace Implem.Pleasanter.Libraries.Settings
     {
         public static Error.Types AddFormula(
             this SiteSettings ss,
+            string calculationMethod,
             string target,
             int? condition,
             string formula,
+            bool notUseDisplayName,
             string outOfCondition)
         {
             if (ss.FormulaColumn(target) == null)
@@ -22,23 +24,36 @@ namespace Implem.Pleasanter.Libraries.Settings
                 Id = ss.Formulas?.Any() == true
                     ? ss.Formulas.Max(o => o.Id) + 1
                     : 1,
+                CalculationMethod = calculationMethod,
                 Target = target,
                 Condition = ss.Views?.Get(condition) != null
                     ? condition
-                    : null
+                    : null,
+                NotUseDisplayName = notUseDisplayName
             };
-            var formulaParts = Parts(formula);
-            if (!formulaParts.Any())
+            IEnumerable<string> formulaParts = null;
+            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
-                return Error.Types.InvalidFormula;
+                formulaParts = Parts(formula);
+                if (!formulaParts.Any())
+                {
+                    return Error.Types.InvalidFormula;
+                }
+            }
+            else
+            {
+                formulaSet.FormulaScript = formula;
             }
             var outOfConditionParts = Parts(outOfCondition);
             if (!outOfCondition.IsNullOrEmpty() && !outOfConditionParts.Any())
             {
                 return Error.Types.InvalidFormula;
             }
-            var error1 = Get(ss, formulaParts, out formulaSet.Formula);
-            if (error1.Has()) return error1;
+            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            {
+                var error1 = Get(ss, formulaParts, out formulaSet.Formula);
+                if (error1.Has()) return error1;
+            }
             if (formulaSet.Condition != null && outOfConditionParts != null)
             {
                 var error2 = Get(ss, outOfConditionParts, out formulaSet.OutOfCondition);
@@ -52,9 +67,11 @@ namespace Implem.Pleasanter.Libraries.Settings
         public static Error.Types UpdateFormula(
             this SiteSettings ss,
             int id,
+            string calculationMethod,
             string target,
             int? condition,
             string formula,
+            bool notUseDisplayName,
             string outOfCondition)
         {
             var formulaSet = ss.Formulas.FirstOrDefault(o => o.Id == id);
@@ -66,22 +83,35 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.InvalidFormula;
             }
+            formulaSet.CalculationMethod = calculationMethod;
             formulaSet.Target = target;
             formulaSet.Condition = ss.Views?.Get(condition) != null
                 ? condition
                 : null;
-            var formulaParts = Parts(formula);
-            if (!formulaParts.Any())
+            formulaSet.NotUseDisplayName = notUseDisplayName;
+            IEnumerable<string> formulaParts = null;
+            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
-                return Error.Types.InvalidFormula;
+                formulaParts = Parts(formula);
+                if (!formulaParts.Any())
+                {
+                    return Error.Types.InvalidFormula;
+                }
+            }
+            else
+            {
+                formulaSet.FormulaScript = formula;
             }
             var outOfConditionParts = Parts(outOfCondition);
             if (!outOfCondition.IsNullOrEmpty() && !outOfConditionParts.Any())
             {
                 return Error.Types.InvalidFormula;
             }
-            var error1 = Get(ss, formulaParts, out formulaSet.Formula);
-            if (error1.Has()) return error1;
+            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            {
+                var error1 = Get(ss, formulaParts, out formulaSet.Formula);
+                if (error1.Has()) return error1;
+            }
             if (formulaSet.Condition != null && outOfConditionParts != null)
             {
                 var error2 = Get(ss, outOfConditionParts, out formulaSet.OutOfCondition);

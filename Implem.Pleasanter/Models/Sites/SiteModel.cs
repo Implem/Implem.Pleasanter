@@ -4219,9 +4219,11 @@ namespace Implem.Pleasanter.Models
         {
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.AddFormula(
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);
@@ -4247,9 +4249,11 @@ namespace Implem.Pleasanter.Models
             var outOfCondition = context.Forms.Data("FormulaOutOfCondition").Trim();
             var error = SiteSettings.UpdateFormula(
                 id,
+                context.Forms.Data("FormulaCalculationMethod"),
                 context.Forms.Data("FormulaTarget"),
                 context.Forms.Int("FormulaCondition"),
                 context.Forms.Data("Formula"),
+                context.Forms.Bool("NotUseDisplayName"),
                 outOfCondition != string.Empty
                     ? outOfCondition
                     : null);

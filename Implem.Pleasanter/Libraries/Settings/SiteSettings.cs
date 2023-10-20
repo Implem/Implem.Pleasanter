@@ -2255,13 +2255,16 @@ namespace Implem.Pleasanter.Libraries.Settings
                 o.ColumnName == columnName && o.HistoryColumn);
         }
 
-        public Column FormulaColumn(string name)
+        public Column FormulaColumn(string name, string calculationMethod = null)
         {
-            return Columns
-                .Where(o => o.ColumnName == name || o.LabelText == name)
-                .Where(o => o.TypeName == "decimal")
-                .Where(o => !o.NotUpdate)
-                .Where(o => !o.Joined)
+            return (calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                ? Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.TypeName == "decimal")
+                    .Where(o => !o.NotUpdate)
+                    .Where(o => !o.Joined)
+                : Columns
+                    .Where(o => o.ColumnName == name || o.LabelText == name))
                 .FirstOrDefault();
         }
 
@@ -2451,10 +2454,11 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>
-                    formulaSet.Target == column.ColumnName
-                    || ContainsFormulaColumn(
-                        columnName: column.ColumnName,
-                        children: formulaSet.Formula.Children)))
+                    formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                    && (formulaSet.Target == column.ColumnName
+                        || ContainsFormulaColumn(
+                            columnName: column.ColumnName,
+                            children: formulaSet.Formula.Children))))
                 .Where(column => column.AllowBulkUpdate == true)
                 .Where(column => column.CanUpdate(
                     context: context,
@@ -3096,12 +3100,15 @@ namespace Implem.Pleasanter.Libraries.Settings
                     o => new ControlData(text: o.Text));
         }
 
-        public Dictionary<string, ControlData> FormulaTargetSelectableOptions()
+        public Dictionary<string, ControlData> FormulaTargetSelectableOptions(string calculationMethod)
         {
-            return Columns
-                .Where(o => o.TypeName == "decimal")
-                .Where(o => !o.NotUpdate)
-                .Where(o => !o.Joined)
+            return (string.IsNullOrEmpty(calculationMethod)
+                || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                    ? Columns
+                        .Where(o => o.TypeName == "decimal")
+                        .Where(o => !o.NotUpdate)
+                        .Where(o => !o.Joined)
+                    : Columns)
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
@@ -3114,6 +3121,19 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ControlData> ViewSelectableOptions()
         {
             return Views?.ToDictionary(o => o.Id.ToString(), o => new ControlData(o.Name));
+        }
+
+        public Dictionary<string, ControlData> FormulaCalculationMethodSelectableOptions()
+        {
+            return Enum.GetValues(typeof(FormulaSet.CalculationMethods))
+               .Cast<FormulaSet.CalculationMethods>()
+               .ToDictionary(
+                    o => o.ToString(),
+                    o => new ControlData(
+                        text: Enum.GetName(typeof(FormulaSet.CalculationMethods), o),
+                        attributes: new Dictionary<string, string>() { { "data-action", "FormulaCalculationMethodChanged"} }
+                    )
+                );
         }
 
         public Dictionary<string, ControlData> MonitorChangesSelectableOptions(

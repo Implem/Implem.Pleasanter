@@ -8125,7 +8125,9 @@ namespace Implem.Pleasanter.Models
                                         context: context,
                                         columnName: formulaSet.Target)?.LabelText))
                                 .Td(action: () => hb
-                                    .Text(text: formulaSet.Formula?.ToString(ss)))
+                                    .Text(text: formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                                        ? formulaSet.Formula?.ToString(ss: ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                                        : formulaSet.FormulaScript))
                                 .Td(action: () => hb
                                     .Text(text: ss.Views?.Get(formulaSet.Condition)?.Name))
                                 .Td(action: () => hb
@@ -8158,18 +8160,33 @@ namespace Implem.Pleasanter.Models
                         _using: controlId == "EditFormula")
                     .FieldDropDown(
                         context: context,
+                        controlId: "FormulaCalculationMethod",
+                        controlCss: " always-send",
+                        labelText: Displays.CalculationMethod(context: context),
+                        optionCollection: ss.FormulaCalculationMethodSelectableOptions(),
+                        selectedValue: formulaSet.CalculationMethod,
+                        onChange: "$p.changeCalculationMethod($(this));")
+                    .FieldDropDown(
+                        context: context,
                         controlId: "FormulaTarget",
                         controlCss: " always-send",
                         labelText: Displays.Target(context: context),
-                        optionCollection: ss.FormulaTargetSelectableOptions(),
+                        optionCollection: ss.FormulaTargetSelectableOptions(formulaSet.CalculationMethod),
                         selectedValue: formulaSet.Target?.ToString())
                     .FieldTextBox(
                         controlId: "Formula",
                         controlCss: " always-send",
                         fieldCss: "field-wide",
                         labelText: Displays.Formulas(context: context),
-                        text: formulaSet.Formula?.ToString(ss),
+                        text: formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                            ? formulaSet.Formula?.ToString(ss, notUseDisplayName: formulaSet.NotUseDisplayName)
+                            : formulaSet.FormulaScript,
                         validateRequired: true)
+                    .FieldCheckBox(
+                        controlId: "NotUseDisplayName",
+                        controlCss: " always-send",
+                        labelText: Displays.NotUseDisplayName(context: context),
+                        _checked: formulaSet.NotUseDisplayName == true)
                     .FieldDropDown(
                         context: context,
                         controlId: "FormulaCondition",

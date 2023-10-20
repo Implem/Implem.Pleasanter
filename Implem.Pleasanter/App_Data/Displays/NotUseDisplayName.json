@@ -1,0 +1,33 @@
+﻿{
+    "Id": "NotUseDisplayName",
+    "Type": 110,
+    "Languages": [
+        {
+            "Body": "Don't use display name"
+        },
+        {
+            "Language": "zh",
+            "Body": "不要使用显示名称"
+        },
+        {
+            "Language": "ja",
+            "Body": "表示名を使用しない"
+        },
+        {
+            "Language": "de",
+            "Body": "Verwenden Sie keinen Anzeigenamen"
+        },
+        {
+            "Language": "ko",
+            "Body": "표시 이름을 사용하지 않음"
+        },
+        {
+            "Language": "es",
+            "Body": "No usar nombre para mostrar"
+        },
+        {
+            "Language": "vn",
+            "Body": "Không dùng tên hiển thị"
+        }
+    ]
+}

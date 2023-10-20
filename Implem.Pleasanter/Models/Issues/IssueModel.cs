@@ -1,12 +1,10 @@
 ﻿using Implem.DefinitionAccessor;
-using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
-using Implem.Pleasanter.Libraries.Html;
 using Implem.Pleasanter.Libraries.HtmlParts;
 using Implem.Pleasanter.Libraries.Models;
 using Implem.Pleasanter.Libraries.Requests;
@@ -18,9 +16,8 @@ using Implem.Pleasanter.Libraries.Settings;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
-using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
+using System.Text.RegularExpressions;
 namespace Implem.Pleasanter.Models
 {
     [Serializable]
@@ -3582,52 +3579,115 @@ namespace Implem.Pleasanter.Models
             ss.Formulas?.ForEach(formulaSet =>
             {
                 var columnName = formulaSet.Target;
-                var formula = formulaSet.Formula;
-                var view = ss.Views?.Get(formulaSet.Condition);
-                if (view != null && !Matched(context: context, ss: ss, view: view))
+                if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                 {
-                    if (formulaSet.OutOfCondition != null)
+                    var formula = formulaSet.Formula;
+                    var view = ss.Views?.Get(formulaSet.Condition);
+                    if (view != null && !Matched(context: context, ss: ss, view: view))
                     {
-                        formula = formulaSet.OutOfCondition;
+                        if (formulaSet.OutOfCondition != null)
+                        {
+                            formula = formulaSet.OutOfCondition;
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
-                    else
+                    var data = new Dictionary<string, decimal>
                     {
-                        return;
+                        { "WorkValue", WorkValue.Value.ToDecimal() },
+                        { "ProgressRate", ProgressRate.Value.ToDecimal() },
+                        { "RemainingWorkValue", RemainingWorkValue.Value.ToDecimal() }
+                    };
+                    data.AddRange(NumHash.ToDictionary(
+                        o => o.Key,
+                        o => o.Value?.Value?.ToDecimal() ?? 0));
+                    var value = formula?.GetResult(
+                        data: data,
+                        column: ss.GetColumn(
+                            context: context,
+                            columnName: columnName)) ?? 0;
+                    switch (columnName)
+                    {
+                        case "WorkValue":
+                            WorkValue.Value = value;
+                            break;
+                        case "ProgressRate":
+                            ProgressRate.Value = value;
+                            break;
+                        default:
+                            SetNum(
+                                columnName: columnName,
+                                value: new Num(value));
+                            break;
+                    }
+                    if (ss.OutputFormulaLogs == true)
+                    {
+                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
                     }
                 }
-                var data = new Dictionary<string, decimal>
+                else if (formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Script.ToString())
                 {
-                    { "WorkValue", WorkValue.Value.ToDecimal() },
-                    { "ProgressRate", ProgressRate.Value.ToDecimal() },
-                    { "RemainingWorkValue", RemainingWorkValue.Value.ToDecimal() }
-                };
-                data.AddRange(NumHash.ToDictionary(
-                    o => o.Key,
-                    o => o.Value?.Value?.ToDecimal() ?? 0));
-                var value = formula?.GetResult(
-                    data: data,
-                    column: ss.GetColumn(
+                    var columns = Regex.Matches(formulaSet.FormulaScript, @"\[([^]]*)\]");
+                    foreach (var column in columns)
+                    {
+                        var columnParam = column.ToString()[1..^1];
+                        if (ss.FormulaColumn(columnParam, formulaSet.CalculationMethod) != null)
+                        {
+                            formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(column.ToString(), $"model.{columnParam}");
+                        }
+                    }
+                    var value = FormulaServerScriptUtilities.Execute(
                         context: context,
-                        columnName: columnName)) ?? 0;
-                switch (columnName)
-                {
-                    case "WorkValue":
-                        WorkValue.Value = value;
-                        break;
-                    case "ProgressRate":
-                        ProgressRate.Value = value;
-                        break;
-                    default:
-                        SetNum(
-                            columnName: columnName,
-                            value: new Num(value));
-                        break;
-                }
-                if (ss.OutputFormulaLogs == true)
-                {
-                    context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
-                    context.LogBuilder?.AppendLine($"formulaSource: {data.ToJson()}");
-                    context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                        ss: ss,
+                        itemModel: this,
+                        formulaScript: formulaSet.FormulaScript);
+                    switch (columnName)
+                    {
+                        case "SiteId": SiteId = value.ToLong(); break;
+                        case "UpdatedTime": UpdatedTime.Value = value.ToDateTime(); break;
+                        case "IssueId": IssueId = value.ToLong(); break;
+                        case "Ver": Ver = value.ToInt(); break;
+                        case "Title": Title.Value = value.ToString(); break;
+                        case "Body": Body = value.ToString(); break;
+                        case "TitleBody": TitleBody.Value = value.ToString(); break;
+                        case "StartTime": StartTime = value.ToDateTime(); break;
+                        case "CompletionTime": CompletionTime.Value = value.ToDateTime(); break;
+                        case "WorkValue": WorkValue.Value = value.ToDecimal(); break;
+                        case "ProgressRate": ProgressRate.Value = value.ToDecimal(); break;
+                        case "RemainingWorkValue": RemainingWorkValue.Value = value.ToDecimal(); break;
+                        case "Status": Status.Value = value.ToInt(); break;
+                        case "Manager": Manager.Id = value.ToInt(); break;
+                        case "Owner": Owner.Id = value.ToInt(); break;
+                        case "Locked": Locked = value.ToBool(); break;
+                        case "SiteTitle": SiteTitle.SiteId = value.ToLong(); break;
+                        case "Comments": Comments = Comments.Prepend(context, ss, value.ToString()); break;
+                        case "Creator": Creator.Id = value.ToInt(); break;
+                        case "Updator": Updator.Id = value.ToInt(); break;
+                        case "CreatedTime": CreatedTime.Value = value.ToDateTime(); break;
+                        case "VerUp": VerUp = value.ToBool(); break;
+                        case "Timestamp": Timestamp = value.ToString(); break;
+                        default:
+                            switch (Def.ExtendedColumnTypes.Get(columnName))
+                            {
+                                case "Class": SetClass(columnName, value.ToString()); break;
+                                case "Num": SetNum(columnName, new Num(value.ToDecimal())); break;
+                                case "Date": SetDate(columnName, value.ToDateTime().ToUniversal(context)); break;
+                                case "Description": SetDescription(columnName, value.ToString()); break;
+                                case "Check": SetCheck(columnName, value.ToBool()); break;
+                                case "Attachments": SetAttachments( columnName, value.ToString().Deserialize<Attachments>()); break;
+                            }
+                            break;
+                    }
+                    if (ss.OutputFormulaLogs == true)
+                    {
+                        context.LogBuilder?.AppendLine($"formulaSet: {formulaSet.GetRecordingData().ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaSource: {this.ToJson()}");
+                        context.LogBuilder?.AppendLine($"formulaResult: {{\"{columnName}\":{value}}}");
+                    }
                 }
             });
             SetByAfterFormulaServerScript(
