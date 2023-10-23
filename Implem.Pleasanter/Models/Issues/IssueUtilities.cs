@@ -7308,7 +7308,9 @@ namespace Implem.Pleasanter.Models
             string calendarGroupBy = null,
             string calendarTimePeriod = null,
             string calendarFromTo = null,
-            bool calendarShowStatus = false)
+            bool calendarShowStatus = false,
+            DateTime? calendarStart = null,
+            DateTime? calendarEnd = null)
         {
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
@@ -7348,7 +7350,8 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 calendarType: calendarType.IsNullOrEmpty()
                     ? ss.CalendarType.ToString()
-                    : calendarType);
+                    : calendarType,
+                calendarStart: calendarStart);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
@@ -7357,7 +7360,8 @@ namespace Implem.Pleasanter.Models
                 view: view,
                 calendarType: calendarType.IsNullOrEmpty()
                     ? ss.CalendarType.ToString()
-                    : calendarType);
+                    : calendarType,
+                calendarEnd: calendarEnd);
             var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
                 ? view.CalendarViewType
                 : "dayGridMonth";
@@ -7397,6 +7401,9 @@ namespace Implem.Pleasanter.Models
                             fromColumn: fromColumn,
                             toColumn: toColumn,
                             date: date,
+                            siteId: !siteId.Equals(0)
+                                ? siteId
+                                : 0,
                             begin: begin,
                             end: end,
                             CalendarViewType: CalendarViewType,
@@ -7419,6 +7426,7 @@ namespace Implem.Pleasanter.Models
                         fromColumn: fromColumn,
                         toColumn: toColumn,
                         date: date,
+                        siteId: siteId,
                         begin: begin,
                         end: end,
                         CalendarViewType: CalendarViewType,
@@ -7487,6 +7495,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss,
             long changedItemId = 0,
+            long siteId = 0,
             bool update = false,
             Message message = null)
         {
@@ -7559,6 +7568,7 @@ namespace Implem.Pleasanter.Models
                 fromColumn: fromColumn,
                 toColumn: toColumn,
                 date: date,
+                siteId: siteId,
                 begin: begin,
                 end: end,
                 CalendarViewType: CalendarViewType,
@@ -7693,6 +7703,7 @@ namespace Implem.Pleasanter.Models
             Column fromColumn,
             Column toColumn,
             DateTime date,
+            long siteId,
             DateTime begin,
             DateTime end,
             string CalendarViewType,
@@ -7715,6 +7726,7 @@ namespace Implem.Pleasanter.Models
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     date: date,
+                    siteId: siteId,
                     begin: begin,
                     end: end,
                     CalendarViewType: CalendarViewType,
@@ -7734,6 +7746,7 @@ namespace Implem.Pleasanter.Models
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     date: date,
+                    siteId: siteId,
                     begin: begin,
                     end: end,
                     CalendarViewType: CalendarViewType,

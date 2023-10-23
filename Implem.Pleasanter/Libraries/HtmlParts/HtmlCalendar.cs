@@ -27,6 +27,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column fromColumn,
             Column toColumn,
             DateTime date,
+            long siteId,
             DateTime begin,
             DateTime end,
             string CalendarViewType,
@@ -126,6 +127,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             fromColumn: fromColumn,
                             toColumn: toColumn,
                             date: date,
+                            siteId: siteId,
                             begin: begin,
                             end: end,
                             CalendarViewType: CalendarViewType,
@@ -178,6 +180,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             fromColumn: fromColumn,
                             toColumn: toColumn,
                             date: date,
+                            siteId: siteId,
                             begin: begin,
                             end: end,
                             CalendarViewType: CalendarViewType,
@@ -202,6 +205,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             Column fromColumn,
             Column toColumn,
             DateTime date,
+            long siteId,
             DateTime begin,
             DateTime end,
             string CalendarViewType,
@@ -215,6 +219,11 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             string calendarFromTo)
         {
             hb
+                .Hidden(
+                    controlId: $"{prefix}CalendarSiteData",
+                    value: !siteId.Equals(0)
+                        ? siteId.ToString()
+                        : "")
                 .Hidden(
                     controlId: $"{prefix}CalendarFromTo",
                     value: calendarFromTo?.ToString(),
