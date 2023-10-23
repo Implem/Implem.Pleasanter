@@ -1,6 +1,5 @@
 ﻿const newRecord = function (calendarPrefix) {
     return function (info) {
-        console.log('/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new')
         var form = document.createElement("form");
         form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
         form.setAttribute("method", "post");
@@ -17,7 +16,6 @@
         end.setAttribute("value", info.end.toLocaleString());
         form.appendChild(end);
         var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
-
         const match = /^Date/;
         if (fromTo[1]) {
         } else if (match.test(fromTo)) {
@@ -168,7 +166,8 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
             group,
             hash,
             element,
-            current);
+            current,
+            calendarPrefix);
         if (element.To !== undefined) {
             current.setDate(current.getDate() + 1);
             var to = new Date(element.To);
@@ -184,6 +183,7 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                     hash,
                     element,
                     current,
+                    calendarPrefix,
                     current.getDay() !== 1,
                     rank);
                 current.setDate(current.getDate() + 1);
@@ -236,17 +236,18 @@ function Rank(hash, id) {
     return hash[id];
 }
 
-function addItem(group, hash, element, current, sub, rank, yearly) {
+function addItem(group, hash, element, current, calendarPrefix, sub, rank, yearly) {
+
     var id = $p.shortDateString(current);
     var groupSelector = (group === undefined)
         ? ''
         : '[data-value="' + group + '"]';
-    var $cell = $(groupSelector + '[data-id="' + id + '"] > div');
+    var $cell = $(groupSelector + '[id="' + calendarPrefix + 'Calendar' + '"] > div' + ' [data-id="' + id + '"] > div');
     while (Rank(hash, id) < rank) {
         $cell.append($('<div />').addClass('dummy'));
         hash[id]++;
     }
-    var item = $('<div />')
+    var item = $(' <div />')
         .addClass('item')
         .addClass(element.Changed === true ? 'changed' : '')
         .attr('data-id', element.Id)
