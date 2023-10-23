@@ -91,7 +91,8 @@
     "AspNetCoreDataProtection": {
         "BlobContainerUri": null,
         "KeyIdentifier": null,
-        "KeyFileName": "Keys.xml"
+        "KeyFileName": "Keys.xml",
+        "XmlAesKey":  null
     },
     "HttpStrictTransportSecurity": {
         "Enabled": false,

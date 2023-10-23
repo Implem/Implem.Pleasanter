@@ -29,20 +29,6 @@ services:
       - db
     networks:
       - default
-  Implem.PleasanterTest:
-    build:
-      context: .
-      dockerfile: ./Implem.PleasanterTest/Dockerfile
-    environment:
-        - Implem.Pleasanter_Rds_PostgreSQL_SaConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_SaConnectionString}
-        - Implem.Pleasanter_Rds_PostgreSQL_OwnerConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_OwnerConnectionString}
-        - Implem.Pleasanter_Rds_PostgreSQL_UserConnectionString=${Implem_Pleasanter_Rds_PostgreSQL_UserConnectionString}
-    image: implem.pleasantertest
-    container_name: xunittest
-    depends_on:
-      - db
-    networks:
-      - default
   db:
     container_name: postgresql
     image: postgres:15

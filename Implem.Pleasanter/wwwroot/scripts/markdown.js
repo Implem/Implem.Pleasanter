@@ -49,7 +49,7 @@ $p.markup = function (markdownValue, encoded) {
     text = replaceUnc(text);
     return text.indexOf('[md]') === 0
         ? '<div class="md">' + marked(text.substring(4)) + '</div>'
-        : replaceUrl(markedUp(text));
+        : markedUp(replaceUrl(text));
 
     function markedUp(text) {
         var $html = $('<pre/>')

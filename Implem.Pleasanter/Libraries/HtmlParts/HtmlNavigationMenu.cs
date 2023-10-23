@@ -354,6 +354,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageDeptTrashBox = CanManageDeptTrashBox(
                 context: context,
                 ss: ss);
+            var canManageUserTrashBox = CanManageUserTrashBox(
+                context: context,
+                ss: ss);
             var canUseApi = context.UserSettings?.AllowApi(context: context) == true;
             var canUnlockSite = ss.LockedTable()
                 && ss.LockedTableUser.Id == context.UserId;
@@ -393,6 +396,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageTrashBox;
                 case "SettingsMenu_DeptTrashBox":
                     return canManageDeptTrashBox;
+                case "SettingsMenu_UserTrashBox":
+                    return canManageUserTrashBox;
                 case "SettingsMenu_TenantAdmin":
                     return canManageTenants;
                 case "SettingsMenu_ImportSitePackage":
@@ -623,7 +628,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
                 && context.Controller == "depts"
-                && Permissions.CanManageTenant(context: context)
+                && Permissions.CanManageTenant(context: context);
+        }
+
+        private static bool CanManageUserTrashBox(Context context, SiteSettings ss)
+        {
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && context.Controller == "users"
+                && Permissions.CanManageUser(context: context)
                 && !ss.Locked();
         }
 
