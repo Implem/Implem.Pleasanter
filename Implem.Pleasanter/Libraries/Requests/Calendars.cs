@@ -10,7 +10,14 @@ namespace Implem.Pleasanter.Libraries.Requests
 {
     public static class Calendars
     {
-        public static DateTime BeginDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view, string calendarType)
+        public static DateTime BeginDate(
+            Context context,
+            SiteSettings ss,
+            DateTime date,
+            string timePeriod,
+            View view,
+            string calendarType,
+            DateTime? calendarStart = null)
         {
             date = date.ToLocal(context: context).Date;
             var first = new DateTime(date.Year, date.Month, 1);
@@ -41,6 +48,10 @@ namespace Implem.Pleasanter.Libraries.Requests
                         begin = !string.IsNullOrEmpty(view.CalendarStart.ToString())
                             ? (DateTime)view.CalendarStart
                             : begin;
+                        if (!string.IsNullOrEmpty(calendarStart.ToString()))
+                        {
+                            begin = (DateTime)calendarStart;
+                        }
                     }
                     return begin.ToUniversal(context: context);
 
@@ -49,10 +60,21 @@ namespace Implem.Pleasanter.Libraries.Requests
             }
         }
 
-        public static DateTime EndDate(Context context, SiteSettings ss, DateTime date, string timePeriod, View view, string calendarType)
+        public static DateTime EndDate(
+            Context context,
+            SiteSettings ss,
+            DateTime date,
+            string timePeriod,
+            View view,
+            string calendarType,
+            DateTime? calendarEnd = null)
         {
             if (calendarType == "FullCalendar")
             {
+                if (!string.IsNullOrEmpty(calendarEnd.ToString()))
+                {
+                    return (DateTime)calendarEnd;
+                }
                 return !string.IsNullOrEmpty(view.CalendarEnd.ToString())
                     ? (DateTime)view.CalendarEnd
                     : BeginDate(
