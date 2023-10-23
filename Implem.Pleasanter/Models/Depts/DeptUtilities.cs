@@ -2782,14 +2782,6 @@ namespace Implem.Pleasanter.Models
                             .TenantId(context.TenantId)
                             .ReferenceId_In(sub: sub)
                             .BinaryType(value: "TenantManagementImages")),
-                    Rds.DeletePermissions(
-                        factory: context,
-                        where: Rds.PermissionsWhere()
-                            .DeptId_In(sub: sub)),
-                    Rds.DeleteGroupMembers(
-                        factory: context,
-                        where: Rds.GroupMembersWhere()
-                            .DeptId_In(sub: sub)),
                     Rds.DeleteDepts(
                         factory: context,
                         where: Rds.DeptsWhere()
