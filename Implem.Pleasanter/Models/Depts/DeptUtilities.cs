@@ -4,6 +4,7 @@ using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Libraries.DataSources;
+using Implem.Pleasanter.Libraries.DataTypes;
 using Implem.Pleasanter.Libraries.Extensions;
 using Implem.Pleasanter.Libraries.General;
 using Implem.Pleasanter.Libraries.Html;
@@ -2692,6 +2693,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string BulkDelete(Context context, SiteSettings ss)
         {
             if (context.CanDelete(ss: ss))
@@ -2812,6 +2816,9 @@ namespace Implem.Pleasanter.Models
                         _using: selected.Any()));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string TrashBox(Context context, SiteSettings ss)
         {
             var hb = new HtmlBuilder();
@@ -2841,6 +2848,9 @@ namespace Implem.Pleasanter.Models
                         serverScriptModelRow: serverScriptModelRow));
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string TrashBoxJson(Context context, SiteSettings ss)
         {
             var view = Views.GetBySession(
@@ -2868,6 +2878,9 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string Restore(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.Restore)
@@ -2915,6 +2928,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static int Restore(
             Context context, SiteSettings ss, List<long> selected, bool negative = false)
         {
@@ -2973,6 +2989,9 @@ namespace Implem.Pleasanter.Models
             return count;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string PhysicalBulkDelete(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.PhysicalDelete)
@@ -3019,6 +3038,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static int PhysicalBulkDelete(
             Context context,
             SiteSettings ss,
