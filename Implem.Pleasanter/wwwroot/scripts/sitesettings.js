@@ -293,3 +293,15 @@ $p.confirmTimeLineSites = function (value) {
         $p.closeDialog($("#DashboardPartTimeLineSitesDialog"));
     }
 }
+
+$p.confirmCalendarSites = function (value) {
+    var args = JSON.parse(value);
+    var result = confirm('基準となるサイトが変更されるため、「フィルタ」をリセットします。');
+    if (result) {
+        $('#DashboardPartCalendarSitesValue').text(args.calendarSites);
+        $p.set($('#DashboardPartCalendarSites'), args.calendarSites);
+        $p.set($('#DashboardPartBaseSiteId'), args.baseSiteId);
+        $p.send($("#ClearDashboardView"));
+        $p.closeDialog($("#DashboardPartCalendarSitesDialog"));
+    }
+}
