@@ -56,7 +56,7 @@ const getEventsDatas = function (calendarPrefix) {
             $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'calendar');
             if (calendarPrefix != '') {
                 $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
-                $p.set($('#Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+                $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
             }
 
             let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
@@ -338,7 +338,7 @@ $p.moveCalendar = function (type, calendarPrefix) {
     $control.val($('#' + calendarPrefix + 'Calendar' + type).val());
     if (calendarPrefix != '') {
         $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
-        $p.set($('#Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+        $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
     }
     $p.setData($control);
     $p.send($control);
