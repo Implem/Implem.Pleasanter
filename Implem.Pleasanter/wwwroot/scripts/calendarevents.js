@@ -32,15 +32,15 @@
             if (!name) return;
             var input = document.createElement('input');
             input.setAttribute('type', 'hidden');
-            input.setAttribute('name', $('#' + calendarPrefix + 'ReferenceType').val() + '_' + name);
+            input.setAttribute('name', $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_' + name);
             input.setAttribute('value', value);
             form.appendChild(input);
         }
         if ($(event.target).is('.title')) return;
         var baseDate = new Date($(this).attr('data-id'));
-        var names = $('#CalendarFromTo').val().split('-');
+        var names = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
         var form = document.createElement("form");
-        form.setAttribute("action", $('.ui-icon-plus').parent().attr('href'));
+        form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
         form.setAttribute("method", "post");
         form.style.display = "none";
         document.body.appendChild(form);
