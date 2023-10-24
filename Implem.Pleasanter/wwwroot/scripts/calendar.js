@@ -1,7 +1,7 @@
 ﻿const newRecord = function (calendarPrefix) {
     return function (info) {
         var form = document.createElement("form");
-        form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
+        form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSitesData').val() + '/new');
         form.setAttribute("method", "post");
         form.style.display = "none";
         document.body.appendChild(form);
@@ -56,6 +56,7 @@ const getEventsDatas = function (calendarPrefix) {
             $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'calendar');
             if (calendarPrefix != '') {
                 $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
+                $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
             }
 
             let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
@@ -336,7 +337,8 @@ $p.moveCalendar = function (type, calendarPrefix) {
     var $control = $('#' + calendarPrefix + 'CalendarDate');
     $control.val($('#' + calendarPrefix + 'Calendar' + type).val());
     if (calendarPrefix != '') {
-       $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
+        $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
+        $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
     }
     $p.setData($control);
     $p.send($control);
