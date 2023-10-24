@@ -38,7 +38,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId,
             string calendarType,
             string prefix,
-            string calendarFromTo)
+            string calendarFromTo,
+            string calendarReferenceType)
         {
             if (calendarType == "Standard")
             {
@@ -138,7 +139,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             changedItemId: changedItemId,
                             calendarType: calendarType,
                             prefix: prefix,
-                            calendarFromTo: calendarFromTo)));
+                            calendarFromTo: calendarFromTo,
+                            calendarReferenceType: calendarReferenceType)));
             } else {
                 return hb.Div(id: $"{prefix}Full", css: "both", action: () => hb
                 .FieldDropDown(
@@ -191,7 +193,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             changedItemId: changedItemId,
                             calendarType: calendarType,
                             prefix: prefix,
-                            calendarFromTo: calendarFromTo)));
+                            calendarFromTo: calendarFromTo,
+                            calendarReferenceType: calendarReferenceType)));
             }
         }
 
@@ -215,9 +218,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             long changedItemId,
             string calendarType,
             string prefix,
-            string calendarFromTo)
+            string calendarFromTo,
+            string calendarReferenceType)
         {
             hb
+                .Hidden(
+                    controlId: $"{prefix}CalendarReferenceType",
+                    value: !calendarReferenceType.IsNullOrEmpty()
+                        ? calendarReferenceType
+                        : ss.ReferenceType)
                 .Hidden(
                     controlId: $"{prefix}CalendarSiteData",
                     value: !siteId.Equals(0)

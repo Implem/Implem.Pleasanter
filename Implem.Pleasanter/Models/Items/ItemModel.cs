@@ -313,7 +313,7 @@ namespace Implem.Pleasanter.Models
             switch (Site.ReferenceType)
             {
                 case "Dashboards":
-                    return DashboardUtilities.Index(
+                    return DashboardUtilities.GetCalendarJson(
                         context: context,
                         ss: Site.SiteSettings);
                 case "Issues":
