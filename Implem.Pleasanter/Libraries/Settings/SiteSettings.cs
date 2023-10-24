@@ -3123,14 +3123,16 @@ namespace Implem.Pleasanter.Libraries.Settings
             return Views?.ToDictionary(o => o.Id.ToString(), o => new ControlData(o.Name));
         }
 
-        public Dictionary<string, ControlData> FormulaCalculationMethodSelectableOptions()
+        public Dictionary<string, ControlData> FormulaCalculationMethodSelectableOptions(Context context)
         {
             return Enum.GetValues(typeof(FormulaSet.CalculationMethods))
                .Cast<FormulaSet.CalculationMethods>()
                .ToDictionary(
                     o => o.ToString(),
                     o => new ControlData(
-                        text: Enum.GetName(typeof(FormulaSet.CalculationMethods), o),
+                        text: Displays.FormulaCalculationMethod(
+                            context: context,
+                            id: Enum.GetName(typeof(FormulaSet.CalculationMethods), o)),
                         attributes: new Dictionary<string, string>() { { "data-action", "FormulaCalculationMethodChanged"} }
                     )
                 );

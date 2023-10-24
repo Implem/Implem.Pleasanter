@@ -23768,5 +23768,16 @@ namespace Implem.Pleasanter.Libraries.Responses
                 id: "Wikis",
                 data: data);
         }
+
+        public static string FormulaCalculationMethod(
+            Context context,
+            string id,
+            params string[] data)
+        {
+            return Get(
+                context: context,
+                id: id,
+                data: data);
+        }
     }
 }

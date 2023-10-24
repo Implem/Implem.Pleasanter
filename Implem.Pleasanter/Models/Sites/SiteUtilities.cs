@@ -8163,7 +8163,7 @@ namespace Implem.Pleasanter.Models
                         controlId: "FormulaCalculationMethod",
                         controlCss: " always-send",
                         labelText: Displays.CalculationMethod(context: context),
-                        optionCollection: ss.FormulaCalculationMethodSelectableOptions(),
+                        optionCollection: ss.FormulaCalculationMethodSelectableOptions(context: context),
                         selectedValue: formulaSet.CalculationMethod,
                         onChange: "$p.changeCalculationMethod($(this));")
                     .FieldDropDown(
