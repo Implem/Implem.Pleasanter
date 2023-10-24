@@ -411,6 +411,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
                     case "Model_Delete_GroupMembers": Code.Model_Delete_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
+                    case "Model_Delete_NotItem": Code.Model_Delete_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_NotItem, definitionRow, CodeXls); break;
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
                     case "Model_DeleteAttachments": Code.Model_DeleteAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteAttachments, definitionRow, CodeXls); break;
@@ -746,6 +747,7 @@ namespace Implem.DefinitionAccessor
                     case "Model_Utilities_Create": Code.Model_Utilities_Create = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_CopyFrom_Item": Code.Model_Utilities_Create_CopyFrom_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_Item, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_CopyFrom_NotItem": Code.Model_Utilities_Create_CopyFrom_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFrom_NotItem, definitionRow, CodeXls); break;
+                    case "Model_Utilities_Create_CopyFromClearComments": Code.Model_Utilities_Create_CopyFromClearComments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_CopyFromClearComments, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_JoeAccountCheck": Code.Model_Utilities_Create_JoeAccountCheck = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_JoeAccountCheck, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_Models": Code.Model_Utilities_Create_Models = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_Models, definitionRow, CodeXls); break;
                     case "Model_Utilities_Create_OnCreating": Code.Model_Utilities_Create_OnCreating = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Utilities_Create_OnCreating, definitionRow, CodeXls); break;
@@ -1037,7 +1039,7 @@ namespace Implem.DefinitionAccessor
                     case "SiteSettings_GetModels_Items": Code.SiteSettings_GetModels_Items = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_Choices": Code.SiteSettings_GetModels_Items_Choices = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_Choices, definitionRow, CodeXls); break;
                     case "SiteSettings_GetModels_Items_SiteIntegration": Code.SiteSettings_GetModels_Items_SiteIntegration = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Items_SiteIntegration, definitionRow, CodeXls); break;
-                    case "SiteSettings_Users": Code.SiteSettings_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_Users, definitionRow, CodeXls); break;
+                    case "SiteSettings_GetModels_Users": Code.SiteSettings_GetModels_Users = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.SiteSettings_GetModels_Users, definitionRow, CodeXls); break;
                     case "Summaries": Code.Summaries = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries, definitionRow, CodeXls); break;
                     case "Summaries_DataTablesCases": Code.Summaries_DataTablesCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_DataTablesCases, definitionRow, CodeXls); break;
                     case "Summaries_ParamCases": Code.Summaries_ParamCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Summaries_ParamCases, definitionRow, CodeXls); break;
@@ -6858,6 +6860,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete;
         public string Model_Delete_GroupMembers;
         public string Model_Delete_Item;
+        public string Model_Delete_NotItem;
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
         public string Model_DeleteAttachments;
@@ -7193,6 +7196,7 @@ namespace Implem.DefinitionAccessor
         public string Model_Utilities_Create;
         public string Model_Utilities_Create_CopyFrom_Item;
         public string Model_Utilities_Create_CopyFrom_NotItem;
+        public string Model_Utilities_Create_CopyFromClearComments;
         public string Model_Utilities_Create_JoeAccountCheck;
         public string Model_Utilities_Create_Models;
         public string Model_Utilities_Create_OnCreating;
@@ -7484,7 +7488,7 @@ namespace Implem.DefinitionAccessor
         public string SiteSettings_GetModels_Items;
         public string SiteSettings_GetModels_Items_Choices;
         public string SiteSettings_GetModels_Items_SiteIntegration;
-        public string SiteSettings_Users;
+        public string SiteSettings_GetModels_Users;
         public string Summaries;
         public string Summaries_DataTablesCases;
         public string Summaries_ParamCases;
@@ -7656,6 +7660,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete = new CodeDefinition();
         public CodeDefinition Model_Delete_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
+        public CodeDefinition Model_Delete_NotItem = new CodeDefinition();
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
         public CodeDefinition Model_DeleteAttachments = new CodeDefinition();
@@ -7991,6 +7996,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Utilities_Create = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_CopyFrom_Item = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_CopyFrom_NotItem = new CodeDefinition();
+        public CodeDefinition Model_Utilities_Create_CopyFromClearComments = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_JoeAccountCheck = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_Models = new CodeDefinition();
         public CodeDefinition Model_Utilities_Create_OnCreating = new CodeDefinition();
@@ -8282,7 +8288,7 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition SiteSettings_GetModels_Items = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_Choices = new CodeDefinition();
         public CodeDefinition SiteSettings_GetModels_Items_SiteIntegration = new CodeDefinition();
-        public CodeDefinition SiteSettings_Users = new CodeDefinition();
+        public CodeDefinition SiteSettings_GetModels_Users = new CodeDefinition();
         public CodeDefinition Summaries = new CodeDefinition();
         public CodeDefinition Summaries_DataTablesCases = new CodeDefinition();
         public CodeDefinition Summaries_ParamCases = new CodeDefinition();
