@@ -199,7 +199,6 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             this HtmlBuilder hb,
             Context context,
             SiteSettings ss,
-
             string timePeriod,
             Column groupBy,
             Column fromColumn,
@@ -223,14 +222,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: $"{prefix}CalendarSiteData",
                     value: !siteId.Equals(0)
                         ? siteId.ToString()
-                        : "")
+                        : ss.SiteId.ToString())
                 .Hidden(
                     controlId: $"{prefix}CalendarFromTo",
                     value: calendarFromTo?.ToString(),
                     _using: !prefix.IsNullOrEmpty())
                 .Hidden(
-                        controlId: $"{prefix}Prefix",
-                        value: prefix)
+                    controlId: $"{prefix}Prefix",
+                    value: prefix)
                 .Hidden(
                     controlId: $"{prefix}CalendarCanUpdate",
                     value: (fromColumn?.RecordedTime != true
