@@ -4908,6 +4908,7 @@ namespace Implem.Pleasanter.Models
         private bool VerifyGoogleAuthenfication(string secondaryAuthenticationCode)
         {
             OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
+            totp.VerifyTotp(DateTime.UtcNow.AddSeconds(-30), secondaryAuthenticationCode, out _, OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
             return totp.VerifyTotp(secondaryAuthenticationCode,
                 out _,
                 OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
