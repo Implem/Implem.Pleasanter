@@ -2270,7 +2270,7 @@ namespace Implem.Pleasanter.Models
                         calendarViewType: calendarViewType);
                     return new ResponseCollection(context: context)
                         .Html(
-                            target: $"DashboardPart_{dashboardPart.Id}",
+                            target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar")
                         .ToJson();
