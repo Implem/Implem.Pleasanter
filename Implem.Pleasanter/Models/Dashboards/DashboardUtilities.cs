@@ -2217,8 +2217,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 view: view,
                 gridData: gridData);
-            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Prefix")).ToString();
-            var dashboardPart = ss.DashboardParts[context.Forms.Data(matchingKeys).ToInt()];
+            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Prefix")).FirstOrDefault();
+            var dashboardPart = ss.DashboardParts[context.Forms.Data(matchingKeys).ToInt() - 1];
             var siteData = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
