@@ -1,7 +1,7 @@
 ﻿const newRecord = function (calendarPrefix) {
     return function (info) {
         var form = document.createElement("form");
-        form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSitesData').val() + '/new');
+        form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
         form.setAttribute("method", "post");
         form.style.display = "none";
         document.body.appendChild(form);
