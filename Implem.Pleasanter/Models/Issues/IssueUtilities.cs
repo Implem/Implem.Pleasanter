@@ -7663,6 +7663,113 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static HtmlBuilder DashboardCalendarJson(
+            Context context,
+            SiteSettings ss,
+            long changedItemId = 0,
+            string prefix = null,
+            long siteId = 0,
+            string calendarType = null,
+            string calendarGroupBy = null,
+            string calendarTimePeriod = null,
+            string calendarFromTo = null,
+            bool calendarShowStatus = false,
+            DateTime? calendarStart = null,
+            DateTime? calendarEnd = null)
+        {
+            var view = Views.GetBySession(context: context, ss: ss);
+            var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
+            var timePeriod = prefix.IsNullOrEmpty()
+                ? view.GetCalendarTimePeriod(ss: ss)
+                : calendarTimePeriod;
+            var fromColumn = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarFromColumn(ss));
+            var toColumn = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarToColumn(ss));
+            var date = view.GetCalendarDate();
+            var groupBy = prefix.IsNullOrEmpty()
+                ? ss.GetColumn(
+                    context: context,
+                    columnName: view.GetCalendarGroupBy())
+                : ss.GetColumn(
+                    context: context,
+                    columnName: calendarGroupBy);
+            var choices = groupBy?.EditChoices(
+                context: context,
+                insertBlank: true,
+                view: view);
+            var inRangeY = Libraries.ViewModes
+                .CalendarUtilities.InRangeY(
+                    context: context,
+                    choices?.Count ?? 0);
+            var begin = Calendars.BeginDate(
+                context: context,
+                ss: ss,
+                date: date,
+                timePeriod: timePeriod,
+                view: view,
+                calendarType: calendarType.IsNullOrEmpty()
+                    ? ss.CalendarType.ToString()
+                    : calendarType,
+                calendarStart: calendarStart);
+            var end = Calendars.EndDate(
+                context: context,
+                ss: ss,
+                date: date,
+                timePeriod: timePeriod,
+                view: view,
+                calendarType: calendarType.IsNullOrEmpty()
+                    ? ss.CalendarType.ToString()
+                    : calendarType,
+                calendarEnd: calendarEnd);
+            var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
+                ? view.CalendarViewType
+                : "dayGridMonth";
+            var dataRows = inRangeY
+                ? CalendarDataRows(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    fromColumn: fromColumn,
+                    toColumn: toColumn,
+                    groupBy: groupBy,
+                    begin: begin,
+                    end: end)
+                : null;
+            var inRange = inRangeY
+                && Libraries.ViewModes
+                    .CalendarUtilities.InRange(
+                        context: context,
+                        dataRows: dataRows);
+            return new HtmlBuilder().Calendar(
+                context: context,
+                ss: ss,
+                timePeriod: timePeriod,
+                groupBy: groupBy,
+                fromColumn: fromColumn,
+                toColumn: toColumn,
+                date: date,
+                siteId: siteId,
+                begin: begin,
+                end: end,
+                CalendarViewType: CalendarViewType,
+                choices: choices,
+                dataRows: dataRows,
+                bodyOnly: bodyOnly,
+                showStatus: prefix.IsNullOrEmpty()
+                    ? view.CalendarShowStatus == true
+                    : calendarShowStatus,
+                inRange: inRange,
+                changedItemId: changedItemId,
+                calendarType: calendarType.IsNullOrEmpty()
+                    ? ss.CalendarType.ToString()
+                    : calendarType,
+                prefix: prefix,
+                calendarFromTo: calendarFromTo);
+        }
+
         private static EnumerableRowCollection<DataRow> CalendarDataRows(
             Context context,
             SiteSettings ss,

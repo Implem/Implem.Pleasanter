@@ -2073,6 +2073,137 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public static string Updatejson(Context context, SiteSettings ss)
+        {
+            var hb = new HtmlBuilder();
+            var view = Views.GetBySession(
+                context: context,
+                ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view);
+            var viewMode = ViewModes.GetSessionData(
+                context: context,
+                siteId: ss.SiteId);
+            var serverScriptModelRow = ss.GetServerScriptModelRow(
+                context: context,
+                view: view,
+                gridData: gridData);
+            return hb.UpdateTemplate(
+                context: context,
+                ss: ss,
+                view: view,
+                viewMode: viewMode,
+                serverScriptModelRow: serverScriptModelRow,
+                viewModeBody: () => hb.Div(css: "grid-stack"));
+        }
+
+        private static string UpdateTemplate(
+            this HtmlBuilder hb,
+            Context context,
+            SiteSettings ss,
+            View view,
+            string viewMode,
+            ServerScriptModelRow serverScriptModelRow,
+            Action viewModeBody)
+        {
+            var invalid = DashboardValidators.OnEntry(
+                context: context,
+                ss: ss);
+            switch (invalid.Type)
+            {
+                case Error.Types.None: break;
+                default:
+                    return HtmlTemplates.Error(
+                    context: context,
+                    errorData: invalid);
+            }
+            var dashboardPartLayouts = ss.DashboardParts
+                .Where(dashboardPart => dashboardPart
+                    .Accessable(
+                        context: context,
+                        ss: ss))
+                .Select(dashboardPart =>
+                {
+                    dashboardPart.SetSitesData();
+                    switch (dashboardPart.Type)
+                    {
+                        case DashboardPartType.QuickAccess:
+                            return QuickAccessLayout(
+                                context: context,
+                                dashboardPart: dashboardPart);
+                        case DashboardPartType.TimeLine:
+                            return TimeLineLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart);
+                        case DashboardPartType.Custom:
+                            return CustomLayouyt(
+                                context: context,
+                                dashboardPart: dashboardPart);
+                        case DashboardPartType.CustomHtml:
+                            return CustomHtmlLayouyt(
+                                context: context,
+                                dashboardPart: dashboardPart);
+                        case DashboardPartType.Calendar:
+                            return CalendarLayout(
+                                context: context,
+                                ss: ss,
+                                dashboardPart: dashboardPart);
+                        default:
+                            return new DashboardPartLayout();
+                    };
+                }).ToJson();
+            var siteModel = new SiteModel(
+                context: context,
+                siteId: ss.SiteId);
+            var body = hb
+                .Form(
+                    attributes: new HtmlAttributes()
+                        .Id("MainForm")
+                        .Class("main-form")
+                        .Action(Locations.Action(
+                            context: context,
+                            controller: context.Controller,
+                            id: ss.SiteId)),
+                    action: () => hb
+                        .Div(id: "ViewModeContainer", action: () => viewModeBody())
+                        .MainCommands(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            verType: Versions.VerTypes.Latest,
+                            backButton: !context.Publish,
+                            serverScriptModelRow: serverScriptModelRow)
+                        .Div(css: "margin-bottom")
+                        .Hidden(
+                            controlId: "BaseUrl",
+                            value: Locations.BaseUrl(context: context))
+                        .Hidden(
+                            controlId: "DashboardPartLayouts",
+                            value: dashboardPartLayouts)
+                        .Hidden(
+                            controlId: "Sites_Timestamp",
+                            css: "control-hidden always-send",
+                            value: siteModel.Timestamp))
+                .Div(attributes: new HtmlAttributes()
+                    .Id("ExportSitePackageDialog")
+                    .Class("dialog")
+                    .Title(Displays.ExportSitePackage(context: context)));
+            return new ResponseCollection(context: context)
+                .ViewMode(
+                    context: context,
+                    ss: ss,
+                    view: view,
+                    invoke: "setGrid",
+                    editOnGrid: context.Forms.Bool("EditOnGrid"),
+                    serverScriptModelRow: serverScriptModelRow,
+                    body: body)
+                .Events("on_grid_load")
+                .ToJson();
+        }
+
         public static string GetCalendarJson(Context context, SiteSettings ss)
         {
             var view = Views.GetBySession(
@@ -2107,7 +2238,7 @@ namespace Implem.Pleasanter.Models
             switch (siteData.ReferenceType)
             {
                 case "Issues":
-                    return IssueUtilities.CalendarJson(
+                    var issues = IssueUtilities.DashboardCalendarJson(
                         context: context,
                         ss: siteData,
                         prefix: dashboardPart.Id.ToString(),
@@ -2120,8 +2251,13 @@ namespace Implem.Pleasanter.Models
                         calendarFromTo: dashboardPart.View.CalendarFromTo,
                         calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
                         calendarStart: calendarStart,
-                        calendarEnd: calendarEnd,
-                        serverScriptModelRow: serverScriptModelRow);
+                        calendarEnd: calendarEnd);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"DashboardPart_{dashboardPart.Id}",
+                            value: issues)
+                        .Invoke("setCalendar")
+                        .ToJson();
                 case "Results":
                     return ResultUtilities.CalendarJson(
                         context: context,
