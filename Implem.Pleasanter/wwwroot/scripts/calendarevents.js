@@ -40,7 +40,7 @@
         var baseDate = new Date($(this).attr('data-id'));
         var names = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
         var form = document.createElement("form");
-        form.setAttribute("action", '/items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
+        form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
         form.setAttribute("method", "post");
         form.style.display = "none";
         document.body.appendChild(form);
