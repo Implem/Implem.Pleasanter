@@ -7666,6 +7666,7 @@ namespace Implem.Pleasanter.Models
         public static HtmlBuilder DashboardCalendarJson(
             Context context,
             SiteSettings ss,
+            DateTime calendarDate,
             long changedItemId = 0,
             string prefix = null,
             long siteId = 0,
@@ -7675,27 +7676,30 @@ namespace Implem.Pleasanter.Models
             string calendarFromTo = null,
             bool calendarShowStatus = false,
             DateTime? calendarStart = null,
-            DateTime? calendarEnd = null)
+            DateTime? calendarEnd = null,
+            string calendarViewType = null)
         {
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
-            var timePeriod = prefix.IsNullOrEmpty()
-                ? view.GetCalendarTimePeriod(ss: ss)
-                : calendarTimePeriod;
+            var timePeriod = !calendarTimePeriod.IsNullOrEmpty()
+                ? calendarTimePeriod
+                : view.GetCalendarTimePeriod(ss: ss);
             var fromColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarFromColumn(ss));
             var toColumn = ss.GetColumn(
                 context: context,
                 columnName: view.GetCalendarToColumn(ss));
-            var date = view.GetCalendarDate();
-            var groupBy = prefix.IsNullOrEmpty()
+            var date = !string.IsNullOrEmpty(calendarDate.ToString())
+                ? calendarDate
+                : view.GetCalendarDate();
+            var groupBy = !string.IsNullOrEmpty(calendarGroupBy)
                 ? ss.GetColumn(
                     context: context,
-                    columnName: view.GetCalendarGroupBy())
+                    columnName: calendarGroupBy)
                 : ss.GetColumn(
                     context: context,
-                    columnName: calendarGroupBy);
+                    columnName: view.GetCalendarGroupBy());
             var choices = groupBy?.EditChoices(
                 context: context,
                 insertBlank: true,
@@ -7724,8 +7728,8 @@ namespace Implem.Pleasanter.Models
                     ? ss.CalendarType.ToString()
                     : calendarType,
                 calendarEnd: calendarEnd);
-            var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-                ? view.CalendarViewType
+            var CalendarViewType = !string.IsNullOrEmpty(calendarViewType)
+                ? calendarViewType
                 : "dayGridMonth";
             var dataRows = inRangeY
                 ? CalendarDataRows(

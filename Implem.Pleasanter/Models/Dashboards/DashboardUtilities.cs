@@ -2243,6 +2243,12 @@ namespace Implem.Pleasanter.Models
             DateTime? calendarEnd = context.Forms.Exists($"{dashboardPart.Id}CalendarEnd")
                 ? context.Forms.Data($"{dashboardPart.Id}CalendarEnd").ToDateTime()
                 : null;
+            DateTime calendarDate = context.Forms.Exists($"{dashboardPart.Id}CalendarDate")
+                ? context.Forms.Data($"{dashboardPart.Id}CalendarDate").ToDateTime()
+                : DateTime.Now;
+            string calendarViewType = context.Forms.Exists($"{dashboardPart.Id}CalendarViewType")
+                ? context.Forms.Data($"{dashboardPart.Id}CalendarViewType")
+                : null;
             switch (siteData.ReferenceType)
             {
                 case "Issues":
@@ -2259,7 +2265,9 @@ namespace Implem.Pleasanter.Models
                         calendarFromTo: dashboardPart.View.CalendarFromTo,
                         calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
                         calendarStart: calendarStart,
-                        calendarEnd: calendarEnd);
+                        calendarEnd: calendarEnd,
+                        calendarDate: calendarDate,
+                        calendarViewType: calendarViewType);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"DashboardPart_{dashboardPart.Id}",
