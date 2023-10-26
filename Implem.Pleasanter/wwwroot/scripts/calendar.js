@@ -341,7 +341,7 @@ $p.moveCalendar = function (type, calendarPrefix) {
     var $control = $('#' + calendarPrefix + 'CalendarDate');
     $control.val($('#' + calendarPrefix + 'Calendar' + type).val());
     if (calendarPrefix != '') {
-        $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
+        $('#' + calendarPrefix + 'CalendarBody').attr('data-action', 'index');
         $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
     }
     $p.setData($control);
