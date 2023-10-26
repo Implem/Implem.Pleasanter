@@ -35,7 +35,7 @@ const updateRecord = function (calendarPrefix) {
     return function (info, successCallback, failureCallback) {
         var data = $p.getData($('.main-form'));
         var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
-        var prefix = $('#' + calendarPrefix + 'TableName').val() + '_';
+        var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
         data.Id = info.event.id;
         data[prefix + fromTo[0]] = info.event.start.toLocaleString();
         if (info.event.end === null) {
