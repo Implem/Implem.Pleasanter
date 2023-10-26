@@ -226,7 +226,7 @@
         //selected==4: Calendarのみ表示
         $('#DashboardPartCalendarSitesField').toggle(selected === '4');
         $('#DashboardPartCalendarTypeField').toggle(selected === '4');
-        $('#DashboardPartCalendarGroupByField').toggle(selected === '4' && ($("#DashboardPartCalendarType").val() === '0'));
+        $('#DashboardPartCalendarGroupByField').toggle(selected === '4');
         $('#DashboardPartCalendarTimePeriodField').toggle(selected === '4');
         $('#DashboardPartCalendarFromToField').toggle(selected === '4');
         $('#DashboardPartCalendarShowStatusField').toggle(selected === '4');

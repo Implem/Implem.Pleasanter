@@ -2762,6 +2762,19 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        public string UpdateByDashboardCalendar(Context context)
+        {
+            SetSite(
+                context: context,
+                initSiteSettings: true,
+                setSiteIntegration: true,
+                setAllChoices: true);
+            return DashboardUtilities.UpdateByDashboardCalendar(
+                context: context,
+                ss: Site.SiteSettings);
+            
+        }
+
         public string UpdateByKamban(Context context)
         {
             SetSite(
