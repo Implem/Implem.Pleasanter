@@ -41,8 +41,8 @@ const updateRecord = function (calendarPrefix) {
         var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
         var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
         if (calendarPrefix != '') {
-            data.Id = $("#Id").val();
-            data['eventId'] = info.event.id;
+            data.Id = $('#Id').val();
+            data['EventId'] = info.event.id;
         } else {
             data.Id = info.event.id;
         }
