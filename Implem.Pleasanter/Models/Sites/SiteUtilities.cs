@@ -15274,9 +15274,14 @@ namespace Implem.Pleasanter.Models
             DashboardPart dashboardPart)
         {
             var filterVisible = false;
+            var sorterVisible = false;
             if((dashboardPart.Type == DashboardPartType.TimeLine) || (dashboardPart.Type == DashboardPartType.Calendar))
             {
                 filterVisible = true;
+            }
+            if(dashboardPart.Type == DashboardPartType.TimeLine)
+            {
+                sorterVisible = true;
             }
             var hb = new HtmlBuilder();
             return hb.Form(
@@ -15307,7 +15312,7 @@ namespace Implem.Pleasanter.Models
                                             text: Displays.Filters(context: context)))
                                 .Li(
                                     id: "DashboardPartViewSortersTabControl",
-                                    css: filterVisible ? "" : "hidden",
+                                    css: sorterVisible ? "" : "hidden",
                                     action: () => hb
                                         .A(
                                             href: "#DashboardPartViewSortersTabContainer",

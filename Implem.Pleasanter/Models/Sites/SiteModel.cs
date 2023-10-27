@@ -8150,16 +8150,6 @@ namespace Implem.Pleasanter.Models
                             ss: currentSs,
                             view: new View(),
                             prefix: "DashboardPart",
-                            currentTableOnly: true))
-                .Html(
-                    "#DashboardPartViewSortersTabContainer",
-                    new HtmlBuilder()
-                        .ViewSortersTab(
-                            context: context,
-                            ss: currentSs,
-                            view: new View(),
-                            prefix: "DashboardPart",
-                            usekeepSorterState: false,
                             currentTableOnly: true));
         }
 
