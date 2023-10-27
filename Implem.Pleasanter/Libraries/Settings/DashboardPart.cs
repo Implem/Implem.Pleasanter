@@ -128,6 +128,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                     break;
                 case DashboardPartType.Calendar:
                     dashboardPart.CalendarSites = CalendarSites;
+                    dashboardPart.CalendarSitesData = CalendarSitesData;
                     dashboardPart.CalendarType = (CalendarType == Settings.CalendarType.Standard || CalendarType == Settings.CalendarType.FullCalendar)
                         ? CalendarType
                         : null;
@@ -165,6 +166,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeLineDisplayType timeLineDisplayType,
             CalendarType calendarType,
             string calendarSites,
+            List<string> calendarSitesData,
             string calendarGroupBy,
             string calendarTimePeriod,
             string calendarFromTo,
@@ -193,6 +195,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 timeLineDisplayType: timeLineDisplayType,
                 calendarType: calendarType,
                 calendarSites: calendarSites,
+                calendarSitesData: calendarSitesData,
                 calendarGroupBy: calendarGroupBy,
                 calendarTimePeriod: calendarTimePeriod,
                 calendarFromTo: calendarFromTo,
@@ -221,6 +224,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeLineDisplayType timeLineDisplayType,
             CalendarType calendarType,
             string calendarSites,
+            List<string> calendarSitesData,
             string calendarGroupBy,
             string calendarTimePeriod,
             string calendarFromTo,
@@ -246,6 +250,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeLineDisplayType = timeLineDisplayType;
             CalendarType = calendarType;
             CalendarSites = calendarSites;
+            CalendarSitesData = calendarSitesData;
             CalendarGroupBy = calendarGroupBy;
             CalendarTimePeriod = calendarTimePeriod;
             CalendarFromTo = calendarFromTo;
