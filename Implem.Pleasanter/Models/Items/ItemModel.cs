@@ -2749,6 +2749,10 @@ namespace Implem.Pleasanter.Models
                 setAllChoices: true);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.UpdateByCalendar(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.UpdateByCalendar(
                         context: context,
@@ -2760,19 +2764,6 @@ namespace Implem.Pleasanter.Models
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
-        }
-
-        public string UpdateByDashboardCalendar(Context context)
-        {
-            SetSite(
-                context: context,
-                initSiteSettings: true,
-                setSiteIntegration: true,
-                setAllChoices: true);
-            return DashboardUtilities.UpdateByDashboardCalendar(
-                context: context,
-                ss: Site.SiteSettings);
-            
         }
 
         public string UpdateByKamban(Context context)

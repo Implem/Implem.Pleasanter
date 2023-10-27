@@ -7493,26 +7493,27 @@ namespace Implem.Pleasanter.Models
                     : null);
         }
 
-        public static string UpdateByDashboardCalendar(Context context, SiteSettings ss)
+        public static HtmlBuilder UpdateByDashboardCalendar(
+            Context context,
+            SiteSettings ss,
+            DateTime calendarDate,
+            long changedItemId = 0,
+            string prefix = null,
+            long siteId = 0,
+            string calendarType = null,
+            string calendarGroupBy = null,
+            string calendarTimePeriod = null,
+            string calendarFromTo = null,
+            bool calendarShowStatus = false,
+            DateTime? calendarStart = null,
+            DateTime? calendarEnd = null,
+            string calendarViewType = null)
         {
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
-                issueId: context.Forms.Long("Id"),
+                issueId: context.Forms.Long("EventId"),
                 formData: context.Forms);
-            var invalid = IssueValidators.OnUpdating(
-                context: context,
-                ss: ss,
-                issueModel: issueModel);
-            switch (invalid.Type)
-            {
-                case Error.Types.None: break;
-                default: return invalid.MessageJson(context: context);
-            }
-            if (issueModel.AccessStatus != Databases.AccessStatuses.Selected)
-            {
-                return Messages.ResponseDeleteConflicts(context: context).ToJson();
-            }
             var updated = issueModel.Updated(context: context);
             if (updated)
             {
@@ -7525,20 +7526,23 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     notice: true);
             }
-            return CalendarJson(
+            return DashboardCalendarJson(
                 context: context,
                 ss: ss,
+                calendarDate: calendarDate,
                 changedItemId: updated
                     ? issueModel.IssueId
                     : 0,
-                update: true,
-                message: updated
-                    ? context.ErrorData.Type != Error.Types.None
-                        ? context.ErrorData.Message(context: context)
-                        : Messages.Updated(
-                            context: context,
-                            data: issueModel.Title.MessageDisplay(context: context))
-                    : null);
+                prefix: prefix,
+                siteId: siteId,
+                calendarType: calendarType,
+                calendarGroupBy: calendarGroupBy,
+                calendarTimePeriod: calendarTimePeriod,
+                calendarFromTo: calendarFromTo,
+                calendarShowStatus: calendarShowStatus,
+                calendarStart: calendarStart,
+                calendarEnd: calendarEnd,
+                calendarViewType: calendarViewType);
         }
 
         public static string CalendarJson(
