@@ -33,13 +33,11 @@
 }
 const updateRecord = function (calendarPrefix) {
     return function (info, successCallback, failureCallback) {
-        if (calendarPrefix != '') {
-            $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
-        }
         var data = $p.getData($('.main-form'));
         var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
         var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
         if (calendarPrefix != '') {
+            $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
             data.Id = $('#Id').val();
             data['EventId'] = info.event.id;
         } else {
@@ -224,7 +222,13 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                 var data = $p.getData($('.main-form'));
                 var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
                 var prefix = $('#' + calendarPrefix + 'TableName').val() + '_';
-                data.Id = $control.attr('data-id');
+                if (calendarPrefix != '') {
+                    $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+                    data.Id = $('#Id').val();
+                    data['EventId'] = $control.attr('data-id');
+                } else {
+                    data.Id = $control.attr('data-id');
+                }
                 data[prefix + fromTo[0]] = margeTime(target, from);
                 if ($control.attr('data-to') !== undefined) {
                     var diff = $p.dateDiff('d', target, $p.shortDate(from));
