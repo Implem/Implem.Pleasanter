@@ -34,7 +34,6 @@
 const updateRecord = function (calendarPrefix) {
     return function (info, successCallback, failureCallback) {
         if (calendarPrefix != '') {
-            $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'UpdateByDashboardCalendar');
             $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
         }
         var data = $p.getData($('.main-form'));
