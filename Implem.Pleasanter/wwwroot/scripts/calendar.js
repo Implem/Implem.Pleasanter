@@ -40,7 +40,11 @@ const updateRecord = function (calendarPrefix) {
         var data = $p.getData($('.main-form'));
         var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
         var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
-        data.Id = info.event.id;
+        if (calendarPrefix == '') {
+            data.Id = info.event.id;
+        } else {
+            data.Id = $("#Id").val();
+        }
         data[prefix + fromTo[0]] = info.event.start.toLocaleString();
         if (info.event.end === null) {
             data[prefix + fromTo[1]] = info.event.start.toLocaleString();
