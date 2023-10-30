@@ -7311,7 +7311,8 @@ namespace Implem.Pleasanter.Models
             bool calendarShowStatus = false,
             DateTime? calendarStart = null,
             DateTime? calendarEnd = null,
-            string calendarReferenceType = null)
+            string calendarReferenceType = null,
+            SqlWhereCollection calendarWhere = null)
         {
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
@@ -7375,7 +7376,8 @@ namespace Implem.Pleasanter.Models
                     toColumn: toColumn,
                     groupBy: groupBy,
                     begin: begin,
-                    end: end)
+                    end: end,
+                    calendarWhere: calendarWhere)
                 : null;
             var inRange = inRangeY
                 && Libraries.ViewModes
@@ -7507,7 +7509,8 @@ namespace Implem.Pleasanter.Models
             bool calendarShowStatus = false,
             DateTime? calendarStart = null,
             DateTime? calendarEnd = null,
-            string calendarViewType = null)
+            string calendarViewType = null,
+            SqlWhereCollection calendarWhere = null)
         {
             var issueModel = new IssueModel(
                 context: context,
@@ -7542,7 +7545,15 @@ namespace Implem.Pleasanter.Models
                 calendarShowStatus: calendarShowStatus,
                 calendarStart: calendarStart,
                 calendarEnd: calendarEnd,
-                calendarViewType: calendarViewType);
+                calendarViewType: calendarViewType,
+                calendarWhere: calendarWhere,
+                message: updated
+                    ? context.ErrorData.Type != Error.Types.None
+                        ? context.ErrorData.Message(context: context)
+                        : Messages.Updated(
+                            context: context,
+                            data: issueModel.Title.MessageDisplay(context: context))
+                    : null);
         }
 
         public static string CalendarJson(
@@ -7697,7 +7708,9 @@ namespace Implem.Pleasanter.Models
             bool calendarShowStatus = false,
             DateTime? calendarStart = null,
             DateTime? calendarEnd = null,
-            string calendarViewType = null)
+            string calendarViewType = null,
+            SqlWhereCollection calendarWhere = null,
+            Message message = null)
         {
             var view = Views.GetBySession(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
@@ -7760,7 +7773,8 @@ namespace Implem.Pleasanter.Models
                     toColumn: toColumn,
                     groupBy: groupBy,
                     begin: begin,
-                    end: end)
+                    end: end,
+                    calendarWhere: calendarWhere)
                 : null;
             var inRange = inRangeY
                 && Libraries.ViewModes
@@ -7802,7 +7816,8 @@ namespace Implem.Pleasanter.Models
             Column toColumn,
             Column groupBy,
             DateTime begin,
-            DateTime end)
+            DateTime end,
+            SqlWhereCollection calendarWhere = null)
         {
             var where = new SqlWhereCollection();
             if (toColumn == null)
@@ -7818,10 +7833,12 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between @Begin and @End")
                     .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<=@Begin and \"Issues\".\"{toColumn.ColumnName}\">=@End"));
             }
-            where = view.Where(
-                context: context,
-                ss: ss,
-                where: where);
+            where = string.IsNullOrEmpty(calendarWhere.ToString())
+                ? view.Where(
+                    context: context,
+                    ss: ss,
+                    where: where)
+                : calendarWhere;
             var param = view.Param(
                 context: context,
                 ss: ss);

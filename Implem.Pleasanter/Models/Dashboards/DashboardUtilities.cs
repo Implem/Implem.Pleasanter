@@ -2053,7 +2053,8 @@ namespace Implem.Pleasanter.Models
                         : "Monthly",
                     calendarFromTo: dashboardPart.View.CalendarFromTo,
                     calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
-                    calendarReferenceType: ss.ReferenceType);
+                    calendarReferenceType: ss.ReferenceType,
+                    calendarWhere: where);
             }
             else if (ss.ReferenceType == "Results")
             {
