@@ -7322,12 +7322,28 @@ namespace Implem.Pleasanter.Models
             var timePeriod = prefix.IsNullOrEmpty()
                 ? view.GetCalendarTimePeriod(ss: ss)
                 : calendarTimePeriod;
-            var fromColumn = ss.GetColumn(
-                context: context,
-                columnName: view.GetCalendarFromColumn(ss));
-            var toColumn = ss.GetColumn(
-                context: context,
-                columnName: view.GetCalendarToColumn(ss));
+            var fromColumn = !calendarFromTo.IsNullOrEmpty()
+                ? calendarFromTo == "StartTime-CompletionTime"
+                    ? ss.GetColumn(
+                        context: context,
+                        columnName: "StartTime")
+                    : ss.GetColumn(
+                        context: context,
+                        columnName: calendarFromTo)
+                : ss.GetColumn(
+                    context: context,
+                    columnName: view.GetCalendarFromColumn(ss));
+            var toColumn = !calendarFromTo.IsNullOrEmpty()
+                ? calendarFromTo == "StartTime-CompletionTime"
+                    ? ss.GetColumn(
+                        context: context,
+                        columnName: "CompletionTime")
+                    : ss.GetColumn(
+                        context: context,
+                        columnName: null)
+                : ss.GetColumn(
+                    context: context,
+                    columnName: view.GetCalendarToColumn(ss));
             var date = view.GetCalendarDate();
             var groupBy = prefix.IsNullOrEmpty()
                 ? ss.GetColumn(
@@ -7717,12 +7733,28 @@ namespace Implem.Pleasanter.Models
             var timePeriod = !calendarTimePeriod.IsNullOrEmpty()
                 ? calendarTimePeriod
                 : view.GetCalendarTimePeriod(ss: ss);
-            var fromColumn = ss.GetColumn(
-                context: context,
-                columnName: view.GetCalendarFromColumn(ss));
-            var toColumn = ss.GetColumn(
-                context: context,
-                columnName: view.GetCalendarToColumn(ss));
+            var fromColumn = !calendarFromTo.IsNullOrEmpty()
+                ? calendarFromTo == "StartTime-CompletionTime"
+                    ? ss.GetColumn(
+                        context: context,
+                        columnName: "StartTime")
+                    : ss.GetColumn(
+                        context: context,
+                        columnName: calendarFromTo)
+                : ss.GetColumn(
+                    context: context,
+                    columnName: view.GetCalendarFromColumn(ss));
+            var toColumn = !calendarFromTo.IsNullOrEmpty()
+                ? calendarFromTo == "StartTime-CompletionTime"
+                    ? ss.GetColumn(
+                        context: context,
+                        columnName: "CompletionTime")
+                    : ss.GetColumn(
+                        context: context,
+                        columnName: null)
+                : ss.GetColumn(
+                    context: context,
+                    columnName: view.GetCalendarToColumn(ss));
             var date = !string.IsNullOrEmpty(calendarDate.ToString())
                 ? calendarDate
                 : view.GetCalendarDate();
@@ -7833,12 +7865,12 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Issues\".\"{toColumn.ColumnName}\" between @Begin and @End")
                     .Add(raw: $"\"Issues\".\"{fromColumn.ColumnName}\"<=@Begin and \"Issues\".\"{toColumn.ColumnName}\">=@End"));
             }
-            where = string.IsNullOrEmpty(calendarWhere.ToString())
-                ? view.Where(
+            where = calendarWhere != null
+                ? calendarWhere
+                : view.Where(
                     context: context,
                     ss: ss,
-                    where: where)
-                : calendarWhere;
+                    where: where);
             var param = view.Param(
                 context: context,
                 ss: ss);
