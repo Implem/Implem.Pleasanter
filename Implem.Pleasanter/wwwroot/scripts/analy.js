@@ -1,5 +1,8 @@
 ﻿$p.drawAnaly = function () {
     var json = JSON.parse($('#AnalyJson').val());
+        if (json[json.length - 1].Elements.length == 0) { 
+            alert('データがありません。')
+        }
     // データが空でない場合にグラフを描画
     var pieChartWidth = 300;
     var pieChartHeight = 300;
@@ -11,6 +14,9 @@
 
     json.forEach(function (pieChart) {
         var pieChartElements = pieChart.Elements;
+        if (pieChartElements.length == 0) {
+            return;// データがない場合、処理を中断
+        }
         var pieChartSetting = pieChart.Setting;
         count = count + 1;
         var radius = Math.min(pieChartWidth, pieChartHeight) / 2 - 10;
@@ -19,19 +25,19 @@
             .attr("height", screenHeight);
 
         // 2回目以降の処理から+400ずつ
-        if (count !== 1) {
-            newX = newX + 300;
-            if (screenWidth >= newX) {
-            } else {
-                newX = 200;
-                newY = newY + 600;
+            if (count !== 1) {
+                newX = newX + 300;
+                if (screenWidth >= newX) {
+                } else {
+                    newX = 200;
+                    newY = newY + 600;
+                }
+                if (screenHeight >= newY) {
+                } else {
+                    alert('データがいっぱいです。ログインしなおしてください。')
+                    return;
+                }
             }
-            if (screenHeight >= newY) {
-            } else {
-                alert('データがいっぱいです。ログインしなおしてください。')
-                return;
-            }
-        }
 
         // X軸とY軸を決めている
         var g = svg.append("g")
@@ -94,7 +100,13 @@
             .attr("dy", "5px")
             .attr("font-size", "13px")
             .attr("text-anchor", "middle")
-            .text(function (d) { return d.data.GroupTitle + "," + d.data.Value; });
+            .text(function (d) {
+                if (d.data.Value === 0) {
+                    return;
+                } else {
+                return d.data.GroupTitle + "," + d.data.Value;
+                }
+            });
     });
 }
 
