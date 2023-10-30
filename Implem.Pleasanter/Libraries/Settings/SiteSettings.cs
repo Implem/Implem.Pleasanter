@@ -2264,7 +2264,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                     .Where(o => !o.NotUpdate)
                     .Where(o => !o.Joined)
                 : Columns
-                    .Where(o => o.ColumnName == name || o.LabelText == name))
+                    .Where(o => o.ColumnName == name || o.LabelText == name)
+                    .Where(o => o.ControlType != "Attachments")
+                    .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                    .Where(o => o.Name != "SiteId"
+                        && o.Name != "IssueId"
+                        && o.Name != "ResultId"
+                        && o.Name != "Ver"
+                        && o.Name != "Comments"
+                        && o.Name != "Creator"
+                        && o.Name != "Updator"
+                        && o.Name != "CreatedTime"
+                        && o.Name != "UpdatedTime"))
                 .FirstOrDefault();
         }
 
@@ -3108,7 +3119,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         .Where(o => o.TypeName == "decimal")
                         .Where(o => !o.NotUpdate)
                         .Where(o => !o.Joined)
-                    : Columns)
+                    : Columns
+                        .Where(o => o.ControlType != "Attachments")
+                        .Where(o => !o.NotUpdate || o.Name == "RemainingWorkValue")
+                        .Where(o => o.Name != "SiteId"
+                            && o.Name != "IssueId"
+                            && o.Name != "ResultId"
+                            && o.Name != "Ver"
+                            && o.Name != "Comments"
+                            && o.Name != "Creator"
+                            && o.Name != "Updator"
+                            && o.Name != "CreatedTime"
+                            && o.Name != "UpdatedTime"))
                 .OrderBy(o => o.No)
                 .ToDictionary(o => o.ColumnName, o => new ControlData(o.LabelText));
         }
