@@ -2051,7 +2051,9 @@ namespace Implem.Pleasanter.Models
                         ? dashboardPart.View.CalendarTimePeriod
                         : "Monthly",
                     calendarFromTo: dashboardPart.View.CalendarFromTo,
-                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
+                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
+                        ? true
+                        : false,
                     calendarReferenceType: ss.ReferenceType,
                     calendarWhere: where);
             }
@@ -2068,7 +2070,9 @@ namespace Implem.Pleasanter.Models
                         ? dashboardPart.View.CalendarTimePeriod
                         : "Monthly",
                     calendarFromTo: dashboardPart.View.CalendarFromTo,
-                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
+                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
+                        ? true
+                        : false,
                     calendarReferenceType: ss.ReferenceType,
                     calendarWhere: where);
             }
@@ -2129,7 +2133,9 @@ namespace Implem.Pleasanter.Models
                             ? dashboardPart.View.CalendarTimePeriod
                             : "Monthly",
                         calendarFromTo: dashboardPart.View.CalendarFromTo,
-                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
+                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
+                            ? true
+                            : false,
                         calendarStart: calendarStart,
                         calendarEnd: calendarEnd,
                         calendarDate: calendarDate,
@@ -2152,7 +2158,9 @@ namespace Implem.Pleasanter.Models
                             ? dashboardPart.View.CalendarTimePeriod
                             : "Monthly",
                         calendarFromTo: dashboardPart.View.CalendarFromTo,
-                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
+                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
+                            ? true
+                            : false,
                         calendarStart: calendarStart,
                         calendarEnd: calendarEnd,
                         calendarDate: calendarDate,
