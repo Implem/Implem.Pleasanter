@@ -3110,9 +3110,12 @@ namespace Implem.Pleasanter.Models
                         res: res);
                     break;
                 case "AddDashboardPartViewFilter":
+                    var BaseSiteId = !context.Forms.Data("DashboardPartBaseSiteId").IsNullOrEmpty()
+                        ? context.Forms.Long("DashboardPartBaseSiteId")
+                        : context.Forms.Long("DashboardPartCalendarBaseSiteId");
                     var ss = SiteSettingsUtilities.Get(
                         context: context,
-                        siteId: context.Forms.Long("DashboardPartBaseSiteId"));
+                        siteId: BaseSiteId);
                     AddViewFilter(
                         context: context,
                         res: res,
