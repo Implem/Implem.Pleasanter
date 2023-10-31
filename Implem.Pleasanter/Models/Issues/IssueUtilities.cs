@@ -7324,7 +7324,9 @@ namespace Implem.Pleasanter.Models
             var view = Views.GetBySession(context: context, ss: ss);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
-                siteId: ss.SiteId);
+                siteId: prefix.IsNullOrEmpty()
+                    ? ss.SiteId
+                    : siteId);
             var timePeriod = prefix.IsNullOrEmpty()
                 ? view.GetCalendarTimePeriod(ss: ss)
                 : calendarTimePeriod;
