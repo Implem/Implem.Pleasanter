@@ -3823,6 +3823,73 @@ namespace Implem.Pleasanter.Models
                 .ToJson();
         }
 
+        public static string TrashBoxGridRows(
+            Context context,
+            SiteSettings ss,
+            int offset = 0,
+            bool windowScrollTop = false,
+            bool clearCheck = false,
+            string action = "GridRows",
+            Message message = null)
+        {
+            var view = Views.GetBySession(context: context, ss: ss);
+            var gridData = GetGridData(
+                context: context,
+                ss: ss,
+                view: view,
+                offset: offset);
+            var columns = ss.GetGridColumns(
+                context: context,
+                view: view,
+                checkPermission: true);
+            return new ResponseCollection(context: context)
+                .WindowScrollTop(_using: windowScrollTop)
+                .Remove(".grid tr", _using: offset == 0)
+                .ClearFormData("GridOffset")
+                .ClearFormData("GridCheckAll", _using: clearCheck)
+                .ClearFormData("GridUnCheckedItems", _using: clearCheck)
+                .ClearFormData("GridCheckedItems", _using: clearCheck)
+                .CloseDialog(_using: offset == 0)
+                .ReplaceAll("#CopyDirectUrlToClipboard", new HtmlBuilder()
+                    .CopyDirectUrlToClipboard(
+                        context: context,
+                        view: view))
+                .ReplaceAll(
+                    "#Aggregations",
+                    new HtmlBuilder().Aggregations(
+                        context: context,
+                        ss: ss,
+                        view: view),
+                    _using: offset == 0)
+                .ReplaceAll(
+                    "#ViewFilters",
+                    new HtmlBuilder()
+                        .ViewFilters(
+                            context: context,
+                            ss: ss,
+                            view: view),
+                    _using: context.Forms.ControlId().StartsWith("ViewFiltersOnGridHeader__"))
+                .Append("#Grid", new HtmlBuilder().GridRows(
+                    context: context,
+                    ss: ss,
+                    gridData: gridData,
+                    columns: columns,
+                    view: view,
+                    offset: offset,
+                    clearCheck: clearCheck,
+                    action: action))
+                .Val("#GridOffset", ss.GridNextOffset(
+                    offset,
+                    gridData.DataRows.Count(),
+                    gridData.TotalCount))
+                .Val("#GridRowIds", gridData.DataRows.Select(g => g.Long("SiteId")).ToJson())
+                .Val("#GridColumns", columns.Select(o => o.ColumnName).ToJson())
+                .Paging("#Grid")
+                .Message(message)
+                .Messages(context.Messages)
+                .ToJson();
+        }
+
         public static string Restore(Context context, SiteSettings ss)
         {
             if (!Parameters.Deleted.Restore)

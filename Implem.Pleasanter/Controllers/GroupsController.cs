@@ -296,6 +296,21 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        public string TrashBoxGridRows(long id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = GroupUtilities.TrashBoxGridRows(
+                context: context,
+                ss: SiteSettingsUtilities.GroupsSiteSettings(
+                    context: context,
+                    tableTypes: Sqls.TableTypes.Deleted),
+                offset: context.Forms.Int("GridOffset"),
+                action: "TrashBoxGridRows");
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
         [HttpPost]
         public string Restore(long id)
         {
