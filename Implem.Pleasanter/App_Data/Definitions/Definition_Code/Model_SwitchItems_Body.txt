@@ -50,6 +50,10 @@ public string IndexJson(Context context)
     ViewModes.Set(context: context, siteId: Site.SiteId);
     switch (Site.ReferenceType)
     {
+        case "Dashboards":
+            return DashboardUtilities.GetCalendarJson(
+                context: context,
+                ss: Site.SiteSettings);
 
 <!--Model_IndexJsonCases-->
 

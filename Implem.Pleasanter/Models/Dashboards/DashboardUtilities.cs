@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Math;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Classes;
 using Implem.Libraries.DataSources.Interfaces;
 using Implem.Libraries.DataSources.SqlServer;
@@ -2009,10 +2008,7 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb.Text(dashboardPart.Title));
                         }
                         hb.Raw(text: calendarHtml);
-
                     }).ToString();
-
-
             return new DashboardPartLayout()
             {
                 Id = dashboardPart.Id,
@@ -2024,6 +2020,9 @@ namespace Implem.Pleasanter.Models
             };
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private static string GetCalendarRecords(
             Context context,
             DashboardPart dashboardPart)
@@ -2063,10 +2062,15 @@ namespace Implem.Pleasanter.Models
                     ss: ss,
                     prefix: dashboardPart.Id.ToString(),
                     siteId: dashboardPart.SiteId,
+                    calendarType: dashboardPart.CalendarType.ToString(),
                     calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                    calendarTimePeriod: dashboardPart.View.CalendarTimePeriod,
+                    calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
+                        ? dashboardPart.View.CalendarTimePeriod
+                        : "Monthly",
                     calendarFromTo: dashboardPart.View.CalendarFromTo,
-                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false);
+                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
+                    calendarReferenceType: ss.ReferenceType,
+                    calendarWhere: where);
             }
             else
             {
@@ -2074,6 +2078,9 @@ namespace Implem.Pleasanter.Models
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string GetCalendarJson(Context context, SiteSettings ss)
         {
             var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Prefix")).FirstOrDefault();
@@ -2134,14 +2141,36 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCalendar")
                         .ToJson();
                 case "Results":
-                    return ResultUtilities.CalendarJson(
+                    var results = ResultUtilities.DashboardCalendarJson(
                         context: context,
-                        ss: siteData);
+                        ss: siteData,
+                        prefix: dashboardPart.Id.ToString(),
+                        siteId: dashboardPart.SiteId,
+                        calendarType: dashboardPart.CalendarType.ToString(),
+                        calendarGroupBy: dashboardPart.View.CalendarGroupBy,
+                        calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
+                            ? dashboardPart.View.CalendarTimePeriod
+                            : "Monthly",
+                        calendarFromTo: dashboardPart.View.CalendarFromTo,
+                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true ? true : false,
+                        calendarStart: calendarStart,
+                        calendarEnd: calendarEnd,
+                        calendarDate: calendarDate,
+                        calendarViewType: calendarViewType);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: results)
+                        .Invoke("setCalendar")
+                        .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static string UpdateByCalendar(
             Context context,
             SiteSettings ss)
@@ -2205,8 +2234,31 @@ namespace Implem.Pleasanter.Models
                             value: issues)
                         .Invoke("setCalendar")
                         .ToJson();
-                case "Result":
-                    return null;
+                case "Results":
+                    var results = ResultUtilities.UpdateByDashboardCalendar(
+                        context: context,
+                        ss: siteData,
+                        prefix: dashboardPart.Id.ToString(),
+                        siteId: dashboardPart.SiteId,
+                        calendarType: dashboardPart.CalendarType.ToString(),
+                        calendarGroupBy: dashboardPart.View.CalendarGroupBy,
+                        calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
+                            ? dashboardPart.View.CalendarTimePeriod
+                            : "Monthly",
+                        calendarFromTo: dashboardPart.View.CalendarFromTo,
+                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
+                            ? true
+                            : false,
+                        calendarStart: calendarStart,
+                        calendarEnd: calendarEnd,
+                        calendarDate: calendarDate,
+                        calendarViewType: calendarViewType);
+                    return new ResponseCollection(context: context)
+                        .Html(
+                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            value: results)
+                        .Invoke("setCalendar")
+                        .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
             }
