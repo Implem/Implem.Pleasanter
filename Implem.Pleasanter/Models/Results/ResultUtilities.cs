@@ -7519,7 +7519,9 @@ namespace Implem.Pleasanter.Models
             DateTime end,
             SqlWhereCollection calendarWhere = null)
         {
-            var where = new SqlWhereCollection();
+            var where = calendarWhere != null
+                ? calendarWhere
+                : new SqlWhereCollection();
             if (toColumn == null)
             {
                 where.Add(
@@ -7533,12 +7535,10 @@ namespace Implem.Pleasanter.Models
                     .Add(raw: $"\"Results\".\"{toColumn.ColumnName}\" between @Begin and @End")
                     .Add(raw: $"\"Results\".\"{fromColumn.ColumnName}\"<=@Begin and \"Results\".\"{toColumn.ColumnName}\">=@End"));
             }
-            where = calendarWhere != null
-                ? calendarWhere
-                : view.Where(
-                    context: context,
-                    ss: ss,
-                    where: where);
+            where = view.Where(
+                context: context,
+                ss: ss,
+                where: where);
             var param = view.Param(
                 context: context,
                 ss: ss);
