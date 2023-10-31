@@ -221,7 +221,7 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                 var target = new Date($(this).attr('data-id'));
                 var data = $p.getData($('.main-form'));
                 var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
-                var prefix = $('#' + calendarPrefix + 'TableName').val() + '_';
+                var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
                 if (calendarPrefix != '') {
                     $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
                     data.Id = $('#Id').val();
