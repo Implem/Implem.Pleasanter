@@ -404,7 +404,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
                 if (info.view.type === 'listMonth') {
                     var eventElement = $(info.el).find('.fc-list-event-graphic');
                     eventElement.append($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
-                    $(".fc-list-event-dot").css('margin-right', '20px');
+                    $('.fc-list-event-dot').css('margin-right', '20px');
                 } else {
                     var eventElement = $(info.el).find('.fc-event-time');
                     eventElement.prepend($.parseHTML(info.event.extendedProps.StatusHtml)[0]);
@@ -421,15 +421,15 @@ function setFullCalendar(calendarSuffix, calendarEl) {
         lazyFetching: false
     });
     $p.fullCalendar.render();
-    $('.fc-scrollgrid').addClass("no-drag");
+    $('.fc-scrollgrid').addClass('no-drag');
 }
 $p.setCalendar = function () {
     var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id^="Calendar_"],div[id="FullCalendar"],div[id^="FullCalendar_"]')).get();
     $(calendarElArr).each(function (index, value) {
-        var calendarSuffix = value.id.substring(str.indexOf("_") + 1);
-        calendarSuffix = calendarSuffix.indexOf("_") === -1 ? "" : calendarSuffix;
+        var calendarSuffix = value.id.substring(str.indexOf('_'));
+        calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
 
-        if ($('#CalendarType' + calendarSuffix).val() == "FullCalendar") {
+        if ($('#CalendarType' + calendarSuffix).val() == 'FullCalendar') {
             setFullCalendar(calendarSuffix, value);
         } else {
             $('#Calendar' + calendarSuffix + ' .container > div > div:not(.day)').remove();
@@ -437,7 +437,7 @@ $p.setCalendar = function () {
             data.forEach(function (element) {
                 setCalendarGroup(element.group, element.items, calendarSuffix);
             });
-            $('#CalendarBody' + calendarSuffix).addClass("no-drag");
+            $('#CalendarBody' + calendarSuffix).addClass('no-drag');
         }
     });
 }
