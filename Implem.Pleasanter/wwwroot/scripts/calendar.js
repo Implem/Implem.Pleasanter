@@ -1,21 +1,21 @@
-﻿const newRecord = function (calendarPrefix) {
+﻿const newRecord = function (calendarSuffix) {
     return function (info) {
         var form = document.createElement("form");
-        form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#' + calendarPrefix + 'CalendarSiteData').val() + '/new');
+        form.setAttribute("action", $('#ApplicationPath').val() + 'items/' + $('#CalendarSiteData' + calendarSuffix).val() + '/new');
         form.setAttribute("method", "post");
         form.style.display = "none";
         document.body.appendChild(form);
         var start = document.createElement("input");
         start.setAttribute("type", "hidden");
-        start.setAttribute("name", "Issues_StartTime");
+        start.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "StartTime");
         start.setAttribute("value", info.start.toLocaleString());
         form.appendChild(start);
         var end = document.createElement("input");
         end.setAttribute("type", "hidden");
-        end.setAttribute("name", "Issues_CompletionTime");
+        end.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "CompletionTime");
         end.setAttribute("value", info.end.toLocaleString());
         form.appendChild(end);
-        var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
+        var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
         const match = /^Date/;
         if (fromTo[1]) {
         } else if (match.test(fromTo)) {
@@ -31,13 +31,13 @@
     }
 
 }
-const updateRecord = function (calendarPrefix) {
+const updateRecord = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {
         var data = $p.getData($('.main-form'));
-        var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
-        var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
-        if (calendarPrefix != '') {
-            $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+        var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
+        var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
+        if (calendarSuffix !== '') {
+            $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
             data.Id = $('#Id').val();
             data['EventId'] = info.event.id;
         } else {
@@ -50,37 +50,37 @@ const updateRecord = function (calendarPrefix) {
             data[prefix + fromTo[1]] = info.event.end.toLocaleString();
         }
         $p.saveScroll();
-        $p.send($('#' + calendarPrefix + 'FullCalendarBody'));
+        $p.send($('#FullCalendarBody' + calendarSuffix));
     }
 
 }
-const getEventsDatas = function (calendarPrefix) {
+const getEventsDatas = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {
-        if (($('#' + calendarPrefix + 'IsInit').val() !== 'True') && !((info.start.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarStart').val()) && (info.end.getTime() == Date.parse($('#' + calendarPrefix + 'CalendarEnd').val()))))) {
-            $p.set($('#' + calendarPrefix + 'CalendarStart'), info.start.toLocaleDateString());
-            $p.set($('#' + calendarPrefix + 'CalendarEnd'), info.end.toLocaleDateString());
-            $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'calendar');
-            if (calendarPrefix != '') {
-                $('#' + calendarPrefix + 'FullCalendarBody').attr('data-action', 'index');
-                $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+        if (($('#IsInit' + calendarSuffix).val() !== 'True') && !((info.start.getTime() == Date.parse($('#CalendarStart' + calendarSuffix).val()) && (info.end.getTime() == Date.parse($('#CalendarEnd' + calendarSuffix).val()))))) {
+            $p.set($('#CalendarStart' + calendarSuffix), info.start.toLocaleDateString());
+            $p.set($('#CalendarEnd' + calendarSuffix), info.end.toLocaleDateString());
+            $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'calendar');
+            if (calendarSuffix !== '') {
+                $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'index');
+                $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
             }
 
             let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
             if (calendarDiff === 1) {
-                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'timeGridDay');
+                $p.set($('#CalendarViewType' + calendarSuffix), 'timeGridDay');
             } else if (calendarDiff === 7) {
-                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'timeGridWeek');
+                $p.set($('#CalendarViewType' + calendarSuffix), 'timeGridWeek');
             } else if (calendarDiff < 32) {
-                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'listMonth');
+                $p.set($('#CalendarViewType' + calendarSuffix), 'listMonth');
             } else {
-                $p.set($('#' + calendarPrefix + 'CalendarViewType'), 'dayGridMonth');
+                $p.set($('#CalendarViewType' + calendarSuffix), 'dayGridMonth');
             }
 
-            let $control = $('#' + calendarPrefix + 'FullCalendarBody');
+            let $control = $('#' + calendarSuffix + 'FullCalendarBody');
             $p.send($control);
         } else {
-            $('#' + calendarPrefix + 'IsInit').val('False');
-            let eventData = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val())[0]['items'];
+            $('#IsInit' + calendarSuffix).val('False');
+            let eventData = JSON.parse($('#CalendarJson' + calendarSuffix).val())[0]['items'];
             successCallback(
                 eventData.map((item) => {
                     if (item.StatusHtml) {
@@ -105,24 +105,24 @@ const getEventsDatas = function (calendarPrefix) {
     }
 
 }
-function setCalendarGroup(group, data, calendarPrefix) {
+function setCalendarGroup(group, data, calendarSuffix) {
     var hash = {};
     var beginSelector = (group === undefined)
-        ? '#' + calendarPrefix + 'Calendar .container:first'
-        : '#' + calendarPrefix + 'Calendar .container[data-value="' + group + '"]:first';
+        ? '#Calendar' + calendarSuffix + '.container:first'
+        : '#Calendar' + calendarSuffix + '.container[data-value="' + group + '"]:first';
     var endSelector = (group === undefined)
-        ? '#' + calendarPrefix + 'Calendar .container:last'
-        : '#' + calendarPrefix + 'Calendar .container[data-value="' + group + '"]:last';
+        ? '#Calendar' + calendarSuffix + '.container:last'
+        : '#Calendar' + calendarSuffix + '.container[data-value="' + group + '"]:last';
     var begin = new Date($(beginSelector).attr('data-id'));
     var end = new Date($(endSelector).attr('data-id'));
 
-    switch ($('#' + calendarPrefix + 'CalendarTimePeriod').val()) {
+    switch ($('#CalendarTimePeriod' + calendarSuffix).val()) {
         case 'Yearly':
             setYearly(group, data, hash, begin, end);
             break;
         case 'Monthly':
         case 'Weekly':
-            setMonthly(group, data, hash, begin, end, calendarPrefix);
+            setMonthly(group, data, hash, begin, end, calendarSuffix);
             break;
     }
 }
@@ -162,7 +162,7 @@ function setYearly(group, data, hash, begin, end) {
     });
 }
 
-function setMonthly(group, data, hash, begin, end, calendarPrefix) {
+function setMonthly(group, data, hash, begin, end, calendarSuffix) {
     data.forEach(function (element) {
         var current = new Date(element.From);
         if (current < begin) {
@@ -174,7 +174,7 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
             hash,
             element,
             current,
-            calendarPrefix);
+            calendarSuffix);
         if (element.To !== undefined) {
             current.setDate(current.getDate() + 1);
             var to = new Date(element.To);
@@ -190,15 +190,15 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                     hash,
                     element,
                     current,
-                    calendarPrefix,
+                    calendarSuffix,
                     current.getDay() !== 1,
                     rank);
                 current.setDate(current.getDate() + 1);
             }
         }
     });
-    if ($('#' + calendarPrefix + 'CalendarCanUpdate').val() === '1') {
-        $('#' + calendarPrefix + 'Calendar .item').draggable({
+    if ($('#CalendarCanUpdate' + calendarSuffix).val() === '1') {
+        $('#Calendar' + calendarSuffix + '.item').draggable({
             revert: 'invalid',
             start: function () {
                 $(this).parent().droppable({
@@ -212,7 +212,7 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                         .append($(this).text()));
             }
         });
-        $('#' + calendarPrefix + 'Calendar .container').droppable({
+        $('#Calendar' + calendarSuffix + '.container').droppable({
             hoverClass: 'hover',
             tolerance: 'intersect',
             drop: function (e, ui) {
@@ -220,10 +220,10 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                 var from = new Date($control.attr('data-from'));
                 var target = new Date($(this).attr('data-id'));
                 var data = $p.getData($('.main-form'));
-                var fromTo = $('#' + calendarPrefix + 'CalendarFromTo').val().split('-');
-                var prefix = $('#' + calendarPrefix + 'CalendarReferenceType').val() + '_';
-                if (calendarPrefix != '') {
-                    $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+                var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
+                var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
+                if (calendarSuffix !== '') {
+                    $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
                     data.Id = $('#Id').val();
                     data['EventId'] = $control.attr('data-id');
                 } else {
@@ -236,7 +236,7 @@ function setMonthly(group, data, hash, begin, end, calendarPrefix) {
                     data[prefix + fromTo[1]] = margeTime(to);
                 }
                 $p.saveScroll();
-                $p.send($('#' + calendarPrefix + 'CalendarBody'));
+                $p.send($('#CalendarBody' + calendarSuffix));
             }
         });
     }
@@ -249,13 +249,13 @@ function Rank(hash, id) {
     return hash[id];
 }
 
-function addItem(group, hash, element, current, calendarPrefix, sub, rank, yearly) {
+function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearly) {
 
     var id = $p.shortDateString(current);
     var groupSelector = (group === undefined)
         ? ''
         : '[data-value="' + group + '"]';
-    var $cell = $(groupSelector + '[id="' + calendarPrefix + 'Calendar' + '"] > div' + ' [data-id="' + id + '"] > div');
+    var $cell = $(groupSelector + '[id="' + 'Calendar' + calendarSuffix + '"] > div' + ' [data-id="' + id + '"] > div');
     while (Rank(hash, id) < rank) {
         $cell.append($('<div />').addClass('dummy'));
         hash[id]++;
@@ -345,12 +345,13 @@ function htmlEncode(str) {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
 }
-$p.moveCalendar = function (type, calendarPrefix) {
-    var $control = $('#' + calendarPrefix + 'CalendarDate');
-    $control.val($('#' + calendarPrefix + 'Calendar' + type).val());
-    if (calendarPrefix != '') {
-        $('#' + calendarPrefix + 'CalendarBody').attr('data-action', 'index');
-        $p.set($('#' + calendarPrefix + 'Prefix'), $('#' + calendarPrefix + 'Prefix').val());
+$p.moveCalendar = function (type, calendarSuffix) {
+    calendarSuffix = calendarSuffix > 0 ? '_' + calendarSuffix : calendarSuffix;
+    var $control = $('#CalendarDate' + calendarSuffix);
+    $control.val($('#Calendar' + calendarSuffix + type).val());
+    if (calendarSuffix !== '') {
+        $('#CalendarBody' + calendarSuffix).attr('data-action', 'index');
+        $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
     }
     $p.setData($control);
     $p.send($control);
@@ -365,16 +366,16 @@ function margeTime(date, dateTime) {
         dateTime.getSeconds();
 }
 
-function setFullCalendar(calendarPrefix, calendarEl) {
+function setFullCalendar(calendarSuffix, calendarEl) {
     var language = $('#Language').val();
     var supportedLanguages = ['en', 'zh', 'ja', 'de', 'ko', 'es', 'vi'];
     if (language === 'vn') {
         language = 'vi';
     }
-    $('#' + calendarPrefix + 'FullCalendar').css('clear', 'both');
+    $('#FullCalendar' + calendarSuffix).css('clear', 'both');
     let calendarMiddle = new Date();
-    if ($('#' + calendarPrefix + 'CalendarStart').val() !== '') {
-        calendarMiddle = new Date((new Date($('#' + calendarPrefix + 'CalendarStart').val()).getTime() + new Date($('#' + calendarPrefix + 'CalendarEnd').val()).getTime()) / 2);
+    if ($('#CalendarStart' + calendarSuffix).val() !== '') {
+        calendarMiddle = new Date((new Date($('#CalendarStart' + calendarSuffix).val()).getTime() + new Date($('#CalendarEnd' + calendarSuffix).val()).getTime()) / 2);
     }
     $p.fullCalendar = new FullCalendar.Calendar(calendarEl, {
         headerToolbar: {
@@ -394,10 +395,10 @@ function setFullCalendar(calendarPrefix, calendarEl) {
         eventClick: (e) => {
             window.location.href = $('#ApplicationPath').val() + 'items/' + e.event.id + '/edit';
         },
-        select: newRecord(calendarPrefix),
-        events: getEventsDatas(calendarPrefix),
-        eventDrop: updateRecord(calendarPrefix),
-        eventResize: updateRecord(calendarPrefix),
+        select: newRecord(calendarSuffix),
+        events: getEventsDatas(calendarSuffix),
+        eventDrop: updateRecord(calendarSuffix),
+        eventResize: updateRecord(calendarSuffix),
         eventDidMount: function (info) {
             if (info.event.extendedProps.StatusHtml) {
                 if (info.view.type === 'listMonth') {
@@ -416,26 +417,27 @@ function setFullCalendar(calendarPrefix, calendarEl) {
                 $("[class^='status']").css('width', '15px');
             }
         },
-        initialView: $('#' + calendarPrefix + 'CalendarViewType').val(),
+        initialView: $('#CalendarViewType' + calendarSuffix).val(),
         lazyFetching: false
     });
     $p.fullCalendar.render();
     $('.fc-scrollgrid').addClass("no-drag");
 }
 $p.setCalendar = function () {
-    var calendarElArr = $('div[id$="Calendar"]:not(.dashboard-custom-html-body div[id$="Calendar"]),div[id="Calendar"]:not(.dashboard-custom-html-body div[id="Calendar"])').get();
+    var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id^="Calendar_"],div[id="FullCalendar"],div[id^="FullCalendar_"]')).get();
     $(calendarElArr).each(function (index, value) {
-        var calendarPrefix = value.id.replace(/[^0-9]/g, '');
+        var calendarSuffix = value.id.substring(str.indexOf("_") + 1);
+        calendarSuffix = calendarSuffix.indexOf("_") === -1 ? "" : calendarSuffix;
 
-        if ($('#' + calendarPrefix + 'CalendarType').val() == "FullCalendar") {
-            setFullCalendar(calendarPrefix, value);
+        if ($('#CalendarType' + calendarSuffix).val() == "FullCalendar") {
+            setFullCalendar(calendarSuffix, value);
         } else {
-            $('#' + calendarPrefix + 'Calendar .container > div > div:not(.day)').remove();
-            var data = JSON.parse($('#' + calendarPrefix + 'CalendarJson').val());
+            $('#Calendar' + calendarSuffix + ' .container > div > div:not(.day)').remove();
+            var data = JSON.parse($('#CalendarJson' + calendarSuffix).val());
             data.forEach(function (element) {
-                setCalendarGroup(element.group, element.items, calendarPrefix);
+                setCalendarGroup(element.group, element.items, calendarSuffix);
             });
-            $('#' + calendarPrefix + 'CalendarBody').addClass("no-drag");
+            $('#CalendarBody' + calendarSuffix).addClass("no-drag");
         }
     });
 }
