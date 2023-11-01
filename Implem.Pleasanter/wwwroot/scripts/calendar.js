@@ -76,7 +76,7 @@ const getEventsDatas = function (calendarSuffix) {
                 $p.set($('#CalendarViewType' + calendarSuffix), 'dayGridMonth');
             }
 
-            let $control = $('#' + calendarSuffix + 'FullCalendarBody');
+            let $control = $('#FullCalendarBody' + calendarSuffix);
             $p.send($control);
         } else {
             $('#IsInit' + calendarSuffix).val('False');
