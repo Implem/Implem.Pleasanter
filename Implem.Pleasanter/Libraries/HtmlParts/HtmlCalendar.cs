@@ -176,7 +176,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id(suffix.IsNullOrEmpty()
-                            ? "FullCalenarBody"
+                            ? "FullCalendarBody"
                             : $"FullCalendarBody_{suffix}")
                         .DataAction("UpdateByCalendar")
                         .DataMethod("post"),
@@ -250,7 +250,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         ? ""
                         : $"Suffix_{suffix}",
                     value: suffix,
-                    _using: suffix.IsNullOrEmpty())
+                    _using: !suffix.IsNullOrEmpty())
                 .Hidden(
                     controlId: suffix.IsNullOrEmpty()
                         ? "CalendarCanUpdate"
