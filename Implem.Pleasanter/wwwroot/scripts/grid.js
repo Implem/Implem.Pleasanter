@@ -169,9 +169,8 @@ $(function () {
     }
     TBLHD.observer = new MutationObserver(function (records) {
         if (records.some(function (value) {
-            return (value.target.className != undefined
-                && ((value.target.className).includes('menu-sort')
-                || value.target.tagName === 'TH'))
+            return (value.target.className).includes('menu-sort')
+                || value.target.tagName === 'TH'
         })) { return; }
         TBLHD.createClone();
     });
