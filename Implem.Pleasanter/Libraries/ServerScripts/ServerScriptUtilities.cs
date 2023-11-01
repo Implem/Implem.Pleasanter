@@ -1117,7 +1117,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             if (scripts.Any(o => o.TimeOut == 0))
             {
-                return DateTime.MaxValue;
+                return Parameters.Script.ServerScriptTimeOutChangeable
+                    ? DateTime.MaxValue
+                    : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
             }
             else
             {
