@@ -7299,20 +7299,7 @@ namespace Implem.Pleasanter.Models
                     name: Displays.Crosstab(context: context)));
         }
 
-        public static string Calendar(
-                    Context context,
-                    SiteSettings ss,
-                    string prefix = null,
-                    long siteId = 0,
-                    string calendarType = null,
-                    string calendarGroupBy = null,
-                    string calendarTimePeriod = null,
-                    string calendarFromTo = null,
-                    bool calendarShowStatus = false,
-                    DateTime? calendarStart = null,
-                    DateTime? calendarEnd = null,
-                    string calendarReferenceType = null,
-                    SqlWhereCollection calendarWhere = null)
+        public static string Calendar(Context context, SiteSettings ss)
         {
             if (!ss.EnableViewMode(context: context, name: "Calendar"))
             {
@@ -7322,44 +7309,21 @@ namespace Implem.Pleasanter.Models
             }
             var hb = new HtmlBuilder();
             var view = Views.GetBySession(context: context, ss: ss);
+            view.SetCalendarData(context: context,ss: ss);
             var viewMode = ViewModes.GetSessionData(
                 context: context,
-                siteId: prefix.IsNullOrEmpty()
-                    ? ss.SiteId
-                    : siteId);
-            var timePeriod = prefix.IsNullOrEmpty()
-                ? view.GetCalendarTimePeriod(ss: ss)
-                : calendarTimePeriod;
-            var fromColumn = !calendarFromTo.IsNullOrEmpty()
-                ? calendarFromTo == "StartTime-CompletionTime"
-                    ? ss.GetColumn(
-                        context: context,
-                        columnName: "StartTime")
-                    : ss.GetColumn(
-                        context: context,
-                        columnName: calendarFromTo)
-                : ss.GetColumn(
-                    context: context,
-                    columnName: view.GetCalendarFromColumn(ss));
-            var toColumn = !calendarFromTo.IsNullOrEmpty()
-                ? calendarFromTo == "StartTime-CompletionTime"
-                    ? ss.GetColumn(
-                        context: context,
-                        columnName: "CompletionTime")
-                    : ss.GetColumn(
-                        context: context,
-                        columnName: null)
-                : ss.GetColumn(
-                    context: context,
-                    columnName: view.GetCalendarToColumn(ss));
+                siteId: view.GetCalendarSiteId());
+            var timePeriod = view.GetCalendarTimePeriod(ss: ss);
+            var fromColumn = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarFromColumn(ss));
+            var toColumn = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarToColumn(ss));
             var date = view.GetCalendarDate();
-            var groupBy = prefix.IsNullOrEmpty()
-                ? ss.GetColumn(
-                    context: context,
-                    columnName: view.GetCalendarGroupBy())
-                : ss.GetColumn(
-                    context: context,
-                    columnName: calendarGroupBy);
+            var groupBy = ss.GetColumn(
+                context: context,
+                columnName: view.GetCalendarGroupBy());
             var choices = groupBy?.EditChoices(
                 context: context,
                 insertBlank: true,
@@ -7368,29 +7332,20 @@ namespace Implem.Pleasanter.Models
                 .CalendarUtilities.InRangeY(
                     context: context,
                     choices?.Count ?? 0);
+            var calendarType = view.GetCalendarType();
             var begin = Calendars.BeginDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view,
-                calendarType: calendarType.IsNullOrEmpty()
-                    ? ss.CalendarType.ToString()
-                    : calendarType,
-                calendarStart: calendarStart);
+                view: view);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view,
-                calendarType: calendarType.IsNullOrEmpty()
-                    ? ss.CalendarType.ToString()
-                    : calendarType,
-                calendarEnd: calendarEnd);
-            var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-                ? view.CalendarViewType
-                : "dayGridMonth";
+                view: view);
+            var CalendarViewType = view.GetCalendarViewType();
             var dataRows = inRangeY
                 ? CalendarDataRows(
                     context: context,
@@ -7400,8 +7355,7 @@ namespace Implem.Pleasanter.Models
                     toColumn: toColumn,
                     groupBy: groupBy,
                     begin: begin,
-                    end: end,
-                    calendarWhere: calendarWhere)
+                    end: end)
                 : null;
             var inRange = inRangeY
                 && Libraries.ViewModes
@@ -7411,7 +7365,10 @@ namespace Implem.Pleasanter.Models
             var serverScriptModelRow = ss.GetServerScriptModelRow(
                 context: context,
                 view: view);
-            if (prefix.IsNullOrEmpty())
+            var suffix = view.GetCalendarSuffix();
+            var calendarSiteId = view.GetCalendarSiteId();
+            var calendarFromTo = view.GetCalendarFromTo(ss);
+            if (ss.DashboardParts.Count == 0)
             {
                 return hb.ViewModeTemplate(
                     context: context,
@@ -7428,9 +7385,7 @@ namespace Implem.Pleasanter.Models
                             fromColumn: fromColumn,
                             toColumn: toColumn,
                             date: date,
-                            siteId: !siteId.Equals(0)
-                                ? siteId
-                                : 0,
+                            siteId: calendarSiteId,
                             begin: begin,
                             end: end,
                             CalendarViewType: CalendarViewType,
@@ -7439,9 +7394,9 @@ namespace Implem.Pleasanter.Models
                             bodyOnly: false,
                             showStatus: view.CalendarShowStatus == true,
                             inRange: inRange,
-                            calendarType: calendarType.IsNullOrEmpty()
-                                ? ss.CalendarType.ToString()
-                                : calendarType));
+                            calendarType: calendarType,
+                            suffix: suffix,
+                            calendarFromTo: calendarFromTo));
             }
             else
             {
@@ -7453,21 +7408,18 @@ namespace Implem.Pleasanter.Models
                     fromColumn: fromColumn,
                     toColumn: toColumn,
                     date: date,
-                    siteId: siteId,
+                    siteId: calendarSiteId,
                     begin: begin,
                     end: end,
                     CalendarViewType: CalendarViewType,
                     choices: choices,
                     dataRows: dataRows,
                     bodyOnly: false,
-                    showStatus: prefix.IsNullOrEmpty()
-                        ? view.CalendarShowStatus == true
-                        : calendarShowStatus,
+                    showStatus: view.GetCalendarShowStatus(),
                     inRange: inRange,
                     calendarType: calendarType,
-                    prefix: prefix,
-                    calendarFromTo: calendarFromTo,
-                    calendarReferenceType: calendarReferenceType).ToString();
+                    suffix: suffix,
+                    calendarFromTo: calendarFromTo).ToString();
             }
         }
 
@@ -7476,7 +7428,9 @@ namespace Implem.Pleasanter.Models
             var issueModel = new IssueModel(
                 context: context,
                 ss: ss,
-                issueId: context.Forms.Long("Id"),
+                issueId: ss.DashboardParts.Count != 0
+                    ? context.Forms.Long("EventId")
+                    : context.Forms.Long("Id"),
                 formData: context.Forms);
             var invalid = IssueValidators.OnUpdating(
                 context: context,
@@ -7519,76 +7473,10 @@ namespace Implem.Pleasanter.Models
                     : null);
         }
 
-        public static HtmlBuilder UpdateByDashboardCalendar(
-            Context context,
-            SiteSettings ss,
-            DateTime calendarDate,
-            long changedItemId = 0,
-            string prefix = null,
-            long siteId = 0,
-            string calendarType = null,
-            string calendarGroupBy = null,
-            string calendarTimePeriod = null,
-            string calendarFromTo = null,
-            bool calendarShowStatus = false,
-            DateTime? calendarStart = null,
-            DateTime? calendarEnd = null,
-            string calendarViewType = null,
-            SqlWhereCollection calendarWhere = null)
-        {
-            var issueModel = new IssueModel(
-                context: context,
-                ss: ss,
-                issueId: context.Forms.Long("EventId"),
-                formData: context.Forms);
-            var updated = issueModel.Updated(context: context);
-            if (updated)
-            {
-                issueModel.VerUp = Versions.MustVerUp(
-                    context: context,
-                    ss: ss,
-                    baseModel: issueModel);
-                issueModel.Update(
-                    context: context,
-                    ss: ss,
-                    notice: true);
-            }
-            return DashboardCalendarJson(
-                context: context,
-                ss: ss,
-                calendarDate: calendarDate,
-                changedItemId: updated
-                    ? issueModel.IssueId
-                    : 0,
-                prefix: prefix,
-                siteId: siteId,
-                calendarType: calendarType,
-                calendarGroupBy: calendarGroupBy,
-                calendarTimePeriod: calendarTimePeriod,
-                calendarFromTo: calendarFromTo,
-                calendarShowStatus: calendarShowStatus,
-                calendarStart: calendarStart,
-                calendarEnd: calendarEnd,
-                calendarViewType: calendarViewType,
-                calendarWhere: calendarWhere,
-                message: updated
-                    ? context.ErrorData.Type != Error.Types.None
-                        ? context.ErrorData.Message(context: context)
-                        : Messages.Updated(
-                            context: context,
-                            data: issueModel.Title.MessageDisplay(context: context))
-                    : null);
-        }
-
         public static string CalendarJson(
             Context context,
             SiteSettings ss,
             long changedItemId = 0,
-            string prefix = null,
-            long siteId = 0,
-            string calendarFromTo = null,
-            DateTime? calendarStart = null,
-            DateTime? calendarEnd = null,
             bool update = false,
             Message message = null)
         {
@@ -7597,6 +7485,7 @@ namespace Implem.Pleasanter.Models
                 return Messages.ResponseHasNotPermission(context: context).ToJson();
             }
             var view = Views.GetBySession(context: context, ss: ss);
+            view.SetCalendarData(context: context, ss: ss);
             var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
             var timePeriod = view.GetCalendarTimePeriod(ss: ss);
             var fromColumn = ss.GetColumn(
@@ -7613,30 +7502,24 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 insertBlank: true,
                 view: view);
-            var calendarType = ss.CalendarType.ToString();
             var inRangeY = Libraries.ViewModes
                 .CalendarUtilities.InRangeY(
                     context: context,
                     choices?.Count ?? 0);
+            var calendarType = view.GetCalendarType();
             var begin = Calendars.BeginDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view,
-                calendarType: calendarType,
-                calendarStart: calendarStart);
+                view: view);
             var end = Calendars.EndDate(
                 context: context,
                 ss: ss,
                 date: date,
                 timePeriod: timePeriod,
-                view: view,
-                calendarType: calendarType,
-                calendarEnd: calendarEnd);
-            var CalendarViewType = !string.IsNullOrEmpty(view.CalendarViewType)
-                ? view.CalendarViewType
-                : "dayGridMonth";
+                view: view);
+            var calendarViewType = view.GetCalendarViewType();
             var dataRows = inRangeY 
                 ? CalendarDataRows(
                     context: context,
@@ -7653,6 +7536,9 @@ namespace Implem.Pleasanter.Models
                     .CalendarUtilities.InRange(
                         context: context,
                         dataRows: dataRows);
+            var suffix = view.GetCalendarSuffix();
+            var calendarSiteId = view.GetCalendarSiteId();
+            var calendarFromTo = view.GetCalendarFromTo(ss);
             var body = new HtmlBuilder().Calendar(
                 context: context,
                 ss: ss,
@@ -7661,18 +7547,18 @@ namespace Implem.Pleasanter.Models
                 fromColumn: fromColumn,
                 toColumn: toColumn,
                 date: date,
-                siteId: siteId,
+                siteId: calendarSiteId,
                 begin: begin,
                 end: end,
-                CalendarViewType: CalendarViewType,
+                CalendarViewType: calendarViewType,
                 choices: choices,
                 dataRows: dataRows,
                 bodyOnly: bodyOnly,
-                showStatus: view.CalendarShowStatus == true,
+                showStatus: view.GetCalendarShowStatus(),
                 inRange: inRange,
                 changedItemId: changedItemId,
                 calendarType: calendarType,
-                prefix: prefix,
+                suffix: suffix,
                 calendarFromTo: calendarFromTo);
             var CalendarBodyName = "";
             if (calendarType == "Standard"){
@@ -7680,172 +7566,49 @@ namespace Implem.Pleasanter.Models
             } else {
                 CalendarBodyName = "#FullCalendarBody";
             }
-            if (inRange)
+            if(ss.DashboardParts.Count == 0)
             {
-                return new ResponseCollection(context: context)
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        invoke: "setCalendar",
-                        message: message,
-                        loadScroll: update,
-                        bodyOnly: bodyOnly,
-                        bodySelector: CalendarBodyName,
-                        body: body)
-                    .Events("on_calendar_load")
-                    .ToJson();
+                if (inRange)
+                {
+                    return new ResponseCollection(context: context)
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            invoke: "setCalendar",
+                            message: message,
+                            loadScroll: update,
+                            bodyOnly: bodyOnly,
+                            bodySelector: CalendarBodyName,
+                            body: body)
+                        .Events("on_calendar_load")
+                        .ToJson();
+                }
+                else
+                {
+                    return new ResponseCollection(context: context)
+                        .ViewMode(
+                            context: context,
+                            ss: ss,
+                            view: view,
+                            message: inRangeY
+                                ? Messages.TooManyCases(
+                                    context: context,
+                                    data: Parameters.General.CalendarLimit.ToString())
+                                : Messages.TooManyRowCases(
+                                    context: context,
+                                    data: Parameters.General.CalendarYLimit.ToString()),
+                            bodyOnly: bodyOnly,
+                            bodySelector: CalendarBodyName,
+                            body: body)
+                        .Events("on_calendar_load")
+                        .ToJson();
+                }
             }
             else
             {
-                return new ResponseCollection(context: context)
-                    .ViewMode(
-                        context: context,
-                        ss: ss,
-                        view: view,
-                        message: inRangeY
-                            ? Messages.TooManyCases(
-                                context: context,
-                                data: Parameters.General.CalendarLimit.ToString())
-                            : Messages.TooManyRowCases(
-                                context: context,
-                                data: Parameters.General.CalendarYLimit.ToString()),
-                        bodyOnly: bodyOnly,
-                        bodySelector: CalendarBodyName,
-                        body: body)
-                    .Events("on_calendar_load")
-                    .ToJson();
+                return body.ToString();
             }
-        }
-
-        public static HtmlBuilder DashboardCalendarJson(
-            Context context,
-            SiteSettings ss,
-            DateTime calendarDate,
-            long changedItemId = 0,
-            string prefix = null,
-            long siteId = 0,
-            string calendarType = null,
-            string calendarGroupBy = null,
-            string calendarTimePeriod = null,
-            string calendarFromTo = null,
-            bool calendarShowStatus = false,
-            DateTime? calendarStart = null,
-            DateTime? calendarEnd = null,
-            string calendarViewType = null,
-            SqlWhereCollection calendarWhere = null,
-            Message message = null)
-        {
-            var view = Views.GetBySession(context: context, ss: ss);
-            var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
-            var timePeriod = !calendarTimePeriod.IsNullOrEmpty()
-                ? calendarTimePeriod
-                : view.GetCalendarTimePeriod(ss: ss);
-            var fromColumn = !calendarFromTo.IsNullOrEmpty()
-                ? calendarFromTo == "StartTime-CompletionTime"
-                    ? ss.GetColumn(
-                        context: context,
-                        columnName: "StartTime")
-                    : ss.GetColumn(
-                        context: context,
-                        columnName: calendarFromTo)
-                : ss.GetColumn(
-                    context: context,
-                    columnName: view.GetCalendarFromColumn(ss));
-            var toColumn = !calendarFromTo.IsNullOrEmpty()
-                ? calendarFromTo == "StartTime-CompletionTime"
-                    ? ss.GetColumn(
-                        context: context,
-                        columnName: "CompletionTime")
-                    : ss.GetColumn(
-                        context: context,
-                        columnName: null)
-                : ss.GetColumn(
-                    context: context,
-                    columnName: view.GetCalendarToColumn(ss));
-            var date = !string.IsNullOrEmpty(calendarDate.ToString())
-                ? calendarDate
-                : view.GetCalendarDate();
-            var groupBy = !string.IsNullOrEmpty(calendarGroupBy)
-                ? ss.GetColumn(
-                    context: context,
-                    columnName: calendarGroupBy)
-                : ss.GetColumn(
-                    context: context,
-                    columnName: view.GetCalendarGroupBy());
-            var choices = groupBy?.EditChoices(
-                context: context,
-                insertBlank: true,
-                view: view);
-            var inRangeY = Libraries.ViewModes
-                .CalendarUtilities.InRangeY(
-                    context: context,
-                    choices?.Count ?? 0);
-            var begin = Calendars.BeginDate(
-                context: context,
-                ss: ss,
-                date: date,
-                timePeriod: timePeriod,
-                view: view,
-                calendarType: calendarType.IsNullOrEmpty()
-                    ? ss.CalendarType.ToString()
-                    : calendarType,
-                calendarStart: calendarStart);
-            var end = Calendars.EndDate(
-                context: context,
-                ss: ss,
-                date: date,
-                timePeriod: timePeriod,
-                view: view,
-                calendarType: calendarType.IsNullOrEmpty()
-                    ? ss.CalendarType.ToString()
-                    : calendarType,
-                calendarEnd: calendarEnd);
-            var CalendarViewType = !string.IsNullOrEmpty(calendarViewType)
-                ? calendarViewType
-                : "dayGridMonth";
-            var dataRows = inRangeY
-                ? CalendarDataRows(
-                    context: context,
-                    ss: ss,
-                    view: view,
-                    fromColumn: fromColumn,
-                    toColumn: toColumn,
-                    groupBy: groupBy,
-                    begin: begin,
-                    end: end,
-                    calendarWhere: calendarWhere)
-                : null;
-            var inRange = inRangeY
-                && Libraries.ViewModes
-                    .CalendarUtilities.InRange(
-                        context: context,
-                        dataRows: dataRows);
-            return new HtmlBuilder().Calendar(
-                context: context,
-                ss: ss,
-                timePeriod: timePeriod,
-                groupBy: groupBy,
-                fromColumn: fromColumn,
-                toColumn: toColumn,
-                date: date,
-                siteId: siteId,
-                begin: begin,
-                end: end,
-                CalendarViewType: CalendarViewType,
-                choices: choices,
-                dataRows: dataRows,
-                bodyOnly: bodyOnly,
-                showStatus: prefix.IsNullOrEmpty()
-                    ? view.CalendarShowStatus == true
-                    : calendarShowStatus,
-                inRange: inRange,
-                changedItemId: changedItemId,
-                calendarType: calendarType.IsNullOrEmpty()
-                    ? ss.CalendarType.ToString()
-                    : calendarType,
-                prefix: prefix,
-                calendarFromTo: calendarFromTo);
         }
 
         private static EnumerableRowCollection<DataRow> CalendarDataRows(
@@ -7856,11 +7619,10 @@ namespace Implem.Pleasanter.Models
             Column toColumn,
             Column groupBy,
             DateTime begin,
-            DateTime end,
-            SqlWhereCollection calendarWhere = null)
+            DateTime end)
         {
-            var where = calendarWhere != null
-                ? calendarWhere
+            var where = ss.DashboardParts.Count != 0
+                ? ss.DashboardParts[0].View.Where(context: context, ss: ss)
                 : new SqlWhereCollection();
             if (toColumn == null)
             {
@@ -7941,9 +7703,8 @@ namespace Implem.Pleasanter.Models
             bool inRange,
             long changedItemId = 0,
             string calendarType = null,
-            string prefix = null,
-            string calendarFromTo = null,
-            string calendarReferenceType = null)
+            string suffix = null,
+            string calendarFromTo = null)
         {
             return !bodyOnly
                 ? hb.Calendar(
@@ -7964,9 +7725,8 @@ namespace Implem.Pleasanter.Models
                     inRange: inRange,
                     changedItemId: changedItemId,
                     calendarType: calendarType,
-                    prefix: prefix,
-                    calendarFromTo: calendarFromTo,
-                    calendarReferenceType: calendarReferenceType)
+                    suffix: suffix,
+                    calendarFromTo: calendarFromTo)
                 : hb.CalendarBody(
                     context: context,
                     ss: ss,
@@ -7985,9 +7745,8 @@ namespace Implem.Pleasanter.Models
                     inRange: inRange,
                     changedItemId: changedItemId,
                     calendarType: calendarType,
-                    prefix: prefix,
-                    calendarFromTo: calendarFromTo,
-                    calendarReferenceType: calendarReferenceType);
+                    suffix: suffix,
+                    calendarFromTo: calendarFromTo);
         }
 
         public static string Crosstab(Context context, SiteSettings ss)

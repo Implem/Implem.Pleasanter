@@ -15,9 +15,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             SiteSettings ss,
             DateTime date,
             string timePeriod,
-            View view,
-            string calendarType,
-            DateTime? calendarStart = null)
+            View view)
         {
             date = date.ToLocal(context: context).Date;
             var first = new DateTime(date.Year, date.Month, 1);
@@ -29,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 case "Monthly":
                 case "Weekly":
                     DateTime begin;
-                    
+                    string calendarType = ss.CalendarType.ToString();
                     if ((int)first.DayOfWeek < Parameters.General.FirstDayOfWeek)
                     {
                         begin = first.AddDays(
@@ -45,16 +43,18 @@ namespace Implem.Pleasanter.Libraries.Requests
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
                     if (calendarType == "FullCalendar") {
-                        begin = !string.IsNullOrEmpty(view.CalendarStart.ToString())
+                        begin = !calendarType.IsNullOrEmpty()
                             ? (DateTime)view.CalendarStart
                             : begin;
-                        if (!string.IsNullOrEmpty(calendarStart.ToString()))
+                    }
+                    if(ss.DashboardParts.Count != 0)
+                    {
+                        if (!context.Forms.Data($"CalendarStart_{ss.DashboardParts[0].Id}").IsNullOrEmpty())
                         {
-                            begin = (DateTime)calendarStart;
+                            begin = context.Forms.DateTime($"CalendarStart_{ss.DashboardParts[0].Id}");
                         }
                     }
                     return begin.ToUniversal(context: context);
-
                 default:
                     return DateTime.MinValue;
             }
@@ -65,15 +65,17 @@ namespace Implem.Pleasanter.Libraries.Requests
             SiteSettings ss,
             DateTime date,
             string timePeriod,
-            View view,
-            string calendarType,
-            DateTime? calendarEnd = null)
+            View view)
         {
+            string calendarType = ss.CalendarType.ToString();
             if (calendarType == "FullCalendar")
             {
-                if (!string.IsNullOrEmpty(calendarEnd.ToString()))
+                if (ss.DashboardParts.Count != 0)
                 {
-                    return (DateTime)calendarEnd;
+                    if (!context.Forms.Data($"CalendarEnd_{ss.DashboardParts[0].Id}").IsNullOrEmpty())
+                    {
+                        return context.Forms.DateTime($"CalendarEnd_{ss.DashboardParts[0].Id}");
+                    }
                 }
                 return !string.IsNullOrEmpty(view.CalendarEnd.ToString())
                     ? (DateTime)view.CalendarEnd
@@ -82,8 +84,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view,
-                            calendarType: calendarType).AddDays(43).AddMilliseconds(-3);
+                            view: view).AddDays(43).AddMilliseconds(-3);
             }
             else
             {
@@ -95,24 +96,21 @@ namespace Implem.Pleasanter.Libraries.Requests
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view,
-                            calendarType: calendarType).AddYears(1).AddMilliseconds(-3);
+                            view: view).AddYears(1).AddMilliseconds(-3);
                     case "Monthly":
                         return BeginDate(
                             context: context,
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view,
-                            calendarType: calendarType).AddDays(43).AddMilliseconds(-3);
+                            view: view).AddDays(43).AddMilliseconds(-3);
                     case "Weekly":
                         return BeginDate(
                             context: context,
                             ss: ss,
                             date: date,
                             timePeriod: timePeriod,
-                            view: view,
-                            calendarType: calendarType).AddDays(8).AddMilliseconds(-3);
+                            view: view).AddDays(8).AddMilliseconds(-3);
                     default:
                         return DateTime.MinValue;
                 }

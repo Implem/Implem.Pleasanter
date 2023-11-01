@@ -2034,47 +2034,13 @@ namespace Implem.Pleasanter.Models
             //対象サイトをサイト統合の仕組みで登録
             ss.IntegratedSites = dashboardPart.CalendarSitesData;
             ss.SetSiteIntegration(context: context);
-            //Viewからフィルタ条件とソート条件を取得
-            var where = dashboardPart.View.Where(
-                context: context,
-                ss: ss);
             if (ss.ReferenceType == "Issues")
             {
-                return IssueUtilities.Calendar(
-                    context: context,
-                    ss: ss,
-                    prefix: dashboardPart.Id.ToString(),
-                    siteId: dashboardPart.SiteId,
-                    calendarType: dashboardPart.CalendarType.ToString(),
-                    calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                    calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
-                        ? dashboardPart.View.CalendarTimePeriod
-                        : "Monthly",
-                    calendarFromTo: dashboardPart.View.CalendarFromTo,
-                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
-                        ? true
-                        : false,
-                    calendarReferenceType: ss.ReferenceType,
-                    calendarWhere: where);
+                return IssueUtilities.Calendar(context: context, ss: ss);
             }
             else if (ss.ReferenceType == "Results")
             {
-                return ResultUtilities.Calendar(
-                    context: context,
-                    ss: ss,
-                    prefix: dashboardPart.Id.ToString(),
-                    siteId: dashboardPart.SiteId,
-                    calendarType: dashboardPart.CalendarType.ToString(),
-                    calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                    calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
-                        ? dashboardPart.View.CalendarTimePeriod
-                        : "Monthly",
-                    calendarFromTo: dashboardPart.View.CalendarFromTo,
-                    calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
-                        ? true
-                        : false,
-                    calendarReferenceType: ss.ReferenceType,
-                    calendarWhere: where);
+                return ResultUtilities.Calendar(context: context, ss: ss);
             }
             else
             {
@@ -2087,7 +2053,7 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string GetCalendarJson(Context context, SiteSettings ss)
         {
-            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Prefix")).FirstOrDefault();
+            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Suffix_")).LastOrDefault();
             DashboardPart dashboardPart = null;
             for (int i = 0;i < ss.DashboardParts.Count; i++)
             {
@@ -2103,43 +2069,10 @@ namespace Implem.Pleasanter.Models
             //対象サイトをサイト統合の仕組みで登録
             siteData.IntegratedSites = dashboardPart.CalendarSitesData;
             siteData.SetSiteIntegration(context: context);
-            //Viewからフィルタ条件とソート条件を取得
-            var where = dashboardPart.View.Where(
-                context: context,
-                ss: siteData);
-            DateTime? calendarStart = context.Forms.Exists($"{dashboardPart.Id}CalendarStart")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarStart").ToDateTime()
-                : null;
-            DateTime? calendarEnd = context.Forms.Exists($"{dashboardPart.Id}CalendarEnd")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarEnd").ToDateTime()
-                : null;
-            DateTime calendarDate = context.Forms.Exists($"{dashboardPart.Id}CalendarDate")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarDate").ToDateTime()
-                : DateTime.Now;
-            string calendarViewType = context.Forms.Exists($"{dashboardPart.Id}CalendarViewType")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarViewType")
-                : null;
             switch (siteData.ReferenceType)
             {
                 case "Issues":
-                    var issues = IssueUtilities.DashboardCalendarJson(
-                        context: context,
-                        ss: siteData,
-                        prefix: dashboardPart.Id.ToString(),
-                        siteId: dashboardPart.SiteId,
-                        calendarType: dashboardPart.CalendarType.ToString(),
-                        calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                        calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
-                            ? dashboardPart.View.CalendarTimePeriod
-                            : "Monthly",
-                        calendarFromTo: dashboardPart.View.CalendarFromTo,
-                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
-                            ? true
-                            : false,
-                        calendarStart: calendarStart,
-                        calendarEnd: calendarEnd,
-                        calendarDate: calendarDate,
-                        calendarViewType: calendarViewType);
+                    var issues = IssueUtilities.CalendarJson(context: context, ss: siteData);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
@@ -2147,24 +2080,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCalendar")
                         .ToJson();
                 case "Results":
-                    var results = ResultUtilities.DashboardCalendarJson(
-                        context: context,
-                        ss: siteData,
-                        prefix: dashboardPart.Id.ToString(),
-                        siteId: dashboardPart.SiteId,
-                        calendarType: dashboardPart.CalendarType.ToString(),
-                        calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                        calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
-                            ? dashboardPart.View.CalendarTimePeriod
-                            : "Monthly",
-                        calendarFromTo: dashboardPart.View.CalendarFromTo,
-                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
-                            ? true
-                            : false,
-                        calendarStart: calendarStart,
-                        calendarEnd: calendarEnd,
-                        calendarDate: calendarDate,
-                        calendarViewType: calendarViewType);
+                    var results = ResultUtilities.CalendarJson(context: context, ss: siteData);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
@@ -2183,7 +2099,7 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Prefix")).FirstOrDefault();
+            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Suffix_")).LastOrDefault();
             DashboardPart dashboardPart = null;
             for (int i = 0; i < ss.DashboardParts.Count; i++)
             {
@@ -2203,39 +2119,10 @@ namespace Implem.Pleasanter.Models
             var where = dashboardPart.View.Where(
                 context: context,
                 ss: siteData);
-            DateTime? calendarStart = context.Forms.Exists($"{dashboardPart.Id}CalendarStart")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarStart").ToDateTime()
-                : null;
-            DateTime? calendarEnd = context.Forms.Exists($"{dashboardPart.Id}CalendarEnd")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarEnd").ToDateTime()
-                : null;
-            DateTime calendarDate = context.Forms.Exists($"{dashboardPart.Id}CalendarDate")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarDate").ToDateTime()
-                : DateTime.Now;
-            string calendarViewType = context.Forms.Exists($"{dashboardPart.Id}CalendarViewType")
-                ? context.Forms.Data($"{dashboardPart.Id}CalendarViewType")
-                : null;
             switch (siteData.ReferenceType)
             {
                 case "Issues":
-                    var issues = IssueUtilities.UpdateByDashboardCalendar(
-                        context: context,
-                        ss: siteData,
-                        prefix: dashboardPart.Id.ToString(),
-                        siteId: dashboardPart.SiteId,
-                        calendarType: dashboardPart.CalendarType.ToString(),
-                        calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                        calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
-                            ? dashboardPart.View.CalendarTimePeriod
-                            : "Monthly",
-                        calendarFromTo: dashboardPart.View.CalendarFromTo,
-                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
-                            ? true
-                            : false,
-                        calendarStart: calendarStart,
-                        calendarEnd: calendarEnd,
-                        calendarDate: calendarDate,
-                        calendarViewType: calendarViewType);
+                    var issues = IssueUtilities.UpdateByCalendar(context: context, ss: siteData);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
@@ -2243,24 +2130,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCalendar")
                         .ToJson();
                 case "Results":
-                    var results = ResultUtilities.UpdateByDashboardCalendar(
-                        context: context,
-                        ss: siteData,
-                        prefix: dashboardPart.Id.ToString(),
-                        siteId: dashboardPart.SiteId,
-                        calendarType: dashboardPart.CalendarType.ToString(),
-                        calendarGroupBy: dashboardPart.View.CalendarGroupBy,
-                        calendarTimePeriod: !dashboardPart.View.CalendarTimePeriod.IsNullOrEmpty()
-                            ? dashboardPart.View.CalendarTimePeriod
-                            : "Monthly",
-                        calendarFromTo: dashboardPart.View.CalendarFromTo,
-                        calendarShowStatus: dashboardPart.View.CalendarShowStatus == true
-                            ? true
-                            : false,
-                        calendarStart: calendarStart,
-                        calendarEnd: calendarEnd,
-                        calendarDate: calendarDate,
-                        calendarViewType: calendarViewType);
+                    var results = ResultUtilities.UpdateByCalendar(context: context, ss: siteData);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",

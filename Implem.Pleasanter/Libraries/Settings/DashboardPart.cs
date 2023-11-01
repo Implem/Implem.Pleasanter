@@ -51,7 +51,7 @@ namespace Implem.Pleasanter.Libraries.Settings
         public string CalendarGroupBy { get; set; }
         public string CalendarTimePeriod { get; set; }
         public string CalendarFromTo { get; set; }
-        public bool? CalendarShowStatus { get; set; }
+        public bool CalendarShowStatus { get; set; }
         public long SiteId { get; set; }
         public string ExtendedCss { get; set; }
         public List<int> Depts { get; set; }

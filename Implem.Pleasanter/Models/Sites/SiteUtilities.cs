@@ -15662,7 +15662,9 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
-                        _checked: dashboardPart.CalendarShowStatus ?? false)
+                        _checked: dashboardPart.CalendarShowStatus == true
+                            ? true
+                            : false)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",

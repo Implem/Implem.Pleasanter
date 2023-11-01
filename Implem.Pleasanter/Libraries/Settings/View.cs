@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -81,11 +82,14 @@ namespace Implem.Pleasanter.Libraries.Settings
         public Dictionary<string, ApiColumn> ApiColumnHash;
         public ApiColumn.KeyDisplayTypes ApiColumnKeyDisplayType;
         public ApiColumn.ValueDisplayTypes ApiColumnValueDisplayType;
+        public string CalendarSuffix;
+        public long CalendarSiteId;
         public string CalendarTimePeriod;
         public string CalendarFromTo;
         public DateTime? CalendarDate;
         public DateTime? CalendarStart;
         public DateTime? CalendarEnd;
+        public string CalendarType;
         public string CalendarViewType;
         public string CalendarGroupBy;
         public bool? CalendarShowStatus;
@@ -160,6 +164,43 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
+        public void SetCalendarData(Context context, SiteSettings ss)
+        {
+            CalendarSiteId = ss.SiteId;
+            CalendarType = ss.CalendarType.ToString();
+            if (ss.DashboardParts.Count != 0)
+            {
+                CalendarSiteId = ss.DashboardParts[0].SiteId;
+                CalendarSuffix = ss.DashboardParts[0].Id.ToString();
+                CalendarTimePeriod = ss.DashboardParts[0].CalendarTimePeriod;
+                CalendarFromTo = ss.DashboardParts[0].CalendarFromTo;
+                CalendarType = ss.DashboardParts[0].CalendarType.ToString();
+                CalendarShowStatus = ss.DashboardParts[0].CalendarShowStatus;
+                CalendarGroupBy = ss.DashboardParts[0].CalendarGroupBy;
+                if (!context.Forms.Data($"CalendarDate_{CalendarSuffix}").IsNullOrEmpty())
+                {
+                    CalendarDate = context.Forms.DateTime($"CalendarDate_{CalendarSuffix}");
+                }
+                if (!context.Forms.Data($"CalendarStart_{CalendarSuffix}").IsNullOrEmpty())
+                {
+                    CalendarStart = context.Forms.DateTime($"CalendarStart_{CalendarSuffix}");
+                }
+                if (!context.Forms.Data($"CalendarEnd_{CalendarSuffix}").IsNullOrEmpty())
+                {
+                    CalendarEnd = context.Forms.DateTime($"CalendarEnd_{CalendarSuffix}");
+                }
+                if (!context.Forms.Data($"CalendarViewType_{CalendarSuffix}").IsNullOrEmpty())
+                {
+                    CalendarViewType = context.Forms.Data($"CalendarViewType_{CalendarSuffix}");
+                }
+            }
+        }
+
+        public long GetCalendarSiteId()
+        {
+            return CalendarSiteId;
+        }
+
         public string GetCalendarTimePeriod(SiteSettings ss)
         {
             if (CalendarTimePeriod.IsNullOrEmpty())
@@ -205,7 +246,22 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetCalendarViewType()
         {
-            return CalendarViewType;
+            return CalendarViewType ?? "dayGridMonth";
+        }
+
+        public string GetCalendarType()
+        {
+            return CalendarType;
+        }
+
+        public string GetCalendarSuffix()
+        {
+            return CalendarSuffix;
+        }
+
+        public bool GetCalendarShowStatus()
+        {
+            return CalendarShowStatus ?? false;
         }
 
         public string GetCalendarGroupBy()
