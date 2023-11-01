@@ -43,15 +43,15 @@ namespace Implem.Pleasanter.Libraries.Requests
                         begin = begin.AddDays(((date - begin).Days / 7) *7);
                     }
                     if (calendarType == "FullCalendar") {
-                        begin = !calendarType.IsNullOrEmpty()
+                        begin = !string.IsNullOrEmpty(view.CalendarStart.ToString())
                             ? (DateTime)view.CalendarStart
                             : begin;
                     }
                     if(ss.DashboardParts.Count != 0)
                     {
-                        if (!context.Forms.Data($"CalendarStart_{ss.DashboardParts[0].Id}").IsNullOrEmpty())
+                        if (ss.DashboardParts.Count != 0)
                         {
-                            begin = context.Forms.DateTime($"CalendarStart_{ss.DashboardParts[0].Id}");
+                            begin = (DateTime)view.CalendarStart;
                         }
                     }
                     return begin.ToUniversal(context: context);
