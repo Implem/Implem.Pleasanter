@@ -37,7 +37,7 @@ const updateRecord = function (calendarSuffix) {
         var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
         var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
         if (calendarSuffix !== '') {
-            $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
+            $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
             data.Id = $('#Id').val();
             data['EventId'] = info.event.id;
         } else {
@@ -62,7 +62,7 @@ const getEventsDatas = function (calendarSuffix) {
             $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'calendar');
             if (calendarSuffix !== '') {
                 $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'index');
-                $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
+                $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
             }
 
             let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
@@ -223,7 +223,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
                 var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
                 var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
                 if (calendarSuffix !== '') {
-                    $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
+                    $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
                     data.Id = $('#Id').val();
                     data['EventId'] = $control.attr('data-id');
                 } else {
@@ -351,7 +351,7 @@ $p.moveCalendar = function (type, calendarSuffix) {
     $control.val($('#Calendar' + calendarSuffix + type).val());
     if (calendarSuffix !== '') {
         $('#CalendarBody' + calendarSuffix).attr('data-action', 'index');
-        $p.set($('#Prefix' + calendarSuffix), $('#Prefix' + calendarSuffix).val());
+        $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
     }
     $p.setData($control);
     $p.send($control);
@@ -426,7 +426,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
 $p.setCalendar = function () {
     var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id^="Calendar_"],div[id="FullCalendar"],div[id^="FullCalendar_"]')).get();
     $(calendarElArr).each(function (index, value) {
-        var calendarSuffix = value.id.substring(str.indexOf('_'));
+        var calendarSuffix = value.id.substring(value.id.indexOf('_'));
         calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
 
         if ($('#CalendarType' + calendarSuffix).val() == 'FullCalendar') {
