@@ -4363,6 +4363,22 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        private void UpdateEnableSecretKey(Context context)
+        {
+            Repository.ExecuteNonQuery(
+                context: context,
+                statements: Rds.UpdateUsers(
+                    where: Rds.UsersWhereDefault(
+                        context: context,
+                        userModel: this),
+                    param: Rds.UsersParam().EnableSecretKey(EnableSecretKey),
+                    addUpdatorParam: false,
+                    addUpdatedTimeParam: false));
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         private string AddHyphenSecretKey()
         {
             string addHyphenSecretKey = string.Empty;
@@ -4381,6 +4397,7 @@ namespace Implem.Pleasanter.Models
             if (!EnableSecretKey)
             {
                 EnableSecretKey = true;
+                UpdateEnableSecretKey(context);
             }
             return Allow(
                 context: context,
@@ -4549,23 +4566,30 @@ namespace Implem.Pleasanter.Models
                                 action: () => hb.Text(AddHyphenSecretKey())))
                         .Div(action: () => hb = TotpAuthenticationCodeSeparate(hb, context))
                         .Div(
-                            id: "GoogleAuthenticatorRegisterCommands",
-                            css: "both",
-                            action: () => hb.Div(css: "command-right", action: () => hb
-                                .Button(
-                                            controlId: "SecondaryAuthenticate",
-                                            controlCss: " button-icon validate",
-                                            text: Displays.Confirm(context: context),
-                                            onClick: "$p.send($(this));",
-                                            icon: "ui-icon-unlocked",
-                                            action: "Authenticate",
-                                            method: "post",
-                                            type: "submit")
-                                .Button(
-                                        text: Displays.Confirm(context: context),
-                                        controlCss: "button-icon ",
-                                        onClick: "$p.back();",
-                                        icon: "ui-icon-cancel")))
+                            id: "AuthenticationByMail",
+                            attributes: new HtmlAttributes().Add(
+                                "data-isAuthenticationByMail", "0"),
+                            action: () => hb.A(
+                                href: "javascript:void(0)",
+                                text: Displays.RequireSecondAuthenticationByMail(context: context)))
+                                    .Div(
+                                        id: "SecondaryAuthenticationCommands",
+                                        css: "both",
+                                        action: () => hb.Div(css: "command-right", action: () => hb
+                                            .Button(
+                                                controlId: "SecondaryAuthenticate",
+                                                controlCss: " button-icon validate",
+                                                text: Displays.Confirm(context: context),
+                                                onClick: "$p.send($(this));",
+                                                icon: "ui-icon-unlocked",
+                                                action: "Authenticate",
+                                                method: "post",
+                                                type: "submit")
+                                            .Button(
+                                                    text: Displays.Cancel(context: context),
+                                                    controlCss: "button-icon ",
+                                                    onClick: "$p.back();",
+                                                    icon: "ui-icon-cancel")))
                         .Div(
                             id: "GoogleAuthenticatorRegisterBottom",
                             action: () => hb.Raw(HtmlHtmls.ExtendedHtmls(
@@ -4908,9 +4932,11 @@ namespace Implem.Pleasanter.Models
         private bool VerifyGoogleAuthenfication(string secondaryAuthenticationCode)
         {
             OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
-            totp.VerifyTotp(DateTime.UtcNow.AddSeconds(-30), secondaryAuthenticationCode, out _, OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
             return totp.VerifyTotp(secondaryAuthenticationCode,
                 out _,
+                OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay) ||
+                totp.VerifyTotp(DateTime.UtcNow.AddSeconds(-30),
+                secondaryAuthenticationCode, out _,
                 OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
         }
 
