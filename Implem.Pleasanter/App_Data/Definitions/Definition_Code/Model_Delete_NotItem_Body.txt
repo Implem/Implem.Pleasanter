@@ -2,5 +2,5 @@
     factory: context,
     where: Rds.BinariesWhere()
         .TenantId(context.TenantId)
-        .ReferenceId(UserId)
+        .ReferenceId(#ModelName#Id)
         .BinaryType(value: "TenantManagementImages")),

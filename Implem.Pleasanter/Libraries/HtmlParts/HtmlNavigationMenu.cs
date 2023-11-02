@@ -351,6 +351,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             var canManageTrashBox = CanManageTrashBox(
                 context: context,
                 ss: ss);
+            var canManageDeptTrashBox = CanManageDeptTrashBox(
+                context: context,
+                ss: ss);
             var canManageUserTrashBox = CanManageUserTrashBox(
                 context: context,
                 ss: ss);
@@ -391,6 +394,8 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     return canManageRegistrations;
                 case "SettingsMenu_TrashBox":
                     return canManageTrashBox;
+                case "SettingsMenu_DeptTrashBox":
+                    return canManageDeptTrashBox;
                 case "SettingsMenu_UserTrashBox":
                     return canManageUserTrashBox;
                 case "SettingsMenu_TenantAdmin":
@@ -617,6 +622,13 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 && context.CanManageSite(ss: ss)
                 && !ss.Locked()
                 && (context.Id != 0 || context.HasPrivilege);
+        }
+
+        private static bool CanManageDeptTrashBox(Context context, SiteSettings ss)
+        {
+            return (Parameters.Deleted.Restore || Parameters.Deleted.PhysicalDelete)
+                && context.Controller == "depts"
+                && Permissions.CanManageTenant(context: context);
         }
 
         private static bool CanManageUserTrashBox(Context context, SiteSettings ss)
