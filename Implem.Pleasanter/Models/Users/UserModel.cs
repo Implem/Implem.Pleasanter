@@ -4923,13 +4923,13 @@ namespace Implem.Pleasanter.Models
                 ? SecondaryAuthenticationCode == secondaryAuthenticationCode
                     && SecondaryAuthenticationCodeExpirationTime.Value.InRange()
                     && SecondaryAuthenticationCodeExpirationTime.Value > DateTime.Now
-                : VerifyGoogleAuthenfication(secondaryAuthenticationCode);
+                : VerifyGoogleAuthentication(secondaryAuthenticationCode);
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool VerifyGoogleAuthenfication(string secondaryAuthenticationCode)
+        private bool VerifyGoogleAuthentication(string secondaryAuthenticationCode)
         {
             OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
             return totp.VerifyTotp(secondaryAuthenticationCode,
