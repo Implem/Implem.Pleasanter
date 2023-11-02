@@ -1,14 +1,14 @@
 ﻿$(function () {
-    $(document).on('dblclick', 'div[id="Calendar"] .item,div[id^="Calendar_"] .item', function () {
+    $(document).on('dblclick', '#Calendar .item,div[id^="Calendar_"] .item', function () {
         $p.transition($('#BaseUrl').val() + $(this).attr('data-id'));
     });
-    $(document).on('click', 'div[id="Calendar"] .item .ui-icon-pencil,div[id^="Calendar_"] .item .ui-icon-pencil', function () {
+    $(document).on('click', '#Calendar .item .ui-icon-pencil,div[id^="Calendar_"] .item .ui-icon-pencil', function () {
         $p.transition($('#BaseUrl').val() + $(this).parent().parent().attr('data-id'));
     });
-    $(document).on('mouseenter', 'div[id="Calendar"] .item,div[id^="Calendar_"] .item', function () {
+    $(document).on('mouseenter', '#Calendar .item,div[id^="Calendar_"] .item', function () {
         $('[data-id="' + $(this).attr('data-id') + '"]').addClass('hover');
     });
-    $(document).on('mouseleave', 'div[id="Calendar"] .item,div[id^="Calendar_"] .item', function () {
+    $(document).on('mouseleave', '#Calendar .item,div[id^="Calendar_"] .item', function () {
         $('[data-id="' + $(this).attr('data-id') + '"]').removeClass('hover');
     });
     $(window).on('resize', function () {
@@ -20,8 +20,9 @@
             }, 10);
         }
     });
-    $(document).on('dblclick', 'div[id="Calendar"] .ui-droppable,div[id^="Calendar_"] .ui-droppable', function (event) {
-        var calendarSuffix = $(this).parent().parent().parent().parent().attr("id").substring(str.indexOf("_") + 1);;
+    $(document).on('dblclick', '#Calendar .ui-droppable,div[id^="Calendar_"] .ui-droppable', function (event) {
+        var calendarSuffix = $(this).parents('div[id^="Calendar"]').attr("id").substring($(this).parents('div[id^="Calendar"]').attr("id").indexOf("_") + 1);
+        calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
         var addDate = function (baseDate, add) {
             if (add === '') return '';
             var date = new Date(baseDate.getTime());
@@ -46,7 +47,7 @@
         document.body.appendChild(form);
         addInput(form, names[0], addDate(baseDate, $('#CalendarFromDefaultInput' + calendarSuffix).val()));
         addInput(form, names[1], addDate(baseDate, $('#CalendarToDefaultInput' + calendarSuffix).val()));
-        form.submit();
+        //form.submit();
     });
     $(document).on('click', '.calendar-to-monthly', function () {
         var data = {
