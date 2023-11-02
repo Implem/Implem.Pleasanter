@@ -324,9 +324,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             return @"
                 function DATE(year, month, day) {
-                    if (year == undefined || isNaN(year)
-                        || month == undefined || isNaN(month)
-                        || day == undefined || isNaN(day))
+                    if (isNaN(year) || isNaN(month) || isNaN(day))
                     {
                         throw 'Invalid Parameter';
                     }
@@ -694,12 +692,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetConcatScript()
         {
             return @"
-                function CONCAT(firstString, secondString = '') {
+                function CONCAT(firstString) {
                     if (firstString == undefined)
                     {
                         throw 'Invalid Parameter';
                     }
-		            return firstString.toString() + secondString.toString();
+		            for (var i = 1; i < arguments.length; i++)
+		            {
+			            firstString = firstString.toString() + arguments[i].toString();
+		            }
+		            return firstString;
 	            }";
         }
 
@@ -770,9 +772,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         {
             return @"
                 function MID(firstString, start, length) {
-                    if (firstString == undefined
-                        || start == undefined || isNaN(start)
-                        || length == undefined || isNaN(length))
+                    if (firstString == undefined || isNaN(start) || isNaN(length))
                     {
                         throw 'Invalid Parameter';
                     }
@@ -858,7 +858,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetAndScript()
         {
             return @"
-                function AND(firstClause, secondClause = true) {
+                function AND(firstClause) {
                     if (firstClause == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -871,15 +871,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(secondClause))
-                    {
-                        secondClause = (secondClause != 0);
-                    }
-                    else if (typeof secondClause != 'boolean')
-                    {
-                        throw 'Invalid Parameter';
-                    }
-                    return firstClause && secondClause;
+                    for (var i = 1; i < arguments.length; i++)
+		            {
+			            if (!isNaN(arguments[i]))
+			            {
+				            arguments[i] = (arguments[i] != 0);
+			            }
+			            else if (typeof arguments[i] != 'boolean')
+			            {
+				            throw 'Invalid Parameter';
+			            }
+			            firstClause = firstClause && arguments[i];
+		            }
+		            return firstClause;
 	            }";
         }
 
@@ -926,7 +930,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetOrScript()
         {
             return @"
-                function OR(firstClause, secondClause = false) {
+                function OR(firstClause) {
                     if (firstClause == undefined)
                     {
                         throw 'Invalid Parameter';
@@ -939,15 +943,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     {
                         throw 'Invalid Parameter';
                     }
-                    if (!isNaN(secondClause))
-                    {
-                        secondClause = (secondClause != 0);
-                    }
-                    else if (typeof secondClause != 'boolean')
-                    {
-                        throw 'Invalid Parameter';
-                    }
-		            return firstClause || secondClause;
+                    for (var i = 1; i < arguments.length; i++)
+		            {
+			            if (!isNaN(arguments[i]))
+			            {
+				            arguments[i] = (arguments[i] != 0);
+			            }
+			            else if (typeof arguments[i] != 'boolean')
+			            {
+				            throw 'Invalid Parameter';
+			            }
+			            firstClause = firstClause || arguments[i];
+		            }
+		            return firstClause;
 	            }";
         }
     }

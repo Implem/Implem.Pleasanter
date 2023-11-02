@@ -3640,6 +3640,10 @@ namespace Implem.Pleasanter.Models
                             formulaSet.FormulaScript = formulaSet.FormulaScript.Replace(column.ToString(), $"model.{columnParam}");
                         }
                     }
+                    formulaSet.FormulaScript = formulaSet.FormulaScript.Replace("true", "true", StringComparison.InvariantCultureIgnoreCase)
+                        .Replace("\"true\"", "true", StringComparison.InvariantCultureIgnoreCase)
+                        .Replace("false", "false", StringComparison.InvariantCultureIgnoreCase)
+                        .Replace("\"false\"", "false", StringComparison.InvariantCultureIgnoreCase);
                     var value = FormulaServerScriptUtilities.Execute(
                         context: context,
                         ss: ss,
