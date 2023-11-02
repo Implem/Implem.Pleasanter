@@ -364,6 +364,7 @@ private static EnumerableRowCollection<DataRow> CalendarDataRows(
                 context: context,
                 ss: ss)
                     .#ModelName#Id(_as: "Id")
+                    .SiteId(_as: "SiteId")
                     .Status()
                     .#TableName#Column(
                         columnName: fromColumn.ColumnName,

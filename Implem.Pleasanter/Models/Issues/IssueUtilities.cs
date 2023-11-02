@@ -7665,7 +7665,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss)
                             .IssueId(_as: "Id")
-                            .IssueSiteId(_as: "SiteId")
+                            .SiteId(_as: "SiteId")
                             .Status()
                             .IssuesColumn(
                                 columnName: fromColumn.ColumnName,

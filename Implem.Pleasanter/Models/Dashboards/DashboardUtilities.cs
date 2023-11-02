@@ -1992,8 +1992,8 @@ namespace Implem.Pleasanter.Models
         {
             var hb = new HtmlBuilder();
             var calendarHtml = GetCalendarRecords(
-                            context: context,
-                            dashboardPart: dashboardPart);
+                context: context,
+                dashboardPart: dashboardPart);
             var calendar = hb
                 .Div(
                     id: $"DashboardPart_{dashboardPart.Id}",
@@ -2118,10 +2118,6 @@ namespace Implem.Pleasanter.Models
             siteData.IntegratedSites = dashboardPart.CalendarSitesData;
             siteData.SetSiteIntegration(context: context);
             siteData.SetDashboardParts(dashboardPart: dashboardPart);
-            //Viewからフィルタ条件とソート条件を取得
-            var where = dashboardPart.View.Where(
-                context: context,
-                ss: siteData);
             switch (siteData.ReferenceType)
             {
                 case "Issues":

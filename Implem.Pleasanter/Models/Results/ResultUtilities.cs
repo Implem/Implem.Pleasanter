@@ -7325,6 +7325,7 @@ namespace Implem.Pleasanter.Models
                         context: context,
                         ss: ss)
                             .ResultId(_as: "Id")
+                            .SiteId(_as: "SiteId")
                             .Status()
                             .ResultsColumn(
                                 columnName: fromColumn.ColumnName,
