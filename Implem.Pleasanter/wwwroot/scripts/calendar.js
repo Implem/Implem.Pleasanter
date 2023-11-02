@@ -108,11 +108,11 @@ const getEventsDatas = function (calendarSuffix) {
 function setCalendarGroup(group, data, calendarSuffix) {
     var hash = {};
     var beginSelector = (group === undefined)
-        ? '#Calendar' + calendarSuffix + '.container:first'
-        : '#Calendar' + calendarSuffix + '.container[data-value="' + group + '"]:first';
+        ? '#Calendar' + calendarSuffix + ' .container:first'
+        : '#Calendar' + calendarSuffix + ' .container[data-value="' + group + '"]:first';
     var endSelector = (group === undefined)
-        ? '#Calendar' + calendarSuffix + '.container:last'
-        : '#Calendar' + calendarSuffix + '.container[data-value="' + group + '"]:last';
+        ? '#Calendar' + calendarSuffix + ' .container:last'
+        : '#Calendar' + calendarSuffix + ' .container[data-value="' + group + '"]:last';
     var begin = new Date($(beginSelector).attr('data-id'));
     var end = new Date($(endSelector).attr('data-id'));
 
@@ -201,7 +201,6 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
         $('#Calendar' + calendarSuffix + ' .item').draggable({
             revert: 'invalid',
             start: function () {
-                console.log($(this))
                 $(this).parent().droppable({
                     disabled: true
                 });
@@ -348,7 +347,6 @@ function htmlEncode(str) {
 }
 $p.moveCalendar = function (type, calendarSuffix) {
     calendarSuffix = calendarSuffix > 0 ? '_' + calendarSuffix : calendarSuffix;
-    console.log(calendarSuffix)
     var $control = $('#CalendarDate' + calendarSuffix);
     $control.val($('#Calendar' + type + calendarSuffix).val());
     if (calendarSuffix !== '') {
