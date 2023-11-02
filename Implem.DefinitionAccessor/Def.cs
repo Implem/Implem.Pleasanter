@@ -411,9 +411,9 @@ namespace Implem.DefinitionAccessor
                     case "Model_Delete": Code.Model_Delete = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete, definitionRow, CodeXls); break;
                     case "Model_Delete_GroupMembers": Code.Model_Delete_GroupMembers = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_GroupMembers, definitionRow, CodeXls); break;
                     case "Model_Delete_Item": Code.Model_Delete_Item = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Item, definitionRow, CodeXls); break;
+                    case "Model_Delete_NotItem": Code.Model_Delete_NotItem = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_NotItem, definitionRow, CodeXls); break;
                     case "Model_Delete_Sites": Code.Model_Delete_Sites = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_Sites, definitionRow, CodeXls); break;
                     case "Model_Delete_SitesItems": Code.Model_Delete_SitesItems = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_SitesItems, definitionRow, CodeXls); break;
-                    case "Model_Delete_User": Code.Model_Delete_User = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_Delete_User, definitionRow, CodeXls); break;
                     case "Model_DeleteAttachments": Code.Model_DeleteAttachments = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteAttachments, definitionRow, CodeXls); break;
                     case "Model_DeleteByApiCases": Code.Model_DeleteByApiCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByApiCases, definitionRow, CodeXls); break;
                     case "Model_DeleteByServerScriptCases": Code.Model_DeleteByServerScriptCases = definitionRow[1].ToString().NoSpace(definitionRow["NoSpace"].ToBool()); SetCodeTable(CodeTable.Model_DeleteByServerScriptCases, definitionRow, CodeXls); break;
@@ -6862,9 +6862,9 @@ namespace Implem.DefinitionAccessor
         public string Model_Delete;
         public string Model_Delete_GroupMembers;
         public string Model_Delete_Item;
+        public string Model_Delete_NotItem;
         public string Model_Delete_Sites;
         public string Model_Delete_SitesItems;
-        public string Model_Delete_User;
         public string Model_DeleteAttachments;
         public string Model_DeleteByApiCases;
         public string Model_DeleteByServerScriptCases;
@@ -7662,9 +7662,9 @@ namespace Implem.DefinitionAccessor
         public CodeDefinition Model_Delete = new CodeDefinition();
         public CodeDefinition Model_Delete_GroupMembers = new CodeDefinition();
         public CodeDefinition Model_Delete_Item = new CodeDefinition();
+        public CodeDefinition Model_Delete_NotItem = new CodeDefinition();
         public CodeDefinition Model_Delete_Sites = new CodeDefinition();
         public CodeDefinition Model_Delete_SitesItems = new CodeDefinition();
-        public CodeDefinition Model_Delete_User = new CodeDefinition();
         public CodeDefinition Model_DeleteAttachments = new CodeDefinition();
         public CodeDefinition Model_DeleteByApiCases = new CodeDefinition();
         public CodeDefinition Model_DeleteByServerScriptCases = new CodeDefinition();

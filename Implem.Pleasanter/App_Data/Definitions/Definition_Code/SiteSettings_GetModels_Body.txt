@@ -1,4 +1,4 @@
-﻿public static SiteSettings #TableName#SiteSettings(Context context)
+﻿public static SiteSettings #TableName#SiteSettings(Context context, Sqls.TableTypes tableTypes = Sqls.TableTypes.Normal)
 {
     var ss = new SiteSettings()
     {
@@ -8,5 +8,6 @@
 
 <!--SiteSettings_GetModels_GeneralUi-->
 
+    ss.TableType = tableTypes;
     return ss;
 }
