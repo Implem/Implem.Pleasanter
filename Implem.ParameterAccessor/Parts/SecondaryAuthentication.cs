@@ -16,6 +16,7 @@
 
         public SecondaryAuthenticationMode Mode;
         public SecondaryAuthenticationModeNotificationType NotificationType;
+        public double? CountTolerances;
         public bool NotificationMailBcc;
         public string AuthenticationCodeCharacterType;
         public int? AuthenticationCodeLength;

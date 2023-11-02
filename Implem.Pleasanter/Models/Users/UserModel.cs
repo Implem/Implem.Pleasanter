@@ -4929,15 +4929,26 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private bool VerifyGoogleAuthentication(string secondaryAuthenticationCode)
+        private bool VerifyGoogleAuthentication(string secondaryAuthenticationCode, double countTolerances = 0)
         {
             OtpNet.Totp totp = new OtpNet.Totp(OtpNet.Base32Encoding.ToBytes(SecretKey), totpSize: 6);
+            var beforeTime = countTolerances * -30;
+
+            return countTolerances >= Parameters.Security.SecondaryAuthentication.CountTolerances
+                ? false
+                : totp.VerifyTotp(DateTime.UtcNow.AddSeconds((double)beforeTime),
+                    secondaryAuthenticationCode, out _,
+                    OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay)
+                    ? true
+                    : VerifyGoogleAuthentication(secondaryAuthenticationCode, countTolerances + 1);
+            /*
             return totp.VerifyTotp(secondaryAuthenticationCode,
                 out _,
                 OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay) ||
                 totp.VerifyTotp(DateTime.UtcNow.AddSeconds(-30),
                 secondaryAuthenticationCode, out _,
                 OtpNet.VerificationWindow.RfcSpecifiedNetworkDelay);
+            */
         }
 
         /// <summary>
