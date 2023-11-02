@@ -1,4 +1,5 @@
-﻿using Implem.DefinitionAccessor;
+using Implem.DefinitionAccessor;
+using Implem.Libraries.Utilities;
 using Implem.Pleasanter.Interfaces;
 using System;
 namespace Implem.Pleasanter.Libraries.Settings
@@ -73,6 +74,49 @@ namespace Implem.Pleasanter.Libraries.Settings
             TimeOut = timeOut;
         }
 
+        /// <summary>
+        /// Create new  ServerScript by api
+        /// </summary>
+        public ServerScript(
+            int? id,
+            string title,
+            string name,
+            bool? whenloadingSiteSettings,
+            bool? whenViewProcessing,
+            bool? whenloadingRecord,
+            bool? beforeFormula,
+            bool? afterFormula,
+            bool? beforeCreate,
+            bool? afterCreate,
+            bool? beforeUpdate,
+            bool? afterUpdate,
+            bool? beforeDelete,
+            bool? afterDelete,
+            bool? beforeOpeningPage,
+            bool? beforeOpeningRow,
+            string body,
+            bool? shared)
+        {
+            Id = id.ToInt();
+            Title = title;
+            Name = name;
+            WhenloadingSiteSettings = whenloadingSiteSettings;
+            WhenViewProcessing = whenViewProcessing;
+            WhenloadingRecord = whenloadingRecord;
+            BeforeFormula = beforeFormula;
+            AfterFormula = afterFormula;
+            BeforeCreate = beforeCreate;
+            AfterCreate = afterCreate;
+            BeforeUpdate = beforeUpdate;
+            AfterUpdate = afterUpdate;
+            BeforeDelete = beforeDelete;
+            AfterDelete = afterDelete;
+            BeforeOpeningPage = beforeOpeningPage;
+            BeforeOpeningRow = beforeOpeningRow;
+            Body = body;
+            Shared = shared;
+        }
+
         public void Update(
             string title,
             string name,
@@ -111,6 +155,44 @@ namespace Implem.Pleasanter.Libraries.Settings
             Shared = shared;
             Body = body;
             TimeOut = timeOut;
+        }
+
+        public void UpdateByApi(
+            string title,
+            string name,
+            bool? whenloadingSiteSettings,
+            bool? whenViewProcessing,
+            bool? whenloadingRecord,
+            bool? beforeFormula,
+            bool? afterFormula,
+            bool? beforeCreate,
+            bool? afterCreate,
+            bool? beforeUpdate,
+            bool? afterUpdate,
+            bool? beforeDelete,
+            bool? afterDelete,
+            bool? beforeOpeningPage,
+            bool? beforeOpeningRow,
+            bool? shared,
+            string body)
+        {
+            Title = title;
+            Name = name;
+            if (whenloadingSiteSettings != null) WhenloadingSiteSettings = whenloadingSiteSettings;
+            if (whenViewProcessing != null) WhenViewProcessing = whenViewProcessing;
+            if (whenloadingRecord != null) WhenloadingRecord = whenloadingRecord;
+            if (beforeFormula != null) BeforeFormula = beforeFormula;
+            if (afterFormula != null) AfterFormula = afterFormula;
+            if (beforeCreate != null) BeforeCreate = beforeCreate;
+            if (afterCreate != null) AfterCreate = afterCreate;
+            if (beforeUpdate != null) BeforeUpdate = beforeUpdate;
+            if (afterUpdate != null) AfterUpdate = afterUpdate;
+            if (beforeDelete != null) BeforeDelete = beforeDelete;
+            if (afterDelete != null) AfterDelete = afterDelete;
+            if (beforeOpeningPage != null) BeforeOpeningPage = beforeOpeningPage;
+            if (beforeOpeningRow != null) BeforeOpeningRow = beforeOpeningRow;
+            if (shared != null) Shared = shared;
+            if (body != null) Body = body;
         }
 
         public ServerScript GetRecordingData()

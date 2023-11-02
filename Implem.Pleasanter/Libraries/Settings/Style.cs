@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Interfaces;
+﻿using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Interfaces;
 namespace Implem.Pleasanter.Libraries.Settings
 {
     public class Style : ISettingListItem
@@ -57,6 +58,43 @@ namespace Implem.Pleasanter.Libraries.Settings
             Body = body;
         }
 
+        /// <summary>
+        /// Create new Style by api
+        /// </summary>  
+        public Style(
+             int? id,
+             string title,
+             bool? all,
+             bool? _new,
+             bool? edit,
+             bool? index,
+             bool? calendar,
+             bool? crosstab,
+             bool? gantt,
+             bool? burnDown,
+             bool? timeSeries,
+             bool? kamban,
+             bool? imageLib,
+             bool? disabled,
+             string body)
+        {
+            Id = id.ToInt();
+            Title = title;
+            All = all;
+            New = _new;
+            Edit = edit;
+            Index = index;
+            Calendar = calendar;
+            Crosstab = crosstab;
+            Gantt = gantt;
+            BurnDown = burnDown;
+            TimeSeries = timeSeries;
+            Kamban = kamban;
+            ImageLib = imageLib;
+            Disabled = disabled;
+            Body = body;
+        }
+
         public void Update(
             string title,
             bool all,
@@ -87,6 +125,38 @@ namespace Implem.Pleasanter.Libraries.Settings
             ImageLib = imageLib;
             Disabled = disabled;
             Body = body;
+        }
+
+        public void UpdateByApi(
+           string title,
+           bool? all,
+           bool? _new,
+           bool? edit,
+           bool? index,
+           bool? calendar,
+           bool? crosstab,
+           bool? gantt,
+           bool? burnDown,
+           bool? timeSeries,
+           bool? kamban,
+           bool? imageLib,
+           bool? disabled,
+           string body)
+        {
+            Title = title;
+            if (all != null) All = all;
+            if (_new != null) New = _new;
+            if (edit != null) Edit = edit;
+            if (index != null) Index = index;
+            if (calendar != null) Calendar = calendar;
+            if (crosstab != null) Crosstab = crosstab;
+            if (gantt != null) Gantt = gantt;
+            if (burnDown != null) BurnDown = burnDown;
+            if (timeSeries != null) TimeSeries = timeSeries;
+            if (kamban != null) Kamban = kamban;
+            if (imageLib != null) ImageLib = imageLib;
+            if (disabled != null) Disabled = disabled;
+            if (body != null) Body = body;
         }
 
         public Style GetRecordingData()

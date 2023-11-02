@@ -15,7 +15,9 @@ using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Server;
 using Implem.Pleasanter.Libraries.ServerScripts;
 using Implem.Pleasanter.Libraries.Settings;
+using Implem.Pleasanter.Models.ApiSiteSettings;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -2267,6 +2269,286 @@ namespace Implem.Pleasanter.Models
             return res
                 .SetMemory("formChanged", true)
                 .ToJson();
+        }
+
+        /// <summary>
+        /// SiteSetting Update: Change ServerScript (Update, Create, Delete)
+        /// </summary>
+        /// <param name="siteSetting">Currnet SiteSetting</param>
+        /// <param name="scriptsApiSiteSetting">ServerScripts of SiteSetting get from Api</param>
+        public void ChangeServerScriptByApi(
+            SiteSettings siteSetting,
+            List<ServerScriptApiSettingModel> serverScriptsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            serverScriptsApiSiteSetting.ForEach(ssApiSetting =>
+            {
+                var currentServerScript = siteSetting.ServerScripts?.
+                     FirstOrDefault(o => o.Id == ssApiSetting.Id.ToInt());
+                if (ssApiSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(ssApiSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentServerScript != null)
+                    {
+                        // Update ServerScript site setting
+                        currentServerScript.UpdateByApi(
+                           title: ssApiSetting.Title,
+                           name: ssApiSetting.Name,
+                           whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                           whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                           whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                           beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                           afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                           beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                           afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                           beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                           afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                           beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                           afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                           beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                           beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                           shared: ssApiSetting.ServerScriptShared,
+                           body: ssApiSetting.Body);
+                    }
+                    else
+                    {
+                        // Create new ServerScript site setting
+                        SiteSettings.ServerScripts.Add(new ServerScript(
+                           id: ssApiSetting.Id,
+                           title: ssApiSetting.Title,
+                           name: ssApiSetting.Name,
+                           whenloadingSiteSettings: ssApiSetting.ServerScriptWhenloadingSiteSettings,
+                           whenViewProcessing: ssApiSetting.ServerScriptWhenViewProcessing,
+                           whenloadingRecord: ssApiSetting.ServerScriptWhenloadingRecord,
+                           beforeFormula: ssApiSetting.ServerScriptBeforeFormula,
+                           afterFormula: ssApiSetting.ServerScriptAfterFormula,
+                           beforeCreate: ssApiSetting.ServerScriptBeforeCreate,
+                           afterCreate: ssApiSetting.ServerScriptAfterCreate,
+                           beforeUpdate: ssApiSetting.ServerScriptBeforeUpdate,
+                           afterUpdate: ssApiSetting.ServerScriptAfterUpdate,
+                           beforeDelete: ssApiSetting.ServerScriptBeforeDelete,
+                           afterDelete: ssApiSetting.ServerScriptAfterDelete,
+                           beforeOpeningPage: ssApiSetting.ServerScriptBeforeOpeningPage,
+                           beforeOpeningRow: ssApiSetting.ServerScriptBeforeOpeningRow,
+                           shared: ssApiSetting.ServerScriptShared,
+                           body: ssApiSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.ServerScripts.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// SiteSetting Update: Change Scripts (Update, Create, Delete)
+        /// </summary>
+        /// <param name="siteSetting">Currnet SiteSetting</param>
+        /// <param name="scriptsApiSiteSetting">Scripts of SiteSetting get from Api</param>
+        public void ChangeScriptByApi(
+            SiteSettings siteSetting,
+            List<ScriptApiSettingModel> scriptsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            scriptsApiSiteSetting.ForEach(scApiSiteSetting =>
+            {
+                var currentScript = siteSetting.Scripts?.
+                     FirstOrDefault(o => o.Id == scApiSiteSetting.Id.ToInt());
+                if (scApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(scApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentScript != null)
+                    {
+                        // Update Script site setting
+                        currentScript.UpdateByApi(
+                            title: scApiSiteSetting.Title,
+                            all: scApiSiteSetting.ScriptAll,
+                            _new: scApiSiteSetting.ScriptNew,
+                            edit: scApiSiteSetting.ScriptEdit,
+                            index: scApiSiteSetting.ScriptIndex,
+                            calendar: scApiSiteSetting.ScriptCalendar,
+                            crosstab: scApiSiteSetting.ScriptCrosstab,
+                            gantt: scApiSiteSetting.ScriptGantt,
+                            burnDown: scApiSiteSetting.ScriptBurnDown,
+                            timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            kamban: scApiSiteSetting.ScriptKamban,
+                            imageLib: scApiSiteSetting.ScriptImageLib,
+                            disabled: scApiSiteSetting.Disabled,
+                            body: scApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Create new Script site setting
+                        SiteSettings.Scripts.Add(new Script(
+                            id: scApiSiteSetting.Id,
+                            title: scApiSiteSetting.Title,
+                            all: scApiSiteSetting.ScriptAll,
+                            _new: scApiSiteSetting.ScriptNew,
+                            edit: scApiSiteSetting.ScriptEdit,
+                            index: scApiSiteSetting.ScriptIndex,
+                            calendar: scApiSiteSetting.ScriptCalendar,
+                            crosstab: scApiSiteSetting.ScriptCrosstab,
+                            gantt: scApiSiteSetting.ScriptGantt,
+                            burnDown: scApiSiteSetting.ScriptBurnDown,
+                            timeSeries: scApiSiteSetting.ScriptTimeSeries,
+                            kamban: scApiSiteSetting.ScriptKamban,
+                            imageLib: scApiSiteSetting.ScriptImageLib,
+                            disabled: scApiSiteSetting.Disabled,
+                            body: scApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Scripts.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// SiteSetting Update: Change Styles (Update, Create, Delete)
+        /// </summary>
+        /// <param name="siteSetting">Currnet SiteSetting</param>
+        /// <param name="styleApiSiteSetting">Styles of SiteSetting get from Api</param>
+        public void ChangeStyleByApi(
+            SiteSettings siteSetting,
+            List<StyleApiSettingModel> styleApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            styleApiSiteSetting.ForEach(stApiSiteSetting =>
+            {
+                var currentStyle = siteSetting.Styles?.
+                     FirstOrDefault(o => o.Id == stApiSiteSetting.Id.ToInt());
+                if (stApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(stApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentStyle != null)
+                    {
+                        // Update Style site setting
+                        currentStyle.UpdateByApi(
+                            title: stApiSiteSetting.Title,
+                            all: stApiSiteSetting.StyleAll,
+                            _new: stApiSiteSetting.StyleNew,
+                            edit: stApiSiteSetting.StyleEdit,
+                            index: stApiSiteSetting.StyleIndex,
+                            calendar: stApiSiteSetting.StyleCalendar,
+                            crosstab: stApiSiteSetting.StyleCrosstab,
+                            gantt: stApiSiteSetting.StyleGantt,
+                            burnDown: stApiSiteSetting.StyleBurnDown,
+                            timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            kamban: stApiSiteSetting.StyleKamban,
+                            imageLib: stApiSiteSetting.StyleImageLib,
+                            disabled: stApiSiteSetting.Disabled,
+                            body: stApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Add new Style site setting
+                        SiteSettings.Styles.Add(new Style(
+                            id: stApiSiteSetting.Id,
+                            title: stApiSiteSetting.Title,
+                            all: stApiSiteSetting.StyleAll,
+                            _new: stApiSiteSetting.StyleNew,
+                            edit: stApiSiteSetting.StyleEdit,
+                            index: stApiSiteSetting.StyleIndex,
+                            calendar: stApiSiteSetting.StyleCalendar,
+                            crosstab: stApiSiteSetting.StyleCrosstab,
+                            gantt: stApiSiteSetting.StyleGantt,
+                            burnDown: stApiSiteSetting.StyleBurnDown,
+                            timeSeries: stApiSiteSetting.StyleTimeSeries,
+                            kamban: stApiSiteSetting.StyleKamban,
+                            imageLib: stApiSiteSetting.StyleImageLib,
+                            disabled: stApiSiteSetting.Disabled,
+                            body: stApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Styles.Delete(deleteSelected);
+            }
+        }
+
+        /// <summary>
+        /// SiteSetting Update: Change Htmls (Update, Create, Delete)
+        /// </summary>
+        /// <param name="siteSetting">Currnet SiteSetting</param>
+        /// <param name="htmlsApiSiteSetting">Htmls of SiteSetting get from Api</param>
+        public void ChangeHtmlByApi(
+            SiteSettings siteSetting,
+            List<HtmlApiSettingModel> htmlsApiSiteSetting)
+        {
+            List<int> deleteSelected = new List<int>();
+            htmlsApiSiteSetting.ForEach(htmlApiSiteSetting =>
+            {
+                var currentHtml = siteSetting.Htmls?.
+                     FirstOrDefault(o => o.Id == htmlApiSiteSetting.Id.ToInt());
+                if (htmlApiSiteSetting.Delete.ToInt() == ApiSiteSetting.DeleteFlag.IsDelete.ToInt())
+                {
+                    deleteSelected.Add(htmlApiSiteSetting.Id.ToInt());
+                }
+                else
+                {
+                    if (currentHtml != null)
+                    {
+                        // Update html site setting                        
+                        currentHtml.UpdateByApi(
+                            title: htmlApiSiteSetting.Title,
+                            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                            all: htmlApiSiteSetting.HtmlAll,
+                            _new: htmlApiSiteSetting.HtmlNew,
+                            edit: htmlApiSiteSetting.HtmlEdit,
+                            index: htmlApiSiteSetting.HtmlIndex,
+                            calendar: htmlApiSiteSetting.HtmlCalendar,
+                            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                            gantt: htmlApiSiteSetting.HtmlGantt,
+                            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            kamban: htmlApiSiteSetting.HtmlKamban,
+                            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                            disabled: htmlApiSiteSetting.Disabled,
+                            body: htmlApiSiteSetting.Body);
+                    }
+                    else
+                    {
+                        // Add new html site setting
+                        SiteSettings.Htmls.Add(new Html(
+                            id: htmlApiSiteSetting.Id,
+                            title: htmlApiSiteSetting.Title,
+                            positionType: htmlApiSiteSetting.HtmlPositionType.ToEnum<Html.PositionTypes>(),
+                            all: htmlApiSiteSetting.HtmlAll,
+                            _new: htmlApiSiteSetting.HtmlNew,
+                            edit: htmlApiSiteSetting.HtmlEdit,
+                            index: htmlApiSiteSetting.HtmlIndex,
+                            calendar: htmlApiSiteSetting.HtmlCalendar,
+                            crosstab: htmlApiSiteSetting.HtmlCrosstab,
+                            gantt: htmlApiSiteSetting.HtmlGantt,
+                            burnDown: htmlApiSiteSetting.HtmlBurnDown,
+                            timeSeries: htmlApiSiteSetting.HtmlTimeSeries,
+                            kamban: htmlApiSiteSetting.HtmlKamban,
+                            imageLib: htmlApiSiteSetting.HtmlImageLib,
+                            disabled: htmlApiSiteSetting.Disabled,
+                            body: htmlApiSiteSetting.Body));
+                    }
+                }
+            });
+            // Check has deleted
+            if (deleteSelected.Count() != 0)
+            {
+                siteSetting.Htmls.Delete(deleteSelected);
+            }
         }
 
         /// <summary>
