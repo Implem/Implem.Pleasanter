@@ -2070,7 +2070,7 @@ namespace Implem.Pleasanter.Models
             //対象サイトをサイト統合の仕組みで登録
             siteData.IntegratedSites = dashboardPart.CalendarSitesData;
             siteData.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            siteData.SetDashboardParts(dashboardPart: dashboardPart);
             switch (siteData.ReferenceType)
             {
                 case "Issues":
@@ -2117,7 +2117,7 @@ namespace Implem.Pleasanter.Models
             //対象サイトをサイト統合の仕組みで登録
             siteData.IntegratedSites = dashboardPart.CalendarSitesData;
             siteData.SetSiteIntegration(context: context);
-            ss.SetDashboardParts(dashboardPart: dashboardPart);
+            siteData.SetDashboardParts(dashboardPart: dashboardPart);
             //Viewからフィルタ条件とソート条件を取得
             var where = dashboardPart.View.Where(
                 context: context,

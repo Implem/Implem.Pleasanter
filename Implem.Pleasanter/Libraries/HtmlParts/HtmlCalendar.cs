@@ -334,6 +334,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                                     calendarType: calendarType))
                         .CalendarBodyTable(
                             context: context,
+                            ss: ss,
                             timePeriod: timePeriod,
                             date: date,
                             begin: begin,
@@ -398,6 +399,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder CalendarBodyTable(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             string timePeriod,
             Column groupBy,
             DateTime date,
@@ -409,12 +411,14 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "Yearly":
                     return hb.YearlyTable(
                         context: context,
+                        ss: ss,
                         begin: begin,
                         groupBy:groupBy,
                         choices: choices);
                 case "Monthly":
                     return hb.MonthlyTable(
                         context: context,
+                        ss: ss,
                         date: date,
                         begin: begin,
                         groupBy: groupBy,
@@ -422,6 +426,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 case "Weekly":
                     return hb.WeeklyTable(
                         context: context,
+                        ss: ss,
                         date: date,
                         begin: begin,
                         groupBy: groupBy,
@@ -434,12 +439,15 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder YearlyTable(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             Column groupBy,
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
             return hb.Table(
-                id: "Grid",
+                id: ss.DashboardParts.Count == 0
+                    ? "Grid"
+                    : "",
                 css: "grid fixed",
                 action: () => hb
                     .THead(action: () => hb
@@ -492,13 +500,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder MonthlyTable(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             Column groupBy,
             DateTime date,
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
             return hb.Table(
-                id: "Grid",
+                id: ss.DashboardParts.Count == 0
+                    ? "Grid"
+                    : "",
                 css: "grid fixed",
                 action: () => hb
                     .THead(action: () => hb
@@ -563,13 +574,16 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         private static HtmlBuilder WeeklyTable(
             this HtmlBuilder hb,
             Context context,
+            SiteSettings ss,
             Column groupBy,
             DateTime date,
             DateTime begin,
             Dictionary<string, ControlData> choices)
         {
             return hb.Table(
-                id: "Grid",
+                id: ss.DashboardParts.Count == 0
+                    ? "Grid"
+                    : "",
                 css: "grid fixed",
                 action: () => hb
                     .THead(action: () => hb
