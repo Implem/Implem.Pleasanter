@@ -198,9 +198,10 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
         }
     });
     if ($('#CalendarCanUpdate' + calendarSuffix).val() === '1') {
-        $('#Calendar' + calendarSuffix + '.item').draggable({
+        $('#Calendar' + calendarSuffix + ' .item').draggable({
             revert: 'invalid',
             start: function () {
+                console.log($(this))
                 $(this).parent().droppable({
                     disabled: true
                 });
@@ -212,7 +213,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
                         .append($(this).text()));
             }
         });
-        $('#Calendar' + calendarSuffix + '.container').droppable({
+        $('#Calendar' + calendarSuffix + ' .container').droppable({
             hoverClass: 'hover',
             tolerance: 'intersect',
             drop: function (e, ui) {
@@ -347,8 +348,9 @@ function htmlEncode(str) {
 }
 $p.moveCalendar = function (type, calendarSuffix) {
     calendarSuffix = calendarSuffix > 0 ? '_' + calendarSuffix : calendarSuffix;
+    console.log(calendarSuffix)
     var $control = $('#CalendarDate' + calendarSuffix);
-    $control.val($('#Calendar' + calendarSuffix + type).val());
+    $control.val($('#Calendar' + type + calendarSuffix).val());
     if (calendarSuffix !== '') {
         $('#CalendarBody' + calendarSuffix).attr('data-action', 'index');
         $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
