@@ -38,6 +38,7 @@ const updateRecord = function (calendarSuffix) {
         var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
         if (calendarSuffix !== '') {
             $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
+            data.siteId = info.event.extendedProps.siteId;
             data.Id = $('#Id').val();
             data['EventId'] = info.event.id;
         } else {
@@ -89,7 +90,8 @@ const getEventsDatas = function (calendarSuffix) {
                             title: item.title,
                             start: item.start,
                             end: item.end,
-                            StatusHtml: item.StatusHtml
+                            StatusHtml: item.StatusHtml,
+                            siteId: item.siteId
                         }
                     }
                     else {
@@ -98,6 +100,7 @@ const getEventsDatas = function (calendarSuffix) {
                             title: item.title,
                             start: item.start,
                             end: item.end,
+                            siteId: item.siteId
                         }
                     }
                 }))
@@ -224,6 +227,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
                 var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
                 if (calendarSuffix !== '') {
                     $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
+                    data.siteId = ui.draggable[0].dataset.siteid;
                     data.Id = $('#Id').val();
                     data['EventId'] = $control.attr('data-id');
                 } else {
@@ -265,7 +269,8 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
         .addClass(element.Changed === true ? 'changed' : '')
         .attr('data-id', element.Id)
         .attr('data-from', element.From)
-        .attr('data-to', element.To);
+        .attr('data-to', element.To)
+        .attr('data-siteid', element.SiteId);
     if (sub) {
         item.append($('<div />')
             .attr('data-id', element.Id)
