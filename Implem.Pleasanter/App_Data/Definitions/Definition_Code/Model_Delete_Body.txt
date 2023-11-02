@@ -12,7 +12,7 @@
     statements.AddRange(new List<SqlStatement>
     {
 
-<!--Model_Delete_User-->
+<!--Model_Delete_NotItem-->
 <!--Model_Delete_Item-->
 
         Rds.Delete#TableName#(

@@ -108,9 +108,11 @@ namespace Implem.Pleasanter.Libraries.DataSources
                         // The server's SSL certificate could not be validated for the following reasons
                         smtpClient.ServerCertificateValidationCallback = (s, c, h, e) => true;
                     }
-                    var options = Parameters.Mail.SmtpEnableSsl
-                        ? MailKit.Security.SecureSocketOptions.StartTls
-                        : MailKit.Security.SecureSocketOptions.None;
+                    var options = Enum.TryParse<MailKit.Security.SecureSocketOptions>(Parameters.Mail.SecureSocketOptions, out var op)
+                        ? op
+                        : (Parameters.Mail.SmtpEnableSsl
+                            ? MailKit.Security.SecureSocketOptions.StartTls
+                            : MailKit.Security.SecureSocketOptions.None);
                     await smtpClient.ConnectAsync(Host, Port, options);
                     if (!Parameters.Mail.SmtpUserName.IsNullOrEmpty()
                         && !Parameters.Mail.SmtpPassword.IsNullOrEmpty())
