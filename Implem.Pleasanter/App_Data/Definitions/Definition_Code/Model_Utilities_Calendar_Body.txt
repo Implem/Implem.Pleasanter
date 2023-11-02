@@ -185,7 +185,9 @@ public static string CalendarJson(
     }
     var view = Views.GetBySession(context: context, ss: ss);
     view.SetCalendarData(context: context, ss: ss);
-    var bodyOnly = context.Forms.ControlId().StartsWith("Calendar");
+    var bodyOnly = ss.DashboardParts.Count != 0
+        ? false
+        : context.Forms.ControlId().StartsWith("Calendar");
     var timePeriod = view.GetCalendarTimePeriod(ss: ss);
     var fromColumn = ss.GetColumn(
         context: context,

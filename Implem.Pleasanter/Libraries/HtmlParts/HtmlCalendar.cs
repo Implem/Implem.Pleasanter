@@ -83,7 +83,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     controlId: suffix.IsNullOrEmpty()
                         ? "CalendarDate"
                         : $"CalendarDate_{suffix}",
-                    controlCss: "CalendarDate w100 auto-postback always-send",
+                    controlCss: " w100 auto-postback always-send CalendarDate",
                     labelText: "",
                     text: date
                         .ToLocal(context: context)
