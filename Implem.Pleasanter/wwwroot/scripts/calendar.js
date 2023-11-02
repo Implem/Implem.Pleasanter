@@ -7,12 +7,12 @@
         document.body.appendChild(form);
         var start = document.createElement("input");
         start.setAttribute("type", "hidden");
-        start.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "StartTime");
+        start.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "_StartTime");
         start.setAttribute("value", info.start.toLocaleString());
         form.appendChild(start);
         var end = document.createElement("input");
         end.setAttribute("type", "hidden");
-        end.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "CompletionTime");
+        end.setAttribute("name", $('#CalendarReferenceType' + calendarSuffix).val() + "_CompletionTime");
         end.setAttribute("value", info.end.toLocaleString());
         form.appendChild(end);
         var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
@@ -423,8 +423,11 @@ function setFullCalendar(calendarSuffix, calendarEl) {
     $p.fullCalendar.render();
     $('.fc-scrollgrid').addClass('no-drag');
 }
-$p.setCalendar = function () {
+$p.setCalendar = function (suffix) {
     var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id^="Calendar_"],div[id="FullCalendar"],div[id^="FullCalendar_"]')).get();
+    if (suffix) {
+        calendarElArr = $($('#MainForm').find('div[id$="Calendar_' + suffix + '"]')).get();
+    }
     $(calendarElArr).each(function (index, value) {
         var calendarSuffix = value.id.substring(value.id.indexOf('_'));
         calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
