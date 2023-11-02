@@ -758,6 +758,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return new CalendarElement(
                 id: dataRow.Long("Id"),
+                siteId: dataRow.Long("SiteId"),
                 title: dataRow.String("ItemTitle"),
                 time: (from?.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "
@@ -790,6 +791,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             return new FullCalendarElement(
                 Id: dataRow.Long("Id"),
+                SiteId: dataRow.Long("SiteId"),
                 Title: dataRow.String("ItemTitle"),
                 Time: (from?.EditorFormat == "Ymdhm"
                     ? dataRow.DateTime("From").ToLocal(context: context).ToString("HH:mm") + " "

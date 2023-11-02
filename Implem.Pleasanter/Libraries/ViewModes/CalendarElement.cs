@@ -9,6 +9,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
     public class CalendarElement
     {
         public long Id;
+        public long SiteId;
         public string Title;
         public string Time;
         public DateTime From;
@@ -20,6 +21,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
 
         public CalendarElement(
             long id,
+            long siteId,
             string title,
             string time,
             DateTime from,
@@ -29,6 +31,7 @@ namespace Implem.Pleasanter.Libraries.ViewModes
             string statusHtml)
         {
             Id = id;
+            SiteId = siteId;
             Title = title;
             Time = time;
             From = from;
