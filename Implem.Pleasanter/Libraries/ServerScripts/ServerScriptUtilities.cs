@@ -18,6 +18,7 @@ using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using Types = Implem.Libraries.Utilities.Types;
 using Newtonsoft.Json;
+using System.Web.Helpers;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
@@ -1073,15 +1074,19 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     try
                     {
-                        engine.ContinuationCallback = model.ContinuationCallback;
-                        engine.AddHostType(typeof(JsonConvert));
-                        engine.Execute(@"
-                            (function () {
+                        var replacementJsonStringify = @"
+                            let $p = {
+                                JSON: {
+                                    stringify: function() { }}};
+                            (function() {
                                 let js = JSON.stringify;
                                 let clr = JsonConvert.SerializeObject;
-                                JSON.stringify = (v, r, s) => js(v, r, s) || clr(v);
+                                    $p.JSON.stringify = (v, r, s) => js(v, r, s) || clr(v);
                             })()
-                        ");
+                        ";
+                        engine.ContinuationCallback = model.ContinuationCallback;
+                        engine.AddHostType(typeof(JsonConvert));
+                        engine.Execute(replacementJsonStringify);
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
