@@ -229,7 +229,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
             hb
                 .Hidden(
                     controlId: suffix.IsNullOrEmpty()
-                        ? "CalenarReferenceType"
+                        ? "CalendarReferenceType"
                         : $"CalendarReferenceType_{suffix}",
                     value: ss.ReferenceType)
                 .Hidden(
