@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                     }
                     if(ss.DashboardParts.Count != 0)
                     {
-                        if (ss.DashboardParts.Count != 0)
+                        if (!context.Forms.Data($"CalendarStart_{ss.DashboardParts[0].Id}").IsNullOrEmpty())
                         {
                             begin = (DateTime)view.CalendarStart;
                         }
