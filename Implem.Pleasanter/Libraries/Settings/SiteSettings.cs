@@ -4797,6 +4797,14 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : new Permission(key, 0, Permissions.Types.NotSet, source: true);
         }
 
+        public void SetDashboardParts(DashboardPart dashboardPart)
+        {
+            DashboardParts = new SettingList<DashboardPart>
+            {
+                dashboardPart
+            };
+        }
+
         public void SetSiteIntegration(Context context)
         {
             if (IntegratedSites?.Any() == true)
