@@ -17,7 +17,6 @@ using System.Linq;
 using static Implem.Pleasanter.Libraries.Security.Permissions;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
 using Types = Implem.Libraries.Utilities.Types;
-using Newtonsoft.Json;
 
 namespace Implem.Pleasanter.Libraries.ServerScripts
 {
@@ -1084,7 +1083,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                             })()
                         ";
                         engine.ContinuationCallback = model.ContinuationCallback;
-                        engine.AddHostType(typeof(JsonConvert));
+                        engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
                         engine.Execute(replacementJsonStringify);
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
