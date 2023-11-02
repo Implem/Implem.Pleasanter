@@ -2079,7 +2079,7 @@ namespace Implem.Pleasanter.Models
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
-                        .Invoke("setCalendar")
+                        .Invoke("setCalendar",dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.CalendarJson(context: context, ss: siteData);
@@ -2087,7 +2087,7 @@ namespace Implem.Pleasanter.Models
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: results)
-                        .Invoke("setCalendar")
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
@@ -2130,7 +2130,7 @@ namespace Implem.Pleasanter.Models
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: issues)
-                        .Invoke("setCalendar")
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.UpdateByCalendar(context: context, ss: siteData);
@@ -2138,7 +2138,7 @@ namespace Implem.Pleasanter.Models
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
                             value: results)
-                        .Invoke("setCalendar")
+                        .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
                     return Messages.ResponseNotFound(context: context).ToJson();
