@@ -1,0 +1,4 @@
+﻿if (copyFrom > 0)
+{
+    #modelName#Model.Comments.Clear();
+}

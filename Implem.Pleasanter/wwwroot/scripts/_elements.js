@@ -1,5 +1,5 @@
 ﻿$p.responsive = function () {
-    return $('#Responsive').val() === '1';
+    return $('#Responsive[type="hidden"]').val() === '1';
 }
 
 $p.id = function () {
