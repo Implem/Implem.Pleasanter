@@ -693,7 +693,7 @@ namespace Implem.Pleasanter.Controllers
         {
             var context = new Context();
             var log = new SysLogModel(context: context);
-            var json = UserUtilities.TrashBoxGridRows(
+            var json = UserUtilities.GridRows(
                 context: context,
                 ss: SiteSettingsUtilities.UsersSiteSettings(
                     context: context,
