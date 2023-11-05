@@ -20,7 +20,6 @@ using Implem.Pleasanter.Libraries.Web;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Web;
 using static Implem.Pleasanter.Libraries.ServerScripts.ServerScriptModel;
@@ -5204,7 +5203,7 @@ namespace Implem.Pleasanter.Models
                         }
                     }
                 }
-                catch (DbException e)
+                catch (System.Data.Common.DbException e)
                 {
                     if (context.SqlErrors.ErrorCode(e) == context.SqlErrors.ErrorCodeDuplicateKey)
                     {
