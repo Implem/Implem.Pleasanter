@@ -141,7 +141,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             suffix: suffix,
                             calendarFromTo: calendarFromTo)));
             } else {
-                return hb.Div(css: "both", action: () => hb
+                return hb.Div(id: $"Calendar{suffix}", css: "both", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarFromTo",
