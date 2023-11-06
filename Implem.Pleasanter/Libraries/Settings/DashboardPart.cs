@@ -129,9 +129,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 case DashboardPartType.Calendar:
                     dashboardPart.CalendarSites = CalendarSites;
                     dashboardPart.CalendarSitesData = CalendarSitesData;
-                    dashboardPart.CalendarType = (CalendarType == Settings.CalendarType.Standard || CalendarType == Settings.CalendarType.FullCalendar)
-                        ? CalendarType
-                        : null;
+                    dashboardPart.CalendarType = CalendarType;
                     dashboardPart.CalendarGroupBy = CalendarGroupBy;
                     dashboardPart.CalendarTimePeriod = CalendarTimePeriod;
                     dashboardPart.CalendarFromTo = CalendarFromTo;
@@ -277,14 +275,25 @@ namespace Implem.Pleasanter.Libraries.Settings
         { 
             var currentSs = GetBaseSiteSettings(
                 context: context,
-                timeLineSites: Type == DashboardPartType.TimeLine
-                ? TimeLineSitesData
-                : CalendarSitesData);
+                sites: GetSiteTypeData());
             SiteId = currentSs?.SiteId ?? 0;
             View = SiteModel.GetDashboardPartView(
                 context: context,
                 ss: currentSs,
                 view: View);
+        }
+
+        private List<string> GetSiteTypeData()
+        {
+            switch (Type)
+            {
+                case DashboardPartType.TimeLine:
+                    return TimeLineSitesData;
+                case DashboardPartType.Calendar:
+                    return CalendarSitesData;
+                default:
+                    return null;
+            }
         }
 
         private void SetQuickAccessSitesData()
@@ -336,48 +345,25 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .ToList();
         }
 
-        private static SiteSettings GetBaseSiteSettings(Context context, List<string> timeLineSites)
+        private static SiteSettings GetBaseSiteSettings(Context context, List<string> sites)
         {
-            return GetDashboardPartTables(context: context, sites: timeLineSites)
+            return GetDashboardPartTables(context: context, sites: sites)
                 .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
                 .FirstOrDefault(ss => ss != null);
         }
 
-        private static SiteSettings GetCalendarBaseSiteSettings(Context context, List<string> calendarSites)
+        public static SiteSettings GetBaseSiteSettings(Context context, string sitesString)
         {
-            return GetDashboardPartTables(context: context, sites: calendarSites)
-                .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
-                .FirstOrDefault(ss => ss != null);
-        }
-
-        public static SiteSettings GetBaseSiteSettings(Context context, string timeLineSitesString)
-        {
-            if (timeLineSitesString.IsNullOrEmpty())
+            if (sitesString.IsNullOrEmpty())
             {
                 return null;
             }
-            var timeLineSites = timeLineSitesString
+            var sites = sitesString
                 .Split(",")
                 .Select(o => o.Trim())
                 .Where(o => !o.IsNullOrEmpty())
                 .ToList();
-            return GetDashboardPartTables(context: context, sites: timeLineSites)
-                .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
-                .FirstOrDefault(ss => ss != null);
-        }
-
-        public static SiteSettings GetCalendarBaseSiteSettings(Context context, string calendarSitesString)
-        {
-            if (calendarSitesString.IsNullOrEmpty())
-            {
-                return null;
-            }
-            var calendarSites = calendarSitesString
-                .Split(",")
-                .Select(o => o.Trim())
-                .Where(o => !o.IsNullOrEmpty())
-                .ToList();
-            return GetDashboardPartTables(context: context, sites: calendarSites)
+            return GetDashboardPartTables(context: context, sites: sites)
                 .Select(id => SiteSettingsUtilities.Get(context: context, siteId: id))
                 .FirstOrDefault(ss => ss != null);
         }
@@ -571,6 +557,18 @@ namespace Implem.Pleasanter.Libraries.Settings
             else
             {
                 TimeLineSites = TimeLineSitesData.Join(",");
+            }
+        }
+
+        public void SetCalendarSites()
+        {
+            if(CalendarSitesData == null)
+            {
+                CalendarSites = string.Empty;
+            }
+            else
+            {
+                CalendarSites = CalendarSitesData.Join(",");
             }
         }
     }
