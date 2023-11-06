@@ -27,7 +27,7 @@ namespace Implem.Pleasanter.Libraries.Requests
                 case "Monthly":
                 case "Weekly":
                     DateTime begin;
-                    string calendarType = ss.CalendarType.ToString();
+                    string calendarType = view.CalendarType.ToString();
                     if ((int)first.DayOfWeek < Parameters.General.FirstDayOfWeek)
                     {
                         begin = first.AddDays(
@@ -67,7 +67,7 @@ namespace Implem.Pleasanter.Libraries.Requests
             string timePeriod,
             View view)
         {
-            string calendarType = ss.CalendarType.ToString();
+            string calendarType = view.CalendarType.ToString();
             if (calendarType == "FullCalendar")
             {
                 if (ss.DashboardParts.Count != 0)
