@@ -171,7 +171,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (ss.DashboardParts.Count != 0)
             {
                 CalendarSiteId = ss.DashboardParts[0].SiteId;
-                CalendarSuffix = ss.DashboardParts[0].Id.ToString();
+                CalendarSuffix = $"_{ss.DashboardParts[0].Id.ToString()}";
                 CalendarTimePeriod = ss.DashboardParts[0].CalendarTimePeriod;
                 CalendarFromTo = ss.DashboardParts[0].CalendarFromTo;
                 CalendarType = ss.DashboardParts[0].CalendarType.ToString();
