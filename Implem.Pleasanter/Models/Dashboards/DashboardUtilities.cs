@@ -2113,7 +2113,7 @@ namespace Implem.Pleasanter.Models
             }
             var siteData = SiteSettingsUtilities.Get(
                 context: context,
-                siteId: dashboardPart.SiteId);
+                siteId: context.Forms.Long("SiteId"));
             //対象サイトをサイト統合の仕組みで登録
             siteData.IntegratedSites = dashboardPart.CalendarSitesData;
             siteData.SetSiteIntegration(context: context);
