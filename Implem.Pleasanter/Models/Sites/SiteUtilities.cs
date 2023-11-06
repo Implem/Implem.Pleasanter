@@ -15463,7 +15463,7 @@ namespace Implem.Pleasanter.Models
                             var timeLineSites = dashboardPart.TimeLineSites;
                             var baseSiteId = DashboardPart.GetBaseSiteSettings(
                                 context: context,
-                                timeLineSitesString: timeLineSites)
+                                sitesString: timeLineSites)
                                     ?.SiteId;
                             hb
                                 .FieldText(
@@ -15574,9 +15574,9 @@ namespace Implem.Pleasanter.Models
                         action: () =>
                         {
                             var calendarSites = dashboardPart.CalendarSites;
-                            var baseSiteId = DashboardPart.GetCalendarBaseSiteSettings(
+                            var baseSiteId = DashboardPart.GetBaseSiteSettings(
                                 context: context,
-                                calendarSitesString: calendarSites)
+                                sitesString: calendarSites)
                                     ?.SiteId;
                             hb
                                 .FieldText(

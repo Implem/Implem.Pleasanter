@@ -7975,10 +7975,10 @@ namespace Implem.Pleasanter.Models
             var timeLineSites = context.Forms.Data("DashboardPartTimeLineSitesEdit");
             var savedSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
-                timeLineSitesString: savedTimeLineSites);
+                sitesString: savedTimeLineSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
                     context: context,
-                    timeLineSitesString: timeLineSites);
+                    sitesString: timeLineSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
@@ -8028,12 +8028,12 @@ namespace Implem.Pleasanter.Models
         {
             var savedCalendarSites = context.Forms.Data("SavedDashboardPartCalendarSites");
             var calendarSites = context.Forms.Data("DashboardPartCalendarSitesEdit");
-            var savedSs = DashboardPart.GetCalendarBaseSiteSettings(
+            var savedSs = DashboardPart.GetBaseSiteSettings(
                 context: context,
-                calendarSitesString: savedCalendarSites);
-            var currentSs = DashboardPart.GetCalendarBaseSiteSettings(
+                sitesString: savedCalendarSites);
+            var currentSs = DashboardPart.GetBaseSiteSettings(
                     context: context,
-                    calendarSitesString: calendarSites);
+                    sitesString: calendarSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
