@@ -56,6 +56,7 @@
         var totpForm = $(".totp-authentication-code");
         var columnNum = totpForm.index(this);
         var inputCode = totpForm.eq(columnNum).val();
+        var inputedForm = totpForm.eq(columnNum).get(0);
         var totpCode = "";
         var secondaryAuthenticationCodeLength = 0;
         var totpCode = $("#SecondaryAuthenticationCode").val();
@@ -84,7 +85,18 @@
 
         setCodeSepalateForm(totpForm, newTotpCode);
 
-        newTotpCode.length === 6 ? $("#SecondaryAuthenticate").focus() : totpForm.eq(newTotpCode.length).focus();
+        if (inputCode === "") {
+            inputedForm.setSelectionRange(0, 0);
+        } else {
+            if (newTotpCode.length === 6) {
+                $("#SecondaryAuthenticate").focus();
+            }
+            if (newTotpCode.length <= columnNum + 1) {
+                totpForm.eq(newTotpCode.length).focus();
+            } else if(newTotpCode.length === columnNum + 2) {
+                totpForm.eq(columnNum + 2).get(0).focus();
+            }
+        }
     });
 
     function setCodeSepalateForm(totpForm, totpCode) {
