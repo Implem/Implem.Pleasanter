@@ -1,5 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
-using Implem.DefinitionAccessor;
+﻿using Implem.DefinitionAccessor;
 using Implem.Pleasanter.Libraries.Requests;
 using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
@@ -14,8 +13,21 @@ using Xunit;
 
 namespace Implem.PleasanterTest.Tests.Settings
 {
-    public class SiteSettingsUtilitiesTest
+    public class SiteSettingsUtilitiesTest: IDisposable
     {
+        private ParameterAccessor.Parts.User savedUser;
+        public SiteSettingsUtilitiesTest()
+        {
+            //Parameters を変更する場合は値を保持しておき終了時に元に戻す
+            savedUser = Parameters.User;
+            Parameters.User = new ParameterAccessor.Parts.User();
+        }
+
+        public void Dispose()
+        {
+            Parameters.User = savedUser;
+        }
+
         [Theory]
         [MemberData(nameof(GetData))]
         public void UsersSiteSettingsTest(
@@ -91,5 +103,6 @@ namespace Implem.PleasanterTest.Tests.Settings
                 .Zip(displayUserCheckBox,
                     (abc, d) => new object[] { abc[0], abc[1], abc[2], d });
         }
+
     }
 }

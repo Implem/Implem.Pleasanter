@@ -66,6 +66,10 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                             return referer != null
                                 ? referer
                                 : Locations.Top(context: context);
+                        case "trashbox":
+                            return Locations.Get(
+                                    context: context,
+                                    parts: context.Controller);
                         default:
                             return AdminsOrTop(context: context);
                     }

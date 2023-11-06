@@ -1,0 +1,6 @@
+﻿Rds.DeleteBinaries(
+    factory: context,
+    where: Rds.BinariesWhere()
+        .TenantId(context.TenantId)
+        .ReferenceId(#ModelName#Id)
+        .BinaryType(value: "TenantManagementImages")),
