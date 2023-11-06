@@ -237,7 +237,9 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: !suffix.IsNullOrEmpty())
                 .Hidden(
                     controlId: $"Suffix{suffix}",
-                    value: suffix.Replace("_",""),
+                    value: !suffix.IsNullOrEmpty()
+                        ? suffix.Replace("_","")
+                        : "",
                     _using: !suffix.IsNullOrEmpty())
                 .Hidden(
                     controlId: $"CalendarCanUpdate{suffix}",
