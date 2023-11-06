@@ -47,6 +47,13 @@
         document.body.appendChild(form);
         addInput(form, names[0], addDate(baseDate, $('#CalendarFromDefaultInput' + calendarSuffix).val()));
         addInput(form, names[1], addDate(baseDate, $('#CalendarToDefaultInput' + calendarSuffix).val()));
+        if ($('#Token').length) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', 'Token');
+            input.setAttribute('value', $('#Token').val());
+            form.appendChild(input);
+        }
         form.submit();
     });
     $(document).on('click', '.calendar-to-monthly', function () {

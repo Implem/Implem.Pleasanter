@@ -27,9 +27,15 @@
         } else {
             return;
         }
-        form.submit();
+        if ($('#Token').length) {
+            var input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', 'Token');
+            input.setAttribute('value', $('#Token').val());
+            form.appendChild(input);
+        }
+      　form.submit();
     }
-
 }
 const updateRecord = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {

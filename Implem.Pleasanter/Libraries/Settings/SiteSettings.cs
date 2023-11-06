@@ -2507,7 +2507,12 @@ namespace Implem.Pleasanter.Libraries.Settings
         public List<Column> GetHistoryColumns(Context context, bool checkPermission = false)
         {
             return HistoryColumns
-                .Select(columnName => GetColumn(context: context, columnName: columnName))
+                // GridDesignに含まれるカラムを追加する。
+                .Concat(IncludedColumns())
+                .Distinct()
+                .Select(columnName => GetColumn(
+                    context: context,
+                    columnName: columnName))
                 .Where(column => column != null)
                 .AllowedColumns(
                     context: context,
