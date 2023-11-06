@@ -38,7 +38,7 @@ const updateRecord = function (calendarSuffix) {
         var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
         if (calendarSuffix !== '') {
             $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
-            data.siteId = info.event.extendedProps.siteId;
+            data.SiteId = info.event.extendedProps.SiteId;
             data.Id = $('#Id').val();
             data['EventId'] = info.event.id;
         } else {
@@ -91,7 +91,7 @@ const getEventsDatas = function (calendarSuffix) {
                             start: item.start,
                             end: item.end,
                             StatusHtml: item.StatusHtml,
-                            siteId: item.siteId
+                            SiteId: item.SiteId
                         }
                     }
                     else {
@@ -100,7 +100,7 @@ const getEventsDatas = function (calendarSuffix) {
                             title: item.title,
                             start: item.start,
                             end: item.end,
-                            siteId: item.siteId
+                            SiteId: item.SiteId
                         }
                     }
                 }))
@@ -227,7 +227,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
                 var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
                 if (calendarSuffix !== '') {
                     $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
-                    data.siteId = ui.draggable[0].dataset.siteid;
+                    data.SiteId = ui.draggable[0].dataset.Siteid;
                     data.Id = $('#Id').val();
                     data['EventId'] = $control.attr('data-id');
                 } else {
