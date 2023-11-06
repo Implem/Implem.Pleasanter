@@ -553,6 +553,16 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         date = new Date(Date.parse(date));
                         if (isNaN(date.getTime()))
                         {
+                            var reg = new RegExp('^[0-9]{1,2}:[0-9]{1,4}:[0-9]{1,2}$', 'g');
+                            if (reg.test(originDate))
+                            {
+                                var times = originDate.split(':');
+                                if (Number(times[0]) > 23 || Number(times[2]) > 59)
+                                {
+                                    throw 'Invalid Parameter';
+                                }
+                                return Number(times[1]) % 60;
+                            }
                             date = new Date(Date.parse('1900/01/01 ' + originDate));
                         }
                     }
