@@ -1,0 +1,58 @@
+﻿name: Publish Docker image
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  push_to_registry:
+    name: Push Docker image to Docker Hub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Split tag name
+        env:
+          RELEASETAG: ${{ github.event.release.tag_name }}
+        id: split
+        run: echo "::set-output name=fragment::${RELEASETAG##Pleasanter_}"
+      - name: Test variable
+        run: |
+          echo ${{ steps.split.outputs.fragment }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Extract metadata (Pleasanter)
+        id: meta1
+        uses: docker/metadata-action@v5
+        with:
+          images: implem/pleasanter
+          tags: |
+            latest
+            ${{ steps.split.outputs.fragment }}
+      - name: Build and push (Pleasanter)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./Implem.Pleasanter/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta1.outputs.tags }}
+      - name: Extract metadata (CodeDefiner)
+        id: meta2
+        uses: docker/metadata-action@v5
+        with:
+          images: implem/pleasanter
+          tags: codedefiner
+      - name: Build and push (CodeDefiner)
+        uses: docker/build-push-action@v5
+        with:
+          context: ./Implem.CodeDefiner/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta2.outputs.tags }}
