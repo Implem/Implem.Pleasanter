@@ -21,7 +21,7 @@
         }
     });
     $(document).on('dblclick', '#Calendar .ui-droppable,div[id^="Calendar_"] .ui-droppable', function (event) {
-        var calendarSuffix = $(this).parents('div[id^="Calendar"]').attr("id").substring($(this).parents('div[id^="Calendar"]').attr("id").indexOf("_") + 1);
+        var calendarSuffix = $(this).parents('div[id^="Calendar"]').attr("id").substring($(this).parents('div[id^="Calendar"]').attr("id").indexOf("_"));
         calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
         var addDate = function (baseDate, add) {
             if (add === '') return '';
@@ -47,7 +47,7 @@
         document.body.appendChild(form);
         addInput(form, names[0], addDate(baseDate, $('#CalendarFromDefaultInput' + calendarSuffix).val()));
         addInput(form, names[1], addDate(baseDate, $('#CalendarToDefaultInput' + calendarSuffix).val()));
-        //form.submit();
+        form.submit();
     });
     $(document).on('click', '.calendar-to-monthly', function () {
         var data = {
