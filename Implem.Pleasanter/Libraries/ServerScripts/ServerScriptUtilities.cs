@@ -1121,7 +1121,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 // TimeOutに0が入る為に、それを回避するコードを追加した
                 return Parameters.Script.ServerScriptTimeOutChangeable
                     ? DateTime.MaxValue
-                    : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
+                    : Parameters.Script.ServerScriptTimeOut == 0
+                        ? DateTime.MaxValue
+                        : DateTime.Now.AddMilliseconds(Parameters.Script.ServerScriptTimeOut);
             }
             else
             {
