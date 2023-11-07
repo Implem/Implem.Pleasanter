@@ -1,9 +1,13 @@
-﻿using Implem.Libraries.DataSources.SqlServer;
+﻿using Implem.DefinitionAccessor;
 using Implem.Libraries.Utilities;
+using Implem.Pleasanter.Libraries.DataSources;
 using Implem.Pleasanter.Libraries.Requests;
+using Implem.Pleasanter.Libraries.Responses;
+using Implem.Pleasanter.Libraries.Security;
 using Implem.Pleasanter.Libraries.Settings;
 using Implem.Pleasanter.Models;
 using Implem.PleasanterFilters;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -254,6 +258,9 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpDelete]
         public string BulkDelete(long id)
         {
@@ -266,6 +273,9 @@ namespace Implem.Pleasanter.Controllers
             return json;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [AcceptVerbs(HttpVerbs.Get, HttpVerbs.Post)]
         public ActionResult TrashBox()
         {
@@ -277,7 +287,7 @@ namespace Implem.Pleasanter.Controllers
                     context: context,
                     ss: SiteSettingsUtilities.GroupsSiteSettings(
                         context: context,
-                        tableTypes: Sqls.TableTypes.Deleted));
+                        tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
                 ViewBag.HtmlBody = html;
                 log.Finish(context: context, responseSize: html.Length);
                 return context.RedirectData.Url.IsNullOrEmpty()
@@ -290,12 +300,15 @@ namespace Implem.Pleasanter.Controllers
                     context: context,
                     ss: SiteSettingsUtilities.GroupsSiteSettings(
                         context: context,
-                        tableTypes: Sqls.TableTypes.Deleted));
+                        tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
                 log.Finish(context: context, responseSize: json.Length);
                 return Content(json);
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string TrashBoxGridRows(long id)
         {
             var context = new Context();
@@ -304,13 +317,16 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(
                     context: context,
-                    tableTypes: Sqls.TableTypes.Deleted),
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted),
                 offset: context.Forms.Int("GridOffset"),
                 action: "TrashBoxGridRows");
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpPost]
         public string Restore(long id)
         {
@@ -320,11 +336,14 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(
                     context: context,
-                    tableTypes: Sqls.TableTypes.Deleted));
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         [HttpDelete]
         public string PhysicalDelete(long id)
         {
@@ -334,7 +353,7 @@ namespace Implem.Pleasanter.Controllers
                 context: context,
                 ss: SiteSettingsUtilities.GroupsSiteSettings(
                     context: context,
-                    tableTypes: Sqls.TableTypes.Deleted));
+                    tableTypes: Implem.Libraries.DataSources.SqlServer.Sqls.TableTypes.Deleted));
             log.Finish(context: context, responseSize: json.Length);
             return json;
         }
