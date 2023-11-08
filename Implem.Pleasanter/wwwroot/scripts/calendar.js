@@ -97,7 +97,7 @@ const getEventsDatas = function (calendarSuffix) {
                             start: item.start,
                             end: item.end,
                             StatusHtml: item.StatusHtml,
-                            SiteId: item.siteId
+                            siteId: item.siteId
                         }
                     }
                     else {
