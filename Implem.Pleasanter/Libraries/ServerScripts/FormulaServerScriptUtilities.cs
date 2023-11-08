@@ -305,7 +305,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetRoundDownScript()
                     + GetTruncScript()
                     + GetAscScript()
-                    + GetJisScript();
+                    + GetJisScript()
+                    + GetValueScript();
                 return engine.Evaluate(functionScripts + formulaScript);
             }
         }
@@ -355,7 +356,8 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("rounddown(", "ROUNDDOWN(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("trunc(", "TRUNC(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("asc(", "ASC(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("jis(", "JIS(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("jis(", "JIS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("value(", "VALUE(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
@@ -1465,6 +1467,23 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     return text.replace(/[A-Za-z0-9]/g, function (s) {
                         return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
                     });
+                }";
+        }
+
+        /// <summary>
+        /// Converts numbers entered as strings to numbers
+        /// </summary>
+        /// <remarks>
+        /// Syntax: VALUE(text)
+        /// </remarks>
+        private static string GetValueScript()
+        {
+            return @"
+                function VALUE(text) {
+                    if (text == undefined || text === '' || isNaN(Number(text))) {
+                        throw 'Invalid Parameter';
+                    }
+                    return Number(text);
                 }";
         }
     }
