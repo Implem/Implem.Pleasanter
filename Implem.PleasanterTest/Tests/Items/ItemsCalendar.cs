@@ -46,7 +46,7 @@ namespace Implem.PleasanterTest.Tests.Items
                 yield return TestData(
                     title: testPart.Title,
                     userModel: testPart.UserModel,
-                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#Calendar")));
+                    baseTests: BaseData.Tests(HtmlData.ExistsOne(selector: "#FullCalendar")));
             }
         }
 
