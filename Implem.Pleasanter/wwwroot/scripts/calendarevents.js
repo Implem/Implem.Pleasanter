@@ -1,14 +1,14 @@
 ﻿$(function () {
-    $(document).on('dblclick', '#Calendar .item,div[id^="Calendar_"] .item', function () {
+    $(document).on('dblclick', '.Calendar .item', function () {
         $p.transition($('#BaseUrl').val() + $(this).attr('data-id'));
     });
-    $(document).on('click', '#Calendar .item .ui-icon-pencil,div[id^="Calendar_"] .item .ui-icon-pencil', function () {
+    $(document).on('click', '.Calendar .item .ui-icon-pencil', function () {
         $p.transition($('#BaseUrl').val() + $(this).parent().parent().attr('data-id'));
     });
-    $(document).on('mouseenter', '#Calendar .item,div[id^="Calendar_"] .item', function () {
+    $(document).on('mouseenter', '.Calendar .item', function () {
         $('[data-id="' + $(this).attr('data-id') + '"]').addClass('hover');
     });
-    $(document).on('mouseleave', '#Calendar .item,div[id^="Calendar_"] .item', function () {
+    $(document).on('mouseleave', '.Calendar .item', function () {
         $('[data-id="' + $(this).attr('data-id') + '"]').removeClass('hover');
     });
     $(window).on('resize', function () {
@@ -20,7 +20,7 @@
             }, 10);
         }
     });
-    $(document).on('dblclick', '#Calendar .ui-droppable,div[id^="Calendar_"] .ui-droppable', function (event) {
+    $(document).on('dblclick', '.Calendar .ui-droppable', function (event) {
         var calendarSuffix = $(this).parents('div[id^="Calendar"]').attr("id").substring($(this).parents('div[id^="Calendar"]').attr("id").indexOf("_"));
         calendarSuffix = calendarSuffix.indexOf('_') === -1 ? '' : calendarSuffix;
         var addDate = function (baseDate, add) {
