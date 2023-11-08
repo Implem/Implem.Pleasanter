@@ -49,7 +49,7 @@ namespace Implem.PleasanterTest.Tests.Items
                     baseTests: BaseData.Tests(
                         JsonData.Html(
                             target: "#ViewModeContainer",
-                            selector: "#Calendar")));
+                            selector: "#FullCalendar")));
             }
         }
 

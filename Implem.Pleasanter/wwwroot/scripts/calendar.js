@@ -97,7 +97,7 @@ const getEventsDatas = function (calendarSuffix) {
                             start: item.start,
                             end: item.end,
                             StatusHtml: item.StatusHtml,
-                            SiteId: item.siteId
+                            siteId: item.siteId
                         }
                     }
                     else {
@@ -127,7 +127,7 @@ function setCalendarGroup(group, data, calendarSuffix) {
 
     switch ($('#CalendarTimePeriod' + calendarSuffix).val()) {
         case 'Yearly':
-            setYearly(group, data, hash, begin, end);
+            setYearly(group, data, hash, begin, end, calendarSuffix);
             break;
         case 'Monthly':
         case 'Weekly':
@@ -136,7 +136,7 @@ function setCalendarGroup(group, data, calendarSuffix) {
     }
 }
 
-function setYearly(group, data, hash, begin, end) {
+function setYearly(group, data, hash, begin, end, calendarSuffix) {
     data.forEach(function (element) {
         var current = $p.beginningMonth(new Date(element.From))
         if (current < begin) {
@@ -148,6 +148,7 @@ function setYearly(group, data, hash, begin, end) {
             hash,
             element,
             current,
+            calendarSuffix,
             undefined,
             undefined,
             1);
@@ -163,6 +164,7 @@ function setYearly(group, data, hash, begin, end) {
                     hash,
                     element,
                     current,
+                    calendarSuffix,
                     1,
                     rank);
                 current.setMonth(current.getMonth() + 1);
