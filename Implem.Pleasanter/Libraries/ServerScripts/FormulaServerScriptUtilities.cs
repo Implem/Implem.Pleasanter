@@ -297,7 +297,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetIsTextScript()
                     + GetModScript()
                     + GetOddScript()
-                    + GetAverageScript();
+                    + GetAverageScript()
+                    + GetMinScript()
+                    + GetMaxScript();
                 return engine.Evaluate(functionScripts + formulaScript);
             }
         }
@@ -339,7 +341,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("istext(", "ISTEXT(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("mod(", "MOD(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("odd(", "ODD(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("average(", "AVERAGE(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("average(", "AVERAGE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("min(", "MIN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("max(", "MAX(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
@@ -1224,6 +1228,56 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         default:
                             throw 'Invalid Parameter';
                     }
+                }";
+        }
+
+        /// <summary>
+        /// Returns the smallest number in a set of values.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: MIN(number1, [number2], ...)
+        /// </remarks>
+        private static string GetMinScript()
+        {
+            return @"
+                function MIN(number1) {
+                    if (number1 == undefined || arguments.length > 255)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    
+                    let minValue = number1;
+                    for (let i = 1; i < arguments.length; i++) {
+                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] < minValue) {
+                            minValue = arguments[i];
+                        }
+                    }
+                    return !isNaN(Number(minValue)) ? minValue : 0;
+                }";
+        }
+
+        /// <summary>
+        /// Returns the largest value in a set of values.<br/>
+        /// </summary>
+        /// <remarks>
+        /// Syntax: MAX(number1, [number2], ...)
+        /// </remarks>
+        private static string GetMaxScript()
+        {
+            return @"
+                function MAX(number1) {
+                    if (number1 == undefined || arguments.length > 255)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    
+                    let maxValue = number1;
+                    for (let i = 1; i < arguments.length; i++) {
+                        if (arguments[i] !== null && arguments[i] !== '' && arguments[i] > maxValue) {
+                            maxValue = arguments[i];
+                        }
+                    }
+                    return !isNaN(Number(maxValue)) ? maxValue : 0;
                 }";
         }
     }
