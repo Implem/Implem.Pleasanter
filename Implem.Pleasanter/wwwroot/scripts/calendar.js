@@ -267,7 +267,7 @@ function addItem(group, hash, element, current, calendarSuffix, sub, rank, yearl
     var groupSelector = (group === undefined)
         ? ''
         : '[data-value="' + group + '"]';
-    var $cell = $(groupSelector + '[id="' + 'Calendar' + calendarSuffix + '"] > div' + ' [data-id="' + id + '"] > div');
+    var $cell = $('[id="' + 'Calendar' + calendarSuffix + '"] > div ' + groupSelector + '[data-id="' + id + '"] > div');
     while (Rank(hash, id) < rank) {
         $cell.append($('<div />').addClass('dummy'));
         hash[id]++;
