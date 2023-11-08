@@ -286,7 +286,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetAndScript()
                     + GetIfScript()
                     + GetNotScript()
-                    + GetOrScript();
+                    + GetOrScript()
+                    + GetWeekdayScript()
+                    + GetReplaceScript()
+                    + GetSearchScript()
+                    + GetIfsScript()
+                    + GetIsEvenScript()
+                    + GetIsNumberScript()
+                    + GetIsOddScript()
+                    + GetIsTextScript()
+                    + GetModScript()
+                    + GetOddScript()
+                    + GetAverageScript();
                 return engine.Evaluate(functionScripts + formulaScript);
             }
         }
@@ -317,7 +328,18 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("and(", "AND(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("if(", "IF(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("not(", "NOT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("or(", "OR(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("or(", "OR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("weekday(", "WEEKDAY(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("replace(", "REPLACE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("search(", "SEARCH(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("ifs(", "IFS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("iseven(", "ISEVEN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("isnumber(", "ISNUMBER(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("isodd(", "ISODD(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("istext(", "ISTEXT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("mod(", "MOD(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("odd(", "ODD(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("average(", "AVERAGE(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
@@ -967,6 +989,242 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 		            }
 		            return firstClause;
 	            }";
+        }
+
+        private static string GetReplaceScript()
+        {
+            return @"
+                function REPLACE(firstString, start, length, secondString) {
+                    if (firstString == undefined || secondString == undefined
+                        || isNaN(start) || isNaN(length))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    start = Number(start);
+                    length = Number(length);
+                    if (start < 1 || length < 0)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    return firstString.substring(0, start - 1)
+                        + secondString
+                        + firstString.substring(start - 1 + length);
+	            }";
+        }
+
+        private static string GetSearchScript()
+        {
+            return @"
+                function SEARCH(firstString, secondString, start = 1) {
+                    if (firstString == undefined || secondString == undefined || isNaN(start))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    start = Number(start);
+                    if (start < 1 || start > secondString.length)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    var index = secondString.toLowerCase().indexOf(firstString.toLowerCase(), start - 1);
+                    if (index < 0)
+                    {
+                        throw 'Not Found';
+                    }
+                    return index + 1;
+	            }";
+        }
+
+        private static string GetIfsScript()
+        {
+            return @"
+                function IFS(firstClause, retValue1) {
+                    if (firstClause == undefined || retValue1 == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (!isNaN(firstClause))
+                    {
+                        firstClause = (firstClause != 0);
+                    }
+                    else if (typeof firstClause != 'boolean')
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    var retValue = firstClause ? retValue1 : '';
+                    for (var i = 2; i < arguments.length; i = i + 2)
+		            {
+			            if (!isNaN(arguments[i]))
+			            {
+				            arguments[i] = (arguments[i] != 0);
+			            }
+			            else if (typeof arguments[i] != 'boolean')
+			            {
+				            throw 'Invalid Parameter';
+			            }
+			            retValue = arguments[i] ? (arguments[i + 1] == undefined ? '' : arguments[i + 1]) : retValue;
+		            }
+		            return retValue;
+	            }";
+        }
+
+        private static string GetIsEvenScript()
+        {
+            return @"
+                function ISEVEN(number) {
+                    if (number == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (isNaN(number))
+                    {
+                        return DAYS(number, '1/1/2000') % 2 == 0;
+                    }
+                    number = Number(number);
+                    return Math.trunc(number) % 2 == 0;
+	            }";
+        }
+
+        private static string GetIsNumberScript()
+        {
+            return @"
+                function ISNUMBER(number) {
+                    if (number == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (typeof number === 'string' || number instanceof String)
+                    {
+                        return false;
+                    }
+                    return !isNaN(number);
+	            }";
+        }
+
+        private static string GetIsOddScript()
+        {
+            return @"
+                function ISODD(number) {
+                    if (number == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (isNaN(number))
+                    {
+                        return DAYS(number, '1/2/2000') % 2 == 0;
+                    }
+                    number = Number(number);
+                    return Math.trunc(number) % 2 == 0;
+	            }";
+        }
+
+        private static string GetIsTextScript()
+        {
+            return @"
+                function ISTEXT(text) {
+                    if (text == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    return typeof text === 'string' || text instanceof String;
+	            }";
+        }
+
+        private static string GetModScript()
+        {
+            return @"
+                function MOD(number, divisor) {
+                    if (number == undefined || divisor == undefined || isNaN(number) || isNaN(divisor))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    return Math.abs(number) % divisor * (divisor > 0 ? 1 : -1);
+	            }";
+        }
+
+        private static string GetOddScript()
+        {
+            return @"
+                function ODD(number) {
+                    if (number == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (isNaN(number))
+                    {
+                        var result = DAYS(number, '1/2/2000');
+                    }
+                    var result = Math.ceil(Number(number));
+                    return result % 2 == 0 ? result + (result > 0 ? 1 : -1) : result;
+	            }";
+        }
+
+        private static string GetAverageScript()
+        {
+            return @"
+                function AVERAGE(number1) {
+                    if (number1 == undefined || isNaN(number1))
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    number1 = Number(number1);
+                    var total = number1;
+		            for (var i = 1; i < arguments.length; i++)
+		            {
+                        if (arguments[i] == undefined || isNaN(arguments[i]))
+                        {
+                            throw 'Invalid Parameter';
+                        }
+			            total += Number(arguments[i]);
+		            }
+		            return total / arguments.length;
+	            }";
+        }
+
+        private static string GetWeekdayScript()
+        {
+            return @"
+                function WEEKDAY(date, returnType = 1) {
+                    if (date == undefined)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    if (isNaN(date))
+                    {
+                        date = new Date(Date.parse(date));
+                    }
+                    else
+                    {
+                        date = Number(date);
+                        date = new Date(1900, 0, date > 59 ? date - 1 : date);
+                    }
+                    if (isNaN(date.getTime()) || date.getFullYear() < 1900 || date.getFullYear() > 9999)
+                    {
+                        throw 'Invalid Parameter';
+                    }
+                    switch (returnType)
+                    {
+                        case 1:
+                        case 17:
+                            return date.getDay() + 1;
+                        case 2:
+                        case 11:
+                            return date.getDay() == 0 ? 7 : date.getDay();
+                        case 3:
+                            return date.getDay() == 0 ? 6 : date.getDay() - 1;
+                        case 12:
+                            return (date.getDay() + 6) % 7 == 0 ? 7 : (date.getDay() + 6) % 7;
+                        case 13:
+                            return (date.getDay() + 5) % 7 == 0 ? 7 : (date.getDay() + 5) % 7;
+                        case 14:
+                            return (date.getDay() + 4) % 7 == 0 ? 7 : (date.getDay() + 4) % 7;
+                        case 15:
+                            return (date.getDay() + 3) % 7 == 0 ? 7 : (date.getDay() + 3) % 7;
+                        case 16:
+                            return (date.getDay() + 2) % 7 == 0 ? 7 : (date.getDay() + 2) % 7;
+                        default:
+                            throw 'Invalid Parameter';
+                    }
+                }";
         }
     }
 }
