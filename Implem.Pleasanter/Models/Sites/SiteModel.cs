@@ -8050,7 +8050,7 @@ namespace Implem.Pleasanter.Models
                         target: "#DashboardPartCalendarSites",
                         value: calendarSites)
                     .Set(
-                        target: "#DashboardPartBaseCalendarSiteId",
+                        target: "#DashboardPartCalendarBaseSiteId",
                         value: currentSs.SiteId)
                     .Add(
                         method: "SetValue",
@@ -8066,6 +8066,20 @@ namespace Implem.Pleasanter.Models
             else
             {
                 res
+                    .Html(
+                        target: "#DashboardPartCalendarGroupBy",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value))))
+                    .Html(
+                        target: "#DashboardPartCalendarFromTo",
+                        value: new HtmlBuilder()
+                            .OptionCollection(
+                                context: context,
+                                optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
+                                o => o.Key, o => new ControlData(o.Value))))
                     .Invoke(
                         methodName: "confirmCalendarSites",
                         args: new
@@ -8153,7 +8167,21 @@ namespace Implem.Pleasanter.Models
                             ss: currentSs,
                             view: new View(),
                             prefix: "DashboardPart",
-                            currentTableOnly: true));
+                            currentTableOnly: true))
+                .Html(
+                    target: "#DashboardPartCalendarGroupBy",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value))))
+                .Html(
+                    target: "#DashboardPartCalendarFromTo",
+                    value: new HtmlBuilder()
+                        .OptionCollection(
+                            context: context,
+                            optionCollection: currentSs.CalendarColumnOptions(context: context)?.ToDictionary(
+                            o => o.Key, o => new ControlData(o.Value))));
         }
 
         /// <summary>

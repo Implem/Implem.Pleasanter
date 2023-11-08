@@ -284,7 +284,7 @@ $p.updateDashboardPartCalendarSites = function ($control) {
 
 $p.confirmTimeLineSites = function (value) {
     var args = JSON.parse(value);
-    var result = confirm('基準となるサイトが変更されるため、「フィルタ」および「ソータ」をリセットします。');
+    var result = confirm($p.display('ResetTimeLineView'));
     if (result) {
         $('#DashboardPartTimeLineSitesValue').text(args.timeLineSites);
         $p.set($('#DashboardPartTimeLineSites'), args.timeLineSites);
@@ -296,7 +296,7 @@ $p.confirmTimeLineSites = function (value) {
 
 $p.confirmCalendarSites = function (value) {
     var args = JSON.parse(value);
-    var result = confirm('基準となるサイトが変更されるため、「フィルタ」をリセットします。');
+    var result = confirm($p.display('ResetCalendarView'));
     if (result) {
         $('#DashboardPartCalendarSitesValue').text(args.calendarSites);
         $p.set($('#DashboardPartCalendarSites'), args.calendarSites);

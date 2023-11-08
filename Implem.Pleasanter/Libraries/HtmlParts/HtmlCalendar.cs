@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (calendarType == "Standard")
             {
-                return hb.Div(id: $"Calendar{suffix}", css: "both", action: () => hb
+                return hb.Div(id: $"Calendar{suffix}", css: "both Calendar", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarGroupBy",
