@@ -299,7 +299,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetOddScript()
                     + GetAverageScript()
                     + GetMinScript()
-                    + GetMaxScript();
+                    + GetMaxScript()
+                    + GetRoundScript()
+                    + GetRoundUpScript()
+                    + GetRoundDownScript()
+                    + GetTruncScript();
                 return engine.Evaluate(functionScripts + formulaScript);
             }
         }
@@ -343,7 +347,11 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("odd(", "ODD(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("average(", "AVERAGE(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("min(", "MIN(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("max(", "MAX(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("max(", "MAX(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("round(", "ROUND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("roundup(", "ROUNDUP(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("rounddown(", "ROUNDDOWN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("trunc(", "TRUNC(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
@@ -1278,6 +1286,149 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         }
                     }
                     return !isNaN(Number(maxValue)) ? maxValue : 0;
+                }";
+        }
+
+        /// <summary>
+        /// Rounds a number to a specified number of digits.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ROUND(number,numDigits)
+        /// </remarks>
+        private static string GetRoundScript()
+        {
+            return @"
+                 function ROUNDDOWN(number, numDigits) {
+                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
+                        throw 'Invalid Parameter';
+                    }
+                    let negative = 1,
+                    result;
+                    if (number < 0) {
+                        negative = -1;
+                        number = number * -1;
+                    }
+                    if (numDigits === 0) {
+                        result = Math.round(number) * negative;
+                    } else if (numDigits > 0) {
+                        let multiplier = Math.pow(10, numDigits),
+                            n = parseFloat(
+                                (number * multiplier).toFixed(numDigits + 1)
+                            );
+                        result =
+                            (Math.round(n) / multiplier).toFixed(numDigits) *
+                            negative;
+                    } else if (numDigits < 0) {
+                        let divider = Math.pow(10, -numDigits);
+                        result = Math.round(number / divider) * divider * negative;
+                    }
+                    return result == 0 ? 0 : result;
+                }";
+        }
+
+        /// <summary>
+        /// Rounds a number up, away from 0 (zero).
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ROUNDUP(number,numDigits)
+        /// </remarks>
+        private static string GetRoundUpScript()
+        {
+            return @"
+                 function ROUNDDOWN(number, numDigits) {
+                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
+                        throw 'Invalid Parameter';
+                    }
+                    let negative = 1,
+                    result;
+                    if (number < 0) {
+                        negative = -1;
+                        number = number * -1;
+                    }
+                    if (numDigits === 0) {
+                        result = Math.ceil(number) * negative;
+                    } else if (numDigits > 0) {
+                        let multiplier = Math.pow(10, numDigits),
+                            n = parseFloat(
+                                (number * multiplier).toFixed(numDigits + 1)
+                            );
+                        result =
+                            (Math.ceil(n) / multiplier).toFixed(numDigits) *
+                            negative;
+                    } else if (numDigits < 0) {
+                        let divider = Math.pow(10, -numDigits);
+                        result = Math.ceil(number / divider) * divider * negative;
+                    }
+                    return result == 0 ? 0 : result;
+                }";
+        }
+
+        /// <summary>
+        /// Rounds a number down, toward zero.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ROUNDDOWN(number,numDigits)
+        /// </remarks>
+        private static string GetRoundDownScript()
+        {
+            return @"
+                 function ROUNDDOWN(number, numDigits) {
+                    if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
+                        throw 'Invalid Parameter';
+                    }
+                    let negative = 1,
+                    result;
+                    if (number < 0) {
+                        negative = -1;
+                        number = number * -1;
+                    }
+                    if (numDigits === 0) {
+                        result = Math.floor(number) * negative;
+                    } else if (numDigits > 0) {
+                        let multiplier = Math.pow(10, numDigits),
+                            n = parseFloat(
+                                (number * multiplier).toFixed(numDigits + 1)
+                            );
+                        result =
+                            (Math.floor(n) / multiplier).toFixed(numDigits) *
+                            negative;
+                    } else if (numDigits < 0) {
+                        let divider = Math.pow(10, -numDigits);
+                        result = Math.floor(number / divider) * divider * negative;
+                    }
+                    return result == 0 ? 0 : result;
+                }";
+        }
+
+        /// <summary>
+        /// Truncates a number to an integer by removing the fractional part of the number.
+        /// </summary>
+        /// <remarks>
+        /// Syntax: TRUNC(number, [numDigits])
+        /// </remarks>
+        private static string GetTruncScript()
+        {
+            return @"
+                 function TRUNC(number, numDigits) {
+                    if (numDigits == undefined) {
+                        numDigits = 0;
+                    }
+                    if (
+                        number == undefined ||
+                        number === '' ||
+                        numDigits === '' ||
+                        isNaN(Number(number)) ||
+                        isNaN(Number(numDigits))
+                    ) {
+                          throw 'Invalid Parameter';
+                    }
+                    if (numDigits >= 0) {
+                        let multiplier = Math.pow(10, numDigits);
+                        return Math.trunc(number * multiplier) / multiplier;
+                    } else if (numDigits < 0) {
+                        let divider = Math.pow(10, -numDigits);
+                        return Math.trunc(number / divider) * divider;
+                    }
                 }";
         }
     }
