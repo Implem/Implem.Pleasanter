@@ -1072,19 +1072,9 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 {
                     try
                     {
-                        var replacementJsonStringify = @"
-                            let $p = {
-                                JSON: {
-                                    stringify: function() { }}};
-                            (function() {
-                                let js = JSON.stringify;
-                                let clr = JsonConvert.SerializeObject;
-                                    $p.JSON.stringify = (v, r, s) => js(v, r, s) || clr(v);
-                            })()
-                        ";
                         engine.ContinuationCallback = model.ContinuationCallback;
                         engine.AddHostType(typeof(Newtonsoft.Json.JsonConvert));
-                        engine.Execute(replacementJsonStringify);
+                        engine.Execute(ServerScriptJsLibraries.ReplacementJsonStringify());
                         engine.AddHostObject("context", model.Context);
                         engine.AddHostObject("grid", model.Grid);
                         engine.AddHostObject("model", model.Model);
