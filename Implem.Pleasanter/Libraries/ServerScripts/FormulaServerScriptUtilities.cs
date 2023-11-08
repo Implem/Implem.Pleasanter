@@ -1302,7 +1302,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundScript()
         {
             return @"
-                 function ROUNDDOWN(number, numDigits) {
+                 function ROUND(number, numDigits) {
                     if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
                         throw 'Invalid Parameter';
                     }
@@ -1339,7 +1339,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundUpScript()
         {
             return @"
-                 function ROUNDDOWN(number, numDigits) {
+                 function ROUNDUP(number, numDigits) {
                     if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
                         throw 'Invalid Parameter';
                     }
