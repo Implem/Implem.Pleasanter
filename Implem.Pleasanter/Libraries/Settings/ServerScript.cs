@@ -1,4 +1,5 @@
-﻿using Implem.Pleasanter.Interfaces;
+﻿using Implem.DefinitionAccessor;
+using Implem.Pleasanter.Interfaces;
 using System;
 namespace Implem.Pleasanter.Libraries.Settings
 {
@@ -133,7 +134,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             if (BeforeOpeningRow == true) script.BeforeOpeningRow = true;
             if (Shared == true) script.Shared = true;
             script.Body = Body;
-            if (TimeOut != DefinitionAccessor.Parameters.Script.ServerScriptTimeOut)
+            if (TimeOut != Parameters.Script.ServerScriptTimeOut && Parameters.Script.ServerScriptTimeOutChangeable)
             {
                 script.TimeOut = TimeOut;
             }
