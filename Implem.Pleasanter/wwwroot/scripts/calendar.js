@@ -68,8 +68,7 @@ const getEventsDatas = function (calendarSuffix) {
             $p.set($('#CalendarEnd' + calendarSuffix), info.end.toLocaleDateString());
             $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'calendar');
             if (calendarSuffix !== '') {
-                $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'index');
-                $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
+                $p.set($('#CalendarSuffix' + calendarSuffix), $('#CalendarSuffix' + calendarSuffix).val());
             }
 
             let calendarDiff = Math.round((info.end - info.start) / (1000 * 60 * 60 * 24));
@@ -234,7 +233,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
                 var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
                 var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
                 if (calendarSuffix !== '') {
-                    $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
+                    $p.set($('#CalendarSuffix' + calendarSuffix), $('#CalendarSuffix' + calendarSuffix).val());
                     data.SiteId = $control.attr('data-siteid');
                     data.Id = $('#Id').val();
                     data['EventId'] = $control.attr('data-id');
@@ -364,7 +363,7 @@ $p.moveCalendar = function (type, calendarSuffix) {
     $control.val($('#Calendar' + type + calendarSuffix).val());
     if (calendarSuffix !== '') {
         $('#CalendarBody' + calendarSuffix).attr('data-action', 'index');
-        $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
+        $p.set($('#CalendarSuffix' + calendarSuffix), $('#CalendarSuffix' + calendarSuffix).val());
     }
     $p.setData($control);
     $p.send($control);
@@ -437,7 +436,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
     $('.fc-scrollgrid').addClass('no-drag');
 }
 $p.setCalendar = function (suffix) {
-    var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id^="Calendar_"],div[id="FullCalendar"],div[id^="FullCalendar_"]')).get();
+    var calendarElArr = $($('#MainForm').find('.calendar-container')).get();
     if (suffix) {
         calendarElArr = $($('#MainForm').find('div[id$="Calendar_' + suffix + '"]')).get();
     }

@@ -2111,6 +2111,19 @@ namespace Implem.Pleasanter.Models
             {
                 case "Issues":
                     var issues = IssueUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    List<Dictionary<string, string>> issuesJson = Jsons.Deserialize<List<Dictionary<string, string>>>(issues);
+                    if (issuesJson != null)
+                    {
+                        Dictionary<string, string> messageElement = issuesJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setCalendar", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#Calendar_{dashboardPart.Id}",
@@ -2119,6 +2132,19 @@ namespace Implem.Pleasanter.Models
                         .ToJson();
                 case "Results":
                     var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
+                    List<Dictionary<string, string>> resultsJson = Jsons.Deserialize<List<Dictionary<string, string>>>(results);
+                    if (resultsJson != null)
+                    {
+                        Dictionary<string, string> messageElement = resultsJson.Find(item => item.ContainsValue("Message"));
+                        if (messageElement != null)
+                        {
+                            Dictionary<string, string> messageValue = Jsons.Deserialize<Dictionary<string, string>>(messageElement["Value"]);
+                            return new ResponseCollection(context: context)
+                                .Message(message: new Message(messageValue["Id"], messageValue["Text"], messageValue["Css"]))
+                                .Invoke("setCalendar", dashboardPart.Id.ToString())
+                                .ToJson();
+                        }
+                    }
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#Calendar_{dashboardPart.Id}",
