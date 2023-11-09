@@ -8032,8 +8032,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 sitesString: savedCalendarSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
-                    context: context,
-                    sitesString: calendarSites);
+                context: context,
+                sitesString: calendarSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(

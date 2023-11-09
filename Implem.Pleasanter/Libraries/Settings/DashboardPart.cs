@@ -333,7 +333,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetCalendarSitesData()
         {
-            if(CalendarSites == null)
+            if (CalendarSites == null)
             {
                 CalendarSitesData = new List<string>();
                 return;
@@ -562,7 +562,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public void SetCalendarSites()
         {
-            if(CalendarSitesData == null)
+            if (CalendarSitesData == null)
             {
                 CalendarSites = string.Empty;
             }

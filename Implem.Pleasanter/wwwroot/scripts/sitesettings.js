@@ -278,10 +278,6 @@ $p.updateDashboardPartTimeLineSites = function ($control) {
     $p.send($control);
 }
 
-$p.updateDashboardPartCalendarSites = function ($control) {
-    $p.send($control);
-}
-
 $p.confirmTimeLineSites = function (value) {
     var args = JSON.parse(value);
     var result = confirm($p.display('ResetTimeLineView'));

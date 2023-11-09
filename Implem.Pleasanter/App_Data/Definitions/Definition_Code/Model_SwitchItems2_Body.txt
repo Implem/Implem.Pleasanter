@@ -967,10 +967,6 @@ public string UpdateByCalendar(Context context)
         setAllChoices: true);
     switch (Site.ReferenceType)
     {
-        case "Dashboards":
-            return DashboardUtilities.UpdateByCalendar(
-                context: context,
-                ss: Site.SiteSettings);
 
 <!--Model_UpdateByCalendarCases-->
 

@@ -234,7 +234,7 @@
         $('#DashboardPartViewFiltersTabControl').toggle(selected === '1' || selected === '4');
     });
 
-    $(document).on('change', '#DashboardPartCalendarType', function () {
+    $(document).on('change','#DashboardPartCalendarType',function () {
         
         $('#DashboardPartCalendarGroupByField').toggle($("#DashboardPartCalendarType").val() === '0');
         $('#DashboardPartCalendarTimePeriodField').toggle($("#DashboardPartCalendarType").val() === '0');

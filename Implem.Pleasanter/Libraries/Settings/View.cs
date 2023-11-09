@@ -164,41 +164,13 @@ namespace Implem.Pleasanter.Libraries.Settings
         {
         }
 
-        public void SetCalendarData(Context context, SiteSettings ss)
+        public long GetCalendarSiteId(SiteSettings ss)
         {
-            CalendarSiteId = ss.SiteId;
-            CalendarType = ss.CalendarType.ToString();
-            if (ss.DashboardParts.Count != 0)
+            if(ss.DashboardParts.Count != 0)
             {
-                CalendarSiteId = ss.DashboardParts[0].SiteId;
-                CalendarSuffix = $"_{ss.DashboardParts[0].Id.ToString()}";
-                CalendarTimePeriod = ss.DashboardParts[0].CalendarTimePeriod;
-                CalendarFromTo = ss.DashboardParts[0].CalendarFromTo;
-                CalendarType = ss.DashboardParts[0].CalendarType.ToString();
-                CalendarShowStatus = ss.DashboardParts[0].CalendarShowStatus;
-                CalendarGroupBy = ss.DashboardParts[0].CalendarGroupBy;
-                if (!context.Forms.Data($"CalendarDate{CalendarSuffix}").IsNullOrEmpty())
-                {
-                    CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
-                }
-                if (!context.Forms.Data($"CalendarStart{CalendarSuffix}").IsNullOrEmpty())
-                {
-                    CalendarStart = context.Forms.DateTime($"CalendarStart{CalendarSuffix}");
-                }
-                if (!context.Forms.Data($"CalendarEnd{CalendarSuffix}").IsNullOrEmpty())
-                {
-                    CalendarEnd = context.Forms.DateTime($"CalendarEnd{CalendarSuffix}");
-                }
-                if (!context.Forms.Data($"CalendarViewType{CalendarSuffix}").IsNullOrEmpty())
-                {
-                    CalendarViewType = context.Forms.Data($"CalendarViewType{CalendarSuffix}");
-                }
+                return CalendarSiteId;
             }
-        }
-
-        public long GetCalendarSiteId()
-        {
-            return CalendarSiteId;
+            return ss.SiteId;
         }
 
         public string GetCalendarTimePeriod(SiteSettings ss)
@@ -249,9 +221,13 @@ namespace Implem.Pleasanter.Libraries.Settings
             return CalendarViewType ?? "dayGridMonth";
         }
 
-        public string GetCalendarType()
+        public string GetCalendarType(SiteSettings ss)
         {
-            return CalendarType;
+            if(ss.DashboardParts.Count != 0)
+            {
+                return CalendarType;
+            }
+            return ss.CalendarType.ToString();
         }
 
         public string GetCalendarSuffix()
@@ -911,6 +887,35 @@ namespace Implem.Pleasanter.Libraries.Settings
                                         value: context.Forms.Data(controlId));
                                 }
                                 break;
+                        }
+                    }
+                    if(ss.DashboardParts.Count.Equals(1))
+                    {
+                        if(ss.DashboardParts[0].Type.ToString() == "Calendar")
+                        {
+                            CalendarSiteId = ss.DashboardParts[0].SiteId;
+                            CalendarSuffix = $"_{ss.DashboardParts[0].Id.ToString()}";
+                            CalendarTimePeriod = ss.DashboardParts[0].CalendarTimePeriod;
+                            CalendarFromTo = ss.DashboardParts[0].CalendarFromTo;
+                            CalendarType = ss.DashboardParts[0].CalendarType.ToString();
+                            CalendarShowStatus = ss.DashboardParts[0].CalendarShowStatus;
+                            CalendarGroupBy = ss.DashboardParts[0].CalendarGroupBy;
+                            if (!context.Forms.Data($"CalendarDate{CalendarSuffix}").IsNullOrEmpty())
+                            {
+                                CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
+                            }
+                            if (!context.Forms.Data($"CalendarStart{CalendarSuffix}").IsNullOrEmpty())
+                            {
+                                CalendarStart = context.Forms.DateTime($"CalendarStart{CalendarSuffix}");
+                            }
+                            if (!context.Forms.Data($"CalendarEnd{CalendarSuffix}").IsNullOrEmpty())
+                            {
+                                CalendarEnd = context.Forms.DateTime($"CalendarEnd{CalendarSuffix}");
+                            }
+                            if (!context.Forms.Data($"CalendarViewType{CalendarSuffix}").IsNullOrEmpty())
+                            {
+                                CalendarViewType = context.Forms.Data($"CalendarViewType{CalendarSuffix}");
+                            }
                         }
                     }
                     break;

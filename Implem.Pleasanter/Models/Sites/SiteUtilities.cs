@@ -15259,7 +15259,7 @@ namespace Implem.Pleasanter.Models
                             text: Displays.OK(context: context),
                             controlCss: "button-icon validate",
                             icon: "ui-icon-pencil",
-                            onClick: "$p.updateDashboardPartCalendarSites($(this));",
+                            onClick: "$p.send($(this));",
                             action: "SetSiteSettings",
                             method: "post")));
         }
@@ -15662,9 +15662,7 @@ namespace Implem.Pleasanter.Models
                         controlCss: " always-send",
                         fieldCss: hiddenCss(dashboardPart.Type != DashboardPartType.Calendar),
                         labelText: Displays.ShowStatus(context: context),
-                        _checked: dashboardPart.CalendarShowStatus == true
-                            ? true
-                            : false)
+                        _checked: dashboardPart.CalendarShowStatus == true)
                     .FieldTextBox(
                         controlId: "DashboardPartExtendedCss",
                         controlCss: " always-send",

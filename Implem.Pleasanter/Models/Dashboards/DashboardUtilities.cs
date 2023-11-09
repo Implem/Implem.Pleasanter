@@ -2064,17 +2064,17 @@ namespace Implem.Pleasanter.Models
                     break;
                 }
             }
-            var siteData = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: dashboardPart.SiteId);
             //対象サイトをサイト統合の仕組みで登録
-            siteData.IntegratedSites = dashboardPart.CalendarSitesData;
-            siteData.SetSiteIntegration(context: context);
-            siteData.SetDashboardParts(dashboardPart: dashboardPart);
-            switch (siteData.ReferenceType)
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            switch (currentSs.ReferenceType)
             {
                 case "Issues":
-                    var issues = IssueUtilities.CalendarJson(context: context, ss: siteData);
+                    var issues = IssueUtilities.CalendarJson(context: context, ss: currentSs);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
@@ -2082,7 +2082,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCalendar",dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
-                    var results = ResultUtilities.CalendarJson(context: context, ss: siteData);
+                    var results = ResultUtilities.CalendarJson(context: context, ss: currentSs);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
@@ -2111,17 +2111,17 @@ namespace Implem.Pleasanter.Models
                     break;
                 }
             }
-            var siteData = SiteSettingsUtilities.Get(
+            var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: context.Forms.Long("SiteId"));
             //対象サイトをサイト統合の仕組みで登録
-            siteData.IntegratedSites = dashboardPart.CalendarSitesData;
-            siteData.SetSiteIntegration(context: context);
-            siteData.SetDashboardParts(dashboardPart: dashboardPart);
-            switch (siteData.ReferenceType)
+            currentSs.IntegratedSites = dashboardPart.CalendarSitesData;
+            currentSs.SetSiteIntegration(context: context);
+            currentSs.SetDashboardParts(dashboardPart: dashboardPart);
+            switch (currentSs.ReferenceType)
             {
                 case "Issues":
-                    var issues = IssueUtilities.UpdateByCalendar(context: context, ss: siteData);
+                    var issues = IssueUtilities.UpdateByCalendar(context: context, ss: currentSs);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
@@ -2129,7 +2129,7 @@ namespace Implem.Pleasanter.Models
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
-                    var results = ResultUtilities.UpdateByCalendar(context: context, ss: siteData);
+                    var results = ResultUtilities.UpdateByCalendar(context: context, ss: currentSs);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#DashboardPart_{dashboardPart.Id}",
