@@ -68,7 +68,6 @@ const getEventsDatas = function (calendarSuffix) {
             $p.set($('#CalendarEnd' + calendarSuffix), info.end.toLocaleDateString());
             $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'calendar');
             if (calendarSuffix !== '') {
-                $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'index');
                 $p.set($('#CalendarSuffix' + calendarSuffix), $('#CalendarSuffix' + calendarSuffix).val());
             }
 
