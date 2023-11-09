@@ -2063,6 +2063,16 @@ namespace Implem.Pleasanter.Models
                     dashboardPart = ss.DashboardParts[i];
                     break;
                 }
+                var controlId = $"CalendarDate_{i + 1}";
+                if(context.Forms.ControlId() == controlId)
+                {
+                    dashboardPart = ss.DashboardParts[i];
+                    break;
+                }
+            }
+            if(dashboardPart == null)
+            {
+                var controlId = context.Forms.Data("CalendarData");
             }
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
