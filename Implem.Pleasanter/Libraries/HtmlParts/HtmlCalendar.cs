@@ -42,7 +42,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
         {
             if (calendarType == "Standard")
             {
-                return hb.Div(id: $"Calendar{suffix}", css: "both Calendar", action: () => hb
+                return hb.Div(id: $"Calendar{suffix}", css: $"both Calendar calendar-container", action: () => hb
                 .FieldDropDown(
                     context: context,
                     controlId: "CalendarGroupBy",
@@ -165,15 +165,12 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     _using: suffix.IsNullOrEmpty())
                 .Div(
                     attributes: new HtmlAttributes()
-                        .Id(suffix.IsNullOrEmpty()
-                            ? "FullCalendar"
-                            : $"FullCalendar{suffix}")
+                        .Id($"FullCalendar{suffix}")
+                        .Class("calendar-container")
                     )
                 .Div(
                     attributes: new HtmlAttributes()
-                        .Id(suffix.IsNullOrEmpty()
-                            ? "FullCalendarBody"
-                            : $"FullCalendarBody{suffix}")
+                        .Id($"FullCalendarBody{suffix}")
                         .DataAction("UpdateByCalendar")
                         .DataMethod("post"),
                     action: () => hb
@@ -236,7 +233,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                     value: calendarFromTo?.ToString(),
                     _using: !suffix.IsNullOrEmpty())
                 .Hidden(
-                    controlId: $"Suffix{suffix}",
+                    controlId: $"CalendarSuffix{suffix}",
                     value: !suffix.IsNullOrEmpty()
                         ? suffix.Replace("_","")
                         : "",
