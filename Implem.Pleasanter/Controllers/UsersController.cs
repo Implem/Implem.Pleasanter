@@ -689,6 +689,9 @@ namespace Implem.Pleasanter.Controllers
             }
         }
 
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public string TrashBoxGridRows(long id)
         {
             var context = new Context();

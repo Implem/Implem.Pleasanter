@@ -50,6 +50,7 @@ public static string Editor(
         title: #modelName#Model.MethodType == BaseModel.MethodTypes.New
             ? Displays.#TableName#(context: context) + " - " + Displays.New(context: context)
             : #modelName#Model.Title.MessageDisplay(context: context),
+<!--Model_Utilities_SetPaging_Script-->
         action: () => hb
             .Editor(
                 context: context,

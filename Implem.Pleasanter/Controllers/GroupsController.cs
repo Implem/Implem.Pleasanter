@@ -211,6 +211,19 @@ namespace Implem.Pleasanter.Controllers
         /// Fixed:
         /// </summary>
         [HttpPost]
+        public string CurrentMembers(int id)
+        {
+            var context = new Context();
+            var log = new SysLogModel(context: context);
+            var json = GroupUtilities.CurrentMembersJson(context: context, groupId: id);
+            log.Finish(context: context, responseSize: json.Length);
+            return json;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+        [HttpPost]
         public string Import(long id, ICollection<IFormFile> file)
         {
             var context = new Context(files: file);

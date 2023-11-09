@@ -926,6 +926,9 @@ namespace Implem.Pleasanter.Models
                 title: groupModel.MethodType == BaseModel.MethodTypes.New
                     ? Displays.Groups(context: context) + " - " + Displays.New(context: context)
                     : groupModel.Title.MessageDisplay(context: context),
+                script: groupModel.MethodType != BaseModel.MethodTypes.New
+                    ? "$p.setPaging('CurrentMembers');"
+                    : null,
                 action: () => hb
                     .Editor(
                         context: context,
@@ -2913,6 +2916,27 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
+        public static string CurrentMembersJson(Context context, int groupId)
+        {
+            var pageSize = Parameters.General.DropDownSearchPageSize;
+            var offset = context.Forms.Int("CurrentMembersOffset") + pageSize;
+            var currentMembers = CurrentMembers(context: context, groupId: groupId, offset: offset, pageSize: pageSize);
+            var nextOffset = (currentMembers.Count < pageSize)
+                ? -1
+                : offset;
+            return new ResponseCollection(context: context)
+                .Append(
+                    "#CurrentMembers",
+                    new HtmlBuilder()
+                        .SelectableItems(
+                            listItemCollection: currentMembers))
+                .Val(target: "#CurrentMembersOffset", value: nextOffset)
+                .ToJson();
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
         public static HtmlBuilder CurrentMembers(
             this HtmlBuilder hb, Context context, GroupModel groupModel)
         {
@@ -2925,8 +2949,12 @@ namespace Implem.Pleasanter.Models
                 labelText: Displays.CurrentMembers(context: context),
                 listItemCollection: CurrentMembers(
                     context: context,
-                    groupModel: groupModel),
+                    groupId: groupModel.GroupId,
+                    offset: 0,
+                    pageSize: Parameters.General.DropDownSearchPageSize),
                 selectedValueCollection: null,
+                action: "CurrentMembers",
+                method: "Post",
                 commandOptionPositionIsTop: true,
                 commandOptionAction: () => hb
                     .Div(css: "command-left", action: () => hb
@@ -2948,19 +2976,25 @@ namespace Implem.Pleasanter.Models
                             onClick: "$p.deleteSelected($(this));",
                             icon: "ui-icon-circle-triangle-e",
                             action: "SelectableMembers",
-                            method: "post")));
+                            method: "post")))
+                .Hidden(
+                    controlId: "CurrentMembersOffset",
+                    css: "always-send",
+                    value: "0");
         }
 
         /// <summary>
         /// Fixed:
         /// </summary>
         private static Dictionary<string, ControlData> CurrentMembers(
-            Context context, GroupModel groupModel)
+            Context context, int groupId, int offset = 0, int pageSize = 0)
         {
             var data = new Dictionary<string, ControlData>();
             GroupMembers(
                 context: context,
-                groupId: groupModel.GroupId)
+                groupId: groupId,
+                offset: offset,
+                pageSize: pageSize)
                     .ForEach(dataRow =>
                         data.AddMember(
                             context: context,
@@ -2971,11 +3005,13 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static EnumerableRowCollection<DataRow> GroupMembers(Context context, int groupId)
+        public static EnumerableRowCollection<DataRow> GroupMembers(Context context, int groupId, int offset = 0, int pageSize = 0)
         {
             return Repository.ExecuteTable(
                 context: context,
                 statements: Rds.SelectGroupMembers(
+                    offset: offset,
+                    pageSize: pageSize,
                     column: Rds.GroupMembersColumn()
                         .DeptId()
                         .UserId()
