@@ -437,7 +437,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
     $('.fc-scrollgrid').addClass('no-drag');
 }
 $p.setCalendar = function (suffix) {
-    var calendarElArr = $($('#MainForm').find('div[id="Calendar"],div[id^="Calendar_"],div[id="FullCalendar"],div[id^="FullCalendar_"]')).get();
+    var calendarElArr = $($('#MainForm').find('.calendar-container')).get();
     if (suffix) {
         calendarElArr = $($('#MainForm').find('div[id$="Calendar_' + suffix + '"]')).get();
     }
