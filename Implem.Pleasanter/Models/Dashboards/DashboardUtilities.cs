@@ -2054,25 +2054,12 @@ namespace Implem.Pleasanter.Models
         /// </summary>
         public static string GetCalendarJson(Context context, SiteSettings ss)
         {
-            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Suffix_")).LastOrDefault();
-            DashboardPart dashboardPart = null;
-            for (int i = 0;i < ss.DashboardParts.Count; i++)
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
+            if (dashboardPart == null && context.Forms.ControlId().StartsWith("CalendarDate_"))
             {
-                if (ss.DashboardParts[i].Id == context.Forms.Data(matchingKeys).ToInt())
-                {
-                    dashboardPart = ss.DashboardParts[i];
-                    break;
-                }
-                var controlId = $"CalendarDate_{i + 1}";
-                if(context.Forms.ControlId() == controlId)
-                {
-                    dashboardPart = ss.DashboardParts[i];
-                    break;
-                }
-            }
-            if(dashboardPart == null)
-            {
-                var controlId = context.Forms.Data("CalendarData");
+                var suffix = context.Forms.ControlId().Replace("CalendarDate_", "");
+                dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == suffix.ToInt());
             }
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
@@ -2087,7 +2074,7 @@ namespace Implem.Pleasanter.Models
                     var issues = IssueUtilities.CalendarJson(context: context, ss: currentSs);
                     return new ResponseCollection(context: context)
                         .Html(
-                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            target: $"#Calendar_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar",dashboardPart.Id.ToString())
                         .ToJson();
@@ -2095,7 +2082,7 @@ namespace Implem.Pleasanter.Models
                     var results = ResultUtilities.CalendarJson(context: context, ss: currentSs);
                     return new ResponseCollection(context: context)
                         .Html(
-                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            target: $"#Calendar_{dashboardPart.Id}",
                             value: results)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
@@ -2111,16 +2098,8 @@ namespace Implem.Pleasanter.Models
             Context context,
             SiteSettings ss)
         {
-            var matchingKeys = context.Forms.Keys.Where(x => x.Contains("Suffix_")).LastOrDefault();
-            DashboardPart dashboardPart = null;
-            for (int i = 0; i < ss.DashboardParts.Count; i++)
-            {
-                if (ss.DashboardParts[i].Id == context.Forms.Data(matchingKeys).ToInt())
-                {
-                    dashboardPart = ss.DashboardParts[i];
-                    break;
-                }
-            }
+            var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
+            DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());
             var currentSs = SiteSettingsUtilities.Get(
                 context: context,
                 siteId: context.Forms.Long("SiteId"));
@@ -2147,7 +2126,7 @@ namespace Implem.Pleasanter.Models
                     }
                     return new ResponseCollection(context: context)
                         .Html(
-                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            target: $"#Calendar_{dashboardPart.Id}",
                             value: issues)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
@@ -2168,7 +2147,7 @@ namespace Implem.Pleasanter.Models
                     }
                     return new ResponseCollection(context: context)
                         .Html(
-                            target: $"#DashboardPart_{dashboardPart.Id}",
+                            target: $"#Calendar_{dashboardPart.Id}",
                             value: results)
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();

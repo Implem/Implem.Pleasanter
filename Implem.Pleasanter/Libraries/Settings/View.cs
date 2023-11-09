@@ -889,17 +889,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                         }
                     }
-                    if(ss.DashboardParts.Count.Equals(1))
+                    if (ss.DashboardParts.Count.Equals(1))
                     {
-                        if(ss.DashboardParts[0].Type.ToString() == "Calendar")
+                        var dashboardPart = ss.DashboardParts.FirstOrDefault();
+                        if (ss.DashboardParts[0].Type.ToString() == "Calendar")
                         {
-                            CalendarSiteId = ss.DashboardParts[0].SiteId;
-                            CalendarSuffix = $"_{ss.DashboardParts[0].Id.ToString()}";
-                            CalendarTimePeriod = ss.DashboardParts[0].CalendarTimePeriod;
-                            CalendarFromTo = ss.DashboardParts[0].CalendarFromTo;
-                            CalendarType = ss.DashboardParts[0].CalendarType.ToString();
-                            CalendarShowStatus = ss.DashboardParts[0].CalendarShowStatus;
-                            CalendarGroupBy = ss.DashboardParts[0].CalendarGroupBy;
+                            CalendarSiteId = dashboardPart.SiteId;
+                            CalendarSuffix = $"_{dashboardPart.Id.ToString()}";
+                            CalendarTimePeriod = dashboardPart.CalendarTimePeriod;
+                            CalendarFromTo = dashboardPart.CalendarFromTo;
+                            CalendarType = dashboardPart.CalendarType.ToString();
+                            CalendarShowStatus = dashboardPart.CalendarShowStatus;
+                            CalendarGroupBy = dashboardPart.CalendarGroupBy;
                             if (!context.Forms.Data($"CalendarDate{CalendarSuffix}").IsNullOrEmpty())
                             {
                                 CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
