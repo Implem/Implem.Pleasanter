@@ -2052,7 +2052,7 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        public static string GetCalendarJson(Context context, SiteSettings ss)
+        public static string CalendarJson(Context context, SiteSettings ss)
         {
             var matchingKey = context.Forms.Keys.FirstOrDefault(x => x.StartsWith("CalendarSuffix_"));
             DashboardPart dashboardPart = ss.DashboardParts.FirstOrDefault(x => x.Id == context.Forms.Data(matchingKey).ToInt());

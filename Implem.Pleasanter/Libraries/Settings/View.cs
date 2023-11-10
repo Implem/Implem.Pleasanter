@@ -889,34 +889,32 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                         }
                     }
-                    if (ss.DashboardParts.Count.Equals(1))
+                    if (ss.DashboardParts.Count.Equals(1) && ss.DashboardParts.FirstOrDefault().Type.ToString() == "Calendar")
                     {
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
-                        if (ss.DashboardParts[0].Type.ToString() == "Calendar")
+
+                        CalendarSiteId = dashboardPart.SiteId;
+                        CalendarSuffix = $"_{dashboardPart.Id.ToString()}";
+                        CalendarTimePeriod = dashboardPart.CalendarTimePeriod;
+                        CalendarFromTo = dashboardPart.CalendarFromTo;
+                        CalendarType = dashboardPart.CalendarType.ToString();
+                        CalendarShowStatus = dashboardPart.CalendarShowStatus;
+                        CalendarGroupBy = dashboardPart.CalendarGroupBy;
+                        if (!context.Forms.Data($"CalendarDate{CalendarSuffix}").IsNullOrEmpty())
                         {
-                            CalendarSiteId = dashboardPart.SiteId;
-                            CalendarSuffix = $"_{dashboardPart.Id.ToString()}";
-                            CalendarTimePeriod = dashboardPart.CalendarTimePeriod;
-                            CalendarFromTo = dashboardPart.CalendarFromTo;
-                            CalendarType = dashboardPart.CalendarType.ToString();
-                            CalendarShowStatus = dashboardPart.CalendarShowStatus;
-                            CalendarGroupBy = dashboardPart.CalendarGroupBy;
-                            if (!context.Forms.Data($"CalendarDate{CalendarSuffix}").IsNullOrEmpty())
-                            {
-                                CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
-                            }
-                            if (!context.Forms.Data($"CalendarStart{CalendarSuffix}").IsNullOrEmpty())
-                            {
-                                CalendarStart = context.Forms.DateTime($"CalendarStart{CalendarSuffix}");
-                            }
-                            if (!context.Forms.Data($"CalendarEnd{CalendarSuffix}").IsNullOrEmpty())
-                            {
-                                CalendarEnd = context.Forms.DateTime($"CalendarEnd{CalendarSuffix}");
-                            }
-                            if (!context.Forms.Data($"CalendarViewType{CalendarSuffix}").IsNullOrEmpty())
-                            {
-                                CalendarViewType = context.Forms.Data($"CalendarViewType{CalendarSuffix}");
-                            }
+                            CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
+                        }
+                        if (!context.Forms.Data($"CalendarStart{CalendarSuffix}").IsNullOrEmpty())
+                        {
+                            CalendarStart = context.Forms.DateTime($"CalendarStart{CalendarSuffix}");
+                        }
+                        if (!context.Forms.Data($"CalendarEnd{CalendarSuffix}").IsNullOrEmpty())
+                        {
+                            CalendarEnd = context.Forms.DateTime($"CalendarEnd{CalendarSuffix}");
+                        }
+                        if (!context.Forms.Data($"CalendarViewType{CalendarSuffix}").IsNullOrEmpty())
+                        {
+                            CalendarViewType = context.Forms.Data($"CalendarViewType{CalendarSuffix}");
                         }
                     }
                     break;

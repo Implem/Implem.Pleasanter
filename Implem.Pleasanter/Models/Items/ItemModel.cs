@@ -312,10 +312,6 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
-                case "Dashboards":
-                    return DashboardUtilities.GetCalendarJson(
-                        context: context,
-                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.IndexJson(
                         context: context,
@@ -490,6 +486,10 @@ namespace Implem.Pleasanter.Models
             ViewModes.Set(context: context, siteId: Site.SiteId);
             switch (Site.ReferenceType)
             {
+                case "Dashboards":
+                    return DashboardUtilities.CalendarJson(
+                        context: context,
+                        ss: Site.SiteSettings);
                 case "Issues":
                     return IssueUtilities.CalendarJson(
                         context: context,
