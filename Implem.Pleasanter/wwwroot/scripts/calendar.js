@@ -39,6 +39,7 @@
 }
 const updateRecord = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {
+        $p.clearData();
         var data = $p.getData($('.main-form'));
         var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
         var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
@@ -64,6 +65,7 @@ const updateRecord = function (calendarSuffix) {
 const getEventsDatas = function (calendarSuffix) {
     return function (info, successCallback, failureCallback) {
         if (($('#IsInit' + calendarSuffix).val() !== 'True') && !((info.start.getTime() == Date.parse($('#CalendarStart' + calendarSuffix).val()) && (info.end.getTime() == Date.parse($('#CalendarEnd' + calendarSuffix).val()))))) {
+            $p.clearData();
             $p.set($('#CalendarStart' + calendarSuffix), info.start.toLocaleDateString());
             $p.set($('#CalendarEnd' + calendarSuffix), info.end.toLocaleDateString());
             $('#FullCalendarBody' + calendarSuffix).attr('data-action', 'calendar');
@@ -226,6 +228,7 @@ function setMonthly(group, data, hash, begin, end, calendarSuffix) {
             hoverClass: 'hover',
             tolerance: 'intersect',
             drop: function (e, ui) {
+                $p.clearData();
                 var $control = $(ui.draggable);
                 var from = new Date($control.attr('data-from'));
                 var target = new Date($(this).attr('data-id'));
@@ -358,6 +361,7 @@ function htmlEncode(str) {
         .replace(/"/g, "&quot;");
 }
 $p.moveCalendar = function (type, calendarSuffix) {
+    $p.clearData();
     calendarSuffix = calendarSuffix > 0 ? '_' + calendarSuffix : calendarSuffix;
     var $control = $('#CalendarDate' + calendarSuffix);
     $control.val($('#Calendar' + type + calendarSuffix).val());
