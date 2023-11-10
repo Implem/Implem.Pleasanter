@@ -362,6 +362,7 @@ $p.moveCalendar = function (type, calendarSuffix) {
     var $control = $('#CalendarDate' + calendarSuffix);
     $control.val($('#Calendar' + type + calendarSuffix).val());
     if (calendarSuffix !== '') {
+        $('#CalendarDate' + calendarSuffix).attr('data-action', 'calendar');
         $p.set($('#CalendarSuffix' + calendarSuffix), $('#CalendarSuffix' + calendarSuffix).val());
     }
     $p.setData($control);
