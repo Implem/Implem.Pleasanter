@@ -889,7 +889,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                                 break;
                         }
                     }
-                    if (ss.DashboardParts.Count.Equals(1) && ss.DashboardParts.FirstOrDefault().Type.ToString() == "Calendar")
+                    if (ss.DashboardParts?.Count.Equals(1) == true && ss.DashboardParts.First().Type.ToString() == "Calendar")
                     {
                         var dashboardPart = ss.DashboardParts.FirstOrDefault();
 
