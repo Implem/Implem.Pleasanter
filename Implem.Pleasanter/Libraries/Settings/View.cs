@@ -900,22 +900,18 @@ namespace Implem.Pleasanter.Libraries.Settings
                         CalendarType = dashboardPart.CalendarType.ToString();
                         CalendarShowStatus = dashboardPart.CalendarShowStatus;
                         CalendarGroupBy = dashboardPart.CalendarGroupBy;
-                        if (context.Forms.Keys.Contains($"CalendarDate{CalendarSuffix}"))
-                        {
-                            CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
-                        }
-                        if (context.Forms.Keys.Contains($"CalendarStart{CalendarSuffix}"))
-                        {
-                            CalendarStart = context.Forms.DateTime($"CalendarStart{CalendarSuffix}");
-                        }
-                        if (context.Forms.Keys.Contains($"CalendarEnd{CalendarSuffix}"))
-                        {
-                            CalendarEnd = context.Forms.DateTime($"CalendarEnd{CalendarSuffix}");
-                        }
-                        if (context.Forms.Keys.Contains($"CalendarViewType{CalendarSuffix}"))
-                        {
-                            CalendarViewType = context.Forms.Data($"CalendarViewType{CalendarSuffix}");
-                        }
+                        CalendarDate = context.Forms.Keys.Contains($"CalendarDate{CalendarSuffix}")
+                            ? context.Forms.DateTime($"CalendarDate{CalendarSuffix}")
+                            : DateTime.Now;
+                        CalendarStart = context.Forms.Keys.Contains($"CalendarStart{CalendarSuffix}")
+                            ? context.Forms.DateTime($"CalendarStart{CalendarSuffix}")
+                            : null;
+                        CalendarEnd = context.Forms.Keys.Contains($"CalendarEnd{CalendarSuffix}")
+                            ? context.Forms.DateTime($"CalendarEnd{CalendarSuffix}")
+                            : null;
+                        CalendarViewType = context.Forms.Keys.Contains($"CalendarViewType{CalendarSuffix}")
+                            ? context.Forms.Data($"CalendarViewType{CalendarSuffix}")
+                            : "dayGridMonth";
                     }
                     break;
             }

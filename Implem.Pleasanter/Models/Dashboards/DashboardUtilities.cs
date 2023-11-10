@@ -2124,10 +2124,20 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                         }
                     }
+                    var issueModel = new IssueModel(
+                        context: context,
+                        ss: currentSs,
+                        issueId: context.Forms.Long("EventId"),
+                        formData: context.Forms);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#Calendar_{dashboardPart.Id}",
                             value: issues)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: issueModel.Title.MessageDisplay(context: context)))
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 case "Results":
@@ -2145,10 +2155,20 @@ namespace Implem.Pleasanter.Models
                                 .ToJson();
                         }
                     }
+                    var resultModel = new ResultModel(
+                        context: context,
+                        ss: currentSs,
+                        resultId: context.Forms.Long("EventId"),
+                        formData: context.Forms);
                     return new ResponseCollection(context: context)
                         .Html(
                             target: $"#Calendar_{dashboardPart.Id}",
                             value: results)
+                        .Message(context.ErrorData.Type != Error.Types.None
+                            ? context.ErrorData.Message(context: context)
+                            : Messages.Updated(
+                                context: context,
+                                data: resultModel.Title.MessageDisplay(context: context)))
                         .Invoke("setCalendar", dashboardPart.Id.ToString())
                         .ToJson();
                 default:
