@@ -900,19 +900,19 @@ namespace Implem.Pleasanter.Libraries.Settings
                         CalendarType = dashboardPart.CalendarType.ToString();
                         CalendarShowStatus = dashboardPart.CalendarShowStatus;
                         CalendarGroupBy = dashboardPart.CalendarGroupBy;
-                        if (!context.Forms.Data($"CalendarDate{CalendarSuffix}").IsNullOrEmpty())
+                        if (context.Forms.Keys.Contains($"CalendarDate{CalendarSuffix}"))
                         {
                             CalendarDate = context.Forms.DateTime($"CalendarDate{CalendarSuffix}");
                         }
-                        if (!context.Forms.Data($"CalendarStart{CalendarSuffix}").IsNullOrEmpty())
+                        if (context.Forms.Keys.Contains($"CalendarStart{CalendarSuffix}"))
                         {
                             CalendarStart = context.Forms.DateTime($"CalendarStart{CalendarSuffix}");
                         }
-                        if (!context.Forms.Data($"CalendarEnd{CalendarSuffix}").IsNullOrEmpty())
+                        if (context.Forms.Keys.Contains($"CalendarEnd{CalendarSuffix}"))
                         {
                             CalendarEnd = context.Forms.DateTime($"CalendarEnd{CalendarSuffix}");
                         }
-                        if (!context.Forms.Data($"CalendarViewType{CalendarSuffix}").IsNullOrEmpty())
+                        if (context.Forms.Keys.Contains($"CalendarViewType{CalendarSuffix}"))
                         {
                             CalendarViewType = context.Forms.Data($"CalendarViewType{CalendarSuffix}");
                         }
