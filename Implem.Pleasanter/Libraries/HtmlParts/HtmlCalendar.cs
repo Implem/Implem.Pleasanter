@@ -87,6 +87,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                         .ToLocal(context: context)
                         .ToString(Displays.YmdFormat(context: context)),
                     format: Displays.YmdDatePickerFormat(context: context),
+                    action: "Calendar",
                     method: "post")
                 .Button(
                     text: Displays.Previous(context: context),
@@ -166,7 +167,7 @@ namespace Implem.Pleasanter.Libraries.HtmlParts
                 .Div(
                     attributes: new HtmlAttributes()
                         .Id($"FullCalendar{suffix}")
-                        .Class("calendar-container")
+                        .Class(" calendar-container")
                     )
                 .Div(
                     attributes: new HtmlAttributes()
