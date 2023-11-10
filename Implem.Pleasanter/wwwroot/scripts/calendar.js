@@ -442,7 +442,7 @@ function setFullCalendar(calendarSuffix, calendarEl) {
 $p.setCalendar = function (suffix) {
     var calendarElArr = $($('#MainForm').find('.calendar-container')).get();
     if (suffix) {
-        calendarElArr = $($('#MainForm').find('div[id$="Calendar_' + suffix + '"]')).get();
+        calendarElArr = $('#MainForm').find('div[id$="Calendar_' + suffix + '"] .calendar-container').get();
     }
     $(calendarElArr).each(function (index, value) {
         var calendarSuffix = value.id.substring(value.id.indexOf('_'));
