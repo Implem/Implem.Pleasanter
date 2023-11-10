@@ -43,7 +43,7 @@ const updateRecord = function (calendarSuffix) {
         var fromTo = $('#CalendarFromTo' + calendarSuffix).val().split('-');
         var prefix = $('#CalendarReferenceType' + calendarSuffix).val() + '_';
         if (calendarSuffix !== '') {
-            $p.set($('#Suffix' + calendarSuffix), $('#Suffix' + calendarSuffix).val());
+            $p.set($('#CalendarSuffix' + calendarSuffix), $('#CalendarSuffix' + calendarSuffix).val());
             data.SiteId = info.event.extendedProps.siteId;
             data.Id = $('#Id').val();
             data['EventId'] = info.event.id;
