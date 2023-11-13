@@ -7168,7 +7168,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
                 body: context.Forms.Data("ServerScriptBody"),
-                timeOut: context.Forms.Int("ServerScriptTimeOut"));
+                timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnCreating(
                 context: context,
                 serverScript: script);
@@ -7198,7 +7198,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningRow: script.BeforeOpeningRow ?? default,
                 shared: script.Shared ?? default,
                 body: script.Body,
-                timeOut: context.Forms.Int("ServerScriptTimeOut")));
+                timeOut: script.TimeOut));
             res
                 .ReplaceAll("#EditServerScript", new HtmlBuilder()
                     .EditServerScript(
@@ -7231,7 +7231,7 @@ namespace Implem.Pleasanter.Models
                 beforeOpeningRow: context.Forms.Bool("ServerScriptBeforeOpeningRow"),
                 shared: context.Forms.Bool("ServerScriptShared"),
                 body: context.Forms.Data("ServerScriptBody"),
-                timeOut: context.Forms.Int("ServerScriptTimeOut"));
+                timeOut: GetServerScriptTimeOutValue(context: context));
             var invalid = ServerScriptValidators.OnUpdating(
                 context: context,
                 serverScript: script);
@@ -7274,7 +7274,19 @@ namespace Implem.Pleasanter.Models
         /// <summary>
         /// Fixed:
         /// </summary>
-        private void CopyServerScripts(Context context, ResponseCollection res)
+        private int? GetServerScriptTimeOutValue(Context context)
+        {
+            int timeOut;
+            return int.TryParse(context.Forms.Data("ServerScriptTimeOut"), out timeOut)
+                && timeOut <= Parameters.Script.ServerScriptTimeOutMax && timeOut >= Parameters.Script.ServerScriptTimeOutMin
+                    ? timeOut
+                    : null;
+        }
+
+        /// <summary>
+        /// Fixed:
+        /// </summary>
+            private void CopyServerScripts(Context context, ResponseCollection res)
         {
             var selected = context.Forms.IntList("EditServerScript");
             if (selected?.Any() != true)
