@@ -15,7 +15,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             bool notUseDisplayName,
             string outOfCondition)
         {
-            if (ss.FormulaColumn(target) == null)
+            if (ss.FormulaColumn(target, calculationMethod) == null)
             {
                 return Error.Types.InvalidFormula;
             }
@@ -79,7 +79,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.NotFound;
             }
-            if (ss.FormulaColumn(target) == null)
+            if (ss.FormulaColumn(target, calculationMethod) == null)
             {
                 return Error.Types.InvalidFormula;
             }
