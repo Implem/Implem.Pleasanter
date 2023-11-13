@@ -303,7 +303,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                     + GetRoundScript()
                     + GetRoundUpScript()
                     + GetRoundDownScript()
-                    + GetTruncScript();
+                    + GetTruncScript()
+                    + GetAscScript()
+                    + GetJisScript()
+                    + GetValueScript();
                 return engine.Evaluate(functionScripts + formulaScript);
             }
         }
@@ -351,7 +354,10 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                 .Replace("round(", "ROUND(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("roundup(", "ROUNDUP(", StringComparison.InvariantCultureIgnoreCase)
                 .Replace("rounddown(", "ROUNDDOWN(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("trunc(", "TRUNC(", StringComparison.InvariantCultureIgnoreCase);
+                .Replace("trunc(", "TRUNC(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("asc(", "ASC(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("jis(", "JIS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("value(", "VALUE(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
@@ -1298,7 +1304,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundScript()
         {
             return @"
-                 function ROUNDDOWN(number, numDigits) {
+                 function ROUND(number, numDigits) {
                     if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
                         throw 'Invalid Parameter';
                     }
@@ -1335,7 +1341,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRoundUpScript()
         {
             return @"
-                 function ROUNDDOWN(number, numDigits) {
+                 function ROUNDUP(number, numDigits) {
                     if (number === '' || numDigits === '' || isNaN(Number(number)) || isNaN(Number(numDigits))) {
                         throw 'Invalid Parameter';
                     }
@@ -1429,6 +1435,55 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
                         let divider = Math.pow(10, -numDigits);
                         return Math.trunc(number / divider) * divider;
                     }
+                }";
+        }
+
+        /// <summary>
+        /// Converts full-width alphanumeric kana characters (2 bytes) to half-width alphanumeric kana characters (1 byte)
+        /// </summary>
+        /// <remarks>
+        /// Syntax: ASC(text)
+        /// </remarks>
+        private static string GetAscScript()
+        {
+            return @"
+                 function ASC(text) {
+                    return text.replace(/[Ａ-Ｚａ-ｚ０-９]/g, function (s) {
+                        return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+                    });
+                }";
+        }
+
+        /// <summary>
+        /// Converts half-width alphanumeric kana characters (1 byte) to full-width alphanumeric kana characters (2 bytes)
+        /// </summary>
+        /// <remarks>
+        /// Syntax: JIS(text)
+        /// </remarks>
+        private static string GetJisScript()
+        {
+            return @"
+                 function JIS(text) {
+                    return text.replace(/[A-Za-z0-9]/g, function (s) {
+                        return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+                    });
+                }";
+        }
+
+        /// <summary>
+        /// Converts numbers entered as strings to numbers
+        /// </summary>
+        /// <remarks>
+        /// Syntax: VALUE(text)
+        /// </remarks>
+        private static string GetValueScript()
+        {
+            return @"
+                function VALUE(text) {
+                    if (text == undefined || text === '' || isNaN(Number(text))) {
+                        throw 'Invalid Parameter';
+                    }
+                    return Number(text);
                 }";
         }
     }
