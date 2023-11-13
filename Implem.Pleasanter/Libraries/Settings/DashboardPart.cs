@@ -298,7 +298,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         private void SetQuickAccessSitesData()
         {
-            if(QuickAccessSites == null)
+            if (QuickAccessSites == null)
             {
                 QuickAccessSitesData = new List<QuickAccessSite>();
                 return;
@@ -521,7 +521,6 @@ namespace Implem.Pleasanter.Libraries.Settings
 
                 case DashboardPartType.CustomHtml:
                     return Displays.DashboardCustomHtml(context: context);
-
                 case DashboardPartType.Calendar:
                     return Displays.Calendar(context: context);
                 default:

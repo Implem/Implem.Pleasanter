@@ -1,5 +1,4 @@
 ﻿using Azure.Core;
-using DocumentFormat.OpenXml.Wordprocessing;
 using Implem.DefinitionAccessor;
 using Implem.Libraries.DataSources.SqlServer;
 using Implem.Libraries.Utilities;
@@ -166,7 +165,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public long GetCalendarSiteId(SiteSettings ss)
         {
-            if(ss.DashboardParts.Count != 0)
+            if (ss.DashboardParts.Count != 0)
             {
                 return CalendarSiteId;
             }
@@ -223,7 +222,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public string GetCalendarType(SiteSettings ss)
         {
-            if(ss.DashboardParts.Count != 0)
+            if (ss.DashboardParts.Count != 0)
             {
                 return CalendarType;
             }

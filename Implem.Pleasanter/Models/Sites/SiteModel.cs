@@ -7989,8 +7989,8 @@ namespace Implem.Pleasanter.Models
                 context: context,
                 sitesString: savedTimeLineSites);
             var currentSs = DashboardPart.GetBaseSiteSettings(
-                    context: context,
-                    sitesString: timeLineSites);
+                context: context,
+                sitesString: timeLineSites);
             if (currentSs == null || currentSs.SiteId == 0)
             {
                 res.Message(
