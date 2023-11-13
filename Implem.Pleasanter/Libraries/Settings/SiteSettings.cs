@@ -2257,7 +2257,7 @@ namespace Implem.Pleasanter.Libraries.Settings
 
         public Column FormulaColumn(string name, string calculationMethod = null)
         {
-            return ((string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            return (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString()
                 ? Columns
                     .Where(o => o.ColumnName == name || o.LabelText == name)
                     .Where(o => o.TypeName == "decimal")
