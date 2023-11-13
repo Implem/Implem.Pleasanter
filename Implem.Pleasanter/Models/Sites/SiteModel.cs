@@ -8072,7 +8072,8 @@ namespace Implem.Pleasanter.Models
                             .OptionCollection(
                                 context: context,
                                 optionCollection: currentSs.CalendarGroupByOptions(context: context)?.ToDictionary(
-                                o => o.Key, o => new ControlData(o.Value))))
+                                o => o.Key, o => new ControlData(o.Value)),
+                                insertBlank: true))
                     .Html(
                         target: "#DashboardPartCalendarFromTo",
                         value: new HtmlBuilder()
