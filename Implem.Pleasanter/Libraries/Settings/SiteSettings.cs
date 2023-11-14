@@ -2465,7 +2465,8 @@ namespace Implem.Pleasanter.Libraries.Settings
                 .Where(c => c.NoDuplication != true)
                 .Where(c => c.ColumnName != "Comments")
                 .Where(column => !Formulas.Any(formulaSet =>
-                    formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString()
+                    (string.IsNullOrEmpty(formulaSet.CalculationMethod)
+                        || formulaSet.CalculationMethod == FormulaSet.CalculationMethods.Default.ToString())
                     && (formulaSet.Target == column.ColumnName
                         || ContainsFormulaColumn(
                             columnName: column.ColumnName,
