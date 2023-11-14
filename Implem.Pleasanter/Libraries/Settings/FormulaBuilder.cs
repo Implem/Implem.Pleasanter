@@ -32,7 +32,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 NotUseDisplayName = notUseDisplayName
             };
             IEnumerable<string> formulaParts = null;
-            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
                 formulaParts = Parts(formula);
                 if (!formulaParts.Any())
@@ -49,7 +49,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.InvalidFormula;
             }
-            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
                 var error1 = Get(ss, formulaParts, out formulaSet.Formula);
                 if (error1.Has()) return error1;
@@ -90,7 +90,7 @@ namespace Implem.Pleasanter.Libraries.Settings
                 : null;
             formulaSet.NotUseDisplayName = notUseDisplayName;
             IEnumerable<string> formulaParts = null;
-            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
                 formulaParts = Parts(formula);
                 if (!formulaParts.Any())
@@ -107,7 +107,7 @@ namespace Implem.Pleasanter.Libraries.Settings
             {
                 return Error.Types.InvalidFormula;
             }
-            if (calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
+            if (string.IsNullOrEmpty(calculationMethod) || calculationMethod == FormulaSet.CalculationMethods.Default.ToString())
             {
                 var error1 = Get(ss, formulaParts, out formulaSet.Formula);
                 if (error1.Has()) return error1;
