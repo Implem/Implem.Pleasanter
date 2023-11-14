@@ -293,37 +293,37 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
 
         private static string ParseIgnoreCase(string script)
         {
-            return script.Replace("$date(", "DATE(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$datedif(", "DATEDIF(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$day(", "DAY(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$days(", "DAYS(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$hour(", "HOUR(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$minute(", "MINUTE(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$month(", "MONTH(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$now(", "NOW(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$second(", "SECOND(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$today(", "TODAY(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$year(", "YEAR(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$concat(", "CONCAT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$find(", "FIND(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$left(", "LEFT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$len(", "LEN(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$lower(", "LOWER(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$mid(", "MID(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$right(", "RIGHT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$substitute(", "SUBSTITUTE(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$trim(", "TRIM(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$upper(", "UPPER(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$and(", "AND(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$if(", "IF(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$not(", "NOT(", StringComparison.InvariantCultureIgnoreCase)
-                .Replace("$or(", "OR(", StringComparison.InvariantCultureIgnoreCase);
+            return script.Replace("$date(", "$DATE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$datedif(", "$DATEDIF(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$day(", "$DAY(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$days(", "$DAYS(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$hour(", "$HOUR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$minute(", "$MINUTE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$month(", "$MONTH(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$now(", "$NOW(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$second(", "$SECOND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$today(", "$TODAY(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$year(", "$YEAR(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$concat(", "$CONCAT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$find(", "$FIND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$left(", "$LEFT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$len(", "$LEN(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$lower(", "$LOWER(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$mid(", "$MID(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$right(", "$RIGHT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$substitute(", "$SUBSTITUTE(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$trim(", "$TRIM(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$upper(", "$UPPER(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$and(", "$AND(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$if(", "$IF(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$not(", "$NOT(", StringComparison.InvariantCultureIgnoreCase)
+                .Replace("$or(", "$OR(", StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string GetDateScript()
         {
             return @"
-                function DATE(year, month, day)
+                function $DATE(year, month, day)
                 {
                     if (isNaN(year) || isNaN(month) || isNaN(day))
                     {
@@ -350,7 +350,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDateDifScript()
         {
             return @"
-                function DATEDIF(firstDate, secondDate, unit)
+                function $DATEDIF(firstDate, secondDate, unit)
                 {
                     if (firstDate == undefined || secondDate == undefined || unit == undefined)
                     {
@@ -434,7 +434,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDayScript()
         {
             return @"
-                function DAY(date)
+                function $DAY(date)
                 {
                     if (date == undefined)
                     {
@@ -460,7 +460,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetDaysScript()
         {
             return @"
-                function DAYS(firstDate, secondDate)
+                function $DAYS(firstDate, secondDate)
                 {
                     if (firstDate == undefined || secondDate == undefined)
                     {
@@ -509,7 +509,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetHourScript()
         {
             return @"
-                function HOUR(date)
+                function $HOUR(date)
                 {
                     if (date == undefined)
                     {
@@ -547,7 +547,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMinuteScript()
         {
             return @"
-                function MINUTE(date)
+                function $MINUTE(date)
                 {
                     if (date == undefined)
                     {
@@ -595,7 +595,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMonthScript()
         {
             return @"
-                function MONTH(date)
+                function $MONTH(date)
                 {
                     if (date == undefined)
                     {
@@ -621,7 +621,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetNowScript(Context context)
         {
             return @"
-                function NOW()
+                function $NOW()
                 {
 		            var d = new Date();
                     d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + " + context.TimeZoneInfo.BaseUtcOffset.Hours * 60 + @");
@@ -636,7 +636,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetSecondScript()
         {
             return @"
-                function SECOND(date)
+                function $SECOND(date)
                 {
 		            if (date == undefined)
                     {
@@ -674,7 +674,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetTodayScript(Context context)
         {
             return @"
-                function TODAY()
+                function $TODAY()
                 {
 		            var d = new Date();
                     d.setMinutes(d.getMinutes() + d.getTimezoneOffset() + " + context.TimeZoneInfo.BaseUtcOffset.Hours * 60 + @");
@@ -687,7 +687,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetYearScript()
         {
             return @"
-                function YEAR(date)
+                function $YEAR(date)
                 {
                     if (date == undefined)
                     {
@@ -713,7 +713,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetConcatScript()
         {
             return @"
-                function CONCAT(firstString)
+                function $CONCAT(firstString)
                 {
                     if (firstString == undefined)
                     {
@@ -730,7 +730,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetFindScript()
         {
             return @"
-                function FIND(firstString, secondString, start = 1)
+                function $FIND(firstString, secondString, start = 1)
                 {
                     if (firstString == undefined || secondString == undefined || isNaN(start))
                     {
@@ -753,7 +753,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetLeftScript()
         {
             return @"
-                function LEFT(firstString, length = 1)
+                function $LEFT(firstString, length = 1)
                 {
                     if (firstString == undefined || isNaN(length))
                     {
@@ -771,7 +771,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetLenScript()
         {
             return @"
-                function LEN(firstString)
+                function $LEN(firstString)
                 {
                     if (firstString == undefined)
                     {
@@ -784,7 +784,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetLowerScript()
         {
             return @"
-                function LOWER(firstString)
+                function $LOWER(firstString)
                 {
                     if (firstString == undefined)
                     {
@@ -797,7 +797,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetMidScript()
         {
             return @"
-                function MID(firstString, start, length)
+                function $MID(firstString, start, length)
                 {
                     if (firstString == undefined || isNaN(start) || isNaN(length))
                     {
@@ -816,7 +816,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetRightScript()
         {
             return @"
-                function RIGHT(firstString, length = 1)
+                function $RIGHT(firstString, length = 1)
                 {
                     if (firstString == undefined || isNaN(length))
                     {
@@ -834,7 +834,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetSubstituteScript()
         {
             return @"
-                function SUBSTITUTE(firstString, secondString, thirdString, index)
+                function $SUBSTITUTE(firstString, secondString, thirdString, index)
                 {
                     if (firstString == undefined || secondString == undefined || thirdString == undefined)
                     {
@@ -863,7 +863,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetTrimScript()
         {
             return @"
-                function TRIM(firstString)
+                function $TRIM(firstString)
                 {
                     if (firstString == undefined)
                     {
@@ -876,7 +876,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetUpperScript()
         {
             return @"
-                function UPPER(firstString)
+                function $UPPER(firstString)
                 {
                     if (firstString == undefined)
                     {
@@ -889,7 +889,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetAndScript()
         {
             return @"
-                function AND(firstClause)
+                function $AND(firstClause)
                 {
                     if (firstClause == undefined)
                     {
@@ -922,7 +922,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetIfScript()
         {
             return @"
-                function IF(firstClause, retValue1, retValue2 = false)
+                function $IF(firstClause, retValue1, retValue2 = false)
                 {
                     if (firstClause == undefined || retValue1 == undefined)
                     {
@@ -943,7 +943,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetNotScript()
         {
             return @"
-                function NOT(firstClause)
+                function $NOT(firstClause)
                 {
                     if (firstClause == undefined)
                     {
@@ -964,7 +964,7 @@ namespace Implem.Pleasanter.Libraries.ServerScripts
         private static string GetOrScript()
         {
             return @"
-                function OR(firstClause)
+                function $OR(firstClause)
                 {
                     if (firstClause == undefined)
                     {
