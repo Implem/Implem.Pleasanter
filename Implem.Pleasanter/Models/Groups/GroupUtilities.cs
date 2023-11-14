@@ -2973,10 +2973,22 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlCss: "button-icon post",
                             text: Displays.Delete(context: context),
-                            onClick: "$p.deleteSelected($(this));",
+                            onClick: "$p.deleteFromCurrentMembers($(this));",
                             icon: "ui-icon-circle-triangle-e",
                             action: "SelectableMembers",
                             method: "post")))
+                .Hidden(
+                    controlId: "AddedGroupMembers",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "DeletedGroupMembers",
+                    css: "always-send",
+                    value: "[]")
+                .Hidden(
+                    controlId: "ModifiedGroupMembers",
+                    css: "always-send",
+                    value: "[]")
                 .Hidden(
                     controlId: "CurrentMembersOffset",
                     css: "always-send",
@@ -3111,7 +3123,7 @@ namespace Implem.Pleasanter.Models
                         .Button(
                             controlCss: "button-icon post",
                             text: Displays.Add(context: context),
-                            onClick: "$p.addSelected($(this), $('#CurrentMembers'));",
+                            onClick: "$p.addToCurrentMembers($(this));",
                             icon: "ui-icon-circle-triangle-w",
                             action: "SelectableMembers",
                             method: "post")
