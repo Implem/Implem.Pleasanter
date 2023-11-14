@@ -483,7 +483,10 @@ namespace Implem.Pleasanter.Models
                 initSiteSettings: true,
                 setSiteIntegration: true,
                 setAllChoices: true);
-            ViewModes.Set(context: context, siteId: Site.SiteId);
+            if(Site.ReferenceType != "Dashboards")
+            {
+                ViewModes.Set(context: context, siteId: Site.SiteId);
+            }
             switch (Site.ReferenceType)
             {
                 case "Dashboards":
